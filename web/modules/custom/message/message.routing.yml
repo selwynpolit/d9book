@@ -1,0 +1,7 @@
+message.example:
+  path: '/message/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\message\Controller\MessageController::build'
+  requirements:
+    _permission: 'access content'
