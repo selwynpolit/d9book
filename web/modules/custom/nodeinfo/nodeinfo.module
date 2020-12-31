@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Node Info module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+
+/**
+ * Implements hook_entity_view().
+ *
+ *
+ * @param array &$build
+ * A renderable array representing the entity content.
+ * The module may add elements to $build prior to rendering. The structure of
+ * $build is a renderable array as expected by
+ * \Drupal\Core\Render\RendererInterface::render().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ * @param \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display
+ * @param $view_mode
+ */
+function nodeinfo_entity_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+
+  if ($view_mode == 'full') {
+
+
+    //Check if this field exists.
+    if ($entity->hasField('field_event_smart_date')) {
+      \Drupal::messenger()->addMessage("Looks like there is a field_event_smart_date");
+    }
+
+
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof \Drupal\node\NodeInterface) {
+      // You can get nid and anything else you need from the node object.
+      $nid = $node->id();
+      $type = $node->getType();
+      $label = $node->label();
+
+      //Retrieve the body field.
+      $body = $node->get('body')->value;
+      $categories = $node->get('field_event_category')->referencedEntities();
+      foreach ($categories as $category) {
+        $term_names[] = $category->getName();
+      }
+//      dump($term_names);
+
+
+      \Drupal::messenger()->addMessage("Nid: $nid");
+      \Drupal::messenger()->addMessage("Type: $type");
+      \Drupal::messenger()->addMessage("Label: $label");
+//      \Drupal::messenger()->addMessage("Body: $body");
+
+    }
+
+
+    //This is the node type also.
+    $bundle = $entity->bundle();
+//    \Drupal::messenger()->addMessage("Bundle: $bundle");
+
+
+    $build['stuff'] = [
+      '#markup' => 'Here is some stuff',
+    ];
+    $build['stuff']['more'] = [
+      '#markup' => '<i>more stuff yet</i><hr>',
+    ];
+
+    return;
+  }
+
+
+  // Only do the extra work if the component is configured to be displayed.
+  // This assumes a 'mymodule_addition' extra field has been defined for the
+  // entity bundle in hook_entity_extra_field_info().
+  if ($display->getComponent('mymodule_addition')) {
+    $build['mymodule_addition'] = [
+      '#markup' => mymodule_addition($entity),
+      '#theme' => 'mymodule_my_additional_field',
+    ];
+  }
+}
