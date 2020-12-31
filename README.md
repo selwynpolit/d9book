@@ -105,10 +105,13 @@ services:
 
 `ddev describe` - show the sql connection ports etc. for connecting sequel pro
 
-
 `ddev list` - list sites and urls
 
 `ddev stop --unlist <projectname>` -- remove project from list until ddev start is run for project
+
+`ddev export-db --f dbdump1.sql.gz`  - Backup the db often so you can recover in a pinch.  I use dbdump1 and dbdump2 files so I have a way back to my previous db too.
+
+`ddev import-db --src=dbdump1.sql.gz` - Restore the db quickly and painlessly
 
 ### To Enable/disable Xdebug in ddev
 
@@ -133,11 +136,14 @@ and
 `ddev pull` - special command to pull db from pantheon environment
 
 ### drush
-Lots of drush works as long as you are in the directory ~/Sites/dir.
-If it fails, make sure your settings.php has this at the end (That getenv part is the killer):
+Although it is not a sanctioned use, if you install drush globally, you can issue drush commands like `drush cr` as long as you are in the directory ~/Sites/dir.
+I find it very convenient to use it this way.
+If you see errors when trying this, edit your settings.php by adding the putenv command below.
 ```
+
+putenv("IS_DDEV_PROJECT=true");
 // #ddev-generated: Automatically generated Drupal settings file.
-//if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
+if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
   if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php')) {
   include $app_root . '/' . $site_path . '/settings.ddev.php';
 ```
@@ -148,17 +154,13 @@ drush st
 
 drush cr (clear local)
 
-drush @instmaterials.prod cr (clear prod cache)
-
-drush site:alias (see a list of aliases)
-
 when it doesn't just use `ddev exec drush <drush command>`  e.g.
 
-ddev exec drush uli
+`ddev exec drush uli`
 
-ddev composer require drupal/admin_toolbar
+`ddev composer require drupal/admin_toolbar`
 
-ddev exec drush sql-dump >dbdump2.sql
+`ddev exec drush sql-dump >dbdump2.sql`
 
 ddev exec drush updb
 
