@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.event.body
     - field.field.node.event.field_event_category
     - field.field.node.event.field_event_smart_date
+    - field.field.node.event.field_presenter
     - node.type.event
   module:
     - text
@@ -32,3 +33,4 @@ content:
 hidden:
   field_event_category: true
   field_event_smart_date: true
+  field_presenter: true

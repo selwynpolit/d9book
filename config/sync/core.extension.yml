@@ -28,7 +28,9 @@ module:
   menu_link_content: 0
   menu_ui: 0
   message: 0
+  module_filter: 0
   node: 0
+  nodeinfo: 0
   options: 0
   page_cache: 0
   path: 0

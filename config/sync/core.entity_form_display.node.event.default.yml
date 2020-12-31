@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.event.body
     - field.field.node.event.field_event_category
     - field.field.node.event.field_event_smart_date
+    - field.field.node.event.field_presenter
     - node.type.event
   module:
     - path
@@ -47,6 +48,14 @@ content:
       show_extra: true
     third_party_settings: {  }
     type: smartdate_default
+    region: content
+  field_presenter:
+    weight: 124
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   path:
     type: path

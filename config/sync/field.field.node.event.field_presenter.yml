@@ -1,0 +1,19 @@
+uuid: 58ee3ab0-1e4f-4b6b-a55a-09cc7c03fdac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_presenter
+    - node.type.event
+id: node.event.field_presenter
+field_name: field_presenter
+entity_type: node
+bundle: event
+label: Presenter
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

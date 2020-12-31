@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.event.body
     - field.field.node.event.field_event_category
     - field.field.node.event.field_event_smart_date
+    - field.field.node.event.field_presenter
     - node.type.event
   module:
     - smart_date
@@ -42,6 +43,14 @@ content:
       timezone_override: ''
     third_party_settings: {  }
     type: smartdate_default
+    region: content
+  field_presenter:
+    weight: 104
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
     region: content
   links:
     weight: 100
