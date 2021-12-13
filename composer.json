@@ -39,7 +39,7 @@
         "drupal/simple_sitemap": "^3.8",
         "drupal/smart_date": "^3.0",
         "drupal/token": "^1.7",
-        "drupal/twig_tweak": "^2.6",
+        "drupal/twig_tweak": "^3",
         "drush/drush": "^10.3"
     },
     "conflict": {
