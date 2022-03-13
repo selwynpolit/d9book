@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
@@ -15,6 +17,8 @@ module:
   ctools: 0
   datetime: 0
   dblog: 0
+  devel: 0
+  devel_generate: 0
   dynamic_page_cache: 0
   editor: 0
   field: 0
@@ -49,6 +53,7 @@ module:
   update: 0
   user: 0
   views_ui: 0
+  webprofiler: 0
   pathauto: 1
   views: 10
   standard: 1000
@@ -57,5 +62,3 @@ theme:
   seven: 0
   claro: 0
 profile: standard
-_core:
-  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc

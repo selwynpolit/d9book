@@ -18,43 +18,43 @@ bundle: event
 mode: default
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 101
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 101
     region: content
   field_event_category:
-    weight: 103
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 103
     region: content
   field_event_smart_date:
-    weight: 102
+    type: smartdate_default
     label: above
     settings:
+      timezone_override: ''
+      format_type: medium
       format: default
       force_chronological: false
-      add_classes: 0
-      format_type: medium
-      timezone_override: ''
+      add_classes: false
     third_party_settings: {  }
-    type: smartdate_default
+    weight: 102
     region: content
   field_presenter:
-    weight: 104
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 104
     region: content
   links:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+    weight: 100
     region: content
 hidden: {  }
