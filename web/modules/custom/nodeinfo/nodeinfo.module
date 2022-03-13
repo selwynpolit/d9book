@@ -53,7 +53,7 @@ function nodeinfo_entity_view(array &$build, EntityInterface $entity, EntityView
       }
 //      dump($term_names);
 
-      //Retrieve multi-value text field
+      // Retrieve multi-value text field.
       $presenters = $node->get('field_presenter')->getValue();
       $presenters = $node->field_presenter->getValue(); //magic getter
 
