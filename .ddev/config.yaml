@@ -10,18 +10,11 @@ additional_hostnames: []
 additional_fqdns: []
 mariadb_version: "10.3"
 mysql_version: ""
-provider: default
+nfs_mount_enabled: false
+mutagen_enabled: true
 use_dns_when_possible: true
 composer_version: ""
-
-
-# This config.yaml was created with ddev version v1.16.5
-# webimage: drud/ddev-webserver:v1.16.3
-# dbimage: drud/ddev-dbserver-mariadb-10.2:v1.16.0
-# dbaimage: phpmyadmin:5
-# However we do not recommend explicitly wiring these images into the
-# config.yaml as they may break future versions of ddev.
-# You can update this config.yaml using 'ddev config'.
+web_environment: []
 
 # Key features of ddev's config.yaml:
 
@@ -32,7 +25,7 @@ composer_version: ""
 
 # docroot: <relative_path> # Relative path to the directory containing index.php.
 
-# php_version: "7.3"  # PHP version to use, "5.6", "7.0", "7.1", "7.2", "7.3", "7.4" "8.0"
+# php_version: "7.4"  # PHP version to use, "5.6", "7.0", "7.1", "7.2", "7.3", "7.4" "8.0"
 
 # You can explicitly specify the webimage, dbimage, dbaimage lines but this
 # is not recommended, as the images are often closely tied to ddev's' behavior,
@@ -56,6 +49,11 @@ composer_version: ""
 # "ddev xdebug" to enable xdebug and "ddev xdebug off" to disable it work better,
 # as leaving xdebug enabled all the time is a big performance hit.
 
+# xhprof_enabled: false  # Set to true to enable xhprof and "ddev start" or "ddev restart"
+# Note that for most people the commands
+# "ddev xhprof" to enable xhprof and "ddev xhprof off" to disable it work better,
+# as leaving xhprof enabled all the time is a big performance hit.
+
 # webserver_type: nginx-fpm  # or apache-fpm
 
 # timezone: Europe/Berlin
@@ -64,7 +62,7 @@ composer_version: ""
 # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 # For example Europe/Dublin or MST7MDT
 
-# composer_version: "2"
+# composer_version: ""
 # if composer_version:"" it will use the current ddev default composer release.
 # It can also be set to "1", to get most recent composer v1
 # or "2" for most recent composer v2.
@@ -97,11 +95,19 @@ composer_version: ""
 # Currently only these containers are supported. Some containers can also be
 # omitted globally in the ~/.ddev/global_config.yaml. Note that if you omit
 # the "db" container, several standard features of ddev that access the
-# database container will be unusable.
+# database container will be unusable. In the global configuration it is also
+# possible to omit ddev-router, but not here.
 
 # nfs_mount_enabled: false
 # Great performance improvement but requires host configuration first.
 # See https://ddev.readthedocs.io/en/stable/users/performance/#using-nfs-to-mount-the-project-into-the-container
+
+# mutagen_enabled: false
+# Experimental performance improvement using mutagen asynchronous updates.
+# See https://ddev.readthedocs.io/en/latest/users/performance/#using-mutagen
+
+# fail_on_hook_fail: False
+# Decide whether 'ddev start' should be interrupted by a failing hook
 
 # host_https_port: "59002"
 # The host port binding for https can be explicitly specified. It is
@@ -123,11 +129,19 @@ composer_version: ""
 # phpmyadmin_https_port: "8037"
 # The PHPMyAdmin ports can be changed from the default 8036 and 8037
 
+# host_phpmyadmin_port: "8036"
+# The phpmyadmin (dba) port is not normally bound on the host at all, instead being routed
+# through ddev-router, but it can be specified and bound.
+
 # mailhog_port: "8025"
 # mailhog_https_port: "8026"
 # The MailHog ports can be changed from the default 8025 and 8026
 
-# webimage_extra_packages: [php7.3-tidy, php-bcmath]
+# host_mailhog_port: "8025"
+# The mailhog port is not normally bound on the host at all, instead being routed
+# through ddev-router, but it can be bound directly to localhost if specified here.
+
+# webimage_extra_packages: [php7.4-tidy, php-bcmath]
 # Extra Debian packages that are needed in the webimage can be added here
 
 # dbimage_extra_packages: [telnet,netcat]
@@ -151,8 +165,13 @@ composer_version: ""
 
 # disable_settings_management: false
 # If true, ddev will not create CMS-specific settings files like
-# Drupal's settings.php/settings.ddev.php or TYPO3's AdditionalSettings.php
+# Drupal's settings.php/settings.ddev.php or TYPO3's AdditionalConfiguration.php
 # In this case the user must provide all such settings.
+
+# You can inject environment variables into the web container with:
+# web_environment:
+# - SOMEENV=somevalue
+# - SOMEOTHERENV=someothervalue
 
 # no_project_mount: false
 # (Experimental) If true, ddev will not mount the project into the web container;
@@ -160,8 +179,12 @@ composer_version: ""
 # This is to enable experimentation with alternate file mounting strategies.
 # For advanced users only!
 
-# provider: default # Currently either "default" or "pantheon"
-#
+# bind_all_interfaces: false
+# If true, host ports will be bound on all network interfaces,
+# not just the localhost interface. This means that ports
+# will be available on the local network if the host firewall
+# allows it.
+
 # Many ddev commands can be extended to run tasks before or after the
 # ddev command is executed, for example "post-start", "post-import-db",
 # "pre-composer", "post-composer"
