@@ -8,13 +8,15 @@ router_https_port: "443"
 xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
-mariadb_version: "10.3"
-mysql_version: ""
+database:
+  type: mariadb
+  version: "10.3"
 nfs_mount_enabled: false
 mutagen_enabled: true
 use_dns_when_possible: true
 composer_version: ""
 web_environment: []
+nodejs_version: "16"
 
 # Key features of ddev's config.yaml:
 
@@ -25,21 +27,19 @@ web_environment: []
 
 # docroot: <relative_path> # Relative path to the directory containing index.php.
 
-# php_version: "7.4"  # PHP version to use, "5.6", "7.0", "7.1", "7.2", "7.3", "7.4" "8.0"
+# php_version: "7.4"  # PHP version to use, "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1"
 
-# You can explicitly specify the webimage, dbimage, dbaimage lines but this
+# You can explicitly specify the webimage but this
 # is not recommended, as the images are often closely tied to ddev's' behavior,
 # so this can break upgrades.
 
 # webimage: <docker_image>  # nginx/php docker image.
-# dbimage: <docker_image>  # mariadb docker image.
-# dbaimage: <docker_image>
 
-# mariadb_version and mysql_version
-# ddev can use many versions of mariadb and mysql
-# However these directives are mutually exclusive
-# mariadb_version: 10.2
-# mysql_version: 8.0
+# database:
+#   type: <dbtype> # mysql, mariadb
+#   version: <version> # database version, like "10.3" or "8.0"
+# Note that mariadb_version or mysql_version from v1.18 and earlier
+# will automatically be converted to this notation with just a "ddev config --auto"
 
 # router_http_port: <port>  # Port to be used for http (defaults to port 80)
 # router_https_port: <port> # Port for https (defaults to 443)
@@ -62,12 +62,22 @@ web_environment: []
 # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 # For example Europe/Dublin or MST7MDT
 
-# composer_version: ""
-# if composer_version:"" it will use the current ddev default composer release.
+# composer_root: <relative_path>
+# Relative path to the composer root directory from the project root. This is
+# the directory which contains the composer.json and where all Composer related
+# commands are executed.
+
+# composer_version: "2"
+# if composer_version:"2" it will use the most recent composer v2
 # It can also be set to "1", to get most recent composer v1
-# or "2" for most recent composer v2.
+# or "" for the default v2 created at release time.
 # It can be set to any existing specific composer version.
 # After first project 'ddev start' this will not be updated until it changes
+
+# nodejs_version: "16"
+# change from the default system Node.js version to another supported version, like 12, 14, 17, 18.
+# Note that you can use 'ddev nvm' or nvm inside the web container to provide nearly any
+# Node.js version, including v6, etc.
 
 # additional_hostnames:
 #  - somename
@@ -82,7 +92,7 @@ web_environment: []
 # Please take care with this because it can cause great confusion.
 
 # upload_dir: custom/upload/dir
-# would set the destination path for ddev import-files to custom/upload/dir.
+# would set the destination path for ddev import-files to <docroot>/custom/upload/dir
 
 # working_dir:
 #   web: /var/www/html
