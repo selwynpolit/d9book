@@ -5,6 +5,7 @@ namespace Drupal\batch_examples\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Provides a Batch Examples form.
@@ -49,7 +50,7 @@ class BatchForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->updateEventPresenters();
-    $this->messenger()->addStatus($this->t('The message has been sent.'));
+    $this->messenger()->addStatus($this->t('The batch has completed.'));
     $form_state->setRedirect('<front>');
   }
 
@@ -80,7 +81,7 @@ class BatchForm extends FormBase {
       'title' => $this->t("Updating Presenters"),
       'init_message' => $this->t('Starting to process events.'),
       'progress_message' => $this->t('Completed @current out of @total batches.'),
-      'finished' => '\Drupal\oag_opinions\Controller\RequestImporterController::batchFinished',
+      'finished' => '\Drupal\batch_examples\Form\BatchForm::batchFinished',
       'error_message' => $this->t('Event processing has encountered an error.'),
       'operations' => $operations,
     ];
@@ -166,7 +167,7 @@ class BatchForm extends FormBase {
         '@failed' => $results['failed'],
         '@elapsed' => $elapsed,
       ]));
-      \Drupal::logger('oag_opinions')->info(
+      \Drupal::logger('d9book')->info(
         '@process processed @count nodes, skipped @skipped, updated @updated, failed @failed in @elapsed.', [
         '@process' => $results['process'],
         '@count' => $results['progress'],
@@ -186,7 +187,8 @@ class BatchForm extends FormBase {
       ]);
       $messenger->addError($message);
     }
+    // Optionally redirect back to the form.
+    return new RedirectResponse('/batch-examples/batchform');
   }
-
 
 }
