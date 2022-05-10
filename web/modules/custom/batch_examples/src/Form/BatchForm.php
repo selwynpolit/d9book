@@ -51,7 +51,7 @@ class BatchForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->updateEventPresenters();
     $this->messenger()->addStatus($this->t('The batch has completed.'));
-    $form_state->setRedirect('<front>');
+    //$form_state->setRedirect('<front>');
   }
 
   function updateEventPresenters() {
@@ -100,29 +100,19 @@ class BatchForm extends FormBase {
       $context['results']['failed'] = 0;
       $context['results']['progress'] = 0;
     }
-    // Total records to process for all batches.
-    if (empty($context['sandbox']['max'])) {
-      $query = \Drupal::entityQuery('node')
-        ->condition('status', 1)
-        ->condition('type', 'event')
-        ->accessCheck(TRUE);
-      $total_nids = $query->execute();
-      $context['sandbox']['max'] = count($total_nids);
-    }
+//    // Total records to process for all batches.
+//    if (empty($context['sandbox']['max'])) {
+//      $query = \Drupal::entityQuery('node')
+//        ->condition('status', 1)
+//        ->condition('type', 'event')
+//        ->accessCheck(TRUE);
+//      $total_nids = $query->execute();
+//      $context['sandbox']['max'] = count($total_nids);
+//    }
 
     // Keep track of progress.
     $context['results']['progress'] += count($nids);
-    $context['results']['process'] = 'Import request files';
-    // Message above progress bar.
-    $context['message'] = t('Processing batch #@batch_id batch size @batch_size for total @count items.',[
-      '@batch_id' => number_format($batch_id),
-      '@batch_size' => number_format(count($nids)),
-      '@count' => number_format($context['sandbox']['max']),
-    ]);
-
-    // Keep track of progress.
-    $context['results']['progress'] += count($nids);
-    $context['results']['process'] = 'Import request files';
+    $context['results']['process'] = 'Replace Presenters';
     // Message above progress bar.
     $context['message'] = t('Processing batch #@batch_id batch size @batch_size for total @count items.',[
       '@batch_id' => number_format($batch_id),
@@ -141,7 +131,6 @@ class BatchForm extends FormBase {
         $event_node->save();
       }
     }
-
 }
 
   /**
