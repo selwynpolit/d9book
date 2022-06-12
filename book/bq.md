@@ -30,7 +30,7 @@ more chance of a batch failing.
 The form example can be accessed at
 <https://d9book.ddev.site/batch-examples/batchform>
 
-From: `web/modules/custom/batch_examples/src/Form/BatchForm.php`
+View source at at: `web/modules/custom/batch_examples/src/Form/BatchForm.php`
 
 Here is a simple form with a button used to kick off the batch
 operation.
@@ -175,17 +175,17 @@ batch completes.
 return batch_process(\'node/177467\');
 ```
 
-Notice also you can set up a \$batch array with a title, progress
+Notice also you can set up a `$batch` array with a title and a progress
 message with some variables that will get displayed.
 
-You specify a 'finished' index which identifies a function to call after
+You specify a `finished` index which identifies a function to call after
 the batch is finished processing as in the example below.
 
 ```
 'finished' => '\Drupal\batch_examples\Form\BatchForm::batchFinished',
 ```
 
-Here is the batchFinished() method which displays and logs the results.
+Here is the `batchFinished()` method which displays and logs the results.
 
 ```php
 /**
@@ -241,15 +241,16 @@ public static function batchFinished(bool $success, array $results, array $opera
 
 The Batch API is often used in connection with forms. If you\'re using a
 page callback, you will need to setup all the items, submit them to the
-batch API ad then call batch_process() with a url as the argument. After
-the batch is complete, Drupal will send you to that url. E.g.
+batch API and then call `batch_process()` with a url as the argument. 
 
 `return batch_process('node/1');`
+
+After the batch is complete, Drupal will send you to that url. E.g.
+
 
 More at
 <https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10.0.x>
 
-## Using the Batch API from a controller
 
 In this example of a processing function you can see error handling,
 logging and tracking while retrieving files from a remote source. This
@@ -369,13 +370,12 @@ public function summaryImport()
   $this->summaryCreateBatches();
   return batch_process('/admin/content');
 }
-
 ```
 
 
 ## Using the Batch API with hook_update
 
-Let's say you want update the default value of a field for all nodes
+Let's say you want to update the default value of a field for all nodes
 using the Batch API and hook_update_N.
 
 From
@@ -385,31 +385,16 @@ Also
 
 <https://api.drupal.org/api/examples/batch_example%21batch_example.install/function/batch_example_update_8001/8.x-1.x>
 
-## Useful links
 
--   <https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8>
 
--   Highly commented source code for batch operations around line 561:
-    <https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc>
-    (or search for "batch operations")
+### Static functions are required
 
-## Some useful details
-
-From
-<https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc>,
-there is an example batch which calls two different functions:
-my_function_1 and my_function_2. Note for my function 1, the arguments
-are just separated by commas. Also it is interesting to note that they
-call batch_process('node/1') but that could be any valid url alias e.g.
-'/admin/content'.
-
-Also any batch functions must be public static functions and any
+Any batch functions must be public static functions and any
 functions calling those must be explicitly namespaced like:
 
 ```php
 $nid = \Drupal\dir_salesforce\Controller\DirSalesforceController::lookupCommodityItem($commodity_item_id);
 ```
-
 
 You can't use `$this->my_function` even if they are in the same class.
 Grab the namespace from the top of the php file you are using. In this
@@ -419,7 +404,7 @@ case:
 namespace Drupal\dir_salesforce\Controller;
 ```
 
-You can however refer the functions with `self::` e.g.
+You can however refer to the functions with `self::` e.g.
 
 ```php
 $node_to_update_dir_contact_nid = self::getFirstRef($node_to_update, 'field_sf_dir_contact_ref');
@@ -447,7 +432,21 @@ $node_to_update_dir_contact_nid = self::getFirstRef($node_to_update, 'field_sf_d
 ```
 
 
-So here are the arguments for my_function_1
+
+
+
+## Looking at the source
+Here is the link to the source for the Batch API.  As always looking at the source is the definitive way to understand how anything works.  It is really well commented.
+
+From
+<https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc>,
+there is an example batch which calls two different functions:
+my_function_1 and my_function_2. Note for my function 1, the arguments
+are just separated by commas. Also it is interesting to note that they
+call batch_process('node/1') but that could be any valid url alias e.g.
+'/admin/content'.
+
+So here are the arguments for my_function_1:
 
 ```
 * function my_function_1($uid, $type, &$context) {
@@ -484,10 +483,10 @@ if ($success) {
 }
 ```
 
-You can load the \$results array with all sorts of interesting data such
+You can load the `$results` array with all sorts of interesting data such
 as:
 
-```
+```php
 $context['results']['skipped'] = $skipped;
 $context['results']['updated'] = $updated;
 ```
@@ -495,7 +494,7 @@ $context['results']['updated'] = $updated;
 Batch API provides a nice way to display detailed results using code
 like:
 
-```
+```php
 $messenger->addMessage(t('Processed @count nodes, skipped @skipped, updated @updated in @elapsed.', [
   '@count' => $results['nodes'],
   '@skipped' => $results['skipped'],
@@ -514,17 +513,18 @@ You can display an informative message above the progress bar like this.
 
 I filled in the `$context[‘sandbox’][‘max’]` with a value (but I could have used `$context[‘sandbox’][‘whole-bunch’]` or any variable here)
 
-```
+```php
 $context['sandbox']['max'] = count($max_nids);
 ```
 
 
 Using number_format puts commas in the number if it is over 1,000.
 
-`$context['message'] = t('Processing total @count nodes',
+```php
+$context['message'] = t('Processing total @count nodes',
   ['@count' => number_format($context['sandbox']['max'])]
 );
-`
+```
 
 Or
 
@@ -550,6 +550,21 @@ if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
   $context['finished'] = ($context['sandbox']['progress'] >= $context['sandbox']['max']);
 }
 ```
+
+
+## Useful links
+
+You can read more about batch processing at these sites:
+
+-   <https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8>
+
+-   Highly commented source code for batch operations around line 561:
+    <https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc>
+    (or search for "batch operations")
+
+
+
+
 
 # Queue System
 
