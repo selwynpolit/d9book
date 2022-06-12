@@ -792,12 +792,14 @@ passed, the access returned is forbidden and the block is not built.
 
 Don't forget:
 
-`use Drupal\Core\Access\AccessResult;`
-
+```php
+use Drupal\Core\Access\AccessResult;
+```
 and `$account` comes from
 
-`$account = \Drupal::currentUser();`
-
+```php
+$account = \Drupal::currentUser();
+```
 ```PHP
 /**
  * {@inheritdoc}
@@ -816,7 +818,9 @@ And from the Copyright.php file some piddlings:
 
 `$account` comes from
 
-`$account = \\Drupal::currentUser();`
+```php
+$account = \\Drupal::currentUser();
+```
 
 ```PHP
 //Get the route.
@@ -860,8 +864,13 @@ protected function blockAccess(AccountInterface $account) {
 
 some options:
 
-`return AccessResult::forbidden();`
+```php
+return AccessResult::forbidden();
+```
 
-`return AccessResult::allowed();`
-
-`return AccessResult::allowedIf(TRUE);`
+```php
+return AccessResult::allowed();
+```
+```php
+return AccessResult::allowedIf(TRUE);
+```

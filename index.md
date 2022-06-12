@@ -11,6 +11,8 @@ Chapters (in no particular order)
 
 [Blocks](book/blocks.html)
 
+[Caching](book/caching.html)
+
 [Nodes and Fields](book/nodes_n_fields.html)
 
 You can use the [editor on GitHub](https://github.com/selwynpolit/d9book/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
