@@ -774,7 +774,7 @@ sometimes show the old cached content. You can define a view mode or
 tweak the twig template a smidge with something like this:
 
 ```
-{% set blah = content|render %}
+\{\% set blah = content\|render \%\}
 ```
 Then add your fields:
 
