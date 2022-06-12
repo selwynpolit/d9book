@@ -458,7 +458,7 @@ There are more details at the link above
 
 ## Development Setup
 
-### Twig Debugging
+### Enable Twig Debugging
 
 Generally I enable twig debugging and disable caching while developing a site.  Here are the steps
 
@@ -482,9 +482,11 @@ parameters:
 services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory
+```
 
 to enable put this in settings.local.php:
 
+```php
 /**
  * Enable local development services.
  */
@@ -495,7 +497,7 @@ You also need to disable the render cache in settings.local.php with:
 $settings['cache']['bins']['render'] = 'cache.backend.null';
 ```
 
-## Disable Cache
+### Disable Cache for development
 
 
 From https://www.drupal.org/node/2598914
