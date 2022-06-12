@@ -537,7 +537,8 @@ NOTE: If the parameters block is already present in the yml file, append the twi
 1. Afterwards rebuild the Drupal cache with `drush cr` otherwise your website will encounter an unexpected error on page reload.
 
 
+[home](https://selwynpolit.github.io/d9book)
 
-[2home](index.html)
+[2home](../index.html)
 
 
