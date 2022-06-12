@@ -1,5 +1,24 @@
 # Caching and cache tags
 
+- [Caching and cache tags](#caching-and-cache-tags)
+  - [How to uncache a particular page or node](#how-to-uncache-a-particular-page-or-node)
+  - [Don't cache data returned from a controller](#dont-cache-data-returned-from-a-controller)
+  - [Disable caching for a content type](#disable-caching-for-a-content-type)
+  - [Considering caching when retrieving query, get or post parameters](#considering-caching-when-retrieving-query-get-or-post-parameters)
+  - [Debugging Cache tags](#debugging-cache-tags)
+  - [Using cache tags](#using-cache-tags)
+  - [Setting cache keys in a block](#setting-cache-keys-in-a-block)
+  - [Getting Cache Tags and Contexts for a block](#getting-cache-tags-and-contexts-for-a-block)
+  - [Caching REST Resources](#caching-rest-resources)
+  - [Caching in an API class wrapper](#caching-in-an-api-class-wrapper)
+  - [Caching in a .module file](#caching-in-a-module-file)
+  - [Logic for caching render arrays](#logic-for-caching-render-arrays)
+  - [Development Setup](#development-setup)
+    - [Twig Debugging](#twig-debugging)
+  - [Disable Cache](#disable-cache)
+
+
+
 ## How to uncache a particular page or node
 
 This will cause Drupal to rebuild the page internally, but won't stop browsers or CDN's from caching.
@@ -322,7 +341,7 @@ public function getPolicy($policy_number, $version = 'v2') {
 }
 ```
 
-## Quick cache in a .module file
+## Caching in a .module file
 
 From
 docroot/modules/custom/ncs_infoconnect/nzz_zzzzconnect.module
