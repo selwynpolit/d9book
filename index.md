@@ -3,7 +3,7 @@
 ## by Selwyn Polit
 ## and hopefully others
 
-
+I've collected a bunch of code while developing Drupal sites.  I could have used a pretty comprehensive set of code samples to make more sense of how to do things the Drupal way.
 
 Chapters (in no particular order)
 
@@ -11,7 +11,7 @@ Chapters (in no particular order)
 
 [Blocks](book/blocks.md)
 
-[Nodes and Fields](books/../book/nodes_n_fields.md)
+[Nodes and Fields](book/nodes_n_fields.md)
 
 You can use the [editor on GitHub](https://github.com/selwynpolit/d9book/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
