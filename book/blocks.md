@@ -874,3 +874,5 @@ return AccessResult::allowed();
 ```php
 return AccessResult::allowedIf(TRUE);
 ```
+
+[home](../index.html)
