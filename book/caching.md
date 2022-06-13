@@ -1,5 +1,3 @@
-# Caching and cache tags
-
 - [Caching and cache tags](#caching-and-cache-tags)
   - [How to uncache a particular page or node](#how-to-uncache-a-particular-page-or-node)
   - [Don't cache data returned from a controller](#dont-cache-data-returned-from-a-controller)
@@ -14,8 +12,10 @@
   - [Caching in a .module file](#caching-in-a-module-file)
   - [Logic for caching render arrays](#logic-for-caching-render-arrays)
   - [Development Setup](#development-setup)
-    - [Twig Debugging](#twig-debugging)
-  - [Disable Cache](#disable-cache)
+    - [Enable Twig Debugging](#enable-twig-debugging)
+    - [Disable Cache for development](#disable-cache-for-development)
+
+# Caching and cache tags
 
 
 

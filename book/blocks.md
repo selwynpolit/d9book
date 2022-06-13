@@ -1,3 +1,14 @@
+- [Blocks](#blocks)
+  - [Create a block with Drush generate](#create-a-block-with-drush-generate)
+  - [Anatomy of a custom block with dependency injection](#anatomy-of-a-custom-block-with-dependency-injection)
+  - [Create a block with an entityQuery](#create-a-block-with-an-entityquery)
+  - [Create a Block with a corresponding config form](#create-a-block-with-a-corresponding-config-form)
+  - [Modify a block with hook_block_view_alter or hook_block_build_alter](#modify-a-block-with-hook_block_view_alter-or-hook_block_build_alter)
+  - [Disable caching in a block](#disable-caching-in-a-block)
+  - [Add a configuration form to your block](#add-a-configuration-form-to-your-block)
+  - [Block display not updating after changing block content](#block-display-not-updating-after-changing-block-content)
+  - [Block Permission (blockAccess)](#block-permission-blockaccess)
+
 # Blocks
 
 Blocks are plugins which are re-usable pieces of code following design patterns. Plugins are also used to define views arguments,

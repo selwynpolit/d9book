@@ -1,3 +1,12 @@
+- [Batch Processing Using the Batch API](#batch-processing-using-the-batch-api)
+  - [Using the Batch API with a form](#using-the-batch-api-with-a-form)
+  - [Using the Batch API from a controller](#using-the-batch-api-from-a-controller)
+  - [Using the Batch API with hook_update](#using-the-batch-api-with-hook_update)
+    - [Static functions are required](#static-functions-are-required)
+  - [Looking at the source](#looking-at-the-source)
+  - [Useful links](#useful-links)
+- [Queue System](#queue-system)
+
 # Batch Processing Using the Batch API
 
 The Batch API provides a very useful set of functions which let you do
