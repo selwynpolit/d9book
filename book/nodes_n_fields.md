@@ -2,9 +2,9 @@
   - [Load a node and get a formatted text field](#load-a-node-and-get-a-formatted-text-field)
   - [Set field values](#set-field-values)
   - [Load a node and retrieve an entity reference node and nid](#load-a-node-and-retrieve-an-entity-reference-node-and-nid)
-  - [How to get current page title](#how-to-get-current-page-title)
+  - [Get current page title](#get-current-page-title)
   - [Test if variable is a node](#test-if-variable-is-a-node)
-  - [How to get current nid, node type and title](#how-to-get-current-nid-node-type-and-title)
+  - [Get the current nid, node type and title](#get-the-current-nid-node-type-and-title)
   - [Retrieve current node id (nid)](#retrieve-current-node-id-nid)
   - [Retrieve node info from current path](#retrieve-node-info-from-current-path)
   - [Load the current node and get it's node id (nid), field, type](#load-the-current-node-and-get-its-node-id-nid-field-type)
@@ -112,10 +112,9 @@ $ref_nid = $node->get('field_sf_contract_ref')->target_id;
 $ref_nid = $node->field_sf_contract_ref->target_id;
 ```
 
-Here is a longer version which is most useful when you expect there to
-be multiple values, as you could do a `foreach` loop thru them.
+Here is a version for when you expect multiple values, as you could do a `foreach` loop thru them.
 
-Here we call `referencedEntities()` on the result of the `get` which returns an array of nodes
+We call `get` and then `referencedEntities()` which returns an array of nodes
 
 ```php
 $node_to_update->get('field_sf_contract_ref')->referencedEntities();
@@ -131,6 +130,8 @@ You can grab it's nid with `->id()` or its `->value` e.g.
 ```php
 $val = get('field_status')->value;
 ```
+
+Here is an example where we do those steps and do some work if the nids don't match.
 
 ```php
 $sf_contracts_refs = $node_to_update->get('field_sf_contract_ref')->referencedEntities();
@@ -156,12 +157,16 @@ $new_nid = $ref->id();
 You could also loop thru the referenced entities with:
 
 ```php
+use Drupal\node\Entity\Node;
+
+$node = Node::load(123);
+$refs = $node->get('field_vendor_ref')->referencedEntities();
 foreach ($refs as $ref) {
   $nid = $ref->id();
 }
 ```
 
-## How to get current page title
+## Get current page title
 
 Use this in a controller, to return the current page title.
 
@@ -181,7 +186,7 @@ if (get_class($ref) == 'Drupal\node\Entity\Node') {
 }
 ```
 
-## How to get current nid, node type and title
+## Get the current nid, node type and title
 
 Here are two ways to retrieve the current node -- via the request or using the route
 
