@@ -12,3 +12,4 @@ I've collected a bunch of code while developing Drupal sites.  While developing 
 - [Nodes and Fields](book/nodes_n_fields.html)
 - [Config](book/config.md)
 - [Cron](book/cron.md)
+- [Dates](book/dates.html)
