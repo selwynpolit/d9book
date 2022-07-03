@@ -685,3 +685,6 @@ visitors to this site) that this point in time technically does not
 change no matter where you are located on the globe. This is very useful
 to computer systems for tracking and sorting dated information in
 dynamic and distributed applications both online and client side.
+
+
+[home](../index.html)
