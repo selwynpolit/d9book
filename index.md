@@ -15,3 +15,5 @@ Perhaps others will add to it by making edits and pull requests in [github](http
 - [Config](book/config.md)
 - [Cron](book/cron.md)
 - [Dates](book/dates.html)
+- [Development](book/development.html)
+
