@@ -17,3 +17,7 @@ Perhaps others will add to it by making edits and pull requests in [github](http
 - [Dates](book/dates.html)
 - [Development](book/development.html)
 
+
+
+- [Attribution](book/attribution.html)
+- 
