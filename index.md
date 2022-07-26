@@ -18,6 +18,7 @@ Perhaps others will add to it by making edits and pull requests in [github](http
 - [Development](book/development.html)
 
 
-
 - [Attribution](book/attribution.html)
-- 
+
+Please be a part of this project by contributing and get your name on the attribution page.
+
