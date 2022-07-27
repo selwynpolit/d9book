@@ -1,11 +1,11 @@
 ## Welcome to Drupal 9 at your fingertips
-### A Drupal developers reference
+### A Drupal developers quick code reference
 #### by Selwyn Polit
 #### and hopefully others
 
-I've collected a bunch of code while developing Drupal sites.  While developing and hunting through examples on [Stack Overflow](https://stackoverflow.com/) I sure could have used a comprehensive set of code samples to make more sense of how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Be sure to avail yourself of the excellent [examples module](https://www.drupal.org/project/examples) which goes much deeper than I do on so many topics.  This is intended to be a quick-ish reference for developers working on sites. Please forgive the todo items - I've found that if I want to get everything perfect, I'll never publish anything. Perhaps use this as your opportunity to add something.
+I've collected a bunch of code while developing Drupal sites which I use for my reference.  During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal)) and many other places, I often wished I had a a comprehensive set of code samples to make more sense of how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples) which I encourage folks to use as a supplement to this book.  This book is intended to be a quick-ish reference for developers working on sites. Please forgive the todo items - I've found that if I want to get everything perfect, I'll never publish anything. Perhaps use this as your opportunity to add something.
 
-Please add to this book by making edits and pull requests in [github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).
+You can add to this book by making edits and pull requests in [github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).  There is a very easy to use online editor in github so you don't have to do anything fancy other than type in your notes in [Markdown format](https://github.github.com/gfm/). You will find examples if you edit one of the existing files.
 
 ### Chapters
 - [Batch and Queue - Batch API](book/bq.html)
@@ -22,3 +22,4 @@ Please add to this book by making edits and pull requests in [github](https://gi
 
 Please be a part of this project by contributing and get your name on the attribution page.
 
+Last Edited: 7-27-2022
