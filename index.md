@@ -22,4 +22,39 @@ You can add to this book by making edits and pull requests in [github](https://g
 
 Please be a part of this project by contributing and get your name on the attribution page.
 
+### Chapters I'm working on
+- Debugging
+- Dependency Injection
+- Drush
+- Email
+- Entities
+- Events
+- Forms
+- General
+- Hooks
+- Javascript
+- Links, Aliases and URLs
+- Logging and notification
+- Media image files
+- Menus
+- Migration
+- Miscellaneous
+- Modals
+- Paragraphs
+- Queries
+- Reaching out of Drupal
+- Redirects
+- Render arrays
+- Routes and Controllers
+- Security and Preventing attacks
+- Services
+- Single sign on
+- Taxonomy
+- Twig
+- Views
+
+
+
+
+
 Last Edited: 7-27-2022
