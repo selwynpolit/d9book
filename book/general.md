@@ -859,20 +859,22 @@ There was no documentation so I added some at
 
 ## Deprecated functions like drupal_set_message
 
-Note. `drupal_set_message()` has been removed from the codebase but you
-can use `dsm()` which is provided by the
-[devel](https://www.drupal.org/project/devel) contrib module. This is useful
-when working through a problem if you want to display a message on a
-site
+Note. `drupal_set_message()` has been removed from the codebase so you should use `messenger()` but you
+can also use `dsm()` which is provided by the [devel](https://www.drupal.org/project/devel) contrib module. This is useful
+when working through a problem if you want to display a message on a site during debugging.
 
 from
 <https://github.com/mglaman/drupal-check/wiki/Deprecation-Error-Solutions>
 
 Before
-`drupal_set_message($message, $type, $repeat);`
+```php
+drupal_set_message($message, $type, $repeat);
+```
 
 After
-`\Drupal::messenger()->addMessage($message, $type, $repeat);`
+```php
+\Drupal::messenger()->addMessage($message, $type, $repeat);
+```
 
 
 [home](../index.html)
