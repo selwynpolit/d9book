@@ -400,8 +400,8 @@ $term_name = $path_args[3];
 
 For https://txg.ddev.site/newsroom/search/?country=1206
 
-![Variables display](./images/media/image1-general.png){width="4.138888888888889in"
-height="1.4444444444444444in"}
+![Variables display in PHPStorm debug pane](./images/media/image1-general.png)
+
 
 ## Get Current Language in a constructor
 
