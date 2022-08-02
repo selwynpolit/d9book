@@ -1,14 +1,13 @@
-- [Get the current Document root path](#get-the-current-document-root-path)
 - [Get the current user](#get-the-current-user)
 - [Get the logged in user name and email](#get-the-logged-in-user-name-and-email)
 - [Check if you are on the Front page](#check-if-you-are-on-the-front-page)
 - [Check if site is in system maintenance mode](#check-if-site-is-in-system-maintenance-mode)
-- [How to get Node URL alias or Taxonomy Alias by Node id or Term ID](#how-to-get-node-url-alias-or-taxonomy-alias-by-node-id-or-term-id)
+- [Get Node URL alias or Taxonomy Alias by Node id or Term ID](#get-node-url-alias-or-taxonomy-alias-by-node-id-or-term-id)
 - [Taxonomy alias](#taxonomy-alias)
-- [How to get current Path](#how-to-get-current-path)
-- [How to get current nid, node type and title](#how-to-get-current-nid-node-type-and-title)
+- [Get current Path](#get-current-path)
+- [Get current nid, node type and title](#get-current-nid-node-type-and-title)
 - [How to check whether a module is installed or not](#how-to-check-whether-a-module-is-installed-or-not)
-- [How to get current Route name](#how-to-get-current-route-name)
+- [Get current Route name](#get-current-route-name)
 - [Get the current page title](#get-the-current-page-title)
 - [Get the current user](#get-the-current-user-1)
 - [Check if you are on the Front page](#check-if-you-are-on-the-front-page-1)
@@ -27,14 +26,6 @@
 - [Remote media entities](#remote-media-entities)
 - [Deprecated functions like drupal_set_message](#deprecated-functions-like-drupal_set_message)
 
-## Get the current Document root path
-
-This will return the current document root path like
-/var/www/html/project1.
-
-```php
-$image_path = \Drupal::service('file_system')->realpath();
-```
 
 
 ## Get the current user
@@ -101,7 +92,7 @@ page otherwise false.
 ```php
 $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 ```
-## How to get Node URL alias or Taxonomy Alias by Node id or Term ID
+## Get Node URL alias or Taxonomy Alias by Node id or Term ID
 
 Sometimes we need a relative path and sometimes we need an absolute
 path. There is an \$options parameter in the fromRoute() function where
@@ -161,7 +152,7 @@ $options = ['absolute' => true];  //false will return relative path.
 $url = Url::fromRoute('entity.taxonomy_term.canonical', ['taxonomy_term' => 1234], $options);
 ```
 
-## How to get current Path
+## Get current Path
 
 For node pages this will return node/{node id},for taxonomy
 taxonomy/term/{term id}, for user user/{user id) if exists otherwise it
@@ -171,7 +162,7 @@ will return the current request URI.
 $currentPath  = \Drupal::service('path.current')->getPath();
 ```
 
-## How to get current nid, node type and title
+## Get current nid, node type and title
 
 There are two ways to retrieve the current node -- via the request or
 the route
@@ -259,7 +250,7 @@ else {
 }
 ```
 
-## How to get current Route name
+## Get current Route name
 
 Routes are in the form: view.files_browser.page_1, test.example or test.settings_form
 
@@ -400,15 +391,16 @@ More about caching render arrays:
 
 You can extract the url arguments with
 
+```php
 $current_path = \Drupal::service('path.current')->getPath();
 $path_args = explode('/', $current_path);
 $term_name = $path_args[3];
+```
 
 
 For https://txg.ddev.site/newsroom/search/?country=1206
 
-![Graphical user interface Description automatically generated with low
-confidence](./images/media/image1-general.tiff){width="4.138888888888889in"
+![Variables display](./images/media/image1-general.png){width="4.138888888888889in"
 height="1.4444444444444444in"}
 
 ## Get Current Language in a constructor

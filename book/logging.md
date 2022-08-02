@@ -4,6 +4,7 @@
 - [Another example using the logging via dependency injection](#another-example-using-the-logging-via-dependency-injection)
 - [Logging exceptions from a try catch block](#logging-exceptions-from-a-try-catch-block)
 - [Display a message in the notification area](#display-a-message-in-the-notification-area)
+- [Display a variable while debugging](#display-a-variable-while-debugging)
 
 ## Quick log to watchdog
 
@@ -273,7 +274,26 @@ surrounding your message while addError adds `class="messages messages--status"`
 When you need to display a message in a form, use the `$this->messenger()` that is provided by the Drupal\\Core\\Messenger\\MessengerTrait;
 
 ```php
-$this->messenger()->addStatus($this->t('Running in Destructive Mode - Changes ARE committed to the database!'));```
+$this->messenger()->addStatus($this->t('Running in Destructive Mode - Changes ARE committed to the database!'));
+```
+
+
+## Display a variable while debugging
+
+You can use var_dump and print_r but sometimes it is difficult to see where they display.
+
+```php
+$is_front = \Drupal::service('path.matcher')->isFrontPage();
+$is_front = $is_front == TRUE ? "YEP" : "NOPE";
+$messenger->addMessage("is_front = $is_front");
+var_dump($is_front);
+print_r($is_front);
+```
+
+![Displaying var_dump in Drupal](./images/media/vardump.png){width="4.138888888888889in"
+height="1.4444444444444444in"}
+
+
 
 
 [home](../index.html)
