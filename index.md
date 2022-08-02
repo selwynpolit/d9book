@@ -15,6 +15,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Cron - Using hook_cron, sample crontab files, how to stop cron](book/cron.md)
 - [Dates - Getting and setting date fields, date arithmetic, expiration, node creation and changed dates, Smart date module](book/dates.html)
 - [Development - Local setup, creating sites, DDEV, troubleshooting, PHPStorm setup, Xdebug setup, Twig debugging](book/development.html)
+- [General - Useful things that seemed to not fit well elsewhere](book/general.md)
 - [Logging and notification](book/logging.html)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](book/nodes_n_fields.html)
 
@@ -31,7 +32,6 @@ Please be a part of this project by contributing and get your name on the attrib
 - Entities
 - Events
 - Forms
-- General
 - Hooks
 - Javascript
 - Links, Aliases and URLs
