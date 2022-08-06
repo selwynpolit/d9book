@@ -290,8 +290,8 @@ var_dump($is_front);
 print_r($is_front);
 ```
 
-![Displaying var_dump in Drupal](./images/media/vardump.png){width="4.138888888888889in"
-height="1.4444444444444444in"}
+![Displaying var_dump in Drupal](./images/media/vardump.png)
+
 
 
 
