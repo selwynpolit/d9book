@@ -598,21 +598,11 @@ In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I
 have a form which is displayed in a block. The usual block template file
 provided by the theme is `block.html.twig` and looks like this:
 
-```twig
-<div{{ attributes }}>
-  {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes }}>{{ label }}</h2>
-  {% endif %}
-  {{ title_suffix }}
-```  
-  `{% block content %}`
-```twig 
-    {{ content }}
-  {% endblock %}
-</div>
-```
-It outputs the guts of the block as `{{ block content }}`
+![block template](./images/media/block_template.png)
+
+Not sure but for some reason github chokes on the twig source for this so I had to use an image.
+
+The template outputs the guts of the block as `{{ block content }}`
 
 For my custom theme called dprime, I added a new template file at
 `themes/custom/dprime/templates/block/block--videopaginationblock.html.twig`
