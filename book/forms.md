@@ -598,7 +598,7 @@ In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I
 have a form which is displayed in a block. The usual block template file
 provided by the theme is `block.html.twig` and looks like this:
 
-```twig
+```TWIG
 <div{{ attributes }}>
   {{ title_prefix }}
   {% if label %}
