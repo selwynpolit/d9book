@@ -598,14 +598,16 @@ In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I
 have a form which is displayed in a block. The usual block template file
 provided by the theme is `block.html.twig` and looks like this:
 
-```TWIG
+```twig
 <div{{ attributes }}>
   {{ title_prefix }}
   {% if label %}
     <h2{{ title_attributes }}>{{ label }}</h2>
   {% endif %}
   {{ title_suffix }}
-  {% block content %}
+```  
+  `{% block content %}`
+```twig 
     {{ content }}
   {% endblock %}
 </div>
