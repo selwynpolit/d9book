@@ -602,7 +602,9 @@ provided by the theme is `block.html.twig` and looks like this:
 
 (Not sure but for some reason github chokes on the twig source for this so I had to use an image.)
 
-The template outputs the guts of the block as ```{{ block content }}```
+
+The template outputs the guts of the block as 
+`\{\{ block content \}\}`
 
 For my custom theme called dprime, I added a new template file at
 `themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig`
@@ -618,7 +620,7 @@ $form['previous_clip'] = [
 ];
 ```
 
-I put this in the template:
+And in the template, you can see `content.previous_clip` referencing this content.
 
 ```twig
 <div class="cell medium-6 medium-order-2 text-center">
