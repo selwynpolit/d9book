@@ -600,7 +600,7 @@ provided by the theme is `block.html.twig` and looks like this:
 
 ![block template](./images/media/block_template.png)
 
-Not sure but for some reason github chokes on the twig source for this so I had to use an image.
+(Not sure but for some reason github chokes on the twig source for this so I had to use an image.)
 
 The template outputs the guts of the block as ```{{ block content }}```
 
