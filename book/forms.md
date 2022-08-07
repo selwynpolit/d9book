@@ -604,7 +604,7 @@ provided by the theme is `block.html.twig` and looks like this:
 
 
 The template outputs the guts of the block as 
-`\{\{ block content \}\}`
+\{\{ block content \}\}
 
 For my custom theme called dprime, I added a new template file at
 `themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig`
