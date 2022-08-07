@@ -602,10 +602,10 @@ provided by the theme is `block.html.twig` and looks like this:
 
 Not sure but for some reason github chokes on the twig source for this so I had to use an image.
 
-The template outputs the guts of the block as `{{ block content }}`
+The template outputs the guts of the block as ```{{ block content }}```
 
 For my custom theme called dprime, I added a new template file at
-`themes/custom/dprime/templates/block/block--videopaginationblock.html.twig`
+`themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig`
 and added lots of fun stuff to output the form in bits and pieces.
 
 e.g. like here, to display the previous_clip item from the form's
