@@ -3,7 +3,9 @@
 ### by Selwyn Polit
 
 
-This repository contains the markup for the book as well as a Drupal installation complete with config files and database dumps.
+## [Read it here](https://selwynpolit.github.io/d9book/index.html)
+
+This repository contains the markup for the [book](https://selwynpolit.github.io/d9book/index.html) as well as a Drupal installation complete with config files and database dumps.
 It also has some code that was used to check the accuracy of the book.
 If you want to contribute, select the gh-pages branch from the branches button near the top of this page.
 You can then directly click the pencil button to edit (and automatically fork the repo).
