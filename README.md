@@ -1,28 +1,37 @@
-# Drupal 9 Book
+# Welcome to Drupal 9 at your fingertips
+## A Drupal developers quick code reference
+### by Selwyn Polit
 
-by Selwyn Polit
+
+This repository contains the markup for the book as well as a Drupal installation complete with config files and database dumps.
+It also has some code that was used to check the accuracy of the book.
+If you want to contribute, select the gh-pages branch from the branches button near the top of this page.
+You can then directly click the pencil button to edit (and automatically fork the repo).
+
+Thanks for visiting and contributing.
 
 
-## settings.php
 
-Note ddev v1.15 has some new idiosyncracies to be aware of
+## Some tips
 
-when using a global drush command from the host.  e.g. `drush en token` like you used to in Drupal 8, you will notice errors and the command will fail.
+### Running drush on the host
+The approved way to use drush on a ddev project is to use `ddev drush cr` etc.
 
-The fix is to tweak the settings.php by adding this line before the #ddev-generated code
-
+For my own convenience, I prefer to just use `drush cr` while in the directory for my project.
+If you see errors when trying this, edit your web/sites/default/settings.php (or web/sites/default/settings.local.php) by adding the putenv command below.
+```
 putenv("IS_DDEV_PROJECT=true");
-
-// #ddev-generated: Automatically generated Drupal settings file.
-if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
-include $app_root . '/' . $site_path . '/settings.ddev.php';
-}
+```
 
 
-## Enable Twig debugging
+
+
+### Enable Twig debugging
+When you want to do some debugging, this can be a really useful setting to enable.
+It will display the template names in the HTML source.
 
 * Copy `sites/example.settings.local.php` to `sites/default/settings.local.php`
-* Add this to `sites/default/settings.php`:
+* Add this to the bottom of `sites/default/settings.php`:
 
 ```
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
@@ -34,7 +43,9 @@ NOTE: `sites/default/settings.php` references `sites/default/settings.local.php`
 
 * Create a `sites/development.services.yml`, with the following contents:
 * toggle the debug: false line to view templates being used for each element on site
-* drush cr after modifying the file to have changes take effect
+* Run `drush cr` after modifying the file to have changes take effect
+* Warning. Make sure your site is actually running before you make this change otherwise it will not run and make you very frustrated.
+
 ```
 # Local development services.
 #
@@ -70,7 +81,6 @@ parameters:
     #
     # Not recommended in production environments
     # @default null
-#    auto_reload: null
     auto_reload: true
     # Twig cache:
     #
@@ -88,9 +98,13 @@ services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
+
 ## DDEV usage
 
-### Everyday ddev commands
+### Frequently used ddev commands to get you started
+If you haven't used [DDEV](https://ddev.com), you should be using it!
+It makes development soooo much nicer.
+
 `ddev start` - start containers
 
 `ddev stop` - stop containers, delete them and **keep db intact**
@@ -99,15 +113,11 @@ services:
 
 `ddev ssh` - ssh into container
 
-`ddev sequelpro` - fire up sql pro already connected!
-
 `ddev composer <blah>` - run composer in container e.g. `composer install`
 
 `ddev describe` - show the sql connection ports etc. for connecting sequel pro
 
-`ddev list` - list sites and urls
-
-`ddev stop --unlist <projectname>` -- remove project from list until ddev start is run for project
+`ddev list -A` - list sites and urls
 
 `ddev export-db --f dbdump1.sql.gz`  - Backup the db often so you can recover in a pinch.  I use dbdump1 and dbdump2 files so I have a way back to my previous db too.
 
@@ -120,56 +130,6 @@ Use these commands.  be sure to disable after debugging because xdebug has a sig
 `ddev exec enable_xdebug`
 and
 `ddev exec disable_xdebug`
-
-
-### More ddev commands
-
-`ddev` - list all commands
-
-`ddev <command> --help` - shows help about a command e.g. `ddev list --help`
-
-
-`ddev import-db --src=dbdev.sql.gz` - import gzipped db file from host
-
-`ddev export-db -f dbdump2.sql.gz` - export db file to host file dbdump1.sql.gz
-
-`ddev pull` - special command to pull db from pantheon environment
-
-### drush
-Although it is not a sanctioned use, if you install drush globally, you can issue drush commands like `drush cr` as long as you are in the directory ~/Sites/dir.
-I find it very convenient to use it this way.
-If you see errors when trying this, edit your settings.php by adding the putenv command below.
-```
-
-putenv("IS_DDEV_PROJECT=true");
-// #ddev-generated: Automatically generated Drupal settings file.
-if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
-  if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php')) {
-  include $app_root . '/' . $site_path . '/settings.ddev.php';
-```
-e.g.
-
-
-drush st
-
-drush cr (clear local)
-
-when it doesn't just use `ddev exec drush <drush command>`  e.g.
-
-`ddev exec drush uli`
-
-`ddev composer require drupal/admin_toolbar`
-
-`ddev exec drush sql-dump >dbdump2.sql`
-
-ddev exec drush updb
-
-ddev exec drush cim sync
-
-ddev exec drush cex sync
-
-ddev exec drush cget system.site uuid
-
 
 
 ## Troubleshooting
