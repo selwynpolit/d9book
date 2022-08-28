@@ -84,7 +84,7 @@ $email = $user->get('mail')->value;
 $is_front = \Drupal::service('path.matcher')->isFrontPage();
 ```
 
-The above statement will return either TRUE or FALSE. TRUE means you are onthe front
+The above statement will return either TRUE or FALSE. TRUE means you are on the front
 page.
 
 ## Check if site is in system maintenance mode
