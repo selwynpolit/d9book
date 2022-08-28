@@ -35,6 +35,8 @@ content:
     settings:
       image_link: content
       image_style: medium
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: -1
     region: content
@@ -51,5 +53,4 @@ content:
     region: content
 hidden:
   comment: true
-  field_image: true
   field_tags: true
