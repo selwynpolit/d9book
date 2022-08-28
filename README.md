@@ -103,7 +103,7 @@ services:
 
 ## DDEV usage
 
-### Frequently used ddev commands to get you started
+### Frequently used DDEV commands to get you started
 If you haven't used [DDEV](https://ddev.com), you should be using it!
 It makes development soooo much nicer.
 
