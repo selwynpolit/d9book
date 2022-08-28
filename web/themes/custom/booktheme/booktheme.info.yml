@@ -1,0 +1,21 @@
+name: Book Theme
+type: theme
+base theme: classy
+description: A flexible theme with a responsive, mobile-first layout.
+package: d9book
+core: 8.x
+core_version_requirement: ^8 || ^9
+libraries:
+  - booktheme/global
+regions:
+  header: 'Header'
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  featured: 'Featured'
+  breadcrumb: 'Breadcrumb'
+  content: 'Content'
+  sidebar_first: 'Sidebar first'
+  sidebar_second: 'Sidebar second'
+  footer: 'Footer'
