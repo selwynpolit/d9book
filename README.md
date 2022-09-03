@@ -134,6 +134,19 @@ and
 `ddev exec disable_xdebug`
 
 
+## Set up this site on your local computer
+* check out the repo
+* `cd d9book`
+* `composer install` - this requires composer 2.x installed
+* `ddev config` - this requires ddev to be installed. Follow the default prompts
+* `ddev start` - this starts the containers
+* `ddev import-db --src=dbdump2.sql.gz` - import the database
+* `ddev drush cr` - clear drupal cache
+* `ddev launch` - start the site
+
+
+
+
 ## Troubleshooting
 
 ### Containers won't start
