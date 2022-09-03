@@ -1,0 +1,6 @@
+general.settings_form:
+  title: General
+  description: Configure General.
+  parent: system.admin_config_system
+  route_name: general.settings_form
+  weight: 10

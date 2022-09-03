@@ -1,0 +1,4 @@
+administer general configuration:
+  title: 'Administer general configuration'
+  description: 'Optional description.'
+  restrict access: true
