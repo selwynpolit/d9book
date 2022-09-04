@@ -122,9 +122,8 @@ $nid = $item->id();
 $options = ['relative' => TRUE];  //could be absolute instead of relative.
 
 $url = Url::fromRoute('entity.node.canonical',['node' => $nid], $options);
+$link = \Drupal::service('link_generator')->generate('My link', $url);
 
-// If you just want the string.
- $url = $url->toString();
 ```
 
 ## Create a link from an internal URL
