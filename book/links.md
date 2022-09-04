@@ -6,7 +6,7 @@
   - [The Drupal Core Url Class](#the-drupal-core-url-class)
   - [The Drupal Core Link Class](#the-drupal-core-link-class)
     - [Create a link to a node](#create-a-link-to-a-node)
-    - [Create a link to a path like `/reports/search?user=admin`](#create-a-link-to-a-path-like-reportssearchuseradmin)
+    - [Create a link to a path with parameters](#create-a-link-to-a-path-with-parameters)
   - [Another way to create a link to a node:](#another-way-to-create-a-link-to-a-node)
   - [Create a link from an internal URL](#create-a-link-from-an-internal-url)
   - [Retrieve a link field from a node or a paragraph](#retrieve-a-link-field-from-a-node-or-a-paragraph)
@@ -99,7 +99,9 @@ $url = Url::fromUri('internal:/node/1');
 $link = \Drupal::service('link_generator')->generate('My link', $url);
 ```
 
-### Create a link to a path like `/reports/search?user=admin`
+### Create a link to a path with parameters 
+
+To create a link to a path like `/reports/search?user=admin` use this code.
 
 ```php
 $option = [
@@ -112,6 +114,7 @@ $link = Link::fromTextAndUrl('My link', $url);
 $renderable_array = $link->toRenderable();
 return $renderable_array;
 ```
+
 ## Another way to create a link to a node: 
 
 ```php
