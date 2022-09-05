@@ -27,6 +27,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 Please be a part of this project by contributing and get your name on the attribution page.
 
 ### Chapters I'm working on
+- Composer, updates and patches
 - Debugging
 - Dependency Injection
 - Drush
@@ -59,4 +60,4 @@ Please be a part of this project by contributing and get your name on the attrib
 
 
 
-Last Edited: 8-2-2022
+Last Edited: 9-5-2022
