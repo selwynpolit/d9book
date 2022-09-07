@@ -5,6 +5,7 @@
 - [Logging exceptions from a try catch block](#logging-exceptions-from-a-try-catch-block)
 - [Display a message in the notification area](#display-a-message-in-the-notification-area)
 - [Display a variable while debugging](#display-a-variable-while-debugging)
+- [Links](#links)
 
 ## Quick log to watchdog
 
@@ -292,7 +293,9 @@ print_r($is_front);
 
 ![Displaying var_dump in Drupal](./images/media/vardump.png)
 
+## Links
 
+* How to Log Messages in Drupal 8 by Amber Matz of Drupalize.me from 10-13-2015 https://drupalize.me/blog/201510/how-log-messages-drupal-8
 
 
 
