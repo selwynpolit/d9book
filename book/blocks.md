@@ -11,7 +11,7 @@
 
 # Blocks
 
-Blocks are plugins, which are re-usable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets etc. etc. The source files for blocks are found in each module's `/src/Plugin` directory.
+Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 
 ![Location of block source files](images/media/image-block-location.png)
 
@@ -96,7 +96,7 @@ The following directories and files have been created or updated:
 /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.module
 ```
 
-Use "drush generate" to create the code for a block. Specify the module name e.g. block_module so Drush knows where to put the block code. We also must give the block an admin label, plugin ID and class.
+Use "drush generate" to create the code for a block. Specify the module name (e.g. block_module) so Drush knows where to put the block code. We also must give the block an admin label, plugin ID, and class.
 
 ```
 $ drush generate block
@@ -145,7 +145,7 @@ The following directories and files have been created or updated:
 /Users/selwyn/Sites/ddev93/web/modules/block_module/src/Plugin/Block/BlockModuleExampleBlock.php
 ```
 
-This generates a file at `web/modules/custom/block_module/src/Plugin/Block/BlockModuleExampleBlock.php` which looks like this:
+This generates a file at `web/modules/custom/block_module/src/Plugin/Block/BlockModuleExampleBlock.php` that looks like this:
 
 ```php
 <?php
@@ -182,13 +182,11 @@ Enable the module with:
 
 `ddev drush en block_module`
 
-clear cache with :
+Clear cache with:
 
 `ddev drush cr`
 
-In Drupal, navigate to /admin/structure/block and place the block (block
-module example) in the content area. See the diagram below on how to
-place the block in the content area.
+In Drupal, navigate to /admin/structure/block and place the block (block module example) in the content area. See the diagram below on how to place the block in the content area.
 
 ![Graphical user interface, table Description automatically
 generated](images/media/image2.png)
@@ -196,7 +194,7 @@ generated](images/media/image2.png)
 ![Graphical user interface Description automatically
 generated](images/media/image3.png)
 
-You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "place block," a "configure block" screen appears. You can safely just click "save block."
+You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "Place block," a "Configure block" screen appears. You can safely just click "Save block."
 
 ![Graphical user interface, application Description automatically
 generated](images/media/image4.png)
@@ -206,14 +204,14 @@ Navigate back to the home page of the site and you'll see your block appearing. 
 ![Graphical user interface, text, application, email Description
 automatically generated](images/media/image5.png)
 
-You can safely remove the block by to the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
+You can safely remove the block by to the block layout page [Selwyn, something not quite right with the "block by to the" part of the sentence, but I'm not sure how to fix it], choose "remove" from the dropdown next to your "Block Module Example."
 
 ![Graphical user interface, application Description automatically
 generated](images/media/image6.png)
 
 ## Anatomy of a custom block with dependency injection
 
-The block class php file is usually in `\<Drupal web root
+The block class PHP file is usually in `\<Drupal web root
 \>/modules/custom/mymodule/src/Plugin/Block`.
 
 e.g.
@@ -232,7 +230,7 @@ interfaces... see below.
 
 `Class ImageGalleryBlock extends BlockBase`
 
-If you want to use Dependency Injection implement
+If you want to use Dependency Injection, implement:
 
 `ContainerFactoryPluginInterface`
 
@@ -247,7 +245,7 @@ Be sure to include:
 ```php
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 ```
-and for annotation translation:
+And for annotation translation:
 
 ```php
 use Drupal\Core\Annotation\Translation;
@@ -267,7 +265,7 @@ You can annotate like this:
  */
 ```
 
-Or like this.
+Or like this:
 
 ```php
 /**
@@ -287,8 +285,7 @@ Or like this.
  */
 ```
 
-In most cases you will implement ContainerFactoryPluginInterface.
-Plugins require this for dependency injection.
+In most cases, you will implement ContainerFactoryPluginInterface. Plugins require this for dependency injection.
 
 So don't forget:
 
@@ -306,7 +303,7 @@ container to `->get()` the service you need. In the example below
 `$container->get('hello_world.salutation')` does the trick. `return new static()` calls your class constructor.
 
 Be sure to add your service to the list of parameters in the
-constructor. `$container->get('hello_world.salutation')`.
+constructor: `$container->get('hello_world.salutation')`.
 
 ```PHP
 /**
@@ -358,7 +355,7 @@ TODO: NEED A BETTER EXAMPLE OF A D.I. BLOCK HERE especially showing a build()
 
 You often need to query some data from Drupal and display it in a block.
 
-From \~/Sites/oag/docroot/modules/custom/oag_opinions
+From \~/Sites/oag/docroot/modules/custom/oag_opinions [Selwyn, does this need more context? What's from this site?]
 
 Here is a simple block that loads all published content of type "page" and renders the titles. You could sort them by creation date by adding this to the `$query` variable: `->sort('created' , 'DESC');`
 
@@ -408,9 +405,9 @@ This example includes a block and a corresponding config form that will control 
 ![Graphical user interface Description automatically
 generated](images/media/image7.png)
 
-In `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/quick_pivot.routing.yml`
+In `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/quick_pivot.routing.yml`[Selwyn, does this need more context? What's in this file?]
 
-We have all the pieces (including some cool little API work)
+We have all the pieces (including some cool little API work). [Selwyn, same here. Where do we have all the pieces? Or is it "Now we have all the pieces"?]
 
 So the admin piece has a form defined at
 `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/src/Form/QuickPivotConfigForm.php`
@@ -419,7 +416,7 @@ The class which defines the config form extends ConfigFormBase because this form
 
 `class QuickPivotConfigForm extends ConfigFormBase {`
 
-In the class are the `getFormId()`, `getEditableConfigName()`, `buildForm()` and `submitForm()` functions. Pretty straightforward..
+In the class are the `getFormId()`, `getEditableConfigName()`, `buildForm()` and `submitForm()` functions. Pretty straightforward.
 
 Then in `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` we specify the route and invoke the form.
 
@@ -448,7 +445,7 @@ Besides the quick_pivot.info.yml file, that should be all you need to make the c
 
 Now for the block that users see (also the one that pops up in the block configuration) in `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/src/Plugin/Block/QuickPivotSubscribeBlock.php`
 
-We define the block with it's annotation:
+We define the block with its annotation:
 
 ```PHP
 /**
@@ -465,7 +462,7 @@ class QuickPivotSubscribeBlock extends BlockBase implements ContainerFactoryPlug
 
 It implements `ContainerFactoryPluginInterface` to allow dependency injection. This is critical for plugins or blocks. More at https://chromatichq.com/blog/dependency-injection-drupal-8-plugins. All this interface defines is the `create()` method.
 
-Because you are using dependency injection, you have a `create()` and a `__constructor()` :
+Because you are using dependency injection, you have a `create()` and a `__constructor()`:
 
 ```PHP
 public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -489,7 +486,7 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
 }
 ```
 
-and finally the `build()` method:
+And finally the `build()` method:
 
 ```PHP
 public function build() {
@@ -499,16 +496,15 @@ public function build() {
 
 ## Modify a block with hook_block_view_alter or hook_block_build_alter
 
-If you need to modify a block, you can use `hook_block_view_alter` or
-`hook_block_build_alter` although I haven't been able to make this work... hmm.
+If you need to modify a block, you can supposedly use `hook_block_view_alter` or `hook_block_build_alter`, although I haven't been able to make this work... hmm.
 
 There is a comment that may be worth exploring at https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/function/hook_block_view_alter/8.2.x.
 
-To alter the block content you must add a `#pre_render` in this hook, `hook_block_view_alter`.
+To alter the block content you must add a `#pre_render` in this hook, `hook_block_view_alter`. [Selwyn, should this say: To alter the block content in <view-alter hook name>, you must add a '#pre_render'? (As opposed to altering the block content in the build_alter hook?)]
 
-From <https://drupal.stackexchange.com/a/215948> there is an example which fills in the `$build['#pre_render'][]` array with a string. 
+In <https://drupal.stackexchange.com/a/215948>, there is an example that fills in the `$build['#pre_render'][]` array with a string. 
 
-In the later example, a function is provided
+In the later example, a function is provided: [Selwyn, which is the later example?]
 
 ```PHP
 function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block) {
@@ -517,7 +513,7 @@ function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPlug
   }
 ```
 
-I think this is the version I tried
+I think this is the version I tried:
 
 ```PHP
 /**
@@ -557,7 +553,7 @@ function pega_academy_core_block_view_alter(array &$build, \Drupal\Core\Block\Bl
 
 ## Disable caching in a block
 
-From `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/websphere_commerce/modules/cart/src/Plugin/Block/CartSummary.php`
+From `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/websphere_commerce/modules/cart/src/Plugin/Block/CartSummary.php`: [Selwyn, meaning that the following example came from this php file?]
 
 ```PHP
 /**
@@ -570,7 +566,7 @@ public function getCacheMaxAge() {
 
 ## Add a configuration form to your block
 
-Making a block configurable means it has a form where you can specify its settings e.g. for menu block you specify menu levels. Ignore this if your block does not need any configuration.
+Making a block configurable means it has a form where you can specify its settings, e.g., for menu block, you specify menu levels. Ignore this if your block does not need any configuration.
 
 To make your block configurable, override 3 methods from BlockBase.
 
@@ -594,7 +590,7 @@ public function defaultConfiguration() {
 }
 ```
 
-`blockForm()` is used to create a configuration form
+`blockForm()` is used to create a configuration form:
 
 ```PHP
 /**
@@ -626,8 +622,7 @@ public function blockSubmit($form, FormStateInterface $form_state) {
 
 The `build()` method does all the work of building a render array to display your block.
 
-In this case, it uses the context annotation to get a node (From
-dev1/iai_pig module -- see `source/Plugin/Block/ImageGalleryBlock.php`)
+In this case, it uses the context annotation to get a node (from dev1/iai_pig module -- see `source/Plugin/Block/ImageGalleryBlock.php`):
 
 ```php
 /**
@@ -711,9 +706,7 @@ public function build() {
 }
 ```
 
-One last item. Configuration expects a schema for things being saved.
-Here we create a iai_aquifer.schema.yml in config/schema and it looks
-like:
+One last item. Configuration expects a schema for things being saved. Here we create a iai_aquifer.schema.yml in config/schema and it looks like this:
 
 ```yml
 # Schema for the configuration files of the IAI aquifer module.
@@ -731,15 +724,12 @@ block.settings.aquifer_block:
 
 From
 <https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16>
-Nedcamp video on caching
+Nedcamp video on caching. [Selwyn, if this is a statement identifying source material, maybe standardize on "Source: <link>" or something like that? (Also should the reference to the video come before the link?)]
 
-In a twig template, let's you say you just render one field (and don't
-render others), Drupal won't know the content has been updated and will
-sometimes show the old cached content. You can define a view mode or
-tweak the twig template a smidge with something like this:
+In a twig template, let's you say you just render one field (and don't render others). Drupal won't know the content has been updated and will sometimes show the old cached content. You can define a view mode or tweak the twig template a smidge with something like this:
 
 
-  \{\% set blah = content\|render \%\}
+  \{\% set blah = content\|render \%\} [Selwyn, does this need to be formatted in a code block?]
 
 
 Then add your fields:
@@ -748,11 +738,11 @@ Then add your fields:
   {content.field_one}  etc.
 ```
 
-Not sure why but...
+Not sure why but... [Selwyn, not sure what this is referring to]
 
 ## Block Permission (blockAccess)
 
-This code is taken from the user_login_block (UserLoginBlock.php.) It
+This code is taken from the user_login_block (UserLoginBlock.php). It
 allows access to the block if the user is logged out and is not on the
 login or logout page. The access is cached based on the current route
 name and the user's current role being anonymous. If these are not
@@ -764,7 +754,7 @@ Don't forget:
 use Drupal\Core\Access\AccessResult;
 ```
 
-and `$account` comes from
+And `$account` comes from
 
 ```php
 $account = \Drupal::currentUser();
@@ -784,7 +774,7 @@ protected function blockAccess(AccountInterface $account) {
 }
 ```
 
-And from the Copyright.php file some piddlings:
+And some piddlings from the Copyright.php file:
 
 `$account` comes from
 
@@ -812,10 +802,9 @@ if ($account->isAnonymous()) {
 ```
 
 From
-`/Users/selwyn/Sites/dev1/web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php`
+`/Users/selwyn/Sites/dev1/web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php` [Selwyn, not sure if this is sourcing the above or the below . . .]
 
-Here we check to make sure the user is on a node and that they have
-`view rsvplist` permission.
+Here we check to make sure the user is on a node and where they have `view rsvplist` permission.
 
 ```PHP
 protected function blockAccess(AccountInterface $account) {
@@ -832,7 +821,7 @@ protected function blockAccess(AccountInterface $account) {
 }
 ```
 
-some options:
+Some options:
 
 ```php
 return AccessResult::forbidden();
