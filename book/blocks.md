@@ -11,10 +11,9 @@
 
 # Blocks
 
-Blocks are plugins, which are re-usable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets etc. etc. They are found all over Drupal core and contrib modules in the /src/Plugin directory.
+Blocks are plugins, which are re-usable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets etc. etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 
-![Graphical user interface Description automatically generated with
-medium confidence](images/media/image1.png)
+![Location of block source files](images/media/image-block-location.png)
 
 For more see
 <https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview>
