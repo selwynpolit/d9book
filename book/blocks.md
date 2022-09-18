@@ -3,6 +3,9 @@
   - [Anatomy of a custom block with dependency injection](#anatomy-of-a-custom-block-with-dependency-injection)
   - [Create a block with an entityQuery](#create-a-block-with-an-entityquery)
   - [Create a Block with a corresponding config form](#create-a-block-with-a-corresponding-config-form)
+    - [The config form definition](#the-config-form-definition)
+    - [The routing.yml file](#the-routingyml-file)
+    - [The Block definition](#the-block-definition)
   - [Modify a block with hook_block_view_alter or hook_block_build_alter](#modify-a-block-with-hook_block_view_alter-or-hook_block_build_alter)
   - [Disable caching in a block](#disable-caching-in-a-block)
   - [Add a configuration form to your block](#add-a-configuration-form-to-your-block)
@@ -11,7 +14,8 @@
 
 # Blocks
 
-Blocks are plugins, which are re-usable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets etc. etc. The source files for blocks are found in each module's `/src/Plugin` directory.
+Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
+
 
 ![Location of block source files](images/media/image-block-location.png)
 
@@ -96,7 +100,9 @@ The following directories and files have been created or updated:
 /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.module
 ```
 
-Use "drush generate" to create the code for a block. Specify the module name e.g. block_module so Drush knows where to put the block code. We also must give the block an admin label, plugin ID and class.
+Use "drush generate" to create the code for a block. Specify the module name (e.g. block_module) so Drush knows where to put the block code. We also must give the block an admin label, plugin ID, and class.
+
+
 
 ```
 $ drush generate block
@@ -145,7 +151,7 @@ The following directories and files have been created or updated:
 /Users/selwyn/Sites/ddev93/web/modules/block_module/src/Plugin/Block/BlockModuleExampleBlock.php
 ```
 
-This generates a file at `web/modules/custom/block_module/src/Plugin/Block/BlockModuleExampleBlock.php` which looks like this:
+This generates a file at `web/modules/custom/block_module/src/Plugin/Block/BlockModuleExampleBlock.php` that looks like this:
 
 ```php
 <?php
@@ -182,13 +188,11 @@ Enable the module with:
 
 `ddev drush en block_module`
 
-clear cache with :
+clear the cache with:
 
 `ddev drush cr`
 
-In Drupal, navigate to /admin/structure/block and place the block (block
-module example) in the content area. See the diagram below on how to
-place the block in the content area.
+In Drupal, navigate to /admin/structure/block and place the block (\"block module example\") in the content area. See the diagram below on how to place the block in the content area.
 
 ![Graphical user interface, table Description automatically
 generated](images/media/image2.png)
@@ -196,7 +200,10 @@ generated](images/media/image2.png)
 ![Graphical user interface Description automatically
 generated](images/media/image3.png)
 
-You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "place block," a "configure block" screen appears. You can safely just click "save block."
+
+You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "Place block," a "Configure block" screen appears. You can safely just click "Save block."
+
+
 
 ![Graphical user interface, application Description automatically
 generated](images/media/image4.png)
@@ -206,14 +213,13 @@ Navigate back to the home page of the site and you'll see your block appearing. 
 ![Graphical user interface, text, application, email Description
 automatically generated](images/media/image5.png)
 
-You can safely remove the block by to the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
+You can safely remove the block via the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
 
-![Graphical user interface, application Description automatically
-generated](images/media/image6.png)
+![Remove block](images/media/image6.png)
 
 ## Anatomy of a custom block with dependency injection
 
-The block class php file is usually in `\<Drupal web root
+The block class PHP file is usually in `\<Drupal web root
 \>/modules/custom/mymodule/src/Plugin/Block`.
 
 e.g.
@@ -232,9 +238,7 @@ interfaces... see below.
 
 `Class ImageGalleryBlock extends BlockBase`
 
-If you want to use Dependency Injection implement
-
-`ContainerFactoryPluginInterface`
+If you want to use Dependency Injection, implement: `ContainerFactoryPluginInterface`
 
 e.g.
 
@@ -247,7 +251,7 @@ Be sure to include:
 ```php
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 ```
-and for annotation translation:
+And for annotation translation:
 
 ```php
 use Drupal\Core\Annotation\Translation;
@@ -267,7 +271,7 @@ You can annotate like this:
  */
 ```
 
-Or like this.
+Or like this:
 
 ```php
 /**
@@ -288,9 +292,7 @@ Or like this.
 ```
 
 In most cases you will implement ContainerFactoryPluginInterface.
-Plugins require this for dependency injection.
-
-So don't forget:
+Plugins require this for dependency injection. So don't forget:
 
 ```php
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -306,7 +308,7 @@ container to `->get()` the service you need. In the example below
 `$container->get('hello_world.salutation')` does the trick. `return new static()` calls your class constructor.
 
 Be sure to add your service to the list of parameters in the
-constructor. `$container->get('hello_world.salutation')`.
+constructor: `$container->get('hello_world.salutation')`.
 
 ```PHP
 /**
@@ -358,8 +360,6 @@ TODO: NEED A BETTER EXAMPLE OF A D.I. BLOCK HERE especially showing a build()
 
 You often need to query some data from Drupal and display it in a block.
 
-From \~/Sites/oag/docroot/modules/custom/oag_opinions
-
 Here is a simple block that loads all published content of type "page" and renders the titles. You could sort them by creation date by adding this to the `$query` variable: `->sort('created' , 'DESC');`
 
 ```PHP
@@ -401,54 +401,33 @@ class OpinionLanding extends BlockBase {
     return $render_array;
 ```
 
+
+
+
 ## Create a Block with a corresponding config form
 
-This example includes a block and a corresponding config form that will control what goes in the block. The block can be placed using the Block Layout system in Drupal at /admin/structure/block
+Here is an example which includes a block and a corresponding config form that controls what is displayed in the block. The block can be placed using the Block Layout system in Drupal at /admin/structure/block (shown below) or via twig in a template file.
 
-![Graphical user interface Description automatically
-generated](images/media/image7.png)
+![Block layout system](images/media/image7.png)
 
-In `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/quick_pivot.routing.yml`
+### The config form definition
 
-We have all the pieces (including some cool little API work)
-
-So the admin piece has a form defined at
-`/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/src/Form/QuickPivotConfigForm.php`
-
-The class which defines the config form extends ConfigFormBase because this form does all sorts of nice configuring:
+The config form is defined in `docroot/modules/custom/quick_pivot/src/Form/QuickPivotConfigForm.php` with a class which extends ConfigFormBase because this form is there for configuring its block:
 
 `class QuickPivotConfigForm extends ConfigFormBase {`
 
-In the class are the `getFormId()`, `getEditableConfigName()`, `buildForm()` and `submitForm()` functions. Pretty straightforward..
+In the class are the `getFormId()`, `getEditableConfigName()`, `buildForm()` and `submitForm()` functions which are all pretty straightforward.
 
-Then in `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` we specify the route and invoke the form.
+### The routing.yml file
 
-```yml
-quick_pivot.config:
-  path: '/admin/config/quick_pivot/settings'
-  defaults:
-    _form: 'Drupal\quick_pivot\Form\QuickPivotConfigForm'
-    _title: 'Quick Pivot Settings'
-  requirements:
-    _permission: 'administer site configuration'
-```
+Then in `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` we specify the route where we invoke the form.
 
-We also specify a menu item at `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/quick_pivot.links.menu.yml`.
+Besides the quick_pivot.info.yml (module info) file, that should be all you need to make the config for the block.
 
-```yml
-quick_pivot.config:
-  title: 'QuickPivot API settings'
-  description: 'Configure the QuickPivot API Settings.'
-  parent: system.admin_config_services
-  route_name: quick_pivot.config
-  weight: 1
-```
+### The Block definition
+Now for the block that users see (also the one that pops up in the block configuration) in `docroot/modules/custom/quick_pivot/src/Plugin/Block/QuickPivotSubscribeBlock.php`
 
-Besides the quick_pivot.info.yml file, that should be all you need to make the config for the block.
-
-Now for the block that users see (also the one that pops up in the block configuration) in `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/quick_pivot/src/Plugin/Block/QuickPivotSubscribeBlock.php`
-
-We define the block with it's annotation:
+We define the block with its annotation:
 
 ```PHP
 /**
@@ -463,9 +442,9 @@ We define the block with it's annotation:
 class QuickPivotSubscribeBlock extends BlockBase implements ContainerFactoryPluginInterface {
 ```
 
-It implements `ContainerFactoryPluginInterface` to allow dependency injection. This is critical for plugins or blocks. More at https://chromatichq.com/blog/dependency-injection-drupal-8-plugins. All this interface defines is the `create()` method.
+It implements `ContainerFactoryPluginInterface` to allow dependency injection. This is critical for plugins or blocks. More at https://chromatichq.com/blog/dependency-injection-drupal-8-plugins. All this interface defines is the `create()` method. Because we are using dependency injection, we need both a `create()` and a `__constructor()`.
 
-Because you are using dependency injection, you have a `create()` and a `__constructor()` :
+Here is the `create()`
 
 ```PHP
 public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -479,6 +458,7 @@ public static function create(ContainerInterface $container, array $configuratio
 }
 ```
 
+Here is the constructor: 
 
 ```PHP
 public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, FormBuilderInterface $form_builder) {
@@ -489,7 +469,7 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
 }
 ```
 
-and finally the `build()` method:
+And finally the `build()` method:
 
 ```PHP
 public function build() {
@@ -497,18 +477,349 @@ public function build() {
 }
 ```
 
+Here is the docroot/modules/custom/quick_pivot/src/Form/QuickPivotSubscribeForm.php:
+
+```php
+<?php
+
+namespace Drupal\quick_pivot\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Ajax\CssCommand;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AppendCommand;
+use Drupal\quick_pivot\QuickPivotApiInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Provides a form for users to subscribe to QuickPivot.
+ */
+class QuickPivotSubscribeForm extends FormBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return 'quick_pivot_subscribe_form';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#id'] = 'quick-pivot-subscribe-form';
+    $form['#cache'] = ['max-age' => 0];
+    $form['#attributes'] = ['autocomplete' => 'off'];
+
+    $form['email'] = [
+      '#type' => 'textfield',
+      '#id' => 'quick-pivot-email',
+      '#placeholder' => $this->t('Email address'),
+      '#attributes' => ['class' => ['edit-quick-pivot-email']],
+      '#prefix' => '<div class="subscriber-email-msg">',
+      '#suffix' => '</div>',
+    ];
+    $form['actions']['subscribe_submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Sign Up'),
+      '#name' => 'quick_pivot_subscribe_form_submit_button',
+      '#ajax' => [
+        'callback' => 'Drupal\quick_pivot\Form\QuickPivotSubscribeForm::quickPivotAjaxSubmit',
+        'wrapper' => 'quick-pivot-subscribe-form',
+        'progress' => ['type' => 'throbber', 'message' => NULL],
+      ],
+    ];
+    $form['message'] = [
+      '#type' => 'markup',
+      '#markup' => '<div id="quick-pivot-message-area"></div>',
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function quickPivotAjaxSubmit(array &$form, FormStateInterface $form_state) {
+    $validate = TRUE;
+    $email = trim($form_state->getValue('email'));
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $message = t('Please enter a valid email address.');
+      $validate = FALSE;
+      $css_border = ['border' => '1px solid red'];
+      $css_color = ['color' => 'red'];
+    }
+    if ($validate) {
+      $css_border = ['border' => '1px solid green'];
+      $css_color = ['color' => 'green'];
+      $response = \Drupal::service('quick_pivot.api')->subscribeEmail($email);
+      if (strpos(reset($response), 'Success') !== FALSE) {
+        $message = t('Thank you for signing up. Your subscription has been activated.');
+      }
+      else {
+        $message = t('Your subscription could not be processed.');
+      }
+    }
+
+    $response = new AjaxResponse();
+
+    $quick_pivot_form = \Drupal::formBuilder()->rebuildForm('quick_pivot_subscribe_form', $form_state);
+    if ($validate) {
+      $quick_pivot_form['email']['#value'] = '';
+      $quick_pivot_form['email']['#placeholder'] = t('Email address');
+    }
+    $response->addCommand(new ReplaceCommand('#quick-pivot-subscribe-form', $quick_pivot_form));
+    $response->addCommand(new CssCommand('#edit-quick-pivot-email', $css_border));
+    $response->addCommand(new HtmlCommand('#quick-pivot-message-area', $message));
+    $response->addCommand(new CssCommand('#quick-pivot-message-area', $css_color));
+    return $response;
+  }
+}
+
+```
+
+
+Here is the entire QuickPivotConfigForm.php file:
+
+```php
+<?php
+
+namespace Drupal\quick_pivot\Form;
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\ConfigFormBase;
+
+/**
+ * Configure Websphere settings for this site.
+ */
+class QuickPivotConfigForm extends ConfigFormBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return 'quick_pivot_settings';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames() {
+    return ['quick_pivot.settings'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+
+    $config = $this->config('quick_pivot.settings');
+
+    $form['quick_pivot_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Quick Pivot API Settings'),
+      '#open' => TRUE,
+      '#weight' => 1,
+    ];
+
+    $form['quick_pivot_settings']['api_end_point'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('API End point'),
+      '#description' => $this->t("Enter the API end point URL."),
+      '#default_value' => $config->get('quick_pivot_settings.api_end_point'),
+      '#required' => TRUE,
+      '#size' => 100,
+    ];
+
+    $form['quick_pivot_settings']['user_guid'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('User GUID'),
+      '#description' => $this->t("SOAP API User GUID"),
+      '#default_value' => $config->get('quick_pivot_settings.user_guid'),
+      '#required' => TRUE,
+      '#size' => 100,
+    ];
+
+    $form['quick_pivot_settings']['account'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Account'),
+      '#description' => $this->t("SOAP API Account"),
+      '#default_value' => $config->get('quick_pivot_settings.account'),
+      '#required' => TRUE,
+      '#size' => 100,
+    ];
+
+    $form['quick_pivot_settings']['sender'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Sender'),
+      '#description' => $this->t("SOAP API Sender"),
+      '#default_value' => $config->get('quick_pivot_settings.sender'),
+      '#required' => TRUE,
+      '#size' => 100,
+    ];
+
+    return parent::buildForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    $this->config('quick_pivot.settings')
+        ->set('quick_pivot_settings.api_end_point', $form_state->getValue('api_end_point'))
+        ->set('quick_pivot_settings.user_guid', $form_state->getValue('user_guid'))
+        ->set('quick_pivot_settings.account', $form_state->getValue('account'))
+        ->set('quick_pivot_settings.sender', $form_state->getValue('sender'))
+        ->save();
+
+    parent::submitForm($form, $form_state);
+  }
+
+}
+```
+
+And the QuickPivotSubscribeBlock.php:
+
+```php
+<?php
+
+namespace Drupal\quick_pivot\Plugin\Block;
+
+use Drupal\Core\Block\BlockBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+
+/**
+ * Provides a cart block.
+ *
+ * @Block(
+ *   id = "quick_pivot_subscribe_block",
+ *   admin_label = @Translation("QuickPivot Subscribe Block"),
+ *   category = @Translation("QuickPivot Subscribe")
+ * )
+ */
+class QuickPivotSubscribeBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The configuration factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
+   * Constructor for the QuickPivot subscribe block.
+   *
+   * @param array $configuration
+   *   The block configuration.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration factory.
+   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
+   *   The form builder.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, FormBuilderInterface $form_builder) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+
+    $this->configFactory = $config_factory;
+    $this->formBuilder = $form_builder;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('config.factory'),
+      $container->get('form_builder')
+    );
+  }
+
+  /**
+   * Builds the cart block.
+   *
+   * @return array
+   *   A render array.
+   */
+  public function build() {
+    return $this->formBuilder->getForm('Drupal\quick_pivot\Form\QuickPivotSubscribeForm');
+  }
+
+}
+```
+And here is the routing file:  `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` 
+
+```yaml
+quick_pivot.config:
+  path: '/admin/config/quick_pivot/settings'
+  defaults:
+    _form: 'Drupal\quick_pivot\Form\QuickPivotConfigForm'
+    _title: 'Quick Pivot Settings'
+  requirements:
+    _permission: 'administer site configuration'
+```
+
+And for the icing, We also specify a menu item so users can access the configuration form via the menu system at `docroot/modules/custom/quick_pivot/quick_pivot.links.menu.yml`.
+
+```yaml
+quick_pivot.config:
+  title: 'QuickPivot API settings'
+  description: 'Configure the QuickPivot API Settings.'
+  parent: system.admin_config_services
+  route_name: quick_pivot.config
+  weight: 1
+```
+
+
+
+
+
+
 ## Modify a block with hook_block_view_alter or hook_block_build_alter
 
-If you need to modify a block, you can use `hook_block_view_alter` or
-`hook_block_build_alter` although I haven't been able to make this work... hmm.
+If you need to modify a block, you can supposedly use `hook_block_view_alter` or `hook_block_build_alter`, although I haven't been able to make this work... hmm.
 
 There is a comment that may be worth exploring at https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/function/hook_block_view_alter/8.2.x.
 
-To alter the block content you must add a `#pre_render` in this hook, `hook_block_view_alter`.
+To alter the block content you must add a `#pre_render` in the `hook_block_view_alter` hook.
 
-From <https://drupal.stackexchange.com/a/215948> there is an example which fills in the `$build['#pre_render'][]` array with a string. 
+In <https://drupal.stackexchange.com/a/215948> there is an example which fills in the `$build['#pre_render'][]` array with a string. 
 
-In the later example, a function is provided
+In an example on that stackexchange site, this function is provided:
 
 ```PHP
 function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block) {
@@ -517,13 +828,13 @@ function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPlug
   }
 ```
 
-I think this is the version I tried
+I think this is the version I tried:
 
 ```PHP
 /**
  * Implements hook_block_build_alter().
  */
-function pega_academy_core_block_build_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block) {
+function plug_academy_core_block_build_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block) {
   if ($block->getPluginId() == 'system_menu_block:account') {
     $build['#cache']['contexts'][] = 'url';
   }
@@ -557,7 +868,7 @@ function pega_academy_core_block_view_alter(array &$build, \Drupal\Core\Block\Bl
 
 ## Disable caching in a block
 
-From `/Users/selwyn/Sites/singer-lando/docroot/modules/custom/websphere_commerce/modules/cart/src/Plugin/Block/CartSummary.php`
+From `docroot/modules/custom/websphere_commerce/modules/cart/src/Plugin/Block/CartSummary.php`:
 
 ```PHP
 /**
@@ -570,7 +881,7 @@ public function getCacheMaxAge() {
 
 ## Add a configuration form to your block
 
-Making a block configurable means it has a form where you can specify its settings e.g. for menu block you specify menu levels. Ignore this if your block does not need any configuration.
+Making a block configurable means it has a form where you can specify its settings, e.g., the configuration form for the menu block module allows you to specify menu levels. Ignore this if your block does not need any configuration.
 
 To make your block configurable, override 3 methods from BlockBase.
 
@@ -594,7 +905,7 @@ public function defaultConfiguration() {
 }
 ```
 
-`blockForm()` is used to create a configuration form
+`blockForm()` is used to create a configuration form:
 
 ```PHP
 /**
@@ -613,7 +924,7 @@ public function blockForm($form, FormStateInterface $form_state) {
 
 ```
 
-And `blockSubmit()` handles the submission of the config form. You don't need to save anything. This is handled for you. You just specify a configuration key like `$this->configuration['block_count']` and the rest is handled for you.
+And `blockSubmit()` handles the submission of the config form. You don't need to save anything. The data is saved automatically into the Drupal config system. You just specify a configuration key like `$this->configuration['block_count']` and the rest is handled for you.
 
 ```PHP
 /**
@@ -624,10 +935,8 @@ public function blockSubmit($form, FormStateInterface $form_state) {
 }
 ```
 
-The `build()` method does all the work of building a render array to display your block.
+The `build()` method does all the work of building a render array to display whatever your block wants to display.  Here is an example of a build() function.
 
-In this case, it uses the context annotation to get a node (From
-dev1/iai_pig module -- see `source/Plugin/Block/ImageGalleryBlock.php`)
 
 ```php
 /**
@@ -664,12 +973,8 @@ public function build() {
         '#alt' => $image_data[$item_count]['alt'],
       ];
 
-      /***********************************************************************
-**                                                                          
-** This is the Modal API.                                                   **
-** @see: https://www.drupal.org/node/2488192 for more information.          **
-**                                                                          **
-***********************************************************************/
+      // Modal dialog
+      // see https://www.drupal.org/node/2488192 for more on modals
       $options = array(
         'attributes' => array(
           'class' => array(
@@ -692,31 +997,17 @@ public function build() {
     }
     $build['#attached']['library'][] = 'core/drupal.dialog.ajax';
   }
-  else {
-
-    /******************************************************************************
-     **                                                                          **
-     ** This logic is just to give some positive feedback that the block is being**
-     ** rendered. In reality, we'd likely just not have the block render anything**
-     ** in this situation.                                                       **
-     **                                                                          **
-     ******************************************************************************/
-    $build['no_data'] = [
-      '#type' => 'markup',
-      '#markup' => $this->t('This page does not reference a product.'),
-    ];
   }
-
   return $build;
 }
 ```
 
 One last item. Configuration expects a schema for things being saved.
-Here we create a iai_aquifer.schema.yml in config/schema and it looks
+Here we create a <module_name>.schema.yml in <module_name>/config/schema and it looks
 like:
 
 ```yml
-# Schema for the configuration files of the IAI aquifer module.
+# Schema for the configuration files for my module.
 
 block.settings.aquifer_block:
   type: block_settings
@@ -729,14 +1020,9 @@ block.settings.aquifer_block:
 
 ## Block display not updating after changing block content
 
-From
-<https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16>
-Nedcamp video on caching
+From [Nedcamp video on caching by Kelly Lucas, November 2018](https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16)
 
-In a twig template, let's you say you just render one field (and don't
-render others), Drupal won't know the content has been updated and will
-sometimes show the old cached content. You can define a view mode or
-tweak the twig template a smidge with something like this:
+In a twig template, let's you say you just want to render one field (but not the others), Drupal may not be aware if the content has changed, and will sometimes show old cached content. You can define a view mode or tweak the twig template a smidge with something like this:
 
 
   \{\% set blah = content\|render \%\}
@@ -748,25 +1034,19 @@ Then add your fields:
   {content.field_one}  etc.
 ```
 
-Not sure why but...
+TODO: Figure out why the above is true.
+
 
 ## Block Permission (blockAccess)
 
-This code is taken from the user_login_block (UserLoginBlock.php.) It
-allows access to the block if the user is logged out and is not on the
-login or logout page. The access is cached based on the current route
-name and the user's current role being anonymous. If these are not
-passed, the access returned is forbidden and the block is not built.
+This code is taken from the user_login_block (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being anonymous. If these are not passed, the access returned is forbidden and the block is not built.
 
 Don't forget:
 
 ```php
 use Drupal\Core\Access\AccessResult;
-```
 
-and `$account` comes from
-
-```php
+// and `$account` comes from
 $account = \Drupal::currentUser();
 ```
 
@@ -784,11 +1064,11 @@ protected function blockAccess(AccountInterface $account) {
 }
 ```
 
-And from the Copyright.php file some piddlings:
+And some piddlings from the Copyright.php file:
 
-`$account` comes from
 
 ```php
+// $account comes from
 $account = \\Drupal::currentUser();
 ```
 
@@ -801,21 +1081,18 @@ if (!in_array($route_name,array('user.login', 'user.logout'))) {
   return AccessResult::allowed();
 }
 
-//Auth user
+//Authenticated user
 if ($account->isAuthenticated()) {
   return AccessResult::allowed();
 }
-//Anon.
+//Anonymous user.
 if ($account->isAnonymous()) {
   return AccessResult::forbidden();
 }
 ```
 
 From
-`/Users/selwyn/Sites/dev1/web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php`
-
-Here we check to make sure the user is on a node and that they have
-`view rsvplist` permission.
+`web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php` we check to make sure the user viewing a node and that the user has `view rsvplist` permission.  See the code below:
 
 ```PHP
 protected function blockAccess(AccountInterface $account) {
@@ -832,18 +1109,15 @@ protected function blockAccess(AccountInterface $account) {
 }
 ```
 
-some options:
+Some options that can be returned from blockAccess() are:
 
 ```php
 return AccessResult::forbidden();
-```
-
-```php
 return AccessResult::allowed();
-```
-
-```php
 return AccessResult::allowedIf(TRUE);
 ```
+
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+
 
 [home](../index.html)
