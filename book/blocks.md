@@ -804,7 +804,7 @@ if ($account->isAnonymous()) {
 From
 `/Users/selwyn/Sites/dev1/web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php` [Selwyn, not sure if this is sourcing the above or the below . . .]
 
-Here we check to make sure the user is on a node and where they have `view rsvplist` permission.
+Here we check to make sure the user is on a node and that they have `view rsvplist` permission.
 
 ```PHP
 protected function blockAccess(AccountInterface $account) {
