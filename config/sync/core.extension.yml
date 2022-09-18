@@ -42,6 +42,7 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  queries: 0
   quickedit: 0
   rdf: 0
   search: 0
@@ -56,7 +57,6 @@ module:
   update: 0
   user: 0
   views_ui: 0
-  webprofiler: 0
   pathauto: 1
   views: 10
   standard: 1000

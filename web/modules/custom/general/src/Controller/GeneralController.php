@@ -45,9 +45,44 @@ class GeneralController extends ControllerBase {
     // Returns "/general/example".
     $current_path = \Drupal::service('path.current')->getPath();
 
+    // Add ?abc=blah to the url
+    $abc_val = $_GET['abc'];
+    $abc_val = \Drupal::request()->query->get('abc');
+
+    $current_route_name = \Drupal::routeMatch()->getRouteName();
+
+    // Get URL alias – note. If a pathauto url alias is not set, you get '/node/32'
+    $options = ['absolute' => TRUE];  // False will return relative path.
+    $options = ['absolute' => FALSE];  // False will return relative path.
+    $url = Url::fromRoute('entity.node.canonical', ['node' => 32], $options);
+    $url_string = $url->toString();
+
+    $node_path = '/node/32';
+    $node32_alias = \Drupal::service('path_alias.manager')->getAliasByPath($node_path);
+
+    $term_path = '/term/5';
+    $term5_alias = \Drupal::service('path_alias.manager')->getAliasByPath($term_path);
+    $term5_url = Url::fromRoute('entity.taxonomy_term.canonical', ['taxonomy_term' => 5], $options);
+    $term5_alias = $term5_url->toString();
+
+    //Taxonomy term
+    $term_path_with_tid = \Drupal::service('path_alias.manager')->getPathByAlias('/hunger-strike');
+
+    //User
+    $user_path_with_uid = \Drupal::service('path_alias.manager')->getPathByAlias('/selwyn-the-chap');
+
+
+
     $str = "Alias = $alias";
     $str .= "<br/> Current path = $current_path";
     $str .= "<br/> path = $path";
+    $str .= "<br/> abc = $abc_val";
+    $str .= "<br/> current route name = $current_route_name";
+    $str .= "<br/> url_string for node 32 = $url_string";
+    $str .= "<br/> node32_alias = $node32_alias";
+    $str .= "<br/> term5_alias = $term5_alias";
+    $str .= "<br/> term_path_with_tid = $term_path_with_tid";
+    $str .= "<br/> user_path_with_uid = $user_path_with_uid";
 
     $build['content'] = [
       '#type' => 'item',
@@ -58,6 +93,47 @@ class GeneralController extends ControllerBase {
 //    drush_print("URL Alias set to:". $alias);
 
     return $build;
+  }
+
+  public function queryBuild() {
+    $database = \Drupal::database();
+    $query = $database->query("SELECT id, name, amount  FROM {donors}");
+
+    $results = [];
+    //    $results = $query->fetchAll();
+
+    $result_count = count($results);
+    $str = "Results from db query";
+    $str .= "<br/> Result count = $result_count";
+
+
+    while ($row = $query->fetchAssoc()) {
+      $name =  $row['name'];
+      $str .= "<br/> Name: $name";
+    }
+//    foreach ($results as $result) {
+//      $name = $result['name'];
+//      $str .= "<br/> Name: $name";
+//    }
+
+
+
+    $query = $database->query("SELECT sum(amount) as total_donations FROM {donors}");
+    $results = $query->fetchAll();
+    if (!empty($results)) {
+      $total = $results[0]->total_donations;
+    }
+
+    $str .= "<br/>Total = $total";
+
+
+
+    $render_array['content'] = [
+      '#type' => 'item',
+      '#markup' => $str,
+    ];
+
+    return $render_array;
   }
 
 }

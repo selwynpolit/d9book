@@ -41,7 +41,7 @@
         "drupal/smart_date": "^3.0",
         "drupal/token": "^1.7",
         "drupal/twig_tweak": "^3",
-        "drush/drush": "^10.3"
+        "drush/drush": "^11.1"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -49,7 +49,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true
+        }
     },
     "extra": {
         "drupal-scaffold": {

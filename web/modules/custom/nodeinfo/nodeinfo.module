@@ -45,22 +45,25 @@ function nodeinfo_entity_view(array &$build, EntityInterface $entity, EntityView
       $type = $node->getType();
       $label = $node->label();
 
-      //Retrieve the body field.
-      $body = $node->get('body')->value;
-      $categories = $node->get('field_event_category')->referencedEntities();
-      foreach ($categories as $category) {
-        $term_names[] = $category->getName();
+      $type = $node->bundle();
+      if ($type == 'event') {
+
+        //Retrieve the body field.
+        $body = $node->get('body')->value;
+        $categories = $node->get('field_event_category')->referencedEntities();
+        foreach ($categories as $category) {
+          $term_names[] = $category->getName();
+        }
+        //      dump($term_names);
+
+        // Retrieve multi-value text field.
+        $presenters = $node->get('field_presenter')->getValue();
+        $presenters = $node->field_presenter->getValue(); //magic getter
+
+        foreach ($presenters as $presenter) {
+          $name = $presenter['value'];
+        }
       }
-//      dump($term_names);
-
-      // Retrieve multi-value text field.
-      $presenters = $node->get('field_presenter')->getValue();
-      $presenters = $node->field_presenter->getValue(); //magic getter
-
-      foreach ($presenters as $presenter) {
-        $name = $presenter['value'];
-      }
-
 
       \Drupal::messenger()->addMessage("Nid: $nid");
       \Drupal::messenger()->addMessage("Type: $type");

@@ -6,6 +6,14 @@ general.example:
   requirements:
     _permission: 'access content'
 
+general.dbexample:
+  path: '/general/dbexample'
+  defaults:
+    _title: 'DB Query'
+    _controller: '\Drupal\general\Controller\GeneralController::querybuild'
+  requirements:
+    _permission: 'access content'
+
 general.settings_form:
   path: '/admin/config/system/general'
   defaults:

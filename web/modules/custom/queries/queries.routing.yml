@@ -1,0 +1,57 @@
+queries.example1:
+  path: '/queries/example1'
+  defaults:
+    _title: 'Build Query 1'
+    _controller: '\Drupal\queries\Controller\QueriesController::buildQuery1'
+  requirements:
+    _permission: 'access content'
+queries.example2:
+  path: '/queries/example2'
+  defaults:
+    _title: 'Build Query 2'
+    _controller: '\Drupal\queries\Controller\QueriesController::buildQuery2'
+  requirements:
+    _permission: 'access content'
+queries.delete_query1:
+  path: '/queries/delete/example1'
+  defaults:
+    _title: 'Delete Query 1'
+    _controller: '\Drupal\queries\Controller\QueriesController::deleteQuery1'
+  requirements:
+    _permission: 'access content'
+queries.delete_query2:
+  path: '/queries/delete/example2'
+  defaults:
+    _title: 'Delete Query 2'
+    _controller: '\Drupal\queries\Controller\QueriesController::deleteQuery2'
+  requirements:
+    _permission: 'access content'
+queries.update_query1:
+  path: '/queries/update/example1'
+  defaults:
+    _title: 'Update Query 1'
+    _controller: '\Drupal\queries\Controller\QueriesController::updateQuery1'
+  requirements:
+    _permission: 'access content'
+queries.entity_exists:
+  path: '/queries/entity-exists'
+  defaults:
+    _title: 'Entity Exists Query'
+    _controller: '\Drupal\queries\Controller\QueriesController::entityExists'
+  requirements:
+    _permission: 'access content'
+queries.highest_id:
+  path: '/queries/highest-id'
+  defaults:
+    _title: 'Highest ID query'
+    _controller: '\Drupal\queries\Controller\QueriesController::highestId'
+  requirements:
+    _permission: 'access content'
+queries.insert:
+  path: '/queries/insert'
+  defaults:
+    _title: 'Insert into database'
+    _controller: '\Drupal\queries\Controller\QueriesController::insert'
+  requirements:
+    _permission: 'access content'
+

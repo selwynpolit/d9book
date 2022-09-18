@@ -1,0 +1,5 @@
+name: Queries
+type: module
+description: Example code for Queries chapter.
+package: DrupalBook
+core_version_requirement: ^9 || ^10
