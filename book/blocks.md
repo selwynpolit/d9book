@@ -242,6 +242,7 @@ e.g.
 ```php
 class ImageGalleryBlock extends BlockBase implements
 ContainerFactoryPluginInterface {
+Selwyn, what is this?
 ```
 Be sure to include:
 
