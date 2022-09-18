@@ -2,28 +2,25 @@
   - [Using the Batch API with a form](#using-the-batch-api-with-a-form)
   - [Using the Batch API from a controller](#using-the-batch-api-from-a-controller)
   - [Using the Batch API with hook_update](#using-the-batch-api-with-hook_update)
-    - [Static functions are required](#static-functions-are-required)
+  - [Important rules about functions when using Batch API](#important-rules-about-functions-when-using-batch-api)
   - [Looking at the source](#looking-at-the-source)
-  - [Useful links](#useful-links)
+  - [Resources](#resources)
 - [Queue System](#queue-system)
+  - [Resources](#resources-1)
 
 # Batch Processing Using the Batch API
 
-The Batch API provides a very useful set of functions which let you do
-work by breaking it into pieces to avoid php timeouts etc. Usually,
-you'll do this by creating a group of node id's to be processed and use
-the batch API to process those chunks of ids.
+The Batch API provides a very useful set of functions that let you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's to be processed and use the batch API to process those chunks of ids.
 
 In addition, you create a function to handle things once all the chunks
 are complete. You can also give the Batch API a bunch of work to do and
 have it figure out for itself when it is finished.
 
-Also it is useful that the Batch API uses the Drupal Queue system
+Also, it's useful that the Batch API uses the Drupal Queue system,
 allowing it to pick up where it left off in case of problems.
 
-You can use the Batch API in controllers, forms, hook updates and in
-Drush commands. The implementation is slightly different as you can see
-in the examples.
+You can use the Batch API in controllers, forms, hook updates, and
+Drush commands. The implementation of each one is slightly different, as you can see in the examples.
 
 Most often you start a batch from a form where you fill in some options
 and click a button. In the case of a controller, the batch runs when the
@@ -31,15 +28,13 @@ browser is pointed at a URL. Drush commands are typed in the terminal.
 
 ## Using the Batch API with a form
 
-This example will replace a multivalue field with some new values
-processing 10 nodes at a time. The decision to process 10 at a time is
-arbitrary, but be aware that the more nodes you process at a time the
-more chance of a batch failing.
+This example replaces a multivalue field with some new values
+processing 10 nodes at a time. The decision to process 10 at a time is arbitrary, but be aware that the more nodes you process at a time, the more likely the batch will fail.
 
 The form example can be accessed at
 <https://d9book.ddev.site/batch-examples/batchform>
 
-View source at at: `web/modules/custom/batch_examples/src/Form/BatchForm.php`
+The source file would be at `web/modules/custom/batch_examples/src/Form/BatchForm.php` and is presented in pieces below:
 
 Here is a simple form with a button used to kick off the batch
 operation.
@@ -92,7 +87,7 @@ batch_examples.batch:
 ```
 
 Here is the `updateEventPresenters()` method. Notice the `$operations`
-array which contains the function to call to do the work of each batch
+array, which contains the function to call to do the work of each batch
 as well as the list of nids to process.
 
 ```php
@@ -132,7 +127,7 @@ function updateEventPresenters() {
 
 ```
 
-Here is the method which actually does the work. Most of the code is for
+Here is the method that actually does the work. Most of the code is for
 information reporting. The actual work is in the `foreach $nids as $nid`
 loop:
 
@@ -187,14 +182,14 @@ return batch_process(\'node/177467\');
 Notice also you can set up a `$batch` array with a title and a progress
 message with some variables that will get displayed.
 
-You specify a `finished` index which identifies a function to call after
-the batch is finished processing as in the example below.
+You specify a `finished` index, which identifies a function to call after
+the batch is finished processing, as in the example below.
 
 ```
 'finished' => '\Drupal\batch_examples\Form\BatchForm::batchFinished',
 ```
 
-Here is the `batchFinished()` method which displays and logs the results.
+Here is the `batchFinished()` method, which displays and logs the results.
 
 ```php
 /**
@@ -246,23 +241,26 @@ public static function batchFinished(bool $success, array $results, array $opera
 
 ```
 
+
+
+
 ## Using the Batch API from a controller
 
 The Batch API is often used in connection with forms. If you\'re using a
 page callback, you will need to setup all the items, submit them to the
-batch API and then call `batch_process()` with a url as the argument. 
+batch API, and then call `batch_process()` with a url as the argument. 
 
 `return batch_process('node/1');`
 
-After the batch is complete, Drupal will send you to that url. E.g.
+After the batch is complete, Drupal will send you to that url. E.g. `/node/1`
 
 
 More at
 <https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10.0.x>
 
 
-In this example of a processing function you can see error handling,
-logging and tracking while retrieving files from a remote source. This
+In this example of a processing function, you can see error handling,
+logging, and tracking while retrieving files from a remote source. This
 is fairly common when moving data between systems. The rest of the code
 is almost identical to the previous example.
 
@@ -384,30 +382,27 @@ public function summaryImport()
 
 ## Using the Batch API with hook_update
 
-Let's say you want to update the default value of a field for all nodes
-using the Batch API and hook_update_N.
+If you want to update the default value of a field for all nodes
+using the Batch API and hook_update_N checkout the following links:
 
-From
 <https://www.thirdandgrove.com/insights/using-batch-api-and-hookupdaten-drupal-8/>
 
-Also
+And
 
 <https://api.drupal.org/api/examples/batch_example%21batch_example.install/function/batch_example_update_8001/8.x-1.x>
 
 
 
-### Static functions are required
+## Important rules about functions when using Batch API
 
-Any batch functions must be public static functions and any
+All batch functions must be `public static functions` and all
 functions calling those must be explicitly namespaced like:
 
 ```php
-$nid = \Drupal\dir_salesforce\Controller\DirSalesforceController::lookupCommodityItem($commodity_item_id);
+$nid = \Drupal\dirt_salesforce\Controller\DirtSalesforceController::lookupCommodityItem($commodity_item_id);
 ```
 
-You can't use `$this->my_function` even if they are in the same class.
-Grab the namespace from the top of the php file you are using. In this
-case:
+You can't use `$this->my_function` even if they are in the same class. Grab the namespace from the top of the PHP file you are using. In this case:
 
 ```php
 namespace Drupal\dir_salesforce\Controller;
@@ -445,15 +440,14 @@ $node_to_update_dir_contact_nid = self::getFirstRef($node_to_update, 'field_sf_d
 
 
 ## Looking at the source
-Here is the link to the source for the Batch API.  As always looking at the source is the definitive way to understand how anything works.  It is really well commented.
+Here is the link to the source for the Batch API.  As always, looking at the source is the definitive way to understand how anything works.  It is really well commented.
 
 From
 <https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc>,
-there is an example batch which calls two different functions:
+there is an example batch that calls two different functions:
 my_function_1 and my_function_2. Note for my function 1, the arguments
-are just separated by commas. Also it is interesting to note that they
-call batch_process('node/1') but that could be any valid url alias e.g.
-'/admin/content'.
+are just separated by commas. Also,, it is interesting to note that they
+call batch_process('node/1') but that could be any valid url alias e.g., '/admin/content'.
 
 So here are the arguments for my_function_1:
 
@@ -492,8 +486,7 @@ if ($success) {
 }
 ```
 
-You can load the `$results` array with all sorts of interesting data such
-as:
+You can load the `$results` array with all sorts of interesting data, such as:
 
 ```php
 $context['results']['skipped'] = $skipped;
@@ -518,16 +511,16 @@ Which produce the following output:
 
 `Processed 50 nodes, skipped 45, updated 5 in 3 sec.`
 
-You can display an informative message above the progress bar like this.
+You can display an informative message above the progress bar this way.
 
-I filled in the `$context[‘sandbox’][‘max’]` with a value (but I could have used `$context[‘sandbox’][‘whole-bunch’]` or any variable here)
+I filled in the `$context[‘sandbox’][‘max’]` with a value, but I could have used `$context[‘sandbox’][‘whole-bunch’]` or any variable here.
 
 ```php
 $context['sandbox']['max'] = count($max_nids);
 ```
 
 
-Using number_format puts commas in the number if it is over 1,000.
+An informative message above the progress bar using number_format puts commas in the number if it is over 1,000.
 
 ```php
 $context['message'] = t('Processing total @count nodes',
@@ -535,7 +528,7 @@ $context['message'] = t('Processing total @count nodes',
 );
 ```
 
-Or
+Also you could show something about which batch number is running.
 
 ```php
 $operation_details = 'Yoyoma';
@@ -561,7 +554,7 @@ if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
 ```
 
 
-## Useful links
+## Resources
 
 You can read more about batch processing at these sites:
 
@@ -577,54 +570,94 @@ You can read more about batch processing at these sites:
 
 # Queue System
 
-Useful link: kinda incomplete example:
-<https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9>
 
-This may be a good example to build on:
-<http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8>
+From Alan Saunders article on December 2021, 
+<https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9>: 
 
-Quick example of submitting work to the queue from
-<http://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8/>
-This is smarter than using hook_cron????
+A queue is simply a list of stuff that gets worked through one by one, one analogy could be a conveyor belt on a till in a supermarket, the cashier works through each item on the belt to scan them.
 
-`use Drupal\Core\Queue\QueueInterface;`
+Queues are handy in Drupal for chunking up large operations, like sending emails to many people. By using a queue, you are trying to avoid overloading the servers resources which could cause the site to go offline until the resources on the server are free'd up.
 
-This defines the createItem(), createQueue(), deleteItem() etc. Not sure
-where exactly they are implemented.. TODO: figure out where?
+
+
+
+From Sarthak TTN on Feb 2017 https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8/
+
+This is the submitForm() which creates an item and puts it in the queue.
 
 ```php
 /**
  * {@inheritdoc}
  */
  public function submitForm(array &$form, FormStateInterface $form_state) {
- /** @var QueueFactory $queue_factory */
- $queue_factory = \Drupal::service('queue');
- /** @var QueueInterface $queue */
- $queue = $queue_factory->get('email_processor');
- $item = new \stdClass();
- $item->username = $form_state->getValue('name');
- $item->email = $form_state->getValue('email');
- $item->query = $form_state->getValue('query');
- $queue->createItem($item);
+   /** @var QueueFactory $queue_factory */
+   $queue_factory = \Drupal::service('queue');
+   /** @var QueueInterface $queue */
+   $queue = $queue_factory->get('email_processor');
+   $item = new \stdClass();
+   $item->username = $form_state->getValue('name');
+   $item->email = $form_state->getValue('email');
+   $item->query = $form_state->getValue('query');
+   $queue->createItem($item);
  }
 }
 ```
 
-You will then have to create a Queue Worker which implements
-ContainerFactoryPluginInterface and in the processItem() it processes a
-single item from the queue.
-
-See the website for the code...
-
-Then you'll need a cronEventProcessor which in annotation tells cron how
-often to run the job:
+Then you create a Queue Worker that implements
+`ContainerFactoryPluginInterface` and in the `processItem()` it processes a single item from the queue.
 
 ```php
 <?php
+
+namespace Drupal\my_module\Plugin\QueueWorker;
+
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\Core\Mail\MailManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
- *
- * PHP Version 5
- */
+*
+* @inheritdoc
+*/
+class EmailEventBase extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+
+  /**
+  *
+  * @var Drupal\Core\Mail\MailManager
+  */
+  protected $mail;
+
+  public function __construct(MailManager $mail) {
+    $this->mail = $mail;
+  }
+
+  /**
+  * {@inheritdoc}
+  */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static($container->get(‘plugin.manager.mail’));
+  }
+
+  /**
+  * Processes a single item of Queue.
+  *
+  */
+  public function processItem($data) {
+    $params[‘subject’] = t(‘query’);
+    $params[‘message’] = $data->query;
+    $params[‘from’] = $data->email;
+    $params[‘username’] = $data->username;
+    $to = \Drupal::config(‘system.site’)->get(‘mail’);
+    $this->mail->mail(‘my_module’,’query_mail’,$to,’en’,$params,NULL,true);
+  }
+}
+
+```
+Then you'll need a cronEventProcessor which in annotation tells cron how often to run the job:
+
+```php
+<?php
  
 namespace Drupal\my_module\Plugin\QueueWorker;
  
@@ -640,4 +673,20 @@ class CronEventProcessor extends EmailEventBase {
  
 }
 ```
+
+## Resources
+
+* Karim Boudjema from August 2018 has some good examples using the queue API <http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8>
+
+
+* Sarthak TTN from Feb 2017 shows some sample code on implementing cron and the queue API https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8/
+
+* There is a somewhat incomplete example From Alan Saunders article on December 2021, 
+<https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9>
+
+
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+
+
+
 [home](../index.html)
