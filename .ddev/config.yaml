@@ -1,7 +1,7 @@
 name: d9book
 type: drupal9
 docroot: web
-php_version: "7.4"
+php_version: "8.1"
 webserver_type: nginx-fpm
 router_http_port: "80"
 router_https_port: "443"
