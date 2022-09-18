@@ -1,0 +1,6 @@
+name: Node Info
+type: module
+description: All sorts of information about a node
+package: DrupalBook
+core: 8.x
+core_version_requirement: ^8 || ^9

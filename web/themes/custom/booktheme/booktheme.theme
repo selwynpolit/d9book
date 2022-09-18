@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the Book Theme theme.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK() for html.html.twig.
+ */
+function booktheme_preprocess_html(&$variables) {
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page.html.twig.
+ */
+function booktheme_preprocess_page(&$variables) {
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for node.html.twig.
+ */
+function booktheme_preprocess_node(&$variables) {
+
+}
