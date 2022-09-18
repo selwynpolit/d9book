@@ -23,7 +23,7 @@
   - [SQL Delete query](#sql-delete-query)
   - [Paragraph query](#paragraph-query)
   - [Create a custom table for your module](#create-a-custom-table-for-your-module)
-  - [Reference](#reference)
+- [Reference](#reference)
 
 # Queries
 
@@ -711,7 +711,7 @@ function nocs_connect_schema() {
 ````
 
 
-## Reference
+# Reference
 
 -   API documentation for query conditions:
     <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x>
