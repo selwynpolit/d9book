@@ -11,9 +11,7 @@
 
 # Blocks
 
-Blocks are plugins, which are re-usable pieces of code following design patterns. Plugins are also used to define views arguments,
-field formatters, field widgets etc. etc. They are found all over Drupal
-core and contrib modules in the /src/Plugin directory.
+Blocks are plugins, which are re-usable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets etc. etc. They are found all over Drupal core and contrib modules in the /src/Plugin directory.
 
 ![Graphical user interface Description automatically generated with
 medium confidence](images/media/image1.png)
@@ -25,11 +23,9 @@ and
 
 ## Create a block with Drush generate
 
-Use Drush's code generation ability to quickly generate the code you
-need to create your own custom block.
+Use Drush's code generation ability to quickly generate the code you need to create your own custom block.
 
-First Generate a module if you don't have one. Here we generate a module
-called Block Module with a machine name: block_module.
+First generate a module if you don't have one. Here we generate a module called Block Module with a machine name: block_module.
 
 ```
 $ drush generate module
@@ -104,7 +100,7 @@ The following directories and files have been created or updated:
 Use "drush generate" to create the code for a block. Specify the module name e.g. block_module so Drush knows where to put the block code. We also must give the block an admin label, plugin ID and class.
 
 ```
-\$ drush generate block
+$ drush generate block
 
 Welcome to block generator!
 
