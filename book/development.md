@@ -93,7 +93,8 @@ From
 
 
 
-```$ mkdir d9test
+```
+$ mkdir d9test
 $ cd d9test
 $ ddev config --project-type=drupal9 --docroot=web --create-docroot
 
