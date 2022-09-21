@@ -162,37 +162,21 @@ tool by the Amazing Randy Fey. You can get help from him on
 
 From the docs:
 
--   Lots of built-in help: ddev help and ddev help \<command\>. You\'ll
-    > find examples and explanations.
+-   Lots of built-in help: ddev help and ddev help \<command\>. You\'ll find examples and explanations.
 
--   [DDEV
-    > Documentation](https://ddev.readthedocs.io/en/stable/users/faq/)
+-   [DDEV Documentation](https://ddev.readthedocs.io/en/stable/users/faq/)
 
--   [DDEV Stack
-    > Overflow](https://stackoverflow.com/questions/tagged/ddev) for
-    > support and frequently asked questions. We respond quite quickly
-    > here and the results provide quite a library of user-curated
-    > solutions.
+-   [DDEV Stack Overflow](https://stackoverflow.com/questions/tagged/ddev) for support and frequently asked questions. We respond quite quickly here and the results provide quite a library of user-curated solutions.
 
--   [DDEV issue queue](https://github.com/drud/ddev/issues) for bugs and
-    > feature requests
+-   [DDEV issue queue](https://github.com/drud/ddev/issues) for bugs and feature requests
 
--   Interactive community support
-    > on [Discord](https://discord.gg/hCZFfAMc5k) for everybody, plus
-    > sub-channels for CMS-specific questions and answers.
+-   Interactive community support on [Discord](https://discord.gg/hCZFfAMc5k) for everybody, plus sub-channels for CMS-specific questions and answers.
 
--   [ddev-contrib](https://github.com/drud/ddev-contrib) repo provides a
-    > number of vetted user-contributed recipes for extending and using
-    > DDEV. Your contributions are welcome.
+-   [ddev-contrib](https://github.com/drud/ddev-contrib) repo provides a number of vetted user-contributed recipes for extending and using DDEV. Your contributions are welcome.
 
--   [awesome-ddev](https://github.com/drud/awesome-ddev) repo has loads
-    > of external resources, blog posts, recipes, screencasts, and the
-    > like. Your contributions are welcome.
+-   [awesome-ddev](https://github.com/drud/awesome-ddev) repo has loads of external resources, blog posts, recipes, screencasts, and the like. Your contributions are welcome.
 
--   [Twitter with tag
-    > #ddev](https://twitter.com/search?q=%23ddev&src=typd&f=live) will
-    > get to us, but it\'s not as good for interactive support, but
-    > we\'ll answer anywhere.
+-   [Twitter with tag #ddev](https://twitter.com/search?q=%23ddev&src=typd&f=live) will get to us, but it\'s not as good for interactive support, but we\'ll answer anywhere.
 
 
 
