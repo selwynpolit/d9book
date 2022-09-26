@@ -5,7 +5,7 @@
 - [Logging exceptions from a try catch block](#logging-exceptions-from-a-try-catch-block)
 - [Display a message in the notification area](#display-a-message-in-the-notification-area)
 - [Display a variable while debugging](#display-a-variable-while-debugging)
-- [Links](#links)
+- [Reference](#reference)
 
 ## Quick log to watchdog
 
