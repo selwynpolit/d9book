@@ -269,6 +269,8 @@ Or
 ```
 Use `$repeat = FALSE` to suppress duplicate messages.
 
+Specify self::TYPE_STATUS,self::TYPE_WARNING, or self::TYPE_ERROR to indicate the severity.
+
 Note. `addMessage()` adds `class="messages messages--status"` to the div
 surrounding your message while addError adds `class="messages messages--status"` . Use these classes to format the message appropriately.
 
@@ -293,9 +295,9 @@ print_r($is_front);
 
 ![Displaying var_dump in Drupal](./images/media/vardump.png)
 
-## Links
+## Reference
 
-* How to Log Messages in Drupal 8 by Amber Matz of Drupalize.me from 10-13-2015 https://drupalize.me/blog/201510/how-log-messages-drupal-8
+* [How to Log Messages in Drupal 8 by Amber Matz of Drupalize.me 10-13-2015](https://drupalize.me/blog/201510/how-log-messages-drupal-8)
 
 
 
