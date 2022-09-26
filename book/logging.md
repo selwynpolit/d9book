@@ -269,7 +269,14 @@ Or
 ```
 Use `$repeat = FALSE` to suppress duplicate messages.
 
-Specify self::TYPE_STATUS,self::TYPE_WARNING, or self::TYPE_ERROR to indicate the severity.
+
+Specify MessengerInterface::::TYPE_STATUS,MessengerInterface::::TYPE_WARNING, or MessengerInterface::::TYPE_ERROR to indicate the severity.
+Don't forget
+```php
+use Drupal\Core\Messenger\MessengerInterface;
+```
+
+
 
 Note. `addMessage()` adds `class="messages messages--status"` to the div
 surrounding your message while addError adds `class="messages messages--status"` . Use these classes to format the message appropriately.
@@ -279,7 +286,10 @@ When you need to display a message in a form, use the `$this->messenger()` that 
 ```php
 $this->messenger()->addStatus($this->t('Running in Destructive Mode - Changes ARE committed to the database!'));
 ```
-
+e.g.
+```php
+\Drupal::messenger()->addMessage('Program pending, please assign team and initialize. ', MessengerInterface::TYPE_WARNING);
+```
 
 ## Display a variable while debugging
 
