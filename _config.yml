@@ -1,3 +1,4 @@
-remote_theme: just-the-docs/just-the-docs
+#remote_theme: just-the-docs/just-the-docs
 #theme: jekyll-theme-dinky
 #remote_theme: pages-themes/cayman@v0.2.0
+remote_theme: pages-themes/hacker@v0.2.0
