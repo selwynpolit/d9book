@@ -1,0 +1,5 @@
+name: Taxonomy Examples
+type: module
+description: Taxonomy examples
+package: DrupalBook
+core_version_requirement: ^9 || ^10
