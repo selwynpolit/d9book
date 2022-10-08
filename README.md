@@ -26,6 +26,7 @@ putenv("IS_DDEV_PROJECT=true");
 ```
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-main-readme)
+![visitor badge](https://visitor-badge.glitch.me/badge?page_id=selwynpolit.d9book-main-readme&left_color=red&right_color=green&left_text=HelloVisitors)
 
 
 ### Enable Twig debugging
