@@ -12,3 +12,5 @@ Please fork and edit as you please.
 thanks
 
 Selwyn
+
+![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-readme)
