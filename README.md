@@ -25,7 +25,7 @@ If you see errors when trying this, edit your web/sites/default/settings.php (or
 putenv("IS_DDEV_PROJECT=true");
 ```
 
-
+![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-main-readme)
 
 
 ### Enable Twig debugging
