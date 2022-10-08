@@ -23,6 +23,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Links, Aliases and URLs](book/links.html)
 - [Logging and notification](book/logging.html)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](book/nodes_n_fields.html)
+- [Redirects][book/redirects.html]
 - [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.html)
 - [Taxonomy](book/taxonomy.html)
 
@@ -49,7 +50,6 @@ Please be a part of this project by contributing and add your name on the attrib
 - Paragraphs
 - PHPUnit and DTT
 - Reaching out of Drupal
-- Redirects
 - Render arrays
 - Routes and Controllers
 - Security and Preventing attacks
