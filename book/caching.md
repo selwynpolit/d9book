@@ -16,6 +16,7 @@
     - [Disable Cache for development](#disable-cache-for-development)
   - [Reference](#reference)
 
+![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-cacheing)
 
 # Caching and cache tags
 
@@ -568,6 +569,11 @@ NOTE: If the parameters block is already present in the yml file, append the twi
 * [Nedcamp video on caching by Kelly Lucas from November 2018](https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16)
 
 
-[home](../index.html)
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 
 
