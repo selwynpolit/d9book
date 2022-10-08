@@ -5,14 +5,14 @@
 
 ## [Read it here](https://selwynpolit.github.io/d9book/index.html)
 
-This repository contains the markup for the [book](https://selwynpolit.github.io/d9book/index.html) as well as a Drupal installation complete with config files and database dumps.
-It also has some code that was used to check the accuracy of the book.
-If you want to contribute, select the gh-pages branch from the branches button near the top of this page.
+This repository contains the markdown files for the [book](https://selwynpolit.github.io/d9book/index.html) as well as a Drupal installation complete with config files and database dumps.  It also has some code that was used to check the accuracy of the book.
+
+If you want to contribute, select the [gh-pages branch](https://github.com/selwynpolit/d9book/tree/gh-pages) from the branches button near the top of this page.
 You can then directly click the pencil button to edit (and automatically fork the repo).
 
 Thanks for visiting and contributing.
 
-
+TL;DR click [here to contribute to the gh-pages branch](https://github.com/selwynpolit/d9book/tree/gh-pages)
 
 ## Some tips
 
