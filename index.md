@@ -1,9 +1,9 @@
 ## Welcome to Drupal at your fingertips
 ### A Drupal 9 and 10 developers quick code reference
 #### by Selwyn Polit
-#### and hopefully others
+#### and perhaps other Drupal developers
 
-I've amassed a sizable collection of notes and code while developing Drupal sites which I use for my reference.  During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal)) and many other places, I often wished I had a comprehensive set of code samples to make more sense of how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples) which I encourage folks to use as a supplement to this book.  This book is intended to be a quick reference for developers working on sites. Please forgive the todo items - I've found that if I want to get everything perfect, I'll never publish anything. Perhaps use this as your opportunity to add something.
+I've amassed a sizable collection of notes and code while developing Drupal sites which I use for my reference.  During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal)) and many other places, I often wished I had a comprehensive set of code samples to make more sense of how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples) which I encourage folks to use as a supplement to this book.  This book is intended to be a quick reference for developers working on sites. Please forgive the `todo` items - I've found that if I want to get everything perfect, I'll never publish anything. Perhaps use this as your opportunity to add something.
 
 You can add to this book by making edits and pull requests in [github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).  There is a very easy to use online editor in github so you don't have to do anything fancy other than type in your notes in [Markdown format](https://github.github.com/gfm/). You will find examples if you edit one of the existing files.
 
@@ -31,7 +31,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 
 - [Attribution](book/attribution.html)
 
-Please be a part of this project by contributing and add your name on the attribution page.
+If you are inspired, please be a part of this project by contributing your own brilliance and add your name on the attribution page.
 
 ### Chapters I'm working on
 - Composer, updates and patches
