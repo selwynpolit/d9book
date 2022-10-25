@@ -7,7 +7,7 @@ In this branch (GH-PAGES) you are invited to make changes or updates and help mo
 
 The actual pages are in the book directory while the index file contains the markdown for the home page.
 
-Please fork and edit as you please.
+Please fork, edit and submit pull requests as you please.
 
 thanks
 
