@@ -657,7 +657,7 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 ```
 
 
-Here is the docker-compose.testing.yaml from Michael Strelan (mstrelan) on twitter. Once you add this and restart DDEV, you will be able to do AJAX and Javascript testing of DTT tests. Note this is a "just works" situation as Michael puts it.
+Here is the docker-compose.testing.yaml from [Michael Strelan on drupal.org](https://www.drupal.org/u/mstrelan). Once you add this and restart DDEV, you will be able to do AJAX and Javascript testing of DTT tests. Note this is a "just works" situation as Michael puts it. Note that if you have this file in place, you don't need to provide all the `env` values in the `phpunit.xml` above.
 
 ```yaml
 version: '3.6'
@@ -2323,12 +2323,12 @@ When Phpstorm pops up, specify that the vendor directory is at
     Using mockery. <https://www.youtube.com/watch?v=7FjjZ3OoD6Y>
 
 -   Running and debugging PHPUnit tests in PHPStorm with ddev and xdebug
-    video by Michael Strelan on 8-18-21. He is an Australian chap. The
-    audio is very soft. Walks through details of setting up PHPStorm for
+    video by Australian Michael Strelan on 8-18-21. The
+    audio is very soft. He walks through details of setting up PHPStorm for
     DDEV etc. <https://www.youtube.com/watch?v=OdoEyY8Kl9w> . There is
     also a companion article from Michael Strelan at
     <https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug>
-    and a repo: <https://github.com/mstrelan/ddev-phpunit-demo>
+    and a repo: <https://github.com/mstrelan/ddev-phpunit-demo>. It is useful to mention that since this video was created there is a [DDEV integration plugin](https://plugins.jetbrains.com/plugin/18813-ddev-integration) for PHPStorm which automatically configures things like path mappings, cli interpreters and phpunit configuration.  This makes some of what he describes a lot easier.
 
 -   From a discord chat with Randy Fey and \@shaal. This may be useful
     to explore phpunit tests on tugboat when we get that all set up.
