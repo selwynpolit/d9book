@@ -326,9 +326,13 @@ This returns the current relative path. For node pages, the return value
 will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user
 \"user/2\" if it exists otherwise it will return the current request URI.
 
-'''php
+```php
 $currentPath  = \Drupal::service('path.current')->getPath();
-'''
+// Or with alias and query string.
+$alias = \Drupal::request()->getRequestUri();
+// Or 
+$url_string = Url::fromRoute('<current>')->toString();
+```
 
 ## Get current nid, node type and title
 
