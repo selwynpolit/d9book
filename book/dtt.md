@@ -296,7 +296,12 @@ http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_
 
 
 
-Note in the output: \....S.., periods mean success, S means skipped, I means ignored
+Note in the output: \....S.., periods mean success, S means skipped, I means ignored, E means error.
+
+You can choose to skip(S) or ignore(I) tests during development.  This is done to speed up test runs or if you are mid-development and want to only run specific tests.  Also these can be conditional such as when you only want a certain test to run if a condition is met e.g. a driver is present.
+
+More details at https://phpunit.readthedocs.io/en/9.5/textui.html
+
 
 ## Run PHPUnit test in DDEV from the host
 
