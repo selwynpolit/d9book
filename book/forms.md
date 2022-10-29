@@ -711,6 +711,13 @@ Here is the JS for completeness:
 Some really sweet [writeups about AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms) and [AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
 
 
+When adding ajax to a form, you will need the code:
+
+```php
+$form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+```
+This line attaches the `core/drupal.dialog.ajax` library to the form and is necessary to render the modal dialogs. Alternatively, you can include this as a dependency in your module’s `*.info.yml` file.
+
 
 
 ### Popup an AJAX modal dialog
@@ -1990,7 +1997,7 @@ public function validateForm(array &$form, FormStateInterface $form_state) {
 
 * [Drupal AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
 
-  
+* Great tutorial from Mediacurrent on using modal forms in Drupal  https://www.mediacurrent.com/blog/loading-and-rendering-modal-forms-drupal-8/   
 
 
 
