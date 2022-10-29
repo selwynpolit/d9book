@@ -1,0 +1,8 @@
+# Schema for the configuration files of the Route Examples module.
+route_examples.settings:
+  type: config_object
+  label: 'Route Examples settings'
+  mapping:
+    example:
+      type: string
+      label: 'Example'

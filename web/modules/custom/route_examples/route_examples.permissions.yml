@@ -1,0 +1,4 @@
+administer route_examples configuration:
+  title: 'Administer route_examples configuration'
+  description: 'Optional description.'
+  restrict access: true

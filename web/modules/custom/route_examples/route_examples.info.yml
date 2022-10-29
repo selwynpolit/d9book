@@ -1,0 +1,5 @@
+name: Route Examples
+type: module
+description: Examples of using routes
+package: DrupalBook
+core_version_requirement: ^9 || ^10
