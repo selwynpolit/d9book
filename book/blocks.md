@@ -1,3 +1,11 @@
+# Blocks
+
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Blocks](#blocks)
   - [Create a block with Drush generate](#create-a-block-with-drush-generate)
   - [Anatomy of a custom block with dependency injection](#anatomy-of-a-custom-block-with-dependency-injection)
@@ -14,7 +22,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-blocks)
 
-# Blocks
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 

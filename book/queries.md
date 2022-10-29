@@ -1,3 +1,10 @@
+# Queries
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Queries](#queries)
 - [entityQuery](#entityquery)
   - [Find matching nodes - example 1](#find-matching-nodes---example-1)
@@ -27,7 +34,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-queries)
 
-# Queries
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 For most work, I use entityQueries. There are a few circumstances where
 I've needed to get into the SQL which meant using static or dynamic

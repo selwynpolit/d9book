@@ -1,3 +1,11 @@
+# Caching and cache tags
+
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Caching and cache tags](#caching-and-cache-tags)
   - [How to uncache a particular page or node](#how-to-uncache-a-particular-page-or-node)
   - [Don't cache data returned from a controller](#dont-cache-data-returned-from-a-controller)
@@ -18,7 +26,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-cacheing)
 
-# Caching and cache tags
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 
 

@@ -1,3 +1,10 @@
+# Menus
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Menus](#menus)
   - [Dynamically change menu items with hook_preprocess_menu](#dynamically-change-menu-items-with-hook_preprocess_menu)
   - [Permanently update menu links in a hook_update using entityQuery](#permanently-update-menu-links-in-a-hook_update-using-entityquery)
@@ -16,7 +23,11 @@
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-menus)
 
 
-# Menus
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 ## Dynamically change menu items with hook_preprocess_menu
 

@@ -1,4 +1,11 @@
-- [Config and Settings](#config-and-settings)
+# Configuration and Settings
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
+- [Configuration and Settings](#configuration-and-settings)
   - [Load some config](#load-some-config)
   - [Views](#views)
   - [Add config to an existing module](#add-config-to-an-existing-module)
@@ -19,7 +26,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-config)
 
-# Config and Settings
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 Config is stored in yml files so it can be checked into git. It is
 loaded into the config table of the database for performance. Use  `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more.  You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.

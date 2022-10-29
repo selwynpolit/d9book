@@ -1,10 +1,11 @@
+# Forms, Form API and AJAX
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
 
-- [Forms, the Form API and AJAX](#forms-the-form-api-and-ajax)
+- [Forms, Form API and AJAX](#forms-form-api-and-ajax)
   - [Overview](#overview)
   - [Find a form id in the page source](#find-a-form-id-in-the-page-source)
   - [Set autocomplete to off for user login and password fields](#set-autocomplete-to-off-for-user-login-and-password-fields)
@@ -58,7 +59,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-# Forms, the Form API and AJAX
 
 ## Overview
 

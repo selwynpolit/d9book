@@ -1,3 +1,10 @@
+# Dates and Times
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Dates and Times](#dates-and-times)
   - [Get a Date Field](#get-a-date-field)
   - [Formatting date fields](#formatting-date-fields)
@@ -27,7 +34,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dates)
 
-# Dates and Times
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 Date fields in Drupal are stored in UTC date strings (e.g.
 `2022-06-30T12:00:00`) while node created and changed values are stored as

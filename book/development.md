@@ -1,3 +1,11 @@
+# Development
+
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Development](#development)
   - [Local Drupal 9 site setup](#local-drupal-9-site-setup)
       - [First Option](#first-option)
@@ -44,8 +52,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dev)
 
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
 
-# Development
+
 
 ## Local Drupal 9 site setup
 

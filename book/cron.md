@@ -1,3 +1,11 @@
+# CRON
+
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [CRON](#cron)
   - [Hook_cron](#hook_cron)
   - [When did the cron job last run?](#when-did-the-cron-job-last-run)
@@ -9,7 +17,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-cron)
 
-# CRON
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 
 [Drupal hook_cron API](https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/9.4.x)

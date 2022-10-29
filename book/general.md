@@ -1,33 +1,46 @@
-- [Get the current user](#get-the-current-user)
-- [Get the logged in user name and email](#get-the-logged-in-user-name-and-email)
-- [Check if you are on the Front page](#check-if-you-are-on-the-front-page)
-- [Check if site is in system maintenance mode](#check-if-site-is-in-system-maintenance-mode)
-- [Get Node URL alias or Taxonomy Alias by Node id or Term ID](#get-node-url-alias-or-taxonomy-alias-by-node-id-or-term-id)
-- [Taxonomy alias](#taxonomy-alias)
-- [Get current Path](#get-current-path)
-- [Get current nid, node type and title](#get-current-nid-node-type-and-title)
-- [How to check whether a module is installed or not](#how-to-check-whether-a-module-is-installed-or-not)
-- [Get current Route name](#get-current-route-name)
-- [Get the current page title](#get-the-current-page-title)
-- [Get the current user](#get-the-current-user-1)
-- [Check if you are on the Front page](#check-if-you-are-on-the-front-page-1)
-- [Check if site in system maintenance mode](#check-if-site-in-system-maintenance-mode)
-- [Retrieve query and get or post parameters (\$\_POST and \$\_GET)](#retrieve-query-and-get-or-post-parameters-_post-and-_get)
-- [Retrieve URL argument parameters](#retrieve-url-argument-parameters)
-- [Get Current Language in a constructor](#get-current-language-in-a-constructor)
-- [Add a variable to any page on the site](#add-a-variable-to-any-page-on-the-site)
-- [Add a variable to be rendered in a node.](#add-a-variable-to-be-rendered-in-a-node)
-- [Add a bunch of variables to be rendered in a node](#add-a-bunch-of-variables-to-be-rendered-in-a-node)
-- [Grabbing entity reference fields in hook_preprocess_node for injection into the twig template](#grabbing-entity-reference-fields-in-hook_preprocess_node-for-injection-into-the-twig-template)
-- [Render a list created in the template_preprocess_node()](#render-a-list-created-in-the-template_preprocess_node)
-- [Indexing paragraphs so you can theme the first one](#indexing-paragraphs-so-you-can-theme-the-first-one)
-- [Add meta tags using template_preprocess_html](#add-meta-tags-using-template_preprocess_html)
-- [How to strip % characters from a string](#how-to-strip--characters-from-a-string)
-- [Remote media entities](#remote-media-entities)
-- [Deprecated functions like drupal_set_message](#deprecated-functions-like-drupal_set_message)
+# General
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
+- [General](#general)
+  - [Get the current user](#get-the-current-user)
+  - [Get the logged in user name and email](#get-the-logged-in-user-name-and-email)
+  - [Check if you are on the Front page](#check-if-you-are-on-the-front-page)
+  - [Check if site is in system maintenance mode](#check-if-site-is-in-system-maintenance-mode)
+  - [Get Node URL alias or Taxonomy Alias by Node id or Term ID](#get-node-url-alias-or-taxonomy-alias-by-node-id-or-term-id)
+  - [Taxonomy alias](#taxonomy-alias)
+  - [Get current Path](#get-current-path)
+  - [Get current nid, node type and title](#get-current-nid-node-type-and-title)
+  - [How to check whether a module is installed or not](#how-to-check-whether-a-module-is-installed-or-not)
+  - [Get current Route name](#get-current-route-name)
+  - [Get the current page title](#get-the-current-page-title)
+  - [Get the current user](#get-the-current-user-1)
+  - [Check if you are on the Front page](#check-if-you-are-on-the-front-page-1)
+  - [Check if site in system maintenance mode](#check-if-site-in-system-maintenance-mode)
+  - [Retrieve query and get or post parameters (\$\_POST and \$\_GET)](#retrieve-query-and-get-or-post-parameters-_post-and-_get)
+  - [Retrieve URL argument parameters](#retrieve-url-argument-parameters)
+  - [Get Current Language in a constructor](#get-current-language-in-a-constructor)
+  - [Add a variable to any page on the site](#add-a-variable-to-any-page-on-the-site)
+  - [Add a variable to be rendered in a node.](#add-a-variable-to-be-rendered-in-a-node)
+  - [Add a bunch of variables to be rendered in a node](#add-a-bunch-of-variables-to-be-rendered-in-a-node)
+  - [Grabbing entity reference fields in hook_preprocess_node for injection into the twig template](#grabbing-entity-reference-fields-in-hook_preprocess_node-for-injection-into-the-twig-template)
+  - [Render a list created in the template_preprocess_node()](#render-a-list-created-in-the-template_preprocess_node)
+  - [Indexing paragraphs so you can theme the first one](#indexing-paragraphs-so-you-can-theme-the-first-one)
+  - [Add meta tags using template_preprocess_html](#add-meta-tags-using-template_preprocess_html)
+  - [How to strip % characters from a string](#how-to-strip--characters-from-a-string)
+  - [Remote media entities](#remote-media-entities)
+  - [Deprecated functions like drupal_set_message](#deprecated-functions-like-drupal_set_message)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-general)
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
 
 ## Get the current user
 

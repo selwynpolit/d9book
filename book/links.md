@@ -1,5 +1,10 @@
 # Links, Aliases and URLs
 
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Links, Aliases and URLs](#links-aliases-and-urls)
   - [Create an internal url](#create-an-internal-url)
   - [Create an external url](#create-an-external-url)
@@ -29,6 +34,11 @@
   - [Reference links](#reference-links)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-links)
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
 
 ## Create an internal url
 

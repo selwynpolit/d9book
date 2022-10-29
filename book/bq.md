@@ -1,3 +1,11 @@
+# Batch Processing Using the Batch API
+
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Batch Processing Using the Batch API](#batch-processing-using-the-batch-api)
   - [Using the Batch API with a form](#using-the-batch-api-with-a-form)
   - [Using the Batch API from a controller](#using-the-batch-api-from-a-controller)
@@ -10,7 +18,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-bq)
 
-# Batch Processing Using the Batch API
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 The Batch API provides a very useful set of functions that let you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's to be processed and use the batch API to process those chunks of ids.
 

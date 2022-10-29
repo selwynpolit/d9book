@@ -1,3 +1,10 @@
+# Redirects
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 - [Redirects](#redirects)
   - [Redirect to an internal url](#redirect-to-an-internal-url)
@@ -12,7 +19,6 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-redirects)
 
-# Redirects
 
 ## Redirect to an internal url
 

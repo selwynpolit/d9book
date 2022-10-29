@@ -1,13 +1,26 @@
-- [Quick log to watchdog](#quick-log-to-watchdog)
-- [Log an email notification was sent to the the email address for the](#log-an-email-notification-was-sent-to-the-the-email-address-for-the)
-- [Logging from a service using dependency injection](#logging-from-a-service-using-dependency-injection)
-- [Another example using the logging via dependency injection](#another-example-using-the-logging-via-dependency-injection)
-- [Logging exceptions from a try catch block](#logging-exceptions-from-a-try-catch-block)
-- [Display a message in the notification area](#display-a-message-in-the-notification-area)
-- [Display a variable while debugging](#display-a-variable-while-debugging)
-- [Reference](#reference)
+# Logging
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
+- [Logging](#logging)
+  - [Quick log to watchdog](#quick-log-to-watchdog)
+  - [Log an email notification was sent to the the email address for the](#log-an-email-notification-was-sent-to-the-the-email-address-for-the)
+  - [Logging from a service using dependency injection](#logging-from-a-service-using-dependency-injection)
+  - [Another example using the logging via dependency injection](#another-example-using-the-logging-via-dependency-injection)
+  - [Logging exceptions from a try catch block](#logging-exceptions-from-a-try-catch-block)
+  - [Display a message in the notification area](#display-a-message-in-the-notification-area)
+  - [Display a variable while debugging](#display-a-variable-while-debugging)
+  - [Reference](#reference)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-loggin)
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
 
 ## Quick log to watchdog
 

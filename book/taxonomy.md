@@ -1,3 +1,10 @@
+# Taxonomy
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 - [Taxonomy](#taxonomy)
   - [Lookup term by name](#lookup-term-by-name)
   - [Lookup term name using its tid](#lookup-term-name-using-its-tid)
@@ -13,7 +20,11 @@
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-taxonomy)
 
-# Taxonomy
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
+
 
 ## Lookup term by name
 
