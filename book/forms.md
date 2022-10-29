@@ -43,16 +43,20 @@
       - [submitForm()](#submitform)
     - [Form validation example #1](#form-validation-example-1)
     - [Form Validation example #2](#form-validation-example-2)
+  - [Resources](#resources)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-forms)
+
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
 
 # Forms, the Form API and AJAX
 
 ## Overview
 
-Forms can act just like controllers. You can set up a route and call the
-form in a very similar fashion. See the example route below:
+Forms can act just like controllers. You can set up a route and call the form in a very similar fashion. See the example route below:
 
 ```yaml
 batch_examples.batch:
@@ -698,13 +702,14 @@ Here is the JS for completeness:
 
 ## AJAX Forms
 
-Some really sweet [writeups about AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms)
+Some really sweet [writeups about AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms) and [AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
+
+
 
 
 ### Popup an AJAX modal dialog
 
-If you want to have a form pop up a modal dialog or do something via ajax
-you have to do some slightly special stuff.
+If you want to have a form pop up a modal dialog or do something via ajax you have to do some slightly special stuff.
 
 First define what will appear on the dialog
 
@@ -1970,6 +1975,16 @@ public function validateForm(array &$form, FormStateInterface $form_state) {
   parent::validateForm($form, $form_state);
 }
 ```
+
+
+
+## Resources
+
+* [Drupal AJAX AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms)
+
+* [Drupal AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
+
+  
 
 
 
