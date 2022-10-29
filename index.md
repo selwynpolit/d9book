@@ -1,5 +1,5 @@
 ## Drupal at your fingertips
-### Drupal 9 \& 10 developers quick code reference
+### Drupal 9 & 10 developers quick code reference
 #### by Selwyn Polit
 
 I've amassed a sizable collection of notes and code while developing Drupal sites which I use for my reference.  During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal) and many other places, I often wished I had a comprehensive set of annotated code samples to make more sense of how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples) which you should be aware of and use as a supplement to this book.  This work is intended to be a quick reference for developers working on creating Drupal sites. Please forgive the `todo` items. I've found that if I want to get everything perfect, I'll never publish anything. Perhaps use this as your opportunity to add something.
