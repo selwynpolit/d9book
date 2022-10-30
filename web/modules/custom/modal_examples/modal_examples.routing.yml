@@ -1,0 +1,20 @@
+modal_examples.example1:
+  path: '/modal-examples/example1'
+  defaults:
+    _title: 'Modal Examples'
+    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController::build'
+  requirements:
+    _permission: 'access content'
+modal_examples.modal1:
+  path: '/modal-examples/modal1/{program_id}/{type}'
+  defaults:
+    _title: 'Modal 1'
+    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController::buildModal1'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      program_id:
+      type:
+    no_cache: 'TRUE'
+
