@@ -22,4 +22,4 @@ visibility:
   request_path:
     id: request_path
     negate: true
-    pages: "/queries/*\r\n/taxplay/*\r\n"
+    pages: "/queries/*\r\n/taxplay/*\r\n/modal-examples/*\r\n"
