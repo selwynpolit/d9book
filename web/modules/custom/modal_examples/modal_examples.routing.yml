@@ -18,3 +18,22 @@ modal_examples.modal1:
       type:
     no_cache: 'TRUE'
 
+
+
+modal_examples.form1:
+  path: '/modal-examples/form1'
+  defaults:
+    _form: 'Drupal\modal_examples\Form\ExampleForm'
+    _title: 'Form with a button to popup a modal form'
+  requirements:
+    _permission: 'administer site configuration'
+
+modal_examples.modal_form:
+  path: '/modal-examples/modal_form'
+  defaults:
+    _title: 'The Modal Form'
+    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController2::openModalForm'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
