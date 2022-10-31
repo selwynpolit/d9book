@@ -1,5 +1,5 @@
-# Welcome to Drupal 9 at your fingertips
-## A Drupal developers quick code reference
+# Welcome to Drupal at your fingertips
+## A Drupal 9 and 10 developers quick code reference
 ### by Selwyn Polit
 
 
