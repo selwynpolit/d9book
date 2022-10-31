@@ -1,0 +1,49 @@
+taxonomy_examples.example:
+  path: '/taxonomy/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\taxonomy_examples\Controller\TaxonomyExamplesController::build'
+  requirements:
+    _permission: 'access content'
+taxonomy_examples.loadbyuuid:
+  path: '/taxplay/loadbyuuid'
+  defaults:
+    _title: 'Load by UUID'
+    _controller: '\Drupal\taxonomy_examples\Controller\TaxonomyExamplesController::loadByUUID'
+  requirements:
+    _permission: 'access content'
+taxonomy_examples.loadtermref:
+  path: '/taxplay/loadtermref'
+  defaults:
+    _title: 'Load from term reference field'
+    _controller: '\Drupal\taxonomy_examples\Controller\TaxonomyExamplesController::loadTermRef'
+  requirements:
+    _permission: 'access content'
+taxonomy_examples.taxonomy_alias:
+  path: '/taxplay/get_taxonomy_alias'
+  defaults:
+    _title: 'Get taxonomy alias from a term id'
+    _controller: '\Drupal\taxonomy_examples\Controller\TaxonomyExamplesController::getTaxonomyAlias'
+  requirements:
+    _permission: 'access content'
+taxonomy_examples.find_matching_nodes:
+  path: '/taxplay/get_matching_nodes'
+  defaults:
+    _title: 'Get all nodes with matching taxonomy term'
+    _controller: '\Drupal\taxonomy_examples\Controller\TaxonomyExamplesController::getMatchingNodes'
+  requirements:
+    _permission: 'access content'
+taxonomy_examples.load_terms:
+  path: '/taxplay/load_terms'
+  defaults:
+    _title: 'Load terms in a vocabulary'
+    _controller: '\Drupal\taxonomy_examples\Controller\TaxonomyExamplesController::LoadTerms'
+  requirements:
+    _permission: 'access content'
+taxonomy_examples.load_terms_by_name:
+  path: '/taxplay/load_term_by_name'
+  defaults:
+    _title: 'Load terms by name'
+    _controller: '\Drupal\taxonomy_examples\Controller\TaxonomyExamplesController::LoadTermByName'
+  requirements:
+    _permission: 'access content'

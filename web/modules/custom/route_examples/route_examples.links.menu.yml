@@ -1,0 +1,6 @@
+route_examples.settings_form:
+  title: 'Route Examples'
+  description: 'Configure Route Examples.'
+  parent: system.admin_config_system
+  route_name: route_examples.settings_form
+  weight: 10

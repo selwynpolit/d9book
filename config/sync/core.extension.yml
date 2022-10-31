@@ -34,6 +34,7 @@ module:
   menu_link_content: 0
   menu_ui: 0
   message: 0
+  modal_examples: 0
   module_filter: 0
   mysql: 0
   node: 0
@@ -50,6 +51,7 @@ module:
   smart_date: 0
   system: 0
   taxonomy: 0
+  taxonomy_examples: 0
   text: 0
   token: 0
   toolbar: 0

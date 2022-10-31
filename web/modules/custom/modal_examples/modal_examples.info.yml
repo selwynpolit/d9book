@@ -1,0 +1,5 @@
+name: Modal Examples
+type: module
+description: Examples of modal dialogs
+package: DrupalBook
+core_version_requirement: ^9 || ^10
