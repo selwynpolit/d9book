@@ -49,6 +49,7 @@
   - [Replacing deprecated functions](#replacing-deprecated-functions)
   - [Missing module](#missing-module)
   - [You have requested a non-existent service](#you-have-requested-a-non-existent-service)
+  - [Reference](#reference)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dev)
 
@@ -60,14 +61,12 @@
 
 ## Local Drupal 9 site setup
 
-Local development is best done using containers and [Ddev](https://github.com/drud/ddev) . Setting up a
-local site is a completely painless process and dare one say, even
-pleasant. After installing Docker and Ddev,
+Local development is best done using containers and [DDEV](https://github.com/drud/ddev) . Setting up a
+local site is a completely painless process. 
+
+Pick one of these options after installing Docker and Ddev:
 
 #### First Option
-
-from
-<https://www.drupal.org/docs/official_docs/en/_local_development_guide.html>
 
 Replace my-site-name!
 
@@ -87,6 +86,9 @@ ddev start
 ddev exec drush site-install --account-name=admin --account-pass=admin
 ```
 
+More at <https://www.drupal.org/docs/official_docs/en/_local_development_guide.html>
+
+
 OR
 
 #### Second Option
@@ -94,18 +96,28 @@ OR
 Using the DDEV Quickstart guides to install Drupal, Wordpress, TYPO3,
 Backdrop, Magento, Laravel etc.
 
-Follow the steps at
-<https://ddev.readthedocs.io/en/stable/users/cli-usage/#quickstart-guides>
+```
+mkdir my-drupal9-site
+cd my-drupal9-site
+ddev config --project-type=drupal9 --docroot=web --create-docroot
+ddev start
+ddev composer create "drupal/recommended-project" --no-install
+ddev composer require drush/drush --no-install
+ddev composer install
+ddev drush site:install -y
+ddev drush uli
+ddev launch
+
+```
+More at <https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal>
 
 OR
 
 #### Third Option
 
-From
-<https://www.digitalocean.com/community/tutorials/how-to-develop-a-drupal-9-website-on-your-local-machine-using-docker-and-ddev>
+This is a slight variation on the 2nd option from <https://www.digitalocean.com/community/tutorials/how-to-develop-a-drupal-9-website-on-your-local-machine-using-docker-and-ddev>
 
-
-
+Following these steps will create a Drupal site called d9test.  
 ```
 $ mkdir d9test
 $ cd d9test
@@ -115,7 +127,10 @@ Start it up with
 $ ddev start
 $ ddev composer create "drupal/recommended-project"
 $ ddev composer require "drush/drush"
+$ ddev launch
 ```
+
+
 
 Checking Your Permissions
 
@@ -951,8 +966,9 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and
 then `truncate cache_bootstrap` and `truncate cache_discovery`.
 
 
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+## Reference
 
+-  Composer best practices for Drupal 8 from Lullabot <https://www.lullabot.com/articles/drupal-8-composer-best-practices>
 
 
 
