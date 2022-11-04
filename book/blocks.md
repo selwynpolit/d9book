@@ -319,7 +319,7 @@ container to `->get()` the service you need. In the example below
 Be sure to add your service to the list of parameters in the
 constructor: `$container->get('hello_world.salutation')`.
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -335,7 +335,7 @@ public static function create(ContainerInterface $container, array $configuratio
 
 Here are your `__constructor()` and a `build()` functions. See the 4th param -- `HelloWorldSalutationService $salutation` -- that's the injected service.
 
-```PHP
+```php
 /**
  * Construct.
  *
@@ -353,7 +353,7 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
 }
 ```
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -371,7 +371,7 @@ You often need to query some data from Drupal and display it in a block.
 
 Here is a simple block that loads all published content of type "page" and renders the titles. You could sort them by creation date by adding this to the `$query` variable: `->sort('created' , 'DESC');`
 
-```PHP
+```php
 namespace Drupal\opinions_module\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
@@ -438,7 +438,7 @@ Now for the block that users see (also the one that pops up in the block configu
 
 We define the block with its annotation:
 
-```PHP
+```php
 /**
  * Provides a cart block.
  *
@@ -455,7 +455,7 @@ It implements `ContainerFactoryPluginInterface` to allow dependency injection. T
 
 Here is the `create()`
 
-```PHP
+```php
 public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
   return new static(
     $configuration,
@@ -469,7 +469,7 @@ public static function create(ContainerInterface $container, array $configuratio
 
 Here is the constructor: 
 
-```PHP
+```php
 public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, FormBuilderInterface $form_builder) {
   parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -480,7 +480,7 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
 
 And finally the `build()` method:
 
-```PHP
+```php
 public function build() {
   return $this->formBuilder->getForm('Drupal\quick_pivot\Form\QuickPivotSubscribeForm');
 }
@@ -790,6 +790,7 @@ class QuickPivotSubscribeBlock extends BlockBase implements ContainerFactoryPlug
 
 }
 ```
+
 And here is the routing file:  `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` 
 
 ```yaml
@@ -813,11 +814,6 @@ quick_pivot.config:
   weight: 1
 ```
 
-
-
-
-
-
 ## Modify a block with hook_block_view_alter or hook_block_build_alter
 
 If you need to modify a block, you can supposedly use `hook_block_view_alter` or `hook_block_build_alter`, although I haven't been able to make this work... hmm.
@@ -830,7 +826,7 @@ In <https://drupal.stackexchange.com/a/215948> there is an example which fills i
 
 In an example on that stackexchange site, this function is provided:
 
-```PHP
+```php
 function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block) {
   if ($block->getBaseId() === 'system_powered_by_block') {
     $build['#pre_render'][] = '_yourmodule_block_poweredby_prerender';
@@ -839,7 +835,7 @@ function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPlug
 
 I think this is the version I tried:
 
-```PHP
+```php
 /**
  * Implements hook_block_build_alter().
  */
@@ -860,7 +856,7 @@ And I discovered an example from a project where the
 `$build['#pre_render'][]` array is populated with a function. I'm
 not sure what that function did -- presumably returned some text to be rendered.
 
-```PHP
+```php
 /**
  * Implements hook_block_view_alter().
  */
@@ -879,7 +875,7 @@ function pega_academy_core_block_view_alter(array &$build, \Drupal\Core\Block\Bl
 
 From `docroot/modules/custom/websphere_commerce/modules/cart/src/Plugin/Block/CartSummary.php`:
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -902,7 +898,7 @@ To make your block configurable, override 3 methods from BlockBase.
 
 Here `defaultConfiguration()` returns a block_count of 5.
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -916,7 +912,7 @@ public function defaultConfiguration() {
 
 `blockForm()` is used to create a configuration form:
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -935,7 +931,7 @@ public function blockForm($form, FormStateInterface $form_state) {
 
 And `blockSubmit()` handles the submission of the config form. You don't need to save anything. The data is saved automatically into the Drupal config system. You just specify a configuration key like `$this->configuration['block_count']` and the rest is handled for you.
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
