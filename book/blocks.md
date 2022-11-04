@@ -1,10 +1,8 @@
 # Blocks
 
-
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 - [Blocks](#blocks)
   - [Create a block with Drush generate](#create-a-block-with-drush-generate)
@@ -26,10 +24,7 @@
 <a href="/d9book">home</a>
 </h3>
 
-
-
 Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
-
 
 ![Location of block source files](images/media/image-block-location.png)
 
@@ -913,9 +908,9 @@ Here `defaultConfiguration()` returns a block_count of 5.
  */
 public function defaultConfiguration() {
   // By default, the block will display 5 thumbnails.
-  return array(
+  return [
     'block_count' => 5,
-  );
+  ];
 }
 ```
 
@@ -927,12 +922,12 @@ public function defaultConfiguration() {
  */
 public function blockForm($form, FormStateInterface $form_state) {
   $range = range(2, 20);
-  $form['block_count'] = array(
+  $form['block_count'] = [
     '#type' => 'select',
     '#title' => $this->t('Number of product images in block'),
     '#default_value' => $this->configuration['block_count'],
     '#options' => array_combine($range, $range),
-  );
+  ];
   return $form;
 }
 
@@ -957,7 +952,7 @@ The `build()` method does all the work of building a render array to display wha
  * {@inheritdoc}
  */
 public function build() {
-  $build = array();
+  $build = [];
   $node = $this->getContextValue('node');
 
   // Determine if we are on a page that points to a product.
@@ -989,18 +984,18 @@ public function build() {
 
       // Modal dialog
       // see https://www.drupal.org/node/2488192 for more on modals
-      $options = array(
-        'attributes' => array(
-          'class' => array(
+      $options = [
+        'attributes' => [
+          'class' => [
             'use-ajax',
-          ),
+          ],
           'data-dialog-type' => 'modal',
           'data-dialog-options' => Json::encode([
             'width' => 700,
           ]),
-        ),
-      );
-      $url = Url::fromRoute('iai_pig.display_product_image', array('node' => $product->nid->value, 'delta' => $item_count));
+        ],
+      ];
+      $url = Url::fromRoute('iai_pig.display_product_image', ['node' => $product->nid->value, 'delta' => $item_count]);
       $url->setOptions($options);
       $build['list']['#items'][$item_count] = [
         '#type' => 'markup',
@@ -1038,18 +1033,17 @@ From [Nedcamp video on caching by Kelly Lucas, November 2018](https://www.youtub
 
 In a twig template, let's you say you just want to render one field (but not the others), Drupal may not be aware if the content has changed, and will sometimes show old cached content. You can define a view mode or tweak the twig template a smidge with something like this:
 
-
-  \{\% set blah = content\|render \%\}
-
+```twig
+  {% set blah = content|render %}
+```
 
 Then add your fields:
 
-```
+```twig
   {content.field_one}  etc.
 ```
 
 TODO: Figure out why the above is true.
-
 
 ## Block Permission (blockAccess)
 
@@ -1064,7 +1058,7 @@ use Drupal\Core\Access\AccessResult;
 $account = \Drupal::currentUser();
 ```
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -1086,12 +1080,12 @@ And some piddlings from the Copyright.php file:
 $account = \\Drupal::currentUser();
 ```
 
-```PHP
+```php
 //Get the route.
 $route_name = \Drupal::routeMatch()->getRouteName();
 
 // not on the user login and logout pages
-if (!in_array($route_name,array('user.login', 'user.logout'))) {
+if (!in_array($route_name, ['user.login', 'user.logout'])) {
   return AccessResult::allowed();
 }
 
@@ -1108,7 +1102,7 @@ if ($account->isAnonymous()) {
 From
 `web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php` we check to make sure the user viewing a node and that the user has `view rsvplist` permission.  See the code below:
 
-```PHP
+```php
 protected function blockAccess(AccountInterface $account) {
   /** @var \Drupal\node\Entity\Node $node */
   $node = \Drupal::routeMatch()->getParameter('node');
@@ -1134,6 +1128,5 @@ return AccessResult::allowedIf(TRUE);
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>

@@ -4,8 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
-
 - [Redirects](#redirects)
   - [Redirect to an internal url](#redirect-to-an-internal-url)
   - [Redirect in a form](#redirect-in-a-form)
@@ -18,7 +16,6 @@
   - [Redirect to a new page after node operation](#redirect-to-a-new-page-after-node-operation)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-redirects)
-
 
 ## Redirect to an internal url
 
@@ -41,10 +38,10 @@ return new RedirectResponse($url->toString());
 
 In a form, you can redirect to a route by its name:
 
-
 ```php
 $form_state->setRedirect('entity.bike_part.canonical', ['bike_part' => $entity->id()]);
 ```
+
 Note. You can also redirect to a specific id (anchor) on the page by
 adding the fragment parameter
 
@@ -54,12 +51,14 @@ $form_state->setRedirect('tea_teks_admin.timeline_detail',
   ['fragment' => 'milestone-' . $nid,]
 );
 ```
+
 Or here in submitForm():
 
 ```php
 $url = Url::fromRoute('user_account.user_register', [], ['query' => ['destination' => $shippingUrl]]);
 $form_state->setRedirectUrl($url);
 ```
+
 ## Redirect off-site (to a third-party URL)
 
 From
@@ -71,6 +70,7 @@ URL must have absolute path like <http://www.google.com>
 ```php
 return new RedirectResponse('https://google.com');
 ```
+
 e.g.
 
 ```php
@@ -84,7 +84,6 @@ $response->send();
 
 exit(0);
 ```
-
 
 ## Redirect to an existing route with an anchor (or fragment)
 
@@ -100,6 +99,7 @@ $form_state->setRedirect('tra_teks_admin.timeline_detail',
   ['fragment' => 'milestone-' . $nid,]
 );
 ```
+
 ## Redirect to a complex route
 
 Here the route requires four arguments so they all need to be passed in.
@@ -154,6 +154,7 @@ protected function reloadOperations(): ?RedirectResponse {
     }
   }
 ```
+
 ## Redirect user after login
 
 From:
@@ -179,7 +180,6 @@ function greenacorn_user_login(AccountInterface $account) {
 }
 ```
 
-
 ## Redirect to the 403 or 404 page
 
 ```php
@@ -189,7 +189,6 @@ throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
 // Redirect to the 404 page.
 throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
 ```
-
 
 ## Redirect to a new page after node operation
 
@@ -212,8 +211,8 @@ function obg_mods_form_alter(array &$form, FormStateInterface $form_state, $form
     }
   }
 ```
-And here is the submit handler where the work gets done and you are
-redirected to /thanks-your-submission.
+
+And here is the submit handler where the work gets done and you are redirected to /thanks-your-submission.
 
 ```php
 /**
@@ -227,13 +226,11 @@ function cn_submit_handler( $form, FormStateInterface $form_state) {
   $form_state->setRedirectUrl($url);
 }
 ```
-More at
-<https://drupal.stackexchange.com/questions/163626/how-to-perform-a-redirect-to-custom-page-after-node-save-or-delete>
 
+More at <https://drupal.stackexchange.com/questions/163626/how-to-perform-a-redirect-to-custom-page-after-node-save-or-delete>
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>

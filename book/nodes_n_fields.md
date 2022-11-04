@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [Nodes and Fields](#nodes-and-fields)
   - [Load a node and get a formatted text field](#load-a-node-and-get-a-formatted-text-field)
   - [Set field values](#set-field-values)
@@ -89,10 +88,7 @@
 <a href="/d9book">home</a>
 </h3>
 
-
-
 ## Load a node and get a formatted text field
-
 
 ```php
 $nodeStorage = $this->entityTypeManager->getStorage('node');
@@ -139,6 +135,7 @@ $sf_contracts_ref_node = reset($sf_contracts_refs);
 ```
 
 You can grab it's nid with `->id()` or its `->value` e.g. 
+
 ```php
 $val = get('field_status')->value;
 ```
@@ -190,7 +187,6 @@ if ($route = $request->attributes->get(\Symfony\Cmf\Component\Routing\RouteObjec
 
 ## Test if variable is a node 
 
-
 ```php
 // Is this variable a node?
 if (get_class($ref) == 'Drupal\node\Entity\Node') {
@@ -218,9 +214,8 @@ if ($node instanceof \Drupal\node\NodeInterface) {
   $nodeTitle = $node->getTitle();
 }
 ```
-If you need to use the node object in `hook_preprocess_page()` on the
-preview page, you need to use the `node_preview` parameter, instead of
-the `node` parameter:
+
+If you need to use the node object in `hook_preprocess_page()` on the preview page, you need to use the `node_preview` parameter, instead of the `node` parameter:
 
 ```php
 function mymodule_preprocess_page(&$vars) {
@@ -235,10 +230,7 @@ function mymodule_preprocess_page(&$vars) {
   }
 ```
 
-And from
-<https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id>
-when you are using or creating a custom block then you have to follow
-this code to get current node id. Not sure if it is correct
+And from <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id> when you are using or creating a custom block then you have to follow this code to get current node id. Not sure if it is correct
 
 ```php
 use Drupal\Core\Cache\Cache;
@@ -253,7 +245,7 @@ public function getCacheTags() {
   //With this when your node changes your block will rebuild
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     //if there is node add its cachetag
-    return Cache::mergeTags(parent::getCacheTags(), array('node:' . $node->id()));
+    return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
   } 
   else {
     //Return default tags instead.
@@ -265,18 +257,18 @@ public function getCacheContexts() {
   //if you depend on \Drupal::routeMatch()
   //you must set context of this block with 'route' context tag.
   //Every new route this block will rebuild
-  return Cache::mergeContexts(parent::getCacheContexts(), array('route'));
+  return Cache::mergeContexts(parent::getCacheContexts(), ['route']);
 }
 ```
 
-
 ## Retrieve current node id (nid)
 
-If the site is currently displaying node/123, this will return a path `node/123`
+If the site is currently displaying node/123, this will return a path `node/123`.
 
 ```php
 $current_path = \Drupal::service('path.current')->getPath();
 ```
+
 Also
 
 ```php
@@ -329,19 +321,18 @@ if ($node instanceof \Drupal\node\NodeInterface) {
     }
 ```
 
-
 Note you can also `$node->get('field_facebook')->getValue()` which returns an array of values. This is a good way to retrieve unlimited value fields i.e. fields that have more than 1 value.
 
 ## Load a node by nid and get its title, type and a field
 
-From:
-<https://www.drupal.org/docs/8/api/entity-api/working-with-the-entity-api>
+From: <https://www.drupal.org/docs/8/api/entity-api/working-with-the-entity-api>
 
 ```php
 use Drupal\node\Entity\Node;
 // Using the node id = 1.
 $node = Node::load(1);
 ```
+
 Or
 
 ```php
@@ -355,7 +346,6 @@ $type = $node->getType();
 $url = $node->get('field_url')->value;
 ```
 
-
 Or
 
 ```php
@@ -363,6 +353,7 @@ $node_storage = \Drupal::entityTypeManager()->getStorage('node');
 $node = $node_storage->load(1);
 $url = $node->get('field_url')->value;
 ```
+
 Or
 
 ```php
@@ -374,15 +365,16 @@ And multivalue fields are similar.  They are loaded when you use `get & getValue
 ```php
 $topics = $node->get('field_news_topics_for_listing')->getValue(); //get.
 ```
+
 or
+
 ```php
 $topics = $node->field_news_topics_for_listing->getValue(); //magic getter.
 
 foreach ($topics as $topic) {
-
+  // Do something.
 }
 ```
-
 
 ## Load the current node and get the nid, field, type 
 
@@ -402,10 +394,14 @@ if ($node instanceof \Drupal\node\NodeInterface) {
       ...
     }
 ```
+
 Note you can also 
+
 ```php
 $node->get('field_facebook')->getValue();
-``` which returns an array of values.
+```
+
+Which returns an array of values.
 
 ## Load the user id (uid) for a node
 
@@ -413,15 +409,15 @@ $node->get('field_facebook')->getValue();
 $my_node->getOwnerId();
 ```
 
-You can call `$node->uid` but that returns an
-EntityReferenceFieldItemList with all sorts of juicy information. The user id is in there but more challenging to extract.
+You can call `$node->uid` but that returns an `EntityReferenceFieldItemList` with all sorts of juicy information. The user id is in there but more challenging to extract.
 
 ## Is a field empty (an entity field)
 
 ```php
 $entity->get('field_name')->isEmpty()
 ```
- does the trick
+
+does the trick
 
 ```php
 $sf_contract_node = Node::load($sf_contract_nid);
@@ -452,9 +448,8 @@ $node->get('field_cn_start_end_dates')->end_value
 
 ## Load multivalue field
 
-Multivalue fields are loaded when you use get or the magic field getter
-with getValue(). A magic field getter looks like:
-`$node->field_my_field`. Using `getValue()` loads the results in an array.
+Multivalue fields are loaded when you use get or the magic field getter with getValue(). A magic field getter looks like `$node->field_my_field`. Using `getValue()` loads the results in an array.
+
 Using `get()` returns a `Drupal\Core\Field\FieldItemList`.
 
 You can loop through the results of `get()` like this:
@@ -466,6 +461,7 @@ foreach ($node->get('field_class_division') as $item) {
 ```
 
 For a multivalue text field, this will return an array of values like
+
 ```
 [0]['value'] = “aaa” 
 [1][‘value’] = “bbb”.
@@ -485,7 +481,7 @@ For entity reference fields, you don't use `->value`, you rather use `target_id`
 
 ```php
 $topics = $node->get('field_news_topics_for_listing')->getValue();
-or
+// Or.
 $topics = $node->field_news_topics_for_listing->getValue(); //magic getter.
 
 foreach ($topics as $topic) {
@@ -498,7 +494,7 @@ or
 ```php
 $topics = $node->get('field_srp_voting_status')[0]->value;
 $topics = $node->get('field_srp_voting_status')[1]->value;
-or
+// Or.
 $topics = $node->field_news_topics_for_listing->getValue(); //magic getter.
 ```
 
@@ -522,15 +518,17 @@ Notice: Trying to get property 'value' of non-object in Drupal\tea_teks_srp\Voti
 To avoid the message, you can rather do a
 `\$node->get('field_srp_voting_status')->value;` and check if that was empty first.
 
-I used the getValue() to load all the values. This returns an array of
+I used the `getValue()` to load all the values. This returns an array of
+
 ```
 [0]['value'],
 [1]['value'],
  etc. 
 ```
-so to update one of them, we make changes like `$values[$vote_number]['value']='something';`
 
- e.g.
+So to update one of them, we make changes like `$values[$vote_number]['value']='something';`.
+
+e.g.
 
 ```php
 // If this is a revote, set some sane values.
@@ -544,7 +542,6 @@ if ($vote_number > 0) {
 }
 ```
 
-
 Similarly, rather than checking the `->value` which will throw an error, you can check the field with it's delta (not adding the `->value` at the end) like this and then if that isn't null, get the `->value`.
 
 ```php
@@ -553,12 +550,9 @@ if(!is_null($correlation_node->get('field_srp_teacher_voting_status')[$vote_numb
 }
 ```
 
-Here is a function which reads and writes multivalue fields safely. You
-pass it the `$node->field_name` and then it builds and returns an array formatted for updating the field data. It can also update it if you pass in a value.
+Here is a function which reads and writes multivalue fields safely. You pass it the `$node->field_name` and then it builds and returns an array formatted for updating the field data. It can also update it if you pass in a value.
 
-I think it could be genericized further -- we'll see. (TODO: genericize
-this -- maybe call it saferMultiValueField() or
-smarterMultiValueField())
+I think it could be genericized further -- we'll see. (TODO: genericize this -- maybe call it saferMultiValueField() or smarterMultiValueField()).
 
 ```php
 public static function getMultivalueFieldArrayOfValues($values_field_data, $vote_number = 0, $new_value = NULL, $field_type = 'value', $default_value = NULL) {
@@ -620,9 +614,11 @@ as this overwrites everything in the field, rather use the magic field
 setter variable.
 
 Here `$vote_number` represents the index so if `$vote_number` = 0, this write the first item in the multivalue field.  If `$vote_number` = 1, then write the second item, and so on.
+
 ```php
 $citation_node->field_srp_voting_status[$vote_number] = 'incomplete';
 ```
+
 If you are going to write index 2 and there is a possibility that there
 isn't an index 0 and 1, you need something like this (in `protected
 function correlationSanityCheckFix(Node $correlation_node)`):
@@ -652,7 +648,6 @@ if (empty($narrative_status)) {
 When writing multivalue entity reference fields, you have to load up the
 previous values, build an array of `target_ids` (node ids) and then write them all in one pass with a `$node->set()` method.
 
-
 ```php
 $teams = $new_program_node->get('field_srp_team_ref');
 $new_teams = [];
@@ -680,7 +675,6 @@ in the media field.
 ```php
 use Drupal\media\Entity\Media;
 use Drupal\file\Entity\File;
-
 
 $media_id = $node->field_library_media->target_id;
 if ($media_id) {
@@ -741,7 +735,6 @@ if ($file) {
 
 ## Retrieve info about a file field
 
-
 Here we have a file field called `field_materials_file` that we loaded from a paragraph. Looking in `core/modules/file/src/Entity/File.php` we can see a series of useful functions like `getFileName()`, `getFileUri()`,`getSize()`, `getCreatedTime()`. To use these, we have to append `->entity` after the field as shown below
 
 ```php
@@ -752,9 +745,7 @@ $uri = $file->entity->getFileUri();
 
 Since `File` is an entity, we can also look in `EntityBase.php` to find more useful functions like `id()`, `label()`, `bundle()`.
 
-
 ## Retrieve a link field
-
 
 Here we have a link field: field_link which we load and get a valid uri
 from it using:
@@ -772,9 +763,7 @@ $current_url = $correction->get('field_link')->uri;
 
 Or
 
-In a `.module` file 
-
-`first()` returns a `Drupal\link\Plugin\FieldType\LinkItem`
+In a `.module` file, `first()` returns a `Drupal\link\Plugin\FieldType\LinkItem`
 
 ```php
 if ($sf_contract) {
@@ -786,7 +775,6 @@ if ($sf_contract) {
     _add_single_metatag("vendor_url", $vendor_url, $variables);
   }
 ```
-
 
 Leaving off the -`>first()` (like this) returns a `Drupal\Core\Field\FieldItemList` which is a list of fields so you then
 would have to pull out the first field and extract the uri out of that.
@@ -889,15 +877,17 @@ To populate the fields of an entity you can either use the
 `$entity->set($key, $value)` method on the entity object or pass a `key=>value` array to the entity constructor. 
 As such:
 
-\$foo = new Foo(\[\
-\'name\'=\>\'bar\',\
-\'baz\'=\> TRUE,\
-\'multi_value\' =\> \[\
-\'first\',\
-\'second\',\
-\'third\',\
-\]\
-\]);
+```php
+$foo = new Foo([
+  'name' => 'bar',
+  'baz' => TRUE,
+  'multi_value' => [
+    'first',
+    'second',
+    'third',
+  ]
+]);
+```
 
 ## Write a date or datetime to a node
 
@@ -942,6 +932,7 @@ $node->field_tks_subchapter = $subchapterFullStatement;
 $node->field_tks_standard_type = “TEKS";
 $node->save();
 ```
+
 Also
 
 ```php
@@ -982,10 +973,10 @@ Also if you just want to update a specific one, specify the delta like
 this
 
 ```php
-
 $expectation_node->set('field_name_multi',[0 =>  'foo']);
 $expectation_node->set('field_name_multi',[1 =>  'bar']);
 ```
+
 Or with variables\...
 
 ```php
@@ -1009,17 +1000,16 @@ $node->set('body', [
   'format' => 'links_bullets_headings_and_images',
 ]);
 ```
+
 To empty a body field, use this:
 
 ```php
-$this_node->body[$this_node->language] = array();
+$this_node->body[$this_node->language] = [];
 ```
-
 
 ## Load a node and retrieve an entity reference node and nid (target_id)
 
-From:
-/Users/selwyn/Sites/dir/web/modules/custom/dir_salesforce/src/Controller/DirSalesforceController.php
+From: `/Users/selwyn/Sites/dir/web/modules/custom/dir_salesforce/src/Controller/DirSalesforceController.php`.
 
 ```php
 $node_storage = \Drupal::entityTypeManager()->getStorage('node');
@@ -1030,8 +1020,7 @@ $ref_nid = $node->get('field_sf_contract_ref')->target_id;
 $ref_nid = $node->field_sf_contract_ref->target_id;
 ```
 
-Here is a longer version which is most useful when you expect there to
-be multiple values, as you could do a foreach loop thru them.
+Here is a longer version which is most useful when you expect there to be multiple values, as you could do a foreach loop thru them.
 
 Here we call `referencedEntities()` on the result of the `get`:
 
@@ -1049,7 +1038,6 @@ $sf_contracts_ref_node = reset($sf_contracts_refs);
 
 And you can grab it’s nid with `->id()` or any other field with `get('field_name')->value;` (e.g. `$val = get('field_status')->value;`)
 
-
 ```php
 $sf_contracts_refs = $node_to_update->get('field_sf_contract_ref')->referencedEntities();
 $sf_contracts_ref_node = reset($sf_contracts_refs);
@@ -1059,7 +1047,6 @@ if ($sf_contracts_ref_nid !== $nid) {
   $save = TRUE;
 }
 ```
-
 
 Maybe more simply stated:
 
@@ -1093,7 +1080,6 @@ foreach ($node->field_my_entity_reference as $reference) {
   // if you chose "Rendered Entity" as the display mode, you'll be able to 
   // access the rest of the node's data.
   echo $reference->entity->title->value;    // "Moby Dick"
-
 }
 ```
 
@@ -1152,9 +1138,7 @@ if ($vendor_url) {
 }
 ```
 
-
-A slightly simpler example from
-/Users/selwyn/Sites/tea/docroot/modules/custom/tea_teks/modules/tea_teks_srp/src/Form/SrpAddEditCitationForm.php
+A slightly simpler example from `modules/custom/tea_teks/modules/tea_teks_srp/src/Form/SrpAddEditCitationForm.php`
 
 ```php
 $citation_link = $citation->get('field_link');
@@ -1188,8 +1172,7 @@ Because paragraphs and nodes are both entities, the pattern is the same.
 You load the entity (node or paragraph) and then simply reference the
 field name e.g. `myentity->field_blah`
 
-From
-/Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme
+From /Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme
 
 These are a little different from regular fields. Generally you want to
 get their target_id which will tell you the pid or paragraph id.
@@ -1336,7 +1319,6 @@ $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
 ]);
 $path_alias->save();
 ```
-
 
 ## Get a node's menu item and more
 
@@ -1704,7 +1686,6 @@ Creating a new `DrupalDateTime` object is done like this:
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
 
-
 $date = DrupalDateTime::createFromFormat('j-M-Y', '20-Jul-2019');
 
 $date = new DrupalDateTime('now');  // grab current dateTime using NON static
@@ -1752,7 +1733,6 @@ $end_date = $end_date->format("Y-m-d");
 $node->set('field_cn_end_date', $end_date);
 ```
 
-
 ## Comparing DrupalDateTime values
 
 `DrupalDateTimes` are derived from DateTimePlus which are wrappers for PHP `DateTime` class. So you can use that functionality to do comparisons
@@ -1791,14 +1771,12 @@ $newstring = $given->format("Y-m-d\Th:i:s");
 
 Checking to see if the expiration_date has passed. The
 `field_expiration_date` is a standard Drupal date field in the
-sf_resellers content type. 
-
+sf_resellers content type.
 
 ```php
 $source_node = $node_storage->load($nid);
 
 $expiration_date = $source_node->field_expiration_date->value;
-
 
 // Use expiration date to un-publish expired resellers to hide them.
 $status = 1;
@@ -1841,7 +1819,6 @@ $end_date = $end_date->format("Y-m-d");
 
 $node->set('field_cn_end_date', $end_date);
 ```
-
 
 Here you have a slightly funny date string, you make it into a `DrupalDateTime` and then format it into a usable string you can store in the database.
 
@@ -1896,7 +1873,6 @@ string version of the date. Note. This will handle epoch dates before
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
 
-
   protected function loadFirstOpinionYear($term_id) {
     $storage = \Drupal::entityTypeManager()->getStorage('node');
     $query = \Drupal::entityQuery('node')
@@ -1923,7 +1899,6 @@ use Drupal\Core\Datetime\DrupalDateTime;
 
 Use the setTime() function to remove the time part of a datetime so we
 can make comparisons of just the date.
-
 
 ```php
 function ogg_mods_cn_form_validate($form, FormStateInterface $form_state) {
@@ -2013,7 +1988,6 @@ When you want to fiddle with a node as it is being saved, use
 `hook_node_presave()`
 
 Note there is some good date arithmetic here
-
 
 ```php
 /**
@@ -2112,7 +2086,6 @@ function hook_ENTITY_TYPE_view_alter(array &$build, Drupal\Core\Entity\EntityInt
 }
 ```
 
-
 ## Writing some JSON data into a long text field
 
 It is sometimes useful to store JSON data into a long text field.  I've used it for storing formatted status information about a complex process.
@@ -2158,7 +2131,6 @@ use \Drupal\file\Entity\File;
   ]);
   $node->save();
 ```
-
 
 ## Paragraphs
 
@@ -2217,7 +2189,7 @@ Thumbnail settings and specifically two integer values for image_width
 and image height. I use these to specify the size of the thumbnail I
 generate:
 
-```
+```yml
 # Schema for configuring NCS thumbnail formatter.
 
 field.formatter.settings.ncs_thumbnail:
@@ -2304,26 +2276,19 @@ Note. Retrieving the config settings for a particular situation happens
 with a call to `getSetting()` as in:
 
 ```php
-    $width = $this->getSetting('image_width');
-    $height = $this->getSetting('image_height');
+$width = $this->getSetting('image_width');
+$height = $this->getSetting('image_height');
 ```
 
-To use this we need to edit the display for the `infofeed` content type,
-make sure we have the image_uuid field displayed (i.e. not disabled) for
-Format, select NCS Thumbnail, click the gear to the right to specify the
-thumbnail size and save. Displaying nodes will then include the
-thumbnails.
+To use this we need to edit the display for the `infofeed` content type, make sure we have the image_uuid field displayed (i.e. not disabled) for Format, select NCS Thumbnail, click the gear to the right to specify the thumbnail size and save. Displaying nodes will then include the thumbnails.
 
-You can do the same with a view: Add the field, specify the formatter
-(and dimensions) and the thumbnail will appear.
+You can do the same with a view: Add the field, specify the formatter (and dimensions) and the thumbnail will appear.
 
 ## Puzzles
 
 ### What can I do with a call to first() on an entity reference field?
 
-After loading a node, I want to see the value in an entity reference
-field. I can call referencedEntities to pull out it's values and loop
-thru them -- I get Nodes in that instance.
+After loading a node, I want to see the value in an entity reference field. I can call referencedEntities to pull out it's values and loop thru them -- I get Nodes in that instance.
 
 ```php
 $refs = $node_to_update->get('field_sf_account_ref')->referencedEntities();
@@ -2344,7 +2309,6 @@ Various ways of updating field values in Drupal 8 and 9
 
 <https://gorannikolovski.com/blog/various-ways-updating-field-values-drupal-8-and-9>
 
-
 Entity query cheat sheet:
 
 <https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet>
@@ -2357,6 +2321,4 @@ Drupal entity API cheat sheet
 <a href="/d9book">home</a>
 </h3>
 
-
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-

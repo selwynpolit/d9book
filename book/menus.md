@@ -4,13 +4,12 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [Menus](#menus)
   - [Dynamically change menu items with hook_preprocess_menu](#dynamically-change-menu-items-with-hook_preprocess_menu)
   - [Permanently update menu links in a hook_update using entityQuery](#permanently-update-menu-links-in-a-hook_update-using-entityquery)
   - [Add menu items with hook_update](#add-menu-items-with-hook_update)
   - [Permanently modify or delete menu items with hook_update](#permanently-modify-or-delete-menu-items-with-hook_update)
-  - [Peer up a menu to its parents to see if it is a child of a content type](#peer-up-a-menu-to-its-parents-to-see-if-it-is-a-child-of-a-content-type)
+  - [Pair up a menu to its parents to see if it is a child of a content type](#peer-up-a-menu-to-its-parents-to-see-if-it-is-a-child-of-a-content-type)
   - [Find all the children of a menu](#find-all-the-children-of-a-menu)
   - [Build a menu and all its children](#build-a-menu-and-all-its-children)
   - [Create custom Twig extension for rendering a menu](#create-custom-twig-extension-for-rendering-a-menu)
@@ -19,21 +18,15 @@
   - [Create menu items in your custom module](#create-menu-items-in-your-custom-module)
   - [Resources](#resources)
 
-
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-menus)
-
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-
-
 ## Dynamically change menu items with hook_preprocess_menu
 
-In the example below, we're changing the labels of items in the user
-menu. The labels are changed from "login" and "log out" to "log the
-flock in" and "log the flock out." This can be implemented in a theme file as it is here.
+In the example below, we're changing the labels of items in the user menu. The labels are changed from "login" and "log out" to "log the flock in" and "log the flock out." This can be implemented in a theme file as it is here.
 
 ```php
 /**
@@ -44,25 +37,25 @@ function pega_academy_theme_preprocess_menu(&$vars, $hook) {
     $items = $vars['items'];
     foreach ($items as $key => $item) {
       if ($key == 'user.page') {
-        $vars['items'][$key]['title'] = array(
+        $vars['items'][$key]['title'] = [
           '#markup' => 'Log the <i>flock</i> in!',
-          '#allowed_tags' => array('i'),
-        );
+          '#allowed_tags' => ['i'],
+        ];
       }
       if ($key == 'user.logout') {
-        $vars['items'][$key]['title'] = array(
+        $vars['items'][$key]['title'] = [
           '#markup' => 'Log the <i>flock</i> out!',
-          '#allowed_tags' => array('i'),
-        );
+          '#allowed_tags' => ['i'],
+        ];
       }
     }
   }
 }
 ```
+
 ## Permanently update menu links in a hook_update using entityQuery
 
-To update menu item links, you can use the following code (from
-a .install file).
+To update menu item links, you can use the following code (from a .install file).
 
 ```php
 function pdq_academy_core_update_8002() {
@@ -86,6 +79,7 @@ function pdq_academy_core_update_8002() {
   }
 }
 ```
+
 ## Add menu items with hook_update
 
 Menus are config entities while menu items are content entities. Here, a hook_update creates some menu items and adds them to an existing menu.
@@ -109,6 +103,7 @@ function pdq_archive_core_update_8001() {
   }
 }
 ```
+
 ## Permanently modify or delete menu items with hook_update
 
 Below, we use hook_update to grab all the menu items in the menu called pdf-wide-utility, then loop thru them, delete some, and change the weight of some.
@@ -139,20 +134,21 @@ function pdq_archive_core_update_8001() {
   }
 }
 ```
+
 If you need to get the parent value so you can make a menu item a child,
 use:
 
 ```php
 $parent_id = $menu_link->getPluginId();
 ```
+
 and 
 
 ```php
 $menu_link->set('parent', $parent_id);
 ```
 
-
-## Peer up a menu to its parents to see if it is a child of a content type
+## Pair up a menu to its parents to see if it is a child of a content type
 
 Here, we need to display a sidebar if the current node is both a page and a child (or any level of offspring, e.g., grandchild, great-grandchild, etc.) of a content type "unit."
 
@@ -178,6 +174,7 @@ if (($node->getType() == 'page') && ($view_mode == 'full')) {
   $variables['show_sidebar_menu'] = $show_sidebar;
 }
 ```
+
 Here is the function \_check_ancestry_for_unit():
 
 ```php
@@ -247,7 +244,6 @@ function _check_ancestry_for_unit(int $node_id, &$unit_nid = 0, &$menu_item_titl
 }
 ```
 
-
 ## Find all the children of a menu
 
 From a .module file, I needed to load a dropdown with items from the
@@ -255,7 +251,7 @@ main menu.
 
 You can load the menu up with this:
 
-'''php
+```php
 use Drupal\Core\Menu\MenuTreeParameters;
 
 
@@ -269,7 +265,8 @@ function get_menutree($menu_name) {
   $tree = \Drupal::menuTree()->load($menu_name, $parameters);
   return $tree;
 }
-'''
+```
+
 This is basically the same as:
 
 ```php
@@ -331,6 +328,7 @@ function get_offices() {
   return $storage;
 }
 ```
+
 And the template that is used to display the dropdown,
 node\--news-stories-landing-page.html.twig:
 
@@ -355,6 +353,7 @@ node\--news-stories-landing-page.html.twig:
  </div>
 </form>
 ```
+
 And the form looks like this:
 
 ![Dropdown menu image](./images/media/dropdown_menus.png)
@@ -403,6 +402,7 @@ function generateSubMenuTree(&$output, &$input, $parent = FALSE) {
   }
 }
 ```
+
 It is called with:
 
 ```php
@@ -412,7 +412,6 @@ $sub_nav = \Drupal::menuTree()->load('main', new \Drupal\Core\Menu\MenuTreeParam
 //Generate array
 generateSubMenuTree($menu_tree2, $sub_nav);
 ```
-
 
 ## Create custom Twig extension for rendering a menu
 
@@ -425,9 +424,7 @@ module](https://www.drupal.org/project/twig_tweak) can do all this with one line
 
 More at: <https://www.drupal.org/docs/8/modules/twig-tweak/cheat-sheet>
 
-From
-<https://www.drupal.org/forum/support/theme-development/2015-01-29/rendering-a-menu-in-twig-drupal-8>,
-Peter from Dusseldorf shows how to render a menu into a render array. He runs through the whole load, transform (with manipulators) and build. He does this through the magic of a twig extension. So, in modules/custom/custom_module/src/Twig/RenderMenuExtension.php:
+From <https://www.drupal.org/forum/support/theme-development/2015-01-29/rendering-a-menu-in-twig-drupal-8>, Peter from Dusseldorf shows how to render a menu into a render array. He runs through the whole load, transform (with manipulators) and build. He does this through the magic of a twig extension. So, in modules/custom/custom_module/src/Twig/RenderMenuExtension.php:
 
 ```php
 namespace Drupal\custom_module\Twig;
@@ -477,6 +474,7 @@ class RenderMenuExtension extends \Twig_Extension {
 
 }
 ```
+
 Oh, and you do need to implement the getFunctions() in your class. It looks something like this:
 
 ```php
@@ -488,7 +486,6 @@ public function getFunctions() {
   ];
 }
 ```
-
 
 In custom_module.services.yml:
 
@@ -511,14 +508,11 @@ To render your menu in the template via this twig function call:
 From
 https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Menu%21MenuTreeParameters.php/property/MenuTreeParameters%3A%3AactiveTrail/9.3.x
 
-The IDs from the currently active menu link to the root of the whole
-tree.
+The IDs from the currently active menu link to the root of the whole tree.
 
 Active trail is an array of menu link plugin IDs, representing the trail from the currently active menu link to the (\"real\") root of that menu link\'s menu. This does not affect the way the tree is built. It is only used to set the value of the inActiveTrail property for each tree element.
 
-In the code below, I grab the active trail for an item that is in a
-menu. Then, I grab all the links for the current node_id, pull off the first one, grab the plugin (which is
-menu_link_content:957297e4-38eb-4502-868a-668407c71a44 -- the id from the menu_tree table), and get the parameters (all the juicy goodness about this menu item). You can find a nice trail back up the menu chain along the active_trail. See activeTrail in the debug variable dump below.
+In the code below, I grab the active trail for an item that is in a menu. Then, I grab all the links for the current node_id, pull off the first one, grab the plugin (which is `menu_link_content:957297e4-38eb-4502-868a-668407c71a44` -- the id from the menu_tree table), and get the parameters (all the juicy goodness about this menu item). You can find a nice trail back up the menu chain along the active_trail. See activeTrail in the debug variable dump below.
 
 ```php
 // Get current item's menu
@@ -539,18 +533,15 @@ $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
 $active_trail = array_keys($parameters->activeTrail);
 ```
 
-
 ![Menu debug display](./images/media/menu_debug_dump.png)
 
 Extracting out the active trail gives this useful information:
 
 ![Active trail debug display](./images/media/active_trail_debug.png)
 
-
 ## Get a node's menu item and more
 
-Here we get the current route's menu item using its nid then pull the link from the array using reset, and we can extract the URL as well as other exciting things. Mostly we want to check its children, parents etc. In the code below, we grab its URL as well as its parent and its
-title.
+Here we get the current route's menu item using its nid then pull the link from the array using reset, and we can extract the URL as well as other exciting things. Mostly we want to check its children, parents etc. In the code below, we grab its URL as well as its parent and its title.
 
 ```php
 /** @var \Drupal\Core\Menu\MenuLinkManagerInterface $menu_link_manager */
@@ -565,15 +556,9 @@ $y = $link->getTitle(); // get the title of the menu item.
 $menu_name = $link->getMenuName(); // get the menu name e.g. "main"
 ```
 
-
 ## Create menu items in your custom module
 
-When creating a menu for your module, you need a YAML file like this
-from dev1 pageexample. The names (e.g. pageexample.description and
-pageexample.simple) are arbitrary, the title is the menu text, and the
-route_name comes from the routing yml file
-(web/modules/custom/pageexample/pageexample.routing.yml). The parent
-value is interesting.
+When creating a menu for your module, you need a YAML file like this from dev1 pageexample. The names (e.g. pageexample.description and pageexample.simple) are arbitrary, the title is the menu text, and the route_name comes from the routing yml file (`web/modules/custom/pageexample/pageexample.routing.yml`). The parent value is interesting.
 
 ```yaml
 pageexample_description:
@@ -585,7 +570,6 @@ pageexample.simple:
   route_name: pageexample_simple
   parent: system.admin_reports
 ```
-
 
 The parent values are defined in other \*.links.menu.yml files and
 especially the Structure link, which is defined in the core System
@@ -603,6 +587,7 @@ First you will have to load the entity. Either way works:
 ```php
 $menu_link = MenuLinkContent::load($menu_link_id);
 ```
+
 or \...
 
 ```php
@@ -616,11 +601,8 @@ Next you can update value using set() method or through the magic method
 $menu_link->expanded = TRUE;
 ```
 
-
 To save, simply call the `save()` method. To delete, call
 the `delete()` method.
-
-
 
 ## Resources
 
@@ -637,7 +619,7 @@ the `delete()` method.
     can do some great menu magic. Cheat sheet at
     <https://www.drupal.org/docs/8/modules/twig-tweak/cheat-sheet>
 
-
+- [#! code: Drupal 9: Creating A Category Menu Using Derivers](https://www.hashbangcode.com/article/drupal-9-creating-category-menu-using-derivers)
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
@@ -645,4 +627,3 @@ the `delete()` method.
 
 ---------
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-

@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [PHPUnit and Drupal Test Traits](#phpunit-and-drupal-test-traits)
   - [Overview](#overview)
 - [Location of PHPUnit Tests](#location-of-phpunit-tests)
@@ -68,15 +67,11 @@
   - [Testing setup](#testing-setup)
   - [Mocking](#mocking)
 
-
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dtt)
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
-
-
 
 ## Overview
 
@@ -87,6 +82,7 @@ E.g.
 ```php
 self::assertTrue($return_value);
 ```
+
 from
 <https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html>
 
@@ -112,7 +108,6 @@ final class StackTest extends TestCase
     }
 }
 ```
-
 
 In a Drupal context, there are 4 types of tests. From
 <https://www.drupal.org/docs/automated-testing/types-of-tests> :
@@ -158,7 +153,6 @@ For core they are in web/core/modules (or docroot/core/modules) e.g. in the acti
 
 ![Phpunit Test Location](./images/media/phpunit-test-location.png)
 
-
 # Output files from running phpunit
 
 Depending on where you specified the output for your files in the
@@ -170,11 +164,7 @@ Below you will see a bunch of directories (probably one for each run of the test
 <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/simpletest/browser_output"/>
 ```
 
-
-
-
 ![Test output location](./images/media/test-output.png)
-
 
 If you don't need to view the reports from your tests, you can safely delete these directories as well as the html files shown below.
 
@@ -187,8 +177,6 @@ While tests are running, I noticed that files appear in the
 /simpletest/browser_output folder at the topmost level of the project. They go away when the tests complete..
 
 ![Browser Output2](./images/media/browser-output2.png)
-
-
 
 # Setup PHPUnit tests 
 
@@ -205,6 +193,7 @@ If you installed using the drupal/recommended-project Composer template, develop
 ```
 $ composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
+
 Install phpunit using:
 
 ```
@@ -223,8 +212,6 @@ You need a `web/core/phpunit.xml` so copy the one at
 Change the `SIMPLETEST_BASE_URL`, `SIMPLETEST_DB` AND
 `BROWSERTEST_OUTPUT_DIRECTORY` variables as shown below
 
-
-
 ```xml
   <php>
     <!-- Set error reporting to E_ALL. -->
@@ -237,9 +224,9 @@ Change the `SIMPLETEST_BASE_URL`, `SIMPLETEST_DB` AND
     <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/simpletest/browser_output"/>
 
 ```
+
 Refer to
 <https://mglaman.dev/blog/running-drupals-phpunit-test-suites-ddev> for more info on using ddev describe to get suitable values for those variables
-
 
 From web/core/tests/README.md
 
@@ -259,8 +246,6 @@ Settings to change in this file:
     sites/simpletest/browser_output; you will also want to uncomment the
     printerClass attribute of the top-level phpunit tag.
 
-
-
 # Running PHPUnit tests in the DDEV container
 
 This will run the unit tests included with the action module
@@ -278,8 +263,6 @@ Another example test you could run is the book module:
 You could also run `../vendor/bin/phpunit -c core core/modules/book` for a different set of tests. These tests are for the book module and take a very LONG time. (\~30 minutes)
 
 When running the tests for the action module, you should see:
-
-
 
 ```
 PHPUnit 9.5.23 #StandWithUkraine
@@ -303,8 +286,6 @@ http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_
 http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_ActionListTest-4-51362070.html
 http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_ActionUninstallTest-1-80829434.html
 ```
-
-
 
 Note in the output: \....S.., periods mean success, S means skipped, I means ignored, E means error.
 
@@ -340,7 +321,6 @@ your module. Note. You need drush 11 for this.
 
 Here is a generated file at modules/custom/tea_teks_voting/tests/src/Unit/ExampleTest.php with the following contents. It does not contain a real test; just a shell of a test which can run.
 
-
 ```php
 <?php
 
@@ -373,11 +353,9 @@ class ExampleTest extends UnitTestCase {
 }
 ```
 
-
 Drush wrote the test file in `modules/custom/tea_teks_voting/tests/src/Unit/ExampleTest.php`
 
 ![Generated test location](./images/media/generated-test.png)
-
 
 To run this test use
 
@@ -391,7 +369,6 @@ web/modules/custom/tea_teks_voting/
 You should see the following output:
 
 ```
-
 PHPUnit 9.5.23 #StandWithUkraine
 
 Warning:       Your XML configuration validates against a deprecated schema.
@@ -405,14 +382,12 @@ Time: 00:00.058, Memory: 4.00 MB
 OK (1 test, 1 assertion)
 ```
 
-
 Note. It does expect the file web/core/phpunit.xml to exist and be
 configured correctly. See setup above for details.
 
 # My first PHPUnit test
 
 This is my test of a class I wrote called Requirements. It does require some Drupal to be bootstrapped, so it can't be a unit test. It must be a functional test and therefor in the `modules/custom/tea_teks_requirements/tests/src/Functional` directory.
-
 
 ```php
 <?php
@@ -473,8 +448,6 @@ OK (1 test, 1 assertion)
 
 Note. The OK means it worked.
 
-
-
 # Drupal Test Traits Overview
 
 Drupal Test Traits is for testing Drupal sites that have content (versus Phpunit tests which start Drupal up, create an empty database and are consequently slower).
@@ -516,9 +489,6 @@ From <https://gitlab.com/weitzman/drupal-test-traits>:
 > navigates
 > to](https://gitlab.com/weitzman/drupal-test-traits#debugging-tests).
 > These files are very useful when debugging test failures.
-
-
-
 
 # Install/setup Drupal Test Traits
 
@@ -563,14 +533,17 @@ If you skip the `drupal/core-dev` step, you will see errors when you try to run 
     and you\'ll be left puzzled.
 
 6.  Install the mink-selenium2 driver with:\
+
 ```
-    $ composer require 'behat/mink-selenium2-driver' --dev
+$ composer require 'behat/mink-selenium2-driver' --dev
 ```
 
 7.  Install login traits with:
+
 ```
-    $ composer require weitzman/logintrait
+$ composer require weitzman/logintrait
 ```
+
 Here are the `/phpunit.xml` file contents. Note the location of the
 `bootstrap-fast.php`:
 
@@ -634,9 +607,9 @@ Here are the `/phpunit.xml` file contents. Note the location of the
   </testsuites>
 </phpunit>
 ```
+
 Here are the /scripts/bootstrap-fast.php contents from
 vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php:
-
 
 ```php
 <?php
@@ -671,7 +644,6 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 # $class_loader->addPsr4('Drupal\Tests\my_module\\', "$root/modules/custom/my_module/tests/src");
 ```
 
-
 Here is the docker-compose.testing.yaml from [Michael Strelan on drupal.org](https://www.drupal.org/u/mstrelan). Once you add this and restart DDEV, you will be able to do AJAX and Javascript testing of DTT tests. Note this is a "just works" situation as Michael puts it. Note that if you have this file in place, you don't need to provide all the `env` values in the `phpunit.xml` above.
 
 ```yaml
@@ -702,6 +674,7 @@ services:
       - ddev-router:${DDEV_SITENAME}.${DDEV_TLD}
     networks: [default, ddev_default]
 ```
+
 ## What about testing browser interaction?
 
 Without the docker-compose.testing.yaml, you can only run the most basic DTT tests such as
@@ -710,12 +683,12 @@ Without the docker-compose.testing.yaml, you can only run the most basic DTT tes
 The lack of a headless Chrome container, will cause the
 [ExampleWebDriverTest](https://gitlab.com/weitzman/drupal-test-traits/-/blob/master/tests/ExampleWebDriverTest.php).php and [ExampleSeleniumDriverTest.php](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php)
 to fail with errors like this when you try to run tests:
+
 ```
 Error: Class "DMore\ChromeDriver\ChromeDriver\" not found
 ```
 
 Using `behat/mink-selenium2-driver`, you can run DTT against Chrome, Firefox or Edge (in WebDriver mode.) This setup also allows us to run Drupal core JS testing using Nightwatch. Although DTT supports browser testing using headless Chrome or Selenium. This facility is deprecated.
-
 
 From <https://gitlab.com/weitzman/drupal-test-traits>:
 
@@ -730,9 +703,6 @@ From <https://gitlab.com/weitzman/drupal-test-traits>:
 > this type should be placed in tests/src/ExistingSiteJavascript.
 > Contrary to its name, this test type does not use the WebDriver
 > protocol at all.
-
-
-
 
 # My first DTT tests
 
@@ -769,6 +739,7 @@ class RequirementsCreationTest extends ExistingSiteBase {
 
 }
 ```
+
 Run it with:
 
 ```
@@ -832,8 +803,6 @@ Along with a boatload of deprecation notices. (Note. we can hide these with `<en
 >
 > 1x in RequirementsCreationTest::setUp from
 > Drupal\\Tests\\tea_teks_requirements\\ExistingSite
-
-
 
 # Running DTT tests
 
@@ -921,11 +890,13 @@ Once you've set up your `bootstrap-fast.php` file in `/scripts`, you can specify
          verbose="true"
         >
 ```
+
 Then you don't need to pass it as a parameter. So running the test can look like this. Note no more reference to `--bootstrap` on the command line:
 
 ```
 ./vendor/bin/phpunit ./docroot/modules/custom/tea_teks/modules/tea_teks_voting/Tests/src/ExistingSite/RequirementsCreationTest.php
 ```
+
 Or more simply:
 
 ```
@@ -937,7 +908,6 @@ Also note you can specify the `phpunit.xml` file with -c parameter.
 ```
 ./vendor/bin/phpunit -c ./phpunit.xml  ./docroot/modules/custom/tea_teks/modules/tea_teks_voting/Tests/src/ExistingSite/RequirementsCreationTest.php
 ```
-
 
 ## Run tests on the host
 
@@ -951,7 +921,6 @@ Note. You can specify the location of `bootstrap-fast.php` in your
 `/phpunit.xml`. This file is found at `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`. Here a copy
 of `bootstrap-fast.php` is in the `/scripts` directory:
 
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -964,10 +933,7 @@ of `bootstrap-fast.php` is in the `/scripts` directory:
         >
 ```
 
-
-
 The source for bootstrap-fast.php is:
-
 
 ```php
 <?php
@@ -1002,7 +968,6 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 # $class_loader->addPsr4('Drupal\Tests\my_module\\', "$root/modules/custom/my_module/tests/src");
 ```
 
-
 ## Run tests in a specific file
 
 You can be specific and only run all tests in a particular test file e.g.
@@ -1012,7 +977,6 @@ $ vendor/bin/phpunit web/modules/custom/tea_teks_requirements/tests/src/Existing
 ```
 
 Here is an example where the location of the bootstrap file is specified with \--bootstrap:
-
 
 ```
 $ ./vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./web/modules/custom/tea_teks_requirements/tests/src/ExistingSite/ExampleTest.php
@@ -1059,13 +1023,11 @@ To add the printerclass to the phpunit.html see the printerClass line below:
   <php>
 ```
 
-
 Putting this in the `<php>` section of the file causes all html requests to be output to `/sites/simpletest/browser_output`. I tried specifying a different directory with but it had no effect. Use this with caution (or only for debugging if you don\'t want to fill up hard drives.)
 
- ```
+ ```xml
  <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/> 
  ```
-
 
 See the entire \<php\> section below:
 
@@ -1090,7 +1052,6 @@ See the entire \<php\> section below:
   <!--<env name="DTT_HTML_OUTPUT_DIRECTORY" value=""/>-->
 </php>
 ```
-
 
 ## Capture an HTML page
 
@@ -1122,7 +1083,7 @@ Use the following setting to specify the output directory in the
 
 Here is the whole \<php\> section:
 
-```
+```xml
 <php>
   <env name="DTT_BASE_URL" value="http://tea.ddev.site"/>
   <env name="DTT_API_URL" value="http://chrome:9222"/>
@@ -1144,7 +1105,6 @@ Here is the whole \<php\> section:
 </php>
 ```
 
-
 ### Screenshot using ExistingSiteSelenium2DriverTest
 
 From <https://gitlab.com/weitzman/drupal-test-traits#debugging-tests>:
@@ -1156,7 +1116,6 @@ ExistingSiteSelenium2DriverTest, use
 checks, as the act of taking a screenshot gives the browser additional time to finish rendering the page.
 
 This trait doesn\'t need to be installed separately, it is included with DTT. Just add a use statement to your class e.g.
-
 
 ```php
 class Pub1Test extends ExistingSiteSelenium2DriverTestBase {
@@ -1186,6 +1145,7 @@ do {
   //$this->capturePageContent();
   $this->captureScreenshot();
 ```
+
 The output appears as png files like:
 
 ![Output files](./images/media/output-files.png)
@@ -1194,7 +1154,7 @@ Curiously, this only captures the visible part of the page - I notice parts of i
 
 Location of the files is specified in the `phpunit.xml` in the `<php>` section as
 
-```
+```xml
 <env name="DTT_SCREENSHOT_REPORT_DIRECTORY" value=""/>
 ```
 
@@ -1237,11 +1197,13 @@ Use the latest drush (11 at this time) to generate both types of tests using:
 ```
 $ drush generate test:existing
 ```
+
 And
 
 ```
 $ drush generate test:existing-js
 ```
+
 More at <https://www.drush.org/latest/generators/>
 
 ## Example tests
@@ -1263,11 +1225,9 @@ use weitzman\DrupalTestTraits\ExistingSiteBase;
 /**
  * A model test case using traits from Drupal Test Traits.
  */
-class ExampleTest extends ExistingSiteBase
-{
+class ExampleTest extends ExistingSiteBase {
 
-  protected function setUp(): void
-  {
+  protected function setUp(): void {
     parent::setUp();
 
     // Cause tests to fail if an error is sent to Drupal logs.
@@ -1281,8 +1241,7 @@ class ExampleTest extends ExistingSiteBase
    * @throws \Drupal\Core\Entity\EntityMalformedException
    * @throws \Behat\Mink\Exception\ExpectationException
    */
-  public function testLlama()
-  {
+  public function testLlama() {
     // Creates a user. Will be automatically cleaned up at the end of the test.
     $author = $this->createUser([], null, true);
 
@@ -1312,6 +1271,7 @@ class ExampleTest extends ExistingSiteBase
   }
 }
 ```
+
 ### VotingPageTest
 
 This test runs code in a project and at various times asserts that
@@ -1374,7 +1334,6 @@ class VotingPageTest extends ExistingSiteBase {
 }
 ```
 
-
 Here is the setupTestProgram1ForVoting
 
 This checks some data in nodes, logs in as an admin user and fills out a form that executes a batch api process. I wasn't able to make a batch api process run directly from a test. Not sure why. Moshe Weitzman says it should work but that the batch API is ancient.
@@ -1403,7 +1362,6 @@ protected function setupTestProgram1ForVotingRound0() {
 }
 ```
 
-
 Other supporting functions
 
 ```php
@@ -1421,6 +1379,7 @@ protected function setupVoter1() {
   $this->voter1UserId = $uids[0];
 }
 ```
+
 and 
 
 ```php
@@ -1450,15 +1409,13 @@ use weitzman\LoginTrait\LoginTrait;
 /**
  * Login and Logout via user reset URL instead of forms. Useful when TFA/SAML are enabled.
  */
-class ExampleLoginTest extends ExistingSiteBase
-{
+class ExampleLoginTest extends ExistingSiteBase {
     use LoginTrait;
 
     /**
      * Login and logout via password reset URL.
      */
-    public function testLoginLogout()
-    {
+    public function testLoginLogout() {
         // Creates a user. Will be automatically cleaned up at the end of the test.
         $user = $this->createUser();
         $this->drupalLogin($user);
@@ -1468,7 +1425,6 @@ class ExampleLoginTest extends ExistingSiteBase
     }
 }
 ```
-
 
 ### Selenium2DriverTest
 
@@ -1533,6 +1489,7 @@ class ExampleSelenium2DriverTest extends ExistingSiteSelenium2DriverTestBase
   }
 }
 ```
+
 ## Login to your site
 
 There are some contributed packages with useful features. The [login trait repo](https://gitlab.com/weitzman/logintrait.git) adds some useful functionality.
@@ -1560,15 +1517,13 @@ use weitzman\LoginTrait\LoginTrait;
 /**
  * Login and Logout via user reset URL instead of forms. Useful when TFA/SAML are enabled.
  */
-class ExampleLoginTest extends ExistingSiteBase
-{
+class ExampleLoginTest extends ExistingSiteBase {
     use LoginTrait;
 
     /**
      * Login and logout via password reset URL.
      */
-    public function testLoginLogout()
-    {
+    public function testLoginLogout() {
         // Creates a user. Will be automatically cleaned up at the end of the test.
         $user = $this->createUser();
         $this->drupalLogin($user);
@@ -1578,6 +1533,7 @@ class ExampleLoginTest extends ExistingSiteBase
     }
 }
 ```
+
 ### Create an admin user
 
 This will create a user named Fred Bloggs who is in a new randomly named
@@ -1591,7 +1547,6 @@ $this->drupalLogin($user);
 $this->drupalGet('user');
 ```
 
-
 ### Login as an existing user
 
 Be sure to set that user's password to "password" (in the Drupal U/I or in code) in order to make this work.
@@ -1602,6 +1557,7 @@ $voter1 = User::load($voter1_user_id);
 $voter1->passRaw = 'password';
 $this->drupalLogin($voter1);
 ```
+
 Add users using Drupal API
 
 ```php
@@ -1633,7 +1589,6 @@ $this->submitForm([
 ], 'Log in');
 ```
 
-
 ### Parameter gotcha
 
 And my effort to fill out a form with a dropdown. This route required a node id to be passed as a parameter to the form -- hence the \['node'=\> 852071\] and my submit button is called "Change Status"
@@ -1644,7 +1599,6 @@ $this->submitForm([
   'program_status' => 'ready_for_release',
 ], 'Change Status');
 ```
-
 
 Note. When you define a form in Drupal, it permits you to use a
 different variable name in the routing file versus the parameter in the buildForm() function. E.g. Here the parameter is called "program":
@@ -1663,7 +1617,6 @@ tea_teks_srp.reset_program_votes:
         type: entity:node
     no_cache: 'TRUE'
 ```
-
 
 In the form, the parameter can be something different. i.e. the `$node` parameter here represents the program parameter above. If you change them to match i.e. change the parameter in the buildForm function below, it should work fine.
 
@@ -1797,6 +1750,7 @@ $session = $this->getSession();
 $page = $session->getPage();
 $page_text = $page->getText();
 ```
+
 ## Current URL
 
 ```php
@@ -1844,6 +1798,7 @@ private function readCsv2(): array {
 
 Here is the CSV file:
 
+```
 **Num**,**Program**,**Expectation**,**Correlation**,**SKIP**,**Romanette**,**KSS-SE**,**xofy**,**Citations**,**BrkStatus**,**ExpecStatus\
 1**,**852061**,**852076**,**852081**,**N**,**i**,**1.A**,**\"1, 1, 1,
 1\"**,**\"SN, SA\"**,**met**,**unmet\
@@ -1871,6 +1826,7 @@ SN, SN, SA, SA, SA, SA\"**,**met**,**met\
 13**,**852061**,**852146**,**852151**,**N**,**i**,**3.B**,,**TA**,**met**,**met\
 14**,**852061**,**852146**,**852156**,**N**,**ii**,**3.B**,,**\"TN,
 TA\"**,**met**,**met**
+```
 
 Picture of CSV file with color formatting:
 
@@ -1890,7 +1846,6 @@ $ composer require drupal/core-dev --dev --update-with-all-dependencies
 
 Setup `phpunit.xml` in the root of the project (not docroot or web). There will usually be a `phpunit.xml.dist` file there. Use that file and add your tweaks to it using
 <https://gitlab.com/weitzman/drupal-test-traits/-/blob/master/docs/phpunit.xml> as the basis.
-
 
 ## Create phpunit.xml file
 
@@ -1915,7 +1870,6 @@ My `phpunit.xml.dist`:
 ```
 
 My phpunit.xml with edits for site tea3.ddev.site.  replace tea3 with the sitename for your ddev site in the `<env name="DTT_BASE_URL" value="http://tea3.ddev.site"/>`.
-
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2050,12 +2004,15 @@ $ composer update --no-dev
 
 To hide deprecation notices when running test on the host, update your php.ini (run `php --ini` to find the php.ini file) and change the error_reporting line from:
 
-`error_reporting = E_ALL`
+```
+error_reporting = E_ALL
+```
 
 to:
 
-`error_reporting = E_ALL & ~E_DEPRECATE`
-
+```
+error_reporting = E_ALL & ~E_DEPRECATE
+```
 
 Now tests should look like this:
 
@@ -2074,8 +2031,6 @@ Now tests should look like this:
 >
 > OK (1 test, 3 assertions)
 
-
-
 # Troubleshooting DTT Tests
 
 ## Which test?
@@ -2088,7 +2043,6 @@ ArgumentCountError: Too few arguments to function Drupal\Core\Entity\EntityBase:
 ```
 
 This is indicating the first test by: "1)". If this were the second test in the file, it would show "2)". The error is that too few arguments were passed to EntityBase::load() -- in my case, I was passing null to a Node::load() function.
-
 
 ## PolyfillAssertTrait not found
 
@@ -2183,6 +2137,7 @@ class TeamTest extends ExistingSiteBase {
 
 }
 ```
+
 ## var_dump, echo, print
 
 For quick variable dumps, it is quite valid to use var_dump in your
@@ -2450,8 +2405,3 @@ When Phpstorm pops up, specify that the vendor directory is at
 -----------
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
-
-
-
-

@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [Links, Aliases and URLs](#links-aliases-and-urls)
   - [Create an internal url](#create-an-internal-url)
   - [Create an external url](#create-an-external-url)
@@ -39,7 +38,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 ## Create an internal url
 
 First a simple URL:
@@ -52,8 +50,8 @@ $url = Url::fromUri('internal:/reports/search');
 // Or. 
 
 $url = Url::fromUri('internal:/dashboard/achievements')
-// Or.
-//Using link generator to create a GeneratedLink.
+
+// Or Using link generator to create a GeneratedLink.
 $url = = Url::fromUri('internal:/node/1');
 $link = \Drupal::service('link_generator')->generate('My link', $url);
 
@@ -65,8 +63,7 @@ $url = Url::fromUri('internal:/');
 'url' => Url::fromRoute('hello_world.hello'),
 ```
 
-Then something more complicated like this URL to
-`/reports/search?user=admin`
+Then something more complicated like this URL to `/reports/search?user=admin`
 
 ```php
   $option = [
@@ -75,18 +72,16 @@ Then something more complicated like this URL to
   $url = Url::fromUri('internal:/reports/search', $option);
 ```
 
-
-
 ## Create an external url
 
 ```php
 use Drupal\Core\Url
 $url = Url::fromUri('http://testsite.com/go/here');
 ```
+
 ## The Drupal Core Url Class
 
-The `Drupal\Core\Url` class is often used to create URL's. Two important
-methods are:
+The `Drupal\Core\Url` class is often used to create URL's. Two important methods are:
 
 `Url::fromRoute()` which takes a route name and parameters and
 
@@ -96,8 +91,7 @@ See how these are used in some of the examples below.
 
 ## The Drupal Core Link Class
 
-Closely related and often used in conjunction with the Drupal Core URL
-class is the Drupal\Core\Link class.
+Closely related and often used in conjunction with the Drupal Core URL class is the Drupal\Core\Link class.
 
 You can generate links several different ways.
 
@@ -133,7 +127,6 @@ $options = ['relative' => TRUE];  //could be absolute instead of relative.
 
 $url = Url::fromRoute('entity.node.canonical',['node' => $nid], $options);
 $link = \Drupal::service('link_generator')->generate('My link', $url);
-
 ```
 
 ## Create a link from an internal URL
@@ -148,16 +141,15 @@ $link = \Drupal::service('link_generator')->generate('My link', $url);
 $url_string = Url::fromUri('internal:/node/' . $id)->toString();
 ```
 
-
 ## Retrieve a link field from a node or a paragraph
 
-The link field `field_link` is extracted from the node and a valid uri is
-extracted from that field.
+The link field `field_link` is extracted from the node and a valid uri is extracted from that field.
 
 ```php
 $correction_node = Node::load($nid);
 $current_url = $correction_node->get('field_link')->uri;
 ```
+
 Or from a paragraph field
 
 ```php
@@ -167,6 +159,7 @@ $para = Paragraph::load($target_id);
 $link = $para->field_link;
 $link_uri = $para->field_link->uri;
 ```
+
 Or a more convoluted example that extracts the url string for display
 from a link field.
 
@@ -180,28 +173,22 @@ if ($sf_contract) {
     $vendor_url_string = $vendor_url->toString();
   }
 ```
+
 Removing `->first()` as in:
 
 ```php
 $vendor_url = $sf_contract->field_vendor_url;
 ```
-returns a `Drupal\Core\Field\FieldItemList` which is a list of fields
-so you then would have to pull out the first field and extract the URI
-out of that. I'm not sure why Drupal considers it multiple values
-instead of just one. This was not set up as a multivalue field.
 
+returns a `Drupal\Core\Field\FieldItemList` which is a list of fields so you then would have to pull out the first field and extract the URI out of that. I'm not sure why Drupal considers it multiple values instead of just one. This was not set up as a multivalue field.
 
 ## Retrieve a URL field
 
 ### External links
 
 You can get the URL (for external links) and then just the text part.
-Note this doesn't work for internal links. Note also this slightly
-convoluted example has a reference field field_sf_contract_ref which has
-a link to another entity and the field_vendor_url-\>first()-\>getUrl()
-is the important part. Also note, this is a single-value field (not a
-multivalue field -- so the first() call may be a little disturbing to
-those who expect things to be a little clearer.)
+
+Note this doesn't work for internal links. Note also this slightly convoluted example has a reference field field_sf_contract_ref which has a link to another entity and the field_vendor_url-\>first()-\>getUrl() is the important part. Also note, this is a single-value field (not a multivalue field -- so the first() call may be a little disturbing to those who expect things to be a little clearer.)
 
 ```php
 $vendor_url = $node->field_sf_contract_ref->entity->field_vendor_url->first()->getUrl();
@@ -220,6 +207,7 @@ if (!$citation_link->isEmpty()) {
   $citation_link = $citation->field_link->first()->getUrl()->toString();
 }
 ```
+
 ### Internal links
 
 For internal links, use getUrl()for the URL and -\>title for the title.
@@ -248,6 +236,7 @@ To get the nid for a node, you can pass the URL alias to getPathByAlias.
 $alias = "/test-node";
 $path = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
 ```
+
 OR
 
 If you have a URL for a node and you want its nid
@@ -260,14 +249,13 @@ if (isset($route['node'])) {
 }
 ```
 
-
-
 ## Get the Taxonomy Term ID from a URL alias
 
 Returns taxonomy/term/5
 
 ```php
-$term_path_with_tid = \Drupal::service('path_alias.manager')->getPathByAlias('/hunger-strike');```
+$term_path_with_tid = \Drupal::service('path_alias.manager')->getPathByAlias('/hunger-strike');
+```
 
 ## Get URL alias for a taxonomy term
 
@@ -289,16 +277,14 @@ $user_path_with_uid = \Drupal::service('path_alias.manager')->getPathByAlias('/s
 
 ## Get the URL alias for a node
 
-If no alias is set, this will return \"/node/32\". Note. If there are
-multiple aliases, you will get the most recently created one.
+If no alias is set, this will return \"/node/32\". Note. If there are multiple aliases, you will get the most recently created one.
 
 ```php
 $node_path = '/node/32';
 $node32_alias = \Drupal::service('path_alias.manager')->getAliasByPath($node_path);
 ```
-Use this code if you need the absolute URL . If node/32 has a URL alias
-set to \"/test-node\" it returns \"https://d9book2.ddev.site/test-node\" . If
-you specify `absolute => FALSE`, it returns \"/test-node\" .
+
+Use this code if you need the absolute URL . If node/32 has a URL alias set to \"/test-node\" it returns \"https://d9book2.ddev.site/test-node\" . If you specify `absolute => FALSE`, it returns \"/test-node\" .
 
 ```php
 use Drupal\Core\Url;
@@ -329,12 +315,9 @@ $my_node_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create(
 $my_node_alias->save();
 ```
 
-
 ## Get the current Path
 
-This returns the current relative path. For node pages, the return value
-will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user
-\"user/2\" if it exists otherwise it will return the current request URI.
+This returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
 
 ```php
 $currentPath  = \Drupal::service('path.current')->getPath();
@@ -346,13 +329,13 @@ $url_string = Url::fromRoute('<current>')->toString();
 
 ## Get current nid, node type and title
 
-There are two ways to retrieve the current node -- via the request or
-via the route
+There are two ways to retrieve the current node -- via the request or via the route
 
 ```php
 $node = \Drupal::request()->attributes->get('node');
 $nid = $node->id();
 ```
+
 OR
 
 ```php
@@ -364,9 +347,8 @@ if ($node instanceof \Drupal\node\NodeInterface) {
   $nodeTitle = $node->getTitle();
 }
 ```
-If you need to use the node object in `hook_preprocess_page()` on the
-preview page, you need to use the \"node_preview\" parameter, instead of
-the \"node\" parameter:
+
+If you need to use the node object in `hook_preprocess_page()` on the preview page, you need to use the \"node_preview\" parameter, instead of the \"node\" parameter:
 
 ```php
 function mymodule_preprocess_page(&$vars) {
@@ -380,10 +362,8 @@ function mymodule_preprocess_page(&$vars) {
     $node = \Drupal::routeMatch()->getParameter('node_preview');
   }
 ```
-And from
-<https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id>
-when you are using or creating a custom block then you have to follow
-this code to get current node id. Not sure if it is correct
+
+And from <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id> when you are using or creating a custom block then you have to follow this code to get current node id. Not sure if it is correct
 
 ```php
 use Drupal\Core\Cache\Cache;
@@ -398,7 +378,7 @@ public function getCacheTags() {
   //With this when your node changes your block will rebuild
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     //if there is node add its cachetag
-    return Cache::mergeTags(parent::getCacheTags(), array('node:' . $node->id()));
+    return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
   } 
   else {
     //Return default tags instead.
@@ -410,7 +390,7 @@ public function getCacheContexts() {
   //if you depend on \Drupal::routeMatch()
   //you must set context of this block with 'route' context tag.
   //Every new route this block will rebuild
-  return Cache::mergeContexts(parent::getCacheContexts(), array('route'));
+  return Cache::mergeContexts(parent::getCacheContexts(), ['route']);
 }
 ```
 
@@ -458,6 +438,7 @@ For get variables
 $query = \Drupal::request()->query->get('name');
 $name  = $_GET['abc'];
 ```
+
 For POST variables:
 
 ```php
@@ -465,6 +446,7 @@ $name = \Drupal::request()->request->get('name');
 //or 
 $name  = $_POST['abc'];
 ```
+
 For all items in a GET:
 
 ```php
@@ -472,10 +454,8 @@ $query = \Drupal::request()->query->all();
 $search_term = $query['query'];
 $collection = $query['collection'];
 ```
-Be wary about caching. From
-<https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954>
-the code provided only works the first time so it is important to add a
-'#cache' context in the markup.
+
+Be wary about caching. From <https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954> the code provided only works the first time so it is important to add a '#cache' context in the markup.
 
 ```php
 namespace Drupal\newday\Controller;
@@ -491,6 +471,7 @@ class NewdayController extends ControllerBase {
     }
 }
 ```
+
 The request is being cached, you need to tell the system to vary by the
 query arguments:
 
@@ -502,16 +483,14 @@ $day = [
     ],
 ];
 ```
-More about caching render arrays:
-<https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
+
+More about caching render arrays: <https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
 
 ## Modify URL Aliases programmatically with hook_pathauto_alias_alter
 
-The [pathauto](https://www.drupal.org/project/pathauto) contrib module
-includes a nice hook that you can use to modify url aliases on the fly.
-You just do your necessary checks (the current entity is stored in
-`\context['data']`) and change the alias that is passed. Pathauto does
-the rest.
+The [pathauto](https://www.drupal.org/project/pathauto) contrib module includes a nice hook that you can use to modify url aliases on the fly.
+
+You just do your necessary checks (the current entity is stored in `\context['data']`) and change the alias that is passed. Pathauto does the rest.
 
 As implemented in a module file.
 
@@ -574,14 +553,11 @@ function dirt_pathauto_alias_alter(&$alias, array &$context) {
 }
 ```
 
-
-Also see an example at
-<https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field>
+Also see an example at <https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field>
 
 ## Drupal l() is deprecated
 
-The l() method (lower case letter L) was a convenience wrapper for the
-link generator service\'s generate() method.
+The l() method (lower case letter L) was a convenience wrapper for the link generator service's generate() method.
 
 So do this instead:
 
@@ -589,24 +565,22 @@ So do this instead:
 use Drupal\Core\Url;
 use Drupal\Core\Link;
 
-$url = Url::fromRoute('entity.node.edit_form', array('node' => NID));
+$url = Url::fromRoute('entity.node.edit_form', ['node' => NID]);
 $project_link = Link::fromTextAndUrl(t('Open Project'), $url);
 $project_link = $project_link->toRenderable();
 // If you need some attributes.
-$project_link['#attributes'] = array('class' => array('button', 'button-action', 'button--primary', 'button--small'));
+$project_link['#attributes'] = ['class' => ['button', 'button-action', 'button--primary', 'button--small']];
 print render($project_link);
 ```
-
 
 ## Reference links
 
 * Good reference from 2017 for creating links in Drupal at <https://agaric.coop/blog/creating-links-code-drupal-8>
 
-
+* [#! code: Drupal 9: Programmatically Creating And Using URLs And Links](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
