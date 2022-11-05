@@ -1931,8 +1931,7 @@ public function validateForm(array &$form, FormStateInterface $form_state) {
 
 * [Form API Internal Workflow](https://www.drupal.org/docs/drupal-apis/form-api/form-api-internal-workflow)
 
-* [#! code: Drupal 9: Creating A GET Form
-](https://www.hashbangcode.com/article/drupal-9-creating-get-form)
+* [#! code: Drupal 9: Creating A GET Form, July 2021](https://www.hashbangcode.com/article/drupal-9-creating-get-form)
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>

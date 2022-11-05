@@ -561,9 +561,9 @@ Afterwards rebuild the Drupal cache with `drush cr` otherwise your website will 
 * [Cache contexts overview on drupal.org](https://www.drupal.org/docs/drupal-apis/cache-api/cache-contexts)
 * [Caching in Drupal 8 a quick overview of Cache tags, cache context and cache max-age with simple examples](https://zu.com/articles/caching-drupal-8)
 * [Nedcamp video on caching by Kelly Lucas from November 2018](https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16)
-* [#! code: Drupal 9: Debugging Cache Problems With The Cache Review Module](https://www.hashbangcode.com/article/drupal-9-debugging-cache-problems-cache-review-module)
-* [#! code: Drupal 9: Using The Caching API To Store Data](https://www.hashbangcode.com/article/drupal-9-using-caching-api-store-data)
-* [#! code: Drupal 8: Custom Cache Bins](https://www.hashbangcode.com/article/drupal-8-custom-cache-bins)
+* [#! code: Drupal 9: Debugging Cache Problems With The Cache Review Module, September 2022](https://www.hashbangcode.com/article/drupal-9-debugging-cache-problems-cache-review-module)
+* [#! code: Drupal 9: Using The Caching API To Store Data, April 2022](https://www.hashbangcode.com/article/drupal-9-using-caching-api-store-data)
+* [#! code: Drupal 8: Custom Cache Bin, September 2019](https://www.hashbangcode.com/article/drupal-8-custom-cache-bins)
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>

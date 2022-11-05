@@ -577,7 +577,7 @@ print render($project_link);
 
 * Good reference from 2017 for creating links in Drupal at <https://agaric.coop/blog/creating-links-code-drupal-8>
 
-* [#! code: Drupal 9: Programmatically Creating And Using URLs And Links](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
+* [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
