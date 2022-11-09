@@ -1029,9 +1029,8 @@ From [Nedcamp video on caching by Kelly Lucas, November 2018](https://www.youtub
 
 In a twig template, let's you say you just want to render one field (but not the others), Drupal may not be aware if the content has changed, and will sometimes show old cached content. You can define a view mode or tweak the twig template a smidge with something like this:
 
-```twig
-  {% set blah = content|render %}
-```
+
+`{% set blah = content|render %}`
 
 Then add your fields:
 
