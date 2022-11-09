@@ -1027,12 +1027,12 @@ block.settings.aquifer_block:
 
 From [Nedcamp video on caching by Kelly Lucas, November 2018](https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16)
 
-In a twig template, let's you say you just want to render one field (but not the others), Drupal may not be aware if the content has changed, and will sometimes show old cached content. You can define a view mode or tweak the twig template a smidge with something like this:
+In a twig template, if you just want to render one or more fields (instead of the entire node), Drupal may not be aware if the content has changed, and will sometimes show old cached content. To resolve this, define a view mode and call content \| render, assign the resut to a variable like this:
 
-This must be between in curly braces \{ and \} and percentage signs
 ```twig
 set blah = content|render
 ```
+As usual in twig ese curly brace percentage sign delimeters around the above statement.  Add this render call will cause Drupal to render the content for that node which will cause a check of the caches and make sure the most current content is rendered.
 
 Then add your fields:
 
@@ -1040,7 +1040,6 @@ Then add your fields:
   {content.field_one}  etc.
 ```
 
-TODO: Figure out why the above is true.
 
 ## Block Permission (blockAccess)
 
