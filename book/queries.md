@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [Queries](#queries)
 - [entityQuery](#entityquery)
   - [Find matching nodes - example 1](#find-matching-nodes---example-1)
@@ -38,21 +37,15 @@
 <a href="/d9book">home</a>
 </h3>
 
-
-
-For most work, I use entityQueries. There are a few circumstances where
-I've needed to get into the SQL which meant using static or dynamic
-queries. There are examples of these different techniques below.
+For most work, I use entityQueries. There are a few circumstances where I've needed to get into the SQL which meant using static or dynamic queries. There are examples of these different techniques below.
 
 # entityQuery
 
 ## Find matching nodes - example 1
 
-In this EntityQuery example we search for nodes of content type (bundle)
-ws_product and match field_product_sku with the \$sku variable.
+In this EntityQuery example we search for nodes of content type (bundle) ws_product and match field_product_sku with the \$sku variable.
 
 use Drupal\node\Entity\Node;
-
 
 ```php
 function getProductId($sku) {
@@ -70,11 +63,10 @@ function getProductId($sku) {
   return $productId;
 }
 ```
+
 ## Find matching nodes - example 2
 
-In this entityQuery we search for published nodes of type contract with
-field_contract_status having the value "Active". This puts the resulting
-nids and node titles in a render array for display.
+In this entityQuery we search for published nodes of type contract with field_contract_status having the value "Active". This puts the resulting nids and node titles in a render array for display.
 
 This is a simple query which outputs a bunch of nids and titles
 
@@ -104,6 +96,7 @@ public function loadRawSalesforceData() {
     ];
 }
 ```
+
 ## Find matching article nodes -- example 3
 
 This example looks for an entity of type 'article' with the name \$name
@@ -137,9 +130,7 @@ public function entityExists() {
 
 ## Find nodes that match a taxonomy term
 
-Find all nodes that match a term_id and retrieve the first 5 nodes
-sorted by title. This code also puts them into a render array for
-display.
+Find all nodes that match a term_id and retrieve the first 5 nodes sorted by title. This code also puts them into a render array for display.
 
 ```php
 protected function loadFirstOpinion($term_id) {
@@ -165,10 +156,7 @@ protected function loadFirstOpinion($term_id) {
 
 ## Find 5 nodes that have a matching taxonomy term
 
-We look for published nodes of node type `opinion` that have a term in
-the category field, sorted by title ascending, starting with the first
-result and giving us 5 results. The resulting titles are put into a
-render array.
+We look for published nodes of node type `opinion` that have a term in the category field, sorted by title ascending, starting with the first result and giving us 5 results. The resulting titles are put into a render array.
 
 ```php
 protected function loadFirstOpinion($term_id) {
@@ -235,22 +223,13 @@ for ($i=0;$i<=$nid_count;$i+=100) {
 }
 ```
 
-
 ## Query the creation date (among other things) using entityQuery
 
-Note. The created (and changed) field uses a unix timestamp. This is an
-int 11 field in the db with a value like 1525302749 If you add a Drupal
-date field, its data looks like 2019-05-15T21:32:00 (varchar 20)
+Note. The created (and changed) field uses a unix timestamp. This is an int 11 field in the db with a value like 1525302749 If you add a Drupal date field, its data looks like 2019-05-15T21:32:00 (varchar 20)
 
-If you want to query a date field in a content type, you will have to
-fiddle around with the setTimezone stuff that is commented out below.
-The date field referenced below (field_date) is a standard Drupal date
-field.
+If you want to query a date field in a content type, you will have to fiddle around with the setTimezone stuff that is commented out below. The date field referenced below (field_date) is a standard Drupal date field.
 
-More at
-<https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
-and
-<https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
+More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update> and <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
 
 ```php
   protected function loadOpinionForAYear($year, $term_id) {
@@ -294,7 +273,6 @@ and
 
   }
 ```
-
 
 ## entityQuery frequently used conditions
 
@@ -342,14 +320,11 @@ function park_academy_update_8002() {
 ```
 # Static and dynamic Queries
 
-Sometimes you will use static or dynamic queries rather than
-entityQueries. These use actual SQL versus the entityQuery approach
-where you build the various parts of the query.
+Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the entityQuery approach where you build the various parts of the query.
 
 ## Static Queries
 
-See
-<https://www.drupal.org/docs/drupal-apis/database-api/static-queries>
+See <https://www.drupal.org/docs/drupal-apis/database-api/static-queries>
 
 ## Get a connection object
 
@@ -365,12 +340,9 @@ $connection = Database::getConnection();
 $connection = \Drupal::service('database');
 ```
 
-
 ## SQL select example
 
-Static query example from a controller. This loads some fields from the
-donors table and returns a render array with a count of how many results
-it found.
+Static query example from a controller. This loads some fields from the donors table and returns a render array with a count of how many results it found.
 
 ```php
 public function queryBuild1() {
@@ -391,7 +363,6 @@ public function queryBuild1() {
   return $render_array;
 }
 ```
-
 
 ## Find the biggest value in a field
 
@@ -418,12 +389,9 @@ public function highestId() {
 }
 ```
 
-
 ## SQL update query - example 1
 
-This shows how to update a status field to the new value \$status when
-the uuid matches, the event is either update or add and the status is
-new
+This shows how to update a status field to the new value \$status when the uuid matches, the event is either update or add and the status is new.
 
 ```php
 public function setUpdateStatus(string $uuid, string $status) {
@@ -438,7 +406,6 @@ public function setUpdateStatus(string $uuid, string $status) {
   return $result;
 }
 ```
-
 
 ## SQL update query - example 2
 
@@ -467,7 +434,6 @@ public function convertUpdateToAddEvent(string $uuid) {
 }
 ```
 
-
 ## SQL update query - example 3
 
 This will update values in a table and return the number of rows
@@ -490,14 +456,12 @@ public function updateQuery1() {
   return $render_array;
 }
 ```
-Note. This will be deprecated in Drupal 11. See
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x>
+
+Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x>
 
 and
 
 <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>
-
-
 
 ## SQL insert
 
@@ -527,10 +491,7 @@ are the difference between insert() and query()?
 -   insert() is more likely to work with other databases and future
     versions of Drupal.
 
-
-
 ## SQL Insert Query
-
 
 ```php
 /**
@@ -553,7 +514,6 @@ public function insert() {
   // Note. there is an auto-increment field so insert() returns  the value
   // for the new row in $result.
   $str = "Single insert returned auto-increment value of $result";
-
 
   // Multi-insert1.
   $result = $connection->insert('donors')
@@ -587,8 +547,8 @@ public function insert() {
   return $render_array;
 }
 ```
-More at
-<https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
+
+More at <https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
 
 ## SQL Delete query
 
@@ -613,11 +573,7 @@ public function deleteQuery2() {
 }
 ```
 
-Note. This will be deprecated in Drupal 11. See
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x>
-also
-
-<https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>
+Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x> also <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>.
 
 ## Paragraph query
 
@@ -646,13 +602,9 @@ function txg_preprocess_paragraph__simple_card(&$variables) {
 }
 ```
 
-
 ## Create a custom table for your module
 
-If you need a custom database table (or two) for use in a custom module,
-you can use hook_schema in your module.install file. This will cause the
-table(s) to be created at module install time and **removed** at module
-uninstall time.
+If you need a custom database table (or two) for use in a custom module, you can use hook_schema in your module.install file. This will cause the table(s) to be created at module install time and **removed** at module uninstall time.
 
 ````php
 function nocs_connect_schema() {
@@ -723,7 +675,6 @@ function nocs_connect_schema() {
 }
 ````
 
-
 # Reference
 
 -   API documentation for query conditions:
@@ -746,12 +697,8 @@ function nocs_connect_schema() {
     and
     <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
 
-
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
-

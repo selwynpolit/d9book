@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [Taxonomy](#taxonomy)
   - [Lookup term by name](#lookup-term-by-name)
   - [Lookup term name using its tid](#lookup-term-name-using-its-tid)
@@ -23,8 +22,6 @@
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
-
 
 ## Lookup term by name
 
@@ -137,6 +134,7 @@ public function loadByUUID() {
   return $build;
 }
 ```
+
 ## Load terms from a term reference field
 
 Retrieve the values in the field_event_category and display their term name, term id and their uuid. The call to referencedEntities() returns an array of term objects, so no need to call load() on them separately.
@@ -191,7 +189,6 @@ This will return something like:
 ```
 URL Alias for tid 3 = https://d9book2.ddev.site/category/rally
 ```
-
 
 ```php
 public function getTaxonomyAlias() {
@@ -268,17 +265,17 @@ public function loadTerms() {
       $options[$term->tid] = $term->name;
     }
 
-    $form['event_format']['active'] = array(
+    $form['event_format']['active'] = [
       '#type' => 'radios',
       '#title' => $this->t('Event Format'),
       '#default_value' => 1,
       '#options' => $options,
-//      '#options' => array(
+//      '#options' => [
 //        0 => $this->t('In-Person'),
 //        1 => $this->t('Online'),
 //        2 => $this->t('In-Person & Online'),
-//      ),
-    );
+//      ],
+    ];
 ```
 
 ## Create taxonomy term programatically
@@ -320,7 +317,6 @@ public function getMatchingNodes() {
 }
 ```
 
-
 ## Find nodes with a matching term using entityQuery
 
 This finds the first 5 nodes that have the matching term.
@@ -346,10 +342,8 @@ protected function loadFirstOpinion($term_id) {
   return $ra;
 ```
 
-
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>

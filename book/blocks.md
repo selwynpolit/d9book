@@ -1,10 +1,8 @@
 # Blocks
 
-
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 - [Blocks](#blocks)
   - [Create a block with Drush generate](#create-a-block-with-drush-generate)
@@ -26,10 +24,7 @@
 <a href="/d9book">home</a>
 </h3>
 
-
-
 Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
-
 
 ![Location of block source files](images/media/image-block-location.png)
 
@@ -324,7 +319,7 @@ container to `->get()` the service you need. In the example below
 Be sure to add your service to the list of parameters in the
 constructor: `$container->get('hello_world.salutation')`.
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -340,7 +335,7 @@ public static function create(ContainerInterface $container, array $configuratio
 
 Here are your `__constructor()` and a `build()` functions. See the 4th param -- `HelloWorldSalutationService $salutation` -- that's the injected service.
 
-```PHP
+```php
 /**
  * Construct.
  *
@@ -358,7 +353,7 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
 }
 ```
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -376,7 +371,7 @@ You often need to query some data from Drupal and display it in a block.
 
 Here is a simple block that loads all published content of type "page" and renders the titles. You could sort them by creation date by adding this to the `$query` variable: `->sort('created' , 'DESC');`
 
-```PHP
+```php
 namespace Drupal\opinions_module\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
@@ -443,7 +438,7 @@ Now for the block that users see (also the one that pops up in the block configu
 
 We define the block with its annotation:
 
-```PHP
+```php
 /**
  * Provides a cart block.
  *
@@ -460,7 +455,7 @@ It implements `ContainerFactoryPluginInterface` to allow dependency injection. T
 
 Here is the `create()`
 
-```PHP
+```php
 public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
   return new static(
     $configuration,
@@ -474,7 +469,7 @@ public static function create(ContainerInterface $container, array $configuratio
 
 Here is the constructor: 
 
-```PHP
+```php
 public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, FormBuilderInterface $form_builder) {
   parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -485,7 +480,7 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
 
 And finally the `build()` method:
 
-```PHP
+```php
 public function build() {
   return $this->formBuilder->getForm('Drupal\quick_pivot\Form\QuickPivotSubscribeForm');
 }
@@ -795,6 +790,7 @@ class QuickPivotSubscribeBlock extends BlockBase implements ContainerFactoryPlug
 
 }
 ```
+
 And here is the routing file:  `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` 
 
 ```yaml
@@ -818,11 +814,6 @@ quick_pivot.config:
   weight: 1
 ```
 
-
-
-
-
-
 ## Modify a block with hook_block_view_alter or hook_block_build_alter
 
 If you need to modify a block, you can supposedly use `hook_block_view_alter` or `hook_block_build_alter`, although I haven't been able to make this work... hmm.
@@ -835,7 +826,7 @@ In <https://drupal.stackexchange.com/a/215948> there is an example which fills i
 
 In an example on that stackexchange site, this function is provided:
 
-```PHP
+```php
 function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block) {
   if ($block->getBaseId() === 'system_powered_by_block') {
     $build['#pre_render'][] = '_yourmodule_block_poweredby_prerender';
@@ -844,7 +835,7 @@ function yourmodule_block_view_alter(array &$build, \Drupal\Core\Block\BlockPlug
 
 I think this is the version I tried:
 
-```PHP
+```php
 /**
  * Implements hook_block_build_alter().
  */
@@ -865,7 +856,7 @@ And I discovered an example from a project where the
 `$build['#pre_render'][]` array is populated with a function. I'm
 not sure what that function did -- presumably returned some text to be rendered.
 
-```PHP
+```php
 /**
  * Implements hook_block_view_alter().
  */
@@ -884,7 +875,7 @@ function pega_academy_core_block_view_alter(array &$build, \Drupal\Core\Block\Bl
 
 From `docroot/modules/custom/websphere_commerce/modules/cart/src/Plugin/Block/CartSummary.php`:
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -907,32 +898,32 @@ To make your block configurable, override 3 methods from BlockBase.
 
 Here `defaultConfiguration()` returns a block_count of 5.
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
 public function defaultConfiguration() {
   // By default, the block will display 5 thumbnails.
-  return array(
+  return [
     'block_count' => 5,
-  );
+  ];
 }
 ```
 
 `blockForm()` is used to create a configuration form:
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
 public function blockForm($form, FormStateInterface $form_state) {
   $range = range(2, 20);
-  $form['block_count'] = array(
+  $form['block_count'] = [
     '#type' => 'select',
     '#title' => $this->t('Number of product images in block'),
     '#default_value' => $this->configuration['block_count'],
     '#options' => array_combine($range, $range),
-  );
+  ];
   return $form;
 }
 
@@ -940,7 +931,7 @@ public function blockForm($form, FormStateInterface $form_state) {
 
 And `blockSubmit()` handles the submission of the config form. You don't need to save anything. The data is saved automatically into the Drupal config system. You just specify a configuration key like `$this->configuration['block_count']` and the rest is handled for you.
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -957,7 +948,7 @@ The `build()` method does all the work of building a render array to display wha
  * {@inheritdoc}
  */
 public function build() {
-  $build = array();
+  $build = [];
   $node = $this->getContextValue('node');
 
   // Determine if we are on a page that points to a product.
@@ -989,18 +980,18 @@ public function build() {
 
       // Modal dialog
       // see https://www.drupal.org/node/2488192 for more on modals
-      $options = array(
-        'attributes' => array(
-          'class' => array(
+      $options = [
+        'attributes' => [
+          'class' => [
             'use-ajax',
-          ),
+          ],
           'data-dialog-type' => 'modal',
           'data-dialog-options' => Json::encode([
             'width' => 700,
           ]),
-        ),
-      );
-      $url = Url::fromRoute('iai_pig.display_product_image', array('node' => $product->nid->value, 'delta' => $item_count));
+        ],
+      ];
+      $url = Url::fromRoute('iai_pig.display_product_image', ['node' => $product->nid->value, 'delta' => $item_count]);
       $url->setOptions($options);
       $build['list']['#items'][$item_count] = [
         '#type' => 'markup',
@@ -1038,18 +1029,17 @@ From [Nedcamp video on caching by Kelly Lucas, November 2018](https://www.youtub
 
 In a twig template, let's you say you just want to render one field (but not the others), Drupal may not be aware if the content has changed, and will sometimes show old cached content. You can define a view mode or tweak the twig template a smidge with something like this:
 
-
-  \{\% set blah = content\|render \%\}
-
+```twig
+  {% set blah = content|render %}
+```
 
 Then add your fields:
 
-```
+```twig
   {content.field_one}  etc.
 ```
 
 TODO: Figure out why the above is true.
-
 
 ## Block Permission (blockAccess)
 
@@ -1064,7 +1054,7 @@ use Drupal\Core\Access\AccessResult;
 $account = \Drupal::currentUser();
 ```
 
-```PHP
+```php
 /**
  * {@inheritdoc}
  */
@@ -1086,12 +1076,12 @@ And some piddlings from the Copyright.php file:
 $account = \\Drupal::currentUser();
 ```
 
-```PHP
+```php
 //Get the route.
 $route_name = \Drupal::routeMatch()->getRouteName();
 
 // not on the user login and logout pages
-if (!in_array($route_name,array('user.login', 'user.logout'))) {
+if (!in_array($route_name, ['user.login', 'user.logout'])) {
   return AccessResult::allowed();
 }
 
@@ -1108,7 +1098,7 @@ if ($account->isAnonymous()) {
 From
 `web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php` we check to make sure the user viewing a node and that the user has `view rsvplist` permission.  See the code below:
 
-```PHP
+```php
 protected function blockAccess(AccountInterface $account) {
   /** @var \Drupal\node\Entity\Node $node */
   $node = \Drupal::routeMatch()->getParameter('node');
@@ -1134,6 +1124,5 @@ return AccessResult::allowedIf(TRUE);
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>

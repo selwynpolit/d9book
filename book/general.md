@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [General](#general)
   - [Get the current user](#get-the-current-user)
   - [Get the logged in user name and email](#get-the-logged-in-user-name-and-email)
@@ -34,18 +33,15 @@
   - [Remote media entities](#remote-media-entities)
   - [Deprecated functions like drupal_set_message](#deprecated-functions-like-drupal_set_message)
 
-
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-general)
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-
 ## Get the current user
 
-Note this will not get the user entity, but rather a user proxy with
-basic info but no fields or entity-specific data.
+Note this will not get the user entity, but rather a user proxy with basic info but no fields or entity-specific data.
 
 ```php
 $user = \Drupal::currentUser();
@@ -61,7 +57,6 @@ Or
 use \Drupal\user\Entity\User;
 $user = User::load(\Drupal::currentUser()->id());
 ```
-
 
 ## Get the logged in user name and email
 
@@ -86,6 +81,7 @@ Email
 ```php
 $email = \Drupal::currentUser()->getEmail();
 ```
+
 or
 
 ```php
@@ -98,31 +94,27 @@ $email = $user->get('mail')->value;
 $is_front = \Drupal::service('path.matcher')->isFrontPage();
 ```
 
-The above statement will return either TRUE or FALSE. TRUE means you are on the front
-page.
+The above statement will return either TRUE or FALSE. TRUE means you are on the front page.
 
 ## Check if site is in system maintenance mode
 
 ```php
 $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 ```
+
 ## Get Node URL alias or Taxonomy Alias by Node id or Term ID
 
-Sometimes we need a relative path and sometimes we need an absolute
-path. There is an \$options parameter in the fromRoute() function where
-specify which you need.
+Sometimes we need a relative path and sometimes we need an absolute path. There is an \$options parameter in the fromRoute() function where specify which you need.
 
 Parameters:
 
 -   absolute true will return absolute path.
 -   absolute false will return relative path.
 
-
 Returns the node alias. Note. If a nice url is not set using pathauto, you get `/node/1234`
 
 
 ```php
-
 use Drupal\Core\Url;
 $options = ['absolute' => true];  //false will return relative path.
 
@@ -148,7 +140,6 @@ $url_alias = $url->toString();
 $full_url = $host . $url->toString();
 ```
 
-
 You can get the hostname, e.g. \"drupal8.local\", directly from the
 getHost() request with:
 
@@ -160,7 +151,6 @@ $host = \Drupal::request()->getHost();
 
 Return taxonomy alias
 
-
 ```php
 $options = ['absolute' => true];  //false will return relative path.
 $url = Url::fromRoute('entity.taxonomy_term.canonical', ['taxonomy_term' => 1234], $options);
@@ -168,9 +158,7 @@ $url = Url::fromRoute('entity.taxonomy_term.canonical', ['taxonomy_term' => 1234
 
 ## Get current Path
 
-For node pages this will return node/{node id},for taxonomy
-taxonomy/term/{term id}, for user user/{user id) if exists otherwise it
-will return the current request URI.
+For node pages this will return `node/{node id}`, for taxonomy `taxonomy/term/{term id}`, for user `user/{user id}` if exists otherwise it will return the current request URI.
 
 ```php
 $currentPath  = \Drupal::service('path.current')->getPath();
@@ -178,13 +166,13 @@ $currentPath  = \Drupal::service('path.current')->getPath();
 
 ## Get current nid, node type and title
 
-There are two ways to retrieve the current node -- via the request or
-the route
+There are two ways to retrieve the current node -- via the request or the route
 
 ```php
 $node = \Drupal::request()->attributes->get('node');
 $nid = $node->id();
 ```
+
 OR
 
 ```php
@@ -197,10 +185,7 @@ if ($node instanceof \Drupal\node\NodeInterface) {
 }
 ```
 
-
-If you need to use the node object in `hook_preprocess_page` on the
-preview page, you will need to use the `node_preview` parameter, instead of
-the `node` parameter:
+If you need to use the node object in `hook_preprocess_page` on the preview page, you will need to use the `node_preview` parameter, instead of the `node` parameter:
 
 ```php
 function mymodule_preprocess_page(&$vars) {
@@ -215,11 +200,7 @@ function mymodule_preprocess_page(&$vars) {
   }
 ```
 
-
-And from
-<https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id>
-when you are using or creating a custom block then you have to follow
-this code to get current node id. Not sure if it is correct.
+And from <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id> when you are using or creating a custom block then you have to follow this code to get current node id. Not sure if it is correct.
 
 ```php
 use Drupal\Core\Cache\Cache;
@@ -234,7 +215,7 @@ public function getCacheTags() {
   //With this when your node changes your block will rebuild
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     //if there is node add its cachetag
-    return Cache::mergeTags(parent::getCacheTags(), array('node:' . $node->id()));
+    return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
   } 
   else {
     //Return default tags instead.
@@ -246,10 +227,9 @@ public function getCacheContexts() {
   //if you depend on \Drupal::routeMatch()
   //you must set context of this block with 'route' context tag.
   //Every new route this block will rebuild
-  return Cache::mergeContexts(parent::getCacheContexts(), array('route'));
+  return Cache::mergeContexts(parent::getCacheContexts(), ['route']);
 }
 ```
-
 
 ## How to check whether a module is installed or not
 
@@ -288,11 +268,8 @@ test.settings_form:
     _permission: 'administer test configuration'
 ```
 
-This will return Drupal route. It returns entity.node.canonical for the nodes, system.404 for the 404 pages,
-entity.taxonomy_term.canonical for the taxonomy pages,
-entity.user.canonical for the users and custom route name that we define
+This will return Drupal route. It returns entity.node.canonical for the nodes, system.404 for the 404 pages, entity.taxonomy_term.canonical for the taxonomy pages, entity.user.canonical for the users and custom route name that we define
 in modulename.routing.yml file.
-
 
 ```php
 $current_route = \Drupal::routeMatch()->getRouteName();
@@ -308,28 +285,27 @@ $request = \Drupal::request();
 $title = \Drupal::service('title_resolver')->getTitle($request, $route);}
 ```
 
-
 ## Get the current user
 
-Note this will not get the user entity, but rather a user proxy with
-basic info but no fields or entity-specific data.
+Note this will not get the user entity, but rather a user proxy with basic info but no fields or entity-specific data.
 
 ```php
 $user = \Drupal::currentUser();
 ```
-To get the user entity, use this which gets the user service
-(`\Drupal::currentUser()`), gets the uid (`->id()`), then calls `load()`
-to load the real user object.
+
+To get the user entity, use this which gets the user service (`\Drupal::currentUser()`), gets the uid (`->id()`), then calls `load()` to load the real user object.
 
 ```php
 $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
 ```
+
 Or
 
 ```php
 use \Drupal\user\Entity\User;
 $user = User::load(\Drupal::currentUser()->id());
 ```
+
 ## Check if you are on the Front page
 
 This will return true for the front page otherwise false.
@@ -344,24 +320,28 @@ From web/core/modules/system/src/Access/CronAccessCheck.php
 
 ```php
 if (\Drupal::state()->get('system.maintenance_mode')) {
-```  
+```
+
 ## Retrieve query and get or post parameters (\$\_POST and \$\_GET)
 
-Old style was
+Old style was:
+
 ```php
 $name = $_POST['name'];
 ```
 
 Now use this for post vars:
 
-Now use this for post vars:
 ```php
 $name = \Drupal::request()->request->get('name');
 ```
+
 And this for gets
+
 ```php
 $query = \Drupal::request()->query->get('name');
 ```
+
 For all items in get:
 
 ```php
@@ -369,10 +349,8 @@ $query = \Drupal::request()->query->all();
 $search_term = $query['query'];
 $collection = $query['collection'];
 ```
-Be wary about caching. From
-<https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954>
-the code provided only works the first time so it is important to add a
-'#cache' context in the markup.
+
+Be wary about caching. From <https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954> the code provided only works the first time so it is important to add a '#cache' context in the markup.
 
 ```php
 namespace Drupal\newday\Controller;
@@ -387,8 +365,8 @@ class NewdayController extends ControllerBase {
     }
 }
 ```
-The request is being cached, you need to tell the system to vary by the
-query arg:
+
+The request is being cached, you need to tell the system to vary by the query arg:
 
 ```php
 $day = [
@@ -398,6 +376,7 @@ $day = [
     ],
 ];
 ```
+
 More about caching render arrays:
 <https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
 
@@ -411,19 +390,13 @@ $path_args = explode('/', $current_path);
 $term_name = $path_args[3];
 ```
 
-
 For https://txg.ddev.site/newsroom/search/?country=1206
 
 ![Variables display in PHPStorm debug pane](./images/media/image1-general.png)
 
-
 ## Get Current Language in a constructor
 
-In dev1 -
-/modules/custom/iai_wea/src/Plugin/rest/resource/WEAResource.php we
-create the WeaResource class and using dependency injection, get the
-LanguageManagerInterface service passed in, then we call
-getgetCurrentLanguage(). This allows us to later retrieve the node
+In dev1 - `/modules/custom/iai_wea/src/Plugin/rest/resource/WEAResource.php` we create the WeaResource class and using dependency injection, get the LanguageManagerInterface service passed in, then we call `getgetCurrentLanguage()`. This allows us to later retrieve the node
 
 ```php
 class WEAResource extends ResourceBase {
@@ -449,8 +422,8 @@ class WEAResource extends ResourceBase {
   }
 }
 ```
-Later in the class, we can retrieve the correct language version of the
-node:
+
+Later in the class, we can retrieve the correct language version of the node:
 
 ```php
 public function get($id) {
@@ -463,6 +436,7 @@ Of course, you can also get the language statically by using:
 ```php
 Global $language = Drupal::languageManager()->getLanguage(Language:TYPE_INTERFACE)
 ```
+
 This is part of the packt publishing Mastering Drupal 8 module development video series: https://www.packtpub.com/product/mastering-drupal-8-development-video/9781787124493
 
 Note. To test this in modules/custom/pseudo_client/get/ 
@@ -481,8 +455,6 @@ Note. To test this in modules/custom/pseudo_client/get/
 >
 > http://dev1/iai_wea/actions/2716?\_format=json
 
-
-
 ## Add a variable to any page on the site
 
 In the .theme file of the theme, add a `hook_preprocess_page` function
@@ -492,15 +464,16 @@ like in themes/custom/dprime/dprime.theme:
 function dprime_preprocess_page(&$variables) {
   $language_interface = \Drupal::languageManager()->getCurrentLanguage();
 
-  $variables['footer_address1'] = array(
+  $variables['footer_address1'] = [
     '#type'=>'markup',
     '#markup'=>'123 Disk Drive, Sector 439',
-  );
-  $variables['footer_address2'] = array(
+  ];
+  $variables['footer_address2'] = [
     '#type'=>'markup',
     '#markup'=>'Austin, Texas 78759',
-  );
+  ];
 ```
+
 Then in the template file e.g.
 themes/custom/dprime/templates/partials/footer.html.twig
 
@@ -514,22 +487,20 @@ themes/custom/dprime/templates/partials/footer.html.twig
   </address>
 </div>
 ```
+
 ## Add a variable to be rendered in a node. 
 
 From dev1 custom theme burger_burgler.
 
-Here two vars `stock_field` and `my_custom_field` are added and will be
-rendered by a normal node twig file. The function hook_preprocess_node
-is in the .theme file at themes/custom/burger_burgler/burger_burgler.theme
+Here two vars `stock_field` and `my_custom_field` are added and will be rendered by a normal node twig file. The function hook_preprocess_node is in the .theme file at `themes/custom/burger_burgler/burger_burgler.theme`.
 
 ```php
 function burger_burgler_preprocess_node(&$variables) {
 
-  $variables['content']['stock_field'] = array(
+  $variables['content']['stock_field'] = [
     '#type'=>'markup', 
     '#markup'=>'stock field here',
-  );
-
+  ];
 
   $variables['content']['my_custom_field'] = [
     '#type' => 'markup',
@@ -537,6 +508,7 @@ function burger_burgler_preprocess_node(&$variables) {
   ];
 }
 ```
+
 If you've tweaked your node twig template, you'll need to reference like
 this:
 
@@ -545,12 +517,14 @@ this:
 {{ content['stock_field'] }}
 </div>
 ```
+
 Note. You can always just add a variable like
+
 ```php
 $variables['abc']="hello";
 ```
- which can be referenced in the template
-as `{{ abc }}` (or `{{ kint(abc) }}`)
+
+which can be referenced in the template as `{{ abc }}` (or `{{ kint(abc) }}`)
 
 ## Add a bunch of variables to be rendered in a node
 
@@ -559,6 +533,7 @@ You can easily grab the node from the \$variables with:
 ```php
 $node = $variables['node'];
 ```
+
 Then to access a field in the node, you can just specify them by:
 
 ```php
@@ -566,10 +541,7 @@ $node->field_ref_aof
 $node->field_ref_topic
 ```
 
-
-Here we grab a bunch of variables, cycles through them (for multi-value
-fields, which most of them are and build an array that can be easily
-rendered by twig:
+Here we grab a bunch of variables, cycles through them (for multi-value fields, which most of them are and build an array that can be easily rendered by twig:
 
 From: themes/custom/txg/txg.theme
 
@@ -619,6 +591,7 @@ function _txg_multival_ref_data($ref_field, $param_name, $value_type, $field_ref
   return $values;
 }
 ```
+
 ## Grabbing entity reference fields in hook_preprocess_node for injection into the twig template
 
 You can easily pull in referenced fields by referring to them as
@@ -632,11 +605,10 @@ entity which has a field called `field_how_to_order`. Then we can jam it
 into the `$variables` array and refer to it in the twig template as `{{
 how_to_order }}`
 
-From web/themes/custom/dirt_bootstrap/dirt_bootstrap.theme
+From `web/themes/custom/dirt_bootstrap/dirt_bootstrap.theme`
 
-In 
-`function dirt_bootstrap_preprocess_node(&$variables) {
-`
+In  `function dirt_bootstrap_preprocess_node(&$variables)`
+
 ```php
 if ($type === 'contract') {
   if ($view_mode === 'full') {
@@ -671,6 +643,7 @@ function burger_burgler_preprocess_node(&$variables) {
 
 }
 ```
+
 and render it in the twig template `node--article--full.html.twig`
 
 ```twig
@@ -680,7 +653,6 @@ and render it in the twig template `node--article--full.html.twig`
   {% endfor %}
 </ol>
 ```
-
 
 ## Indexing paragraphs so you can theme the first one
 
@@ -708,11 +680,10 @@ function dprime_preprocess_field(&$variables) {
   }
 }
 ```
-`field_video_accordions` is the name of the field that holds the paragraph
-you want to count.
 
-In the twig template for that paragraph, you can use the value
-`paragraph.index` as in:
+`field_video_accordions` is the name of the field that holds the paragraph you want to count.
+
+In the twig template for that paragraph, you can use the value `paragraph.index` as in:
 
 ```twig
 {% if paragraph.index == 0 %}
@@ -727,12 +698,7 @@ In the twig template for that paragraph, you can use the value
 Also covered at
 <https://drupal.stackexchange.com/questions/217880/how-do-i-add-a-meta-tag-in-inside-the-head-tag>
 
-If you need to make changes to the `<head>` element, the
-`hook_preprocess_html` is the place to do it in the `.theme` file. Here we
-check to see that the content type is contract and then we create a fake
-array of meta tags and jam them into the
-`$variables[‘page’][‘#attached’][‘html_head’]` element. They are then rendered on the page.
-
+If you need to make changes to the `<head>` element, the `hook_preprocess_html` is the place to do it in the `.theme` file. Here we check to see that the content type is contract and then we create a fake array of meta tags and jam them into the `$variables[‘page’][‘#attached’][‘html_head’]` element. They are then rendered on the page.
 
 ```php
 /**
@@ -764,6 +730,7 @@ second "Dell" you could rather use
 ```php
 $page['#attached']['html_head'][] = [$description, 'description'];
 ```
+
 For multiple tags, I had to do this version:
 
 ```php
@@ -788,8 +755,8 @@ foreach ($brand_meta_tags as $brand_meta_tag) {
   $variables['page']['#attached']['html_head'][] = $brand_meta_tag;
 }
 ```
-And here I do a query and build some new meta tags from
-themes/custom/dirt_bootstrap/dirt_bootstrap.theme
+
+And here I do a query and build some new meta tags from `themes/custom/dirt_bootstrap/dirt_bootstrap.theme`.
 
 ```php
 $brand_meta_tags = [];
@@ -822,6 +789,7 @@ if ($contract_id) {
   }
 }
 ```
+
 ## How to strip % characters from a string
 
 ```php
@@ -832,16 +800,12 @@ echo $str . "\n";
 echo (urldecode($str)) . "\n";
 echo urlencode("threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you’re-road");
 
-
 echo urldecode('We%27re%20proud%20to%20introduce%20the%20Amazing');
-
 ```
 
 ## Remote media entities
 
-For this project, I had to figure out a way to make media entities that
-really were remote images. i.e. the API provided images but we didn't
-want to store them in Drupal
+For this project, I had to figure out a way to make media entities that really were remote images. i.e. the API provided images but we didn't want to store them in Drupal
 
 Started by looking at
 
@@ -849,8 +813,7 @@ https://www.drupal.org/sandbox/nickhope/3001154
 
 which was based on: https://www.drupal.org/project/media_entity_flickr
 
-I tweaked the nickhope module (media_entity_remote_file) so it worked
-but it had some trouble with image styles and thumbnails
+I tweaked the nickhope module (media_entity_remote_file) so it worked but it had some trouble with image styles and thumbnails
 
 A good solution (thanks to Hugo) is:
 
@@ -867,40 +830,31 @@ $file->save();
 $node->field_file->setValue(['target_id' => $file->id()]);
 $node->save();
 ```
-There was no documentation so I added some at
-<https://www.drupal.org/project/remote_stream_wrapper/issues/2875444#comment-12881516>
 
+There was no documentation so I added some at <https://www.drupal.org/project/remote_stream_wrapper/issues/2875444#comment-12881516>
 
 ## Deprecated functions like drupal_set_message
 
-Note. `drupal_set_message()` has been removed from the codebase so you should use `messenger()` but you
-can also use `dsm()` which is provided by the [devel](https://www.drupal.org/project/devel) contrib module. This is useful
-when working through a problem if you want to display a message on a site during debugging.
+Note. `drupal_set_message()` has been removed from the codebase so you should use `messenger()` but you can also use `dsm()` which is provided by the [devel](https://www.drupal.org/project/devel) contrib module. This is useful when working through a problem if you want to display a message on a site during debugging.
 
-from
-<https://github.com/mglaman/drupal-check/wiki/Deprecation-Error-Solutions>
+From <https://github.com/mglaman/drupal-check/wiki/Deprecation-Error-Solutions>
 
 Before
+
 ```php
 drupal_set_message($message, $type, $repeat);
 ```
 
 After
+
 ```php
 \Drupal::messenger()->addMessage($message, $type, $repeat);
 ```
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 
-
-
-
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
-
-

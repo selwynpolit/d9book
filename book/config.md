@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [Configuration and Settings](#configuration-and-settings)
   - [Load some config](#load-some-config)
   - [Views](#views)
@@ -30,8 +29,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
-
 Config is stored in yml files so it can be checked into git. It is
 loaded into the config table of the database for performance. Use  `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more.  You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
 
@@ -44,7 +41,6 @@ $settings['config_sync_directory'] = '../config/sync';
 
 [More about Defining and using your own configuration in Drupal](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
 
-
 ## Load some config
 
 This example shows how to load a rest endpoint from config. This is very similar to Drupal 7 `variable_get()`.
@@ -55,9 +51,11 @@ Use the Configuration API main entry point `\Drupal::config()` to load the confi
 $pizzaEndpoint = \Drupal::config('pizza_academy_core.pbx.rest.endpoint');
 $pizza_service_url = $pizzaEndpoint->get('pizza_rest_endpoint').$reg_id;
 ```
+
 When you export the config, this information is stored in a file called `pizza_academy_core.pbx.rest.endpoint.yml` with a key `pizza_rest_endpoint`.
 
 The contents of the file are simply:
+
 ```
 pizza_rest_endpoint: 'https://pbx.pizza.com/pbx-profile-service/'
 ```
@@ -72,20 +70,20 @@ config/sync/pizza_academy_core.pbx.rest.endpoint.yml
 The config sync directory location is specified in `settings.php` like
 this
 
-`$settings['config_sync_directory'] = '../config/sync';`
-
+```php
+$settings['config_sync_directory'] = '../config/sync';
+```
 
 [More on creating custom modules: Using your own configuration](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal
 )
 
 [Drupal::config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
 
-
 You can override config items in a `settings.php` or `local.settings.php` using the `$config` global variable. 
 
 ## Views
 
-For views, the config filenames are be in the form `views.view.infofeeds` for a view called infofeeds.
+For views, the config filenames are be in the form `views.view.infofeeds` for a view called `infofeeds`.
 
 ## Add config to an existing module
 
@@ -113,10 +111,11 @@ In docroot/modules/custom/pizza_academy_core/config/install/pizza_academy_core.p
 
 We have a file with the contents:
 
-```
+```yml
 url: 'https://pbx.pizza.com/'
 langcode: 'en'
 ```
+
 You can copy it to the `config/sync` directory, manually paste the contents into the config Drupal u/i or import it into the db with drush.  The drush way is the easiest in my opinion.
 
 ```
@@ -125,15 +124,13 @@ drush config-import --source=modules/custom/pizza_academy_core/config/install/ -
 
 Then you can access it from a controller at `docroot/modules/custom/pizza_academy_core/src/Controller/VerifyCertificationPage.php` using the following code:
 
-
 ```php
 $pbx_path_config = \Drupal::config('pizza_academy_core.pbxpath');
 $pbx_path = $pbx_path_config->get('url');
 $pbx_achievements_url = $pbx_path . "achievements?regid=".$reg_id;
 ```
+
 Once you grab the url, you can use it later in your code.
-
-
 
 ## Import something you changed in your module
 
@@ -191,7 +188,6 @@ function mymodule_system_site_information_phone_submit(array &$form,  FormStateI
 }
 ```
 
-
 Don't forget there is a [module called config pages](https://www.drupal.org/project/config_pages) which might save you some coding if you need to add some config to a site.
 
 ## Override config in settings.php
@@ -217,6 +213,7 @@ a line like this (which references the configuration keys:
 ```php
 $config['system.maintenance']['message'] = 'Sorry, our site is down now.';
 ```
+
 For nested values, use nested array keys
 
 ```php
@@ -245,25 +242,25 @@ To put this in `settings.php` or `settings.local.php`, add a line and set the va
 ```php
 $config['google_tag.container.default']['status'] = false;
 ```
+
 ## Setup a testing variable in config for a project
 
 First create the yml file in your `module/config/install` e.g.
 `tea_teks_srp.testing.yml` with this as the contents:
 
-```
+```yml
 test_mode: FALSE
 ```
 
 This will be the default state of the app
 
-In the Drupal U/I under config, devel, configuration synchronization,
-import, single item i.e. at 
-`/admin/config/development/configuration/single/import` select `simple
-configuration`. In the configuration name field, put `tea_teks_srp.testing`
+In the Drupal U/I under config, devel, configuration synchronization, import, single item i.e. at `/admin/config/development/configuration/single/import` select `simple configuration`. In the configuration name field, put `tea_teks_srp.testing`.
 
 Paste in the text of the file
 
-`test_mode: FALSE`
+```yml
+test_mode: FALSE
+```
 
 and import. This will load the new value into the database.
 
@@ -272,6 +269,7 @@ Then in your `docroot/sites/default/settings.local.php` (to enable testing featu
 ```php
 $config['tea_teks_srp.testing']['test_mode'] = TRUE;
 ```
+
 This will override your config you added above so test_mode is true.
 
 Then to use the test_mode, you can load it into a controller class (or form class) from the config (and the value in the `settings.local.php` will override the default) with the following:
@@ -279,6 +277,7 @@ Then to use the test_mode, you can load it into a controller class (or form clas
 ```php
 $test_mode = \Drupal::config('tea_teks_srp.testing')->get('test_mode');
 ```
+
 And then just use the `$test_mode` variable as needed e.g.
 
 ```php
@@ -293,7 +292,7 @@ Here we are fiddling with the shield module settings
 
 In config, synchronize, we see an item: `shield.settings`
 
-So we can load it with drush
+So we can load it with drush:
 
 ```
 $ drush cget shield.settings
@@ -308,8 +307,7 @@ _core:
   default_config_hash: c1dcnGFTXFeMq2-Z8e7H6Qxp6TTJe-ZhSA126E3bQJ4
 ```
 
-Drilling down deeper, let's say we want to view the credentials section.
-Notice that drush requires a space instead of a colon:
+Drilling down deeper, let's say we want to view the credentials section. Notice that drush requires a space instead of a colon:
 
 ```
 $ drush cget shield.settings credentials
@@ -326,20 +324,15 @@ $ drush cget shield.settings credentials.shield
     user: nisor
     pass: blahblah
 ```
+
 and finally:
 
 ```
-drush cget shield.settings credentials.shield.user
-'shield.settings:credentials.shield.user': nisor
-```
-
-```
-drush cget shield.settings credentials.shield.pass
+$ drush cget shield.settings credentials.shield.pass
 'shield.settings:credentials.shield.pass': blahblah
 ```
 
 So if you want to **set** these:
-
 
 ```
 drush cset shield.settings credentials.shield.pass yomama
@@ -356,17 +349,20 @@ drush cset shield.settings credentials.shield.user fred
 Do you want to update credentials.shield.pass key in shield.settings
 config? (y/n): y
 ```
+
 And there is that message
 
 ```
 drush cget shield.settings print
 'shield.settings:print': 'Please provide credentials for access.'
 ```
+
 And so
 
 ```
 drush cset -y shield.settings print "Credentials or I won't let you in"
 ```
+
 and while we're here, we could always put these into the `$config` object
 via `settings.php` (or `settings.local.php` :
 
@@ -390,7 +386,6 @@ need the standard `buildForm()`, `submitForm()` and `getFormId()` methods.
 e.g. in `docroot/modules/custom/danamod/src/Form/HeaderFooterForm.php`
 
 In the buildform, you load the config object, then  `get` each value from the object, load them into the form (in `#default_value` array items) so the user can see the current value.
-
 
 ```php
 // Load the values from config.
@@ -446,18 +441,18 @@ $config
 
 Drush will provide you with all the tools you need to fiddle with config from the command line. Check out the [drush docs](https://www.drush.org/latest/commands/all/)
 
-
 ### View config
 
 Note. when you view the value in config, drush cleverly will **ignore values** overidden in settings.php. More below.
 
-`cget` is short for config:get.
+`cget` is short for `config:get`.
 
 From the [drush docs](https://www.drush.org/latest/commands/config_get/)
 
 - `drush config:get system.site` - displays the system.site config.
 
 - `drush config:get system.site page.front` -  displays what Drupal is using for the front page of the site: e.g. 
+
 ```
 $ drush config:get system.site page.front
   'system.site:page.front': /node
@@ -480,7 +475,9 @@ Also drush can execute php for a little more fun approach:
 ```
 drush ev "var_dump(\Drupal::configFactory()->getEditable('system.site')->get('name'))"
 ```
-or 
+
+or
+
 ```
 drush ev "print \Drupal::config('narcs_inferconnect.imagepath')->get('basepath');"
 ```
@@ -497,6 +494,7 @@ cdel is short for config:delete.
 ### Check what has changed with config:status
 
 `cst` is short for `config:status`
+
 ```
  drush cst
  --------------------------------------------- ------------
@@ -546,7 +544,6 @@ First check what changed with `drush cst` then use `drush cim` to restore the co
 
 Drupal cleverly notices which config items have changed and loads only those changes into the database. 
 
-
 ```
 $ drush cst
  ------------- -----------
@@ -554,7 +551,9 @@ $ drush cst
  ------------- -----------
   system.site   Different
 ```
+
 and
+
 ```
  drush cim -y
 +------------+-------------+-----------+
@@ -574,6 +573,4 @@ and
 <a href="/d9book">home</a>
 </h3>
 
-
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-

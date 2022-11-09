@@ -4,7 +4,6 @@
 <a href="/d9book">home</a>
 </h3>
 
-
 - [Logging](#logging)
   - [Quick log to watchdog](#quick-log-to-watchdog)
   - [Log an email notification was sent to the the email address for the](#log-an-email-notification-was-sent-to-the-the-email-address-for-the)
@@ -20,7 +19,6 @@
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 ## Quick log to watchdog
 
@@ -44,6 +42,7 @@ $str =  __FUNCTION__." in ".__FILE__." at ".__LINE__;
 
 \Drupal::service('logger.factory')->get('test')->error('This is my error message');
 ```
+
 The parameter "test" used above is typically the module name. It is
 stored in the "type" field.
 
@@ -139,6 +138,7 @@ public function __construct(ConfigFactoryInterface $config_factory, LoggerChanne
   $this->websphereConfig = $config_factory->get('websphere_commerce.api_settings');
 }
 ```
+
 Log errors.
 
 ```php
@@ -146,7 +146,6 @@ if ($response['status'] == API_ERROR) {
   $this->logger->get('websphere_commerce')->alert("Error saving Shipping info to Websphere.");
 }
 ```
-
 
 ## Another example using the logging via dependency injection
 
@@ -182,7 +181,6 @@ $ drush dcs log
 So dino_roar.dino_listener will pass the logger.factory service to your
 DinoListener class.
 
-
 ```yaml
 dino_roar.dino_listener:
   class: Drupal\dino_roar\Jurassic\DinoListener
@@ -191,8 +189,7 @@ dino_roar.dino_listener:
     - {name: event_subscriber}
 ```
 
-in your `DinoListener.php` specify a constructor argument of
-`LoggerChannelFactoryInterface` and store it.
+in your `DinoListener.php` specify a constructor argument of `LoggerChannelFactoryInterface` and store it.
 
 
 ```php
@@ -233,12 +230,9 @@ class DinoListener implements EventSubscriberInterface {
 }
 ```
 
-
 ## Logging exceptions from a try catch block
 
-In this controller, the try block calls the test() method which throws
-an exception. The catch block catches the exception and logs the message
-(and for fun displays a message in the notification area also.)
+In this controller, the try block calls the test() method which throws an exception. The catch block catches the exception and logs the message (and for fun displays a message in the notification area also.)
 
 ```php
   public function build() {
@@ -265,7 +259,6 @@ an exception. The catch block catches the exception and logs the message
   }
 ```
 
-
 ## Display a message in the notification area
 
 You can display a message with:
@@ -275,6 +268,7 @@ $messenger = \Drupal::messenger();
 $messenger->addMessage("a message");
 $messenger->addError("error message");
 ```
+
 Or
 
 ```php
@@ -282,26 +276,28 @@ Or
 
 \Drupal::messenger()->addMessage($message, $type, $repeat);
 ```
+
 Use `$repeat = FALSE` to suppress duplicate messages.
 
 
-Specify MessengerInterface::::TYPE_STATUS,MessengerInterface::::TYPE_WARNING, or MessengerInterface::::TYPE_ERROR to indicate the severity.
+Specify `MessengerInterface::TYPE_STATUS`,`MessengerInterface::TYPE_WARNING`, or `MessengerInterface::TYPE_ERROR` to indicate the severity.
+
 Don't forget
+
 ```php
 use Drupal\Core\Messenger\MessengerInterface;
 ```
 
-
-
-Note. `addMessage()` adds `class="messages messages--status"` to the div
-surrounding your message while addError adds `class="messages messages--status"` . Use these classes to format the message appropriately.
+Note. `addMessage()` adds `class="messages messages--status"` to the div surrounding your message while addError adds `class="messages messages--status"` . Use these classes to format the message appropriately.
 
 When you need to display a message in a form, use the `$this->messenger()` that is provided by the Drupal\\Core\\Messenger\\MessengerTrait;
 
 ```php
 $this->messenger()->addStatus($this->t('Running in Destructive Mode - Changes ARE committed to the database!'));
 ```
+
 e.g.
+
 ```php
 \Drupal::messenger()->addMessage('Program pending, please assign team and initialize. ', MessengerInterface::TYPE_WARNING);
 ```
@@ -324,11 +320,8 @@ print_r($is_front);
 
 * [How to Log Messages in Drupal 8 by Amber Matz of Drupalize.me 10-13-2015](https://drupalize.me/blog/201510/how-log-messages-drupal-8)
 
-
-
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
-
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
