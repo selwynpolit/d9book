@@ -9,7 +9,7 @@
   - [Permanently update menu links in a hook_update using entityQuery](#permanently-update-menu-links-in-a-hook_update-using-entityquery)
   - [Add menu items with hook_update](#add-menu-items-with-hook_update)
   - [Permanently modify or delete menu items with hook_update](#permanently-modify-or-delete-menu-items-with-hook_update)
-  - [Pair up a menu to its parents to see if it is a child of a content type](#peer-up-a-menu-to-its-parents-to-see-if-it-is-a-child-of-a-content-type)
+  - [Peer up a menu to its parents to see if it is a child of a content type](#peer-up-a-menu-to-its-parents-to-see-if-it-is-a-child-of-a-content-type)
   - [Find all the children of a menu](#find-all-the-children-of-a-menu)
   - [Build a menu and all its children](#build-a-menu-and-all-its-children)
   - [Create custom Twig extension for rendering a menu](#create-custom-twig-extension-for-rendering-a-menu)
@@ -148,9 +148,9 @@ and
 $menu_link->set('parent', $parent_id);
 ```
 
-## Pair up a menu to its parents to see if it is a child of a content type
+## Peer up a menu to its parents to see if it is a child of a content type
 
-Here, we need to display a sidebar if the current node is both a page and a child (or any level of offspring, e.g., grandchild, great-grandchild, etc.) of a content type "unit."
+Here, we need to display a sidebar if the current node is both a page and a child (or any level of offspring, e.g., grandchild, great-grandchild, etc.) of a content type "unit."  This means we need to "peer" up the menu chain to see what kind of parent the node has.
 
 This example was implemented in a .theme file.
 
