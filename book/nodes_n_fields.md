@@ -606,17 +606,17 @@ $node->save();
 
 ## Save multivalue field, entity reference field
 
-When you really care which delta/index/offset, you can specify that
-offset. It's a bit confusing how it works. For text or numeric fields,
-it works like you'd expect. You can just specify the offset. For entity
-reference fields, you have to do some fiddling. Don't use `$node->set()`
-as this overwrites everything in the field, rather use the magic field
-setter variable.
+When you really care which delta/index/offset, you can specify that offset. It's a bit confusing how it works. For text or numeric fields, it works like you'd expect. You can just specify the offset. For entity reference fields, you have to do some fiddling. Don't use `$node->set()` as this overwrites everything in the field, rather use the magic field setter variable and specify the offset.
 
 Here `$vote_number` represents the index so if `$vote_number` = 0, this write the first item in the multivalue field.  If `$vote_number` = 1, then write the second item, and so on.
 
 ```php
 $citation_node->field_srp_voting_status[$vote_number] = 'incomplete';
+```
+
+Be cautions, you might think this would work but it *doesn\'t*
+```php
+$program_node->set('field_srp_team_ref', [$vote_number => 1234;
 ```
 
 If you are going to write index 2 and there is a possibility that there
