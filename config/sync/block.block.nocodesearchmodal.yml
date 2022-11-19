@@ -1,0 +1,30 @@
+uuid: 6044de89-be88-4bc8-bb00-6592bbd8e219
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:e7dd1a48-0185-4905-a309-1daa93ae5156'
+  module:
+    - block_content
+    - system
+  theme:
+    - olivero
+id: nocodesearchmodal
+theme: olivero
+region: content_above
+weight: 0
+provider: null
+plugin: 'block_content:e7dd1a48-0185-4905-a309-1daa93ae5156'
+settings:
+  id: 'block_content:e7dd1a48-0185-4905-a309-1daa93ae5156'
+  label: 'No-code search modal'
+  label_display: visible
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /block-tester-page

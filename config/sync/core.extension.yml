@@ -43,6 +43,7 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  phil: 0
   queries: 0
   quickedit: 0
   rdf: 0
