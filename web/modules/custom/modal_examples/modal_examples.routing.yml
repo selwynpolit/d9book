@@ -48,3 +48,29 @@ modal_examples.modal2:
   requirements:
     _access: 'TRUE'
 
+# Controller with buttons to open modals
+modal_examples.example2:
+  path: '/modal-examples/example2'
+  defaults:
+    _title: 'Modal Examples (example2)'
+    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController2::buildExample2'
+  requirements:
+    _permission: 'access content'
+
+# Simple form for slide-in modals
+modal_examples.form2:
+  path: '/modal-examples/form2'
+  defaults:
+    _form: 'Drupal\modal_examples\Form\ExampleForm2'
+    _title: 'Simple example form (form2)'
+  requirements:
+    _permission: 'access content'
+
+# Form with buttons to open modals
+modal_examples.login_form:
+  path: '/modal-examples/login-form'
+  defaults:
+    _title: 'Simple example form (form2)'
+    _controller: 'Drupal\modal_examples\Controller\ModalExamplesController2::buildLoginForm'
+  requirements:
+    _permission: 'access content'

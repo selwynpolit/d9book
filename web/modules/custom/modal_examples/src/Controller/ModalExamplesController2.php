@@ -7,8 +7,10 @@
  */
 namespace Drupal\modal_examples\Controller;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Ajax\OpenDialogCommand;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
@@ -103,6 +105,118 @@ class ModalExamplesController2 extends ControllerBase {
     // Add the open dialog command to the ajax response.
     $response->addCommand(new OpenDialogCommand('#my-dialog-selector', $title, $content, ['width' => '70%']));
     return $response;
+  }
+
+  public function buildExample2() {
+
+    $route_name = \Drupal::routeMatch()->getRouteName();
+    $build['content'] = [
+      '#type' => 'item',
+      '#markup' => $this->t('Route: %route', ['%route' => $route_name]),
+    ];
+
+    $build['link-to-modal1'] = [
+      '#type' => 'link',
+      '#prefix' => '<div class="pqrst">',
+      '#suffix' => '</div>',
+      '#title' => t('Link to off canvas/slide-in custom modal dialog (modal1)'),
+      '#url' => Url::fromRoute('modal_examples.modal1', [
+        'program_id'     => 123,
+        'type' => 'all',
+      ]),
+      '#attributes' => [
+        'id' => 'view-correlation-' . 12345,
+        'class' => ['use-ajax'],
+        'aria-label' => 'View useful information pertaining to item ' . '12345',
+        '#prefix' => '<div class="abcdef">',
+        '#suffix' => '</div>',
+        'data-dialog-type' => 'dialog.off_canvas',
+        'data-dialog-options' => Json::encode(
+          [
+            'width' => 'auto',
+          ]
+        ),
+      ],
+    ];
+
+    $build['link-to-modal1-top'] = [
+      '#type' => 'link',
+      '#prefix' => '<div class="pqrst">',
+      '#suffix' => '</div>',
+      '#title' => t('Link to off canvas/slide-in custom modal dialog (modal1) from top'),
+      '#url' => Url::fromRoute('modal_examples.modal1', [
+        'program_id'     => 123,
+        'type' => 'all',
+      ]),
+      '#attributes' => [
+        'id' => 'view-correlation-' . 12345,
+        'class' => ['use-ajax'],
+        'aria-label' => 'View useful information pertaining to item ' . '12345',
+        '#prefix' => '<div class="abcdef">',
+        '#suffix' => '</div>',
+        'data-dialog-type' => 'dialog.off_canvas_top',
+        'data-dialog-options' => Json::encode(
+          [
+            'width' => 'auto',
+          ]
+        ),
+      ],
+    ];
+
+
+    $build['link-to-example2-form'] = [
+      '#type' => 'link',
+      '#prefix' => '<div class="pqrst">',
+      '#suffix' => '</div>',
+      '#title'=> t('Link to off canvas/slide-in form (form2) '),
+      '#url' => Url::fromRoute('modal_examples.form2', [
+        'program_id'     => 123,
+        'type' => 'all',
+      ]),
+      '#attributes' => [
+        'id' => 'important-id-' . 12345,
+        'class' => ['use-ajax'],
+        '#prefix' => '<div class="abcdef">',
+        '#suffix' => '</div>',
+        'data-dialog-type' => 'dialog.off_canvas',
+        'data-dialog-options' => Json::encode(
+          [
+            'width' => 'auto',
+          ]
+        ),
+      ],
+    ];
+
+    $build['link-to-example-login-form'] = [
+      '#type' => 'link',
+      '#prefix' => '<div class="pqrst">',
+      '#suffix' => '</div>',
+      '#title'=> t('Link to off canvas/slide-in login form (login_form) '),
+      '#url' => Url::fromRoute('modal_examples.login_form'),
+      '#attributes' => [
+        'id' => 'important-id-' . 12345,
+        'class' => ['use-ajax'],
+        '#prefix' => '<div class="abcdef">',
+        '#suffix' => '</div>',
+        'data-dialog-type' => 'dialog.off_canvas',
+        'data-dialog-options' => Json::encode(
+          [
+            'width' => 'auto',
+          ]
+        ),
+      ],
+    ];
+
+
+    $build['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $build['#attached']['library'][] = 'core/drupal.dialog.off_canvas';
+
+    return $build;
+  }
+
+  public function buildLoginForm() {
+    $form = \Drupal::formBuilder()->getForm(\Drupal\user\Form\UserLoginForm::class);
+    return $form;
   }
 
 }
