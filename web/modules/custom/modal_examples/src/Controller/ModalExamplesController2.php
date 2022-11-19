@@ -79,7 +79,7 @@ class ModalExamplesController2 extends ControllerBase {
   }
 
   /*
-   * Phil's open a dialog
+   * Phil's open a dialog to display a node teaser.
    */
   public function createDialogFromNode() {
     // Load a specific node.

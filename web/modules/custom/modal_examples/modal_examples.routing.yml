@@ -36,8 +36,11 @@ modal_examples.modal_form:
     _controller: '\Drupal\modal_examples\Controller\ModalExamplesController2::openModalForm'
   requirements:
     _permission: 'administer site configuration'
-  options:
-    _admin_route: TRUE
+#  options:
+#    _admin_route: TRUE
+
+# You can't use this route directly
+# route for modal to display a teaser of a node in a dialog
 modal_examples.modal2:
   path: '/modal-examples/create-my-dialog'
   defaults:
