@@ -5,7 +5,7 @@
 Please add your name below if you add to the project
 
 Danny Lufkin - provided inspiration and hopefully some front-end code.
-
+Phillip Norton - provided editing and a lot of material from his excellent articles at https://www.hashbangcode.com/
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
