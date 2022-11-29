@@ -559,6 +559,29 @@ And reference their value like this.
 
 If you define the form with fields like `$form[‘header’][‘blah’] = ...` then you can retrieve those with `$form_state->getValue(‘header’,’blah’);`
 
+or 
+
+if you define a checkbox like this: 
+```php
+  $form['actions']['delete_extras'] = [
+  '#type' => 'checkbox',
+  '#title' => t('Also delete extra items'),
+  '#required' => FALSE,
+  '#default_value' => FALSE,
+  '#description' => $this->t('Checking this box will delete extra items also.'),
+```
+
+You can retrieve the value of the checkbox with:
+
+```php
+$delete_extras = $form_state->getValue('delete_extras');
+
+// And then use it.
+  if (!$delete_extras) {
+    $query->condition('field_extras', '', '<>');
+  }
+```
+
 ## Example form submission with redirect
 
 Here is a `submitForm()` function from docroot/modules/custom/websphere_commerce/modules/checkout/src/Form/ReviewForm.php
