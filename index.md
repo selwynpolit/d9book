@@ -12,6 +12,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Batch and Queue - Batch API](book/bq.html)
 - [Blocks - Generate the code to create blocks, dependency injection, blocks with config forms, block permissions](book/blocks.html)
 - [Caching - Cache tags, disabling caching, caching REST resources, development setup, various caching tips](book/caching.html)
+- [Composer, updates and patches](book/composer.md)
 - [Config - Creating, loading, overriding, drush config commands](book/config.md)
 - [Cron - Using hook_cron, sample crontab files, how to stop cron](book/cron.md)
 - [Dates - Getting and setting date fields, date arithmetic, expiration, node creation and changed dates, Smart date module](book/dates.html)
@@ -33,7 +34,6 @@ You can add to this book by making edits and pull requests in [github](https://g
 If you are inspired, please be a part of this project by contributing your own brilliance and add your name on the attribution page.
 
 ### Chapters I'm working on
-- Composer, updates and patches
 - Debugging
 - Dependency Injection
 - Drush
@@ -58,7 +58,7 @@ If you are inspired, please be a part of this project by contributing your own b
 
 ----------
 
-Last Updated on: 11-19-2022
+Last Updated on: 12-3-2022
 
 ---------
 
