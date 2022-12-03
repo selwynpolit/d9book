@@ -9,7 +9,7 @@
   - [Composer.json patches in separate file](#composerjson-patches-in-separate-file)
   - [Updating Drupal Core](#updating-drupal-core)
   - [Test composer (dry run)](#test-composer-dry-run)
-  - [VERSION CONSTRAINTS](#version-constraints)
+  - [Version constraints](#version-constraints)
   - [Troubleshooting](#troubleshooting)
     - [Composer won\'t update Drupal core](#composer-wont-update-drupal-core)
     - [The big reset button](#the-big-reset-button)
@@ -227,7 +227,7 @@ Package operations: 0 installs, 4 updates, 0 removals
 ```
 
 
-## VERSION CONSTRAINTS
+## Version constraints
 
 1\. The caret constraint (`^`): this will allow any new versions
 except BREAKING ones---in other words, the first number in the version
