@@ -9,10 +9,10 @@
   - [Composer.json patches in separate file](#composerjson-patches-in-separate-file)
   - [Updating Drupal Core](#updating-drupal-core)
   - [Test composer (dry run)](#test-composer-dry-run)
+  - [VERSION CONSTRAINTS](#version-constraints)
   - [Troubleshooting](#troubleshooting)
     - [Composer won\'t update Drupal core](#composer-wont-update-drupal-core)
     - [The big reset button](#the-big-reset-button)
-  - [VERSION CONSTRAINTS](#version-constraints)
   - [Reference](#reference)
 
 
@@ -227,44 +227,11 @@ Package operations: 0 installs, 4 updates, 0 removals
 ```
 
 
-
-## Troubleshooting
-
-### Composer won\'t update Drupal core
-
-The `prohibits` command tells you which packages are blocking a given package from being installed. Specify a version constraint to verify whether upgrades can be performed in your project, and if not why not.
-
-Why won\'t composer install Drupal version 8.9.1.
-
-composer why-not drupal/core:8.9.1
-
-
-### The big reset button
-
-If composer barfs with a bunch of errors, try removing vendor, /core,
-modules/contrib (and optionally composer.lock using:
-
-```bash
-$ rm -fr core/ modules/contrib/ vendor/
-```
-Then try run composer install again to see how it does:
-
-```bash
-$ composer install --ignore-platform-reqs
-```
-Note `--ignore-platform-reqs` is only necessary if your php on your host
-computer is different to the version in your DDEV containers.
-
-You could always use this for DDEV:
-
-```bash
-$ ddev composer install
-```
 ## VERSION CONSTRAINTS
 
-1\. The caret constraint (\^): this will allow any new versions
+1\. The caret constraint (`^`): this will allow any new versions
 except BREAKING ones---in other words, the first number in the version
-cannot increase, but the others can. drupal/foo:\^1.0 would allow
+cannot increase, but the others can. `drupal/foo:^1.0` would allow
 anything greater than or equal to 1.0 but less than 2.0.x . If you need
 to specify a version, this is the recommended method.
 
@@ -300,6 +267,41 @@ Examples:
 • \>=1.0 \<1.1 \|\| \>=1.2
 
 More at <https://getcomposer.org/doc/articles/versions.md>
+
+
+## Troubleshooting
+
+### Composer won\'t update Drupal core
+
+The `prohibits` command tells you which packages are blocking a given package from being installed. Specify a version constraint to verify whether upgrades can be performed in your project, and if not why not.
+
+Why won\'t composer install Drupal version 8.9.1.
+
+composer why-not drupal/core:8.9.1
+
+
+### The big reset button
+
+If composer barfs with a bunch of errors, try removing vendor, /core,
+modules/contrib (and optionally composer.lock using:
+
+```bash
+$ rm -fr core/ modules/contrib/ vendor/
+```
+Then try run composer install again to see how it does:
+
+```bash
+$ composer install --ignore-platform-reqs
+```
+Note `--ignore-platform-reqs` is only necessary if your php on your host
+computer is different to the version in your DDEV containers.
+
+You could always use this for DDEV:
+
+```bash
+$ ddev composer install
+```
+
 
 
 ## Reference
