@@ -19,6 +19,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Development - Local setup, creating sites, DDEV, troubleshooting, PHPStorm setup, Xdebug setup, Twig debugging](book/development.html)
 - [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](book/forms.md)
 - [General - Useful things that seemed to not fit well elsewhere](book/general.md)
+- [Entities - More entities - the primary building blocks of Drupal](book/entities.md)
 - [Links, Aliases and URLs](book/links.html)
 - [Logging and notification](book/logging.html)
 - [Menus](book/menus.html)
@@ -38,7 +39,6 @@ If you are inspired, please be a part of this project by contributing your own b
 - Dependency Injection
 - Drush
 - Email
-- Entities
 - Events
 - Hooks
 - Javascript
@@ -58,7 +58,7 @@ If you are inspired, please be a part of this project by contributing your own b
 
 ----------
 
-Last Updated on: 12-3-2022
+Last Updated on: 12-11-2022
 
 ---------
 
