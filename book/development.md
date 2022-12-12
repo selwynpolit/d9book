@@ -917,6 +917,9 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and then `trun
 
 -  Composer best practices for Drupal 8 from Lullabot <https://www.lullabot.com/articles/drupal-8-composer-best-practices>
 
+- Why DDEV by Randy Fay (Author of DDEV) from Dec 2022 <https://opensource.com/article/22/12/ddev> 
+
+
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
