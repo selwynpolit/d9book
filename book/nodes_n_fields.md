@@ -16,12 +16,18 @@
   - [Load the current node and get it's node id (nid), field, type](#load-the-current-node-and-get-its-node-id-nid-field-type)
   - [Load a node by nid and get its title, type and a field](#load-a-node-by-nid-and-get-its-title-type-and-a-field)
   - [Load the current node and get the nid, field, type](#load-the-current-node-and-get-the-nid-field-type)
+  - [Load the user id (uid) for a node](#load-the-user-id-uid-for-a-node)
   - [Is a field empty (an entity field)](#is-a-field-empty-an-entity-field)
   - [Load a node and update a field](#load-a-node-and-update-a-field)
   - [Load values from a date range field](#load-values-from-a-date-range-field)
-  - [Load multivalue field](#load-multivalue-field)
-  - [Save multivalue field, entity reference field](#save-multivalue-field-entity-reference-field)
-  - [Multivalue entity reference fields](#multivalue-entity-reference-fields)
+  - [Load multi-value field](#load-multi-value-field)
+    - [Iterate through results](#iterate-through-results)
+    - [Read a specific instance](#read-a-specific-instance)
+  - [Update a multi-value field](#update-a-multi-value-field)
+    - [Function to read and write multi-value fields](#function-to-read-and-write-multi-value-fields)
+    - [Save multi-value field, entity reference field](#save-multi-value-field-entity-reference-field)
+    - [Update a multi-value entity reference fields](#update-a-multi-value-entity-reference-fields)
+    - [Generic Multi-value field writer](#generic-multi-value-field-writer)
   - [Does this field exist in my entity?](#does-this-field-exist-in-my-entity)
   - [Get URL for an image or file in a media reference field](#get-url-for-an-image-or-file-in-a-media-reference-field)
   - [Retrieve info about a file field](#retrieve-info-about-a-file-field)
@@ -37,7 +43,7 @@
   - [Set multivalue fields (regular and entity reference)](#set-multivalue-fields-regular-and-entity-reference)
   - [Clear a text field](#clear-a-text-field)
   - [Set or clear a body field](#set-or-clear-a-body-field)
-  - [Load a node and retrieve an entity reference node and nid (target_id)](#load-a-node-and-retrieve-an-entity-reference-node-and-nid-target_id)
+  - [Load a node and retrieve an entity reference node and nid (target\_id)](#load-a-node-and-retrieve-an-entity-reference-node-and-nid-target_id)
   - [Entity reference nodes and their fields](#entity-reference-nodes-and-their-fields)
   - [Load the taxonomy terms from a term reference field](#load-the-taxonomy-terms-from-a-term-reference-field)
   - [Load a node and find the terms referenced in a paragraph in a term reference field](#load-a-node-and-find-the-terms-referenced-in-a-paragraph-in-a-term-reference-field)
@@ -67,10 +73,10 @@
   - [Retrieve node creation date and format it](#retrieve-node-creation-date-and-format-it)
   - [Retrieve node creation or changed date and format it](#retrieve-node-creation-or-changed-date-and-format-it)
   - [Date Field and Date with no time (remove time)](#date-field-and-date-with-no-time-remove-time)
-  - [Smart date (smart_date) load and format](#smart-date-smart_date-load-and-format)
-  - [Smart date (smart_date) all-day](#smart-date-smart_date-all-day)
-  - [Smart date (smart_date) range of values](#smart-date-smart_date-range-of-values)
-  - [hook_node_presave or hook_entity_type_presave](#hook_node_presave-or-hook_entity_type_presave)
+  - [Smart date (smart\_date) load and format](#smart-date-smart_date-load-and-format)
+  - [Smart date (smart\_date) all-day](#smart-date-smart_date-all-day)
+  - [Smart date (smart\_date) range of values](#smart-date-smart_date-range-of-values)
+  - [hook\_node\_presave or hook\_entity\_type\_presave](#hook_node_presave-or-hook_entity_type_presave)
   - [Disable caching for a content type](#disable-caching-for-a-content-type)
   - [Writing some JSON data into a long text field](#writing-some-json-data-into-a-long-text-field)
   - [Create a node with an image](#create-a-node-with-an-image-1)
@@ -446,113 +452,131 @@ $node->get('field_cn_start_end_dates')->value
 $node->get('field_cn_start_end_dates')->end_value
 ```
 
-## Load multivalue field
+## Load multi-value field
 
-Multivalue fields are loaded when you use get or the magic field getter with getValue(). A magic field getter looks like `$node->field_my_field`. Using `getValue()` loads the results in an array.
+Multivalue fields can be loaded with `get('fieldname')`  or using a magic field getter like `$node->field_my_field`. Adding `->getValue()` to the end of either of these calls returns a simple array. 
 
-Using `get()` returns a `Drupal\Core\Field\FieldItemList`.
-
-You can loop through the results of `get()` like this:
+For example, a multi-value text field, this will return an array of values like this:
 
 ```php
-foreach ($node->get('field_class_division') as $item) {
-  echo $item->target_id;
+$data = $node->get('field_condiment')->getValue();
+// returns:
+$data[0]['value'] = “ketchup” 
+$data[1]['value'] = “mayo”
+$data[2]['value'] = “reference”
+```
+
+However a multi-value entity reference field (including taxonomy) will return values with the `target_id` array key. e.g. 
+
+```
+$data = $node->get('field_event_ref')->getValue();
+// returns:
+$data[0]['target_id'] = 1
+$data[1]['target_id'] = 2
+$data[2]['target_id'] = 14
+```
+
+
+
+### Iterate through results
+
+
+
+ Using `$node->field_condiment` or `$node->get('field_condiment')` returns a `Drupal\Core\Field\FieldItemList` which is iteratable. You can loop through the results and retrieve the values like this:
+
+```php
+$items = $node->field_condiment;
+foreach ($items as $item) {
+  $result = $item->value; 
+  // For entity reference fields use 
+  // $result_nid = $item->target_id;
 }
 ```
 
-For a multivalue text field, this will return an array of values like
+For entity reference fields, use `target_id` rather than `->value`.
 
-```
-[0]['value'] = “aaa” 
-[1][‘value’] = “bbb”.
-```
 
-This allows you to easily check if there is a particular item in the array with something like
+
+And you can check if there is a particular item in the array like this:
 
 ```php
-// get an array of result.
-$voting_status_array = $node->get('field_srp_voting_status')->getValue();
-if (isset($voting_status_array[$vote_number])) {
-  $voting_status = $voting_status_array[$vote_number]["value"];
+// get FieldItemList.
+$condiments = $node->get('field_condiment');
+$vote_number = 1;
+if (isset($condiments[$vote_number])) {
+  $result = $condiments[$vote_number]->value;
+}
+// $result is ketchup.
+
+```
+
+
+
+### Read a specific instance
+
+You can directly reference an item by specifying an array offset. The index key (0 or 1 below) can also be referred to as the delta. 
+
+
+
+```php
+$status = $node->get('field_voting_status')[0]->value;
+$status = $node->get('field_voting_status')[1]->value;
+
+```
+
+
+
+Note. If the value for delta 1 is empty, Drupal will throw a warning message `*Warning*: Attempt to read property "value" on null in ...`
+
+So rather than reading the `[1]->value` directly,  you should check if there is a value using `isset()` and then, you can read the `->value`.  Note. When you do the isset() test, you don't add the `->value` at the end e.g.
+
+
+
+```php
+if(!is_null($node->get('field_voting_status')[$vote_number])) {
+  $voting_status = $correlation_node->field_voting_status[$vote_number]->value;
 }
 ```
 
-For entity reference fields, you don't use `->value`, you rather use `target_id`.
+
+
+
+
+
+
+## Update a multi-value field
+
+This can be a little tricky especially if you want to preserve the existing values in the field.
+
+Here I used the `getValue()` to load all the values. This returns an array of values like:
 
 ```php
-$topics = $node->get('field_news_topics_for_listing')->getValue();
-// Or.
-$topics = $node->field_news_topics_for_listing->getValue(); //magic getter.
+$data = $node->get('field_event_ref')->getValue();
 
-foreach ($topics as $topic) {
-  ...
-}
+$result0 = $data[0]['value'];
+$result1 = $data[1]['value'];
 ```
 
-or
+So to update one of them, I want to do something like this:  `$data[1]['value']='flour';`.
+
+e.g.  I load up the current values, fill in the 6th `[5]`item and save them.  This preserves the existing values in positions `[0]`through `[4]`.
 
 ```php
-$topics = $node->get('field_srp_voting_status')[0]->value;
-$topics = $node->get('field_srp_voting_status')[1]->value;
-// Or.
-$topics = $node->field_news_topics_for_listing->getValue(); //magic getter.
+$values = $node->get('field_voting_status')->getValue();
+$values[5]['value'] = 'incomplete';
+$node->set('field_srp_voting_status', $values);
+$node->save();
 ```
 
-You can directly reference the item by specifying an array offset.
-Internally, the 0 or 1 below is referred to as the delta.
 
-```php
-$topics = $node->get('field_srp_voting_status')[0]->value;
-$topics = $node->get('field_srp_voting_status')[1]->value;
-or
-$topics = $node->field_news_topics_for_listing->getValue(); //magic getter.
-```
 
-Note. If you try to reference an item using the index method above, and
-delta 0 is empty, Drupal will throw a warning message.
+### Function to read and write multi-value fields
 
-```
-Notice: Trying to get property 'value' of non-object in Drupal\tea_teks_srp\VotingProcessor->getStudentCorrelationStatus() (line 1123 of modules/custom/tea_teks/modules/tea_teks_srp/src/VotingProcessor.php).
-```
 
-To avoid the message, you can rather do a
-`\$node->get('field_srp_voting_status')->value;` and check if that was empty first.
 
-I used the `getValue()` to load all the values. This returns an array of
+Here is a function which reads and writes multi-value fields safely. You pass it the `$node->field_name`, the index (vote_number) etc. and then it builds and returns an array formatted for updating the field data. It can also update the array if you pass in a value.
 
-```
-[0]['value'],
-[1]['value'],
- etc. 
-```
-
-So to update one of them, we make changes like `$values[$vote_number]['value']='something';`.
-
-e.g.
-
-```php
-// If this is a revote, set some sane values.
-if ($vote_number > 0) {
-  $stored_status = $node->get('field_srp_voting_status')[$vote_number]->value;
-  if (is_null($stored_status)) {
-    $values = $node->get('field_srp_voting_status')->getValue();
-    $values[$vote_number]['value'] = 'incomplete';
-    $node->set('field_srp_voting_status', $values);
-  }
-}
-```
-
-Similarly, rather than checking the `->value` which will throw an error, you can check the field with it's delta (not adding the `->value` at the end) like this and then if that isn't null, get the `->value`.
-
-```php
-if(!is_null($correlation_node->get('field_srp_teacher_voting_status')[$vote_number])) {
-  $teacher_voting_status = $correlation_node->field_srp_teacher_voting_status[$vote_number]->value;
-}
-```
-
-Here is a function which reads and writes multivalue fields safely. You pass it the `$node->field_name` and then it builds and returns an array formatted for updating the field data. It can also update it if you pass in a value.
-
-I think it could be genericized further -- we'll see. (TODO: genericize this -- maybe call it saferMultiValueField() or smarterMultiValueField()).
+It could probably be genericized further.
 
 ```php
 public static function getMultivalueFieldArrayOfValues($values_field_data, $vote_number = 0, $new_value = NULL, $field_type = 'value', $default_value = NULL) {
@@ -585,28 +609,32 @@ public static function getMultivalueFieldArrayOfValues($values_field_data, $vote
 }
 ```
 
-Example of using it reading only and then doing the writing yourself:
+Example of using the above function for reading data and then writing the data without using it:
 
 ```php
-// Retrieve current field values for correlation narr/activity status fields
-// Set VoteNum 0 to recalculated value
+// Retrieve current field values for correlation narrative/activity status fields
+
 $activity_status = 'accepted';
-$activity_statuses = $node->field_srp_activity_status;
-$activity_status_values = RetrieveSrpData::getMultivalueFieldArrayOfValues($activity_statuses);
+$activity_statuses = $node->field_activity_status;
+$activity_status_values = self::getMultivalueFieldArrayOfValues($activity_statuses);
 $activity_status_values[0]['value'] = $activity_status;
 
 $narrative_status = 'accepted';
-$narrative_statuses = $node->field_srp_narrative_status;
-$narrative_status_values = RetrieveSrpData::getMultivalueFieldArrayOfValues($narrative_statuses);
+$narrative_statuses = $node->field_narrative_status;
+$narrative_status_values = self::getMultivalueFieldArrayOfValues($narrative_statuses);
 $narrative_status_values[0]['value'] = $narrative_status;
-$node->set('field_srp_narrative_status', $narrative_status_values);
-$node->set('field_srp_activity_status', $activity_status_values);
+
+$node->set('field_narrative_status', $narrative_status_values);
+$node->set('field_activity_status', $activity_status_values);
 $node->save();
 ```
 
-## Save multivalue field, entity reference field
 
-When you really care which delta/index/offset, you can specify that offset. It's a bit confusing how it works. For text or numeric fields, it works like you'd expect. You can just specify the offset. For entity reference fields, you have to do some fiddling. Don't use `$node->set()` as this overwrites everything in the field, rather use the magic field setter variable and specify the offset.
+
+
+### Save multi-value field, entity reference field
+
+When you really care which delta/index/offset, you can specify that offset. It's a bit confusing how exactly it works. For text or numeric fields, it works like you'd expect. You can just specify the offset. For entity reference fields, you have to do some fiddling. Don't use `$node->set()` as this overwrites everything in the field, rather use the magic field setter variable and specify the offset.
 
 Here `$vote_number` represents the index so if `$vote_number` = 0, this write the first item in the multivalue field.  If `$vote_number` = 1, then write the second item, and so on.
 
@@ -619,31 +647,31 @@ Be cautions, you might think this would work but it *doesn\'t*
 $program_node->set('field_srp_team_ref', [$vote_number => 1234;
 ```
 
-If you are going to write index 2 and there is a possibility that there
-isn't an index 0 and 1, you need something like this (in `protected
-function correlationSanityCheckFix(Node $correlation_node)`):
+If you are going to write index 2 and there is a possibility that there isn't an index 0 and 1, you need something like this (in `protected function correlationSanityCheckFix(Node $correlation_node)`):
 
 ```php
 $narrative_status = '';
 
-if (!is_null($correlation_node->get('field_srp_narrative_status')[$vote_number])) {
-  $narrative_status = $correlation_node->get('field_srp_narrative_status')[$vote_number]->value;
+if (!is_null($correlation_node->get('field_narrative_status')[$vote_number])) {
+  $narrative_status = $correlation_node->get('field_narrative_status')[$vote_number]->value;
 }
 
 if (empty($narrative_status)) {
   // Grab all the statuses and add mine.
-  $statuses = $correlation_node->get('field_srp_narrative_status');
+  $statuses = $correlation_node->get('field_narrative_status');
   $new_statuses = [];
   foreach ($statuses as $status) {
     $new_statuses[] = $status->value;
   }
   $new_statuses[$vote_number] = 'incomplete';
-  $correlation_node->set('field_srp_narrative_status', $new_statuses);
+  $correlation_node->set('field_narrative_status', $new_statuses);
   $save_correlation = TRUE;
 }
 ```
 
-## Multivalue entity reference fields
+
+
+### Update a multi-value entity reference fields
 
 When writing multivalue entity reference fields, you have to load up the
 previous values, build an array of `target_ids` (node ids) and then write them all in one pass with a `$node->set()` method.
@@ -657,6 +685,267 @@ foreach ($teams as $team) {
 $new_teams[$new_program_vote_number] = $team_id;
 $new_program_node->set('field_srp_team_ref', $new_teams);
 ```
+
+
+
+### Generic Multi-value field writer
+
+
+
+Here is a generic function that knows how to write values in a "sane" way.
+
+
+
+```php
+  /**
+   * Smart multi value field setter.
+   *
+   * Example calls:
+   *
+   * Set the index 2 to incomplete, keep old values:
+   *  smartMultiValueFieldSetter($node, 'field_srp_voting_status', 'incomplete', 2);
+   *
+   *  Set the index 1 to incomplete, overwrite the old values to 'placeholder'
+   *   smartMultiValueFieldSetter($node, 'field_srp_voting_status', 'incomplete', 1, 'placeholder', TRUE);
+   *
+   *
+   * @param \Drupal\node\Entity\Node $node
+   *   Node.
+   * @param string $field_name
+   *   Field name.
+   * @param string $value
+   *   Value to be put in $node->field[$index]->value.
+   * @param int $index
+   *   The delta i.e. $node->field[$index]
+   * @param string $default_value
+   *   The default values that will be written into the previous indexes.
+   * @param bool $overwrite_old_values
+   *   TRUE to ignore previous index values and overwrite them with $default_value.
+   */
+  public static function smartMultiValueFieldSetter(Node $node, string $field_name, string $value, int $index, string $default_value="", bool $overwrite_old_values=FALSE) {
+    $old_values = $node->get($field_name)->getValue();
+
+    // Grab old values and put them into $new_values array.
+
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+    if ($field_type == 'entity_reference') {
+      foreach ($old_values as $key=>$old_value) {
+        $new_values[$key] = $old_values[$key];
+      }
+    }
+    else {
+      $new_values = [];
+      foreach ($old_values as $old_value) {
+        $new_values[]["value"] = $old_value["value"];
+      }
+    }
+
+    // Ignore what was in the old values and put my new default value in.
+    if ($overwrite_old_values) {
+      for ($i = 0; $i < $index; $i++) {
+        $new_values[$i] = $default_value;
+      }
+    }
+
+    // Pad missing items.
+    for ($i = 0;$i<$index; $i++) {
+      if (!isset($new_values[$i])) {
+        if ($field_type == 'entity_reference') {
+          $new_values[$i] = $default_value;
+        }
+        else {
+          $new_values[$i]['value'] = $default_value;
+        }
+      }
+    }
+
+    if ($field_type == 'entity_reference') {
+      $new_values[$index]['target_id'] = $value;
+    }
+    else {
+      $new_values[$index]["value"] = $value;
+    }
+
+    // Trim off extras from testing.
+    // TODO: this isn't trimming correctly for entity ref fields.
+    if (count($new_values)>($index+1)) {
+      $chunk = array_chunk($new_values, $index+1);
+      $new_values = $chunk[0];
+    }
+
+    $node->set($field_name, $new_values);
+  }
+
+```
+
+
+
+Here is an example of using the above function to write values to the field_condiment which is a multi-value text field.
+
+
+
+```php
+$node = Node::load(35);
+
+// Write to index 0, 1, 2.
+self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 0);
+self::smartMultiValueFieldSetter($node, 'field_condiment', 'mayo', 1);
+self::smartMultiValueFieldSetter($node, 'field_condiment', 'mustard', 2);
+$node->save();
+
+
+// Write into index position 2 and pad the previous values with "dummy".
+self::smartMultiValueFieldSetter($node, 'field_condiment', 'mustard', 2, 'dummy', TRUE);
+$node->save();
+
+// Write into index position 1 and pad position 0 with "dummy", and remove the contents of index 2.
+self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 1, 'dummy', TRUE);
+$node->save();
+```
+
+
+
+
+
+
+
+Here is a complete function from the controller `GeneralController.php`.  There are a wide variety of calls to `smartMultiValueFieldSetter()` showing it's use with multi-value text and entity-reference fields (including a taxonomy field):
+
+
+
+```php
+  public function multiTest() {
+
+    $str = '<h2>Results</h2>';
+
+    $node = Node::load(35);
+
+    // Write to index 0, 1, 2.
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 0);
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'mayo', 1);
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'mustard', 2);
+    //$node->save();
+
+    $field_name = 'field_condiment';
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Field:</strong> " . $field_name;
+    $str .= ",  type: " . $field_type;
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['value'] . ', ';
+    }
+
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'mustard', 2, 'dummy', TRUE);
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['value'] . ', ';
+    }
+
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 1, 'dummy', TRUE);
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['value'] . ', ';
+    }
+
+    $field_name = 'field_event';
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+    $contents = $node->get($field_name)->getValue();
+    //kint($contents);
+    $str .= "<br/><strong>Field:</strong> " . $field_name;
+    $str .= ", type: " . $field_type;
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+    // 17, 18
+    //14, 18, 19
+    self::smartMultiValueFieldSetter($node, $field_name, 14, 0);
+    self::smartMultiValueFieldSetter($node, $field_name, 18, 1);
+    self::smartMultiValueFieldSetter($node, $field_name, 19, 2);
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+    $field_name = 'field_category';
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+    $contents = $node->get($field_name)->getValue();
+    //kint($contents);
+    $str .= "<br/><strong>Field:</strong> " . $field_name;
+    $str .= ", type: " . $field_type;
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+    // 3, 2, 1
+    // 1, 2, 3.
+    self::smartMultiValueFieldSetter($node, $field_name, 1, 0);
+    self::smartMultiValueFieldSetter($node, $field_name, 2, 1);
+    self::smartMultiValueFieldSetter($node, $field_name, 3, 2);
+    $contents = $node->get($field_name)->getValue();
+    //kint($contents);
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+    // Multi-value Text Field.
+    $field_name = 'field_condiment';
+    // Returns FieldItemList.
+    $data = $node->get($field_name);
+    $data = $node->field_condiment;
+    // Returns simple array.
+    $data = $node->get($field_name)->getValue();
+    $data = $node->field_condiment->getValue();
+
+    // Multi-value entity reference field.
+    $field_name = 'field_event';
+    $data = $node->get($field_name)->getValue();
+    $data = $node->field_event;
+
+    // Multi-value taxonomy entity reference field.
+    $field_name = 'field_category';
+    $data = $node->get($field_name)->getValue();
+    // Yes, you can use a variable for a magic field getter!
+    $data = $node->$field_name;
+
+    // Loop thru results.
+    $items = $node->field_condiment;
+    foreach ($items as $item) {
+      $x = $item->value;
+    }
+
+    // get array of results.
+    $condiments = $node->get('field_condiment');
+    $vote_number = 1;
+    if (isset($condiments[$vote_number])) {
+      $result = $condiments[$vote_number]->value;
+    }
+
+    $result = $node->get('field_condiment')[0]->value;
+    $result = $node->get('field_condiment')[5]->value;
+    if (isset($node->get('field_condiment')[2]->value)) {
+      $result = $node->get('field_condiment')[2]->value;
+    }
+
+    $render_array['content'] = [
+      '#type' => 'item',
+      '#markup' => $str,
+    ];
+
+    return $render_array;
+  }
+
+```
+
+
 
 ## Does this field exist in my entity?
 
