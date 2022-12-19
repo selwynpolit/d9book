@@ -1,0 +1,46 @@
+uuid: 1093b834-ea04-4e7f-994b-1ee658586249
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.vote.field_category
+    - field.field.node.vote.field_condiment
+    - field.field.node.vote.field_event
+    - node.type.vote
+  module:
+    - user
+id: node.vote.default
+targetEntityType: node
+bundle: vote
+mode: default
+content:
+  field_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_condiment:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_event:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }
