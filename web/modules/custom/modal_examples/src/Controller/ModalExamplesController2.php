@@ -215,7 +215,8 @@ class ModalExamplesController2 extends ControllerBase {
   }
 
   public function buildLoginForm() {
-    $form = \Drupal::formBuilder()->getForm(\Drupal\user\Form\UserLoginForm::class);
+    //$form = \Drupal::formBuilder()->getForm(\Drupal\user\Form\UserLoginForm::class);
+    $form = $this->formBuilder()->getForm(\Drupal\user\Form\UserLoginForm::class);
     return $form;
   }
 

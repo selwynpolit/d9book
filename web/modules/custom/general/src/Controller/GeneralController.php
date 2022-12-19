@@ -4,6 +4,7 @@ namespace Drupal\general\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
 
 /**
  * Returns responses for General routes.
@@ -134,6 +135,222 @@ class GeneralController extends ControllerBase {
     ];
 
     return $render_array;
+  }
+
+  public function multiTest() {
+
+    $str = '<h2>Results</h2>';
+
+    $node = Node::load(35);
+
+    // Write to index 0, 1, 2.
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 0);
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'mayo', 1);
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'mustard', 2);
+    //$node->save();
+
+    $field_name = 'field_condiment';
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Field:</strong> " . $field_name;
+    $str .= ",  type: " . $field_type;
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['value'] . ', ';
+    }
+
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'mustard', 2, 'dummy', TRUE);
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['value'] . ', ';
+    }
+
+    self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 1, 'dummy', TRUE);
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['value'] . ', ';
+    }
+
+
+    $field_name = 'field_event';
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+    $contents = $node->get($field_name)->getValue();
+    //kint($contents);
+    $str .= "<br/><strong>Field:</strong> " . $field_name;
+    $str .= ", type: " . $field_type;
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+    // 17, 18
+    //14, 18, 19
+    self::smartMultiValueFieldSetter($node, $field_name, 14, 0);
+    self::smartMultiValueFieldSetter($node, $field_name, 18, 1);
+    self::smartMultiValueFieldSetter($node, $field_name, 19, 2);
+    $contents = $node->get($field_name)->getValue();
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+
+    $field_name = 'field_category';
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+    $contents = $node->get($field_name)->getValue();
+    //kint($contents);
+    $str .= "<br/><strong>Field:</strong> " . $field_name;
+    $str .= ", type: " . $field_type;
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+    // 3, 2, 1
+    // 1, 2, 3.
+    self::smartMultiValueFieldSetter($node, $field_name, 1, 0);
+    self::smartMultiValueFieldSetter($node, $field_name, 2, 1);
+    self::smartMultiValueFieldSetter($node, $field_name, 3, 2);
+    $contents = $node->get($field_name)->getValue();
+    //kint($contents);
+    $str .= "<br/><strong>Values: </strong>";
+    foreach ($contents as $item) {
+      $str .= $item['target_id'] . ', ';
+    }
+
+
+    // Multi-value Text Field.
+    $field_name = 'field_condiment';
+    // Returns FieldItemList.
+    $data = $node->get($field_name);
+    $data = $node->field_condiment;
+    // Returns simple array.
+    $data = $node->get($field_name)->getValue();
+    $data = $node->field_condiment->getValue();
+
+
+    // Multi-value entity reference field.
+    $field_name = 'field_event';
+    $data = $node->get($field_name)->getValue();
+    $data = $node->field_event;
+
+    // Multi-value taxonomy entity reference field.
+    $field_name = 'field_category';
+    $data = $node->get($field_name)->getValue();
+    // Yes, you can use a variable for a magic field getter!
+    $data = $node->$field_name;
+
+
+    // Loop thru results.
+    $items = $node->field_condiment;
+    foreach ($items as $item) {
+      $x = $item->value;
+    }
+
+    // get array of results.
+    $condiments = $node->get('field_condiment');
+    $vote_number = 1;
+    if (isset($condiments[$vote_number])) {
+      $result = $condiments[$vote_number]->value;
+    }
+
+    $result = $node->get('field_condiment')[0]->value;
+    //$result = $node->get('field_condiment')[5]->value;
+    if (isset($node->get('field_condiment')[2]->value)) {
+      $result = $node->get('field_condiment')[2]->value;
+    }
+
+
+
+    $render_array['content'] = [
+      '#type' => 'item',
+      '#markup' => $str,
+    ];
+
+    return $render_array;
+
+  }
+
+  /**
+   * Smart multi value field setter.
+   *
+   * Example calls:
+   *
+   * Set the index 2 to incomplete, keep old values:
+   *  smartMultiValueFieldSetter($node, 'field_srp_voting_status', 'incomplete', 2);
+   *
+   *  Set the index 1 to incomplete, overwrite the old values to 'placeholder'
+   *   smartMultiValueFieldSetter($node, 'field_srp_voting_status', 'incomplete', 1, 'placeholder', TRUE);
+   *
+   *
+   * @param \Drupal\node\Entity\Node $node
+   *   Node.
+   * @param string $field_name
+   *   Field name.
+   * @param string $value
+   *   Value to be put in $node->field[$index]->value.
+   * @param int $index
+   *   The delta i.e. $node->field[$index]
+   * @param string $default_value
+   *   The default values that will be written into the previous indexes.
+   * @param bool $overwrite_old_values
+   *   TRUE to ignore previous index values and overwrite them with $default_value.
+   */
+  public static function smartMultiValueFieldSetter(Node $node, string $field_name, string $value, int $index, string $default_value="", bool $overwrite_old_values=FALSE) {
+    $old_values = $node->get($field_name)->getValue();
+
+    // Grab old values and put them into $new_values array.
+
+    $field_type = $node->get($field_name)->getFieldDefinition()->getType();
+    if ($field_type == 'entity_reference') {
+      foreach ($old_values as $key=>$old_value) {
+        $new_values[$key] = $old_values[$key];
+      }
+    }
+    else {
+      $new_values = [];
+      foreach ($old_values as $old_value) {
+        $new_values[]["value"] = $old_value["value"];
+      }
+    }
+
+    // Ignore what was in the old values and put my new default value in.
+    if ($overwrite_old_values) {
+      for ($i = 0; $i < $index; $i++) {
+        $new_values[$i] = $default_value;
+      }
+    }
+
+    // Pad missing items.
+    for ($i = 0;$i<$index; $i++) {
+      if (!isset($new_values[$i])) {
+        if ($field_type == 'entity_reference') {
+          $new_values[$i] = $default_value;
+        }
+        else {
+          $new_values[$i]['value'] = $default_value;
+        }
+      }
+    }
+
+    if ($field_type == 'entity_reference') {
+      $new_values[$index]['target_id'] = $value;
+    }
+    else {
+      $new_values[$index]["value"] = $value;
+    }
+
+    // Trim off extras from testing.
+    // TODO: this isn't trimming correctly for entity ref fields.
+    if (count($new_values)>($index+1)) {
+      $chunk = array_chunk($new_values, $index+1);
+      $new_values = $chunk[0];
+    }
+
+    $node->set($field_name, $new_values);
   }
 
 }
