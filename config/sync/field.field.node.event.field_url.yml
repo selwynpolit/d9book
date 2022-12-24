@@ -1,0 +1,23 @@
+uuid: fcd729bb-6286-4a6d-be8e-0f33b4755b3e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_url
+    - node.type.event
+  module:
+    - link
+id: node.event.field_url
+field_name: field_url
+entity_type: node
+bundle: event
+label: Url
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

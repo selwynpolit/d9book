@@ -1,0 +1,23 @@
+uuid: 496a8940-5dbf-412d-b53a-c06ef1d81c02
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_url
+    - node.type.vote
+  module:
+    - link
+id: node.vote.field_url
+field_name: field_url
+entity_type: node
+bundle: vote
+label: Url
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

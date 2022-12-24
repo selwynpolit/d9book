@@ -256,12 +256,26 @@ class GeneralController extends ControllerBase {
     if (isset($condiments[$vote_number])) {
       $result = $condiments[$vote_number]->value;
     }
+    // Check for null or real value.
+    //$vote_number = 5;
+    $result= $node->field_condiment?->get($vote_number)?->value;
+    $result = $node->field_condiment[$vote_number]?->value;
+
 
     $result = $node->get('field_condiment')[0]->value;
     //$result = $node->get('field_condiment')[5]->value;
     if (isset($node->get('field_condiment')[2]->value)) {
       $result = $node->get('field_condiment')[2]->value;
     }
+
+
+    // Test new feature of PHP 8 for null field.
+    $node = Node::load(36);
+    $url = $node?->field_url?->first()?->getUrl();
+    if (!is_null($url)) {
+      $uri = $url->getUri();
+    }
+    $target_id = $node->get('field_event')->target_id;
 
 
 
