@@ -1331,10 +1331,8 @@ Here we loop thru all the instances of my paragraph reference and grab
 the term in the paragraph.
 
 ```php
-use Drupal\taxonomy\Entity\Term;
-
 foreach ($node->get('field_my_para')->referencedEntities() as $ent){
-  $term = Term::load($ent->$field_in_paragraph->target_id);
+  $term = $ent->$field_in_paragraph->entity;
   $name = $term->getName();
   print_r($name);
 }
@@ -1411,16 +1409,24 @@ $lessons = $video_collection_node->field_related_lessons;
 $lessons = $video_collection_node->get('field_related_lessons');
 
 foreach ($lessons as $lesson) {
-  $pids[] = $lesson->target_id;
+  $paragraph_revision_ids[] = $lesson->target_revision_id;
 }
+
+Paragraphs use the contributed Entity Reference Revisions module to reference
+paragraphs and it is very important to use the `target_revision_id` property
+when referencing paragraphs. Alternatively, the `entity` computed property can
+be used to retrieve the paragraph entity itself.
 
 OR
 
 //This gives you an array of arrays [['target_id' => '348','target_revision_id' => '348'],['target_id' => '349','target_revision_id' => '349'] ]
 $lessons = $video_collection_node->get('field_related_lessons')->getValue();
 foreach ($lessons as $lesson) {
-  $pids[] = $lesson['target_id'];
+  $paragraph_revision_ids[] = $lesson['target_revision_id'];
 }
+
+Collecting them like this is only an example, while the `loadMultiple` method
+exists on entity storage objects, there is no `loadMultipleRevisions` method.
 
 EH!
 
@@ -1429,30 +1435,9 @@ $lessons = $video_collection_node->get('field_related_lessons')->value;
 ```
 
 Note. `getValue()` here will get you the nid buried in a result array of
-arrays like `result[0]['target_id']` - quicker to just grab
-`->target_id`
+arrays like `result[0]['target_revision_id']` - quicker to just grab
+`->target_revision_id`
 
-So to get the nids that are stored in an entity reference field, use
-this:
-
-```php
-  $video_collection_node = Node::load($video_collection_nid);
-
-  //This gives you a bunch of \Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList items.
-  $lessons = $video_collection_node->field_related_lessons;
-
-  $storage = \Drupal::entityTypeManager()->getStorage('paragraph');
-  foreach ($lessons as $lesson) {
-    //Load each paragraph and get the nids from them.
-    $pid = $lesson->target_id;
-    $paragraph = $storage->load($pid);
-    $nid = $paragraph->field_lesson->target_id;
-    $related_lesson_nids[] = $nid;
-  }
-
-  //This should have an array of nids for video_details.
-  $variables['related_lessons_nids'] = $related_lesson_nids;
-}
 ```
 
 ## Load a node and grab a paragraph field to find the nid in an entity reference field
@@ -1471,9 +1456,7 @@ $lessons = $video_collection_node->field_related_lessons;
 $storage = \Drupal::entityTypeManager()->getStorage('paragraph');
 foreach ($lessons as $lesson) {
   //Load each paragraph and get the nids from them.
-  $pid = $lesson->target_id;
-  $pids[] = $pid;
-  $paragraph = $storage->load($pid);
+  $paragraph = $lesson->entity;
   $related_lessons_nid = $paragraph->field_lesson->target_id;
   $related_lessons_nids[] = $related_lessons_nid;
 }
@@ -1485,44 +1468,32 @@ $variables['related_lessons_nids'] = $related_lessons_nids;
 
 ## How to get Node URL alias or Taxonomy Alias by Node id or Term ID
 
-Sometimes we need a relative path and sometimes we need an absolute
-path. Drupal 8 has a `$options` parameter in the `fromRoute()` function
-where specify which you need.
-
-Parameters:
-
--   absolute true will return absolute path.
-
--   absolute false will return relative path.
+Drupal 8 uses `Url` objects to easily generate and manipulate paths. The
+easiest way is to load the entity and convert it to a URL object:
 
 ```php
-use Drupal\Core\Url;
-$options = ['absolute' => true];  //false will return relative path.
-
-//return node alias – note. If a nice url is not set, you get /node/1234
-$url = Url::fromRoute('entity.node.canonical', ['node' => 1234], $options);
-$url = $url->toString(); // make a string
-
-//OR 
-
-$node_path = "/node/123";
-$alias = \Drupal::service('path.alias_manager')->getAliasByPath($node_path);
-//OR as of Drupal 8.8.0
-$alias = \Drupal::service('path_alias.manager')->getAliasByPath($node_path);
+$node = Node::load(1234)
+$url_object = $node->toUrl();
 ```
 
-Also this will return a path in the form `node/123`
+This now can be converted to a string
+
+```php
+$href = $url_object->toString();
+```
+
+If an absolute URL is needed, that's easy too:
+
+```php
+$href = $url_object->setAbsolute()->toString();
+```
+
+This will return a path in the form `node/123`
 
 ```php
 $current_path = \Drupal::service('path.current')->getPath();
 ```
 
-Taxonomy alias:
-
-```php
-//return taxonomy alias
-$url = Url::fromRoute('entity.taxonomy_term.canonical', ['taxonomy_term' => 1234], $options);
-```
 ## How to set a URL Alias
 
 Since Drupal 9, url aliases are entities so:
