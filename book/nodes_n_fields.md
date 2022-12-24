@@ -7,7 +7,6 @@
 - [Nodes and Fields](#nodes-and-fields)
   - [Load a node and get a formatted text field](#load-a-node-and-get-a-formatted-text-field)
   - [Set field values](#set-field-values)
-  - [Load a node and retrieve an entity reference node and nid](#load-a-node-and-retrieve-an-entity-reference-node-and-nid)
   - [Get current page title](#get-current-page-title)
   - [Test if variable is a node](#test-if-variable-is-a-node)
   - [Get the current nid, node type and title](#get-the-current-nid-node-type-and-title)
@@ -17,7 +16,7 @@
   - [Load a node by nid and get its title, type and a field](#load-a-node-by-nid-and-get-its-title-type-and-a-field)
   - [Load the current node and get the nid, field, type](#load-the-current-node-and-get-the-nid-field-type)
   - [Load the user id (uid) for a node](#load-the-user-id-uid-for-a-node)
-  - [Is a field empty (an entity field)](#is-a-field-empty-an-entity-field)
+  - [Test if a field is empty](#test-if-a-field-is-empty)
   - [Load a node and update a field](#load-a-node-and-update-a-field)
   - [Load values from a date range field](#load-values-from-a-date-range-field)
   - [Load multi-value field](#load-multi-value-field)
@@ -44,6 +43,7 @@
   - [Clear a text field](#clear-a-text-field)
   - [Set or clear a body field](#set-or-clear-a-body-field)
   - [Load a node and retrieve an entity reference node and nid (target\_id)](#load-a-node-and-retrieve-an-entity-reference-node-and-nid-target_id)
+    - [Load a multi-value reference field.](#load-a-multi-value-reference-field)
   - [Entity reference nodes and their fields](#entity-reference-nodes-and-their-fields)
   - [Load the taxonomy terms from a term reference field](#load-the-taxonomy-terms-from-a-term-reference-field)
   - [Load a node and find the terms referenced in a paragraph in a term reference field](#load-a-node-and-find-the-terms-referenced-in-a-paragraph-in-a-term-reference-field)
@@ -114,73 +114,6 @@ $node->set('field_tks_standard_type', "TEKS");
 $node->save();
 ```
 
-## Load a node and retrieve an entity reference node and nid
-
-
-```php
-$node_storage = \Drupal::entityTypeManager()->getStorage('node');
-$node = $node_storage->load($nid);
-//Same
-$ref_nid = $node->get('field_sf_contract_ref')->target_id;
-//or
-$ref_nid = $node->field_sf_contract_ref->target_id;
-```
-
-Here is a version for when you expect multiple values, as you could do a `foreach` loop thru them.
-
-We call `get` and then `referencedEntities()` which returns an array of nodes
-
-```php
-$node_to_update->get('field_sf_contract_ref')->referencedEntities();
-```
-
-Pop one off with reset:
-
-```php
-$sf_contracts_ref_node = reset($sf_contracts_refs);
-```
-
-You can grab it's nid with `->id()` or its `->value` e.g. 
-
-```php
-$val = get('field_status')->value;
-```
-
-Here is an example where we do those steps and do some work if the nids don't match.
-
-```php
-$sf_contracts_refs = $node_to_update->get('field_sf_contract_ref')->referencedEntities();
-$sf_contracts_ref_node = reset($sf_contracts_refs);
-$sf_contracts_ref_nid = $sf_contracts_ref_node->id();
-if ($sf_contracts_ref_nid !== $nid) {
-  $node_to_update->set('field_sf_contract_ref', $nid);
-  $save = TRUE;
-}
-```
-
-Another example:
-
-```php
-use Drupal\node\Entity\Node;
-
-$node = Node::load(123);
-$refs = $node->get('field_vendor_ref')->referencedEntities();
-$ref = reset($refs);
-$new_nid = $ref->id();
-```
-
-You could also loop thru the referenced entities with:
-
-```php
-use Drupal\node\Entity\Node;
-
-$node = Node::load(123);
-$refs = $node->get('field_vendor_ref')->referencedEntities();
-foreach ($refs as $ref) {
-  $nid = $ref->id();
-}
-```
-
 ## Get current page title
 
 Use this in a controller, to return the current page title.
@@ -195,10 +128,13 @@ if ($route = $request->attributes->get(\Symfony\Cmf\Component\Routing\RouteObjec
 
 ```php
 // Is this variable a node?
-if (get_class($ref) == 'Drupal\node\Entity\Node') {
+if ($ref instanceof EntityInterface && $ref->getEntityTypeId === 'node') {
     // yep
 }
 ```
+
+
+
 
 ## Get the current nid, node type and title
 
@@ -417,13 +353,14 @@ $my_node->getOwnerId();
 
 You can call `$node->uid` but that returns an `EntityReferenceFieldItemList` with all sorts of juicy information. The user id is in there but more challenging to extract.
 
-## Is a field empty (an entity field)
+
+## Test if a field is empty
 
 ```php
 $entity->get('field_name')->isEmpty()
 ```
 
-does the trick
+For an entity field use:
 
 ```php
 $sf_contract_node = Node::load($sf_contract_nid);
@@ -434,6 +371,17 @@ if ($sf_contract_node) {
     $variables['vendor_url'] = $url;
   }
 ```
+
+And more concisely, using a new feature of PHP 8 we can use the following:
+
+```php
+$url = $sf_contract_node?->field_vendor_url?->first()?->getUrl();
+if (!is_null($url)) {
+      $uri = $url->getUri();
+}
+```
+
+
 
 ## Load a node and update a field
 
@@ -508,6 +456,11 @@ if (isset($condiments[$vote_number])) {
 }
 // $result is ketchup.
 
+// Or the PHP 8 way:
+
+$result= $node->field_condiment?->get($vote_number)?->value;
+// OR 
+$result = $node->field_condiment[$vote_number]?->value;
 ```
 
 
@@ -1298,7 +1251,6 @@ $this_node->body[$this_node->language] = [];
 
 ## Load a node and retrieve an entity reference node and nid (target_id)
 
-From: `/Users/selwyn/Sites/dir/web/modules/custom/dir_salesforce/src/Controller/DirSalesforceController.php`.
 
 ```php
 $node_storage = \Drupal::entityTypeManager()->getStorage('node');
@@ -1309,48 +1261,29 @@ $ref_nid = $node->get('field_sf_contract_ref')->target_id;
 $ref_nid = $node->field_sf_contract_ref->target_id;
 ```
 
-Here is a longer version which is most useful when you expect there to be multiple values, as you could do a foreach loop thru them.
+### Load a multi-value reference field.
 
-Here we call `referencedEntities()` on the result of the `get`:
+Here node 35 has a `field_event` (multivalue entity reference field) with several values.  This code shows how to retrieve the first one, get it's nid and it's title:
 
 ```php
-$node_to_update->get('field_sf_contract_ref')->referencedEntities();
+$node = Node::load(35);
+// Get an array of nodes.
+$node_array = $node->get('field_event')->referencedEntities();
+// Pop one off with reset.
+$ref_node = reset($node_array);
+$nid = $ref_node->id();
+$title = $ref_node->getTitle();
+
 ```
 
-Which returns an array of nodes
+As `$ref_node` is a node object, you retrieve any field value with `get()` e.g. `$val = $ref_node->get('field_status')->value;`
 
-Pop one off with reset:
 
-```php
-$sf_contracts_ref_node = reset($sf_contracts_refs);
-```
-
-And you can grab it’s nid with `->id()` or any other field with `get('field_name')->value;` (e.g. `$val = get('field_status')->value;`)
+You can also loop thru the referenced entities with:
 
 ```php
-$sf_contracts_refs = $node_to_update->get('field_sf_contract_ref')->referencedEntities();
-$sf_contracts_ref_node = reset($sf_contracts_refs);
-$sf_contracts_ref_nid = $sf_contracts_ref_node->id();
-if ($sf_contracts_ref_nid !== $nid) {
-  $node_to_update->set('field_sf_contract_ref', $nid);
-  $save = TRUE;
-}
-```
-
-Maybe more simply stated:
-
-```php
-use Drupal\node\Entity\Node;
-
-$node = Node::load(123);
-$refs = $node->get('field_vendor_ref')->referencedEntities();
-$ref = reset($refs);
-$new_nid = $ref->id();
-
-You could also loop thru the referenced entities with:
-
-foreach ($refs as $ref) {
-  $nid = $ref->id();
+foreach ($node_array as $node) {
+  $nid = $node->id();
 }
 ```
 
