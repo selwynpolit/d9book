@@ -995,7 +995,7 @@ public function build() {
       $url->setOptions($options);
       $build['list']['#items'][$item_count] = [
         '#type' => 'markup',
-        '#markup' => Link::fromTextAndUrl(drupal_render($link_text), $url)
+        '#markup' => Link::fromTextAndUrl($link_text, $url)
           ->toString(),
       ];
       $item_count++;
