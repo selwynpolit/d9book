@@ -26,6 +26,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Modal dialogs](book/modals.html)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](book/nodes_n_fields.html)
 - [Redirects](book/redirects.html)
+- [Render Arrays](book/render.html)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.html)
 - [PHPUnit and Drupal Test Traits](book/dtt.html)
 - [Taxonomy](book/taxonomy.html)
@@ -48,7 +49,6 @@ If you are inspired, please be a part of this project by contributing your own b
 - Miscellaneous
 - Paragraphs
 - Reaching out of Drupal
-- Render arrays
 - Routes and Controllers
 - Security and Preventing attacks
 - Services
@@ -58,7 +58,7 @@ If you are inspired, please be a part of this project by contributing your own b
 
 ----------
 
-Last Updated on: 12-18-2022
+Last Updated on: 12-12-2022
 
 ---------
 
