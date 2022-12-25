@@ -182,7 +182,7 @@ the cache tags
 
 ## Using cache tags
 
-If you are generating a list of cached node teasers and you want to make sure your list is alway accurate, you can use cache tags. To refresh the list every time a node is added, deleted or edited you could use a render array like this:
+If you are generating a list of cached node teasers and you want to make sure your list is always accurate, you can use cache tags. To refresh the list every time a node is added, deleted or edited you could use a render array like this:
 
 ```php
 $build = [
