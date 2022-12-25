@@ -1101,7 +1101,7 @@ From
 ```php
 protected function blockAccess(AccountInterface $account) {
   /** @var \Drupal\node\Entity\Node $node */
-  $node = \Drupal::routeMatch()->getParameter('node');
+  $node = $this->getContext('node');
   if ($node) {
     $nid = $node->id();
     if (is_numeric($nid)) {
@@ -1112,6 +1112,35 @@ protected function blockAccess(AccountInterface $account) {
   return AccessResult::forbidden();
 }
 ```
+
+This requires adding a context definition to the block annotation:
+
+```php
+/**
+ * Provides a 'Node Context Test' block.
+ *
+ * @Block(
+ *   id = "node_block_test_context",
+ *   label = @Translation("Node Context Test"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"))
+ *   }
+ * )
+ */
+```
+
+This causes the block to be available only on various node pages (view, 
+edit etc.). This can be changed:
+
+```
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"),
+ *       required = FALSE)
+ *   }
+```
+
+The order of named options passed to ContextDefinition after the first
+argument does not matter.
 
 Some options that can be returned from blockAccess() are:
 
