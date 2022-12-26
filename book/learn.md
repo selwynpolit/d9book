@@ -31,38 +31,38 @@
 
 ## Pay videos
 
-* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from Lullabot which provides on-demand training and articles on all things Drupal.  Definitely worth a subscription
+* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from Lullabot which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development.
 
 
 ## Drupal Training
-* Mike Anello of Drupal Easy has some training courses worth checking out at https://www.drupaleasy.com/academy . These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
+* Mike Anello of Drupal Easy has some training courses worth checking out at <https://www.drupaleasy.com/academy> . These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
 
 
 ## Keep up with Drupal news
 
-Everything used to happen on IRC, but now most of that seems to be on Slack at https://drupal.slack.com/
+Everything used to happen on IRC, but now most of that seems to be on Slack at <https://drupal.slack.com/>
 
 Other great sources of news are:
 
-* Planet drupal at https://www.drupal.org/planet
+* Planet drupal at <https://www.drupal.org/planet>
 
-* The Weekly Drop, a Drupal newsletter The Drupal Association has partnered with TheWeeklyDrop to bring up to date News and Events to the Drupal community. Free subscription at http://www.theweeklydrop.com/
+* The Weekly Drop, a Drupal newsletter The Drupal Association has partnered with TheWeeklyDrop to bring up to date News and Events to the Drupal community. Free subscription at <http://www.theweeklydrop.com/>
 
-* TheDropTimes is a news website started with the vision of contributing to the growth of a vibrant community of users and contributors around Drupal through the process of covering and promoting everything happening around Drupal. https://www.thedroptimes.com/
+* TheDropTimes is a news website started with the vision of contributing to the growth of a vibrant community of users and contributors around Drupal through the process of covering and promoting everything happening around Drupal. <https://www.thedroptimes.com/>
 
-* Feed of Drupal related articles from all over the web https://drupalsun.com
+* Feed of Drupal related articles from all over the web <https://drupalsun.com>
 
-* Mastodon is starting to show signs of Drupal life with a Mastodon instance focused on Drupal at https://drupal.community/explore
+* Mastodon is starting to show signs of Drupal life with a Mastodon instance focused on Drupal at <https://drupal.community/explore>
 
-* Twitter still has many useful Drupal posts - https://twitter.com/search?q=%23drupal&src=typed_query
+* Twitter has many useful Drupal posts - <https://twitter.com/search?q=%23drupal&src=typed_query>
 
 ## Drupal Podcasts
 
-* Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013.  Check it out at  https://www.talkingdrupal.com
+* Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013.  Check it out at  <https://www.talkingdrupal.com>
 
-* Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot. https://www.lullabot.com/podcasts/lullabot-podcast
+* Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot. <https://www.lullabot.com/podcasts/lullabot-podcast>
 
-* Mike Anello has a Drupal Easy podcast at https://www.drupaleasy.com/podcast
+* Mike Anello has a Drupal Easy podcast at <https://www.drupaleasy.com/podcast>
 
 
 
