@@ -21,18 +21,18 @@
 
 ## Free videos
 
-* Saranya Ashokkumar is a prolific youtube content creator.  Check out some nice short form videos on how to use various modules, create modules etc. https://www.youtube.com/@d4drupal324/featured
+* Saranya Ashokkumar is a prolific youtube content creator.  Check out some nice short form videos on how to use various modules, create modules etc. <https://www.youtube.com/@d4drupal324/featured>
 
 
 ## Blogs and articles
 
-* Phil Norton of #!code writes some amazing articles at https://www.hashbangcode.com/ and has useful code snippets at https://www.hashbangcode.com/snippets
+* Phil Norton of #!code writes some amazing articles at <https://www.hashbangcode.com/> and has useful code snippets at <https://www.hashbangcode.com/snippets>
 
 
 ## Pay videos
 
 * [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from Lullabot which provides on-demand training and articles on all things Drupal.  Definitely worth a subscription
- 
+
 
 ## Drupal Training
 * Mike Anello of Drupal Easy has some training courses worth checking out at https://www.drupaleasy.com/academy . These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
@@ -58,7 +58,7 @@ Other great sources of news are:
 
 ## Drupal Podcasts
 
-* Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013.  Talking Drupal - https://www.talkingdrupal.com
+* Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013.  Check it out at  https://www.talkingdrupal.com
 
 * Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot. https://www.lullabot.com/podcasts/lullabot-podcast
 
