@@ -20,6 +20,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](book/forms.md)
 - [General - Useful things that seemed to not fit well elsewhere](book/general.md)
 - [Entities - More entities - the primary building blocks of Drupal](book/entities.md)
+- [Learning and keeping up with the latest on Drupal](book/learn.md)
 - [Links, Aliases and URLs](book/links.html)
 - [Logging and notification](book/logging.html)
 - [Menus](book/menus.html)
@@ -58,7 +59,7 @@ If you are inspired, please be a part of this project by contributing your own b
 
 ----------
 
-Last Updated on: 12-24-2022
+Last Updated on: 12-26-2022
 
 ---------
 
