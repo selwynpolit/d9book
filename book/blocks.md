@@ -12,11 +12,13 @@
     - [The config form definition](#the-config-form-definition)
     - [The routing.yml file](#the-routingyml-file)
     - [The Block definition](#the-block-definition)
-  - [Modify a block with hook_block_view_alter or hook_block_build_alter](#modify-a-block-with-hook_block_view_alter-or-hook_block_build_alter)
+  - [Modify a block with hook\_block\_view\_alter or hook\_block\_build\_alter](#modify-a-block-with-hook_block_view_alter-or-hook_block_build_alter)
   - [Disable caching in a block](#disable-caching-in-a-block)
   - [Add a configuration form to your block](#add-a-configuration-form-to-your-block)
   - [Block display not updating after changing block content](#block-display-not-updating-after-changing-block-content)
   - [Block Permission (blockAccess)](#block-permission-blockaccess)
+    - [Blocks shouldn't talk to the router, NodeRouteContext and friends should](#blocks-shouldnt-talk-to-the-router-noderoutecontext-and-friends-should)
+    - [Values returned by blockAccess()](#values-returned-by-blockaccess)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-blocks)
 
@@ -240,7 +242,7 @@ or
 
 Specify namespace:
 
-`namespace Drupal\iai_wea\Plugin\Block;`
+`namespace Drupal\abc_wea\Plugin\Block;`
 
 Blocks always extend BlockBase but can also implement other
 interfaces... see below.
@@ -991,7 +993,7 @@ public function build() {
           ]),
         ],
       ];
-      $url = Url::fromRoute('iai_pig.display_product_image', ['node' => $product->nid->value, 'delta' => $item_count]);
+      $url = Url::fromRoute('abc_prg.display_product_image', ['node' => $product->nid->value, 'delta' => $item_count]);
       $url->setOptions($options);
       $build['list']['#items'][$item_count] = [
         '#type' => 'markup',
@@ -1012,11 +1014,13 @@ Here we create a <module_name>.schema.yml in <module_name>/config/schema and it 
 like:
 
 ```yml
+
+
 # Schema for the configuration files for my module.
 
-block.settings.aquifer_block:
+block.settings.alchemy_block:
   type: block_settings
-  label: 'Aquifer block'
+  label: 'Alchemy block'
   mapping:
     block_count:
       type: integer
@@ -1027,12 +1031,14 @@ block.settings.aquifer_block:
 
 From [Nedcamp video on caching by Kelly Lucas, November 2018](https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16)
 
-In a twig template, if you just want to render one or more fields (instead of the entire node), Drupal may not be aware if the content has changed, and will sometimes show old cached content. To resolve this, define a view mode and call content \| render, assign the resut to a variable like this:
+In a twig template, if you just want to render one or more fields (instead of the entire node), Drupal may not be aware if the content has changed, and will sometimes show old cached content. To resolve this, define a view mode and call `content | render` and assign the result to a variable like this:
 
 ```twig
 set blah = content|render
 ```
-As usual in twig ese curly brace percentage sign delimeters around the above statement.  Add this render call will cause Drupal to render the content for that node which will cause a check of the caches and make sure the most current content is rendered.
+Be sure to surround the above code with curly brace and percentage sign delimeters. Unfortunately these don't always render correctly in this document so I've had to remove them for now.
+
+Adding this render call will cause Drupal to render the content for that node, which will cause a check of the caches and make sure the most current content is rendered.
 
 Then add your fields:
 
@@ -1043,18 +1049,15 @@ Then add your fields:
 
 ## Block Permission (blockAccess)
 
-This code is taken from the user_login_block (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being anonymous. If these are not passed, the access returned is forbidden and the block is not built.
+This code is taken from the Drupal core user_login_block (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being anonymous. If these are not passed, the access returned is forbidden and the block is not built.
 
-Don't forget:
 
 ```php
 use Drupal\Core\Access\AccessResult;
 
-// and `$account` comes from
 $account = \Drupal::currentUser();
-```
 
-```php
+
 /**
  * {@inheritdoc}
  */
@@ -1068,15 +1071,13 @@ protected function blockAccess(AccountInterface $account) {
 }
 ```
 
-And some piddlings from the Copyright.php file:
+Another example from the Drupal core Copyright.php file:
 
 
 ```php
 // $account comes from
 $account = \\Drupal::currentUser();
-```
 
-```php
 //Get the route.
 $route_name = \Drupal::routeMatch()->getRouteName();
 
@@ -1095,25 +1096,11 @@ if ($account->isAnonymous()) {
 }
 ```
 
-From
-`web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php` we check to make sure the user viewing a node and that the user has `view rsvplist` permission.  See the code below:
 
-```php
-protected function blockAccess(AccountInterface $account) {
-  /** @var \Drupal\node\Entity\Node $node */
-  $node = $this->getContext('node');
-  if ($node) {
-    $nid = $node->id();
-    if (is_numeric($nid)) {
-      // See rsvp.permissions.yml for the permission string.
-      return AccessResult::allowedIfHasPermission($account, 'view rsvplist');
-    }
-  }
-  return AccessResult::forbidden();
-}
-```
 
-This requires adding a context definition to the block annotation:
+### Blocks shouldn't talk to the router, NodeRouteContext and friends should
+
+While it is possible for blocks to talk to the router, it isn't the preferred way to do things. Instead we could add a context definition to the block annotation:
 
 ```php
 /**
@@ -1132,15 +1119,56 @@ This requires adding a context definition to the block annotation:
 This causes the block to be available only on various node pages (view, 
 edit etc.). This can be changed:
 
-```
+```php
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"),
  *       required = FALSE)
  *   }
 ```
 
-The order of named options passed to ContextDefinition after the first
-argument does not matter.
+The order of named options passed to ContextDefinition after the first argument does not matter.
+
+Then in the block we check to make sure the user is viewing a node and that the user has `view rsvplist` permission.  See the code below:
+
+```php
+protected function blockAccess(AccountInterface $account) {
+  /** @var \Drupal\node\Entity\Node $node */
+  $node = $this->getContext('node');
+  if ($node) {
+    $nid = $node->id();
+    if (is_numeric($nid)) {
+      // See rsvp.permissions.yml for the permission string.
+      return AccessResult::allowedIfHasPermission($account, 'view rsvplist');
+    }
+  }
+  return AccessResult::forbidden();
+}
+```
+
+
+Note.  While not recommended, the RSVP module does have an example of a block talking to the router - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function blockAccess(AccountInterface $account) {
+    /** @var \Drupal\node\Entity\Node $node */
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $nid = $node->nid->value;
+    /** @var \Drupal\rsvp_module\EnablerService $enabler */
+    $enabler = \Drupal::service('rsvp_module.enabler');
+    if(is_numeric($nid)) {
+      if($enabler->isEnabled($node)) {
+        return AccessResult::allowedIfHasPermission($account, 'view rsvp_module');
+      }
+    }
+    return AccessResult::forbidden();
+  }
+```
+
+
+### Values returned by blockAccess()
 
 Some options that can be returned from blockAccess() are:
 
@@ -1149,6 +1177,9 @@ return AccessResult::forbidden();
 return AccessResult::allowed();
 return AccessResult::allowedIf(TRUE);
 ```
+
+
+
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
