@@ -27,6 +27,7 @@ module:
   file: 0
   filter: 0
   general: 0
+  guzzle_examples: 0
   help: 0
   history: 0
   image: 0
