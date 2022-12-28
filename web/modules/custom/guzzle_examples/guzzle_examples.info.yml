@@ -1,6 +1,5 @@
-name: Batch Examples
+name: Guzzle Examples
 type: module
-description: Examples of the Batch API
+description: Examples for using Guzzle
 package: DrupalBook
 core_version_requirement: ^9 || ^10
-

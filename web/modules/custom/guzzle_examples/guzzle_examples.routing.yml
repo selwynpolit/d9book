@@ -1,0 +1,23 @@
+guzzle_examples.example1:
+  path: '/guzzle-examples/example1'
+  defaults:
+    _title: 'Guzzle Examples'
+    _controller: '\Drupal\guzzle_examples\Controller\GuzzleExamplesController::example1'
+  requirements:
+    _permission: 'access content'
+
+guzzle_examples.example2:
+  path: '/guzzle-examples/example2'
+  defaults:
+    _title: 'Guzzle Examples'
+    _controller: '\Drupal\guzzle_examples\Controller\GuzzleExamplesController::example2'
+  requirements:
+    _permission: 'access content'
+
+guzzle_examples.example3:
+  path: '/guzzle-examples/example3'
+  defaults:
+    _title: 'Guzzle Examples'
+    _controller: '\Drupal\guzzle_examples\Controller\GuzzleExamplesController::example3'
+  requirements:
+    _permission: 'access content'
