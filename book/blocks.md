@@ -1100,7 +1100,7 @@ if ($account->isAnonymous()) {
 
 ### Blocks shouldn't talk to the router, NodeRouteContext and friends should
 
-While it is possible for blocks to talk to the router, it isn't the preferred way to do things. Instead we could add a context definition to the block annotation:
+While it is possible for blocks to talk to the router, it seems this isn't the preferred way to do things. Instead we add a context definition to the block annotation like this:
 
 ```php
 /**
@@ -1131,22 +1131,27 @@ The order of named options passed to ContextDefinition after the first argument 
 Then in the block we check to make sure the user is viewing a node and that the user has `view rsvplist` permission.  See the code below:
 
 ```php
-protected function blockAccess(AccountInterface $account) {
-  /** @var \Drupal\node\Entity\Node $node */
-  $node = $this->getContext('node');
-  if ($node) {
-    $nid = $node->id();
-    if (is_numeric($nid)) {
-      // See rsvp.permissions.yml for the permission string.
-      return AccessResult::allowedIfHasPermission($account, 'view rsvplist');
+  protected function blockAccess(AccountInterface $account) {
+    /** @var \Drupal\Core\Plugin\Context\Context $node */
+    $cacheContext = $this->getContext('node');
+    /** @var \Drupal\Core\Entity\Plugin\DataType\EntityAdapter $data */
+    $data = $cacheContext->getContextData();
+    /** @var \Drupal\node\NodeInterface $node */
+    $node = $data->getValue();
+    if ($node) {
+      $nid = $node->id();
+      if (is_numeric($nid)) {
+        // See rsvp.permissions.yml for the permission string.
+        return AccessResult::allowedIfHasPermission($account, 'view rsvplist');
+      }
     }
+    return AccessResult::forbidden();
   }
-  return AccessResult::forbidden();
-}
+
 ```
 
 
-Note.  While not recommended, the RSVP module does have an example of a block talking to the router - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
+Note.  While this practice is not recommended, the RSVP module does have an example of a block talking to the router i.e. `\Drupal::routeMatch()` - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
 
 ```php
   /**
