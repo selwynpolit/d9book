@@ -1100,7 +1100,7 @@ if ($account->isAnonymous()) {
 
 ### Blocks shouldn't talk to the router, NodeRouteContext and friends should
 
-While it is possible for blocks to talk to the router, it seems this isn't the preferred way to do things. Instead we add a context definition to the block annotation like this:
+While it is possible for blocks to talk to the router, you can't always count that they will be on a meaningful route i.e. are they being displayed on a node?  So we should use context definition in the block annotation like this:
 
 ```php
 /**
@@ -1149,6 +1149,8 @@ Then in the block we check to make sure the user is viewing a node and that the 
   }
 
 ```
+
+More at https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id/314152#314152
 
 
 Note.  While this practice is not recommended, the RSVP module does have an example of a block talking to the router i.e. `\Drupal::routeMatch()` - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
