@@ -29,6 +29,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Reaching out of Drupal](book/reaching_out.html)
 - [Redirects](book/redirects.html)
 - [Render Arrays](book/render.html)
+- [Routes and Controllers](book/routes.html)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.html)
 - [PHPUnit and Drupal Test Traits](book/dtt.html)
 - [Taxonomy](book/taxonomy.html)
@@ -50,7 +51,6 @@ If you are inspired, please be a part of this project by contributing your own b
 - Migration
 - Miscellaneous
 - Paragraphs
-- Routes and Controllers
 - Security and Preventing attacks
 - Services
 - Single sign on
