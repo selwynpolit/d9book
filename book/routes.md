@@ -24,6 +24,7 @@
     - [All routes](#all-routes)
     - [Specific path](#specific-path)
     - [Specific route name](#specific-route-name)
+  - [Getting some help from Chat GPT](#getting-some-help-from-chat-gpt)
   - [Resources](#resources)
 
 
@@ -438,6 +439,92 @@ options:
     - access_check.permission
     - access_check.csrf
 ```
+
+
+## Getting some help from Chat GPT
+
+At the time of this writing, [OpenAI](https://openai.com/) has a research release of its ChatGPT available.  You could always ask it to generate a controller for you as I did.  I was amazed by the result. I asked it to:
+
+`Generate a Drupal 10 controller which displays a table of temperatures from 0 to 100 degrees in both celsius and fahrenheit
+`
+
+To which it replied:
+
+```
+Here is a Drupal 10 controller that generates a table of temperatures from 0 to 100 degrees in both Celsius and Fahrenheit:
+```
+```php
+<?php
+
+namespace Drupal\mymodule\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+
+class TemperatureController extends ControllerBase {
+
+  /**
+   * Display a table of temperatures.
+   */
+  public function displayTable() {
+    $rows = [];
+    for ($i = 0; $i <= 100; $i++) {
+      $rows[] = [
+        'celsius' => $i,
+        'fahrenheit' => $this->celsiusToFahrenheit($i),
+      ];
+    }
+    $header = [
+      ['data' => $this->t('Celsius'), 'field' => 'celsius'],
+      ['data' => $this->t('Fahrenheit'), 'field' => 'fahrenheit'],
+    ];
+    $build['table'] = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#empty' => $this->t('No temperatures to display.'),
+    ];
+    return $build;
+  }
+
+  /**
+   * Convert a temperature from Celsius to Fahrenheit.
+   *
+   * @param float $celsius
+   *   The temperature in Celsius.
+   *
+   * @return float
+   *   The temperature in Fahrenheit.
+   */
+  protected function celsiusToFahrenheit($celsius) {
+    return ($celsius * 9 / 5) + 32;
+  }
+
+}
+
+```
+
+followed by this thoughtful addition:
+
+```
+To use this controller, you would need to define a route in your module's routing file that points to the displayTable method. For example:
+```
+```php
+mymodule.temperature_table:
+  path: '/temperature-table'
+  defaults:
+    _controller: '\Drupal\mymodule\Controller\TemperatureController::displayTable'
+    _title: 'Temperature Table'
+  requirements:
+    _permission: 'access content'
+```
+
+It concluded with:
+
+```
+This would define a route at the path /temperature-table that displays the table of temperatures when accessed.
+```
+
+
 
 ## Resources
 
