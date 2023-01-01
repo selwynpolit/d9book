@@ -141,7 +141,7 @@ Also for [manual steps](https://drupalize.me/tutorial/use-composer-your-drupal-p
 
 ## DDEV
 
-For local Docker container development on any platform, there is no better tool than DDEV. This is a [well-documented](https://ddev.readthedocs.io/en/stable/), [well-supported](https://ddev.readthedocs.io/en/stable/#support-and-user-contributed-documentation) tool by the Amazing Randy Fey. You can get help from him on [Discord](https://discord.gg/hCZFfAMc5k) almost instantly.
+For local Docker container development on any platform, there is no better tool than DDEV. This is a [well-documented](https://ddev.readthedocs.io/en/stable/), [well-supported](https://ddev.readthedocs.io/en/stable/#support-and-user-contributed-documentation) tool by the Amazing Randy Fay. You can get help from him on [Discord](https://discord.gg/hCZFfAMc5k) almost instantly.
 
 From the docs:
 
