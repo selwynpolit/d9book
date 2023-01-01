@@ -8,7 +8,7 @@
   - [Local Drupal site setup](#local-drupal-site-setup)
       - [First Option](#first-option)
       - [Second Option](#second-option)
-- [To verify that you have the correct permissions, run this `ls` command with the a, l, h, and d switches and check that your permissions match the following output:](#to-verify-that-you-have-the-correct-permissions-run-thislscommand-with-thealh-anddswitches-and-check-that-your-permissions-match-the-following-output)
+  - [Checking Your Permissions](#checking-your-permissions)
   - [Converting existing site (non-composer based) to use composer:](#converting-existing-site-non-composer-based-to-use-composer)
   - [Composer best practices for Drupal 8](#composer-best-practices-for-drupal-8)
   - [DDEV](#ddev)
@@ -104,7 +104,7 @@ ddev exec drush site-install --account-name=admin --account-pass=admin
 
 
 
-Checking Your Permissions
+## Checking Your Permissions
 
 During the wizard installation, or when your welcome page first loads, you might see a warning about the permissions settings on your `/sites/web/default` directory and one file inside that directory: `settings.php`.
 
@@ -119,7 +119,7 @@ chmod 444 web/sites/default/settings.php
 ```
 
 To verify that you have the correct permissions, run this `ls` command with the a, l, h, and d switches and check that your permissions match the following output:
-=
+
 ```
 $ ls -alhd web/sites/default web/sites/default/settings.php
 
