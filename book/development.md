@@ -5,10 +5,10 @@
 </h3>
 
 - [Development](#development)
-  - [Local Drupal 9 site setup](#local-drupal-9-site-setup)
+  - [Local Drupal site setup](#local-drupal-site-setup)
       - [First Option](#first-option)
       - [Second Option](#second-option)
-      - [Third Option](#third-option)
+- [To verify that you have the correct permissions, run this `ls` command with the a, l, h, and d switches and check that your permissions match the following output:](#to-verify-that-you-have-the-correct-permissions-run-thislscommand-with-thealh-anddswitches-and-check-that-your-permissions-match-the-following-output)
   - [Converting existing site (non-composer based) to use composer:](#converting-existing-site-non-composer-based-to-use-composer)
   - [Composer best practices for Drupal 8](#composer-best-practices-for-drupal-8)
   - [DDEV](#ddev)
@@ -47,7 +47,7 @@
   - [Replacing deprecated functions](#replacing-deprecated-functions)
   - [Missing module](#missing-module)
   - [You have requested a non-existent service](#you-have-requested-a-non-existent-service)
-  - [Reference](#reference)
+  - [Resources](#resources)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dev)
 
@@ -55,44 +55,21 @@
 <a href="/d9book">home</a>
 </h3>
 
-## Local Drupal 9 site setup
+## Local Drupal site setup
 
 Local development is best done using containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process. 
 
 Pick one of these options after installing Docker and Ddev:
 
+
 #### First Option
 
-Replace my-site-name!
-
- e.g. export SITE_NAME=d9site or export SITE_NAME=myd9site
+Using the DDEV Quickstart guides to install Drupal, Wordpress, TYPO3, Backdrop, Magento, Laravel etc. at <https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal>
 
 ```
-export SITE_NAME=my-site-name
-
-composer create-project drupal/recommended-project $SITE_NAME
-
-cd $SITE_NAME
-
-ddev config --docroot=web --project-name=$SITE_NAME --project-type=drupal9
-
-ddev start
-
-ddev exec drush site-install --account-name=admin --account-pass=admin
-```
-
-More at <https://www.drupal.org/docs/official_docs/en/_local_development_guide.html>
-
-OR
-
-#### Second Option
-
-Using the DDEV Quickstart guides to install Drupal, Wordpress, TYPO3, Backdrop, Magento, Laravel etc.
-
-```
-mkdir my-drupal9-site
-cd my-drupal9-site
-ddev config --project-type=drupal9 --docroot=web --create-docroot
+mkdir my-drupal10-site
+cd my-drupal10-site
+ddev config --project-type=drupal10 --docroot=web --create-docroot
 ddev start
 ddev composer create "drupal/recommended-project" --no-install
 ddev composer require drush/drush --no-install
@@ -100,28 +77,32 @@ ddev composer install
 ddev drush site:install -y
 ddev drush uli
 ddev launch
-
 ```
-More at <https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal>
 
-OR
+OR 
 
-#### Third Option
+#### Second Option
 
-This is a slight variation on the 2nd option from <https://www.digitalocean.com/community/tutorials/how-to-develop-a-drupal-9-website-on-your-local-machine-using-docker-and-ddev>
+From <https://www.drupal.org/docs/official_docs/en/_local_development_guide.html>
 
-Following these steps will create a Drupal site called d9test.  
+Start by specifying your SITE_NAME using export:
 ```
-$ mkdir d9test
-$ cd d9test
-$ ddev config --project-type=drupal9 --docroot=web --create-docroot
-
-Start it up with 
-$ ddev start
-$ ddev composer create "drupal/recommended-project"
-$ ddev composer require "drush/drush"
-$ ddev launch
+ export SITE_NAME=d9site 
+ export SITE_NAME=clientsite
 ```
+
+Here are all the steps:
+```
+export SITE_NAME=my-drupal-site
+composer create-project drupal/recommended-project $SITE_NAME
+cd $SITE_NAME
+ddev config --docroot=web --project-name=$SITE_NAME --project-type=drupal9
+ddev start
+ddev exec drush site-install --account-name=admin --account-pass=admin
+```
+
+
+
 
 Checking Your Permissions
 
@@ -137,22 +118,16 @@ chmod 555 web/sites/default
 chmod 444 web/sites/default/settings.php
 ```
 
-To verify that you have the correct permissions, run this `ls` command with the a, l, h, and d switches:
-
+To verify that you have the correct permissions, run this `ls` command with the a, l, h, and d switches and check that your permissions match the following output:
+=
 ```
-ls -alhd web/sites/default web/sites/default/settings.php
-```
+$ ls -alhd web/sites/default web/sites/default/settings.php
 
-Check that your permissions match the following output:
-
-Output
-
-```
 dr-xr-xr-x 8 sammy staff 256 Jul 21 12:56 web/sites/default
 -r--r--r-- 1 sammy staff 249 Jul 21 12:12 web/sites/default/settings.php
 ```
 
-You are now ready to develop a Drupal 9 website on your local machine.
+You are now ready to develop a Drupal website on your local machine.
 
 ## Converting existing site (non-composer based) to use composer:
 
@@ -913,7 +888,7 @@ Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException: You ha
 
 Sometimes, when drush cr throws errors like that try `drush sqlc` and then `truncate cache_bootstrap` and `truncate cache_discovery`.
 
-## Reference
+## Resources
 
 -  Composer best practices for Drupal 8 from Lullabot <https://www.lullabot.com/articles/drupal-8-composer-best-practices>
 
