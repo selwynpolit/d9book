@@ -20,6 +20,7 @@ module:
   dblog: 0
   devel: 0
   devel_generate: 0
+  di_examples: 0
   dynamic_page_cache: 0
   editor: 0
   field: 0
@@ -31,6 +32,9 @@ module:
   help: 0
   history: 0
   image: 0
+  jquery_ui: 0
+  jquery_ui_autocomplete: 0
+  jquery_ui_menu: 0
   link: 0
   menu_link_content: 0
   menu_ui: 0
@@ -65,8 +69,6 @@ module:
   views: 10
   standard: 1000
 theme:
-  bartik: 0
-  seven: 0
   claro: 0
   olivero: 0
 profile: standard
