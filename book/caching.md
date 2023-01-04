@@ -18,7 +18,7 @@
   - [Caching in a .module file](#caching-in-a-module-file)
   - [Logic for caching render arrays](#logic-for-caching-render-arrays)
   - [Development Setup](#development-setup)
-    - [Enable Twig Debugging](#enable-twig-debugging)
+    - [Disable caching and enable TWIG debugging](#disable-caching-and-enable-twig-debugging)
     - [Disable Cache for development](#disable-cache-for-development)
   - [Reference](#reference)
 
@@ -146,15 +146,14 @@ More about caching render arrays at <https://www.drupal.org/docs/8/api/render-ap
 
 ## Debugging Cache tags
 
-In development.services.yml set these parameters 
+In `development.services.yml` set these parameters 
 
 ```yml
 parameters:
   http.response.debug_cacheability_headers: true
 ```
 
-in Chrome, the network tab, click on the doc and view the Headers. You will see the following two headers showing both the cache contexts and
-the cache tags
+in Chrome, the network tab, click on the doc and view the Headers. You will see the following two headers showing both the cache contexts and the cache tags
 
 1.  **X-Drupal-Cache-Contexts:**
 
@@ -182,7 +181,7 @@ the cache tags
 
 ## Using cache tags
 
-If you are generating a list of cached node teasers and you want to make sure your list is always accurate, you can use cache tags. To refresh the list every time a node is added, deleted or edited you could use a render array like this:
+If you are generating a list of cached node teasers and you want to make sure your list is always accurate, use cache tags. To refresh the list every time a node is added, deleted or edited you could use a render array like this:
 
 ```php
 $build = [
@@ -218,11 +217,7 @@ If you want this to work for nodes, you may be able to  just change `$vocab_id`
 
 ## Setting cache keys in a block
 
-If you add some code to a block that includes the logged in user's name,
-you may find that the username will not be displayed correctly -- rather
-it may show the prior users name. This is because the cache context of
-user doesn't bubble up to the display of the container (e.g. the node
-that is displayed along with your custom block.)  Add this to bubble the cache contexts up.
+If you add some code to a block that includes the logged in user's name, you may find that the username will not be displayed correctly -- rather it may show the prior users name. This is because the cache context of user doesn't bubble up to the display of the container (e.g. the node that is displayed along with your custom block.)  Add this to bubble the cache contexts up.
 
 ```php
 public function getCacheContexts() {
@@ -230,12 +225,11 @@ public function getCacheContexts() {
 }
 ```
 
-and scrolling down a bit at this link shows some more info about getting cache tags and merging them.
-<https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id>
+and scrolling down a bit at this link shows some more info about getting cache tags and merging them. <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id>
 
 ## Getting Cache Tags and Contexts for a block
 
-In this file /modules/custom/dana_pagination/src/Plugin/Block/VideoPaginationBlock.php I have a block that renders a form. The form queries some data from the database and will need to be updated depending on the node that I am on.
+In this file /modules/custom/dart_pagination/src/Plugin/Block/VideoPaginationBlock.php I have a block that renders a form. The form queries some data from the database and will need to be updated depending on the node that I am on.
 
 I added the following two functions:
 
@@ -261,12 +255,10 @@ public function getCacheContexts() {
 
 ## Caching REST Resources
 
-Interesting article about caching REST resources at
-<http://blog.dcycle.com/blog/2018-01-24/caching-drupal-8-rest-resource/>
+Interesting article about caching REST resources at <http://blog.dcycle.com/blog/2018-01-24/caching-drupal-8-rest-resource/>
 
 We can get Drupal to cache our rest resource e.g. in dev1
-/custom/iai_wea/src/Plugin/rest/resource/WEAResource.php where we add
-this to our response:
+/custom/iai_wea/src/Plugin/rest/resource/WEAResource.php where we add this to our response:
 
 ```php
 if (!empty($record)) {
@@ -299,10 +291,7 @@ class CmAPIClient implements CmAPIClientInterface {
 protected static $cache = [];
 ```
 
-The api call is made and the cache is checked. The index (or key) is
-build from the api call "getPolicy" and the next key is the policy
-number with the version number attached. So the `$response_data` is put
-in the cache with:
+The api call is made and the cache is checked. The index (or key) is built from the api call "getPolicy" and the next key is the policy number with the version number attached. So the `$response_data` is put in the cache with:
 
 ```php
 self::$cache['getPolicy'][$policy_number . $version] = $response_data;
@@ -418,8 +407,6 @@ if ($node_type == 'zzzzfeed' && $published) {
 
 From <https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
 
-Please try to adopt the following thought process.
-
 Whenever you are generating a render array, use the following 5 steps:
 
 1.  I'm rendering something. That means I must think of cacheability.
@@ -430,7 +417,7 @@ Whenever you are generating a render array, use the following 5 steps:
 
 4.  What causes the representation of the thing I'm rendering become outdated? I.e., which things does it depend upon, so that when those things change, so should my representation? Those are the cache tags.
 
-5.  When does the representation of the thing I'm rendering become outdated? I.e., is the data valid for a limited period of time only? That is the max-age (maximum age). It defaults to "permanently (forever) cacheable" (`Cache::PERMANENT`). When the representation is only valid for a limited time, set a max-age, expressed in seconds. Zero means that it's not cacheable at all.
+5.  When does the representation of the thing I'm rendering become outdated? I.e., is the data valid for a limited period of time only? That is the max-age (maximum age). It defaults to "permanently (forever) cacheable" (`Cache::PERMANENT`). When the representation is only valid for a limited time, set a `max-age`, expressed in seconds. Zero means that it's not cacheable at all.
 
 Cache contexts, tags and max-age must always be set, because they affect the cacheability of the entire response. Therefore they "bubble" and parents automatically receive them.
 
@@ -440,12 +427,11 @@ There are more details at the link above
 
 ## Development Setup
 
-### Enable Twig Debugging
+### Disable caching and enable TWIG debugging
 
-Generally I enable twig debugging and disable caching while developing a site.  Here are the steps
+Generally I enable twig debugging and disable caching while developing a site.  
 
-Enable twig debugging output in source
-In sites/default/development.services.yml set twig.config debug:true.  See core.services.yml for lots of other items to change for development
+To enable TWIG debugging output in source, in sites/default/development.services.yml set twig.config debug:true.  See core.services.yml for lots of other items to change for development
 
 ```yml
 # Local development services.
@@ -473,9 +459,10 @@ to enable put this in settings.local.php:
  * Enable local development services.
  */
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
-
+```
 You also need to disable the render cache in settings.local.php with: 
 
+```php
 $settings['cache']['bins']['render'] = 'cache.backend.null';
 ```
 
@@ -483,13 +470,13 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 
 From https://www.drupal.org/node/2598914
 
-1. Copy, rename, and move the `sites/example.settings.local.php` to `sites/default/settings.local.php`
+1. Copy, rename, and move the `sites/example.settings.local.php` to `sites/default/settings.local.php` with:
 
-```
+```bash
 $ cp sites/example.settings.local.php sites/default/settings.local.php
 ```
 
-2. Open `settings.php` file in sites/default and uncomment these lines:
+2. Edit `sites/default/settings.php` and uncomment these lines:
 
 ```php
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
@@ -499,13 +486,13 @@ if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 
 This will include the local settings file as part of Drupal's settings file.
 
-3. Open settings.local.php and make sure development.services.yml is enabled.
+1. In `settings.local.php` make sure `development.services.yml` is enabled with:
 
 ```php
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
 
-By default development.services.yml contains the settings to disable Drupal caching:
+By default `development.services.yml` contains the settings to disable Drupal caching:
 
 ```yml
 services:
@@ -515,23 +502,18 @@ services:
 
 NOTE: Do not create development.services.yml, it already exists under /sites.  You can copy it from there.
 
-4. In settings.local.php change the following to be TRUE if you want to work with enabled css- and js-aggregation:
+4. In `settings.local.php` change the following to be TRUE if you want to work with enabled css- and js-aggregation:
 
 ```php
 $config['system.performance']['css']['preprocess'] = FALSE;
 $config['system.performance']['js']['preprocess'] = FALSE;
 ```
 
-5. Uncomment these lines in settings.local.php to disable the render cache and disable dynamic page cache:
+5. Uncomment these lines in `settings.local.php` to disable the render cache and disable dynamic page cache:
 
 ```php
 $settings['cache']['bins']['render'] = 'cache.backend.null';
 $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
-```
-
-If you are using Drupal version greater than or equal to 8.4 then add the following lines to your settings.local.php
-
-```php
 $settings['cache']['bins']['page'] = 'cache.backend.null';
 ```
 
@@ -541,9 +523,9 @@ If you do not want to install test modules and themes, set the following to FALS
 $settings['extension_discovery_scan_tests'] = FALSE;
 ```
 
-6. Open development.services.yml in the sites folder and add the following block to disable the twig cache:
+1. In `sites/development.services.yml` add the following block to disable the twig cache:
 
-```yml
+```yaml
 parameters:
   twig.config:
     debug: true
@@ -557,13 +539,13 @@ Afterwards rebuild the Drupal cache with `drush cr` otherwise your website will 
 
 ## Reference
 
-* [Drupal: cache tags for all, regardles of your backend From Matt Glaman 22, August 2022](https://mglaman.dev/blog/drupal-cache-tags-all-regardless-your-backend)
-* [Cache contexts overview on drupal.org](https://www.drupal.org/docs/drupal-apis/cache-api/cache-contexts)
-* [Caching in Drupal 8 a quick overview of Cache tags, cache context and cache max-age with simple examples](https://zu.com/articles/caching-drupal-8)
-* [Nedcamp video on caching by Kelly Lucas from November 2018](https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16)
-* [#! code: Drupal 9: Debugging Cache Problems With The Cache Review Module, September 2022](https://www.hashbangcode.com/article/drupal-9-debugging-cache-problems-cache-review-module)
-* [#! code: Drupal 9: Using The Caching API To Store Data, April 2022](https://www.hashbangcode.com/article/drupal-9-using-caching-api-store-data)
-* [#! code: Drupal 8: Custom Cache Bin, September 2019](https://www.hashbangcode.com/article/drupal-8-custom-cache-bins)
+* Drupal: cache tags for all, regardles of your backend From Matt Glaman 22, August 2022 <https://mglaman.dev/blog/drupal-cache-tags-all-regardless-your-backend>
+* Cache contexts overview on drupal.org <https://www.drupal.org/docs/drupal-apis/cache-api/cache-contexts>
+* Caching in Drupal 8 a quick overview of Cache tags, cache context and cache max-age with simple examples <https://zu.com/articles/caching-drupal-8>
+* Nedcamp video on caching by Kelly Lucas from November 2018 <https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16>
+* #! code: Drupal 9: Debugging Cache Problems With The Cache Review Module, September 2022 <https://www.hashbangcode.com/article/drupal-9-debugging-cache-problems-cache-review-module>
+* #! code: Drupal 9: Using The Caching API To Store Data, April 2022 <https://www.hashbangcode.com/article/drupal-9-using-caching-api-store-data>
+* #! code: Drupal 8: Custom Cache Bin, September 2019 <https://www.hashbangcode.com/article/drupal-8-custom-cache-bins>
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
