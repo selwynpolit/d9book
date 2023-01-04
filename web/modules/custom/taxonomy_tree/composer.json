@@ -1,0 +1,6 @@
+{
+  "name": "drupal/taxonomy_tree",
+  "description": "Utility for loading terms in a tree",
+  "type": "drupal-module",
+  "minimum-stability": "dev"
+}

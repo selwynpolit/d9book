@@ -1,0 +1,16 @@
+di_examples.example:
+  path: '/di-examples/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\di_examples\Controller\DiExamplesController::build'
+  requirements:
+    _permission: 'access content'
+
+
+di_examples.config1:
+  path: '/di-examples/config1'
+  defaults:
+    _title: 'Fiddling with config'
+    _controller: '\Drupal\di_examples\Controller\ConfigController::build'
+  requirements:
+    _permission: 'access content'
