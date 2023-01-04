@@ -1049,11 +1049,9 @@ etc.
     from March 2017
     <https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/>
 
--   Drupal 8: Properly Injecting Dependencies Using DI by Danny Sipos May 2016 [**https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di\--cms-26314**](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
+-   Drupal 8: Properly Injecting Dependencies Using DI by Danny Sipos May 2016 [https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di\--cms-26314](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
 
--   Inject a service in Drupal 8 showing an example of injecting
-    http_client (Guzzle) by J M Olivas July 2015
-    <https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4>
+-   Inject a service in Drupal 8 showing an example of injecting http_client (Guzzle) by J M Olivas July 2015 <https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4>
 
 
 <h3 style="text-align: center;">
