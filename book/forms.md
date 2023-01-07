@@ -73,11 +73,7 @@ batch_examples.batch:
 
 ## Find a form id in the page source
 
-To find the form_id, edit an article node with the comment form displaying.
-
-Inspect code in chrome
-
-Look for something like this:
+To find the form_id, edit an article node with the comment form displaying. Inspect code in chrome and look for something like this:
 
 ```html
 <form class="comment-comment-form comment-form" data-drupal-selector="comment-form" action="/comment/reply/node/1/comment" method="post" id="comment-form" accept-charset="UTF-8" data-drupal-form-fields="edit-subject-0-value,edit-comment-body-0-value,edit-comment-body-0-format--2,edit-submit,edit-preview">
@@ -86,8 +82,7 @@ Look for something like this:
 The formid is `comment_comment_form`. Note *dashes become underscores in
 your code*.
 
-Alternatively, you can add a `hook_form_alter` and you can `print_r` or `dsm`
-the `$form_id`.  If you prefer, you could also log it to the watchdog log.
+Alternatively, you can add a `hook_form_alter` and  `print_r` or `dsm` the `$form_id`.  If you prefer, you could also log it to the watchdog log:
 
 ```php
 function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
@@ -96,8 +91,7 @@ function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_sta
 \Drupal::logger('nisto_form_alter')->notice('Form ID: ' . $form_id);
 ```
 
-Notice that a node add form looks like `node_catastrophe_notice_form`
-while a node edit form looks more like this: `node_catastrophe_notice_edit_form`
+Notice that a node add form looks like `node_catastrophe_notice_form` while a node edit form looks more like this: `node_catastrophe_notice_edit_form`
 
 ## Set autocomplete to off for user login and password fields
 
