@@ -199,7 +199,7 @@ function dan_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state
 
 ## Hide revision info and moderation state
 
-In a `.module` file you can turn off revision information and moderation state like this.
+In a `.module` file you can turn off (hide) revision information and moderation state like this.
 
 ```php
 $form['revision_information']['#access'] = FALSE;
