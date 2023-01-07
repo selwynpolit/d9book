@@ -646,11 +646,10 @@ The template outputs the guts of the block as
 ```
 {% endraw %}
 
-\{\{ block content \}\}
 
 
 For my custom theme called dprime, I added a new template file at
-`themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig` and added lots of fun stuff to output the form in bits and pieces.
+`themes/custom/dprime/templates/block/block--videopaginationblock.html.twig` and added lots of fun stuff to output the form in bits and pieces.
 
 e.g. like here, to display the previous_clip item from the form's
 render array which looks like this:
@@ -676,7 +675,7 @@ And in the template, you can see `content.previous_clip` referencing this conten
   </span>
     <span class="linkPager-text">
     <span class="linkPager-title">Prev</span>
-    {{ content.previous_clip }}
+    \{\{ content.previous_clip \}\}
   </span>
   </a>
 </div>
