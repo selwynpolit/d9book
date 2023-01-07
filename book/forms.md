@@ -686,13 +686,9 @@ And in the template, you can see `content.previous_clip` referencing this conten
 
 ## Add Javascript to a form
 
-This code is in the [examples](https://www.drupal.org/project/examples)
-module in the `DependentDropdown` example where one field depends on the
-value from another
+This code is in the [examples](https://www.drupal.org/project/examples) module in the `DependentDropdown` example where one field depends on the value from another
 
-From
-web/modules/contrib/examples/ajax_example/src/Form/DependentDropdown.php
-the form has some Javascript included via a library:
+From web/modules/contrib/examples/ajax_example/src/Form/DependentDropdown.php the form has some Javascript included via a library:
 
 ```php
 public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
