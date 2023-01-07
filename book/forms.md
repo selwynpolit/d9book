@@ -640,11 +640,11 @@ In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form
 The template outputs the guts of the block as 
 
 
-```twig
 {% raw %}
+```twig
     {{ block content }}
-{% endraw %}
 ```
+{% endraw %}
 
 
 For my custom theme called dprime, I added a new template file at
