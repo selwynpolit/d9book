@@ -614,16 +614,19 @@ function redirectUser($path, $route = FALSE) {
 
 ## Provide a block template for a form in a block
 
-In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I
-have a form which is displayed in a block. The usual block template file
-provided by the theme is `block.html.twig` and looks like this:
+In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
 
 ![block template](./images/media/block_template.png)
+(Sorry for the image of this source code, but for some reason github chokes on the twig source.)
 
-(Not sure but for some reason github chokes on the twig source for this so I had to use an image.)
+The template outputs the guts of the block as 
 
-The template outputs the guts of the block as `{{ block content }}`
 
+```twig
+<!-- {% raw %} -->
+{{ block content }}
+<!-- {% endraw %} -->
+```
 For my custom theme called dprime, I added a new template file at
 `themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig` and added lots of fun stuff to output the form in bits and pieces.
 
