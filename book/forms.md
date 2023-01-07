@@ -625,7 +625,7 @@ The template outputs the guts of the block as
 ```twig
 {% raw %}
 {{ block content }}
-{% endraw
+{% endraw %}
 ```
 
 
