@@ -619,8 +619,8 @@ In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form
 ![block template](./images/media/block_template.png)
 (Sorry for the image of this source code, but for some reason github chokes on the twig source.)
 
-```twig
 {% raw %}
+```twig
 <div
   {{ attributes }}>
   {{ title_prefix }}
@@ -632,9 +632,8 @@ In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form
     {{ content }}
   {% endblock %}
 </div>
-{% endraw %}
-
 ```
+{% endraw %}
 
 
 The template outputs the guts of the block as 
