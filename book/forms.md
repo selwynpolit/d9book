@@ -667,7 +667,6 @@ And in the template, you can see `content.previous_clip` referencing this conten
 <div class="cell medium-6 medium-order-2 text-center">
   {{ content.select }}
 </div>
-
 <div class="cell small-6 medium-order-1 medium-3">
   <a href="{{ content.previous_url }}" class="linkPager linkPager--prev">
   <span class="linkPager-icon">
@@ -675,7 +674,9 @@ And in the template, you can see `content.previous_clip` referencing this conten
   </span>
     <span class="linkPager-text">
     <span class="linkPager-title">Prev</span>
-    \{\{ content.previous_clip \}\}
+    {% raw %}
+    {{ content.previous_clip }}
+    {% endraw %}
   </span>
   </a>
 </div>
