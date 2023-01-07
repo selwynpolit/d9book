@@ -642,9 +642,21 @@ The template outputs the guts of the block as
 
 {% raw %}
 ```twig
+{{ block content }}
+```
+{% endraw %}
+
+{% raw %}
+```twig
     {{ block content }}
 ```
 {% endraw %}
+
+```twig
+{% raw %}
+    {{ block content }}
+{% endraw %}
+```
 
 
 For my custom theme called dprime, I added a new template file at
