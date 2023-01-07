@@ -619,12 +619,30 @@ In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form
 ![block template](./images/media/block_template.png)
 (Sorry for the image of this source code, but for some reason github chokes on the twig source.)
 
+```twig
+{% raw %}
+<div
+  {{ attributes }}>
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes }}>{{ label }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+  {% block content %}
+    {{ content }}
+  {% endblock %}
+</div>
+{% endraw %}
+
+```
+
+
 The template outputs the guts of the block as 
 
 
 ```twig
 {% raw %}
-{{ block content }}
+    {{ block content }}
 {% endraw %}
 ```
 
