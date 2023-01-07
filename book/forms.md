@@ -8,8 +8,8 @@
   - [Overview](#overview)
   - [Find a form id in the page source](#find-a-form-id-in-the-page-source)
   - [Set autocomplete to off for user login and password fields](#set-autocomplete-to-off-for-user-login-and-password-fields)
-  - [Modify a button on a form with hook_form_alter](#modify-a-button-on-a-form-with-hook_form_alter)
-  - [Hide a field with hook_form_alter](#hide-a-field-with-hook_form_alter)
+  - [Modify a button on a form with hook\_form\_alter](#modify-a-button-on-a-form-with-hook_form_alter)
+  - [Hide a field with hook\_form\_alter](#hide-a-field-with-hook_form_alter)
   - [Hide revision info and moderation state](#hide-revision-info-and-moderation-state)
   - [Conditional fields and field states API (#states)](#conditional-fields-and-field-states-api-states)
     - [Conditional fields in new forms](#conditional-fields-in-new-forms)
@@ -622,15 +622,10 @@ provided by the theme is `block.html.twig` and looks like this:
 
 (Not sure but for some reason github chokes on the twig source for this so I had to use an image.)
 
-The template outputs the guts of the block as 
-
-```twig
-{{ block content }}
-```
+The template outputs the guts of the block as `{{ block content }}`
 
 For my custom theme called dprime, I added a new template file at
-`themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig`
-and added lots of fun stuff to output the form in bits and pieces.
+`themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig` and added lots of fun stuff to output the form in bits and pieces.
 
 e.g. like here, to display the previous_clip item from the form's
 render array which looks like this:
