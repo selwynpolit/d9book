@@ -623,10 +623,12 @@ The template outputs the guts of the block as
 
 
 ```twig
-<!-- {% raw %} -->
+{% raw %}
 {{ block content }}
-<!-- {% endraw %} -->
+{% endraw
 ```
+
+
 For my custom theme called dprime, I added a new template file at
 `themes/custo601m/dprime/templates/block/block--videopaginationblock.html.twig` and added lots of fun stuff to output the form in bits and pieces.
 
