@@ -616,9 +616,10 @@ function redirectUser($path, $route = FALSE) {
 
 In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
 
+(Here is an image of this source code. Strangely, Jekyll/Github requires me to jump through some hoops for TWIG source. I'm still experimenting.)
 ![block template](./images/media/block_template.png)
-(Sorry for the image of this source code, but for some reason github chokes on the twig source.)
 
+Here is the source:
 {% raw %}
 ```twig
 <div
@@ -645,17 +646,7 @@ The template outputs the guts of the block as
 ```
 {% endraw %}
 
-{% raw %}
-```twig
-    {{ block content }}
-```
-{% endraw %}
-
-```twig
-{% raw %}
-    {{ block content }}
-{% endraw %}
-```
+\{\{ block content \}\}
 
 
 For my custom theme called dprime, I added a new template file at
