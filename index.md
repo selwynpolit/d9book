@@ -32,11 +32,11 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Render Arrays](book/render.html)
 - [Routes and Controllers](book/routes.html)
 - [Services and Dependency injection](book/services.html)
-- [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.html)
-- [PHPUnit and Drupal Test Traits](book/dtt.html)
-- [Taxonomy](book/taxonomy.html)
+- [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.md)
+- [PHPUnit and Drupal Test Traits](book/dtt.md)
+- [Taxonomy](book/taxonomy.md)
 
-- [Attribution](book/attribution.html)
+- [Attribution - See who contributed to the masterpiece](book/attribution.html)
 
 If you are inspired, please be a part of this project by contributing your own brilliance and add your name on the attribution page.
 
