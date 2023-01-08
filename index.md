@@ -16,6 +16,7 @@ You can add to this book by making edits and pull requests in [github](https://g
 - [Config - Creating, loading, overriding, drush config commands](book/config.md)
 - [Cron - Using hook_cron, sample crontab files, how to stop cron](book/cron.md)
 - [Dates - Getting and setting date fields, date arithmetic, expiration, node creation and changed dates, Smart date module](book/dates.html)
+- [Debugging with PhpStorm, DDEV and Xdebug](book/debugging.md)
 - [Development - Local setup, creating sites, DDEV, troubleshooting, PHPStorm setup, Xdebug setup, Twig debugging](book/development.html)
 - [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](book/forms.md)
 - [General - Useful things that seemed to not fit well elsewhere](book/general.md)
@@ -40,7 +41,6 @@ You can add to this book by making edits and pull requests in [github](https://g
 If you are inspired, please be a part of this project by contributing your own brilliance and add your name on the attribution page.
 
 ### Chapters I'm working on
-- Debugging
 - Drush
 - Email
 - Events
@@ -58,7 +58,7 @@ If you are inspired, please be a part of this project by contributing your own b
 
 ----------
 
-Last Updated on: 1-7-2023
+Last Updated on: 1-8-2023
 
 ---------
 
