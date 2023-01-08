@@ -263,6 +263,7 @@ tcp4       0      0  *.9003                 *.*                    LISTEN
 
 Here is an example running `lsof` and finding php-fpm listening on port 9000
 
+```bash
 $ lsof -i TCP:9000
 
 COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
@@ -275,11 +276,11 @@ localhost:cslistener (LISTEN)
 
 php-fpm 765 selwyn 8u IPv4 0x4120ed57a07e871f 0t0 TCP
 localhost:cslistener (LISTEN)
-
+```
 
 ## Enable twig debugging output in source
 
-In `sites/default/development.services.yml` set `twig.config debug:true`. See `core.services.yml` for lots of other items to change for development.
+In `sites/default/development.services.yml` in the `parameters`, `twig.config`, set `debug:true`. See `core.services.yml` for lots of other items to change for development.
 
 ```yaml
 # Local development services.
@@ -384,11 +385,9 @@ if(class_exists('Kint')){
 
 -   Debugging with Xdebug in DDEV docs <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/>
 
--   Debug Drush commands with PhpStorm at
- <https://www.jetbrains.com/help/phpstorm/drupal-support.html#view_drupal_api_documentation>
+-   Debug Drush commands with PhpStorm at <https://www.jetbrains.com/help/phpstorm/drupal-support.html#view_drupal_api_documentation>
 
--   Configuring PhpStorm Drupal.org docs updated September 2022
- <https://www.drupal.org/docs/develop/development-tools/configuring-phpstorm>
+-   Configuring PhpStorm Drupal.org docs updated September 2022 <https://www.drupal.org/docs/develop/development-tools/configuring-phpstorm>
 
 -   Debugging Drush commands <https://www.jetbrains.com/help/phpstorm/drupal-support.html#debugging-drush-commands>
 
