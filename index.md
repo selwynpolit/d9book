@@ -2,7 +2,7 @@
 ### Drupal 9 & 10 developers quick code reference
 #### by Selwyn Polit
 
-I've amassed a sizable collection of notes and code while developing Drupal sites which I use for my reference.  During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal) and many other places, I often wished I had a comprehensive set of annotated code samples to make more sense of how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples) which you should be aware of and use as a supplement to this book.  This work is intended to be a quick reference for developers working on creating Drupal sites. Please forgive the `todo` items. I've found that if I want to get everything perfect, I'll never publish anything. Perhaps use this as your opportunity to add something.
+I've amassed a sizable collection of notes and code while developing Drupal sites which I use for my reference.  During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal) and many other places, I often wished there was a comprehensive set of current annotated code samples explaining how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples) which you should keep handy.  This work is intended to be a quick reference for developers working on creating Drupal sites. Please forgive the `todo` items. I've found that if I want to get everything perfect, I'll never publish anything. Perhaps use this as your opportunity to add something.
 
 You can add to this book by making edits and pull requests in [github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).  There is a very easy to use online editor in github so you don't have to do anything fancy other than type in your notes in [Markdown format](https://github.github.com/gfm/). You can see how easy it is if you edit one of the existing files.
 
@@ -58,7 +58,7 @@ If you are inspired, please be a part of this project by contributing your own b
 
 ----------
 
-Last Updated on: 1-8-2023
+Last Updated on: 1-10-2023
 
 ---------
 
