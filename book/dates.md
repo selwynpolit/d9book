@@ -105,14 +105,15 @@ public function build() {
 
 ## Formatting a date string with an embedded timezone
 
-Here you have a date string with an embedded timezone so you can make it into a `DrupalDateTime` and then format it into a usable string you can store in the database.
+Here a date string with an embedded timezone is used to create a `DrupalDateTime` object which is then converted to be stored into a node.
 
 ```php
-use Drupal\\Core\\Datetime\\DrupalDateTime;
+use Drupal\Core\Datetime\DrupalDateTime;
 
-\$date_string = \"2020-08-24T15:28:04+00:00\";\
-\$given = new DrupalDateTime(\$date_string);\
-\$newstring = \$given-\>format(\"Y-m-d\\Th:i:s\");
+$date_string = "2020-08-24T15:28:04+00:00";
+$ddt = new DrupalDateTime($date_string);
+$newstring = $ddt->format("Y-m-d\Th:i:s");
+$node->set('field_date', $newstring);
 ```
 
 ## Date Range fields: Load start and end values
@@ -137,23 +138,14 @@ $from = $variables["node"]->get('field_date')->getValue()[0]['value'];
 $to = $variables["node"]->get('field_date')->getValue()[0]['end_value'];
 ```
 
-Here is an example of a `hook_preprocess_node` function  in a `.theme` file. We are creating a `scrunch_date` variable to be rendered.  See the section: 
+Here is an example of a `hook_preprocess_node` function  in a `.theme` file. We are creating a `scrunch_date` variable to be rendered.  Check out the section that starts with `$variables['scrunch_date'] =`
+
 
 ```php
-$variables['scrunch_date'] = [
-    '#type' => 'markup',
-    ...
-```
 
-Don't forget the use statement:
-
-```php
 use Drupal\Core\Datetime\DrupalDateTime;
-```
 
-You can then use it in your hooks.
 
-```php
 /**
  * Implements hook_preprocess_node
  *
@@ -191,6 +183,7 @@ Now in the twig node template we can output the `scrunch_date` we created.
 From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
 
 ```twig
+{% raw %}
 {%  if content.field_date %}
   {% if scrunch_date %}
     <div>
@@ -202,6 +195,7 @@ From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
     </div>
   {% endif %}
 {% endif %}
+{% endraw %}
 ```
 
 ## Saving Date Fields
