@@ -64,10 +64,10 @@ A date field has two properties, 
 -   date, a computed field returning a DrupalDateTime object, on which you can use the methods getTimestamp() or format():
 
 ```php
-*// get unix timestamp
-\* $timestamp = $node->field_date->date->getTimestamp();
- *// get a formatted date
-\* $date_formatted = $node->field_date->date->format('Y-m-d H:i:s');
+// Get unix timestamp.
+$timestamp = $node->field_date->date->getTimestamp();
+// Get a formatted date.
+$date_formatted = $node->field_date->date->format('Y-m-d H:i:s');
 ```
 
 Using `$node->field_mydatefield->date` is ideal as it returns a `DrupalDateTime` class which gives you all sorts of goodness. More [about DrupalDateTime here](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x)
