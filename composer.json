@@ -35,6 +35,7 @@
         "drupal/module_filter": "^4.0",
         "drupal/multiple_fields_remove_button": "^1.0@alpha",
         "drupal/pathauto": "^1.8",
+        "drupal/search_api": "^1.28",
         "drupal/select2_all": "^1.0@alpha",
         "drupal/shield": "^1.4",
         "drupal/simple_sitemap": "^3.8",
