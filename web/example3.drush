@@ -1,0 +1,18 @@
+<?php
+
+//
+// This example demonstrates how to write a drush
+// script. These scripts are run with the php:script command.
+//
+use Drush\Drush;
+
+
+$database = \Drupal::database();
+$query = $database->query("SELECT nid, vid, type  FROM {node} n");
+$results = $query->fetchAll();
+
+$result_count = count($results);
+$this->output()->writeln("Result count = " . $result_count);
+//print "Result count = $result_count\n";
+
+
