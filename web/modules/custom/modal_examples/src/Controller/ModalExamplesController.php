@@ -11,18 +11,18 @@ use Drupal\Core\Url;
  */
 class ModalExamplesController extends ControllerBase {
 
-  /**
-   * Builds the response.
-   */
-  public function build() {
+  public function buildExample1() {
 
+    $route_name = \Drupal::routeMatch()->getRouteName();
     $build['content'] = [
       '#type' => 'item',
-      '#markup' => $this->t('It works!'),
+      '#markup' => $this->t('Route: %route', ['%route' => $route_name]),
     ];
-    $build['link1-to-modal1'] = [
+
+
+    $build['link-to-modal1'] = [
       '#type'       => 'link',
-      '#title'      => t('Link to modal1'),
+      '#title'      => t('Link to a custom modal (modal1)'),
       '#url'        => Url::fromRoute('modal_examples.modal1', [
         'program_id'     => 123,
         'type' => 'all',
@@ -31,6 +31,8 @@ class ModalExamplesController extends ControllerBase {
         'id' => 'view-correlation-' . 12345,
         'class' => ['use-ajax'],
         'aria-label' => 'View useful information pertaining to item ' . '12345',
+        '#prefix' => '<div class="abcdef">',
+        '#suffix' => '</div>',
         'data-dialog-type' => 'modal',
         'data-dialog-options' => Json::encode(
           [
@@ -39,6 +41,20 @@ class ModalExamplesController extends ControllerBase {
         ),
       ],
     ];
+
+
+    $build['link-to-modal2'] = [
+      '#type' => 'link',
+      '#url' => new Url('modal_examples.modal2'),
+      '#title' => 'Link to a node in a dialog (modal2)',
+      '#prefix' => '<div class="pqrst">',
+      '#suffix' => '</div>',
+      '#attributes' => [
+        'class' => ['use-ajax'],
+      ],
+    ];
+
+    $build['#attached']['library'][] = 'core/drupal.dialog.ajax';
 
     return $build;
   }

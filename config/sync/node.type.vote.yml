@@ -1,0 +1,17 @@
+uuid: 175a60d6-0961-4603-b8b8-46a516cbc4e1
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Vote
+type: vote
+description: 'A record of first, second, third etc. choice for a text value as well as choices for an entity reference and a number'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

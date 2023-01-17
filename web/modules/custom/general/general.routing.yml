@@ -21,3 +21,11 @@ general.settings_form:
     _form: 'Drupal\general\Form\SettingsForm'
   requirements:
     _permission: 'administer general configuration'
+
+general.multi_test:
+  path: '/general/multi/test'
+  defaults:
+    _title: 'Multivalue field'
+    _controller: '\Drupal\general\Controller\GeneralController::multiTest'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,4 @@
+name: 'Taxonomy Tree'
+description: 'Utility for loading terms in a tree'
+core_version_requirement: ^8 || ^9
+type: module

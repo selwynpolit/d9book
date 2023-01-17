@@ -1,0 +1,28 @@
+uuid: 22e43550-3821-472f-aacb-e0cf6e141f28
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.vote.field_category
+    - field.field.node.vote.field_condiment
+    - field.field.node.vote.field_event
+    - field.field.node.vote.field_url
+    - node.type.vote
+  module:
+    - user
+id: node.vote.teaser
+targetEntityType: node
+bundle: vote
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_category: true
+  field_condiment: true
+  field_event: true
+  field_url: true

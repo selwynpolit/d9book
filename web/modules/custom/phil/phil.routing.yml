@@ -1,0 +1,22 @@
+phil.example:
+  path: '/phil/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\phil\Controller\PhilController::build'
+  requirements:
+    _permission: 'access content'
+
+phil_display_dialog:
+  path: '/test-dialog'
+  defaults:
+    _controller: '\Drupal\phil\Controller\PhilController::createDialog'
+  requirements:
+    _access: 'TRUE'
+
+phil_display_page:
+  path: '/test-page'
+  defaults:
+    _controller: '\Drupal\phil\Controller\PhilController::displayPage'
+  requirements:
+    _access: 'TRUE'
+

@@ -111,15 +111,33 @@ class QueriesController extends ControllerBase {
 
   }
 
-  public function entityExists() {
+  /*
+   * If you retrieve the entity storage, then just use the $storage->query.
+   * If you use Drupal::entityQuery then use Node::load.
+   * Mixed them is a bit pointless.
+   *
+   */
 
+  public function entityExists() {
     $name = 'hello';
     // See if the article named hello exists.
-    $query = \Drupal::entityQuery('node')
+
+    // 2 different ways we can do this:
+    // 1. Create a node query
+    $query = \Drupal::entityQuery('node');
+    $query
       ->condition('type', 'article')
       ->condition('title', $name)
       ->count();
+    $count_nodes = $query->execute();
 
+    // 2. get node storage, and the query object from that.
+    $storage = \Drupal::entityTypeManager()->getStorage('node');
+    $query = $storage->getQuery();
+    $query
+      ->condition('type', 'article')
+      ->condition('title', $name)
+      ->count();
     $count_nodes = $query->execute();
 
     if ($count_nodes == 0) {

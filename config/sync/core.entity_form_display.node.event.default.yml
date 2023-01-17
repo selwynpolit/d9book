@@ -7,8 +7,10 @@ dependencies:
     - field.field.node.event.field_event_category
     - field.field.node.event.field_event_smart_date
     - field.field.node.event.field_presenter
+    - field.field.node.event.field_url
     - node.type.event
   module:
+    - link
     - path
     - smart_date
     - text
@@ -61,6 +63,14 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_url:
+    type: link_default
+    weight: 125
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   path:
     type: path

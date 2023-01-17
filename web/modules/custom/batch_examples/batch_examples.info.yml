@@ -2,6 +2,5 @@ name: Batch Examples
 type: module
 description: Examples of the Batch API
 package: DrupalBook
-core: 8.x
-core_version_requirement: ^8 || ^9 || ^10
+core_version_requirement: ^9 || ^10
 

@@ -1,0 +1,7 @@
+custom_modal.modal:
+  path: 'modal-example/modal'
+  defaults:
+    _title: 'Modal'
+    _controller: '\Drupal\custom_modal\Controller\CustomModalController::modal'
+  requirements:
+    _permission: 'access content'

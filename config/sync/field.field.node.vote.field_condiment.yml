@@ -1,0 +1,19 @@
+uuid: fd1cac76-51ae-4840-b688-b90da2592c26
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_condiment
+    - node.type.vote
+id: node.vote.field_condiment
+field_name: field_condiment
+entity_type: node
+bundle: vote
+label: Condiment
+description: 'Put your first, second, etc choice of favorite condiment'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

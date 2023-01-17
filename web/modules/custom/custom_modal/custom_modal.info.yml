@@ -1,0 +1,5 @@
+name: Custom Modal
+type: module
+description: Display a modal
+package: Custom
+core_version_requirement: ^9 || ^10

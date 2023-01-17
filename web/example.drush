@@ -1,0 +1,25 @@
+<?php
+
+//
+// This example demonstrates how to write a drush
+// script. These scripts are run with the php:script command.
+//
+use Drush\Drush;
+
+$this->output()->writeln("Hello world!");
+$this->output()->writeln("The extra options/arguments to this command were:");
+$this->output()->writeln(print_r($extra, true));
+
+//
+// We can check which site was bootstrapped via
+// the '@self' alias, which is defined only if
+// there is a bootstrapped site.
+//
+$self = Drush::aliasManager()->getSelf();;
+if (!$self->hasRoot()) {
+  $this->output()->writeln('No bootstrapped site.');
+}
+else {
+  $this->output()->writeln('The following site is bootstrapped:');
+  $this->output()->writeln(print_r($self->legacyRecord(), true));
+}

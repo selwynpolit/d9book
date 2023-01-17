@@ -1,14 +1,15 @@
+# Controller with buttons to open modals
 modal_examples.example1:
   path: '/modal-examples/example1'
   defaults:
-    _title: 'Modal Examples'
-    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController::build'
+    _title: 'Modal Examples (example1)'
+    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController::buildExample1'
   requirements:
     _permission: 'access content'
 modal_examples.modal1:
   path: '/modal-examples/modal1/{program_id}/{type}'
   defaults:
-    _title: 'Modal 1'
+    _title: 'Modal 1 with parameters'
     _controller: '\Drupal\modal_examples\Controller\ModalExamplesController::buildModal1'
   requirements:
     _permission: 'access content'
@@ -18,16 +19,16 @@ modal_examples.modal1:
       type:
     no_cache: 'TRUE'
 
-
-
+# Form with buttons to open modals
 modal_examples.form1:
   path: '/modal-examples/form1'
   defaults:
     _form: 'Drupal\modal_examples\Form\ExampleForm'
-    _title: 'Form with a button to popup a modal form'
+    _title: 'Form with buttons to display more modals (form1)'
   requirements:
     _permission: 'administer site configuration'
 
+# You can't use this route directly
 modal_examples.modal_form:
   path: '/modal-examples/modal_form'
   defaults:
@@ -35,5 +36,41 @@ modal_examples.modal_form:
     _controller: '\Drupal\modal_examples\Controller\ModalExamplesController2::openModalForm'
   requirements:
     _permission: 'administer site configuration'
-  options:
-    _admin_route: TRUE
+#  options:
+#    _admin_route: TRUE
+
+# You can't use this route directly
+# route for modal to display a teaser of a node in a dialog
+modal_examples.modal2:
+  path: '/modal-examples/create-my-dialog'
+  defaults:
+    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController2::createDialogFromNode'
+  requirements:
+    _access: 'TRUE'
+
+# Controller with buttons to open modals
+modal_examples.example2:
+  path: '/modal-examples/example2'
+  defaults:
+    _title: 'Modal Examples (example2)'
+    _controller: '\Drupal\modal_examples\Controller\ModalExamplesController2::buildExample2'
+  requirements:
+    _permission: 'access content'
+
+# Simple form for slide-in modals
+modal_examples.form2:
+  path: '/modal-examples/form2'
+  defaults:
+    _form: 'Drupal\modal_examples\Form\ExampleForm2'
+    _title: 'Simple example form (form2)'
+  requirements:
+    _permission: 'access content'
+
+# Form with buttons to open modals
+modal_examples.login_form:
+  path: '/modal-examples/login-form'
+  defaults:
+    _title: 'Simple example form (form2)'
+    _controller: 'Drupal\modal_examples\Controller\ModalExamplesController2::buildLoginForm'
+  requirements:
+    _permission: 'access content'

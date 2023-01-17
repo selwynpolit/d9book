@@ -1,0 +1,5 @@
+name: Phil
+type: module
+description: Ajax dialogs from https://www.hashbangcode.com/article/drupal-9-creating-ajax-dialogs
+package: Custom
+core_version_requirement: ^9 || ^10
