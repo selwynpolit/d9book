@@ -42,7 +42,8 @@
         "drupal/smart_date": "^3.0",
         "drupal/token": "^1.7",
         "drupal/twig_tweak": "^3",
-        "drush/drush": "^11.1"
+        "drush/drush": "^11.1",
+        "kint-php/kint": "^5.0"
     },
     "conflict": {
         "drupal/drupal": "*"
