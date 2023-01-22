@@ -13,9 +13,9 @@
   - [Formatting a date range for display](#formatting-a-date-range-for-display)
   - [Saving date fields](#saving-date-fields)
   - [Create DrupalDateTime objects](#create-drupaldatetime-objects)
-    - [Create DrupalDateTime with timezones](#create-drupaldatetime-with-timezones)
-  - [Create a DateTime object and display as a year only](#create-a-datetime-object-and-display-as-a-year-only)
-  - [Custom formatting node created time with Drupal date.formatter service](#custom-formatting-node-created-time-with-drupal-dateformatter-service)
+    - [Create DrupalDateTime objects with timezones](#create-drupaldatetime-objects-with-timezones)
+  - [Create a DrupalDateTime object and display as a year only](#create-a-drupaldatetime-object-and-display-as-a-year-only)
+  - [Formatting node created time with Drupal date.formatter service](#formatting-node-created-time-with-drupal-dateformatter-service)
   - [Date arithmetic example 1](#date-arithmetic-example-1)
   - [Date arithmetic example 2](#date-arithmetic-example-2)
   - [Comparing DrupalDateTime values](#comparing-drupaldatetime-values)
@@ -33,7 +33,7 @@
     - [Date field storage](#date-field-storage)
     - [DrupalDateTime API reference](#drupaldatetime-api-reference)
     - [UTC](#utc)
-    - [Unix Epoch Timestamps](#unix-epoch-timestamps)
+    - [Unix epoch timestamps](#unix-epoch-timestamps)
     - [Links](#links)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dates)
@@ -49,7 +49,7 @@
 ## Overview
 
 
-Drupal Date fields are stored as varchar 20 UTC date strings (e.g. `2022-06-30T12:00:00`) while node `created` and `changed` fields are stored as int 11 containing Unix Epoch timestamps (e.g. `1656379475`) in the `node_field_data table` (fields: `created` and `changed`).
+Drupal Date fields are stored as varchar 20 UTC date strings (e.g. `2022-06-30T12:00:00`) while node `created` and `changed` fields are stored as int 11 containing Unix epoch timestamps (e.g. `1656379475`) in the `node_field_data table` (fields: `created` and `changed`).
 
 
 Accessing date fields comes in many flavors:
@@ -159,7 +159,6 @@ Here is the entire function as implemented as a `hook_preprocess_node` function 
 
 
 ```php
-
 use Drupal\Core\Datetime\DrupalDateTime;
 
 
@@ -247,7 +246,7 @@ print $date->format('l, F j, Y - H:i');
 print $date->format('d-m-Y: H:i A');
 ```
 
-### Create DrupalDateTime with timezones
+### Create DrupalDateTime objects with timezones
 
 ```php
 // Use current date & time.
@@ -270,7 +269,7 @@ Nice article on writing date fields programmatically with more info on UTC timez
 
 
 
-## Create a DateTime object and display as a year only
+## Create a DrupalDateTime object and display as a year only
 
 This code creates a `Drupal\Core\Datetime\DrupalDateTime` object and returns the year in a render array with some markup. `DrupalDateTimes` are derived from `DateTimePlus` which is a wrapper for PHP `DateTime` class.
 
@@ -289,16 +288,27 @@ public function build() {
 
 
 
-## Custom formatting node created time with Drupal date.formatter service
+## Formatting node created time with Drupal date.formatter service
 
-If you want to use a custom date format
+If you want to use a custom date format for your created node date/time you can use one of the methods shown below:
 
 ```php
-$date = $node->getCreatedTime();
+$created_date = $node->getCreatedTime();
 
-// You could also use Drupal's format_date() function, or some custom PHP date formatting.
-// $format is a PHP date string like 'M Y'
-$variables['date'] = \Drupal::service('date.formatter')->format($date, 'custom', '$format'); 
+// Displays 05/04/2022 3:49 pm
+$formatted_created_date = \Drupal::service('date.formatter')->format($created_date, 'custom', 'm/d/Y g:i a');
+
+// Displays 2022-05-04 15:49:30
+$formatted_created_date = \Drupal::service('date.formatter')->format($created_date, 'custom', 'Y-m-d H:i:s');
+
+// Displays Wed, 05/04/2022 - 15:49
+$formatted_created_date = \Drupal::service('date.formatter')->format($created_date);
+
+
+// Create a DrupalDateTime object and use ->format()
+$created_date = $event_node->getCreatedTime();
+$cdt = DrupalDateTime::createFromTimestamp($created_date);
+$formatted_created_date = $cdt->format('m/d/Y g:i a');
 ```
 See PHP Date format strings:
 <https://www.php.net/manual/en/datetime.format.php#:~:text=format%20parameter%20string-,format,-character>
@@ -478,10 +488,7 @@ protected function loadFirstOpinionYear($term_id) {
   }
   $time = $node->get('created')->value;
 
-  // You can use either this.
-  $d = new DrupalDateTime("@$time"); 
-  // Or this..
-  $d = new \DateTime("@$time"); 
+  $d = DrupalDateTime::createFromTimestamp($time);
   $str = $d->format('Y-m-d H:i:s');
   return $str;
 }
@@ -853,7 +860,7 @@ Coordinated Universal Time or UTC is the primary time standard by which the worl
 
 
 
-### Unix Epoch Timestamps
+### Unix epoch timestamps
 
 From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time as a running total of seconds. This count starts at the Unix Epoch on January 1st, 1970 at UTC. Therefore, the unix time stamp is merely the number of seconds between a particular date and the Unix Epoch. It should also be pointed out (thanks to the comments from visitors to this site) that this point in time technically does not change no matter where you are located on the globe. This is very useful to computer systems for tracking and sorting dated information in dynamic and distributed applications both online and client side.
 
