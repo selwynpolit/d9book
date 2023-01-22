@@ -5,78 +5,118 @@
 </h3>
 
 - [Dates and Times](#dates-and-times)
-  - [Get a Date Field](#get-a-date-field)
-  - [Formatting date fields](#formatting-date-fields)
-  - [Formatting a DateTime as a year only](#formatting-a-datetime-as-a-year-only)
+  - [Overview](#overview)
+  - [Retrieve a date field](#retrieve-a-date-field)
+  - [Retrieve date range field](#retrieve-date-range-field)
+  - [Formatting date range fields](#formatting-date-range-fields)
   - [Formatting a date string with an embedded timezone](#formatting-a-date-string-with-an-embedded-timezone)
-  - [Date Range fields: Load start and end values](#date-range-fields-load-start-and-end-values)
   - [Formatting a date range for display](#formatting-a-date-range-for-display)
-  - [Saving Date Fields](#saving-date-fields)
-  - [Create new DrupalDateTime objects](#create-new-drupaldatetime-objects)
-  - [Add some days to a date field and save](#add-some-days-to-a-date-field-and-save)
-  - [Custom Date formatting of created time with Drupal date.formatter service](#custom-date-formatting-of-created-time-with-drupal-dateformatter-service)
-  - [Date arithmetic](#date-arithmetic)
+  - [Saving date fields](#saving-date-fields)
+  - [Create DrupalDateTime objects](#create-drupaldatetime-objects)
+    - [Create DrupalDateTime with timezones](#create-drupaldatetime-with-timezones)
+  - [Create a DateTime object and display as a year only](#create-a-datetime-object-and-display-as-a-year-only)
+  - [Custom formatting node created time with Drupal date.formatter service](#custom-formatting-node-created-time-with-drupal-dateformatter-service)
+  - [Date arithmetic example 1](#date-arithmetic-example-1)
+  - [Date arithmetic example 2](#date-arithmetic-example-2)
   - [Comparing DrupalDateTime values](#comparing-drupaldatetime-values)
-  - [Comparing Dates (without comparing times)](#comparing-dates-without-comparing-times)
-  - [Comparing Dates to see if a node has expired?](#comparing-dates-to-see-if-a-node-has-expired)
+  - [Comparing dates (without comparing times)](#comparing-dates-without-comparing-times)
+  - [Comparing Dates to see if a node has expired](#comparing-dates-to-see-if-a-node-has-expired)
   - [Node creation and changed dates](#node-creation-and-changed-dates)
-  - [Query the creation date (among other things) using entityQuery](#query-the-creation-date-among-other-things-using-entityquery)
+  - [Query the creation date using entityQuery](#query-the-creation-date-using-entityquery)
+  - [Query a date field with no time](#query-a-date-field-with-no-time)
+  - [Query a date field with a time](#query-a-date-field-with-a-time)
   - [Smart Date](#smart-date)
     - [Smart date: Load and format](#smart-date-load-and-format)
     - [Smart date: all-day](#smart-date-all-day)
     - [Smart date: Range of values](#smart-date-range-of-values)
   - [Reference](#reference)
+    - [Date field storage](#date-field-storage)
     - [DrupalDateTime API reference](#drupaldatetime-api-reference)
-    - [PHP Date format strings:](#php-date-format-strings)
     - [UTC](#utc)
-    - [Unix Timestamps](#unix-timestamps)
+    - [Unix Epoch Timestamps](#unix-epoch-timestamps)
+    - [Links](#links)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dates)
 
+---
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-Date fields in Drupal are stored in UTC date strings (e.g. `2022-06-30T12:00:00`) while node created and changed values are stored as Unix Epoch timestamps (e.g. `1656379475`) in the `node_field_data table` (fields: `created` and `changed`).
+---
 
-## Get a Date Field
 
-You can retrieve date fields a few different ways. Remember, they are stored in UTC date strings e.g. `2022-06-30T12:00:00`
+## Overview
+
+
+Drupal Date fields are stored as varchar 20 UTC date strings (e.g. `2022-06-30T12:00:00`) while node `created` and `changed` fields are stored as int 11 containing Unix Epoch timestamps (e.g. `1656379475`) in the `node_field_data table` (fields: `created` and `changed`).
+
+
+Accessing date fields comes in many flavors:
 
 ```php
-//returns whatever the string is e.g. 2024-08-31
-$end_date = $contract_node->field_contract_end_date->value;
 
-// returns unix timestamp e.g. 1725105600
-$end_date = $contract_node->field_contract_end_date->date->getTimestamp();
+// Returns 2021-12-27 for a date only field.
+$event_date = $event_node->field_event_date->value;
 
-// returns a DrupalDateTime object with all its goodness
- $end_date = $contract_node->field_contract_end_date->date;
+// Returns 2021-12-28T16:00:00 for a date field with time.
+$event_datetime = $event_node->field_event_datetime->value;
 
-//Format the date nicely for output
+// Return a Unix epoch timestamp.
+$timestamp = $event_node->field_date->date->getTimestamp();
+
+// Return a formatted date string.
+$date_formatted = $event_node->field_date->date->format('Y-m-d H:i:s');
+```
+
+Using `$node->field_mydatefield->date` is ideal as it returns a `DrupalDateTime` class which gives you all sorts of goodness including date math capabilities and formatting. 
+
+If you need to do calculations involving Unix timestamps, then using `$node->field_mydatefield->getTimestamp()` is useful although `DrupalDateTime` is probably better. More about DrupalDateTime at <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x>. Also at <https://drupal.stackexchange.com/questions/252333/how-to-get-formatted-date-string-from-a-datetimeitem-object>
+
+See [Nodes and Fields chapter Date fields section ](book/nodes_n_fields.html#date-fields) for more on date fields
+
+
+## Retrieve a date field
+
+You can retrieve date fields a few different ways. They are stored as varchar 20 UTC date strings e.g. `2022-06-30T12:00:00`
+
+```php
+// For a date only field, this returns a string like: 2024-08-31.
+// For a date field with time, this returns: 2021-12-28T16:00:00.
+$end_date = $contract_node->field_contract_date->value;
+
+// Returns unix timestamp e.g. 1725105600
+$end_date = $contract_node->field_contract_date->date->getTimestamp();
+
+// Returns a DrupalDateTime object with all its goodness which you can format.
+ $end_date = $contract_node->field_contract_date->date;
  $formatted_date = $end_date->format('m/d/y');
 ```
 
-From <https://drupal.stackexchange.com/questions/252333/how-to-get-formatted-date-string-from-a-datetimeitem-object>
 
-A date field has two properties, 
--   value to store the date in UTC and 
--   date, a computed field returning a DrupalDateTime object, on which you can use the methods getTimestamp() or format():
+
+## Retrieve date range field
+
+To retrieve a date range field from a node, use `value` and `end_value` for the stand and end dates:
 
 ```php
-// Get unix timestamp.
-$timestamp = $node->field_date->date->getTimestamp();
-// Get a formatted date.
-$date_formatted = $node->field_date->date->format('Y-m-d H:i:s');
+
+// Magic getters.
+$start = $event_node->field_event_date_range->value
+$end = $event_node->field_event_date_range->end_value
+
+// Using get().
+$start = $event_node->get('field_event_date_range')->value
+$end = $event_node->get('field_event_date_range')->end_value
+  
+// Using getValue().
+$start = $event_node->get('field_event_date_range')->getValue()[0]['value'];
+$end = $event_node->get('field_event_date_range')->getValue()[0]['end_value'];
 ```
 
-Using `$node->field_mydatefield->date` is ideal as it returns a `DrupalDateTime` class which gives you all sorts of goodness. More [about DrupalDateTime here](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x)
+## Formatting date range fields 
 
-If you need to do calculations involving Unix timestamps, then using `$node->field_mydatefield->getTimestamp()` is useful although `DrupalDateTime` can also do calculations.
-
-## Formatting date fields 
-
-Here we have a date field for start_date and another for end_date.
+Here are two different examples for formatting date fields:
 
 ```php
 // formatted start date
@@ -85,23 +125,11 @@ $start_date_formatted = $node->field_date->start_date->format('Y-m-d H:i:s');
 $end_date_formatted = $node->field_date->end_date->format('Y-m-d H:i:s');
 ```
 
-See [Nodes and Fields](book/nodes_n_fields.html) Date Fields section for more on date fields
+Use this link at php.net for date format strings <https://www.php.net/manual/en/datetime.format.php#:~:text=format%20parameter%20string-,format,-character>
 
-## Formatting a DateTime as a year only
 
-This code creates a `\DateTime` object and returns the year in a render array with some markup. It is probably better manners to use the  `Drupal\Core\Datetime\DrupalDateTime` class which is just a wrapper for `\DateTime`.
 
-This example is used in a block build function
 
-```php
-public function build() {
-  $date = new \DateTime();
-  return [
-    '#markup' => t('Copyright @year&copy; My Company', [
-      '@year' => $date->format('Y'),
-    ]), ];
-}
-```
 
 ## Formatting a date string with an embedded timezone
 
@@ -116,29 +144,18 @@ $newstring = $ddt->format("Y-m-d\Th:i:s");
 $node->set('field_date', $newstring);
 ```
 
-## Date Range fields: Load start and end values
-
-Retrieve a date range field from a node. Specify value for the start date and end_value for the end date.
-
-```php
-$start = $node->get('field_cn_start_end_dates')->value
-$end = $node->get('field_cn_start_end_dates')->end_value
-```
-
 ## Formatting a date range for display
 
-Making a date range like `3/30/2019 - 3/31/2019` show like `Mar 30-31, 2019`.
+This code shows how to load a date range field from a node. It will ordinarily display like `3/30/2019 - 3/31/2023` however we want it to display like `Mar 30-31, 2023`. 
 
-If you are viewing a node, there will also be a way to get to the node's fields like this where we are looking at a date range:
-
-From a .theme file:
+First we retrieve the starting and ending value like this:
 
 ```php
-$from = $variables["node"]->get('field_date')->getValue()[0]['value'];
-$to = $variables["node"]->get('field_date')->getValue()[0]['end_value'];
+$from = $node->get('field_date')->getValue()[0]['value'];
+$to = $node->get('field_date')->getValue()[0]['end_value'];
 ```
 
-Here is an example of a `hook_preprocess_node` function  in a `.theme` file. We are creating a `scrunch_date` variable to be rendered.  Check out the section that starts with `$variables['scrunch_date'] =`
+Here is the entire function as implemented as a `hook_preprocess_node` function  in a `.theme` file. We are creating a `scrunch_date` variable to be rendered via a Twig template as shown below:
 
 
 ```php
@@ -175,6 +192,8 @@ function vst_preprocess_node(&$variables) {
   }
 //  For debugging
 // kint($variables);
+// or 
+// kpm($variables);
 }
 ```
 
@@ -198,21 +217,21 @@ From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
 {% endraw %}
 ```
 
-## Saving Date Fields
+## Saving date fields
 
-Date fields in Drupal are stored in strings and when you use `get()` or `set()`, they return strings.
+Date fields in Drupal are stored as UTC date strings (e.g. `2022-06-30T12:00:00`) and when you use `get()` or `set()`, they return strings. If you want to manipulate them, convert them to DrupalDateTime objects, then convert them back to strings for saving.
 
 ```php
 $node->set('field_date', '2025-12-31');
 $node->set('field_datetime', '2025-12-31T23:59:59');
-// It’s different for created and changed.
+// Use this for storing created and changed.
 $node->set('created', '1760140799');
 $node->save();
 ```
 
-If you want to manipulate them, convert them to DrupalDateTime objects, then convert them back to strings for saving.
 
-## Create new DrupalDateTime objects
+
+## Create DrupalDateTime objects
 
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -221,25 +240,20 @@ $date = DrupalDateTime::createFromFormat('j-M-Y', '20-Jul-2022');
 
 // Use current date and time 
 $date = new DrupalDateTime('now');  
-// format it 
-// prints nicely formatted like Tue, Jul 16, 2022 - 11:34:am
+// Format like Tue, Jul 16, 2022 - 11:34:am
 print $date->format('l, F j, Y - H:i'); 
-
 // OR
-
-// Use current date and time 
-$date = new DrupalDateTime('now');
-
-// prints nicely formatted like 16-07-2022: 11:43 AM
+// Format like 16-07-2022: 11:43 AM
 print $date->format('d-m-Y: H:i A');
 ```
 
-How about with timezones?
+### Create DrupalDateTime with timezones
 
 ```php
+// Use current date & time.
 $date = new DrupalDateTime();
 $date->setTimezone(new \DateTimeZone('America/Chicago'));
-// Prints current time for the given time zone like 07/16/2022 10:59 am
+// Print current time for the given time zone e.g. 01/23/2023 10:00 pm
 print $date->format('m/d/Y g:i a');
 
 // Another variation using specific date and UTC zone
@@ -251,32 +265,31 @@ print $date->format('m/d/Y g:i a');
 
 UTC: <https://en.wikipedia.org/wiki/Coordinated_Universal_Time>
 
-Nice article on writing date fields programmatically with more info on
-UTC timezone at
+Nice article on writing date fields programmatically with more info on UTC timezone at
 <https://gorannikolovski.com/blog/set-date-field-programmatically#:~:text=Get%20the%20date%20field%20programmatically,)%3B%20%2F%2F%20For%20datetime%20fields>.
 
-## Add some days to a date field and save
 
-The code below shows adding `$days` (an integer) to the date value retrieved from the field: `field_cn_start_date`.
 
-Don't forget to add the use statement.
+## Create a DateTime object and display as a year only
+
+This code creates a `Drupal\Core\Datetime\DrupalDateTime` object and returns the year in a render array with some markup. `DrupalDateTimes` are derived from `DateTimePlus` which is a wrapper for PHP `DateTime` class.
 
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
 
-$start_date_val = $node->get('field_cn_start_date')->value;
-$days = intval($node->get('field_cn_suspension_length')->value) - 1;
-
-//$end_date = DrupalDateTime::createFromFormat('Y-m-d H:i:s', $start_date_val . " 00:00:00");
-$end_date = DrupalDateTime::createFromFormat('Y-m-d', $start_date_val );
-$end_date->modify("+$days days");
-$end_date = $end_date->format("Y-m-d");
-
-$node->set('field_cn_end_date', $end_date);
-$node->save();
+public function build() {
+  $date = new DrupalDateTime();
+  return [
+    '#markup' => t('Copyright @year&copy; My Company', [
+      '@year' => $date->format('Y'),
+    ]), ];
+}
 ```
 
-## Custom Date formatting of created time with Drupal date.formatter service
+
+
+
+## Custom formatting node created time with Drupal date.formatter service
 
 If you want to use a custom date format
 
@@ -290,7 +303,26 @@ $variables['date'] = \Drupal::service('date.formatter')->format($date, 'custom',
 See PHP Date format strings:
 <https://www.php.net/manual/en/datetime.format.php#:~:text=format%20parameter%20string-,format,-character>
 
-## Date arithmetic
+
+## Date arithmetic example 1
+
+The code below shows how to add  `$days` (an integer) to the date value retrieved from the field: `field_cn_start_date` and save that to the field `field_cn_end_date`.
+
+
+```php
+use Drupal\Core\Datetime\DrupalDateTime;
+
+$start_date_val = $node->get('field_cn_start_date')->value;
+$days = intval($node->get('field_cn_suspension_length')->value) - 1;
+$end_date = DrupalDateTime::createFromFormat('Y-m-d', $start_date_val );
+$end_date->modify("+$days days");
+$end_date = $end_date->format("Y-m-d");
+
+$node->set('field_cn_end_date', $end_date);
+$node->save();
+```
+
+## Date arithmetic example 2
 
 Here is an example from a module showing a `hook_entity_type_presave()` where some data is changed as the node is being saved. The date arithmetic is pretty simple but the rest of the code is kinda messy.
 
@@ -309,7 +341,7 @@ The rest of this code does some convoluted wrangling to figure out end dates bas
 /**
  * Implements hook_ENTITY_TYPE_presave().
  */
-function oag_mods_node_presave(NodeInterface $node) {
+function ogg_mods_node_presave(NodeInterface $node) {
   switch ($node->getType()) {
     case 'cat_notice':
       $end_date = NULL != $node->get('field_cn_start_end_dates')->end_value ? $node->get('field_cn_start_end_dates')->end_value : 'n/a';
@@ -355,7 +387,7 @@ function oag_mods_node_presave(NodeInterface $node) {
 
 ## Comparing DrupalDateTime values
 
-DrupalDateTimes are derived from DateTimePlus which is a wrapper for PHP DateTime class. That functionality allows you to do comparisons. It is probably better manners to use DrupalDateTime instead of DateTime.
+The `DrupalDateTime` class extends the `DateTimePlus` class which is a wrapper for PHP `DateTime` class. That functionality allows you to do comparisons. It is probably better manners to use `DrupalDateTime` instead of `DateTime` but here is some `DateTime` code showing how to compare `DateTimes`.
 
 ```php
 date_default_timezone_set('Europe/London');
@@ -372,20 +404,22 @@ bool(true)
 bool(false)
 ```
 
-## Comparing Dates (without comparing times)
+## Comparing dates (without comparing times)
 
 Use the setTime() function to remove the time part of a datetime so we can make comparisons of just the date.
 
 From a form validation in a `.module` file.
 
 ```php
-function oag_mods_cn_form_validate($form, FormStateInterface $form_state) {
+function ogg_mods_cn_form_validate($form, FormStateInterface $form_state) {
     $start_date = $form_state->getValue('field_cn_start_date');
     if ($start_date) {
       $start_date = $start_date[0]['value'];
       $start_date->setTime(0, 0, 0);
       $now = new Drupal\Core\Datetime\DrupalDateTime();
+      // Subtract 2 days.
       $now->modify("-2 days");
+      // Clear the time.
       $now->setTime(0, 0, 0);
 
       \Drupal::messenger()->addMessage("Start date = $start_date");
@@ -398,120 +432,281 @@ function oag_mods_cn_form_validate($form, FormStateInterface $form_state) {
 }
 ```
 
-## Comparing Dates to see if a node has expired?
+## Comparing Dates to see if a node has expired
 
-Checking to see if the value in the field field_expiration_date has passed. The field_expiration_date is a standard Drupal date field in a
-node.
-
-From a controller:
+This code is used to check if the value in the field `field_expiration_date` has passed. The `field_expiration_date` is a standard Drupal date field in a node. In this example, the client wanted to be able to specify the expiration date for nodes.
 
 ```php
 $source_node = $node_storage->load($nid);
 $expiration_date = $source_node->field_expiration_date->value;
 
-// Use expiration date to un-publish expired resellers to hide them.
+// Use expiration date to un-publish expired reseller nodes to hide them.
 $status = 1;
 if ($expiration_date) {
   $expirationDate = DrupalDateTime::createFromFormat('Y-m-d', $expiration_date);
   $now = new DrupalDateTime();
   if ($expiration_date < $now) {
-    $status = 0;
+ 		// When expired, unpublish the node.
+    $node->set(‘status’, 0);
+    $node->save();  }
   }
 }
-// When status is 0, unpublish the node like
-// $node->set(‘status’, $status);
-// $node->save();
 ```
 
-TODO: date fields are stored in UTC. Need to factor in timezone. See https://en.wikipedia.org/wiki/Coordinated_Universal_Time
+It might be interesting to factor in the timezone as date fields are stored in UTC. See https://en.wikipedia.org/wiki/Coordinated_Universal_Time
 
 ## Node creation and changed dates
 
-Both `created` and `changed` are stored as Unix Epoch timestamps in the `node_field_data` table. Here is a function which does an `entityQuery` for a node and returns a formatted string version of the creation date.
+Here is a function which does an `entityQuery` for a node and returns a formatted string version of the creation date. Both `created` and `changed` are stored as Unix epoch timestamps in the `node_field_data` table (int 11). 
 
 Note. This will handle epoch dates before 1970. You can also use `$node->get('changed')` to retrieve the changed date.
 
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
 
-  protected function loadFirstOpinionYear($term_id) {
-    $storage = \Drupal::entityTypeManager()->getStorage('node');
-    $query = \Drupal::entityQuery('node')
-      ->condition('status', 1)
-      ->condition('type', 'opinion')
-      ->condition('field_category', $term_id, '=')
-      ->sort('title', 'ASC') // or DESC
-      ->range(0, 1);
-    $nids = $query->execute();
-    if ($nids) {
-      $node = $storage->load(reset($nids));
-    }
-    $time = $node->get('created')->value;
-
-    $d = new DrupalDateTime("@$time"); //can use either this
-    $d = new \DateTime("@$time"); // or this..
-
-    $str = $d->format('Y-m-d H:i:s');
-    return $str;
+protected function loadFirstOpinionYear($term_id) {
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  $query = \Drupal::entityQuery('node')
+    ->condition('status', 1)
+    ->condition('type', 'opinion')
+    ->condition('field_category', $term_id, '=')
+    ->sort('title', 'ASC') // or DESC
+    ->range(0, 1);
+  $nids = $query->execute();
+  if ($nids) {
+    $node = $storage->load(reset($nids));
   }
+  $time = $node->get('created')->value;
+
+  // You can use either this.
+  $d = new DrupalDateTime("@$time"); 
+  // Or this..
+  $d = new \DateTime("@$time"); 
+  $str = $d->format('Y-m-d H:i:s');
+  return $str;
+}
 ```
 
-## Query the creation date (among other things) using entityQuery
+## Query the creation date using entityQuery
 
-Note. The `created` and `changed` fields use a Unix timestamp. This is an int 11 field in the database with a value like `1525302749` Drupal date fields data looks like `2019-05-15T21:32:00` (varchar 20)
 
-If you want to query a `date` field in a content type, you will have to dork around with the setTimezone stuff that is commented out below. More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
-
-and
-
-<https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
-
-From a controller:
+This controller example queries for any events for year 2022 with a matching taxonomy term id of 5.
 
 ```php
-  protected function loadOpinionForAYear($year, $term_id) {
-    $storage = \Drupal::entityTypeManager()->getStorage('node');
+  public function test2() {
 
-    // Get a date string suitable for use with entity query.
-    //    $date = new DrupalDateTime();  // now
+    $str = "Results";
+    $year = '2022';
+    $term_id = 5;
+    $titles = $this->eventsForYear($year, $term_id);
+    $count = count($titles);
+    $str .= "<br/>Found $count titles for query $year, term_id $term_id";
+
+    foreach ($titles as $title) {
+      $str .= "<br/>$title";
+    }
+    $render_array['content'] = [
+      '#type' => 'item',
+      '#markup' => $str,
+    ];
+    return $render_array;
+  }
+
+
+  private function eventsForYear($year, $term_id): array {
+    // Build valid range of start dates/times.
     $format = 'Y-m-d H:i';
     $start_date = DrupalDateTime::createFromFormat($format, $year . "-01-01 00:00");
     $end_date = DrupalDateTime::createFromFormat($format, $year . "-12-31 23:59");
 
-    $start_date = $start_date->getTimestamp();
-    $end_date = $end_date->getTimestamp();
-
-//    $start_date->setTimezone(new \DateTimeZone(DateTimeItemInterface::STORAGE_TIMEZONE));
-//    $end_date->setTimezone(new \DateTimeZone(DateTimeItemInterface::STORAGE_TIMEZONE));
-//    $start_date = $start_date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
-//    $end_date = $end_date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
-
-// Set the condition.
-//    $query->condition('field_date.value', $start_date, '>=');
-//    $query->condition('field_date.value', $end_date, '<=');
+    $start_date_ts = $start_date->getTimestamp();
+    $end_date_ts = $end_date->getTimestamp();
 
     $query = \Drupal::entityQuery('node')
       ->condition('status', 1)
-      ->condition('type', 'opinion')
-      ->condition('field_category', $term_id, '=')
-      ->condition('created', $start_date, '>=')
-      ->condition('created', $end_date, '<=')
+      ->condition('type', 'event')
+      ->condition('field_event_category', $term_id, '=')
+      ->condition('created', $start_date_ts, '>=')
+      ->condition('created', $end_date_ts, '<=')
       ->sort('title', 'DESC');
     $nids = $query->execute();
     $titles = [];
     if ($nids) {
-      $nodes = $storage->loadMultiple($nids);
-      foreach ($nodes as $node) {
+      foreach ($nids as $nid) {
+        $node = Node::load($nid);
         $titles[]= $node->getTitle();
       }
     }
     return $titles;
   }
+
 ```
+
+
+
+
+Read more in the article:  Date (range) fields and Entity Query from February 2018  at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
+
+and
+
+this Stack exchange question at <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
+
+
+
+## Query a date field with no time
+
+Drupal date fields can be configured to store the `date and time` or only the `date`. Looking in the database, you might notice that a date-only field is stored like: `2021-12-27` which means you can query just using a string.  It probably is wiser to use DrupalDateTime like this:
+
+```php
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+
+public function test4() {
+
+  // Date-only fields are stored in the database like: '2021-12-27';
+
+  // Get a date string suitable for use with entity query.
+  $date = DrupalDateTime::createFromFormat('j-M-Y', '27-Dec-2021');
+  $date->setTimezone(new \DateTimeZone(DateTimeItemInterface::STORAGE_TIMEZONE));
+  // NB. Specify the date-only storage format - not the datetime storage format!
+  $query_date = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+
+  // Query using =.
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'event')
+    ->condition('status', 1)
+    ->condition('field_event_date.value', $query_date, '=')
+    ->sort('title', 'ASC');
+  $nids = $query->execute();
+  $count = count($nids);
+
+  $str = "Results";
+  $str .= "<br/>Found $count events for field_event_date = $query_date";
+  foreach ($nids as $nid) {
+    $event_node = Node::load($nid);
+    $title = $event_node->getTitle();
+    $date = $event_node->field_event_date->value;
+    $str .= "<br/>$title - date: $date";
+  }
+  $str .= "<br/>";
+
+	// Query using >.
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'event')
+    ->condition('status', 1)
+    ->condition('field_event_date.value', $query_date, '>')
+    ->sort('title', 'ASC');
+  $nids = $query->execute();
+  $count = count($nids);
+
+  $str .= "<br/>Found $count events for field_event_date > $query_date";
+
+  foreach ($nids as $nid) {
+    $event_node = Node::load($nid);
+    $title = $event_node->getTitle();
+    $date = $event_node->field_event_date->value;
+    $str .= "<br/>$title - date: $date";
+  }
+
+  $render_array['content'] = [
+    '#type' => 'item',
+    '#markup' => $str,
+  ];
+  return $render_array;
+}
+```
+
+
+
+
+## Query a date field with a time
+
+
+```php
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+  
+	/*
+   * Query a date field with a time.
+   */
+  public function test3() {
+
+    // Get a date string suitable for use with entity query.
+    $date = new DrupalDateTime();
+    // This is a date/time from my local timezone.
+    $date = DrupalDateTime::createFromFormat('d-m-Y: H:i A', '28-12-2021: 10:00 AM');
+    $date->setTimezone(new \DateTimeZone(DateTimeItemInterface::STORAGE_TIMEZONE));
+    $query_date = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
+
+    $str = "Results";
+
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'event')
+      ->condition('status', 1)
+      ->condition('field_event_datetime.value', $query_date, '=')
+      ->sort('title', 'ASC');
+    $nids = $query->execute();
+    $count = count($nids);
+
+    $print_date = $date->format('d-m-Y: H:i A');
+    $str .= "<br/><strong>$count event(s) for field_event_datetime = $print_date (UTC)</strong> ";
+    $date->setTimezone(new \DateTimeZone('America/Chicago'));
+    $print_date = $date->format('d-m-Y: H:i A');
+    $str .= "<br/>For my timezone (America/Chicago), that is $print_date";
+
+    foreach ($nids as $nid) {
+      $event_node = Node::load($nid);
+      $title = $event_node->getTitle();
+      $display_date = $event_node->field_event_datetime->value;
+      $str .= "<br/>$title - date: $display_date";
+    }
+    $str .= "<br/>";
+
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'event')
+      ->condition('status', 1)
+      ->condition('field_event_datetime.value', $query_date, '>')
+      ->sort('title', 'ASC');
+    $nids = $query->execute();
+    $count = count($nids);
+
+    $print_date = $date->format('d-m-Y: H:i A');
+    $str .= "<br/><strong>$count event(s) for field_event_datetime > $print_date (UTC)</strong> ";
+    $date->setTimezone(new \DateTimeZone('America/Chicago'));
+    $print_date = $date->format('d-m-Y: H:i A');
+    $str .= "<br/>For my timezone (America/Chicago), that is $print_date";
+
+    foreach ($nids as $nid) {
+      $event_node = Node::load($nid);
+      $title = $event_node->getTitle();
+      $display_date = $event_node->field_event_datetime->value;
+      $str .= "<br/>$title - date: $display_date";
+    }
+    $str .= "<br/>";
+
+
+    $render_array['content'] = [
+      '#type' => 'item',
+      '#markup' => $str,
+    ];
+    return $render_array;
+  }
+```
+
+
+
+More in the article:  Date (range) fields and Entity Query from February 2018  at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
+
+and
+
+this Stack exchange question at <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
+
+
+
 
 ## Smart Date
 
-This module is super handy as it fills in lots of the functionality that Drupal core dates lack. From <https://www.drupal.org/project/smart_date>
+This module provides the date field that fills in all the gaps in functionality that Drupal core dates lack. Maybe someday it will make it into Drupal core. 
 
 This module attempts to provide a more user-friendly date field, by upgrading the functionality of core in several ways:
 
@@ -527,7 +722,9 @@ Performance: Dates are stored as timestamps to improve performance, especially w
 
 Overall, the approach in this module is to leverage core's existing Datetime functionality, using the timestamp storage capability also in core, with some custom Javascript to add intelligence to the admin interface, and a suite of options to ensure dates can be formatted to suit any site's needs.
 
-Display configuration is managed through translatable Smart Date Formats, so your detailed display setup is easily portable between fields, views, and so on.
+Display configuration is managed through translatable Smart Date Formats, so your detailed display setup is easily portable between fields, views, and so on. (From <https://www.drupal.org/project/smart_date>)
+
+
 
 ### Smart date: Load and format
 
@@ -593,35 +790,96 @@ $rrule_index = $when->rrule_index;
 
 ## Reference
 
+### Date field storage
+
+Note. The node `created` and `changed` fields (int 11) use a Unix epoch timestamp stored in the `node_field_data` table. These have values like `1525302749`. Drupal date fields (with times) are stored as UTC strings in varchar 20 fields which look like   `2019-05-15T21:32:00`.
+
+
 ### DrupalDateTime API reference
 
-from https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x
+The `DrupalDateTime` class extends the `DateTimePlus` class which is a wrapper for PHP `DateTime` class. It extends the basic component and adds in Drupal-specific handling, like translation of the format() method.
 
-Extends class `DateTimePlus`.
-
-This class extends the basic component and adds in Drupal-specific handling, like translation of the format() method.
-
-Static methods in base class can also be used to create `DrupalDateTime` objects. For example:
+`DateTimePlus` has some static methods to create `DrupalDateTime` objects e.g.
 
 ```php
  DrupalDateTime::createFromArray(['year' => 2010, 'month' => 9, 'day' => 28]);
 ```
 
-### PHP Date format strings:
-<https://www.php.net/manual/en/datetime.format.php#:~:text=format%20parameter%20string-,format,-character>
+From https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/lib/Drupal/Component/Datetime/DateTimePlus.php:
+
+```php
+/**
+ * Wraps DateTime().
+ *
+ * This class wraps the PHP DateTime class with more flexible initialization
+ * parameters, allowing a date to be created from an existing date object,
+ * a timestamp, a string with an unknown format, a string with a known
+ * format, or an array of date parts. It also adds an errors array
+ * and a __toString() method to the date object.
+ *
+ * This class is less lenient than the DateTime class. It changes
+ * the default behavior for handling date values like '2011-00-00'.
+ * The DateTime class would convert that value to '2010-11-30' and report
+ * a warning but not an error. This extension treats that as an error.
+ *
+ * As with the DateTime class, a date object may be created even if it has
+ * errors. It has an errors array attached to it that explains what the
+ * errors are. This is less disruptive than allowing datetime exceptions
+ * to abort processing. The calling script can decide what to do about
+ * errors using hasErrors() and getErrors().
+ *
+ * @method $this add(\DateInterval $interval)
+ * @method static array getLastErrors()
+ * @method $this modify(string $modify)
+ * @method $this setDate(int $year, int $month, int $day)
+ * @method $this setISODate(int $year, int $week, int $day = 1)
+ * @method $this setTime(int $hour, int $minute, int $second = 0, int $microseconds = 0)
+ * @method $this setTimestamp(int $unixtimestamp)
+ * @method $this setTimezone(\DateTimeZone $timezone)
+ * @method $this sub(\DateInterval $interval)
+ * @method int getOffset()
+ * @method int getTimestamp()
+ * @method \DateTimeZone getTimezone()
+ */
+```
+
+
+
+(More at https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x )
 
 ### UTC
 
-From <https://en.wikipedia.org/wiki/Coordinated_Universal_Time>
+Coordinated Universal Time or UTC is the primary time standard by which the world regulates clocks and time. It is within about 1 second of mean solar time at 0° longitude (at the IERS Reference Meridian as the currently used prime meridian) such as UT1 and is not adjusted for daylight saving time. It is effectively a successor to Greenwich Mean Time (GMT). From From <https://en.wikipedia.org/wiki/Coordinated_Universal_Time>
 
-Coordinated Universal Time or UTC is the primary time standard by which the world regulates clocks and time. It is within about 1 second of mean solar time at 0° longitude (at the IERS Reference Meridian as the currently used prime meridian) such as UT1 and is not adjusted for daylight saving time. It is effectively a successor to Greenwich Mean Time (GMT).
 
-### Unix Timestamps
+
+### Unix Epoch Timestamps
 
 From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time as a running total of seconds. This count starts at the Unix Epoch on January 1st, 1970 at UTC. Therefore, the unix time stamp is merely the number of seconds between a particular date and the Unix Epoch. It should also be pointed out (thanks to the comments from visitors to this site) that this point in time technically does not change no matter where you are located on the globe. This is very useful to computer systems for tracking and sorting dated information in dynamic and distributed applications both online and client side.
 
+
+
+### Links
+
+
+
+* Drupal API DrupalDateTime Class https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x
+
+* From php.net, the definitive documentation on date format strings <https://www.php.net/manual/en/datetime.format.php#:~:text=format%20parameter%20string-,format,-character>
+
+* Coordinated Universal Time or UTC Wikipedia article  <https://en.wikipedia.org/wiki/Coordinated_Universal_Time>
+
+* Goran Nikolovski's article: Set date programatically from January 2019 
+  <https://gorannikolovski.com/blog/set-date-field-programmatically#:~:text=Get%20the%20date%20field%20programmatically,)%3B%20%2F%2F%20For%20datetime%20fields>
+
+* Patrick's article:  Date (range) fields and Entity Query from February 2018  <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
+
+  
+---
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
+
+---
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
