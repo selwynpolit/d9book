@@ -17,7 +17,6 @@ class DateExamplesController extends ControllerBase {
 
     $event_node = Node::load(25);
 
-    //Testing:
     // Returns a Drupal\datetime\Plugin\Field|FieldType\DateTimeFieldItemList.
     $d1 = $event_node->field_event_date;
     // Returns a Drupal\Core\DateTime\DrupalDateTime.
@@ -41,12 +40,33 @@ class DateExamplesController extends ControllerBase {
     // field_event_date_range end: 2021-12-30T23:00:00
     $event_date_range_end = $event_node->field_event_date_range->end_value;
 
-
     // returns a DrupalDateTime object with all its goodness
     $ddt_object = $event_node->field_event_datetime->date;
 
     //Format the date nicely for output: 12/28/21
     $formatted_date = $ddt_object->format('m/d/y');
+
+    // Format created date using a DrupalDateTime object.
+    $created_date = $event_node->getCreatedTime();
+    $cdt = DrupalDateTime::createFromTimestamp($created_date);
+    $formatted_created_date = $cdt->format('m/d/Y g:i a');
+
+    // Format created date using date.formatter service.
+    $created_date = $event_node->getCreatedTime();
+    // Get date formatter service.
+    $formatter = \Drupal::service('date.formatter');
+    // Parameters: format($timestamp, $type = 'medium', $format = '', $timezone = NULL, $langcode = NULL).
+    $formatted_created_date = $formatter->format($created_date, 'custom', 'm/d/Y g:i a');
+
+    // Displays 05/04/2022 3:49 pm
+    $formatted_created_date = \Drupal::service('date.formatter')->format($created_date, 'custom', 'm/d/Y g:i a');
+
+    // Displays 2022-05-04 15:49:30
+    $formatted_created_date = \Drupal::service('date.formatter')->format($created_date, 'custom', 'Y-m-d H:i:s');
+
+    // Displays Wed, 05/04/2022 - 15:49
+    $formatted_created_date = \Drupal::service('date.formatter')->format($created_date);
+
 
 
     $str = "Results: ";
@@ -57,6 +77,8 @@ class DateExamplesController extends ControllerBase {
     $str .= "<br/>field_event_date_range start: $event_date_range_start";
     $str .= "<br/>field_event_date_range end: $event_date_range_end";
     $str .= "<br/>Formatted date: $formatted_date";
+    $str .= "<br/>Unformatted created date: $created_date";
+    $str .= "<br/>Formatted created date: $formatted_created_date";
 
 
     // You can also retrieve a date range field using this syntax.
