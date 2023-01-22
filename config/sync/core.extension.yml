@@ -16,7 +16,9 @@ module:
   contact: 0
   contextual: 0
   ctools: 0
+  date_examples: 0
   datetime: 0
+  datetime_range: 0
   dblog: 0
   devel: 0
   devel_generate: 0
@@ -34,6 +36,7 @@ module:
   image: 0
   jquery_ui: 0
   jquery_ui_autocomplete: 0
+  jquery_ui_datepicker: 0
   jquery_ui_menu: 0
   link: 0
   menu_link_content: 0

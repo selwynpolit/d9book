@@ -6,6 +6,9 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.event.body
     - field.field.node.event.field_event_category
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_date_range
+    - field.field.node.event.field_event_datetime
     - field.field.node.event.field_event_smart_date
     - field.field.node.event.field_presenter
     - field.field.node.event.field_url
@@ -33,6 +36,9 @@ content:
     region: content
 hidden:
   field_event_category: true
+  field_event_date: true
+  field_event_date_range: true
+  field_event_datetime: true
   field_event_smart_date: true
   field_presenter: true
   field_url: true

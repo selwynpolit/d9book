@@ -1,0 +1,5 @@
+name: Date Examples
+type: module
+description: Date module for testing
+package: DrupalBook
+core_version_requirement: ^9 || ^10
