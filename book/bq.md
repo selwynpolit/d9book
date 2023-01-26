@@ -1,26 +1,36 @@
-# Batch Processing Using the Batch API
+# Batch Processing and the Drupal Queue System
+
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-- [Batch Processing Using the Batch API](#batch-processing-using-the-batch-api)
-  - [Using the Batch API with a form](#using-the-batch-api-with-a-form)
-  - [Using the Batch API from a controller](#using-the-batch-api-from-a-controller)
-  - [Using the Batch API with hook_update](#using-the-batch-api-with-hook_update)
-  - [Important rules about functions when using Batch API](#important-rules-about-functions-when-using-batch-api)
-  - [Looking at the source](#looking-at-the-source)
+- [Batch Processing and the Drupal Queue System](#batch-processing-and-the-drupal-queue-system)
+  - [Batch Processing Using the Batch API](#batch-processing-using-the-batch-api)
+    - [Overview](#overview)
+    - [Using the Batch API with a form](#using-the-batch-api-with-a-form)
+    - [Using the Batch API from a controller](#using-the-batch-api-from-a-controller)
+    - [Using the Batch API with hook\_update](#using-the-batch-api-with-hook_update)
+    - [Important rules about functions when using Batch API](#important-rules-about-functions-when-using-batch-api)
+    - [Looking at the source](#looking-at-the-source)
+  - [Queue System](#queue-system)
   - [Resources](#resources)
-- [Queue System](#queue-system)
-  - [Resources](#resources-1)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-bq)
 
+---
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-The Batch API provides a very useful set of functions that let you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's to be processed and use the batch API to process those chunks of ids.
+---
+
+## Batch Processing Using the Batch API
+
+
+### Overview
+
+The Batch API provides very useful functionality that let you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's to be processed and use the batch API to process those chunks of ids.
 
 In addition, you create a function to handle things once all the chunks are complete. You can also give the Batch API a bunch of work to do and have it figure out for itself when it is finished.
 
@@ -30,7 +40,10 @@ You can use the Batch API in controllers, forms, hook updates, and Drush command
 
 Most often you start a batch from a form where you fill in some options and click a button. In the case of a controller, the batch runs when the browser is pointed at a URL. Drush commands are typed in the terminal.
 
-## Using the Batch API with a form
+Although it will be covered in more detail in the future, it is useful to know that there is now a batch builder: The BatchBuilder class for batch API  <https://www.drupal.org/node/2875389>. It provides a more streamlined object oriented approach to creating batches.
+
+
+### Using the Batch API with a form
 
 This example replaces a multivalue field with some new values processing 10 nodes at a time. The decision to process 10 at a time is arbitrary, but be aware that the more nodes you process at a time, the more likely the batch will fail.
 
@@ -167,10 +180,10 @@ Here is the method that actually does the work. Most of the code is for informat
 }
 ```
 
-The Form API will take care of getting the batches executed. If you aren't using a form, you use code like the line shown below. For this method, you specify any valid alias and it will be displayed after the batch completes.
+The Form API will take care of getting the batches executed. If you aren't using a form, you use `batch_process()`  like the line shown below. For this method, you specify any valid alias and the system will redirect to that alias after the batch completes.
 
 ```php
-return batch_process(\'node/177467\');
+return batch_process('node/177467');
 ```
 
 Notice also you can set up a `$batch` array with a title and a progress message with some variables that will get displayed.
@@ -232,7 +245,7 @@ public static function batchFinished(bool $success, array $results, array $opera
 }
 ```
 
-## Using the Batch API from a controller
+### Using the Batch API from a controller
 
 The Batch API is often used in connection with forms. If you\'re using a page callback, you will need to setup all the items, submit them to the batch API, and then call `batch_process()` with a url as the argument. 
 
@@ -240,7 +253,7 @@ The Batch API is often used in connection with forms. If you\'re using a page ca
 return batch_process('node/1');
 ```
 
-After the batch is complete, Drupal will send you to that url. E.g. `/node/1`
+After the batch is complete, Drupal will redirect you to that url. E.g. `/node/1`
 
 More at
 <https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10.0.x>
@@ -362,7 +375,7 @@ public function summaryImport()
 }
 ```
 
-## Using the Batch API with hook_update
+### Using the Batch API with hook_update
 
 If you want to update the default value of a field for all nodes using the Batch API and hook_update_N checkout the following links:
 
@@ -372,7 +385,7 @@ And
 
 <https://api.drupal.org/api/examples/batch_example%21batch_example.install/function/batch_example_update_8001/8.x-1.x>
 
-## Important rules about functions when using Batch API
+### Important rules about functions when using Batch API
 
 All batch functions must be `public static functions` and all functions calling those must be explicitly namespaced like:
 
@@ -392,7 +405,7 @@ You can however refer to the functions with `self::` e.g.
 $node_to_update_dir_contact_nid = self::getFirstRef($node_to_update, 'field_sf_dir_contact_ref');
 ```
 
-## Looking at the source
+### Looking at the source
 
 Here is the link to the source for the Batch API.  As always, looking at the source is the definitive way to understand how anything works.  It is really well commented.
 
@@ -489,8 +502,7 @@ $context['message'] = t('Running Batch "@id" @details',
 
 You do have to provide your own info for the variables.
 
-You can also stop the batch engine yourself with something like this. If you don't know beforehand how many records you need to process, you
-might use this.
+You can also stop the batch engine yourself with something like this. If you don't know beforehand how many records you need to process, you might use this.
 
 ```php
 // Inform the batch engine that we are not finished,
@@ -500,17 +512,8 @@ if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
 }
 ```
 
-## Resources
 
-You can read more about batch processing at these sites:
-
--   <https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8>
-
--   Highly commented source code for batch operations around line 561:
-    <https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc>
-    (or search for "batch operations")
-
-# Queue System
+## Queue System
 
 From Alan Saunders article on December 2021, 
 <https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9>: 
@@ -612,14 +615,26 @@ class CronEventProcessor extends EmailEventBase {
 
 ## Resources
 
+Read more about batch processing at these sites:
+
+- Smack My Batch Up : Batch Processing In Drupal 8 by 
+Phil Norton July 2016  <https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8>
+
+-   Highly commented source code for batch operations around line 561 for Drupal 10: <https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc> (or search for "batch operations")
+
+Read more about the Queue API at these sites:
+
 * Karim Boudjema from August 2018 has some good examples using the queue API <http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8>
 
 * Sarthak TTN from Feb 2017 shows some sample code on implementing cron and the queue API https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8/
 
 * There is a somewhat incomplete example From Alan Saunders article on December 2021, <https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9>
 
+---
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
+
+---
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
