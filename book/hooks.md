@@ -1,5 +1,9 @@
 # Hooks
 
+<h3 style="text-align: center;">
+<a href="/d9book">home</a>
+</h3>
+
 - [Hooks](#hooks)
   - [Overview](#overview)
   - [Modify the login form](#modify-the-login-form)
