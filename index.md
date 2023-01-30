@@ -21,9 +21,10 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Drush - the amazing command line tool that makes everyone\'s life so much better](book/drush.md)
 - [Debugging with PhpStorm, DDEV and Xdebug](book/debugging.md)
 - [Development - Local setup, creating sites, DDEV, troubleshooting, PHPStorm setup, Xdebug setup, Twig debugging](book/development.html)
+- [Entities - More entities - the primary building blocks of Drupal](book/entities.md)
 - [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](book/forms.md)
 - [General - Useful things that seemed to not fit well elsewhere](book/general.md)
-- [Entities - More entities - the primary building blocks of Drupal](book/entities.md)
+- [Hooks - hooking into the Drupal hook system to make modifications](book/hooks.md)
 - [Learning and keeping up with the latest on Drupal](book/learn.md)
 - [Links, Aliases and URLs](book/links.html)
 - [Logging and notification](book/logging.html)
@@ -46,9 +47,7 @@ If you are inspired, please be a part of this project by contributing your own b
 ### Chapters I'm working on
 - Email
 - Events
-- Hooks
 - Javascript
-- Links, Aliases and URLs
 - Media image files
 - Migration
 - Miscellaneous
@@ -60,7 +59,7 @@ If you are inspired, please be a part of this project by contributing your own b
 
 ----------
 
-Last Updated on: 1-25-2023
+Last Updated on: 1-29-2023
 
 ---------
 
