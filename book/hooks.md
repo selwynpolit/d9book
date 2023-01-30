@@ -366,15 +366,12 @@ Here is an excerpt from the Drupal API at
 
 To create an entity:
 
-\$entity = \$storage
-
--\>[**create**](https://api.drupal.org/api/drupal/10/search/create)();
+\$entity = \$storage-\>[**create**](https://api.drupal.org/api/drupal/10/search/create)();
 
 // Add code here to set properties on the entity.
 // Until you call save(), the entity is just in memory.
 
-\$entity
--\>[**save**](https://api.drupal.org/api/drupal/10/search/save)();
+\$entity-\>[**save**](https://api.drupal.org/api/drupal/10/search/save)();
 
 There is also a shortcut method on entity classes, which creates an entity with an array of provided property values:
 `\Drupal\Core\Entity::create()`.
@@ -397,12 +394,10 @@ See [Save operations](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21C
 
 To load (read) a single entity:
 
-\$entity = \$storage
--\>[**load**](https://api.drupal.org/api/drupal/10/search/load)(\$id);
+\$entity = \$storage-\>[**load**](https://api.drupal.org/api/drupal/10/search/load)(\$id);
 
 To load multiple entities:
-\$entities = \$storage
--\>**loadMultiple**(\$ids);
+\$entities = \$storage-\>**loadMultiple**(\$ids);
 
 Since load() calls loadMultiple(), these are really the same operation. Here is the order of hooks and other operations that take place during entity loading:
 
@@ -414,46 +409,32 @@ Since load() calls loadMultiple(), these are really the same operation. Here is 
 
 When an entity is loaded, normally the default entity revision is loaded. It is also possible to load a different revision, for entities that support revisions, with this code:
 
-\$entity = \$storage
--\>**loadRevision**(\$revision_id);
+\$entity = \$storage-\>**loadRevision**(\$revision_id);
 
 This involves the same hooks and operations as regular entity loading.
 
 The \"latest revision\" of an entity is the most recently created one, regardless of it being default or pending. If the entity is
-translatable, revision translations are not taken into account either.
-In other words, any time a new revision is created, that becomes the latest revision for the entity overall, regardless of the affected translations. To load the latest revision of an entity:
+translatable, revision translations are not taken into account either. In other words, any time a new revision is created, that becomes the latest revision for the entity overall, regardless of the affected translations. To load the latest revision of an entity:
 
-\$revision_id = \$storage
--\>**getLatestRevisionId**(\$entity_id);
+\$revision_id = \$storage-\>**getLatestRevisionId**(\$entity_id);
 
-\$entity = \$storage
--\>**loadRevision**(\$revision_id);
+\$entity = \$storage-\>**loadRevision**(\$revision_id);
 
 As usual, if the entity is translatable, this code instantiates into \$entity the default translation of the revision, even if the latest revision contains only changes to a different translation:
 
-\$is_default = \$entity
--\>**isDefaultTranslation**();
-
+\$is_default = \$entity-\>**isDefaultTranslation**();
 // returns TRUE
 
-The \"latest translation-affected revision\" is the most recently
-created one that affects the specified translation. For example, when a new revision introducing some changes to an English translation is saved, that becomes the new \"latest revision\". However, if an existing Italian translation was not affected by those changes, then the \"latest translation-affected revision\" for Italian remains what it was. To load the Italian translation at its latest translation-affected revision:
+The \"latest translation-affected revision\" is the most recently created one that affects the specified translation. For example, when a new revision introducing some changes to an English translation is saved, that becomes the new \"latest revision\". However, if an existing Italian translation was not affected by those changes, then the \"latest translation-affected revision\" for Italian remains what it was. To load the Italian translation at its latest translation-affected revision:
 
-\$revision_id = \$storage
-
--\>**getLatestTranslationAffectedRevisionId**(\$entity_id, \'it\');
-
+\$revision_id = \$storage-\>**getLatestTranslationAffectedRevisionId**(\$entity_id, \'it\');
 \$it_translation = \$storage
-
 -\>**loadRevision**(\$revision_id)
-
 -\>**getTranslation**(\'it\');
 
 **Save operations**
 
-To update an existing entity, you will need to load it, change
-properties, and then save; as described above, when creating a new
-entity, you will also need to save it. Here is the order of hooks and other events that happen during an entity save:
+To update an existing entity, you will need to load it, change properties, and then save; as described above, when creating a new entity, you will also need to save it. Here is the order of hooks and other events that happen during an entity save:
 
 -   preSave() is called on the entity object, and field objects.
 
@@ -463,8 +444,7 @@ entity, you will also need to save it. Here is the order of hooks and other even
 
 -   Entity is saved to storage.
 
--   For updates on content entities, if there is a translation added
-    that was not previously present:
+-   For updates on content entities, if there is a translation added that was not previously present:
 
     -   [hook_ENTITY_TYPE_translation_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_insert/10)()
 
@@ -481,8 +461,7 @@ entity, you will also need to save it. Here is the order of hooks and other even
 -   [hook_ENTITY_TYPE_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_insert/10)()
     (new) or hook_ENTITY_TYPE_update() (update)
 
--   [hook_entity_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_insert/10)()
-    (new) or hook_entity_update() (update)
+-   [hook_entity_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_insert/10)() (new) or hook_entity_update() (update)
 
 Some specific entity types invoke hooks during preSave() or postSave() operations. Examples:
 
@@ -500,6 +479,7 @@ Some specific entity types invoke hooks during preSave() or postSave() operation
 
 Note that all translations available for the entity are stored during a save operation. When saving a new revision, a copy of every translation is stored, regardless of it being affected by the revision.
 
+
 **Editing operations**
 
 When an entity\'s add/edit form is used to add or edit an entity, there are several hooks that are invoked:
@@ -510,6 +490,7 @@ When an entity\'s add/edit form is used to add or edit an entity, there are seve
 
 -   [hook_entity_form_display_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_form_display_alter/10)()
     (for content entities only)
+
 
 **Delete operations**
 
@@ -543,9 +524,7 @@ Examples:
 
 Individual revisions of an entity can also be deleted:
 
-\$storage
-
--\>**deleteRevision**(\$revision_id);
+\$storage-\>**deleteRevision**(\$revision_id);
 
 This operation invokes the following operations and hooks:
 
@@ -565,10 +544,7 @@ To make a render array for a loaded entity:
 
 \$build = \$view_builder
 
--\>[**view**](https://api.drupal.org/api/drupal/10/search/view)(\$entity,
-\'view_mode_name\', \$language
-
--\>**getId**());
+-\>[**view**](https://api.drupal.org/api/drupal/10/search/view)(\$entity, \'view_mode_name\', \$language-\>**getId**());
 
 You can also use the viewMultiple() method to view multiple entities.
 
@@ -584,19 +560,15 @@ View builders for some types override these hooks, notably:
 
 -   The Tour view builder does not invoke any hooks.
 
--   The Block view builder invokes hook_block_view_alter()
-    and hook_block_view_BASE_BLOCK_ID_alter(). Note that in other view
-    builders, the view alter hooks are run later in the process.
+-   The Block view builder invokes hook_block_view_alter() and hook_block_view_BASE_BLOCK_ID_alter(). Note that in other view builders, the view alter hooks are run later in the process.
 
-During the rendering operation, the default entity viewer runs the
-following hooks and operations in the pre-render step:
+During the rendering operation, the default entity viewer runs the following hooks and operations in the pre-render step:
 
 -   [hook_entity_view_display_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_view_display_alter/10)()
 
 -   [hook_entity_prepare_view](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_prepare_view/10)()
 
--   Entity fields are loaded, and render arrays are built for them using
-    their formatters.
+-   Entity fields are loaded, and render arrays are built for them using their formatters.
 
 -   [hook_entity_display_build_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_display_build_alter/10)()
 
@@ -614,10 +586,8 @@ Some specific builders have specific hooks:
 
 -   The Comment view builder invokes hook_comment_links_alter().
 
-After this point in rendering, the theme system takes over. See
-the [Theme system and render API
-topic](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for
-more information.
+After this point in rendering, the theme system takes over. See the [Theme system and render API topic](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for more information.
+
 
 **Other entity hooks**
 
@@ -633,8 +603,7 @@ Some types of entities invoke hooks for specific operations:
 
     -   Node render array is built
 
-    -   [comment_node_update_index](https://api.drupal.org/api/drupal/core%21modules%21comment%21comment.module/function/comment_node_update_index/10)()
-        is called (this adds \"N comments\" text)
+    -   [comment_node_update_index](https://api.drupal.org/api/drupal/core%21modules%21comment%21comment.module/function/comment_node_update_index/10)() is called (this adds \"N comments\" text)
 
     -   [hook_node_search_result](https://api.drupal.org/api/drupal/core%21modules%21node%21node.api.php/function/hook_node_search_result/10)()
 
@@ -646,16 +615,13 @@ Some types of entities invoke hooks for specific operations:
 
     -   [hook_node_update_index](https://api.drupal.org/api/drupal/core%21modules%21node%21node.api.php/function/hook_node_update_index/10)()
 
+
 ### Theme hooks
 
 Here is an excerpt from the Theme System Overview at
 <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10>:
 
-The theme system is invoked
-in [\\Drupal\\Core\\Render\\Renderer::doRender](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21Renderer.php/function/Renderer%3A%3AdoRender/10)()
-by calling
-the [\\Drupal\\Core\\Theme\\ThemeManagerInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Theme%21ThemeManagerInterface.php/function/ThemeManagerInterface%3A%3Arender/10)()
-function, which operates on the concept of \"theme hooks\". Theme hooks define how a particular type of data should be rendered. They are registered by modules by implementing hook_theme(), which specifies the name of the hook, the input \"variables\" used to provide data and options, and other information. Modules implementing hook_theme() also need to provide a default implementation for each of their theme hooks in a Twig file, and they may also provide preprocessing functions. For example, the core Search module defines a theme hook for a search result item in search_theme():
+The theme system is invoked in [\\Drupal\\Core\\Render\\Renderer::doRender](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21Renderer.php/function/Renderer%3A%3AdoRender/10)() by calling the [\\Drupal\\Core\\Theme\\ThemeManagerInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Theme%21ThemeManagerInterface.php/function/ThemeManagerInterface%3A%3Arender/10)() function, which operates on the concept of \"theme hooks\". Theme hooks define how a particular type of data should be rendered. They are registered by modules by implementing hook_theme(), which specifies the name of the hook, the input \"variables\" used to provide data and options, and other information. Modules implementing hook_theme() also need to provide a default implementation for each of their theme hooks in a Twig file, and they may also provide preprocessing functions. For example, the core Search module defines a theme hook for a search result item in search_theme():
 
 ```php
 return array(
@@ -668,15 +634,11 @@ return array(
   ),
 );
 ```
-Given this definition, the template file with the default implementation is [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig),
-which can be found in the core/modules/search/templates directory, and the variables for rendering are the search result and the plugin ID. In addition, there is a function template_preprocess_search_result(),
-located in file [search.pages.inc](https://api.drupal.org/api/drupal/core%21modules%21search%21search.pages.inc/10),
-which preprocesses the information from the input variables so that it can be rendered by the Twig template; the processed variables that the Twig template receives are documented in the header of the default Twig template file.
+Given this definition, the template file with the default implementation is [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig), which can be found in the core/modules/search/templates directory, and the variables for rendering are the search result and the plugin ID. In addition, there is a function template_preprocess_search_result(), located in file [search.pages.inc](https://api.drupal.org/api/drupal/core%21modules%21search%21search.pages.inc/10), which preprocesses the information from the input variables so that it can be rendered by the Twig template; the processed variables that the Twig template receives are documented in the header of the default Twig template file.
 
 **Overriding Theme Hooks**
 
-Themes may register new theme hooks within a [hook_theme](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_theme/10)()
-implementation, but it is more common for themes to override default implementations provided by modules than to register entirely new theme hooks. Themes can override a default implementation by creating a template file with the same name as the default implementation; for example, to override the display of search results, a theme would add a file called [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig) to its templates directory. A good starting point for doing this is normally to copy the default implementation template, and then modifying it as desired.
+Themes may register new theme hooks within a [hook_theme](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_theme/10)() implementation, but it is more common for themes to override default implementations provided by modules than to register entirely new theme hooks. Themes can override a default implementation by creating a template file with the same name as the default implementation; for example, to override the display of search results, a theme would add a file called [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig) to its templates directory. A good starting point for doing this is normally to copy the default implementation template, and then modifying it as desired.
 
 **Preprocessing for Template Files**
 
