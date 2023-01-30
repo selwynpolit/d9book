@@ -339,6 +339,7 @@ Now in the twig template we can output the scrunch_date we created in the templa
 
 
 ```twig
+{% raw %}
 {%  if content.field_date %}
   {% if scrunch_date %}
     <div>
@@ -350,6 +351,7 @@ Now in the twig template we can output the scrunch_date we created in the templa
     </div>
   {% endif %}
 {% endif %}
+{% endraw %}
 ```
 
 
