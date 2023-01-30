@@ -338,7 +338,7 @@ Now in the twig template we can output the scrunch_date we created in the templa
 `web/themes/mytheme/templates/node/node--seminar--teaser.html.twig`
 
 
-```php
+```twig
 {%  if content.field_date %}
   {% if scrunch_date %}
     <div>
