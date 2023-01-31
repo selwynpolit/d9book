@@ -33,6 +33,7 @@ module:
   guzzle_examples: 0
   help: 0
   history: 0
+  hook_examples: 0
   image: 0
   jquery_ui: 0
   jquery_ui_autocomplete: 0

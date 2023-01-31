@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Hook Examples module.
+ */
+
+
+use \Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+//function hook_examples_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+function hook_examples_form_user_login_form_alter(&$form, FormStateInterface $form_state) {
+  // Add a custom submit button to the login form.
+  $form['third_party_login'] = [
+    '#type' => 'submit',
+    '#value' => t('Login with Third-Party Provider'),
+    '#submit' => ['hook_examples_user_login_form_submit'], // Call the custom submit function.
+  ];
+}
+
+/**
+ * Custom submit function for the login form.
+ */
+function hook_examples_user_login_form_submit(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  // Get the username and password from the form state.
+  $username = $form_state->getValue('name');
+  $password = $form_state->getValue('pass');
+
+  // Build the URL for the third-party login page, including the username and password as query parameters.
+  $login_url = 'https://example.com/login?username=' . urlencode($username) . '&password=' . urlencode($password);
+
+  // Redirect the user to the third-party login page.
+  $form_state->setRedirect($login_url);
+}
+
+
+//use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+
+/**
+ * Implements hook_form_alter().
+ */
+function hook_examples_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'node_event_edit_form') {
+    $node = $form_state->getFormObject()->getEntity();
+    if ($node instanceof Node && $node->bundle() === 'event') {
+      $form['actions']['submit']['#value'] = t('Update Event');
+    }
+  }
+}
