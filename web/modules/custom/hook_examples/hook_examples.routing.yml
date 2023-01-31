@@ -1,0 +1,8 @@
+hook_examples.example:
+  path: '/hook-examples/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\hook_examples\Controller\HookExamplesController::build'
+  requirements:
+    _permission: 'access content'
+

@@ -1,0 +1,30 @@
+date_examples.test1:
+  path: '/date-examples/test1'
+  defaults:
+    _title: 'Date Example test1'
+    _controller: '\Drupal\date_examples\Controller\DateExamplesController::test1'
+  requirements:
+    _permission: 'access content'
+
+date_examples.test2:
+  path: '/date-examples/test2'
+  defaults:
+    _title: 'Date Example test2'
+    _controller: '\Drupal\date_examples\Controller\DateExamplesController::test2'
+  requirements:
+    _permission: 'access content'
+
+date_examples.test3:
+  path: '/date-examples/test3'
+  defaults:
+    _title: 'Date Example test3'
+    _controller: '\Drupal\date_examples\Controller\DateExamplesController::test3'
+  requirements:
+    _permission: 'access content'
+date_examples.test4:
+  path: '/date-examples/test4'
+  defaults:
+    _title: 'Date Example test4'
+    _controller: '\Drupal\date_examples\Controller\DateExamplesController::test4'
+  requirements:
+    _permission: 'access content'

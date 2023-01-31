@@ -5,11 +5,16 @@ dependencies:
   config:
     - field.field.node.event.body
     - field.field.node.event.field_event_category
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_date_range
+    - field.field.node.event.field_event_datetime
     - field.field.node.event.field_event_smart_date
     - field.field.node.event.field_presenter
     - field.field.node.event.field_url
     - node.type.event
   module:
+    - datetime
+    - datetime_range
     - link
     - path
     - smart_date
@@ -21,7 +26,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 121
+    weight: 11
     region: content
     settings:
       rows: 9
@@ -31,19 +36,37 @@ content:
     third_party_settings: {  }
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   field_event_category:
     type: options_buttons
-    weight: 123
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_event_date:
+    type: datetime_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_event_date_range:
+    type: daterange_default
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_event_datetime:
+    type: datetime_default
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
   field_event_smart_date:
     type: smartdate_default
-    weight: 122
+    weight: 4
     region: content
     settings:
       modal: false
@@ -55,10 +78,11 @@ content:
         120|2 hours
         custom
       show_extra: true
+      hide_date: true
     third_party_settings: {  }
   field_presenter:
     type: string_textfield
-    weight: 124
+    weight: 13
     region: content
     settings:
       size: 60
@@ -66,7 +90,7 @@ content:
     third_party_settings: {  }
   field_url:
     type: link_default
-    weight: 125
+    weight: 14
     region: content
     settings:
       placeholder_url: ''
@@ -74,34 +98,34 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 15
+    weight: 7
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 120
+    weight: 10
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 16
+    weight: 8
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
