@@ -239,11 +239,11 @@ Please note this will not intercept emails if your application is configured to 
 
 This is a magical match made in heaven. To enable or disable Xdebug use
 
-`$ ddev exec enable_xdebug`
+`$ ddev xdebug on`
 
 and 
 
-`$ ddev exec disable_xdebug`
+`$ ddev xdebug off`
 
 Note. This will slow everything down because xdebug has a significant performance impact so be sure to disable it when you are finished with your debugging session.
 
