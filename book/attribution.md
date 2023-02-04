@@ -4,9 +4,15 @@
 
 Please add your name below if you add to the project
 
-Danny Lufkin - provided inspiration and hopefully some front-end code.
+[Danny Lufkin](https://github.com/dlufkin) - provided inspiration and hopefully some front-end code.
 
-Phillip Norton - provided editing and a lot of material from his excellent articles at https://www.hashbangcode.com/
+[Phillip Norton](https://github.com/philipnorton42)- provided editing and a lot of material from his excellent articles at https://www.hashbangcode.com/
+
+[Karoly Negyesi](https://github.com/chx) - provided some useful edits and corrections 
+
+[Arek Suchecki](https://github.com/arysom) Fixes to development chapter.
+
+
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
