@@ -6,7 +6,7 @@ Please add your name below if you add to the project
 
 [Danny Lufkin](https://github.com/dlufkin) - provided inspiration and hopefully some front-end code.
 
-[Phillip Norton](https://github.com/philipnorton42)- provided editing and a lot of material from his excellent articles at https://www.hashbangcode.com/
+[Phillip Norton](https://github.com/philipnorton42)- provided editing and a lot of material from his excellent articles at <https://www.hashbangcode.com>
 
 [Karoly Negyesi](https://github.com/chx) - provided some useful edits and corrections 
 
