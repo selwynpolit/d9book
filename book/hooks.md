@@ -719,7 +719,7 @@ mechanisms of the previous section. There are two hooks for this: the theme-hook
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="325154578"
-        data-category="General"
+        data-category="hooks"
         data-category-id="1"
         data-mapping="pathname"
         data-strict="0"
