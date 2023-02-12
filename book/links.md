@@ -19,6 +19,7 @@
     - [Internal links](#internal-links)
   - [Get the NID from a URL Alias](#get-the-nid-from-a-url-alias)
   - [Get the Taxonomy Term ID from a URL alias](#get-the-taxonomy-term-id-from-a-url-alias)
+  - [Get URL alias for a taxonomy term](#get-url-alias-for-a-taxonomy-term)
   - [Get the User ID from a URL alias](#get-the-user-id-from-a-url-alias)
   - [Get the URL alias for a node](#get-the-url-alias-for-a-node)
   - [Create a Node Alias](#create-a-node-alias)
@@ -27,10 +28,11 @@
   - [How to get current Route name](#how-to-get-current-route-name)
   - [Get current Document root path](#get-current-document-root-path)
   - [Retrieve URL argument parameters](#retrieve-url-argument-parameters)
-  - [Retrieve query and GET or POST parameters (\$\_POST and \$\_GET)](#retrieve-query-and-get-or-post-parameters-_post-and-_get)
-  - [Modify URL Aliases programmatically with hook_pathauto_alias_alter](#modify-url-aliases-programmatically-with-hook_pathauto_alias_alter)
+  - [Retrieve query and GET or POST parameters ($\_POST and $\_GET)](#retrieve-query-and-get-or-post-parameters-_post-and-_get)
+  - [Modify URL Aliases programmatically with hook\_pathauto\_alias\_alter](#modify-url-aliases-programmatically-with-hook_pathauto_alias_alter)
   - [Drupal l() is deprecated](#drupal-l-is-deprecated)
   - [Reference links](#reference-links)
+  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-links)
 
@@ -579,9 +581,13 @@ print render($project_link);
 
 * [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
 
+---
+
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
+
+---
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---

@@ -35,6 +35,7 @@
     - [UTC](#utc)
     - [Unix epoch timestamps](#unix-epoch-timestamps)
     - [Links](#links)
+  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dates)
 
@@ -881,6 +882,7 @@ From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time
 
 * Patrick's article:  Date (range) fields and Entity Query from February 2018  <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
 
+* Drupal APIS <https://www.drupal.org/docs/drupal-apis>
   
 ---
 <h3 style="text-align: center;">
