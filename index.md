@@ -42,7 +42,8 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Taxonomy](book/taxonomy.md)
 
 ----
-If you are inspired, please be a part of this project by contributing your own brilliance and add your name on the attribution page.
+If you are inspired, please be a part of this project by contributing your own brilliance (imposters welcomed!) and add your name on the [attribution page.](book/attribution.html)
+
 ---
 
 ### I'm working on writing more about:
