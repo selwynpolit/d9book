@@ -36,7 +36,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Render Arrays](book/render.html)
 - [Routes and Controllers](book/routes.html)
 - [Services and Dependency injection](book/services.html)
-- [State API, Tempstore and UserData (Interesting flavors of torage)](book/state.md)
+- [State API, Tempstore and UserData (Interesting flavors of storage)](book/state.md)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.md)
 - [PHPUnit and Drupal Test Traits](book/dtt.md)
 - [Taxonomy](book/taxonomy.md)
