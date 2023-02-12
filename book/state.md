@@ -1,10 +1,10 @@
-# State API, Tempstore and UserData
+# State API, TempStore and UserData
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
 </h3>
 
-- [State API, Tempstore and UserData](#state-api-tempstore-and-userdata)
+- [State API, TempStore and UserData](#state-api-tempstore-and-userdata)
   - [State API](#state-api)
     - [Using Drush to read the State API](#using-drush-to-read-the-state-api)
     - [Example accessing State API](#example-accessing-state-api)
