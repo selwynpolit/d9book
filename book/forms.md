@@ -16,10 +16,10 @@
     - [Conditional fields in a form](#conditional-fields-in-a-form)
     - [Conditional fields in node add or edit form](#conditional-fields-in-node-add-or-edit-form)
   - [Get the key and value from a select drop-down](#get-the-key-and-value-from-a-select-drop-down)
-  - [Autocomplete fields](#autocomplete-fields)
+  - [Autocomplete](#autocomplete)
     - [Add an autocomplete taxonomy field](#add-an-autocomplete-taxonomy-field)
     - [Add a views-driven entity autocomplete field](#add-a-views-driven-entity-autocomplete-field)
-  - [Disable autocomplete for user login and password fields](#disable-autocomplete-for-user-login-and-password-fields)
+    - [Disable autocomplete for user login and password fields](#disable-autocomplete-for-user-login-and-password-fields)
   - [Validating input](#validating-input)
     - [Validate string length](#validate-string-length)
     - [Validate an email](#validate-an-email)
@@ -29,7 +29,7 @@
     - [Embedding a form:](#embedding-a-form)
     - [Show a form in a block](#show-a-form-in-a-block)
     - [Provide a block template for a form in a block](#provide-a-block-template-for-a-form-in-a-block)
-  - [Redirecting with forms](#redirecting-with-forms)
+  - [Redirecting](#redirecting)
     - [Form submission with redirect](#form-submission-with-redirect)
     - [Ajax redirect](#ajax-redirect)
     - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown)
@@ -313,7 +313,7 @@ $key = $form_state->getValue('education_level');
 $educationLevel = $form['education_level']['#options'][$key];
 ```
 
-## Autocomplete fields
+## Autocomplete
 
 ### Add an autocomplete taxonomy field
 
@@ -354,7 +354,7 @@ $form['user'] = [
 from <https://drupal.stackexchange.com/questions/308870/entity-autocomplete-form-api-field-with-viewsselection-handler>
 
 
-## Disable autocomplete for user login and password fields
+### Disable autocomplete for user login and password fields
 
 In a .module file use the following code.
 
@@ -615,7 +615,7 @@ And in the template, you can see `content.previous_clip` referencing this conten
 </div>
 ```
 
-## Redirecting with forms
+## Redirecting
 
 ### Form submission with redirect
 
