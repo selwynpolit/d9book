@@ -8,11 +8,11 @@ Please add your name below if you add to the project
 
 [Phillip Norton](https://github.com/philipnorton42)- provided editing and a lot of material from his excellent articles at <https://www.hashbangcode.com>
 
-[Karoly Negyesi](https://github.com/chx) - provided some useful edits and corrections 
+[Karoly Negyesi](https://github.com/chx) - provided some useful edits and corrections.
 
 [Arek Suchecki](https://github.com/arysom) Fixes to development chapter.
 
-
+[Nic Laflin](https://github.com/nlighteneddesign) Form section suggestions.
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
