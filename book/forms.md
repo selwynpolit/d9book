@@ -9,7 +9,6 @@
 - [Forms, Form API and AJAX](#forms-form-api-and-ajax)
   - [Overview](#overview)
   - [Find a form id in the page source](#find-a-form-id-in-the-page-source)
-  - [Set autocomplete to off for user login and password fields](#set-autocomplete-to-off-for-user-login-and-password-fields)
   - [Modify a button on a form with hook_form_alter](#modify-a-button-on-a-form-with-hook_form_alter)
   - [Hide a field with hook_form_alter](#hide-a-field-with-hook_form_alter)
   - [Hide revision info and moderation state](#hide-revision-info-and-moderation-state)
@@ -17,9 +16,10 @@
     - [Conditional fields in a form](#conditional-fields-in-a-form)
     - [Conditional fields in node add or edit form](#conditional-fields-in-node-add-or-edit-form)
   - [Get the key and value from a select drop-down](#get-the-key-and-value-from-a-select-drop-down)
-  - [Adding interesting fields](#adding-interesting-fields)
+  - [Autocomplete fields](#autocomplete-fields)
     - [Add an autocomplete taxonomy field](#add-an-autocomplete-taxonomy-field)
     - [Add a views-driven entity autocomplete field](#add-a-views-driven-entity-autocomplete-field)
+  - [Disable autocomplete for user login and password fields](#disable-autocomplete-for-user-login-and-password-fields)
   - [Validating input](#validating-input)
     - [Validate string length](#validate-string-length)
     - [Validate an email](#validate-an-email)
@@ -104,23 +104,7 @@ function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_sta
 
 Notice that a node add form looks like `node_catastrophe_notice_form` while a node edit form looks more like this: `node_catastrophe_notice_edit_form`
 
-## Set autocomplete to off for user login and password fields
 
-In a .module file use the following code.
-
-```php
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Turn off autocomplete on login.
- */
-function dirt_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-  $form['pass']['#attributes']['autocomplete'] = 'off';
-  $form['name']['#attributes']['autocomplete'] = 'off';
-}
-function dirt_form_user_pass_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-  $form['name']['#attributes']['autocomplete'] = 'off';
-```
 
 ## Modify a button on a form with hook_form_alter
 
@@ -329,7 +313,7 @@ $key = $form_state->getValue('education_level');
 $educationLevel = $form['education_level']['#options'][$key];
 ```
 
-## Adding interesting fields
+## Autocomplete fields
 
 ### Add an autocomplete taxonomy field
 
@@ -369,6 +353,24 @@ $form['user'] = [
 ```
 from <https://drupal.stackexchange.com/questions/308870/entity-autocomplete-form-api-field-with-viewsselection-handler>
 
+
+## Disable autocomplete for user login and password fields
+
+In a .module file use the following code.
+
+```php
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Turn off autocomplete on login.
+ */
+function dirt_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form['pass']['#attributes']['autocomplete'] = 'off';
+  $form['name']['#attributes']['autocomplete'] = 'off';
+}
+function dirt_form_user_pass_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form['name']['#attributes']['autocomplete'] = 'off';
+```
 
 ## Validating input
 
