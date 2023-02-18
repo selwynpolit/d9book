@@ -14,24 +14,32 @@
   - [Hide a field with hook_form_alter](#hide-a-field-with-hook_form_alter)
   - [Hide revision info and moderation state](#hide-revision-info-and-moderation-state)
   - [Conditional fields and field states API (#states)](#conditional-fields-and-field-states-api-states)
-    - [Conditional fields in new forms](#conditional-fields-in-new-forms)
-    - [Conditional fields in existing forms](#conditional-fields-in-existing-forms)
+    - [Conditional fields in a form](#conditional-fields-in-a-form)
+    - [Conditional fields in node add or edit form](#conditional-fields-in-node-add-or-edit-form)
   - [Get the key and value from a select drop-down](#get-the-key-and-value-from-a-select-drop-down)
-  - [Field attributes](#field-attributes)
-  - [Form Elements](#form-elements)
-  - [Add an autocomplete taxonomy field](#add-an-autocomplete-taxonomy-field)
-  - [Add a views driven entity autocomplete field](#add-a-views-driven-entity-autocomplete-field)
-  - [Validating a node add or edit](#validating-a-node-add-or-edit)
-  - [Retrieving field values](#retrieving-field-values)
-  - [Example form submission with redirect](#example-form-submission-with-redirect)
-  - [Provide a block template for a form in a block](#provide-a-block-template-for-a-form-in-a-block)
+  - [Adding interesting fields](#adding-interesting-fields)
+    - [Add an autocomplete taxonomy field](#add-an-autocomplete-taxonomy-field)
+    - [Add a views-driven entity autocomplete field](#add-a-views-driven-entity-autocomplete-field)
+  - [Validating input](#validating-input)
+    - [Validate string length](#validate-string-length)
+    - [Validate an email](#validate-an-email)
+    - [Validate date](#validate-date)
+    - [Validate a node add or edit](#validate-a-node-add-or-edit)
+  - [Displaying Forms](#displaying-forms)
+    - [Embedding a form:](#embedding-a-form)
+    - [Show a form in a block](#show-a-form-in-a-block)
+    - [Provide a block template for a form in a block](#provide-a-block-template-for-a-form-in-a-block)
+  - [Redirecting with forms](#redirecting-with-forms)
+    - [Form submission with redirect](#form-submission-with-redirect)
+    - [Ajax redirect](#ajax-redirect)
+    - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown)
   - [Add Javascript to a form](#add-javascript-to-a-form)
   - [AJAX Forms](#ajax-forms)
     - [Popup an AJAX modal dialog](#popup-an-ajax-modal-dialog)
     - [AJAX modal dialog with redirect example](#ajax-modal-dialog-with-redirect-example)
       - [Ajax submit](#ajax-submit)
-      - [Ajax redirect](#ajax-redirect)
-    - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown)
+      - [Ajax redirect](#ajax-redirect-1)
+    - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown-1)
     - [Update a value in another field(I am I want) using AJAX](#update-a-value-in-another-fieldi-am-i-want-using-ajax)
     - [I Am I Want revisited](#i-am-i-want-revisited)
       - [Custom responses](#custom-responses)
@@ -40,17 +48,18 @@
   - [Config Forms](#config-forms)
     - [Generate a config form with drush](#generate-a-config-form-with-drush)
     - [Config forms overview](#config-forms-overview)
-  - [Embedding a form:](#embedding-a-form)
-  - [Show a form in a block](#show-a-form-in-a-block)
-  - [Overview: Implementing forms](#overview-implementing-forms)
+  - [The basics of implementing forms](#the-basics-of-implementing-forms)
     - [Base Classes for forms](#base-classes-for-forms)
-    - [Create your class by extending Formbase](#create-your-class-by-extending-formbase)
+    - [Create your form class by extending Formbase](#create-your-form-class-by-extending-formbase)
     - [The main methods](#the-main-methods)
       - [getFormId()](#getformid)
       - [buildForm()](#buildform)
       - [submitForm()](#submitform)
     - [Form validation example #1](#form-validation-example-1)
     - [Form Validation example #2](#form-validation-example-2)
+    - [Field attributes](#field-attributes)
+    - [Form Elements](#form-elements)
+    - [Retrieving field values](#retrieving-field-values)
   - [Resources](#resources)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-forms)
@@ -75,14 +84,14 @@ batch_examples.batch:
 
 ## Find a form id in the page source
 
-To find the form_id, edit an article node with the comment form displaying. Inspect code in chrome and look for something like this:
+When you need to make changes to a form, it can take a little time to find the form.  You often need to find the form id as the first step.
+To find the form_id for a node comment form, start by editing an article node with the comment form displaying. Inspect code in chrome and look for something like this:
 
 ```html
 <form class="comment-comment-form comment-form" data-drupal-selector="comment-form" action="/comment/reply/node/1/comment" method="post" id="comment-form" accept-charset="UTF-8" data-drupal-form-fields="edit-subject-0-value,edit-comment-body-0-value,edit-comment-body-0-format--2,edit-submit,edit-preview">
 ```
 
-The formid is `comment_comment_form`. Note *dashes become underscores in
-your code*.
+The formid is `comment_comment_form`. Note *dashes will need to become underscores in your code*.
 
 Alternatively, you can add a `hook_form_alter` and  `print_r` or `dsm` the `$form_id`.  If you prefer, you could also log it to the watchdog log:
 
@@ -126,14 +135,13 @@ function mymod_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_sta
 }
 ```
 
-Here is a dropdown form element that I am adding an item to:
+Here is a dropdown form element that I added an item to:
 
 ```php
 $form["topic"]["#options"][992] = "selwyn";
 ```
 
-And in another `.module` file I nuke the contents of the dropdown topic
-and reload it with different content.  These are children of term with tid 2806 sorted by the term name:
+And in another `.module` file I nuke the contents of the dropdown topic and reload it with different content.  These are children of term with tid 2806 sorted by the term name:
 
 ```php
 function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
@@ -195,7 +203,7 @@ function dan_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state
 
 ## Hide revision info and moderation state
 
-In a `.module` file you can turn off (hide) revision information and moderation state like this.
+In a `.module` file you can turn off (or hide) revision information and moderation state like this.
 
 ```php
 $form['revision_information']['#access'] = FALSE;
@@ -204,40 +212,29 @@ $form['moderation_state']['#access'] = FALSE;
 
 ## Conditional fields and field states API (#states)
 
-Nice article at
-<https://mushtaq.ch/blog/11/drupal-8-conditionally-hide-a-form-field>
-and <https://www.lullabot.com/articles/form-api-states>
+There are some nice articles at <https://mushtaq.ch/blog/11/drupal-8-conditionally-hide-a-form-field> and <https://www.lullabot.com/articles/form-api-states> that go into more detail.
 
-Note. There is a very workable conditional fields module
-<https://www.drupal.org/project/conditional_fields> which lets you do
-the same sort of thing without any code.
+Note. There is a very workable conditional fields module <https://www.drupal.org/project/conditional_fields> which lets you do the same sort of thing without any code.
 
-The magic sauce is to use the jQuery selector to identify the field that
-will control the states. You can see the left side of the `=>` has the
-jQuery code to select a checkbox or radio button.
+The magic sauce is to use the jQuery selector to identify the field that will control the states. You can see the left side of the `=>` has the jQuery code to select a checkbox or radio button.
 
 ```php
 ':input[name="copies_yes_no"]' => ['value' => '0']
 ```
 
-### Conditional fields in new forms
+### Conditional fields in a form
 
-When creating a new form, you can
+When creating a form, follow these steps:
 
-1.  Create the field that will control the other field (radio buttons in
-    this case)
+1.  Create the field that will control the other field (radio buttons in this case)
 
-2.  Create the field that will be hidden (or manipulated in various
-    ways)
+1.  Create the field that will be hidden (or manipulated in various ways)
 
-3.  Create the field with a \[\'#states\'\] index
+1.  Create the field with a `['#states']` index
 
-Here we create the `copies_yes_no` field, then create the
-`how_many_oversized field` and then finally the `#states` attribute which
-will make the `how_many_oversized` field appear if you click Yes to the
-`copies_yes_no` field.
+Create the `copies_yes_no` field, then the `how_many_oversized field` and then finally the `#states` attribute which will make the `how_many_oversized` field appear if you click Yes to the `copies_yes_no` field.
 
-Example form in EstimatorForm.php
+Here is an Example form which will only show the `how_many_oversized` field when the `copies_yes_no` radio is set to `yes`:
 
 ```php
 $form['nonstandard']['copies_yes_no'] = [
@@ -261,24 +258,20 @@ $form['nonstandard']['how_many_oversized'] = [
 ];
 
 $form['nonstandard']['how_many_oversized']['#states'] = [
-  // Only show when paper_yes_no is yes.
+  // Only show when copies_yes_no is yes.
   'visible' => [
     ':input[name="copies_yes_no"]' => ['value' => '0'],
   ],
 ];
 ```
 
-### Conditional fields in existing forms
+### Conditional fields in node add or edit form
 
-To customize how fields are handled in an existing form, use
-`hook_form_alter` and check to see if you are a node add or edit form for our
-type of node. Set the state to visible for `field_cn_original_notice` (so
-the user can see it) if the `field_cn_extension` has a value of
-checked=TRUE. This has the effect of dynamically displaying the field
-once the checkbox for `field_cn_extension` is clicked. The rest of the
-function has various other field tweaks
+To customize how fields are handled in an existing form, use `hook_form_alter` and check to see if you are a node add or edit form for our
+type of node. Set the state to visible for `field_cn_original_notice` (so the user can see it) if the `field_cn_extension` has a value of
+checked=TRUE. This has the effect of dynamically displaying the field once the checkbox for `field_cn_extension` is clicked. The rest of the function has various other field tweaks
 
-In the org_mods.module
+This is from a `.module` file
 
 ```php
 function org_mods_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
@@ -312,10 +305,8 @@ function org_mods_form_alter(array &$form, FormStateInterface $form_state, $form
 }
 ```
 
-Here is a variant on this theme for making a field visible or required.
-In this example, he isn't using the \[value\] as part of the name. When
-I tried that above, it didn't seem to work. I guess I didn't have the
-correct jquery selector.
+Here is a variant on this theme for making a field visible or required. In this example, it isn't using the `[value]` as part of the name. When
+I tried that above, it didn't seem to work. Perhaps I didn't have the correct jquery selector.
 
 ```php
 $form['field_blah_blah']['#states']= [
@@ -331,96 +322,16 @@ $form['field_blah_blah']['#states']= [
 
 ## Get the key and value from a select drop-down
 
-To get the key and the value that the user sees in the dropdown use the
-following. When the dropdown was created, we gave it array of strings so
-the key is a zero-based number and the value (`$educationLevel`) is the
-string. This shows how to get both.
+To get the key and the value that the user sees in the dropdown use the following. When the dropdown was created, we gave it array of strings so the key is a zero-based number and the value (`$educationLevel`) is the string. This shows how to get both.
 
 ```php
 $key = $form_state->getValue('education_level');
 $educationLevel = $form['education_level']['#options'][$key];
 ```
 
-## Field attributes 
+## Adding interesting fields
 
-They always begin with `#`. You can find all the possible attributes at [Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/9.4.x)
-
-
-```php
-$form['email'] = [
-  '#title' => t('Email Address'),
-  '#type' => 'textfield',
-  '#size' => 25,
-  '#description' => t("We'll send updates to the email address"),
-  '#required' => TRUE,
-];
-$form['submit'] = [
-  '#type' => 'submit',
-  '#value' => t('RSVP'),
-];
-$form['nid'] = [
-  '#type' => 'hidden',
-  '#value' => $nid,
-];
-```
-
-## Form Elements
-
-[Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/9.4.x)
-
-You can add markup to a form e.g. at web/modules/custom/modal_form_example/src/Form/ExampleForm.php
-
-```php
-public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
-
-  $form['zzz'] = [
-    '#type' => 'markup',
-    '#markup' => $this->t('this is a test'),
-  ];
-
-  $form['name'] = [
-    '#type' => 'textfield',
-    '#title' => $this->t('Name'),
-    '#size' => 20,
-    '#default_value' => 'Joe Blow',
-    '#required' => FALSE,
-  ];
-```
-
-and prefixes and suffices
-
-```php
-public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
-
-  $form['#prefix'] = '<div id="example_form">';
-  $form['#suffix'] = '</div>';
-```
-
-Hidden or required via a custom class
-
-```php
-  '#maxlength' => 40,
-  '#attributes' => [
-    'class' => ['hidden'],
-  ],
-```
-
-Another example:
-
-```php
-'first_name' => [
-  '#type' => 'textfield',
-  '#title' => 'First Name',
-  '#default_value' => '',
-  '#size' => 25,
-  '#maxlength' => 40,
-  '#attributes' => [
-    'class' => ['required name-on-card'],
-  ],
-  '#field_prefix' => '<span class="error-msg">*</span>',
-```
-
-## Add an autocomplete taxonomy field
+### Add an autocomplete taxonomy field
 
 This makes a field on your form that automagically starts populating with terms when you start typing. Here the `$vid` is a vocabulary machine name like `media_tags`. Not sure what `#tags` does -- It doesn't seem to be required. Notice vocab id (vid) is the taxonomy machine name not a number.
 
@@ -437,7 +348,7 @@ $form['tags'] = [
 ];
 ```
 
-## Add a views driven entity autocomplete field
+### Add a views-driven entity autocomplete field
 This allows you to create a field on your form with a user field.  This will be an autocomplete field which uses the view: `users_view` and the display `users`. It allows you to start typing a username in the field and all matching users will be displayed in the dropdown below the field:
 
 
@@ -455,15 +366,45 @@ $form['user'] = [
   'match_operator' => 'CONTAINS'
  ],
 ];
-
+```
 from <https://drupal.stackexchange.com/questions/308870/entity-autocomplete-form-api-field-with-viewsselection-handler>
 
 
-## Date validation example
+## Validating input
 
-You can also add a custom validation in a .module file. Here we use
-setTime()to remove the time part of a datetime so we can make
-comparisons of just the date.
+### Validate string length
+
+Check a string length for the `company_name` field.
+
+```php
+public function validateForm(array &$form, FormStateInterface $formState) {
+  if (!$formState->isValueEmpty('company_name')) {
+    if (strlen($formState->getValue('company_name')) <= 5) {
+      //Set validation error.
+      $formState->setErrorByName('company_name', t('Company name is less than 5 characters'));
+    }
+  }
+}
+```
+
+### Validate an email
+
+From web/modules/custom/rsvp/src/Form/RSVPForm.php we call Drupal's `email.validator` service and if it fails, setErrorByName()
+
+```php
+public function validateForm(array &$form, FormStateInterface $form_state) {
+  $value = $form_state->getValue('email');
+  if (!\Drupal::service('email.validator')->isValid($value)) {
+    $form_state->setErrorByName('email', t('The email %mail is not valid.', ['%mail'=> $value]));
+  }
+
+  parent::validateForm($form, $form_state);
+}
+```
+
+### Validate date
+
+You can also add a custom validation in a .module file. Here we use setTime()to remove the time part of a datetime so we can make comparisons of just the date.
 
 From a .module file.
 
@@ -498,7 +439,7 @@ function cn_form_validate($form, FormStateInterface $form_state) {
 }
 ```
 
-## Validating a node add or edit
+### Validate a node add or edit
 
 In org_mods.module we implement a `hook_form_alter`, and add a validate callback function for anonymous users only.
 
@@ -549,85 +490,58 @@ function cn_form_validate($form, FormStateInterface $form_state) {
 }
 ```
 
-## Retrieving field values
 
-When you go to grab a field value from a form, use getValue(). The values that come back from this are arrays so you have to extract them like this (from org_mods.module)
+
+
+## Displaying Forms
+
+### Embedding a form:
+
+In this example, there is a form called `ExampleForm` at `web/modules/custom/test/src/Form/ExampleForm.php`.
+
+To render a form programmatically, either inside a Controller or a block, use the `FormBuilder` service. The form builder can be injected using the form_builder service key or used statically to then build the form (which returns a render array)
 
 ```php
-function cn_form_validate($form, FormStateInterface $form_state) {
-  $extension = $form_state->getValue('field_cn_extension');
-  if (is_array($extension)) {
-    $extension = $extension['value'];
+$form = \Drupal::formBuilder()->getForm('Drupal\test\Form\ExampleForm');
+$build['egform'] = $form;
+return $build;
+```
+
+### Show a form in a block
+
+In dev1/web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php you can
+see in the build() method, we invoke a form like this:
+
+```php
+class RSVPBlock extends BlockBase {
+
+  /**
+   * @inheritDoc
+   */
+  public function build() {
+    return \Drupal::formBuilder()->getForm('Drupal\rsvp\Form\RSVPForm');
   }
 ```
 
-Alternatively, you can get all the fields at one time with getValues().
-And reference their value like this.
+In `docroot/modules/custom/quick_pivot/src/Plugin/Block/QuickPivotSubscribeBlock.php` we use dependency injection to pass in the `FormBuilderInterface` and then get the form in a very similar way.
+
+The constructor grabbed the formbuilder like this:
 
 ```php
-  $values = $form_state->getValues();
+public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, FormBuilderInterface $form_builder) {
+  parent::__construct($configuration, $plugin_id, $plugin_definition);
 
-  if ($values['op'] == 'Goback') {
-    ...
-  }
-```
+  $this->configFactory = $config_factory;
+  $this->formBuilder = $form_builder;
+}
 
-If you define the form with fields like `$form[‘header’][‘blah’] = ...` then you can retrieve those with `$form_state->getValue(‘header’,’blah’);`
-
-or 
-
-if you define a checkbox like this: 
-```php
-  $form['actions']['delete_extras'] = [
-  '#type' => 'checkbox',
-  '#title' => t('Also delete extra items'),
-  '#required' => FALSE,
-  '#default_value' => FALSE,
-  '#description' => $this->t('Checking this box will delete extra items also.'),
-```
-
-You can retrieve the value of the checkbox with:
-
-```php
-$delete_extras = $form_state->getValue('delete_extras');
-
-// And then use it.
-  if (!$delete_extras) {
-    $query->condition('field_extras', '', '<>');
-  }
-```
-
-## Example form submission with redirect
-
-Here is a `submitForm()` function from docroot/modules/custom/websphere_commerce/modules/checkout/src/Form/ReviewForm.php
-
-The call to `$form_state->getValues()` retrieves all the values in the
-form. The rest of the logic checks a value and redirects the user to a
-specific page.
-
-```php
-public function submitForm(array &$form, FormStateInterface $form_state) {
-  $values = $form_state->getValues();
-
-  if ($values['op'] == 'Goback') {
-    redirectUser('/checkout/' . $values['cart_id'] . '/billing');
-  }
-```
-
-Here is the source for the redirectUser() call from above.
-
-```php
-function redirectUser($path, $route = FALSE) {
-  if (!$route) {
-    $redirectUrl = Url::fromUserInput($path)->toString();
-    $response = new RedirectResponse($redirectUrl);
-    $response->send();
-  }
-  return;
+public function build() {
+  return $this->formBuilder->getForm('Drupal\quick_pivot\Form\QuickPivotSubscribeForm');
 }
 ```
 
-## Provide a block template for a form in a block
+
+### Provide a block template for a form in a block
 
 In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
 
@@ -699,194 +613,40 @@ And in the template, you can see `content.previous_clip` referencing this conten
 </div>
 ```
 
-## Add Javascript to a form
+## Redirecting with forms
 
-This code is in the [examples](https://www.drupal.org/project/examples) module in the `DependentDropdown` example where one field depends on the value from another
+### Form submission with redirect
 
-From web/modules/contrib/examples/ajax_example/src/Form/DependentDropdown.php the form has some Javascript included via a library:
+Here is a `submitForm()` function from docroot/modules/custom/websphere_commerce/modules/checkout/src/Form/ReviewForm.php
 
-```php
-public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
-  // Add our CSS and tiny JS to hide things when they should be hidden.
-  $form['#attached']['library'][] = 'ajax_example/ajax_example.library';
-```
-
-The `ajax_example.libraries.yml` looks like this:
-
-```yaml
-ajax_example.library:
-  version: 1.x
-  css:
-    base:
-      css/ajax-example-base.css: {}
-  js:
-    js/ajax-example.js: {}
-```
-
-Notice in the `buildform()` function that the code references the machine
-name for the library (not the library's filename which is
-`ajax_example.libraries.yml`.)
-
-Here is the JS for completeness:
-
-```JS
-(function ($) {
-
-  // Re-enable form elements that are disabled for non-ajax situations.
-  Drupal.behaviors.enableFormItemsForAjaxForms = {
-    attach: function () {
-      // If ajax is enabled, we want to hide items that are marked as hidden in
-      // our example.
-      if (Drupal.ajax) {
-        $('.ajax-example-hide').hide();
-      }
-    }
-  };
-
-})(jQuery);
-```
-
-## AJAX Forms
-
-Some really sweet [writeups about AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms) and [AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
-
-When adding ajax to a form, you will need the code:
+The call to `$form_state->getValues()` retrieves all the values in the
+form. The rest of the logic checks a value and redirects the user to a
+specific page.
 
 ```php
-$form['#attached']['library'][] = 'core/drupal.dialog.ajax';
-```
-This line attaches the `core/drupal.dialog.ajax` library to the form and is necessary to render the modal dialogs. Alternatively, you can include this as a dependency in your module’s `*.info.yml` file.
+public function submitForm(array &$form, FormStateInterface $form_state) {
+  $values = $form_state->getValues();
 
-### Popup an AJAX modal dialog
-
-If you want to have a form pop up a modal dialog or do something via ajax you have to do some slightly special stuff.
-
-First define what will appear on the dialog
-
-```php
-$checkoutLink = '/checkout/' . $get_order_item_id . '/shipping';
-$success_modal_popup = [
-  '#theme' => 'add_cart_success_modal_popup',
-  '#data' => [
-    'product_title' => $productDetails->title->value . $popup_title,
-    'checkout_link' => $checkoutLink,
-    'cart_link' => '/cart',
-    'continue_shopping_link' => '<span class="continue-shopping>"Continue Shopping</p>',
-      'product_id'=>$product_id,
-      'product_price'=>number_format($productDetails_p->price[1]->value, 2),
-      'product_category'=>'Singer',
-      'product_quantity'=>$product_qty,
-  ],
-];
-$content['#markup'] = render($success_modal_popup);
-$content['#attached']['library'][] = 'core/drupal.dialog.ajax';
-$content['#attached']['library'][] = 'websphere_commerce_cart/minicart';
-```
-Then add an ajax command to open the dialog:
-
-```php
-$ajax_response->addCommand(
-  new OpenModalDialogCommand(t($popup_title), $content, ['width' => '60%', 'dialogClass' => 'product-cart-popup'])
-);
-return $ajax_response;
+  if ($values['op'] == 'Goback') {
+    redirectUser('/checkout/' . $values['cart_id'] . '/billing');
+  }
 ```
 
-Don't forget to **return** the `$ajax_response;`
-
-Here is a slightly example displaying a modal dialog:
+Here is the source for the redirectUser() call from above.
 
 ```php
-$addTocartFailed = $websphere_config->get('cart.add_to_cart_failed');
-$success_modal_popup = [
-  '#theme' => 'add_cart_success_modal_popup',
-  '#data' => [
-    'addtocart_failed' => $addTocartFailed,
-      'product_id'=>$product_id,
-      'product_price'=>number_format($productDetails_p->price[1]->value, 2),
-      'product_category'=>'Singer',
-      'product_quantity'=>$product_qty,
-  ],
-];
-$content['#markup'] = render($success_modal_popup);
-$content['#attached']['library'][] = 'core/drupal.dialog.ajax';
-$ajax_response->addCommand(
-    new OpenModalDialogCommand(t($popup_title), $content, ['width' => '60%', 'dialogClass' => 'product-cart-popup'])
-);
-return $ajax_response;
-```
-
-### AJAX modal dialog with redirect example
-
-From
-`docroot/modules/custom/websphere_commerce/modules/product/src/Form/AddToCartForm.php`.
-
-```php
-
-use Drupal\Core\Ajax\RedirectCommand;
-
-class AddToCartForm extends FormBase {
-// Create constructor and create functions for dependency injection
-
-public function __construct(PrivateTempStoreFactory $temp_store_factory, SessionManagerInterface $session_manager, AccountInterface $current_user) {
-  $this->tempStoreFactory = $temp_store_factory;
-  $this->sessionManager = $session_manager;
-  $this->currentUser = $current_user;
+function redirectUser($path, $route = FALSE) {
+  if (!$route) {
+    $redirectUrl = Url::fromUserInput($path)->toString();
+    $response = new RedirectResponse($redirectUrl);
+    $response->send();
+  }
+  return;
 }
-
-public static function create(ContainerInterface $container) {
-  return new static(
-      $container->get('user.private_tempstore'), $container->get('session_manager'), $container->get('current_user')
-  );
-}
-
-// Use buildForm() function to create the elements on the form:
-public function buildForm(array $form, FormStateInterface $form_state, $nid = NULL, $productId = NULL) {
 ```
+### Ajax redirect
 
-#### Ajax submit
-
-Submit element is a little special. See all that '#ajax' stuff?
-
-```php
-$form['submit'] = [
-  '#type' => 'submit',
-  '#attributes' => ['class' => ['mobile-hide']),
-  '#id' => 'add_to_cart',
-  '#value' => $this->t('Add to cart'),
-  '#button_type' => 'primary',
-  '#ajax' => [
-    'callback' => '::add_to_cart_submit',
-    'event' => 'click',
-    'progress' => [
-      'type' => 'throbber',
-      'wrapper' => 'editor-settings-wrapper',
-    ],
-  ],
-];
-return $form;
-```
-
-In this implementation, there is an empty `submitForm()` function. For the ajax submit callback we use `add_to_cart_submit()`. Note how a `new
-AjaxResponse` is created.
-
-```php
-public function add_to_cart_submit(array &$form, FormStateInterface $form_state) {
-  global $user_status;
-  $inputs = $form_state->getUserInput();
-  $ajax_response = new AjaxResponse();
-  $product_qty = $inputs['product_qty'];
-```
-
-Note. This should probably be a static function to avoid this symfony error:
-
-```
-TypeError: Argument 1 passed to Drupal\Core\Routing\RequestContext::fromRequest() must be an instance of Symfony\Component\HttpFoundation\Request, null given
-```
-
-#### Ajax redirect
-
-If you want to redirect to the `/cart` url, you must add an AJAX command. See the 
-[RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/9.4.x)
+If you want to redirect to the `/cart` url, you must add an AJAX command. See the [RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/9.4.x)
 
 ```php
 $cartUrl = Url::fromUri('internal:/cart');
@@ -1034,8 +794,370 @@ $form['my_select'] = [
 ];
 ```
 
-Both use the same callback: `mySelectChange`. We can make the callback a
-little smarter by figuring out internally which element called it.
+Both use the same callback: `mySelectChange`. We can make the callback a little smarter by figuring out internally which element called it.
+
+```php
+  /**
+   * Callback function for changes to the `my_select`any select element.
+   */
+  public function mySelectChange(array $form, FormStateInterface $form_state) {
+    $values = $form_state->getValues();
+
+    //$elem stores the element info 
+    $elem = $form_state->getTriggeringElement();
+    //$value[$elem["#name"]] stores the path like /node/2
+
+    $response = new AjaxResponse();
+    // Internal URLS must look like this: 'internal:/node/2'.
+//    $url = Url::fromUri('internal:' . $values['my_select']);
+    $url = Url::fromUri('internal:' . $values[$elem["#name"]]);
+
+    $command = new RedirectCommand($url->toString());
+    $response->addCommand($command);
+    return $response;
+
+  }
+```
+
+
+
+
+## Add Javascript to a form
+
+This code is in the [examples](https://www.drupal.org/project/examples) module in the `DependentDropdown` example where one field depends on the value from another
+
+From web/modules/contrib/examples/ajax_example/src/Form/DependentDropdown.php the form has some Javascript included via a library:
+
+```php
+public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
+  // Add our CSS and tiny JS to hide things when they should be hidden.
+  $form['#attached']['library'][] = 'ajax_example/ajax_example.library';
+```
+
+The `ajax_example.libraries.yml` looks like this:
+
+```yaml
+ajax_example.library:
+  version: 1.x
+  css:
+    base:
+      css/ajax-example-base.css: {}
+  js:
+    js/ajax-example.js: {}
+```
+
+Notice in the `buildform()` function that the code references the machine
+name for the library (not the library's filename which is
+`ajax_example.libraries.yml`.)
+
+Here is the JS for completeness:
+
+```JS
+(function ($) {
+
+  // Re-enable form elements that are disabled for non-ajax situations.
+  Drupal.behaviors.enableFormItemsForAjaxForms = {
+    attach: function () {
+      // If ajax is enabled, we want to hide items that are marked as hidden in
+      // our example.
+      if (Drupal.ajax) {
+        $('.ajax-example-hide').hide();
+      }
+    }
+  };
+
+})(jQuery);
+```
+
+## AJAX Forms
+
+When adding ajax to a form, you will need the code:
+
+```php
+$form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+```
+This line attaches the `core/drupal.dialog.ajax` library to the form and is necessary to render the modal dialogs. Alternatively, you can include this as a dependency in your module’s `*.info.yml` file.
+
+There are some really sweet [writeups about AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms) and [AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
+
+
+### Popup an AJAX modal dialog
+
+If you want to have a form pop up a modal dialog or do something via ajax you have to do some slightly special stuff.
+
+First define what will appear on the dialog
+
+```php
+$checkoutLink = '/checkout/' . $get_order_item_id . '/shipping';
+$success_modal_popup = [
+  '#theme' => 'add_cart_success_modal_popup',
+  '#data' => [
+    'product_title' => $productDetails->title->value . $popup_title,
+    'checkout_link' => $checkoutLink,
+    'cart_link' => '/cart',
+    'continue_shopping_link' => '<span class="continue-shopping>"Continue Shopping</p>',
+      'product_id'=>$product_id,
+      'product_price'=>number_format($productDetails_p->price[1]->value, 2),
+      'product_category'=>'Singer',
+      'product_quantity'=>$product_qty,
+  ],
+];
+$content['#markup'] = render($success_modal_popup);
+$content['#attached']['library'][] = 'core/drupal.dialog.ajax';
+$content['#attached']['library'][] = 'websphere_commerce_cart/minicart';
+```
+Then add an ajax command to open the dialog:
+
+```php
+$ajax_response->addCommand(
+  new OpenModalDialogCommand(t($popup_title), $content, ['width' => '60%', 'dialogClass' => 'product-cart-popup'])
+);
+return $ajax_response;
+```
+
+Don't forget to **return** the `$ajax_response;`
+
+Here is a slightly example displaying a modal dialog:
+
+```php
+$addTocartFailed = $websphere_config->get('cart.add_to_cart_failed');
+$success_modal_popup = [
+  '#theme' => 'add_cart_success_modal_popup',
+  '#data' => [
+    'addtocart_failed' => $addTocartFailed,
+      'product_id'=>$product_id,
+      'product_price'=>number_format($productDetails_p->price[1]->value, 2),
+      'product_category'=>'Singer',
+      'product_quantity'=>$product_qty,
+  ],
+];
+$content['#markup'] = render($success_modal_popup);
+$content['#attached']['library'][] = 'core/drupal.dialog.ajax';
+$ajax_response->addCommand(
+    new OpenModalDialogCommand(t($popup_title), $content, ['width' => '60%', 'dialogClass' => 'product-cart-popup'])
+);
+return $ajax_response;
+```
+
+### AJAX modal dialog with redirect example
+
+From
+`docroot/modules/custom/websphere_commerce/modules/product/src/Form/AddToCartForm.php`.
+
+```php
+
+use Drupal\Core\Ajax\RedirectCommand;
+
+class AddToCartForm extends FormBase {
+// Create constructor and create functions for dependency injection
+
+public function __construct(PrivateTempStoreFactory $temp_store_factory, SessionManagerInterface $session_manager, AccountInterface $current_user) {
+  $this->tempStoreFactory = $temp_store_factory;
+  $this->sessionManager = $session_manager;
+  $this->currentUser = $current_user;
+}
+
+public static function create(ContainerInterface $container) {
+  return new static(
+      $container->get('user.private_tempstore'), $container->get('session_manager'), $container->get('current_user')
+  );
+}
+
+// Use buildForm() function to create the elements on the form:
+public function buildForm(array $form, FormStateInterface $form_state, $nid = NULL, $productId = NULL) {
+```
+
+#### Ajax submit
+
+Submit element is a little special. See all that '#ajax' stuff?
+
+```php
+$form['submit'] = [
+  '#type' => 'submit',
+  '#attributes' => ['class' => ['mobile-hide']),
+  '#id' => 'add_to_cart',
+  '#value' => $this->t('Add to cart'),
+  '#button_type' => 'primary',
+  '#ajax' => [
+    'callback' => '::add_to_cart_submit',
+    'event' => 'click',
+    'progress' => [
+      'type' => 'throbber',
+      'wrapper' => 'editor-settings-wrapper',
+    ],
+  ],
+];
+return $form;
+```
+
+In this implementation, there is an empty `submitForm()` function. For the ajax submit callback we use `add_to_cart_submit()`. Note how a `new
+AjaxResponse` is created.
+
+```php
+public function add_to_cart_submit(array &$form, FormStateInterface $form_state) {
+  global $user_status;
+  $inputs = $form_state->getUserInput();
+  $ajax_response = new AjaxResponse();
+  $product_qty = $inputs['product_qty'];
+```
+
+Note. This should probably be a static function to avoid this symfony error:
+
+```
+TypeError: Argument 1 passed to Drupal\Core\Routing\RequestContext::fromRequest() must be an instance of Symfony\Component\HttpFoundation\Request, null given
+```
+
+#### Ajax redirect
+
+If you want to redirect to the `/cart` url, you must add an AJAX command. See the [RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/9.4.x)
+
+```php
+$cartUrl = Url::fromUri('internal:/cart');
+$ajax_response->addCommand(
+    new RedirectCommand($cartUrl->toString())//Note this is a string!! 
+);
+return $ajax_response;
+```
+
+In a non-ajax form, to redirect to the cart url, we would just use
+something like this:
+
+```php
+$form_state->setRedirectUrl($cartUrl);
+```
+
+### AJAX redirect from a select element (dropdown)
+
+Here I set up a dropdown with the url's and when the user makes a change
+in the dropdown, the browser goes to that url. The url's are /node/1
+/node/2 etc. For the correct url to be built, we have to prefix
+"internal:" to them and that happens in the callback function
+`mySelectChange()`.
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
+
+    // Get the form values and raw input (unvalidated values).
+    $values = $form_state->getValues();
+
+    // Define a wrapper id to populate new content into.
+    $ajax_wrapper = 'my-ajax-wrapper';
+
+    // Select element.
+    $form['my_select'] = [
+      '#type' => 'select',
+      '#empty_value' => '',
+      '#empty_option' => '- Select a value -',
+      '#default_value' => (isset($values['my_select']) ? $values['my_select'] : ''),
+      '#options' => [
+        '/node/1' => 'One',
+        '/node/2' => 'Two',
+        '/node/3' => 'Three'
+      ],
+      '#ajax' => [
+        'callback' => [$this, 'mySelectChange'],
+        'event' => 'change',
+        'wrapper' => $ajax_wrapper,
+      ],
+    ];
+    // Build a wrapper for the ajax response.
+    $form['my_ajax_container'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => $ajax_wrapper,
+      ]
+    ];
+
+    return $form;
+  }
+
+  /**
+   * The callback function for when the `my_select` element is changed.
+   *
+   */
+  public function mySelectChange(array $form, FormStateInterface $form_state) {
+
+    $values = $form_state->getValues();
+
+    $response = new AjaxResponse();
+//    $url = Url::fromUri('internal:/node/2');
+    $url = Url::fromUri('internal:' . $values['my_select']);
+
+    $command = new RedirectCommand($url->toString());
+    $response->addCommand($command);
+    return $response;
+  }
+
+  //Don’t forget an empty submitForm().
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // This function left blank intentionally.
+  }
+```
+
+Invoke the form from the controller with:
+
+return
+```php
+return \Drupal::formBuilder()->getForm('Drupal\org_opinions\Form\IndividualOpinionForm');
+```
+
+The form is at
+`docroot/modules/custom/org_opinions/src/Form/IndividualOpinionForm.php`.
+
+And don't forget these:
+
+```php
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\RedirectCommand;
+```
+
+Let's say you have several select elements on the form like `my_select` and `my_select2` like this (Sorry - not too creative, I know.):
+
+```php
+$ajax_wrapper = 'my-ajax-wrapper';
+// Select.
+$form['my_select'] = [
+  '#type' => 'select',
+  '#empty_value' => '',
+  '#empty_option' => '- Select a value -',
+  '#default_value' => (isset($values['my_select']) ? $values['my_select'] : ''),
+  '#options' => [
+    '/node/1' => 'One',
+    '/node/2' => 'Two',
+    '/node/3' => 'Three'
+  ],
+  '#ajax' => [
+    'callback' => [$this, 'mySelectChange'],
+    'event' => 'change',
+    'wrapper' => $ajax_wrapper,
+  ],
+];
+  $form['my_select2'] = [
+    '#type' => 'select',
+    '#empty_value' => '',
+    '#empty_option' => '- Select a value -',
+    '#default_value' => (isset($values['my_select']) ? $values['my_select'] : ''),
+    '#options' => [
+      '/node/4' => 'Four',
+      '/node/5' => 'Five',
+      '/node/6' => 'Six'
+    ],
+    '#ajax' => [
+      'callback' => [$this, 'mySelectChange'],
+      'event' => 'change',
+      'wrapper' => $ajax_wrapper,
+    ],
+];
+```
+
+Both use the same callback: `mySelectChange`. We can make the callback a little smarter by figuring out internally which element called it.
 
 ```php
   /**
@@ -1518,7 +1640,7 @@ use Drupal\Core\Ajax\ReplaceCommand;
   }
 ```
 
-I made a new function called myinitCustomForms in app.js (/Users/selwyn/Sites/txg/web/themes/custom/txg/foundation/src/assets/js/app.js).
+I made a new function called myinitCustomForms in app.js (web/themes/custom/txg/foundation/src/assets/js/app.js).
 
 ```php
     $response->addCommand(new InvokeCommand(NULL, 'myinitCustomForms'));
@@ -1527,9 +1649,7 @@ I made a new function called myinitCustomForms in app.js (/Users/selwyn/Sites/tx
 
 And it works a treat!!
 
-From <https://www.drupal.org/docs/8/api/javascript-api/ajax-forms>
-
-They suggest an example (which I tried in txg/web/themes/custom/txg/foundation/src/assets/js/app.js).
+At <https://www.drupal.org/docs/8/api/javascript-api/ajax-forms> they suggest an example (which I tried in txg/web/themes/custom/txg/foundation/src/assets/js/app.js).
 
 ```javascript
 (function($) {
@@ -1773,55 +1893,8 @@ rsvp.admin_settings:
         label: 'Content type'
 ```
 
-## Embedding a form:
 
-In this example, there is a form called `ExampleForm` at `web/modules/custom/test/src/Form/ExampleForm.php`.
-
-To render a form programmatically, either inside a Controller or a
-block, use the `FormBuilder` service. The form builder can be injected
-using the form_builder service key or used statically to then build the
-form (which returns a render array)
-
-```php
-$form = \Drupal::formBuilder()->getForm('Drupal\test\Form\ExampleForm');
-$build['egform'] = $form;
-return $build;
-```
-
-## Show a form in a block
-
-In dev1/web/modules/custom/rsvp/src/Plugin/Block/RSVPBlock.php you can
-see in the build() method, we invoke a form like this:
-
-```php
-class RSVPBlock extends BlockBase {
-
-  /**
-   * @inheritDoc
-   */
-  public function build() {
-    return \Drupal::formBuilder()->getForm('Drupal\rsvp\Form\RSVPForm');
-  }
-```
-
-In `docroot/modules/custom/quick_pivot/src/Plugin/Block/QuickPivotSubscribeBlock.php` we use dependency injection to pass in the `FormBuilderInterface` and then get the form in a very similar way.
-
-The constructor grabbed the formbuilder like this:
-
-```php
-public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, FormBuilderInterface $form_builder) {
-  parent::__construct($configuration, $plugin_id, $plugin_definition);
-
-  $this->configFactory = $config_factory;
-  $this->formBuilder = $form_builder;
-}
-
-public function build() {
-  return $this->formBuilder->getForm('Drupal\quick_pivot\Form\QuickPivotSubscribeForm');
-}
-```
-
-## Overview: Implementing forms
+## The basics of implementing forms
 
 Forms live in `module/src/Form/MyClassForm.php` e.g. `/modules/custom/dmod/src/Form/HeaderFooterForm.php`.
 
@@ -1833,7 +1906,7 @@ Forms live in `module/src/Form/MyClassForm.php` e.g. `/modules/custom/dmod/src/F
 
 -   ConfigFormBase -- for config forms
 
-### Create your class by extending Formbase
+### Create your form class by extending Formbase
 
 ```php
 class HeaderFooterForm extends FormBase {
@@ -1841,7 +1914,7 @@ class HeaderFooterForm extends FormBase {
 
 ### The main methods
 
-Forms typically need a `buildForm()`, `submitForm()` and `getFormId()` member. Validation is handled with a `validateForm()` member.
+Forms typically need a `buildForm()`, `submitForm()` and `getFormId()` member function. Validation is handled with a `validateForm()` member function.  Each is explained with more detail below:
 
 #### getFormId()
 
@@ -1893,8 +1966,7 @@ $form['submit'] = [
 ];
 ```
 
-And don't **EVER** forget to return the \$form render array you just
-created (otherwise you get an empty form)
+And don't **EVER EVER** forget to return the \$form render array you just created  otherwise you get an empty form.  Not that it ever ever happened to me ;-))
 
 ```php
 return $form;
@@ -1977,17 +2049,153 @@ public function validateForm(array &$form, FormStateInterface $form_state) {
 }
 ```
 
+
+### Field attributes 
+
+They always begin with `#`. You can find all the possible attributes at [Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)
+
+
+```php
+$form['email'] = [
+  '#title' => t('Email Address'),
+  '#type' => 'textfield',
+  '#size' => 25,
+  '#description' => t("We'll send updates to the email address"),
+  '#required' => TRUE,
+];
+$form['submit'] = [
+  '#type' => 'submit',
+  '#value' => t('RSVP'),
+];
+$form['nid'] = [
+  '#type' => 'hidden',
+  '#value' => $nid,
+];
+```
+
+### Form Elements
+
+[Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)
+
+You can add markup to a form e.g. at web/modules/custom/modal_form_example/src/Form/ExampleForm.php
+
+```php
+public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
+
+  $form['zzz'] = [
+    '#type' => 'markup',
+    '#markup' => $this->t('this is a test'),
+  ];
+
+  $form['name'] = [
+    '#type' => 'textfield',
+    '#title' => $this->t('Name'),
+    '#size' => 20,
+    '#default_value' => 'Joe Blow',
+    '#required' => FALSE,
+  ];
+```
+
+and prefixes and suffices
+
+```php
+public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
+
+  $form['#prefix'] = '<div id="example_form">';
+  $form['#suffix'] = '</div>';
+```
+
+Hidden or required via a custom class
+
+```php
+  '#maxlength' => 40,
+  '#attributes' => [
+    'class' => ['hidden'],
+  ],
+```
+
+Another example:
+
+```php
+'first_name' => [
+  '#type' => 'textfield',
+  '#title' => 'First Name',
+  '#default_value' => '',
+  '#size' => 25,
+  '#maxlength' => 40,
+  '#attributes' => [
+    'class' => ['required name-on-card'],
+  ],
+  '#field_prefix' => '<span class="error-msg">*</span>',
+```
+
+### Retrieving field values
+
+When you go to grab a field value from a form, use getValue(). The values that come back from this are arrays so you have to extract them like this (from org_mods.module)
+
+```php
+function cn_form_validate($form, FormStateInterface $form_state) {
+  $extension = $form_state->getValue('field_cn_extension');
+  if (is_array($extension)) {
+    $extension = $extension['value'];
+  }
+```
+
+Alternatively, you can get all the fields at one time with getValues().
+And reference their value like this.
+
+```php
+  $values = $form_state->getValues();
+
+  if ($values['op'] == 'Goback') {
+    ...
+  }
+```
+
+If you define the form with fields like `$form[‘header’][‘blah’] = ...` then you can retrieve those with `$form_state->getValue(‘header’,’blah’);`
+
+or 
+
+if you define a checkbox like this: 
+```php
+  $form['actions']['delete_extras'] = [
+  '#type' => 'checkbox',
+  '#title' => t('Also delete extra items'),
+  '#required' => FALSE,
+  '#default_value' => FALSE,
+  '#description' => $this->t('Checking this box will delete extra items also.'),
+```
+
+You can retrieve the value of the checkbox with:
+
+```php
+$delete_extras = $form_state->getValue('delete_extras');
+
+// And then use it.
+  if (!$delete_extras) {
+    $query->condition('field_extras', '', '<>');
+  }
+```
+
+
 ## Resources
 
-* [Drupal AJAX AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms)
+* Drupal API Form Element Reference with examples <https://api.drupal.org/api/drupal/elements/10>
 
-* [Drupal AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
 
-* [Great tutorial from Mediacurrent on using modal forms in Drupal](https://www.mediacurrent.com/blog/loading-and-rendering-modal-forms-drupal-8/)
+* Drupal AJAX AJAX forms updated Dec 2022 <https://www.drupal.org/docs/8/api/javascript-api/ajax-forms>
 
-* [Form API Internal Workflow](https://www.drupal.org/docs/drupal-apis/form-api/form-api-internal-workflow)
+* Drupal AJAX Dialog boxes updated Nov 2022 <https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes>
 
-* [#! code: Drupal 9: Creating A GET Form, July 2021](https://www.hashbangcode.com/article/drupal-9-creating-get-form)
+* Great tutorial from Mediacurrent on using modal forms in Drupal from Mar 2017  <https://www.mediacurrent.com/blog/loading-and-rendering-modal-forms-drupal-8/>
+
+* Form API Internal Workflow updated Dec 2022 <https://www.drupal.org/docs/drupal-apis/form-api/form-api-internal-workflow>
+
+* #! code: Drupal 9: Creating A GET Form, July 2021  <https://www.hashbangcode.com/article/drupal-9-creating-get-form>
+  
+* Conditional fields module <https://www.drupal.org/project/conditional_fields>
+
+
 
 <h3 style="text-align: center;">
 <a href="/d9book">home</a>
