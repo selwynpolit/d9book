@@ -4,52 +4,53 @@
 <a href="/d9book">home</a>
 </h3>
 
+
+
 - [Forms, Form API and AJAX](#forms-form-api-and-ajax)
   - [Overview](#overview)
   - [Find a form id in the page source](#find-a-form-id-in-the-page-source)
   - [Set autocomplete to off for user login and password fields](#set-autocomplete-to-off-for-user-login-and-password-fields)
-  - [Modify a button on a form with hook\_form\_alter](#modify-a-button-on-a-form-with-hook_form_alter)
-  - [Hide a field with hook\_form\_alter](#hide-a-field-with-hook_form_alter)
+  - [Modify a button on a form with hook_form_alter](#modify-a-button-on-a-form-with-hook_form_alter)
+  - [Hide a field with hook_form_alter](#hide-a-field-with-hook_form_alter)
   - [Hide revision info and moderation state](#hide-revision-info-and-moderation-state)
   - [Conditional fields and field states API (#states)](#conditional-fields-and-field-states-api-states)
-  - [Conditional fields in new forms](#conditional-fields-in-new-forms)
-  - [Conditional fields in existing forms](#conditional-fields-in-existing-forms)
+    - [Conditional fields in new forms](#conditional-fields-in-new-forms)
+    - [Conditional fields in existing forms](#conditional-fields-in-existing-forms)
   - [Get the key and value from a select drop-down](#get-the-key-and-value-from-a-select-drop-down)
   - [Field attributes](#field-attributes)
   - [Form Elements](#form-elements)
-  - [Add an autocomplete taxonomy form](#add-an-autocomplete-taxonomy-form)
-  - [Add an autocomplete field driven by a view](#use-a-view-for-an-entity-autocomplete)
-  - [Date validation example](#date-validation-example)
+  - [Add an autocomplete taxonomy field](#add-an-autocomplete-taxonomy-field)
+  - [Add a views driven entity autocomplete field](#add-a-views-driven-entity-autocomplete-field)
   - [Validating a node add or edit](#validating-a-node-add-or-edit)
   - [Retrieving field values](#retrieving-field-values)
   - [Example form submission with redirect](#example-form-submission-with-redirect)
   - [Provide a block template for a form in a block](#provide-a-block-template-for-a-form-in-a-block)
   - [Add Javascript to a form](#add-javascript-to-a-form)
   - [AJAX Forms](#ajax-forms)
-  - [Popup an AJAX modal dialog](#popup-an-ajax-modal-dialog)
-  - [AJAX modal dialog with redirect example](#ajax-modal-dialog-with-redirect-example)
-  - [Ajax submit](#ajax-submit)
-  - [Ajax redirect](#ajax-redirect)
-  - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown)
-  - [Update a value in another field(I am I want) using AJAX](#update-a-value-in-another-fieldi-am-i-want-using-ajax)
-  - [I Am I Want revisited](#i-am-i-want-revisited)
-  - [Custom responses](#custom-responses)
-  - [How do you find all the possible AJAX commands to use with addCommand()?](#how-do-you-find-all-the-possible-ajax-commands-to-use-with-addcommand)
-  - [Another AJAX Submit example](#another-ajax-submit-example)
+    - [Popup an AJAX modal dialog](#popup-an-ajax-modal-dialog)
+    - [AJAX modal dialog with redirect example](#ajax-modal-dialog-with-redirect-example)
+      - [Ajax submit](#ajax-submit)
+      - [Ajax redirect](#ajax-redirect)
+    - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown)
+    - [Update a value in another field(I am I want) using AJAX](#update-a-value-in-another-fieldi-am-i-want-using-ajax)
+    - [I Am I Want revisited](#i-am-i-want-revisited)
+      - [Custom responses](#custom-responses)
+    - [How do you find all the possible AJAX commands to use with addCommand()?](#how-do-you-find-all-the-possible-ajax-commands-to-use-with-addcommand)
+    - [Another AJAX Submit example](#another-ajax-submit-example)
   - [Config Forms](#config-forms)
-  - [Generate a config form with drush](#generate-a-config-form-with-drush)
-  - [Config forms overview](#config-forms-overview)
+    - [Generate a config form with drush](#generate-a-config-form-with-drush)
+    - [Config forms overview](#config-forms-overview)
   - [Embedding a form:](#embedding-a-form)
   - [Show a form in a block](#show-a-form-in-a-block)
   - [Overview: Implementing forms](#overview-implementing-forms)
-  - [Base Classes for forms](#base-classes-for-forms)
-  - [Create your class by extending Formbase](#create-your-class-by-extending-formbase)
-  - [The main methods](#the-main-methods)
-  - [getFormId()](#getformid)
-  - [buildForm()](#buildform)
-  - [submitForm()](#submitform)
-  - [Form validation example #1](#form-validation-example-1)
-  - [Form Validation example #2](#form-validation-example-2)
+    - [Base Classes for forms](#base-classes-for-forms)
+    - [Create your class by extending Formbase](#create-your-class-by-extending-formbase)
+    - [The main methods](#the-main-methods)
+      - [getFormId()](#getformid)
+      - [buildForm()](#buildform)
+      - [submitForm()](#submitform)
+    - [Form validation example #1](#form-validation-example-1)
+    - [Form Validation example #2](#form-validation-example-2)
   - [Resources](#resources)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-forms)
@@ -419,12 +420,9 @@ Another example:
   '#field_prefix' => '<span class="error-msg">*</span>',
 ```
 
-## Add an autocomplete taxonomy form
+## Add an autocomplete taxonomy field
 
-This makes a field on your form that automagically starts populating
-with terms when you start typing. Here the `$vid` is a vocabulary machine name
-like `media_tags`. Not sure what `#tags` does -- It doesn't seem to be
-required. Notice vocab id (vid) is a machine name not a number.
+This makes a field on your form that automagically starts populating with terms when you start typing. Here the `$vid` is a vocabulary machine name like `media_tags`. Not sure what `#tags` does -- It doesn't seem to be required. Notice vocab id (vid) is the taxonomy machine name not a number.
 
 ```php
 $vid1 = 'media_tags';
@@ -439,8 +437,8 @@ $form['tags'] = [
 ];
 ```
 
-## Use a view for an entity autocomplete
-This allows you to create a field on your form with a user field.  This will be an autocomplete field which uses the view: `users_view`, the display `users` and this will allow you to start typing a username.  It will display all matching users in a dropdown:
+## Add a views driven entity autocomplete field
+This allows you to create a field on your form with a user field.  This will be an autocomplete field which uses the view: `users_view` and the display `users`. It allows you to start typing a username in the field and all matching users will be displayed in the dropdown below the field:
 
 
 ```php
