@@ -197,7 +197,7 @@ $variables['content']['field_image']['#suffix'] = "this is a suffix to the image
 Or
 
 ```php
-$variables['content']['custom_field']= [‘#type’=>’markup’, ‘#markup’=>’Hello World’];
+$variables['content']['custom_field']= ['#type'=>'markup', '#markup'=>'Hello World'];
 ```
 
 You can make up your own properties e.g. see the `#selwyn_id` below for use elsewhere.
@@ -226,9 +226,9 @@ $form['actions']['accept'] = [
 
 ```php
 $image = [
-  ‘#theme’=>’image’,
-  ‘#uri’ => ‘public://photo.jpg’,
-  ‘#alt’ => ‘hello’
+  '#theme'=>'image',
+  '#uri' => 'public://photo.jpg',
+  '#alt' => 'hello'
 ];
 ```
 ## Simple Text

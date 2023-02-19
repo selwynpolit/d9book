@@ -245,7 +245,7 @@ If you have a URL for a node and you want its nid
 
 ```php
 $route = $url->getRouteParameters();
-// first check if it’s a node.
+// first check if it's a node.
 if (isset($route['node'])) {
   $nid = $route["node"];
 }

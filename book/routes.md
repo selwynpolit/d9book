@@ -62,7 +62,7 @@ A simple render array looks like this:
 
 ```php
 return [
-  ‘#markup’ => ‘blah’,
+  '#markup' => 'blah',
 ]
 ```
 ### Connecting to a twig template
@@ -280,7 +280,7 @@ This is what it looks like to generate a controller:
 $ drush generate controller
 
  Welcome to controller generator!
-––––––––––––––––––––––––––––––––––
+----------------------------------
 
  Module machine name [web]:
  ➤ general
@@ -307,7 +307,7 @@ $ drush generate controller
  ➤
 
  The following directories and files have been created or updated:
-–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+-------------------------------------------------------------------
  • /Users/selwyn/Sites/d9book2/web/modules/custom/general/general.routing.yml
  • /Users/selwyn/Sites/d9book2/web/modules/custom/general/src/Controller/ExampleController.php
 ```

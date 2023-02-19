@@ -418,14 +418,14 @@ if ddev won't start and shows:
 
 ```
 Creating ddev-router ... done
-Failed to start ddev82: db container failed: log=, err=container exited, please use ’ddev logs -s db` to find out why it failed
+Failed to start ddev82: db container failed: log=, err=container exited, please use 'ddev logs -s db` to find out why it failed
 ```
 
 Looking in the log, you might see:
 
 ```
 preallocating 12582912 bytes for file ./ibtmp1 failed with error 28
-2020-03-16 14:27:54 140144158233920 [ERROR] InnoDB: Could not set the file size of ‘./ibtmp1’. Probably out of disk space
+2020-03-16 14:27:54 140144158233920 [ERROR] InnoDB: Could not set the file size of './ibtmp1'. Probably out of disk space
 ```
 
 That is the clue.

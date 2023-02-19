@@ -6,7 +6,7 @@
 
 - [Logging](#logging)
   - [Quick log to watchdog](#quick-log-to-watchdog)
-  - [Log an email notification was sent to the the email address for the](#log-an-email-notification-was-sent-to-the-the-email-address-for-the)
+  - [Log an email notification was sent to the the email address for the site.](#log-an-email-notification-was-sent-to-the-the-email-address-for-the-site)
   - [Logging from a service using dependency injection](#logging-from-a-service-using-dependency-injection)
   - [Another example using the logging via dependency injection](#another-example-using-the-logging-via-dependency-injection)
   - [Logging exceptions from a try catch block](#logging-exceptions-from-a-try-catch-block)
@@ -84,7 +84,7 @@ $messenger->addMessage("sent a message to $to");
 Incidentally, calling `\Drupal::logger` like this
 
 ```php
-\Drupal::logger(‘my_module’)->error('This is my error message'); 
+\Drupal::logger('my_module')->error('This is my error message');
 ```
 actually does this under the covers:
 

@@ -428,7 +428,7 @@ This is what it looks like to generate a controller:
 $ drush generate controller
 
  Welcome to controller generator!
-––––––––––––––––––––––––––––––––––
+----------------------------------
 
  Module machine name [web]:
  ➤ general
@@ -455,7 +455,7 @@ $ drush generate controller
  ➤
 
  The following directories and files have been created or updated:
-–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+-------------------------------------------------------------------
  • /Users/selwyn/Sites/d9book2/web/modules/custom/general/general.routing.yml
  • /Users/selwyn/Sites/d9book2/web/modules/custom/general/src/Controller/ExampleController.php
 ```
@@ -1190,7 +1190,7 @@ machine, you can simply type drush on the command line, and the launcher will 
 Here are some old Drupal 7 Drush scripts in case they are of any interest
 
 ```php
-//content created my admin – d7
+//content created my admin - d7
 $uid = 1;
 $result = db_query('SELECT n.nid, n.title, n.created
 FROM {node} n WHERE n.uid = :uid', array(':uid' => $uid));

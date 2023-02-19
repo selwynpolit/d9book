@@ -51,7 +51,6 @@
     - [External links](#external-links)
     - [Internal links](#internal-links)
   - [Load a node and retrieve a paragraph field](#load-a-node-and-retrieve-a-paragraph-field)
-  - [Load a node and grab a paragraph field to find the nid in an entity reference field](#load-a-node-and-grab-a-paragraph-field-to-find-the-nid-in-an-entity-reference-field)
   - [How to get Node URL alias or Taxonomy Alias by Node id or Term ID](#how-to-get-node-url-alias-or-taxonomy-alias-by-node-id-or-term-id)
   - [How to set a URL Alias](#how-to-set-a-url-alias)
   - [Get a node's menu item and more](#get-a-nodes-menu-item-and-more)
@@ -86,6 +85,7 @@
   - [Puzzles](#puzzles)
     - [What can I do with a call to first() on an entity reference field?](#what-can-i-do-with-a-call-to-first-on-an-entity-reference-field)
   - [Great Cheat sheets](#great-cheat-sheets)
+  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-bq)
@@ -1430,7 +1430,7 @@ exists on entity storage objects, there is no `loadMultipleRevisions` method.
 
 EH!
 
-// This gives you null! – don’t do this. 
+// This gives you null! - don't do this.
 $lessons = $video_collection_node->get('field_related_lessons')->value;
 ```
 
@@ -1675,7 +1675,7 @@ $formatted_date = $end_date->format('m/d/y');
 
 field_contract_end_date ->value; //returns whatever the string is e.g. 2024-08-31
 field_contract_end_date->date->getTimestamp(); // returns unix timestamp e.g. 1725105600
-field_contract_end_date->date; // returns a DrupalDateTime object with all it’s goodness
+field_contract_end_date->date; // returns a DrupalDateTime object with all it's goodness
 
 $formatted_date = $end_date->format('m/d/y'); //Format the date nicely for output
 ```

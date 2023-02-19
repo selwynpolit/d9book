@@ -69,7 +69,7 @@ From [Drupal cron documentation](https://www.drupal.org/docs/administering-a-dru
 
 Check your Drupal status report which shows cron run time. If this works for you and you want to try editing your Linux crontab file, here's a quick example of hourly cron.
 
-1. At Linux command prompt, type `crontab –e`.
+1. At Linux command prompt, type `crontab -e`.
 2. Go to end then press Insert key. Then type or paste below.
 
 ```

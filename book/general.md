@@ -698,7 +698,7 @@ In the twig template for that paragraph, you can use the value `paragraph.index`
 Also covered at
 <https://drupal.stackexchange.com/questions/217880/how-do-i-add-a-meta-tag-in-inside-the-head-tag>
 
-If you need to make changes to the `<head>` element, the `hook_preprocess_html` is the place to do it in the `.theme` file. Here we check to see that the content type is contract and then we create a fake array of meta tags and jam them into the `$variables[‘page’][‘#attached’][‘html_head’]` element. They are then rendered on the page.
+If you need to make changes to the `<head>` element, the `hook_preprocess_html` is the place to do it in the `.theme` file. Here we check to see that the content type is contract and then we create a fake array of meta tags and jam them into the `$variables['page']['#attached']['html_head']` element. They are then rendered on the page.
 
 ```php
 /**
@@ -798,7 +798,7 @@ echo $str . "\n";
 //echo htmlspecialchars_decode($str) . "\n";
 
 echo (urldecode($str)) . "\n";
-echo urlencode("threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you’re-road");
+echo urlencode("threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you're-road");
 
 echo urldecode('We%27re%20proud%20to%20introduce%20the%20Amazing');
 ```

@@ -458,7 +458,7 @@ if ($expiration_date) {
   $now = new DrupalDateTime();
   if ($expiration_date < $now) {
  		// When expired, unpublish the node.
-    $node->set(‘status’, 0);
+    $node->set('status', 0);
     $node->save();  }
   }
 }
