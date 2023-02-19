@@ -730,7 +730,7 @@ in the dropdown, the browser goes to that url. The url's are /node/1
     return $response;
   }
 
-  //Don’t forget an empty submitForm().
+  //Don't forget an empty submitForm().
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // This function left blank intentionally.
   }
@@ -878,7 +878,7 @@ When adding ajax to a form, you will need the code:
 ```php
 $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
 ```
-This line attaches the `core/drupal.dialog.ajax` library to the form and is necessary to render the modal dialogs. Alternatively, you can include this as a dependency in your module’s `*.info.yml` file.
+This line attaches the `core/drupal.dialog.ajax` library to the form and is necessary to render the modal dialogs. Alternatively, you can include this as a dependency in your module's `*.info.yml` file.
 
 There are some really sweet [writeups about AJAX forms](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms) and [AJAX Dialog boxes](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
 
@@ -1093,7 +1093,7 @@ in the dropdown, the browser goes to that url. The url's are /node/1
     return $response;
   }
 
-  //Don’t forget an empty submitForm().
+  //Don't forget an empty submitForm().
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // This function left blank intentionally.
   }
@@ -1203,11 +1203,11 @@ From: `txg/web/modules/custom/iamiwant/src/Form/IamiwantForm.php`.
 
 The code loads `$nids` from the database, loops thru them, putting them into an array `$iam` indexed by node id. Then it defines the `$form['iam']` element with all the good `#ajax` stuff including: 
 
-1.	The ‘#submit’ callback: ::submitSelectIam
+1.	The '#submit' callback: ::submitSelectIam
 2.	The #executes_submit_callback => TRUE
-3.	The ‘callback’ => ‘::ajaxReplaceIwantForm’ specifies what function to call when this field is “submitted”
-4.	The ‘wrapper’ => ‘iwant-container’ is the container that will get replaced
-5.	The ‘method’ => ‘replace’ which I guess means replace everything in said wrapper.
+3.	The 'callback' => '::ajaxReplaceIwantForm' specifies what function to call when this field is “submitted”
+4.	The 'wrapper' => 'iwant-container' is the container that will get replaced
+5.	The 'method' => 'replace' which I guess means replace everything in said wrapper.
 
 Then it defines the `$form['iwant_container']` and the `$form['iwant_container']['iwant']` element in readiness for the AJAX magic. Lastly it defines the submit `go` button.
 
@@ -2154,7 +2154,7 @@ And reference their value like this.
   }
 ```
 
-If you define the form with fields like `$form[‘header’][‘blah’] = ...` then you can retrieve those with `$form_state->getValue(‘header’,’blah’);`
+If you define the form with fields like `$form['header']['blah'] = ...` then you can retrieve those with `$form_state->getValue('header','blah');`
 
 or 
 
