@@ -70,8 +70,7 @@ The methods are defined in Drupal\\Core\\Logger\\RfcLoggerTrait:
 
 More at <https://www.drupal.org/docs/8/api/logging-api/overview>
 
-## Log an email notification was sent to the the email address for the
-site.
+## Log an email notification was sent to the the email address for the site.
 
 ```php
 $email_config = \Drupal::config('system.site');
@@ -81,6 +80,7 @@ $messenger->addMessage("sent a message to $to");
 // Log it.
 \Drupal::logger('DIR')->info("Email notification send to $to succeeded");
 ```
+
 Incidentally, calling `\Drupal::logger` like this
 
 ```php
