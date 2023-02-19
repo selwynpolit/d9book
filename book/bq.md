@@ -56,6 +56,7 @@ Here is a simple form with a button used to kick off the batch
 operation.
 
 ```php
+<?php
 /**
  * {@inheritdoc}
  */
@@ -80,6 +81,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
 The `submitForm()` method calls `updateEventPresenters()`.
 
 ```php
+<?php
 /**
  * {@inheritdoc}
  */
@@ -105,6 +107,7 @@ batch_examples.batch:
 Here is the `updateEventPresenters()` method. Notice the `$operations` array, which contains the function to call to do the work of each batch as well as the list of nids to process.
 
 ```php
+<?php
 function updateEventPresenters() {
   $query = \Drupal::entityQuery('node')
     ->condition('status', 1)
@@ -143,6 +146,7 @@ function updateEventPresenters() {
 Here is the method that actually does the work. Most of the code is for information reporting. The actual work is in the `foreach $nids as $nid` loop:
 
 ```php
+<?php
   public static function exampleProcessBatch(int $batch_id, array $nids, array &$context) {
     if (!isset($context['sandbox']['progress'])) {
       $context['sandbox']['progress'] = 0;
@@ -183,6 +187,7 @@ Here is the method that actually does the work. Most of the code is for informat
 The Form API will take care of getting the batches executed. If you aren't using a form, you use `batch_process()`  like the line shown below. For this method, you specify any valid alias and the system will redirect to that alias after the batch completes.
 
 ```php
+<?php
 return batch_process('node/177467');
 ```
 
@@ -191,12 +196,14 @@ Notice also you can set up a `$batch` array with a title and a progress message 
 You specify a `finished` index, which identifies a function to call after the batch is finished processing, as in the example below.
 
 ```php
+<?php
 'finished' => '\Drupal\batch_examples\Form\BatchForm::batchFinished',
 ```
 
 Here is the `batchFinished()` method, which displays and logs the results.
 
 ```php
+<?php
 /**
  * Handle batch completion.
  *
@@ -250,6 +257,7 @@ public static function batchFinished(bool $success, array $results, array $opera
 The Batch API is often used in connection with forms. If you\'re using a page callback, you will need to setup all the items, submit them to the batch API, and then call `batch_process()` with a url as the argument. 
 
 ```php
+<?php
 return batch_process('node/1');
 ```
 
@@ -262,6 +270,7 @@ More at
 In this example of a processing function, you can see error handling, logging, and tracking while retrieving files from a remote source. This is fairly common when moving data between systems. The rest of the code is almost identical to the previous example.
 
 ```php
+<?php
 public static function fileImportProcessBatch(int $batch_id, array $nids, array &$context) {
   if (!isset($context['sandbox']['progress'])) {
     $context['sandbox']['progress'] = 0;
@@ -368,6 +377,7 @@ public static function fileImportProcessBatch(int $batch_id, array $nids, array 
 Here is the code that creates the batches and submits them.
 
 ```php
+<?php
 public function summaryImport()
 {
   $this->summaryCreateBatches();
@@ -390,18 +400,21 @@ And
 All batch functions must be `public static functions` and all functions calling those must be explicitly namespaced like:
 
 ```php
+<?php
 $nid = \Drupal\dirt_salesforce\Controller\DirtSalesforceController::lookupCommodityItem($commodity_item_id);
 ```
 
 You can't use `$this->my_function` even if they are in the same class. Grab the namespace from the top of the PHP file you are using. In this case:
 
 ```php
+<?php
 namespace Drupal\dir_salesforce\Controller;
 ```
 
 You can however refer to the functions with `self::` e.g.
 
 ```php
+<?php
 $node_to_update_dir_contact_nid = self::getFirstRef($node_to_update, 'field_sf_dir_contact_ref');
 ```
 
@@ -416,19 +429,21 @@ Also, it is interesting to note that they call `batch_process('node/1')` but tha
 So here are the arguments for my_function_1:
 
 ```php
+<?php
 * function my_function_1($uid, $type, &$context) {
 ```
 
 You call the batch finished function with the following arguments:
 
 ```php
+<?php
 /**
  * Handle batch completion.
  *
  * @param bool $success
  *   TRUE if all batch API tasks were completed successfully.
  * @param array $results
- *   An array of processed node IDs. – or whatever you put in $context['results'][]
+ *   An array of processed node IDs. - or whatever you put in $context['results'][]
  * @param array $operations
  *   A list of the operations that had NOT been completed.
  * @param $elapsed
@@ -441,6 +456,7 @@ public static function batchFinished($success, array $results, array $operations
 The results are displayed:
 
 ```php
+<?php
 $messenger = \Drupal::messenger();
 if ($success) {
   $messenger->addMessage(t('Processed @count nodes in @elapsed.', [
@@ -453,6 +469,7 @@ if ($success) {
 You can load the `$results` array with all sorts of interesting data, such as:
 
 ```php
+<?php
 $context['results']['skipped'] = $skipped;
 $context['results']['updated'] = $updated;
 ```
@@ -460,6 +477,7 @@ $context['results']['updated'] = $updated;
 Batch API provides a nice way to display detailed results using code like:
 
 ```php
+<?php
 $messenger->addMessage(t('Processed @count nodes, skipped @skipped, updated @updated in @elapsed.', [
   '@count' => $results['nodes'],
   '@skipped' => $results['skipped'],
@@ -476,15 +494,17 @@ Processed 50 nodes, skipped 45, updated 5 in 3 sec.
 
 You can display an informative message above the progress bar this way.
 
-I filled in the `$context[‘sandbox’][‘max’]` with a value, but I could have used `$context[‘sandbox’][‘whole-bunch’]` or any variable here.
+I filled in the `$context['sandbox']['max']` with a value, but I could have used `$context['sandbox']['whole-bunch']` or any variable here.
 
 ```php
+<?php
 $context['sandbox']['max'] = count($max_nids);
 ```
 
 An informative message above the progress bar using number_format puts commas in the number if it is over 1,000.
 
 ```php
+<?php
 $context['message'] = t('Processing total @count nodes',
   ['@count' => number_format($context['sandbox']['max'])]
 );
@@ -493,6 +513,7 @@ $context['message'] = t('Processing total @count nodes',
 Also you could show something about which batch number is running.
 
 ```php
+<?php
 $operation_details = 'Yoyoma';
 $id = 9;
 $context['message'] = t('Running Batch "@id" @details',
@@ -505,6 +526,7 @@ You do have to provide your own info for the variables.
 You can also stop the batch engine yourself with something like this. If you don't know beforehand how many records you need to process, you might use this.
 
 ```php
+<?php
 // Inform the batch engine that we are not finished,
 // and provide an estimation of the completion level we reached.
 if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
@@ -527,6 +549,7 @@ From Sarthak TTN on Feb 2017 https://www.tothenew.com/blog/how-to-implement-queu
 This is the submitForm() which creates an item and puts it in the queue.
 
 ```php
+<?php
 /**
  * {@inheritdoc}
  */
@@ -576,7 +599,7 @@ class EmailEventBase extends QueueWorkerBase implements ContainerFactoryPluginIn
   * {@inheritdoc}
   */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static($container->get(‘plugin.manager.mail’));
+    return new static($container->get('plugin.manager.mail'));
   }
 
   /**
@@ -584,12 +607,12 @@ class EmailEventBase extends QueueWorkerBase implements ContainerFactoryPluginIn
   *
   */
   public function processItem($data) {
-    $params[‘subject’] = t(‘query’);
-    $params[‘message’] = $data->query;
-    $params[‘from’] = $data->email;
-    $params[‘username’] = $data->username;
-    $to = \Drupal::config(‘system.site’)->get(‘mail’);
-    $this->mail->mail(‘my_module’,’query_mail’,$to,’en’,$params,NULL,true);
+    $params['subject'] = t('query');
+    $params['message'] = $data->query;
+    $params['from'] = $data->email;
+    $params['username'] = $data->username;
+    $to = \Drupal::config('system.site')->get('mail');
+    $this->mail->mail('my_module','query_mail',$to,'en',$params,NULL,true);
   }
 }
 ```
