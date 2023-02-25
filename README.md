@@ -16,11 +16,10 @@ TL;DR click [here to contribute to the gh-pages branch](https://github.com/selwy
 
 ## Some tips
 
-### Running drush on the host
-The approved way to use drush on a ddev project is to use `ddev drush cr` etc.
+### Running drush on the host vs the container
+The recommended way to use drush on a ddev project is to use `ddev drush cr` etc.
 
-For my own convenience, I prefer to just use `drush cr` while in the directory for my project.
-If you see errors when trying this, edit your web/sites/default/settings.php (or web/sites/default/settings.local.php) by adding the putenv command below.
+For my own convenience, I prefer to just use `drush cr` while in the directory for my project.  This does require an installation of PHP 8.1, drush and the drush launcher. If you see errors when trying this, try editing your web/sites/default/settings.php (or web/sites/default/settings.local.php) by adding the putenv command below.  This may help.
 ```
 putenv("IS_DDEV_PROJECT=true");
 ```
