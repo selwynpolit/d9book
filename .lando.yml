@@ -1,0 +1,5 @@
+name: d9book
+recipe: drupal9
+config:
+  webroot: web
+  php: '8.1'
