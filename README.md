@@ -143,8 +143,20 @@ and
 * `ddev drush cr` - clear drupal cache
 * `ddev launch` - start the site
 
+## Lando usage
 
+Create a local instance in [Lando](https://lando.dev/) with these commands.
 
+```
+git clone https://github.com/selwynpolit/d9book
+cd d9book/
+lando composer install
+lando start
+lando drush site:install --db-url=mysql://drupal9:drupal9@database/drupal9 -y
+lando db-import dbdump2.sql.gz
+lando drush cache:rebuild
+lando drush uli -l https://d9book.lndo.site
+```
 
 ## Troubleshooting
 
