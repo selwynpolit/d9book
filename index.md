@@ -21,7 +21,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Drush - the amazing command line tool that makes everyone\'s life so much better](book/drush.md)
 - [Debugging with PhpStorm, DDEV and Xdebug](book/debugging.md)
 - [Development - Local setup, creating sites, DDEV, troubleshooting, PHPStorm setup, Xdebug setup, Twig debugging](book/development.html)
-- [Email](book/email.md)
+- [Email - Sending emails in Drupal](book/email.md)
 - [Entities - More entities - the primary building blocks of Drupal](book/entities.md)
 - [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](book/forms.md)
 - [General - Useful things that seemed to not fit well elsewhere](book/general.md)
