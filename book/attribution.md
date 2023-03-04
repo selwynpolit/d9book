@@ -16,6 +16,8 @@ Please add your name below if you add to the project
 
 [Ales Rebec](https://github.com/alesrebec) - Styling help and email chapter.
 
+[Sean Adams-Hiett](https://github.com/pyrello) - Fixes.
+
 ---
 
 <h3 style="text-align: center;">
