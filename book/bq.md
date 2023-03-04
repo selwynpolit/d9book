@@ -30,7 +30,7 @@
 
 ### Overview
 
-The Batch API provides very useful functionality that let you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's to be processed and use the batch API to process those chunks of ids.
+The Batch API provides very useful functionality that lets you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's to be processed and use the batch API to process those chunks of ids.
 
 In addition, you create a function to handle things once all the chunks are complete. You can also give the Batch API a bunch of work to do and have it figure out for itself when it is finished.
 
