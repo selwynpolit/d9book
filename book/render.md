@@ -336,6 +336,7 @@ use Drupal\Core\Url;
 
 public function build(){
   $result = $this->nodeStorage->getQuery()
+    ->accessCheck(TRUE)
     ->condition('type', 'water_action')
     ->condition('status', '1')
     ->range(0, $this->configuration['block_count'])
