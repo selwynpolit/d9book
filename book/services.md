@@ -210,7 +210,7 @@ Your block must implement ContainerFactoryPluginInterface. *Plugins only get acc
 class TestBlock extends BlockBase implements ContainerFactoryPluginInterface {
 ```
 
-You must also add the extra parameters on the `create()` function and the constructor i.e. `$plugin_id` and `$plugin_definition` e.g.
+You must also add the extra parameters to the `create()` function and the constructor i.e. `$plugin_id` and `$plugin_definition` e.g.
 
 `public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)`
 
@@ -865,11 +865,12 @@ Your block must implement `ContainerFactoryPluginInterface`. Plugins only get ac
 class TestBlock extends BlockBase implements
 ContainerFactoryPluginInterface {
 ```
-You must also add the extra parameters on the `create()` and
+You must also add the extra parameters to the `create()` and
 `__construct()` function i.e. `$plugin_id` and `$plugin_definition` e.g.
 
 ```php
-public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)```
+public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+```
 
 
 Here is an example of a block constructor with the `AccountProxyInterface` parameter added as this is the service we want to inject:
@@ -880,6 +881,7 @@ parent::__construct($configuration, $plugin_id, $plugin_definition);
 $this->account = $account;
 }
 ```
+
 See more about using dependency injection for blocks and other plugins at <https://chromatichq.com/blog/dependency-injection-drupal-8-plugins>
 
 

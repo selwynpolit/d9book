@@ -13,6 +13,7 @@
   - [TempStore](#tempstore)
     - [PrivateTempStore](#privatetempstore)
     - [SharedTempStore](#sharedtempstore)
+      - [Injecting tempstore.shared](#injecting-tempstoreshared)
   - [Reference](#reference)
 
 
@@ -345,6 +346,69 @@ And here is the data in the database:
 And you can see the data owner in the screen shot below:
 
 ![Shared tempstore data in the database](./images/media/shared_tempstore2.png)
+
+#### Injecting tempstore.shared
+
+If you want to inject the service rather than use it statically, you have to inject `tempstore.shared`. e.g. In the `module.services.yml` file below, we inject 3 services, including the `tempstore.shared`.  Note that this is actually the `SharedTempStoreFactory` (and not the `SharedTempStore` class itself).  Remember to derive the "collection" as shown in the php snippet below:
+
+```yml
+services:
+  tea_teks_srp.vote_processor:
+    class: Drupal\tea_teks_srp\VotingProcessor
+    arguments: ['@entity_type.manager', '@current_user', '@tempstore.shared']
+```
+
+```php
+
+  /** @var \Drupal\Core\TempStore\SharedTempStore|null  */
+  protected ?SharedTempStore $tempStore = NULL;
+
+
+  public function __construct(EntityTypeManager $entityTypeManager, AccountInterface $account, SharedTempStoreFactory $sharedTempStoreFactory) {
+    $this->entityTypeManager = $entityTypeManager;
+    $this->account = $account;
+    // Derive the collection.
+    // Note. this will write into the key_value_expire table collection column: tempstore.shared.tea_teks_srp.   */
+    $this->tempStore = $sharedTempStoreFactory->get('tea_teks_srp');
+  }
+
+  public function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager'),
+      $container->get('current_user'),
+      $container->get('tempstore.shared')
+    );
+  }
+```
+Here is an example of actually writing and then reading the value from the shared tempstore.
+
+```php
+    $now = new DrupalDateTime('now');
+    $votes[12345] = [
+      'vote' => 'a',
+      'reason' => '',
+      'timestamp' => $now->format('Y-m-d H:i:s'),
+      'serialized' => FALSE,
+    ];
+    // Write.
+    $this->tempStore->set($this->tempstoreKey, $votes);
+    // Read.
+    $x = $this->tempStore->get($this->tempstoreKey);
+
+```
+
+
+In `core.services.yml`, you can see that `tempstore.shared` uses the `SharedTempStoreFactory` class:
+
+```yml
+  tempstore.shared:
+    class: Drupal\Core\TempStore\SharedTempStoreFactory
+    arguments: ['@keyvalue.expirable', '@lock', '@request_stack', '@current_user', '%tempstore.expire%']
+    tags:
+      - { name: backend_overridable }
+```
+
+
 
 ## Reference
 
