@@ -212,9 +212,8 @@ class TestBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
 You must also add the extra parameters on the `create()` function and the constructor i.e. `$plugin_id` and `$plugin_definition` e.g.
 
-```php
-public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
-```
+`public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)`
+
 
 Here is an example of a block constructor with the `AccountProxyInterface` parameter added so we can inject that service:
 
