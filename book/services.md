@@ -214,7 +214,6 @@ You must also add the extra parameters on the `create()` function and the constr
 
 ```php
 public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
-
 ```
 
 Here is an example of a block constructor with the `AccountProxyInterface` parameter added so we can inject that service:
