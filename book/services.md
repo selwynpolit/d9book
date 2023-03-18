@@ -180,6 +180,7 @@ This allows quick access from within your controllers to these services if you n
 $storage = $this->entityTypeManager()->getStorage('node');
 $query = $storage->getQuery();
 $query
+  ->accessCheck(TRUE)
   ->condition('type', 'article')
   ->condition('title', $name)
   ->count();
@@ -480,8 +481,9 @@ So to use this statically, you can use the following:
 $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
 $query = $storage->getQuery();
 $query = \Drupal::entityQuery('node')
- ->condition('type', 'page')
- ->condition('status', 1) ;
+  ->accessCheck(TRUE)
+  ->condition('type', 'page')
+  ->condition('status', 1);
 $nids = $query->execute();
 ```
 
@@ -830,6 +832,7 @@ class DiExamplesController extends ControllerBase {
     $storage = $this->entityTypeManager()->getStorage('node');
     $query = $storage->getQuery();
     $query
+      ->accessCheck(TRUE)
       ->condition('type', 'article')
       ->condition('title', $name)
       ->count();

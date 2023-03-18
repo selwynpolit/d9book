@@ -51,10 +51,11 @@ more at
 
 ## Query an entity by title and type
 
-This example counts the number of entities of type `article` with the name `$name`. 
+This example counts the number of entities of type `article` with the name `$name`. Note that access checking must be [explicitly specified on content entity queries](https://www.drupal.org/node/3201242).
 
 ```php
 $query = $this->nodeStorage->getQuery()
+  ->accessCheck(FALSE)
   ->condition('type', 'article')
   ->condition('title', $name)
   ->count();

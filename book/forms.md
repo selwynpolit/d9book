@@ -1216,6 +1216,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
   $nodeStorage = $this->entityTypeManager->getStorage('node');
   // Get i_am_i_want node ids.
   $nids = $nodeStorage->getQuery()
+    ->accessCheck(TRUE)
     ->condition('field_iam', NULL, 'IS NOT NULL')
     ->condition('field_iwant', NULL, 'IS NOT NULL')
     ->condition('field_link', NULL, 'IS NOT NULL')
@@ -1372,6 +1373,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
   $nodeStorage = $this->entityTypeManager->getStorage('node');
   // Get i_am_i_want node ids.
   $nids = $nodeStorage->getQuery()
+    ->accessCheck(TRUE)
     ->condition('field_iam', NULL, 'IS NOT NULL')
     ->condition('field_iwant', NULL, 'IS NOT NULL')
     ->condition('field_link', NULL, 'IS NOT NULL')
@@ -1475,6 +1477,7 @@ public function submitSelectIam(array $form, FormStateInterface $form_state) {
   // Rebuild the iwant values
   // Get i_am_i_want node ids.
   $nids = $nodeStorage->getQuery()
+    ->accessCheck(TRUE)
     ->condition('type', 'i_am_i_want')
     ->condition('field_iam', $iam_text)
     ->condition('field_iwant', NULL, 'IS NOT NULL')
