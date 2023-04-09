@@ -1919,7 +1919,8 @@ all html:
 {% raw %}
 {% if content.field_landing_opinion_page_type|render|striptags|trim == 'ORD' %}
   {{ drupal_block('opinion_landing', wrapper=false) }}
-  {% endraw %}
+{% endif %}  
+{% endraw %}
 ```
 
 so use the combination of render \| striptags \| trim
