@@ -11,6 +11,8 @@
   - [Displaying Data](#displaying-data)
     - [Fields or Logic](#fields-or-logic)
     - [Which template, which variables?](#which-template-which-variables)
+    - [Display fields or variables](#display-fields-or-variables)
+    - [Node Title with and without a link](#node-title-with-and-without-a-link)
     - [Fields](#fields)
     - [Paragraph field](#paragraph-field)
     - [Loop thru paragraph reference fields](#loop-thru-paragraph-reference-fields)
@@ -178,17 +180,18 @@ Field specific template are usually very simple and refer to `{{items}}` and `{{
 e.g. from txg/web/themes/contrib/zurb_foundation/templates/page.html.twig
 
 ```twig
+{% raw %}
 <section>
   {{ page.content }}
 </section>
+{% endraw %}
 ```
 
-And from
-txg/web/themes/custom/txg/templates/content/page\--node\--event.html.twig.
-I accidentally started implementing this in the page template. See below
+And from `txg/web/themes/custom/txg/templates/content/page--node--event.html.twig` I accidentally started implementing this in the page template. See below
 for the node template.
 
 ```twig
+{% raw %}
 {{ drupal_field('field_image', 'node') }}
 
 <h1>{{ node.label }}</h1>
@@ -208,6 +211,7 @@ for the node template.
 {% if node.field_event_cta_link.0.url %}
   CTA:<div class="button"><a href="{{ node.field_event_cta_link.0.url }}">{{ node.field_event_cta_link.0.title }}</a></div>
 {% endif %}
+{% endraw %}
 ```
 
 Here is the same basic stuff (as above) in a node template at
@@ -216,6 +220,7 @@ txg/web/themes/custom/txg/templates/content/node\--event.html.twig
 Note. The `{{ node.label }}` becomes `{{ label }}` and `{{ node.field_for }}` becomes `{{ content.field_for }}`.
 
 ```twig
+{% raw %}
 <h1>{{ label }}</h1>
 {{ content.field_image }}
 <div>Node: {{ node.id }}</div>
@@ -233,7 +238,9 @@ Note. The `{{ node.label }}` becomes `{{ label }}` and `{{ node.field_for }}` be
 
 {% if node.field_event_cta_link.0.url %}
   CTA:<div class="button"> <a href="{{ node.field_event_cta_link.0.url }}">{{ node.field_event_cta_link.0.title }}</a></div>
-{% endif %}```
+{% endif %}
+{% endraw %}
+```
 
 ### Display fields or variables
 
