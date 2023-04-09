@@ -749,11 +749,13 @@ txg/web/themes/custom/txg/templates/content/node\--event\--card.html.twig
 if there is a url, display the link with the url, otherwise just display the title for the link. I'm not 100% sure this is really valid. Can you put in a title and no link?
 
 ```twig
+{% raw %}
 {% if node.field_event_location_link.0.url %}
     <a href="{{ node.field_event_location_link.0.url }}">{{ node.field_event_location.0.value }}</a>
 {% else %}
   {{ node.field_event_location.0.value }}
 {% endif %}
+{% endraw %}
 ```
 
 
@@ -761,7 +763,7 @@ if there is a url, display the link with the url, otherwise just display the tit
 
 Here we want to render an internal link to a page on our Drupal site (as opposed to a link to another site.) We grab the link in a preprocess function. Extract out the title and the URI.
 
-```twig
+```php
 $instructions_node = Node::load($order_type_instructions_nid);
 if ($instructions_node) {
   $order_link = $instructions_node->field_link->first();
@@ -784,7 +786,7 @@ We can put the pieces in the twig template like this
 ### Render an image with an image style
 
 From
-inside-marthe/themes/custom/dp/templates/paragraph/paragraph\--sidebar-resource.html.twig
+`inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-resource.html.twig`
 
 Here we use sidebar_standard image style
 
@@ -802,6 +804,7 @@ From
 inside-marthe/themes/custom/dp/templates/content/node\--video-detail.html.twig I check to see if there are any values in this array `related_lessons_nid`s and display the view.
 
 ```twig
+{% raw %}
 {% if related_lessons_nids|length %}
   <div class="section section--featured">
     <div class="grid-container">
@@ -812,6 +815,7 @@ inside-marthe/themes/custom/dp/templates/content/node\--video-detail.html.twig I
     </div>
   </div>
 {% endif %}
+{% endraw %}
 ```
 
 Not empty:
