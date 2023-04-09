@@ -669,7 +669,9 @@ Want to use the text from a different field? No problem.
 Absolute link:
 
 ```twig
+{% raw %}
 <a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
+{% endraw %}
 ```
 
 Relative link
@@ -677,7 +679,9 @@ Relative link
 See path vs url:
 
 ```twig
+{% raw %}
 <a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
+{% emdraw %}
 ```
 
 
@@ -686,7 +690,9 @@ See path vs url:
 You can link to users using:
 
 ```twig
+{% raw %}
 <a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>
+{% endraw %}
 ```
 
 ### External link in a field via an entity reference
