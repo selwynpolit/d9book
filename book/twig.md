@@ -1110,6 +1110,7 @@ You can also use:
 ### Conditionals
 
 ```twig
+{% raw %}
 {% if rows %}
   {{rows}}
 {% elseif empty %}
@@ -1121,6 +1122,7 @@ You can also use:
 {% endif %}
 
 {%if var is even %}
+{% endraw %}
 ```
 
 
