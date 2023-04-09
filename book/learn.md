@@ -11,6 +11,7 @@
   - [Drupal Training](#drupal-training)
   - [Keep up with Drupal news](#keep-up-with-drupal-news)
   - [Drupal Podcasts](#drupal-podcasts)
+  - [Books](#books)
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-learn)
 
@@ -66,6 +67,15 @@ Other great sources of news are:
 
 * Mike Anello has a Drupal Easy podcast at <https://www.drupaleasy.com/podcast>
 
+
+## Books
+There are many books about Drupal that are worth checking out.
+* Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023.  <https://www.packtpub.com/product/drupal-10-development-cookbook-third-edition/9781803234960>
+* Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020. <https://www.packtpub.com/product/drupal-9-module-development-third-edition/9781800204621>
+* Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022 <https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development>
+* Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022 <https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development>
+* Check out more older Drupal books from Packt publishing at <https://subscription.packtpub.com/search?query=Drupal>
+* Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a valuable resource. <https://drupalbook.org/>
 
 ---
 
