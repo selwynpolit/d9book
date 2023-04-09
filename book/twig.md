@@ -434,7 +434,11 @@ Published: 2020-11-20
 
 Updated/changed
 
-`{% set post_date = node.changedtime %}`
+```twig
+{% raw %}
+{% set post_date = node.changedtime %}
+{% endraw %}
+```
 
 Created (same as authored on date on node edit form):
 
@@ -516,12 +520,14 @@ Day of the week
 Hide the end date if it is the same as the start date
 
 ```twig
+{% raw %}
 {% set start = node.field_when.0.value|date('l F j, Y') %}
 {% set end = node.field_when.0.end_value|date('l F j, Y') %}
   <p class="date"> {{ start }}</p>
 {% if not start is same as(end) %}
   <p class="date"> {{ end }}</p>
 {% endif %}
+{% endraw %}
 ```
 
 ### Entity Reference field
@@ -843,11 +849,13 @@ More useful examples at <https://www.drupal.org/docs/8/theming-drupal-8/using-at
 such as:
 
 ```twig
+{% raw %}
 {% set classes = ['red', 'green', 'blue'] %}
 {% set my_id = 'specific-id' %}
 {% set image_src = 'https://www.drupal.org/files/powered-blue-135x42.png' %}
 
 <img{{ attributes.addClass(classes).removeClass('green').setAttribute('id', my_id).setAttribute('src', image_src) }}>
+{% endraw %}
 ```
 
 Which outputs the following:
@@ -939,6 +947,7 @@ This loads all the authors and adds "and" between them except for the
 last one
 
 ```twig
+{% raw %}
 <div>
   {%- if content.author -%}
       by
@@ -952,6 +961,7 @@ last one
     {%- endfor -%}
   {%- endif -%}
 </div>
+{% endraw %}
 ```
 Or commas:
 
@@ -1006,7 +1016,9 @@ This would typically be used when passing a series of node id\'s to a
 view to filter its output.
 
 ```twig
+{% raw %}
 {% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}
+{% endraw %}
 ```
 This produces 1+2+3+4
 
@@ -1020,6 +1032,7 @@ In
 `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I need to loop through a bunch of entity reference values and build a string of id+id+id... (with an undefined number) so
 
 ```twig
+{% raw %}
 {% set blah = '' %}
 {% for item in node.field_ref_unit %}
   {% set blah = blah ~ item.target_id %}
@@ -1031,6 +1044,7 @@ In
 <div>blah:{{ blah }}</div>
 <div>node id: {{ node.id }}</div>
 {{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}
+{% endraw %}
 ```
 
 ### IF OR
@@ -1096,6 +1110,7 @@ You can also use:
 e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlight-card.html.twig`
 
 ```twig
+{% raw %}
 {% set showCat = TRUE %}
 {% if view_mode == 'overview' or view_mode == 'home' %}
   {% set showCat = FALSE %}
@@ -1116,6 +1131,7 @@ e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlig
     </div>
   </a>
 </div>
+{% endraw %}
 ```
 
 ### Test if a paragraph is empty using striptags
@@ -1140,6 +1156,7 @@ Or this much simpler version which also comes from the same issue page above (it
 For complicated strings, you have to use the Twig [same as](https://twig.symfony.com/doc/3.x/tests/sameas.html) function because using `if x == y` doesn't work. See the commented out part where I tried `==`.
 
 ```twig
+{% raw %}
 {% set start = node.field_when.0.value|date('l F j, Y') %}
 {% set end = node.field_when.0.end_value|date('l F j, Y') %}
 <p class="date"> {{ start }}</p>
@@ -1147,6 +1164,7 @@ For complicated strings, you have to use the Twig [same as](https://twig.symfony
 {% if not start is same as(end) %}
   <p class="date"> {{ end }}</p>
 {% endif %}
+{% endraw %}
 ```
 
 ### Include other templates as partials
@@ -1206,10 +1224,12 @@ https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views
 Check if View has Results
 
 ```twig
+{% raw %}
 {% set view = drupal_view_result('related', 'block_1')|length %}
 {% if view > 0 %}
   {{ drupal_view('related', 'block_1') }}
 {% endif %}
+{% endraw %}
 ```
 
 ### If view results empty, show a different view
@@ -1238,6 +1258,7 @@ From
 `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--upcoming-events.html.twig`
 
 ```twig
+{% raw %}
 {# if there is a second category, pass it separated by + #}
 {% if paragraph.field_ref_tax.1.target_id %}
   {% set args = paragraph.field_ref_tax.1.target_id~'+'~paragraph.field_ref_tax.1.target_id  %}
@@ -1246,6 +1267,7 @@ From
 {% else %}
   {{ drupal_view('events', 'embed_2', paragraph.field_ref_tax.0.target_id) }}
 {% endif %}
+{% endraw %}
 ```
 
 Or even nicer, we could loop thru an unlimited number of terms, build a string of them to pass to a view.
@@ -1254,6 +1276,7 @@ From:
 `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
 
 ```twig
+{% raw %}
 {# Figure out parameters to pass to view for news items #}
 {% set params = '' %}
 {% for item in paragraph.field_ref_tax_two %}
@@ -1263,6 +1286,7 @@ From:
   {% endif %}
 {% endfor %}
 params: {{ params }}
+{% endraw %}
 ```
 
 
@@ -1450,7 +1474,9 @@ This would typically be used when passing a series of node id\'s to a
 view to filter its output.
 
 ```twig
+{% raw %}
 {% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}
+{% endraw %}
 ```
 This produces 1+2+3+4
 
@@ -1460,6 +1486,7 @@ In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I ne
  string of id+id+id... (with an undefined number) so
 
 ```twig
+{% raw %}
 {% set blah = '' %}
 {% for item in node.field_ref_unit %}
   {% set blah = blah ~ item.target_id %}
@@ -1472,6 +1499,7 @@ In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I ne
 <div>blah:{{ blah }}</div>
 <div>node id: {{ node.id }}</div>
 {{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}
+{% endraw %}
 ```
 
 ## Twig filters and functions
@@ -1647,6 +1675,7 @@ least one of the quotes like this \\\" (backslash and  double quote)
 The entire piece of debug code is reproduced below:
 
 ```twig
+{% raw %}
 <div>
   {% for filter in filter_data %}
     {% if filter.type == 'office' %}
@@ -1661,6 +1690,7 @@ The entire piece of debug code is reproduced below:
     {% endif %}
   {% endfor %}
 </div>
+{% endraw %}
 ```
 
 The real implementation is shown below:
@@ -1671,6 +1701,7 @@ See the line below that sets office_type = ...
 
 
 ```twig
+{% raw %}
 {% for item in filter.info %}
   {% set selected = '' %}
   {% if item.selected is defined and item.selected %}
@@ -1682,6 +1713,7 @@ See the line below that sets office_type = ...
   {% endif %}
   <option value="/search-news?{{ filter.type }}={{ item.value }} {{ office_type }}" {{ selected }}>{{ item.title }}</option>
 {% endfor %}
+{% endraw %}
 ```
 
 ## Troubleshooting
