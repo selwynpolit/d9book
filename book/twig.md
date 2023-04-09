@@ -821,9 +821,11 @@ inside-marthe/themes/custom/dp/templates/content/node\--video-detail.html.twig I
 Not empty:
 
 ```twig
+{% raw %}
 {% if content.field_myfield is not empty %}
   {# Do something here #}
 {% endif %}
+{% endraw %}
 ```
 
 ### Hide if there is no image present 
@@ -831,9 +833,11 @@ Not empty:
 If there is an image (and it is renderable) display the image
 
 ```twig
+{% raw %}
 {% if content.field_teacher_commentary_image|render %}
   <img src="{{file_url( content.field_teacher_commentary_image['#items'].entity.uri.value ) }}" width="420" height="255" alt="" class="left">
 {% endif %}
+{% endraw %}
 ```
 
 ### Attributes
@@ -858,11 +862,9 @@ e.g.
 ```
 Produces:
 
->\<article data-history-node-id=\"3224\"
-data-quickedit-entity-id=\"node/3224\" role=\"article\"
-class=\"contextual-region node node\--type-article node\--promoted
-node\--view-mode-full\" about=\"/burger1\" typeof=\"schema:Article\"
-[my-name=\"Selwyn\"]{.mark} data-quickedit-entity-instance-id=\"0\"\>
+```html
+<article data-history-node-id="3224" data-quickedit-entity-id="node/3224" role="article" class="contextual-region node node--type-article node--promoted node--view-mode-full" about="/burger1" typeof="schema:Article" my-name="Selwyn" data-quickedit-entity-instance-id="0">
+```
 
 More useful examples at <https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates>
 such as:
