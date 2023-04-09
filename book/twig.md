@@ -998,6 +998,7 @@ From
 `org/docroot/themes/custom/org/templates/field/field--node--field-categories--opinion.html.twig`
 
 ```twig
+{% raw %}
 {% if label_hidden %}
   {% if multiple %}
       {% for item in items %}
@@ -1014,11 +1015,13 @@ From
       {%if loop.index > 1 %}, {% endif %}{{ item.content }}
     {% endfor %}
 {% endif %}
+{% endraw %}
 ```
 
 ## Add Javascript into a twig template
 
 ```twig
+{% raw %}
 <script>
   function hidePRSnippet(config, data) {
     if (data.average_rating < 3.5 && data.average_rating !== 0) {
@@ -1034,6 +1037,7 @@ From
   }
   POWERREVIEWS.display.render(powerReviewsConfig);
 </script>
+{% raw %}
 ```
 
 
