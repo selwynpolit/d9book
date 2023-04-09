@@ -918,19 +918,25 @@ For an unpublished node, wrap this class around the word unpublished
 Absolute:
 
 ```twig
+{% raw %}
 <a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>
+{% endraw %}
 ```
 
 Relative (see path vs url):
 
 ```twig
+{% raw %}
 <a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>
+{% endraw %}
 ```
 
 Could also link to users using
 
 ```twig
+{% raw %}
 <a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>
+{% endraw %}
 ```
 
 ### Loop.index in a paragraph twig template
@@ -941,6 +947,7 @@ From:
 Notice the use of `loop.index` to only output this for the first item
 
 ```twig
+{% raw %}
 {% for item in items %}
   {% if loop.index == 1 %}
     <div class="cell medium-6">
@@ -948,6 +955,7 @@ Notice the use of `loop.index` to only output this for the first item
     </div>
   {% endif %}
 {% endfor %}
+{% endraw %}
 ```
 ### Loop thru an array of items with a separator
 
