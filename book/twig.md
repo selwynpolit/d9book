@@ -1120,7 +1120,8 @@ You can also use:
 
 {% endif %}
 
-{%if var is even %}```
+{%if var is even %}
+```
 
 
 e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlight-card.html.twig`
@@ -1347,7 +1348,7 @@ e.g. `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/views/
 
 You can inject variables using `hook_preprocess_views_view`() eg.
 
-from `txg/web/themes/custom/txglobal/txg.theme`
+from `txg/web/themes/custom/txg/txg.theme`
 
 function txg_preprocess_views_view(&$variables) {
   $view = $variables['view'];
