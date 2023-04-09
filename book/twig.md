@@ -340,6 +340,7 @@ From:
 dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph\--news-preview.html.twig
 
 ```twig
+{% raw %}
 {# Figure out parameters to pass to view for news items #}
 {% set params = '' %}
 {% for item in paragraph.field_ref_tax_two %}
@@ -349,6 +350,7 @@ dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph\--news-prev
   {% endif %}
 {% endfor %}
 params: {{ params }}
+{% endraw %}
 ```
 
 This will output something like: 5+6+19
