@@ -1534,6 +1534,7 @@ also <https://twig.symfony.com/doc/3.x/> for filters and functions
 Here are some examples.  A complete list is included below:
 
 ```twig
+{% raw %}
 {{ <span>Hello I am an html twig, but my html will be stripped</span> | striptags }}
 
 {{'welcome' | upper }}
@@ -1543,6 +1544,7 @@ Here are some examples.  A complete list is included below:
 {%filter upper %}
  This test becomes uppercase
 {% endfilter %}
+{% endraw %}
 ```
 
 Filters
