@@ -577,6 +577,7 @@ Dump category:
 Example block (block---system-powered-by-block.html.twig -- from a custom theme)
 
 ```twig
+{% raw %}
 {%
   set classes = [
     'block',
@@ -595,6 +596,7 @@ Example block (block---system-powered-by-block.html.twig -- from a custom theme)
   {% endblock %}
   also powered by <a href="http://austinprogressivecalendar.com">Austin Progressive Calendar</a>
 </div>
+{% endraw %}
 ```
 
 ### Render a list created in the template_preprocess_node()
