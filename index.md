@@ -38,6 +38,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Routes and Controllers](book/routes.html)
 - [Services and Dependency injection](book/services.html)
 - [State API, Tempstore and UserData (Interesting flavors of storage)](book/state.md)
+- [Twig - Formatting and controlling your output](book/twig.md)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.md)
 - [PHPUnit and Drupal Test Traits](book/dtt.md)
 - [Taxonomy](book/taxonomy.md)
@@ -57,7 +58,6 @@ If you are inspired, please be a part of this project by contributing your own b
 - Paragraphs
 - Security and Preventing attacks
 - Single sign on
-- Twig
 - Views
 
 ----------
