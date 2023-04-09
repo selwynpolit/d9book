@@ -28,6 +28,7 @@
 
 * Phil Norton of #!code writes some amazing articles at <https://www.hashbangcode.com/> and has useful code snippets at <https://www.hashbangcode.com/snippets>
 * Martin Anderson-Clutz's sandbox for a wide variety of fantastic Drupal, Acquia and module information at <https://www.mandclu.com/>. He is also the author and maintainer of the <a href="https://www.drupal.org/project/smart_date">Smart Date Module</a> and about 8 bazillion other modules.
+* Matt Glaman posts regularly about fascinating aspects of Drupal (and is the author of existing and upcoming Drupal books).  Keep up with him at <https://mglaman.dev/>
 
 
 ## Pay videos
