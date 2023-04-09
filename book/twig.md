@@ -1256,11 +1256,13 @@ Check if View has Results
 In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` we show units (the first view) but if there aren't any, show `aofs` (the second view.)
 
 ```twig
+{% raw %}
 {% if drupal_view_result('related_news_for_news_story', 'block_unit', node.id, unit_ids) %}
   {{ drupal_view('related_news_for_news_story', 'block_unit', node.id, unit_ids) }}
 {% elseif drupal_view_result('related_news_aof', 'block_aof', node.id, aof_ids) %}
   {{ drupal_view('related_news_aof', 'block_aof', node.id, aof_ids) }}
 {% endif %}
+{% endraw %}
 ```
 
 ### Selectively pass 1 termid or 2 to a view as the contextual filter
