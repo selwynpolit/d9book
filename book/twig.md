@@ -1916,8 +1916,10 @@ So here I compare a field value so I have to use striptags to remove
 all html:
 
 ```twig
+{% raw %}
 {% if content.field_landing_opinion_page_type|render|striptags|trim == 'ORD' %}
   {{ drupal_block('opinion_landing', wrapper=false) }}
+  {% endraw %}
 ```
 
 so use the combination of render \| striptags \| trim
