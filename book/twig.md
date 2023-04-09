@@ -1082,9 +1082,10 @@ In
 
 ### IF OR
 
-If there is a value in `field_event_date` or `field_display_date`, then display it/them
+If there is a value in `field_event_date` or `field_display_date`, then display it/them.
 
 ```twig
+{% raw %}
 <div{{ content_attributes.addClass('teaser__content') }}>
   {% if content.field_event_date or content.field_display_date %}
     <div class="teaser__date">
@@ -1092,6 +1093,7 @@ If there is a value in `field_event_date` or `field_display_date`, then display 
       {{ content.field_display_date|render|striptags }}
     </div>
   {% endif %}
+  {% endraw %}
 ```
 
 ### Test if a formatted text field is empty
@@ -1099,9 +1101,11 @@ If there is a value in `field_event_date` or `field_display_date`, then display 
 To check a body field or other formatted text field, use \|render to render it first.
 
 ```twig
+{% raw %}
 {% if content.body|render  %}
   <li><a class="scroll" href="#section-overview">Overview</a></li>
 {% endif %}
+{% endraw %}
 ```
 
 ### Test empty variable
@@ -1111,16 +1115,22 @@ test if the attributes variable is not set. From
 <https://www.drupal.org/project/drupal/issues/2558079>
 
 ```twig
+{% raw %}
 {% if attributes is empty %}
-{{ link(item.title, item.url) }}
+  {{ link(item.title, item.url) }}
 {%  else %}
   {{ link(item.title, item.url, attributes) }}
 {% endif %}
+{% endraw %}
 ```
 You can also use:
 
 ```twig
+{% raw %}
 {% if blah is not empty %}
+  {{content.name}}
+{% endif %}
+{% endraw %}
 ```
 
 
