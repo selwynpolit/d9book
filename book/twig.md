@@ -137,7 +137,9 @@ Twig can do things that PHP can't such as whitespacing control, sandboxing, auto
 Double curly braces are used to output a variable. E.g.
 
 ```twig
+{% raw %}
 {{ content.title }}
+{% endraw %}
 ```
 
 Brace and percent are used to put logic into Twig templates e.g. if, then, else or for loops. E.g.
