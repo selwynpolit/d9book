@@ -177,11 +177,11 @@ Note. If you don't see a field output for a node, try specifying the preface `no
 
 Field specific template are usually very simple and refer to 
 ```twig
-{% raw %}{{items}}{% endraw %}
+{% raw %}{{ items }}{% endraw %}
 ```
  and 
  ```twig
- {% raw %} {{item.content}} {% endraw %}
+ {% raw %}{{ item.content }} {% endraw %}
  ```
 
 e.g. from txg/web/themes/contrib/zurb_foundation/templates/page.html.twig
@@ -371,23 +371,28 @@ This will output something like: 5+6+19
 
 ### Body
 
-`{{ content.body }}`
-
+```twig
+{% raw %}{{ content.body }}{% endraw %}
+```
 Or
 
-`{{ node.body.value }}`
+```twig
+{% raw %}{{ node.body.value }}{% endraw %}
+```
+
 
 And for summary
 
-`{{ node.body.summary | raw }}`
-
+```twig
+{% raw %}{{ node.body.summary | raw }}{% endraw %}
+```
 ### Multi-value fields
 
-Fields that you preface with \"node.\" can also handle an index (the 0
-below) i.e. to indicate the first value in a multi-value field, 1 to
-indicate the second etc.
+Fields that you preface with `node.` can also handle an index (the 0 below) i.e. to indicate the first value in a multi-value field, 1 to indicate the second etc.
 
-`{{ node.field_iso_n3_country_code.0.value }}`
+```twig
+{% raw %}{{ node.field_iso_n3_country_code.0.value }}{% endraw %}
+```
 
 ### Fields with HTML
 
@@ -397,20 +402,20 @@ aware this has security considerations which you can mitigate using
 filters:
 
 ```twig
-<div>How to order: {{ how_to_order|raw }}</div>
+{% raw %}<div>How to order: {{ how_to_order|raw }}</div>{% endraw %}
 ```
 
 And maybe you want to only allow \<b\> tags
 
 ```twig
-{{ word|striptags('<b>')|raw }}
+{% raw %}{{ word|striptags('<b>')|raw }}{% endraw %}
 ```
 
 Or several tags. In this case \<b\>\<a\>\<pre\>
 
 
 ```twig
-{{ word|striptags('<b>,<a>,<pre>')|raw }}
+{% raw %}{{ word|striptags('<b>,<a>,<pre>')|raw }}{% endraw %}
 ```
 
 ### The date/time a node is published, updated or created
@@ -419,8 +424,7 @@ Each of these calls return a datetime value in string form which can be
 massaged by the twig date() function for formatting.
 
 ```twig
-{% raw %}
-<pre>
+{% raw %}<pre>
 Created:   {{ node.created.value }}
 Created:   {{ node.createdtime }}
 Created:   {{ node.created.value|date('Y-m-d') }}
@@ -431,8 +435,7 @@ Modified:  {{ node.changed.value|date('Y-m-d') }}
 
 Published: {{ node.published_at.value }}
 Published: {{ node.published_at.value|date('Y-m-d') }}
-</pre>
-{% endraw %}
+</pre>{% endraw %}
 ```
 
 Here is the output you might see. Note. The first published is apparently blank because I didn't use the drupal scheduling to publish the node (maybe?) and the second one seems to have defaulted to today's date.
@@ -451,35 +454,34 @@ Published: 2020-11-20
 Updated/changed
 
 ```twig
-{% raw %}
-{% set post_date = node.changedtime %}
-{% endraw %}
+{% raw %}{% set post_date = node.changedtime %}{% endraw %}
 ```
 
 Created (same as authored on date on node edit form):
 
-`{{ node.createdtime }}`
+```twig
+{% raw %}{{ node.createdtime }}{% raw %}
+```
 
 And pretty formatted like Sep 2, 2023
 
-`{{ node.createdtime\|date('M d, Y') }}`
+```twig
+{% raw %}{{ node.createdtime\|date('M d, Y') }}{% raw %}
+```
 
 Also
 
 
 ```twig
-{% raw %}
-<div class="date">Date posted: {{ node.getCreatedTime|date('m/d/Y') }}</div>
-<div class="date">Date posted: {{ node.getChangedTime|date('m/d/Y') }}</div>
-{% endraw %}
+{% raw %}<div class="date">Date posted: {{ node.getCreatedTime|date('m/d/Y') }}</div>
+<div class="date">Date posted: {{ node.getChangedTime|date('m/d/Y') }}</div>{% endraw %}
 ```
-Node published date
+
+Node published date:
 
 ```twig
-{% raw %}
-Date published: {{ _context.node.published_at.value }}
-Date published: {{ node.published_at.value }}
-{% endraw %}
+{% raw %}Date published: {{ _context.node.published_at.value }}
+Date published: {{ node.published_at.value }}{% endraw %}
 ```
 
 
