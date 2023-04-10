@@ -201,7 +201,18 @@ whereas node templates expect:
 
 Note. If you don't see a field output for a node, try specifying `node.` instead of `content.`.
 
-Field specific template are usually very simple and refer to `{{items}}` and `{{item.content}}`
+Field specific template are usually very simple and refer to 
+```twig
+{% raw %}
+{{items}}
+{% endraw %}
+```
+ and 
+ ```twig
+ {% raw %}
+ {{item.content}}
+ {% endraw %}
+ ```
 
 e.g. from txg/web/themes/contrib/zurb_foundation/templates/page.html.twig
 
@@ -240,10 +251,25 @@ for the node template.
 {% endraw %}
 ```
 
-Here is the same basic stuff (as above) in a node template at
-txg/web/themes/custom/txg/templates/content/node\--event.html.twig
+Here is the same basic stuff (as above) but implemented in the node template at `txg/web/themes/custom/txg/templates/content/node--event.html.twig`:
 
-Note. The `{{ node.label }}` becomes `{{ label }}` and `{{ node.field_for }}` becomes `{{ content.field_for }}`.
+Note. The 
+```twig
+{% raw %}
+{{ node.label }}
+{% endraw %}
+```
+ becomes 
+ ```twig
+ {{ label }}
+ ``` and 
+ ```twig
+ {{ node.field_for }}
+ ``` 
+ becomes 
+ ```twig
+ {{ content.field_for }}
+ ```
 
 ```twig
 {% raw %}
