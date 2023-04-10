@@ -412,6 +412,7 @@ Each of these calls return a datetime value in string form which can be
 massaged by the twig date() function for formatting.
 
 ```twig
+{% raw %}
 <pre>
 Created:   {{ node.created.value }}
 Created:   {{ node.createdtime }}
@@ -424,6 +425,7 @@ Modified:  {{ node.changed.value|date('Y-m-d') }}
 Published: {{ node.published_at.value }}
 Published: {{ node.published_at.value|date('Y-m-d') }}
 </pre>
+{% endraw %}
 ```
 
 Here is the output you might see. Note. The first published is apparently blank because I didn't use the drupal scheduling to publish the node (maybe?) and the second one seems to have defaulted to today's date.
