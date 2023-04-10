@@ -253,30 +253,7 @@ for the node template.
 
 Here is the same basic stuff (as above) but implemented in the node template at `txg/web/themes/custom/txg/templates/content/node--event.html.twig`:
 
-Note. The 
-```twig
-{% raw %}
-{{ node.label }}
-{% endraw %}
-```
- becomes 
- ```twig
- {% raw %}
- {{ label }}
- {% endraw %}
-  ``` 
- and 
- ```twig
- {% raw %}
- {{ node.field_for }}
- {% endraw %}
- ``` 
- becomes 
- ```twig
- {% raw %}
- {{ content.field_for }}
- {% endraw %}
- ```
+>Note. That `node.label` becomes `label` and `node.field_for` becomes `content.field_for`.
 
 ```twig
 {% raw %}
@@ -303,7 +280,7 @@ Note. The
 
 ### Display fields or variables
 
-Note. Using `node.field_myfield` will bypass the rendering and display any markup in the field. Using `content.field_myfield` uses the rendering system and is the preferred way to display your content.
+Using `node.field_myfield` will bypass the rendering and display any markup in the field. Using `content.field_myfield` uses the rendering system and is the preferred way to display your content.
 
 This will be all the content rendered
 
