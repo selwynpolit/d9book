@@ -292,14 +292,19 @@ This will display all the content rendered
 
 ### Node Title with and without a link
 
-Render node title (or label) (with markup -- so it may include \<span\>
-tags)
+Render node title (or label) (with markup -- so it may include \<span\> tags)
 
-`{{ label }}`
+```twig
+{% raw %}
+{{ label }}
+{% endraw %}
+```
 
 Render node label (without markup -- no html in this version)
 
-`{{ node.label }}`
+```twig
+{% raw %}{{ node.label }}{% endraw %}
+```
 
 Render link to node
 
