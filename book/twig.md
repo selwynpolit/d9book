@@ -176,19 +176,27 @@ There is usually one `page.tpl.php` and *multiple* node templates. One node temp
 
 In the `page.html.twig`, you can refer to variables as 
 ```twig
+{% raw %}
 {{ page.content }}
+{% endraw %}
 ``` 
 or 
 ```twig
+{% raw %}
 {{ node.label }}
+{% endraw %}
 ``` 
-whereas node templates expect 
+whereas node templates expect:
 ```twig
+{% raw %}
 {{ content.field_image }}
+{% endraw %}
 ```
  or
  ```twig
+ {% raw %}
  {{ node.field_myfield }}
+ {% endraw %}
  ```
 
 Note. If you don't see a field output for a node, try specifying `node.` instead of `content.`.
