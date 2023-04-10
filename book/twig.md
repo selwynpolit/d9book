@@ -23,64 +23,6 @@
     - [Format a date field](#format-a-date-field)
     - [Smart date field formatting](#smart-date-field-formatting)
     - [Entity Reference field](#entity-reference-field)
-    - [Entity reference destination content](#entity-reference-destination-content)
-    - [Taxonomy term](#taxonomy-term)
-    - [Render a block](#render-a-block)
-    - [Render a list created in the template\_preprocess\_node()](#render-a-list-created-in-the-template_preprocess_node)
-    - [Links](#links)
-    - [Links to other pages on site](#links-to-other-pages-on-site)
-    - [Link to a user using user id](#link-to-a-user-using-user-id)
-    - [External link in a field via an entity reference](#external-link-in-a-field-via-an-entity-reference)
-    - [Render an internal link programatically](#render-an-internal-link-programatically)
-    - [Render an image with an image style](#render-an-image-with-an-image-style)
-    - [Hide if there is no content in a field or image](#hide-if-there-is-no-content-in-a-field-or-image)
-    - [Hide if there is no image present](#hide-if-there-is-no-image-present)
-    - [Attributes](#attributes)
-    - [Output the content but leave off the field\_image](#output-the-content-but-leave-off-the-field_image)
-    - [Add a class](#add-a-class)
-    - [Add a class conditionally](#add-a-class-conditionally)
-    - [Links to other pages on site](#links-to-other-pages-on-site-1)
-    - [Loop.index in a paragraph twig template](#loopindex-in-a-paragraph-twig-template)
-    - [Loop thru an array of items with a separator](#loop-thru-an-array-of-items-with-a-separator)
-  - [Add Javascript into a twig template](#add-javascript-into-a-twig-template)
-  - [Control/Logic](#controllogic)
-    - [Concatenate values into a string with join](#concatenate-values-into-a-string-with-join)
-    - [Include partial templates](#include-partial-templates)
-    - [Loop through entity reference items](#loop-through-entity-reference-items)
-    - [IF OR](#if-or)
-    - [Test if a formatted text field is empty](#test-if-a-formatted-text-field-is-empty)
-    - [Test empty variable](#test-empty-variable)
-    - [Conditionals (empty, defined, even)](#conditionals-empty-defined-even)
-    - [Test if a paragraph is empty using striptags](#test-if-a-paragraph-is-empty-using-striptags)
-    - [Comparing strings](#comparing-strings)
-    - [Include other templates as partials](#include-other-templates-as-partials)
-    - [Check if an attribute has a class](#check-if-an-attribute-has-a-class)
-    - [Remove an attribute](#remove-an-attribute)
-    - [Convert attributes to array](#convert-attributes-to-array)
-  - [Views](#views)
-    - [Render a view with contextual filter](#render-a-view-with-contextual-filter)
-    - [Count how many rows returned from a view](#count-how-many-rows-returned-from-a-view)
-    - [If view results empty, show a different view](#if-view-results-empty-show-a-different-view)
-    - [Selectively pass 1 termid or 2 to a view as the contextual filter](#selectively-pass-1-termid-or-2-to-a-view-as-the-contextual-filter)
-    - [Views templates](#views-templates)
-    - [Inject variables](#inject-variables)
-    - [Concatenate values into a string with join](#concatenate-values-into-a-string-with-join-1)
-    - [Loop through entity reference items](#loop-through-entity-reference-items-1)
-  - [Twig filters and functions](#twig-filters-and-functions)
-  - [Twig Tweak](#twig-tweak)
-    - [Display a block with twig\_tweak](#display-a-block-with-twig_tweak)
-    - [Display filter form block](#display-filter-form-block)
-    - [Embed view in twig template](#embed-view-in-twig-template)
-    - [Some tricky quotes magic](#some-tricky-quotes-magic)
-  - [Troubleshooting](#troubleshooting)
-    - [Enable Twig debugging output in source](#enable-twig-debugging-output-in-source)
-    - [Debugging - Dump a variable](#debugging---dump-a-variable)
-    - [Dump taxonomy reference field](#dump-taxonomy-reference-field)
-    - [Using kint or dump to display variable in a template](#using-kint-or-dump-to-display-variable-in-a-template)
-    - [502 bad gateway error](#502-bad-gateway-error)
-    - [Views error](#views-error)
-    - [Striptags (when twig debug info causes if to fail)](#striptags-when-twig-debug-info-causes-if-to-fail)
-  - [Reference](#reference)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-twig)
@@ -484,4 +426,93 @@ Node published date:
 Date published: {{ node.published_at.value }}{% endraw %}
 ```
 
+### Format a date field
 
+Use the field's format settings; include wrappers. This example includes wrappers.
+
+```twig
+{% raw %}{{ content.field_blog_date }}{% endraw %}
+```
+
+The examples below do not include wrappers. 
+
+Use the field's format settings. This will use the format defined in `Content type » Manage Displays »Your View Mode`.
+
+```twig
+{% raw %}{{ content.field_blog_date.0 }}{% endraw %}
+```
+
+Using Twig date filter and a defined Drupal date format
+
+```twig
+{% raw %}{{ node.field_blog_date.value|date('U')|format_date('short_mdyyyy') }}{% endraw %}
+```
+
+Use Twig date filter
+
+```twig
+{% raw %}{{ node.field_blog_date.value|date('n/j/Y') }}{% endraw %}
+```
+
+
+### Smart date field formatting
+
+When using the [smart date](https://www.drupal.org/project/smart_date) module, dates are stored as timestamps so you have to use the twig date function to format them. If you just put this in your template:
+
+`{{ content.field_when }}`
+
+the output will include whichever formatting you specify in Drupal. While I assume there is a way to pass a [smart date](https://www.drupal.org/project/smart_date) formatting string to twig, I haven\'t discovered it yet. Here are ways to format a [smart date](https://www.drupal.org/project/smart_date).
+
+Specify the index (the 0 indicating the first value, or 1 for the second) e.g. node.field.0.value and pipe the twig [date](https://twig.symfony.com/doc/3.x/filters/date.html) function  for formatting:
+
+Date as in July 18, 2023
+```twig
+{% raw %}{{ node.field_when.0.value|date('F j, Y') }}{% endraw %}
+```
+
+
+End date
+```twig
+{% raw %}{{ node.field_when.0.end_value|date('F j, Y') }}{% endraw %}
+```
+
+
+Timezone as in America/Chicago
+
+```twig
+{% raw %}{{ node.field_when.0.value|date('e') }}{% endraw %}
+```
+
+
+Timezone as in CDT
+```twig
+{% raw %}{{ node.field_when.0.value|date('T') }}{% endraw %}
+```
+
+
+Day of the week
+```twig
+{% raw %}{{ node.field_when.0.value|date('l') }} {# day of week #}{% endraw %}
+```
+
+
+Hide the end date if it is the same as the start date
+
+```twig
+{% raw %}{% set start = node.field_when.0.value|date('l F j, Y') %}
+{% set end = node.field_when.0.end_value|date('l F j, Y') %}
+  <p class="date"> {{ start }}</p>
+{% if not start is same as(end) %}
+  <p class="date"> {{ end }}</p>
+{% endif %}{% endraw %}
+```
+
+### Entity Reference field
+
+If you have an entity reference field such as field_ref_topic (entity reference to topic content) you have to specify the target_id like this. If you have only 1 reference, use the .0, for the second one use .1 and so on.
+
+```twig
+{% raw %}{{ node.field_ref_topic.0.target_id }}{% endraw %}
+```
+
+Note. This will show the node id of the entity reference field. See below to see the content that the entity reference field points to.
