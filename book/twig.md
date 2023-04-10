@@ -350,17 +350,21 @@ In a node template, you can dump specific node fields by prefacing them with `no
 
 These still work fine:
 
-`{{ content.field_yomama }}`
+```twig
+{% raw %}{{ content.field_abc }}{% endraw %}
+```
 
 or
 
-`{{ content.field_ref_topic }}`
+```twig
+{% raw %}{{ node.field_ref_topic }}{% endraw %}
+```
 
-But instead of node, you use `paragraph`:
+But instead of node, you use `paragraph` like this:
 
 ```twig
-termid0: {{ paragraph.field_ref_tax.0.target_id }}
-termid1: {{ paragraph.field_ref_tax.1.target_id }}
+{% raw %}termid0: {{ paragraph.field_ref_tax.0.target_id }}
+termid1: {{ paragraph.field_ref_tax.1.target_id }}{% endraw %}
 ```
 and we get this result if we have selected two terms 13 and 16.
 
@@ -370,9 +374,9 @@ termid1: 16
 To dump a taxonomy reference field for debugging purposes use the code below. The pre tags format it a little nicer than if we don't have them.
 
 ```twig
-<pre>
+{% raw %}<pre>
 {{ dump(paragraph.field_ref_tax.value) }}
-</pre>
+</pre>{% endraw %}
 ```
 
 ### Loop thru paragraph reference fields
