@@ -137,19 +137,15 @@ Twig can do things that PHP can't such as whitespacing control, sandboxing, auto
 Double curly braces are used to output a variable. E.g.
 
 ```twig
-{% raw %}
-{{ content.title }}
-{% endraw %}
+{% raw %}{{ content.title }}{% endraw %}
 ```
 
 Brace and percent are used to put logic into Twig templates e.g. if, then, else or for loops. E.g.
 
 ```twig
-{% raw %}
-{%if content.price is defined %}
+{% raw %}{%if content.price is defined %}
   <h2>Price: {{ content.price }} </h2>
-{% endif %}
-{% endraw %}
+{% endif %}{% endraw %}
 ```
 
 Use brace and pound symbol (hash) for comments e.g.
@@ -160,12 +156,11 @@ Use brace and pound symbol (hash) for comments e.g.
 
 Here are some of the Twig functions that you can use in twig templates: <https://www.drupal.org/docs/8/theming/twig/functions-in-twig-templates> There are lots of them e.g.
 
-```
-file_url($uri)
-link($text, $uri, $attributes)
-path($name, $parameters, $options)
-url($name, $parameters, $options)
-```
+
+- `file_url($uri)`
+- `link($text, $uri, $attributes)`
+- `path($name, $parameters, $options)`
+- `url($name, $parameters, $options)`
 
 And even more Twig fun at <https://twig.symfony.com/doc/3.x/functions/index.html>
 
@@ -174,62 +169,34 @@ And even more Twig fun at <https://twig.symfony.com/doc/3.x/functions/index.html
 
 There is usually one `page.tpl.php` and *multiple* node templates. One node template per content type. Eg. `node-news-story.html.twig`, `node-event.html.twig`. There can also be field specific templates e.g. `web/themes/custom/txg/templates/field/field--field-3-column-links.html.twig`
 
-In the `page.html.twig`, you can refer to variables as 
-```twig
-{% raw %}
-{{ page.content }}
-{% endraw %}
-``` 
-or 
-```twig
-{% raw %}
-{{ node.label }}
-{% endraw %}
-``` 
-whereas node templates expect:
-```twig
-{% raw %}
-{{ content.field_image }}
-{% endraw %}
-```
- or
- ```twig
- {% raw %}
- {{ node.field_myfield }}
- {% endraw %}
- ```
+In the `page.html.twig`, you can refer to variables as `page.content` or `node.label`
 
-Note. If you don't see a field output for a node, try specifying `node.` instead of `content.`.
+whereas node templates expect `content.field_image` or `node.field_myfield`
+
+Note. If you don't see a field output for a node, try specifying the preface `node.` instead of `content.`.
 
 Field specific template are usually very simple and refer to 
 ```twig
-{% raw %}
-{{items}}
-{% endraw %}
+{% raw %}{{items}}{% endraw %}
 ```
  and 
  ```twig
- {% raw %}
- {{item.content}}
- {% endraw %}
+ {% raw %} {{item.content}} {% endraw %}
  ```
 
 e.g. from txg/web/themes/contrib/zurb_foundation/templates/page.html.twig
 
 ```twig
-{% raw %}
-<section>
+{% raw %}<section>
   {{ page.content }}
-</section>
-{% endraw %}
+</section>{% endraw %}
 ```
 
 And from `txg/web/themes/custom/txg/templates/content/page--node--event.html.twig` I accidentally started implementing this in the page template. See below
 for the node template.
 
 ```twig
-{% raw %}
-{{ drupal_field('field_image', 'node') }}
+{% raw %}{{ drupal_field('field_image', 'node') }}
 
 <h1>{{ node.label }}</h1>
 <div>For: {{ node.field_for.0.value }}</div>
@@ -247,8 +214,7 @@ for the node template.
 
 {% if node.field_event_cta_link.0.url %}
   CTA:<div class="button"><a href="{{ node.field_event_cta_link.0.url }}">{{ node.field_event_cta_link.0.title }}</a></div>
-{% endif %}
-{% endraw %}
+{% endif %}{% endraw %}
 ```
 
 Here is the same basic stuff (as above) but implemented in the node template at `txg/web/themes/custom/txg/templates/content/node--event.html.twig`:
@@ -256,8 +222,7 @@ Here is the same basic stuff (as above) but implemented in the node template at 
 >Note. That `node.label` becomes `label` and `node.field_for` becomes `content.field_for`.
 
 ```twig
-{% raw %}
-<h1>{{ label }}</h1>
+{% raw %}<h1>{{ label }}</h1>
 {{ content.field_image }}
 <div>Node: {{ node.id }}</div>
 <div>For: {{ content.field_for }}</div>
@@ -274,8 +239,7 @@ Here is the same basic stuff (as above) but implemented in the node template at 
 
 {% if node.field_event_cta_link.0.url %}
   CTA:<div class="button"> <a href="{{ node.field_event_cta_link.0.url }}">{{ node.field_event_cta_link.0.title }}</a></div>
-{% endif %}
-{% endraw %}
+{% endif %}{% endraw %}
 ```
 
 ### Display fields or variables
@@ -305,12 +269,12 @@ Render node label (without markup -- no html in this version)
 Render link to node
 
 ```twig
-<a href="{{ url }}">{{ label }}</a>
+{% raw %}<a href="{{ url }}">{{ label }}</a>{% endraw %}
 ```
 
 // Or a little more complex..
 ```twig
-<div class="title"><a href="{{ url }}">{{ label }}</a> | <span>{{ content.field_vendor_ref }}</span></div>
+{% raw %}<div class="title"><a href="{{ url }}">{{ label }}</a> | <span>{{ content.field_vendor_ref }}</span></div>{% endraw %}
 ```
 
 ### Fields
@@ -320,7 +284,6 @@ There are many ways to limit things and only show some of the content. Mostly of
 ```twig
 {% raw %}{{ content.field_yomama }}{% endraw %}
 ```
-
 
 or
 
@@ -336,7 +299,7 @@ Any field -- just jam `content.` in front of it
 
 You can also grab node specific fields if `content.` type fields don't do the trick.
 
-In a node template, you can dump specific node fields by prefacing them with `node`:
+In a node template, you can display specific node fields by prefacing them with `node` e.g.:
 
 ```twig
 {% raw %}{{ node.id }}
@@ -348,19 +311,7 @@ In a node template, you can dump specific node fields by prefacing them with `no
 
 ### Paragraph field
 
-These still work fine:
-
-```twig
-{% raw %}{{ content.field_abc }}{% endraw %}
-```
-
-or
-
-```twig
-{% raw %}{{ node.field_ref_topic }}{% endraw %}
-```
-
-But instead of node, you use `paragraph` like this:
+These still work fine: `content.field_abc` or `node.field_ref_topic` but instead of `node`, you preface fields with `paragraph` like this:
 
 ```twig
 {% raw %}termid0: {{ paragraph.field_ref_tax.0.target_id }}
@@ -368,8 +319,10 @@ termid1: {{ paragraph.field_ref_tax.1.target_id }}{% endraw %}
 ```
 and we get this result if we have selected two terms 13 and 16.
 
+```
 termid0: 13
 termid1: 16
+```
 
 To dump a taxonomy reference field for debugging purposes use the code below. The pre tags format it a little nicer than if we don't have them.
 
@@ -384,16 +337,16 @@ To dump a taxonomy reference field for debugging purposes use the code below. Th
 Here we go looping thru all the values in a multi-value reference field.
 
 ```twig
-{% for tax in paragraph.field_ref_tax %}
+{% raw %}{% for tax in paragraph.field_ref_tax %}
   <div>target_id: {{ tax.target_id }}</div>
-{% endfor %}
+{% endfor %}{% endraw %}
 ```
 
 It's the same as outputting these guys:
 
 ```twig
-termid0: {{ paragraph.field_ref_tax.0.target_id }}
-termid1: {{ paragraph.field_ref_tax.1.target_id }}
+{% raw %}termid0: {{ paragraph.field_ref_tax.0.target_id }}
+termid1: {{ paragraph.field_ref_tax.1.target_id }}{% endraw %}
 ```
 and to make this more useful, here we build a string of them to pass to a view.
 
