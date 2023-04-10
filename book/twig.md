@@ -261,14 +261,21 @@ Note. The
 ```
  becomes 
  ```twig
+ {% raw %}
  {{ label }}
- ``` and 
+ {% endraw %}
+  ``` 
+ and 
  ```twig
+ {% raw %}
  {{ node.field_for }}
+ {% endraw %}
  ``` 
  becomes 
  ```twig
+ {% raw %}
  {{ content.field_for }}
+ {% endraw %}
  ```
 
 ```twig
