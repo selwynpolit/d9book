@@ -461,14 +461,18 @@ Also
 
 
 ```twig
+{% raw %}
 <div class="date">Date posted: {{ node.getCreatedTime|date('m/d/Y') }}</div>
 <div class="date">Date posted: {{ node.getChangedTime|date('m/d/Y') }}</div>
+{% endraw %}
 ```
 Node published date
 
-```
+```twig
+{% raw %}
 Date published: {{ _context.node.published_at.value }}
 Date published: {{ node.published_at.value }}
+{% endraw %}
 ```
 
 
