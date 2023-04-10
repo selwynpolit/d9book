@@ -146,7 +146,7 @@ Brace and percent are used to put logic into Twig templates e.g. if, then, else 
 
 ```twig
 {% raw %}
-{%if content.price is defined%}`
+{%if content.price is defined %}
   <h2>Price: {{ content.price }} </h2>
 {% endif %}
 {% endraw %}
@@ -157,9 +157,8 @@ Use brace and pound symbol (hash) for comments e.g.
 ```twig
 {# this section displays the voting details #}
 ```
-Twig functions that you can use in twig templates reference at
-<https://www.drupal.org/docs/8/theming/twig/functions-in-twig-templates>
-There are lots of them e.g.
+
+Here are some of the Twig functions that you can use in twig templates: <https://www.drupal.org/docs/8/theming/twig/functions-in-twig-templates> There are lots of them e.g.
 
 ```
 file_url($uri)
@@ -168,17 +167,31 @@ path($name, $parameters, $options)
 url($name, $parameters, $options)
 ```
 
-Even more twiggy fun at
-<https://twig.symfony.com/doc/3.x/functions/index.html>
+And even more Twig fun at <https://twig.symfony.com/doc/3.x/functions/index.html>
+
 
 ### Which template, which variables?
 
-There is usually one `page.tpl.php` and *multiple* node templates. One node
-template per content type. Eg. `node-news-story.html.twig`, `node-event.html.twig`. There can also be field specific templates e.g. `web/themes/custom/txg/templates/field/field--field-3-column-links.html.twig`
+There is usually one `page.tpl.php` and *multiple* node templates. One node template per content type. Eg. `node-news-story.html.twig`, `node-event.html.twig`. There can also be field specific templates e.g. `web/themes/custom/txg/templates/field/field--field-3-column-links.html.twig`
 
-In the `page.html.twig`, you can refer to variables as `{{ page.content }}` or `{{ node.label }}` whereas node templates expect `{{ content.field_image }}` or `{{ node.field_myfield }}`.
+In the `page.html.twig`, you can refer to variables as 
+```twig
+{{ page.content }}
+``` 
+or 
+```twig
+{{ node.label }}
+``` 
+whereas node templates expect 
+```twig
+{{ content.field_image }}
+```
+ or
+ ```twig
+ {{ node.field_myfield }}
+ ```
 
-Note. If you don't see a field output on the node, try using `node.` instead of `content.`.
+Note. If you don't see a field output for a node, try specifying `node.` instead of `content.`.
 
 Field specific template are usually very simple and refer to `{{items}}` and `{{item.content}}`
 
