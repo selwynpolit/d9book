@@ -136,7 +136,9 @@ Twig can do things that PHP can't such as whitespacing control, sandboxing, auto
 
 Double curly braces are used to output a variable. E.g.
 
-`{{ content.title }}`
+```twig
+{{ content.title }}
+```
 
 Brace and percent are used to put logic into Twig templates e.g. if, then, else or for loops. E.g.
 
@@ -150,8 +152,9 @@ Brace and percent are used to put logic into Twig templates e.g. if, then, else 
 
 Use brace and pound symbol (hash) for comments e.g.
 
+```twig
 {# this section displays the voting details #}
-
+```
 Twig functions that you can use in twig templates reference at
 <https://www.drupal.org/docs/8/theming/twig/functions-in-twig-templates>
 There are lots of them e.g.
