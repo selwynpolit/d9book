@@ -50,7 +50,7 @@
     - [IF OR](#if-or)
     - [Test if a formatted text field is empty](#test-if-a-formatted-text-field-is-empty)
     - [Test empty variable](#test-empty-variable)
-    - [Conditionals](#conditionals)
+    - [Conditionals (empty, defined, even)](#conditionals-empty-defined-even)
     - [Test if a paragraph is empty using striptags](#test-if-a-paragraph-is-empty-using-striptags)
     - [Comparing strings](#comparing-strings)
     - [Include other templates as partials](#include-other-templates-as-partials)
@@ -1134,7 +1134,7 @@ You can also use:
 ```
 
 
-### Conditionals
+### Conditionals (empty, defined, even)
 
 ```twig
 {% raw %}
@@ -1145,10 +1145,13 @@ You can also use:
 {% endif %}
 
 {% if var is defined %}
-
+  {{ content.name}}
 {% endif %}
 
 {%if var is even %}
+  {{ content.name}}
+{% endif %}
+
 {% endraw %}
 ```
 
@@ -1184,17 +1187,20 @@ e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlig
 
 From `/inside-marthe/themes/custom/dp/templates/content/node--video-collection.html.twig`
 
-Normally you wouldn't need the striptags, but when twig debugging is enabled, the render information includes debug tags. See
-https://www.drupal.org/project/drupal/issues/2547559#comment-12103048
+Normally you wouldn't need the striptags, but when twig debugging is enabled, the render information includes debug tags. See https://www.drupal.org/project/drupal/issues/2547559#comment-12103048
 
 ```twig
 {% if content.field_related_lessons|render|striptags|trim is not empty %}
+  {{ content.field_related_lessons}}
+{% endif %}
 ```
 
 Or this much simpler version which also comes from the same issue page above (it doesn't seem to work as well as the version above):
 
 ```twig
 {% if content.field_related_lessons.value %}
+  {{ content.field_related_lessons}}
+{% endif %}
 ```
 
 ### Comparing strings
@@ -1233,6 +1239,8 @@ You can re-use templates. Just put them in the partials directory (you don't hav
 
 `{{ attributes.toArray () }}`
 
+
+
 ## Views
 
 ### Render a view with contextual filter
@@ -1246,7 +1254,7 @@ To use a field value in a view as an argument, using
 {{ drupal_view('map_data_for_a_country', 'block_stats', node.field_iso_n3_country_code.0.value) }}
 ```
 
-Note. Using content.field as a parameter doesn't work because
+>Note. Using content.field as a parameter doesn't work because
 content.fields get rendered so they are usually filled with HTML or
 labels or both. Parameters need to simply be numbers or strings.
 
