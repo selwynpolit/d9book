@@ -282,9 +282,13 @@ Here is the same basic stuff (as above) but implemented in the node template at 
 
 Using `node.field_myfield` will bypass the rendering and display any markup in the field. Using `content.field_myfield` uses the rendering system and is the preferred way to display your content.
 
-This will be all the content rendered
+This will display all the content rendered
 
-`{{ content }}`
+```twig
+{% raw %}
+{{ content }}
+{% endraw %}
+```
 
 ### Node Title with and without a link
 
