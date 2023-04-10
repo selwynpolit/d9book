@@ -23,6 +23,7 @@
     - [Format a date field](#format-a-date-field)
     - [Smart date field formatting](#smart-date-field-formatting)
     - [Entity Reference field](#entity-reference-field)
+    - [Entity reference destination content](#entity-reference-destination-content)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-twig)
@@ -459,9 +460,11 @@ Use Twig date filter
 
 When using the [smart date](https://www.drupal.org/project/smart_date) module, dates are stored as timestamps so you have to use the twig date function to format them. If you just put this in your template:
 
-`{{ content.field_when }}`
+```twig
+{% raw %}{{ content.field_when }}{% endraw %}
+```
 
-the output will include whichever formatting you specify in Drupal. While I assume there is a way to pass a [smart date](https://www.drupal.org/project/smart_date) formatting string to twig, I haven\'t discovered it yet. Here are ways to format a [smart date](https://www.drupal.org/project/smart_date).
+The output will include whichever formatting you specify in Drupal. While I assume there is a way to pass a [smart date](https://www.drupal.org/project/smart_date) formatting string to twig, I haven\'t discovered it yet. Here are ways to format a [smart date](https://www.drupal.org/project/smart_date).
 
 Specify the index (the 0 indicating the first value, or 1 for the second) e.g. node.field.0.value and pipe the twig [date](https://twig.symfony.com/doc/3.x/filters/date.html) function  for formatting:
 
@@ -516,3 +519,31 @@ If you have an entity reference field such as field_ref_topic (entity reference 
 ```
 
 Note. This will show the node id of the entity reference field. See below to see the content that the entity reference field points to.
+
+### Entity reference destination content
+
+If you have an entity reference and you want to display the content from the node that is referenced i.e. if you have a contract with a reference to the vendor node and you want to display information from the vendor node on the contract you can dereference fields in the entity destination:
+
+From `dirt/web/themes/custom/dirt_bootstrap/templates/content/node--contract--vendor-list.html.twig`: 
+
+```twig
+{% raw %}{{ node.field_sf_contract_ref.entity.field_contract_overview.value }}{% endraw %}
+```
+
+Or
+
+```twig
+{% raw %}{{ content.field_sf_contract_ref.entity.field_contract_overview }}{% endraw %}
+```
+
+The field in the contract node is called `field_sf_contract_ref`. The field in the referenced entity is called field_contract_overview. Notice how with the `node.` style, you must specify `.value` at the end.
+
+Here is an example of a taxonomy term.
+
+```twig
+{% raw %}<pre>
+Dump category:
+{{ dump(node.field_ref_tax.entity.label) }}
+</pre>{% endraw %}
+```
+
