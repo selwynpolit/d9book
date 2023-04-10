@@ -285,9 +285,7 @@ Using `node.field_myfield` will bypass the rendering and display any markup in t
 This will display all the content rendered
 
 ```twig
-{% raw %}
-{{ content }}
-{% endraw %}
+{% raw %}{{ content }}{% endraw %}
 ```
 
 ### Node Title with and without a link
@@ -295,9 +293,7 @@ This will display all the content rendered
 Render node title (or label) (with markup -- so it may include \<span\> tags)
 
 ```twig
-{% raw %}
-{{ label }}
-{% endraw %}
+{% raw %}{{ label }}{% endraw %}
 ```
 
 Render node label (without markup -- no html in this version)
@@ -310,8 +306,10 @@ Render link to node
 
 ```twig
 <a href="{{ url }}">{{ label }}</a>
+```
 
 // Or a little more complex..
+```twig
 <div class="title"><a href="{{ url }}">{{ label }}</a> | <span>{{ content.field_vendor_ref }}</span></div>
 ```
 
