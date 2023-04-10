@@ -317,27 +317,34 @@ Render link to node
 
 There are many ways to limit things and only show some of the content. Mostly often you will need to show specific fields. Note. This will include rendered info such as labels etc.
 
-`{{ content.field_yomama }}`
+```twig
+{% raw %}{{ content.field_yomama }}{% endraw %}
+```
+
 
 or
 
-`{{ content.field_ref_topic }}`
+```twig
+{% raw %}{{ content.field_ref_topic }}{% endraw %}
+```
 
-Any old field -- just jam `content.` in front of it
+Any field -- just jam `content.` in front of it
 
-`{{ content.field_intl_students_and_scholars }}`
+```twig
+{% raw %}{{ content.field_intl_students_and_scholars }}{% endraw %}
+```
 
 You can also grab node specific fields if `content.` type fields don't do the trick.
 
 In a node template, you can dump specific node fields by prefacing them with `node`:
 
 ```twig
-{{ node.id }}
+{% raw %}{{ node.id }}
 {{ node.label }}
-
 {{ node.field_date.value }}
-{{ node.field_date.end_value }}
+{{ node.field_date.end_value }}{% endraw %}
 ```
+
 
 ### Paragraph field
 
