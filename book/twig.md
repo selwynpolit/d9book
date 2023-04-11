@@ -29,6 +29,10 @@
     - [Render a list created in the template\_preprocess\_node()](#render-a-list-created-in-the-template_preprocess_node)
     - [Links](#links)
     - [Links to other pages on site](#links-to-other-pages-on-site)
+    - [Link to a user using user id](#link-to-a-user-using-user-id)
+    - [External link in a field via an entity reference](#external-link-in-a-field-via-an-entity-reference)
+    - [Render an internal link programatically](#render-an-internal-link-programatically)
+    - [Render an image with an image style](#render-an-image-with-an-image-style)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-twig)
@@ -557,10 +561,9 @@ Dump category:
 Here is an example of displaying a taxonomy term.
 
 ```twig
-<pre>
-Dump category:
-{{ dump(node.field_ref_tax.entity.label) }}
-</pre>
+{% raw %}<pre>
+Dump category: {{ dump(node.field_ref_tax.entity.label) }}
+</pre>{% endraw %}
 ```
 
 ### Render a block
@@ -689,3 +692,129 @@ See path vs url:
 <a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
 {% endraw %}
 ```
+
+### Link to a user using user id
+
+You can link to users using:
+
+```twig
+{% raw %}
+<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>
+{% endraw %}
+```
+
+### External link in a field via an entity reference
+
+Here we have a node with an entity reference field (`field_sf_contract_ref`) to another entity.
+
+In a preprocess function, you can grab the link. Note, you can just grab the `first()` one. Later on you can see that in the twig template, you can specify the first one with `.0`
+
+From dirt/web/themes/custom/dirt_bootstrap/dirt_bootstrap.theme
+
+```php
+$vendor_url = $node->field_sf_contract_ref->entity->field_vendor_url->first();
+if ($vendor_url) {
+  $vendor_url = $vendor_url->getUrl();
+  if ($vendor_url) {
+    $variables['vendor_url'] = $vendor_url->getUri();
+  }
+}
+```
+
+
+
+
+And in the template we retrieve the URI with `.uri`
+
+```twig
+{% raw %}
+<p><a class="styled-link ext" href="{{ node.field_sf_contract_ref.entity.field_vendor_url.uri }}">Vendor Website</a></p>
+{% endraw %}
+```
+
+Here we check if there is a target value and output that also. E.g.
+`target="_blank"` and also display the title -- this is the anchor
+title as in the words "Vendor Website" below
+
+<a href="https://www.duckduckgo.com">Vendor Website</a></p>
+
+From
+inside-marthe/themes/custom/dp/templates/paragraph/paragraph\--sidebar-product-card.html.twig
+we wrap some stuff in a link:
+
+```twig
+{% raw %}
+<a href="{{content.field_link.0['#url']}}" {% if content.field_link.0['#options']['attributes']['target'] %} target="{{content.field_link.0['#options']['attributes']['target']}}" {% endif %} class="button">{{content.field_link.0['#title']}}
+  {{ content.field_image }}
+  <h2 class="module-header">{{content.field_text}}</h2>
+  {{content.field_text2}}
+</a>
+{% endraw %}
+```
+
+
+And from
+`txg/web/themes/custom/txg/templates/content/node--event--card.html.twig` if there is a url, display the link with the url, otherwise just display the title for the link. I'm not 100% sure this is really valid. Can you put in a title and no link?
+
+```twig
+{% raw %}
+{% if node.field_event_location_link.0.url %}
+    <a href="{{ node.field_event_location_link.0.url }}">{{ node.field_event_location.0.value }}</a>
+{% else %}
+  {{ node.field_event_location.0.value }}
+{% endif %}
+{% endraw %}
+```
+
+
+### Render an internal link programatically
+
+Here we want to render an internal link to a page on our Drupal site (as opposed to a link to another site.) We grab the link in a preprocess function. Extract out the title and the URI.
+
+```php
+$instructions_node = Node::load($order_type_instructions_nid);
+if ($instructions_node) {
+  $order_link = $instructions_node->field_link->first();
+  if ($order_link) {
+    $uri = $order_link->uri;
+    $variables['order_link_title'] = $order_link->title;
+    $order_url = $order_link->getUrl();
+    if ($order_url) {
+      $variables['order_type_link'] = $order_url;
+    }
+  }
+}
+```
+
+
+We can put the pieces in the twig template like this
+
+```twig
+{% raw %}
+<a href="{{ order_type_link }}">{{ order_link_title }}</a>
+{% endraw %}
+```
+### Render an image with an image style
+
+From `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-resource.html.twig`
+
+Here we use sidebar_standard image style
+
+```twig
+{% raw %}
+<aside class="module module--featured" data-interchange="[{{ content.field_image.0['#item'].entity.uri.value | image_style('sidebar_standard') }}, small]">
+{% endraw %}
+```
+
+
+Or for a media field, set the image style on the display mode and use this:
+
+```twig
+{% raw %}
+{{ content.field_banner_image.0 }}
+{% endraw %}
+```
+
+
+
+
