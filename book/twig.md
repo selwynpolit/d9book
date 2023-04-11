@@ -568,11 +568,10 @@ Dump category: {{ dump(node.field_ref_tax.entity.label) }}
 
 ### Render a block
 
-Example block (block---system-powered-by-block.html.twig -- from a custom theme)
+Example block with a machine name of  `block---system-powered-by-block.html.twig` from a custom theme
 
 ```twig
-{% raw %}
-{%
+{% raw %}{%
   set classes = [
     'block',
     'block-' ~ configuration.provider|clean_class,
@@ -589,8 +588,7 @@ Example block (block---system-powered-by-block.html.twig -- from a custom theme)
     {{ content }}
   {% endblock %}
   also powered by <a href="http://austinprogressivecalendar.com">Austin Progressive Calendar</a>
-</div>
-{% endraw %}
+</div>{% endraw %}
 ```
 
 ### Render a list created in the template_preprocess_node()
@@ -612,13 +610,11 @@ function burger_theme_preprocess_node(&$variables) {
 and render it in the `node--article--full.html.twig`
 
 ```twig
-{% raw %}
-<ol>
+{% raw %}<ol>
   {% for burger in burgers %}
   <li>{{ burger['name'] }}</li>
   {% endfor %}
-</ol>
-{% endraw %}
+</ol>{% endraw %}
 ```
 
 ### Links
@@ -635,19 +631,16 @@ This is the simplest way. Just set the display mode to link
 And output the link without a label.
 
 ```twig
-{% raw %}
-{{ content.field_suggest_button }}
-{% endraw %}
+{% raw %}{{ content.field_suggest_button }}{% endraw %}
 ```
 
 
 If you need a little more control you might use this version which allows classes etc. We are adding several classes onto the anchor to make it look like a button. In this case with an internal link, it shows up using the alias of the link i.e. it shows `/contracts` instead of `node/7` when you hover over the link.
 
 ```twig
-{% raw %}
-<p><a class="btn secondary navy centered" href="{{ node.field_suggest_button.0.url }}">{{ node.field_suggest_button.0.title }}</a></p>
-{% endraw %}
+{% raw %}<p><a class="btn secondary navy centered" href="{{ node.field_suggest_button.0.url }}">{{ node.field_suggest_button.0.title }}</a></p>{% endraw %}
 ```
+
 Using `.uri` causes the link (internal only. External links are fine) to show up as `node/7` when you hover over the link.
 
 ```twig
@@ -659,18 +652,14 @@ Using `.uri` causes the link (internal only. External links are fine) to show up
 Don't try this as it won't work:
 
 ```twig
-{% raw %}
-//bad
+{% raw %}//bad
 {{ node.field_suggest_button.url }}.
-//bad
-{% endraw %}
+//bad{% endraw %}
 ```
 Want to use the text from a different field? No problem.
 
 ```twig
-{% raw %}
-<div class="title"><a href="{{ node.field_link.uri }}">{{ node.field_contract_number.value }}</a></div>
-{% endraw %}
+{% raw %}<div class="title"><a href="{{ node.field_link.uri }}">{{ node.field_contract_number.value }}</a></div>{% endraw %}
 ```
 
 ### Links to other pages on site
@@ -678,9 +667,7 @@ Want to use the text from a different field? No problem.
 Absolute link:
 
 ```twig
-{% raw %}
-<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
-{% endraw %}
+{% raw %}<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>{% endraw %}
 ```
 
 Relative link
@@ -688,19 +675,15 @@ Relative link
 See path vs url:
 
 ```twig
-{% raw %}
-<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
-{% endraw %}
+{% raw %}<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>{% endraw %}
 ```
 
 ### Link to a user using user id
 
-You can link to users using:
+You can link to users using the following:
 
 ```twig
-{% raw %}
-<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>
-{% endraw %}
+{% raw %}<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>{% endraw %}
 ```
 
 ### External link in a field via an entity reference
@@ -722,9 +705,7 @@ if ($vendor_url) {
 ```
 
 
-
-
-And in the template we retrieve the URI with `.uri`
+And in the template we retrieve the URI with `.uri`: 
 
 ```twig
 {% raw %}
@@ -736,11 +717,12 @@ Here we check if there is a target value and output that also. E.g.
 `target="_blank"` and also display the title -- this is the anchor
 title as in the words "Vendor Website" below
 
+```html
 <a href="https://www.duckduckgo.com">Vendor Website</a></p>
+```
 
 From
-inside-marthe/themes/custom/dp/templates/paragraph/paragraph\--sidebar-product-card.html.twig
-we wrap some stuff in a link:
+`inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-product-card.html.twig` we wrap some stuff in a link:
 
 ```twig
 {% raw %}
