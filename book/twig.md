@@ -24,6 +24,11 @@
     - [Smart date field formatting](#smart-date-field-formatting)
     - [Entity Reference field](#entity-reference-field)
     - [Entity reference destination content](#entity-reference-destination-content)
+    - [Taxonomy term](#taxonomy-term)
+    - [Render a block](#render-a-block)
+    - [Render a list created in the template\_preprocess\_node()](#render-a-list-created-in-the-template_preprocess_node)
+    - [Links](#links)
+    - [Links to other pages on site](#links-to-other-pages-on-site)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-twig)
@@ -538,7 +543,7 @@ Or
 
 The field in the contract node is called `field_sf_contract_ref`. The field in the referenced entity is called field_contract_overview. Notice how with the `node.` style, you must specify `.value` at the end.
 
-Here is an example of a taxonomy term.
+Here is an example of a taxonomy term where the title of the term will be displayed.
 
 ```twig
 {% raw %}<pre>
@@ -547,3 +552,140 @@ Dump category:
 </pre>{% endraw %}
 ```
 
+### Taxonomy term
+
+Here is an example of displaying a taxonomy term.
+
+```twig
+<pre>
+Dump category:
+{{ dump(node.field_ref_tax.entity.label) }}
+</pre>
+```
+
+### Render a block
+
+Example block (block---system-powered-by-block.html.twig -- from a custom theme)
+
+```twig
+{% raw %}
+{%
+  set classes = [
+    'block',
+    'block-' ~ configuration.provider|clean_class,
+    'block-' ~ plugin_id|clean_class,
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes }}>{{ label }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+  {% block content %}
+    {{ content }}
+  {% endblock %}
+  also powered by <a href="http://austinprogressivecalendar.com">Austin Progressive Calendar</a>
+</div>
+{% endraw %}
+```
+
+### Render a list created in the template_preprocess_node()
+
+Here we create a list in the function:
+
+```php
+function burger_theme_preprocess_node(&$variables) {
+
+  $burger_list = [
+    ['name' => 'Cheesburger'],
+    ['name' => 'Mushroomburger'],
+    ['name' => 'Chickenburger'],
+  ];
+  $variables['burgers'] = $burger_list;
+}
+```
+
+and render it in the `node--article--full.html.twig`
+
+```twig
+{% raw %}
+<ol>
+  {% for burger in burgers %}
+  <li>{{ burger['name'] }}</li>
+  {% endfor %}
+</ol>
+{% endraw %}
+```
+
+### Links
+
+There are a bajillion kertrillion or more ways to render a link
+
+Link field (URL)
+
+This is the simplest way. Just set the display mode to link
+
+![Suggest Button](./images/media/suggest_button.png)
+
+
+And output the link without a label.
+
+```twig
+{% raw %}
+{{ content.field_suggest_button }}
+{% endraw %}
+```
+
+
+If you need a little more control you might use this version which allows classes etc. We are adding several classes onto the anchor to make it look like a button. In this case with an internal link, it shows up using the alias of the link i.e. it shows `/contracts` instead of `node/7` when you hover over the link.
+
+```twig
+{% raw %}
+<p><a class="btn secondary navy centered" href="{{ node.field_suggest_button.0.url }}">{{ node.field_suggest_button.0.title }}</a></p>
+{% endraw %}
+```
+Using `.uri` causes the link (internal only. External links are fine) to show up as `node/7` when you hover over the link.
+
+```twig
+{% raw %}
+<p><a class="btn secondary navy centered" href="{{ node.field_suggest_button.uri }}">{{ node.field_suggest_button.0.title }}</a></p>
+{% endraw %}
+```
+
+Don't try this as it won't work:
+
+```twig
+{% raw %}
+//bad
+{{ node.field_suggest_button.url }}.
+//bad
+{% endraw %}
+```
+Want to use the text from a different field? No problem.
+
+```twig
+{% raw %}
+<div class="title"><a href="{{ node.field_link.uri }}">{{ node.field_contract_number.value }}</a></div>
+{% endraw %}
+```
+
+### Links to other pages on site
+
+Absolute link:
+
+```twig
+{% raw %}
+<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
+{% endraw %}
+```
+
+Relative link
+
+See path vs url:
+
+```twig
+{% raw %}
+<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
+{% endraw %}
+```
