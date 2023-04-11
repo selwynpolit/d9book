@@ -1,3 +1,11 @@
+---
+layout: default
+title: Home
+nav_order: 1
+description: "Just the Docs is a responsive Jekyll theme with built-in search that is easily customizable and hosted on GitHub Pages."
+permalink: /
+---
+
 ## Drupal at your fingertips
 ### Drupal 9 & 10 developer's quick code reference
 #### by Selwyn Polit
@@ -11,7 +19,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-index)
 
-- [Batch and Queue - Batch API](book/bq.html)
+- [Batch and Queue - Batch API](bq)
 - [Blocks - Generate the code to create blocks, dependency injection, blocks with config forms, block permissions](book/blocks.html)
 - [Caching - Cache tags, disabling caching, caching REST resources, development setup, various caching tips](book/caching.html)
 - [Composer, updates and patches](book/composer.md)
@@ -42,7 +50,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [PHPUnit and Drupal Test Traits](book/dtt.md)
 - [Taxonomy](book/taxonomy.md)
 
-----
+---
 If you are inspired, please be a part of this project by contributing your own brilliance (imposters welcomed!) and add your name on the [attribution page.](book/attribution.html)
 
 ---
@@ -60,14 +68,12 @@ If you are inspired, please be a part of this project by contributing your own b
 - Twig
 - Views
 
-----------
+---
 
 Last Updated on: 4-9-2023
 
----------
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

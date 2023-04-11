@@ -1,9 +1,165 @@
-#remote_theme: just-the-docs/just-the-docs
-#theme: jekyll-theme-dinky
-#remote_theme: pages-themes/cayman@v0.2.0
-#remote_theme: pages-themes/hacker@v0.2.0
-# remote_theme: pages-themes/merlot@v0.2.0
-#remote_theme: selwynpolit/merlot@v0.2.3
-remote_theme: selwynpolit/merlotsp@v0.2.7
+# This config file is meant for settings that affect your whole site, values
+# which you are expected to set up once and rarely edit after that.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: Drupal Book
+description: Drupal at your fingertips
+baseurl: "/book" # the subpath of your site, e.g. /blog
+url: "https://selwynpolit.github.io/d9book" # the base hostname & protocol for your site, e.g. http://example.com
+repository: selwynpolit/d9book # for github-metadata
+
+# Theme
+theme: just-the-docs
+
+permalink: pretty
+
+# from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
+exclude:
+  - .jekyll-cache/
+  - Gemfile
+  - .sass-cache/
+  - gemfiles/
+  - Gemfile.lock
+  - LICENSE.txt
+  - README.md
+
+# Set a path/url to a logo that will be displayed instead of the title
+# logo: "/assets/images/just-the-docs.png"
+
+# Enable or disable the site search
+# Supports true (default) or false
+search_enabled: true
+search:
+  # Split pages into sections that can be searched individually
+  # Supports 1 - 6, default: 2
+  heading_level: 2
+  # Maximum amount of previews per search result
+  # Default: 3
+  previews: 2
+  # Maximum amount of words to display before a matched word in the preview
+  # Default: 5
+  preview_words_before: 3
+  # Maximum amount of words to display after a matched word in the preview
+  # Default: 10
+  preview_words_after: 3
+  # Set the search token separator
+  # Default: /[\s\-/]+/
+  # Example: enable support for hyphenated search words
+  tokenizer_separator: /[\s/]+/
+  # Display the relative url in search results
+  # Supports true (default) or false
+  rel_url: true
+  # Enable or disable the search button that appears in the bottom right corner of every page
+  # Supports true or false (default)
+  button: false
+
+# For copy button on code
+enable_copy_code_button: true
+
+# To disable support for mermaid diagrams (https://mermaid.js.org),
+# comment out the `mermaid` and `version` keys below
+# By default, consuming the theme as a gem leaves mermaid disabled; it is opt-in
+# mermaid:
+  # Version of mermaid library
+  # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
+  # version: "9.1.6"
+  # Put any additional configuration, such as setting the theme, in _includes/mermaid_config.js
+  # See also docs/ui-components/code
+  # To load mermaid from a local file use the `path` key to specify the location of the library instead; e.g.
+  # path: "/assets/js/mermaid.min.js"
+
+# Enable or disable heading anchors
+heading_anchors: true
+
+# Aux links for the upper right navigation
+aux_links:
+  "<img src='https://atuin.ru/demo/simple-icons/icons/twitter.svg' alt='Twitter logo' title='Author in Twitter' style='width: 30px; height: 30px;'>":
+    - "//twitter.com/selwynpolit"
+  "<img src='https://atuin.ru/demo/simple-icons/icons/github.svg' alt='GitHub logo' title='D9Book on GitHub' style='width: 30px; height: 30px;'>":
+    - "//github.com/selwynpolit/d9book/tree/gh-pages"
+
+# Makes Aux links open in a new tab
+aux_links_new_tab: true
+
+# Sort order for navigation links
+# nav_sort: case_insensitive # default, equivalent to nil
+nav_sort: case_sensitive # Capital letters sorted before lowercase
+
+# External navigation links
+nav_external_links:
+  - title: D9Book on GitHub
+    url: https://github.com/selwynpolit/d9book/tree/gh-pages
+
+# Footer content
+# appears at the bottom of every page's main content
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
+footer_content: <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+
+# Footer last edited timestamp
+last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
 
 
+
+# Footer "Edit this page on GitHub" link text
+gh_edit_link: true # show or hide edit this page link
+gh_edit_link_text: "Edit this page on GitHub"
+gh_edit_repository: "https://github.com/selwynpolit/d9book" # the github URL for your repo
+gh_edit_branch: "gh-pages" # the branch that your docs is served from
+# gh_edit_source: book # the source that your files` originate from
+gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
+
+# Color scheme currently only supports "dark", "light"/nil (default), or a custom scheme that you define
+color_scheme: nil
+
+callouts_level: quiet # or loud
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
+  more_link:
+    title: See also
+    color: blue
+
+# Google Analytics Tracking (optional)
+# Supports a CSV of tracking ID strings (eg. "UA-1234567-89,G-1AB234CDE5")
+# ga_tracking: UA-2709176-10,G-5FG1HLH3XQ
+# ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings (true/nil by default)
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-github-metadata
+
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
+  # ignore:
+  #   envs: all
