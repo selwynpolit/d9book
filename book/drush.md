@@ -17,6 +17,7 @@
     - [Database query example](#database-query-example)
     - [entityQuery example](#entityquery-example)
   - [Drush does that?](#drush-does-that)
+    - [List blocks](#list-blocks)
     - [Generate code](#generate-code)
     - [Sanitize Databases](#sanitize-databases)
     - [Delete nodes](#delete-nodes)
@@ -37,6 +38,7 @@
   - [Drush launcher](#drush-launcher)
   - [Drupal 7 Drush scripts](#drupal-7-drush-scripts)
   - [Resources](#resources)
+  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-drush)
@@ -413,6 +415,19 @@ return;
 ## Drush does that?
 
 Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do almost anything. Here are a few that I like:
+
+
+### List blocks
+
+To get `drush` to list all the blocks on your site.
+
+```bash
+drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefinitions()));"
+```
+
+which outputs something like:
+
+![Block listing](./images/media/block_listing.png)
 
 ### Generate code
 
