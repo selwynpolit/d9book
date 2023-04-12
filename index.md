@@ -1,20 +1,21 @@
 ---
 layout: default
 title: Home
-nav_order: 1
-description: "Just the Docs is a responsive Jekyll theme with built-in search that is easily customizable and hosted on GitHub Pages."
 permalink: /
+nav_order: 1
+last_modified_date: '2023-04-12'
 ---
 
 ## Drupal at your fingertips
 ### Drupal 9 & 10 developer's quick code reference
-#### by Selwyn Polit
+by Selwyn Polit
+{: .text-delta}
 
 This book is a quick reference for developers creating Drupal sites. While working on such sites during my career, I have gathered a large collection of notes and code which I use for my reference.  I hope it will be useful for you, too.
 
 During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal) and many other places, I often wished there was a succinct set of current annotated code samples explaining how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples), which is very handy. But this book is designed to otherwise fill that gap. Please forgive the `todo` items, but I've found that if I want to get it perfect, it won't ever get published. 
 
-You are invited to contribute (in the open source way) by making edits and pull requests at [this link on Github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).  There is a very simple online editor which automatically forks the repo and lets you type your changes directly in your browser in [markdown format](https://github.github.com/gfm/). Try it by editing a chapter of interest to you. And while you are here, [see who else contributed to the masterpiece ;-))](book/attribution.html)
+You are invited to contribute (in the open source way) by making edits and pull requests at [this link on Github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).  There is a very simple online editor which automatically forks the repo and lets you type your changes directly in your browser in [markdown format](https://github.github.com/gfm/). Try it by editing a chapter of interest to you. And while you are here, [see who else contributed to the masterpiece 😉](attribution)
 
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-index)
@@ -67,10 +68,6 @@ If you are inspired, please be a part of this project by contributing your own b
 - Security and Preventing attacks
 - Single sign on
 - Views
-
----
-
-Last Updated on: 4-9-2023
 
 ---
 

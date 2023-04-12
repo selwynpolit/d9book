@@ -1,17 +1,17 @@
 ---
 layout: default
-title: Batch Processing and the Drupal Queue System
-nav_order: 2
+title: Batch and Queue
 permalink: /bq
+last_modified_date: '2023-04-12'
 ---
 
 # Batch Processing and the Drupal Queue System
-{: .no_toc }
+{: .no_toc .fw-500 }
 
 ## Table of contents
 {: .no_toc .text-delta }
 
-1. TOC
+- TOC
 {:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-bq)
@@ -19,7 +19,6 @@ permalink: /bq
 ---
 
 ## Batch Processing Using the Batch API
-
 
 ### Overview
 
@@ -34,7 +33,6 @@ You can use the Batch API in controllers, forms, hook updates, and Drush command
 You often start a batch from a form where you fill in some options and click a button. In the case of a controller, the batch runs when the browser is pointed at a URL. Drush commands are typed in the terminal.  
 
 Although it will be covered in more detail in the future, it is useful to know that there is now a batch builder: The [BatchBuilder class](https://www.drupal.org/node/2875389) for batch API. It provides a more streamlined object-oriented approach to creating batches.
-
 
 ### Using the Batch API with a form
 
@@ -98,7 +96,7 @@ batch_examples.batch:
 Here is the `updateEventPresenters()` method. Notice the `$operations` array, which contains the function to call to do the work of each batch as well as the list of nids to process.
 
 ```php
-function updateEventPresenters() {
+function updateEventPresenters(): void {
   $query = \Drupal::entityQuery('node')
     ->condition('status', 1)
     ->condition('type', 'event')
@@ -122,7 +120,7 @@ function updateEventPresenters() {
     ];
   }
   $batch = [
-    'title' => $this->t("Updating Presenters"),
+    'title' => $this->t('Updating Presenters'),
     'init_message' => $this->t('Starting to process events.'),
     'progress_message' => $this->t('Completed @current out of @total batches.'),
     'finished' => '\Drupal\batch_examples\Form\BatchForm::batchFinished',
@@ -136,7 +134,7 @@ function updateEventPresenters() {
 Here is the method that actually does the work. Most of the code is for information reporting. The actual work is in the `foreach $nids as $nid` loop:
 
 ```php
-public static function exampleProcessBatch(int $batch_id, array $nids, array &$context) {
+public static function exampleProcessBatch(int $batch_id, array $nids, array &$context): void {
   if (!isset($context['sandbox']['progress'])) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['current_node'] = 0;
@@ -164,7 +162,7 @@ public static function exampleProcessBatch(int $batch_id, array $nids, array &$c
     /** @var \Drupal\node\NodeInterface $event_node */
     $event_node = Node::load($nid);
     if ($event_node) {
-      $array =  ["Mary Smith", "Fred Blue", "Elizabeth Queen"];
+      $array = ['Mary Smith', 'Fred Blue', 'Elizabeth Queen'];
       shuffle($array);
       $event_node->field_presenter = $array;
       $event_node->save();
@@ -191,6 +189,8 @@ You specify a `finished` index, which identifies a function to call after the ba
 Here is the `batchFinished()` method, which displays and logs the results.
 
 ```php
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * Handle batch completion.
  *
@@ -203,7 +203,7 @@ Here is the `batchFinished()` method, which displays and logs the results.
  * @param string $elapsed
  *   Batch.inc kindly provides the elapsed processing time in seconds.
  */
-public static function batchFinished(bool $success, array $results, array $operations, string $elapsed) {
+ public static function batchFinished(bool $success, array $results, array $operations, string $elapsed): RedirectResponse {
   $messenger = \Drupal::messenger();
   if ($success) {
     $messenger->addMessage(t('@process processed @count nodes, skipped @skipped, updated @updated, failed @failed in @elapsed.', [
@@ -255,7 +255,7 @@ After the batch is complete, Drupal will redirect you to that url. E.g. `/node/1
 In this example of a processing function, you can see error handling, logging, and tracking while retrieving files from a remote source. This is fairly common when moving data between systems. The rest of the code is almost identical to the previous example.
 
 ```php
-public static function fileImportProcessBatch(int $batch_id, array $nids, array &$context) {
+public static function fileImportProcessBatch(int $batch_id, array $nids, array &$context): void {
   if (!isset($context['sandbox']['progress'])) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['current_node'] = 0;
@@ -295,12 +295,10 @@ public static function fileImportProcessBatch(int $batch_id, array $nids, array 
       if (!empty($file_id)) {
         // confirm that the file exists.
         $file = File::load($file_id);
-        if ($file) {
-          $uri = $file->getFileUri();
-          if (file_exists($uri)) {
-            $context['results']['skipped']++;
-            continue;
-          }
+        $uri = $file?->getFileUri();
+        if (file_exists($uri)) {
+          $context['results']['skipped']++;
+          continue;
         }
       }
 
@@ -396,7 +394,7 @@ $node_to_update_dir_contact_nid = self::getFirstRef($node_to_update, 'field_sf_d
 
 ### Looking at the source
 
-[Here](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc) is the link  to the source for the Batch API.  As always, looking at the source is the definitive way to understand how anything works.  It is really well commented.
+[Here is the link  to the source for the Batch API.](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc) As always, looking at the source is the definitive way to understand how anything works.  It is really well commented.
 
 From, there is an example batch that calls `my_function_1` and `my_function_2`. Note for my function 1, the arguments are just separated by commas. 
 
@@ -500,35 +498,32 @@ if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
 }
 ```
 
-
 ## Queue System
 
-From Alan Saunders article on December 2021, 
-<https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9>: 
+From [Alan Saunders article](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9) on December 2021:
 
 A queue is simply a list of stuff that gets worked through one by one, one analogy could be a conveyor belt on a till in a supermarket, the cashier works through each item on the belt to scan them.
 
 Queues are handy in Drupal for chunking up large operations, like sending emails to many people. By using a queue, you are trying to avoid overloading the servers resources which could cause the site to go offline until the resources on the server are free'd up.
 
-From Sarthak TTN on Feb 2017 https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8/
+From [Sarthak TTN](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8) on Feb 2017:
 
-This is the submitForm() which creates an item and puts it in the queue.
+This is the `submitForm()` which creates an item and puts it in the queue.
 
 ```php
 /**
  * {@inheritdoc}
  */
- public function submitForm(array &$form, FormStateInterface $form_state): void {
-   /** @var QueueFactory $queue_factory */
-   $queue_factory = \Drupal::service('queue');
-   /** @var QueueInterface $queue */
-   $queue = $queue_factory->get('email_processor');
-   $item = new \stdClass();
-   $item->username = $form_state->getValue('name');
-   $item->email = $form_state->getValue('email');
-   $item->query = $form_state->getValue('query');
-   $queue->createItem($item);
- }
+public function submitForm(array &$form, FormStateInterface $form_state): void {
+  /** @var QueueFactory $queue_factory */
+  $queue_factory = \Drupal::service('queue');
+  /** @var QueueInterface $queue */
+  $queue = $queue_factory->get('email_processor');
+  $item = new \stdClass();
+  $item->username = $form_state->getValue('name');
+  $item->email = $form_state->getValue('email');
+  $item->query = $form_state->getValue('query');
+  $queue->createItem($item);
 }
 ```
 
@@ -543,32 +538,33 @@ use Drupal\Core\Mail\MailManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
-* {@inheritdoc}
-*/
+ * {@inheritdoc}
+ */
 class EmailEventBase extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   /**
-  * @param Drupal\Core\Mail\MailManager
-  */
+   * @param Drupal\Core\Mail\MailManager $mail
+   *   The mail manager.
+   */
   public function __construct(protected MailManager $mail) {}
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static($container->get('plugin.manager.mail'));
   }
 
   /**
-  * Processes a single item of Queue.
-  */
+   * Processes a single item of Queue.
+   */
   public function processItem($data) {
     $params['subject'] = t('query');
     $params['message'] = $data->query;
     $params['from'] = $data->email;
     $params['username'] = $data->username;
     $to = \Drupal::config('system.site')->get('mail');
-    $this->mail->mail('my_module','query_mail',$to,'en',$params,NULL,true);
+    $this->mail->mail('my_module', 'query_mail', $to, 'en', $params, NULL, true);
   }
 }
 ```
@@ -579,9 +575,9 @@ namespace Drupal\my_module\Plugin\QueueWorker;
  
 /**
  * @QueueWorker(
- * id = "email_processor",
- * title = "My custom Queue Worker",
- * cron = {"time" = 10}
+ *   id = "email_processor",
+ *   title = "My custom Queue Worker",
+ *   cron = {"time" = 10}
  * )
  */
 class CronEventProcessor extends EmailEventBase {}
@@ -604,6 +600,7 @@ Read more about the Queue API at these sites:
 * [There is a somewhat incomplete example](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9) From Alan Saunders article on December 2021
 
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

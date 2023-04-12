@@ -91,8 +91,8 @@ nav_sort: case_sensitive # Capital letters sorted before lowercase
 
 # External navigation links
 nav_external_links:
-  - title: D9Book on GitHub
-    url: https://github.com/selwynpolit/d9book/tree/gh-pages
+  - title: Fork me on GitHub
+    url: https://github.com/selwynpolit/d9book/fork
 
 # Footer content
 # appears at the bottom of every page's main content
@@ -105,9 +105,7 @@ footer_content: <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://p
 
 # Footer last edited timestamp
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
-last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
-
-
+last_edit_time_format: "%b %e %Y" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
 
 # Footer "Edit this page on GitHub" link text
 gh_edit_link: true # show or hide edit this page link
@@ -118,7 +116,7 @@ gh_edit_branch: "gh-pages" # the branch that your docs is served from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
 
 # Color scheme currently only supports "dark", "light"/nil (default), or a custom scheme that you define
-color_scheme: nil
+color_scheme: dark
 
 callouts_level: quiet # or loud
 callouts:
