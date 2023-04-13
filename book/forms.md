@@ -9,7 +9,7 @@
 - [Forms, Form API and AJAX](#forms-form-api-and-ajax)
   - [Overview](#overview)
   - [Find a form id in the page source](#find-a-form-id-in-the-page-source)
-  - [Additional buttons on your custom forms](#Add-buttons-to-your-custom-forms)
+  - [Additional buttons on your custom forms](#add-buttons-to-your-custom-forms)
   - [Modify a button on a form with hook_form_alter](#modify-a-button-on-a-form-with-hook_form_alter)
   - [Hide a field with hook_form_alter](#hide-a-field-with-hook_form_alter)
   - [Hide revision info and moderation state](#hide-revision-info-and-moderation-state)
@@ -167,7 +167,7 @@ and here is the beginning of the `submit` function that goes along with the `upd
     
 ```
 
->Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](book/bq.html)
+>Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](/book/bq.html)
 
 
 
