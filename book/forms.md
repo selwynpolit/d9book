@@ -167,7 +167,7 @@ and here is the beginning of the `submit` function that goes along with the `upd
     
 ```
 
->Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](/book/bq.html)
+>Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](/d9book/book/bq.html)
 
 
 
