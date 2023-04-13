@@ -128,9 +128,9 @@ It makes development soooo much nicer.
 
 Use these commands.  be sure to disable after debugging because xdebug has a significant performance impact.
 
-`ddev exec enable_xdebug`
+`ddev xdebug on`
 and
-`ddev exec disable_xdebug`
+`ddev xdebug off`
 
 
 ## Set up this site on your local computer
