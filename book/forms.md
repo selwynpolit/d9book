@@ -9,6 +9,7 @@
 - [Forms, Form API and AJAX](#forms-form-api-and-ajax)
   - [Overview](#overview)
   - [Find a form id in the page source](#find-a-form-id-in-the-page-source)
+  - [Additional buttons on your custom forms](#add-buttons-to-your-custom-forms)
   - [Modify a button on a form with hook_form_alter](#modify-a-button-on-a-form-with-hook_form_alter)
   - [Hide a field with hook_form_alter](#hide-a-field-with-hook_form_alter)
   - [Hide revision info and moderation state](#hide-revision-info-and-moderation-state)
@@ -103,6 +104,70 @@ function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_sta
 ```
 
 Notice that a node add form looks like `node_catastrophe_notice_form` while a node edit form looks more like this: `node_catastrophe_notice_edit_form`
+
+## Add buttons to your custom forms
+
+Many forms need extra buttons.  Fortunately Drupal allows this to be done easily.  In the code below there is a submit button which will execute the `submitForm` function.  There are two additional buttons: `update_nodes` which (on click) calls the `updateNodes` function and `cache_warmer` which (one click) will execute the `warmCaches` function.
+
+```php
+    $form['sanity_fieldset']['actions'] = [
+      '#type' => 'actions',
+    ];
+    $form['sanity_fieldset']['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
+    ];
+
+    $form['sanity_fieldset']['actions']['update_nodes'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Update'),
+      '#submit' => ['::updateNodes'],
+    ];
+
+    $form['sanity_fieldset']['actions']['cache_warmer'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Warm Caches'),
+      '#submit' => ['::warmCaches'],
+    ];
+```
+
+and here is the beginning of the `submit` function that goes along with the `update_nodes` submit button:
+
+```php
+  public function updateNodesFromCache(array &$form, FormStateInterface $form_state) {
+    $program_nid = $form_state->get('program_nid');
+    $vote_number = $form_state->get('vote_number');
+    $program_node = $form_state->get('program');
+    $program_title = $program_node->getTitle();
+    $team_nid = $program_node->get('field_srp_team_ref')[$vote_number]->target_id;
+
+    $chunk_size = 20;
+    $operations = [];
+
+    $cache_id = "expectations.program.$program_nid.vote.$vote_number.team.$team_nid";
+    $cache_data = \Drupal::cache()->get($cache_id);
+    if ($cache_data) {
+      $expectations = $cache_data->data;
+      $chunks = array_chunk($expectations, $chunk_size);
+      for ($i = 0; $i < count($chunks); $i++) {
+        $operations[] = [
+          '\Drupal\tea_teks_voting\Batch\VotingCacheBatch::updateExpectations',
+          [$chunks[$i]],
+        ];
+      }
+    }
+    
+    $batch = [
+      'title' => $this->t("Updating nodes from voting caches for $program_title"),
+      'progress_message' => $this->t('Completed @current out of @total chunks.'),
+      'finished' => '\Drupal\tea_teks_voting\Batch\VotingCacheBatch::batchFinished',
+      'operations' => $operations,
+    ];
+    batch_set($batch);    
+    
+```
+
+>Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](/book/bq.html)
 
 
 
