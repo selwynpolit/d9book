@@ -1,98 +1,22 @@
+---
+layout: default
+title: Nodes and Fields
+permalink: /nodes-and-fields
+last_modified_date: '2023-04-13'
+---
+
 # Nodes and Fields
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Nodes and Fields](#nodes-and-fields)
-  - [Load a node and get a formatted text field](#load-a-node-and-get-a-formatted-text-field)
-  - [Set field values](#set-field-values)
-  - [Get current page title](#get-current-page-title)
-  - [Test if variable is a node](#test-if-variable-is-a-node)
-  - [Get the current nid, node type and title](#get-the-current-nid-node-type-and-title)
-  - [Retrieve current node id (nid)](#retrieve-current-node-id-nid)
-  - [Retrieve node info from current path](#retrieve-node-info-from-current-path)
-  - [Load the current node and get it's node id (nid), field, type](#load-the-current-node-and-get-its-node-id-nid-field-type)
-  - [Load a node by nid and get its title, type and a field](#load-a-node-by-nid-and-get-its-title-type-and-a-field)
-  - [Load the current node and get the nid, field, type](#load-the-current-node-and-get-the-nid-field-type)
-  - [Load the user id (uid) for a node](#load-the-user-id-uid-for-a-node)
-  - [Test if a field is empty](#test-if-a-field-is-empty)
-  - [Load a node and update a field](#load-a-node-and-update-a-field)
-  - [Load values from a date range field](#load-values-from-a-date-range-field)
-  - [Load multi-value field](#load-multi-value-field)
-    - [Iterate through results](#iterate-through-results)
-    - [Read a specific instance](#read-a-specific-instance)
-  - [Update a multi-value field](#update-a-multi-value-field)
-    - [Function to read and write multi-value fields](#function-to-read-and-write-multi-value-fields)
-    - [Save multi-value field, entity reference field](#save-multi-value-field-entity-reference-field)
-    - [Update a multi-value entity reference fields](#update-a-multi-value-entity-reference-fields)
-    - [Generic Multi-value field writer](#generic-multi-value-field-writer)
-  - [Does this field exist in my entity?](#does-this-field-exist-in-my-entity)
-  - [Get URL for an image or file in a media reference field](#get-url-for-an-image-or-file-in-a-media-reference-field)
-  - [Retrieve info about a file field](#retrieve-info-about-a-file-field)
-  - [Retrieve a link field](#retrieve-a-link-field)
-  - [Does this field exist in my entity?](#does-this-field-exist-in-my-entity-1)
-  - [Create a node and write it to the database](#create-a-node-and-write-it-to-the-database)
-  - [Create a node with an image](#create-a-node-with-an-image)
-  - [Write a node with an attached file](#write-a-node-with-an-attached-file)
-  - [Write a date or datetime to a node](#write-a-date-or-datetime-to-a-node)
-  - [Or just a date (no time)](#or-just-a-date-no-time)
-  - [Set field values](#set-field-values-1)
-  - [Set an entity reference field](#set-an-entity-reference-field)
-  - [Set multivalue fields (regular and entity reference)](#set-multivalue-fields-regular-and-entity-reference)
-  - [Clear a text field](#clear-a-text-field)
-  - [Set or clear a body field](#set-or-clear-a-body-field)
-  - [Load a node and retrieve an entity reference node and nid (target\_id)](#load-a-node-and-retrieve-an-entity-reference-node-and-nid-target_id)
-    - [Load a multi-value reference field.](#load-a-multi-value-reference-field)
-  - [Entity reference nodes and their fields](#entity-reference-nodes-and-their-fields)
-  - [Load the taxonomy terms from a term reference field](#load-the-taxonomy-terms-from-a-term-reference-field)
-  - [Load a node and find the terms referenced in a paragraph in a term reference field](#load-a-node-and-find-the-terms-referenced-in-a-paragraph-in-a-term-reference-field)
-  - [Retrieve a URL field](#retrieve-a-url-field)
-    - [External links](#external-links)
-    - [Internal links](#internal-links)
-  - [Load a node and retrieve a paragraph field](#load-a-node-and-retrieve-a-paragraph-field)
-  - [How to get Node URL alias or Taxonomy Alias by Node id or Term ID](#how-to-get-node-url-alias-or-taxonomy-alias-by-node-id-or-term-id)
-  - [How to set a URL Alias](#how-to-set-a-url-alias)
-  - [Get a node's menu item and more](#get-a-nodes-menu-item-and-more)
-  - [Find a node using it's uuid](#find-a-node-using-its-uuid)
-  - [Retrieve Node ID(NID) or Taxonomy term ID from a Drupal alias or path](#retrieve-node-idnid-or-taxonomy-term-id-from-a-drupal-alias-or-path)
-  - [Retrieve all nodes with a matching taxonomy term](#retrieve-all-nodes-with-a-matching-taxonomy-term)
-  - [How to uncache a particular page or node](#how-to-uncache-a-particular-page-or-node)
-  - [Get boolean Field](#get-boolean-field)
-  - [Date Field](#date-field)
-  - [Date Fields](#date-fields)
-  - [Date Range Field doesn't display correct timezone](#date-range-field-doesnt-display-correct-timezone)
-  - [Date Range](#date-range)
-  - [Date Range fields: Load start and end values](#date-range-fields-load-start-and-end-values)
-  - [Date Fields: Load or save them](#date-fields-load-or-save-them)
-  - [Comparing DrupalDateTime values](#comparing-drupaldatetime-values)
-  - [Date with embedded timezone](#date-with-embedded-timezone)
-  - [Has something expired?](#has-something-expired)
-  - [Load or save Drupal Date fields](#load-or-save-drupal-date-fields)
-  - [Retrieve node creation date and format it](#retrieve-node-creation-date-and-format-it)
-  - [Retrieve node creation or changed date and format it](#retrieve-node-creation-or-changed-date-and-format-it)
-  - [Date Field and Date with no time (remove time)](#date-field-and-date-with-no-time-remove-time)
-  - [Smart date (smart\_date) load and format](#smart-date-smart_date-load-and-format)
-  - [Smart date (smart\_date) all-day](#smart-date-smart_date-all-day)
-  - [Smart date (smart\_date) range of values](#smart-date-smart_date-range-of-values)
-  - [hook\_node\_presave or hook\_entity\_type\_presave](#hook_node_presave-or-hook_entity_type_presave)
-  - [Disable caching for a content type](#disable-caching-for-a-content-type)
-  - [Writing some JSON data into a long text field](#writing-some-json-data-into-a-long-text-field)
-  - [Create a node with an image](#create-a-node-with-an-image-1)
-  - [Paragraphs](#paragraphs)
-  - [Load a node and find the terms referenced in a paragraph in a term reference field](#load-a-node-and-find-the-terms-referenced-in-a-paragraph-in-a-term-reference-field-1)
-  - [Custom Field Formatter](#custom-field-formatter)
-  - [Puzzles](#puzzles)
-    - [What can I do with a call to first() on an entity reference field?](#what-can-i-do-with-a-call-to-first-on-an-entity-reference-field)
-  - [Great Cheat sheets](#great-cheat-sheets)
-  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-bq)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Load a node and get a formatted text field
 
@@ -409,14 +333,14 @@ For example, a multi-value text field, this will return an array of values like 
 ```php
 $data = $node->get('field_condiment')->getValue();
 // returns:
-$data[0]['value'] = “ketchup” 
-$data[1]['value'] = “mayo”
-$data[2]['value'] = “reference”
+$data[0]['value'] = 'ketchup'
+$data[1]['value'] = 'mayo'
+$data[2]['value'] = 'reference'
 ```
 
 However a multi-value entity reference field (including taxonomy) will return values with the `target_id` array key. e.g. 
 
-```
+```php
 $data = $node->get('field_event_ref')->getValue();
 // returns:
 $data[0]['target_id'] = 1
@@ -1764,20 +1688,20 @@ potentially \~6 hours.
 
 Using the field field_event_date, here is the twig template code to display the date. You'd expect it to show the correct timezone
 
-```
-{{ node.field_event_date.0.value|date('g:ia') }} - {{ node.field_event_date.0.end_value|date('g:ia') }}
+```twig
+{% raw %}{{ node.field_event_date.0.value|date('g:ia') }} - {{ node.field_event_date.0.end_value|date('g:ia') }}{% endraw %}
 ```
 
-If you simply used `{{ content }}` all fields are displayed correctly --
+If you simply used `{% raw %}{{ content }}{% endraw %}` all fields are displayed correctly --
 timezone is correct.
 
-If you use `{{ content.field_date_start }}` -- timezone show correctly
-also
+If you use `{% raw %}{{ content.field_date_start }}{% endraw %}` -- timezone show correctly also
 
-But I want to grab the time only to display separately from the date and
-put this in the twig template:
+But I want to grab the time only to display separately from the date and put this in the twig template:
 
-`{{ node.field_date_start.value\|date("g:ia") }}`
+```twig
+{% raw %}{{ node.field_date_start.value|date("g:ia") }}{% endraw %}
+```
 
 It fails.
 
@@ -2512,14 +2436,6 @@ Drupal entity API cheat sheet
 
 ---
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

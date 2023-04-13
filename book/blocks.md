@@ -1,39 +1,30 @@
+---
+layout: default
+title: Blocks
+permalink: /blocks
+last_modified_date: '2023-04-13'
+---
+
 # Blocks
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Blocks](#blocks)
-  - [Create a block with Drush generate](#create-a-block-with-drush-generate)
-  - [Anatomy of a custom block with dependency injection](#anatomy-of-a-custom-block-with-dependency-injection)
-  - [Create a block with an entityQuery](#create-a-block-with-an-entityquery)
-  - [Create a Block with a corresponding config form](#create-a-block-with-a-corresponding-config-form)
-    - [The config form definition](#the-config-form-definition)
-    - [The routing.yml file](#the-routingyml-file)
-    - [The Block definition](#the-block-definition)
-  - [Modify a block with hook\_block\_view\_alter or hook\_block\_build\_alter](#modify-a-block-with-hook_block_view_alter-or-hook_block_build_alter)
-  - [Disable caching in a block](#disable-caching-in-a-block)
-  - [Add a configuration form to your block](#add-a-configuration-form-to-your-block)
-  - [Block display not updating after changing block content](#block-display-not-updating-after-changing-block-content)
-  - [Block Permission (blockAccess)](#block-permission-blockaccess)
-    - [Blocks shouldn't talk to the router, NodeRouteContext and friends should](#blocks-shouldnt-talk-to-the-router-noderoutecontext-and-friends-should)
-    - [Values returned by blockAccess()](#values-returned-by-blockaccess)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-blocks)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
 Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 
-![Location of block source files](images/media/image-block-location.png)
+![Location of block source files](assets/images/image-block-location.png)
+{: .text-center }
 
-For more see
-<https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview>
-and
-<https://www.drupal.org/docs/8/api/plugin-api/annotations-based-plugins>
+{: .more_link }
+> - [Plugin API overview](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview>)
+>
+> - [Annotations-based plugins](https://www.drupal.org/docs/8/api/plugin-api/annotations-based-plugins)
 
 ## Create a block with Drush generate
 
@@ -41,7 +32,7 @@ Use Drush's code generation ability to quickly generate the code you need to cre
 
 First generate a module if you don't have one. Here we generate a module called Block Module with a machine name: block_module.
 
-```
+```sh
 $ drush generate module
 
 Welcome to module generator!
@@ -111,11 +102,10 @@ The following directories and files have been created or updated:
 /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.module
 ```
 
-Use "drush generate" to create the code for a block. Specify the module name (e.g. block_module) so Drush knows where to put the block code. We also must give the block an admin label, plugin ID, and class.
+Use `drush generate` to create the code for a block. Specify the module name (e.g. block_module) so Drush knows where to put the block code. We also must give the block an admin label, plugin ID, and class.
 
 
-
-```
+```sh
 $ drush generate block
 
 Welcome to block generator!
@@ -205,33 +195,25 @@ clear the cache with:
 
 In Drupal, navigate to /admin/structure/block and place the block (\"block module example\") in the content area. See the diagram below on how to place the block in the content area.
 
-![Graphical user interface, table Description automatically
-generated](images/media/image2.png)
+![Graphical user interface, table Description automatically generated](assets/images/image2.png)
 
-![Graphical user interface Description automatically
-generated](images/media/image3.png)
-
+![Graphical user interface Description automatically generated](assets/images/image3.png)
 
 You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "Place block," a "Configure block" screen appears. You can safely just click "Save block."
 
-
-
-![Graphical user interface, application Description automatically
-generated](images/media/image4.png)
+![Graphical user interface, application Description automatically generated](assets/images/image4.png)
 
 Navigate back to the home page of the site and you'll see your block appearing. Screenshot below:
 
-![Graphical user interface, text, application, email Description
-automatically generated](images/media/image5.png)
+![Graphical user interface, text, application, email Description automatically generated](assets/images/image5.png)
 
 You can safely remove the block via the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
 
-![Remove block](images/media/image6.png)
+![Remove block](assets/images/image6.png)
 
 ## Anatomy of a custom block with dependency injection
 
-The block class PHP file is usually in `\<Drupal web root
-\>/modules/custom/mymodule/src/Plugin/Block`.
+The block class PHP file is usually in `\<Drupal web root\>/modules/custom/mymodule/src/Plugin/Block`.
 
 e.g.
 `dev1/web/modules/custom/image_gallery/src/Plugin/Block/ImageGalleryBlock.php`
@@ -244,8 +226,7 @@ Specify namespace:
 
 `namespace Drupal\abc_wea\Plugin\Block;`
 
-Blocks always extend BlockBase but can also implement other
-interfaces... see below.
+Blocks always extend BlockBase but can also implement other interfaces... see below.
 
 `Class ImageGalleryBlock extends BlockBase`
 
@@ -307,7 +288,6 @@ Plugins require this for dependency injection. So don't forget:
 
 ```php
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-
 
 class HelloWorldSalutationBlock extends BlockBase implements ContainerFactoryPluginInterface {
 ```
@@ -412,14 +392,11 @@ class OpinionLanding extends BlockBase {
     return $render_array;
 ```
 
-
-
-
 ## Create a Block with a corresponding config form
 
 Here is an example which includes a block and a corresponding config form that controls what is displayed in the block. The block can be placed using the Block Layout system in Drupal at /admin/structure/block (shown below) or via twig in a template file.
 
-![Block layout system](images/media/image7.png)
+![Block layout system](assets/images/image7.png)
 
 ### The config form definition
 
@@ -1185,16 +1162,8 @@ return AccessResult::allowed();
 return AccessResult::allowedIf(TRUE);
 ```
 
-
-
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

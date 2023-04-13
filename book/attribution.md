@@ -2,6 +2,7 @@
 layout: default
 title: Attribution
 permalink: /attribution
+search_exclude: true
 last_modified_date: '2023-04-12'
 ---
 

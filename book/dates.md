@@ -1,62 +1,30 @@
+---
+layout: default
+title: Dates and Times
+permalink: /dates
+last_modified_date: '2023-04-13'
+---
+
 # Dates and Times
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Dates and Times](#dates-and-times)
-  - [Overview](#overview)
-  - [Retrieve a date field](#retrieve-a-date-field)
-  - [Retrieve date range field](#retrieve-date-range-field)
-  - [Formatting date range fields](#formatting-date-range-fields)
-  - [Formatting a date string with an embedded timezone](#formatting-a-date-string-with-an-embedded-timezone)
-  - [Formatting a date range for display](#formatting-a-date-range-for-display)
-  - [Saving date fields](#saving-date-fields)
-  - [Create DrupalDateTime objects](#create-drupaldatetime-objects)
-    - [Create DrupalDateTime objects with timezones](#create-drupaldatetime-objects-with-timezones)
-  - [Create a DrupalDateTime object and display as a year only](#create-a-drupaldatetime-object-and-display-as-a-year-only)
-  - [Formatting node created time with Drupal date.formatter service](#formatting-node-created-time-with-drupal-dateformatter-service)
-  - [Date arithmetic example 1](#date-arithmetic-example-1)
-  - [Date arithmetic example 2](#date-arithmetic-example-2)
-  - [Comparing DrupalDateTime values](#comparing-drupaldatetime-values)
-  - [Comparing dates (without comparing times)](#comparing-dates-without-comparing-times)
-  - [Comparing Dates to see if a node has expired](#comparing-dates-to-see-if-a-node-has-expired)
-  - [Node creation and changed dates](#node-creation-and-changed-dates)
-  - [Query the creation date using entityQuery](#query-the-creation-date-using-entityquery)
-  - [Query a date field with no time](#query-a-date-field-with-no-time)
-  - [Query a date field with a time](#query-a-date-field-with-a-time)
-  - [Smart Date](#smart-date)
-    - [Smart date: Load and format](#smart-date-load-and-format)
-    - [Smart date: all-day](#smart-date-all-day)
-    - [Smart date: Range of values](#smart-date-range-of-values)
-  - [Reference](#reference)
-    - [Date field storage](#date-field-storage)
-    - [DrupalDateTime API reference](#drupaldatetime-api-reference)
-    - [UTC](#utc)
-    - [Unix epoch timestamps](#unix-epoch-timestamps)
-    - [Links](#links)
-  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dates)
 
 ---
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
 
 ## Overview
 
-
 Drupal Date fields are stored as varchar 20 UTC date strings (e.g. `2022-06-30T12:00:00`) while node `created` and `changed` fields are stored as int 11 containing Unix epoch timestamps (e.g. `1656379475`) in the `node_field_data table` (fields: `created` and `changed`).
-
 
 Accessing date fields comes in many flavors:
 
 ```php
-
 // Returns 2021-12-27 for a date only field.
 $event_date = $event_node->field_event_date->value;
 
@@ -101,7 +69,6 @@ $end_date = $contract_node->field_contract_date->date->getTimestamp();
 To retrieve a date range field from a node, use `value` and `end_value` for the stand and end dates:
 
 ```php
-
 // Magic getters.
 $start = $event_node->field_event_date_range->value
 $end = $event_node->field_event_date_range->end_value
@@ -127,10 +94,6 @@ $end_date_formatted = $node->field_date->end_date->format('Y-m-d H:i:s');
 ```
 
 Use this link at php.net for date format strings <https://www.php.net/manual/en/datetime.format.php#:~:text=format%20parameter%20string-,format,-character>
-
-
-
-
 
 ## Formatting a date string with an embedded timezone
 
@@ -161,7 +124,6 @@ Here is the entire function as implemented as a `hook_preprocess_node` function 
 
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
-
 
 /**
  * Implements hook_preprocess_node
@@ -865,11 +827,7 @@ Coordinated Universal Time or UTC is the primary time standard by which the worl
 
 From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time as a running total of seconds. This count starts at the Unix Epoch on January 1st, 1970 at UTC. Therefore, the unix time stamp is merely the number of seconds between a particular date and the Unix Epoch. It should also be pointed out (thanks to the comments from visitors to this site) that this point in time technically does not change no matter where you are located on the globe. This is very useful to computer systems for tracking and sorting dated information in dynamic and distributed applications both online and client side.
 
-
-
 ### Links
-
-
 
 * Drupal API DrupalDateTime Class https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x
 
@@ -885,14 +843,7 @@ From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time
 * Drupal APIS <https://www.drupal.org/docs/drupal-apis>
   
 ---
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
 
----
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

@@ -1,33 +1,20 @@
+---
+layout: default
+title: Config
+permalink: /config
+last_modified_date: '2023-04-13'
+---
+
 # Configuration and Settings
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Configuration and Settings](#configuration-and-settings)
-  - [Load some config](#load-some-config)
-  - [Views](#views)
-  - [Add config to an existing module](#add-config-to-an-existing-module)
-  - [Import something you changed in your module](#import-something-you-changed-in-your-module)
-  - [Config Storage in the database](#config-storage-in-the-database)
-  - [Add some config to site config form](#add-some-config-to-site-config-form)
-  - [Override config in settings.php](#override-config-in-settingsphp)
-  - [Setup a testing variable in config for a project](#setup-a-testing-variable-in-config-for-a-project)
-  - [Getting and setting configuration with drush](#getting-and-setting-configuration-with-drush)
-  - [Creating a module allowing users to edit/update some config](#creating-a-module-allowing-users-to-editupdate-some-config)
-  - [Drush config commands](#drush-config-commands)
-    - [View config](#view-config)
-    - [Viewing overridden config values](#viewing-overridden-config-values)
-    - [Delete from config](#delete-from-config)
-    - [Check what has changed with config:status](#check-what-has-changed-with-configstatus)
-    - [Export entire config](#export-entire-config)
-    - [Import config changes](#import-config-changes)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-config)
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
 
 Config is stored in yml files so it can be checked into git. It is
 loaded into the config table of the database for performance. Use  `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more.  You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
@@ -74,8 +61,7 @@ this
 $settings['config_sync_directory'] = '../config/sync';
 ```
 
-[More on creating custom modules: Using your own configuration](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal
-)
+[More on creating custom modules: Using your own configuration](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
 
 [Drupal::config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
 
@@ -223,7 +209,7 @@ If you have a configuration change, for example, you have enabled google
 tag manager. When you export the config `drush cex -y` and `git diff` to see what changed in config,
 you'll see (in the last 2 lines) that status is changed from true to false.
 
-```
+```diff
 $ git diff
 
 diff --git a/config/sync/google_tag.container.default.yml b/config/sync/google_tag.container.default.yml
@@ -294,7 +280,7 @@ In config, synchronize, we see an item: `shield.settings`
 
 So we can load it with drush:
 
-```
+```yml
 $ drush cget shield.settings
 credential_provider: shield
 credentials:
@@ -309,7 +295,7 @@ _core:
 
 Drilling down deeper, let's say we want to view the credentials section. Notice that drush requires a space instead of a colon:
 
-```
+```yml
 $ drush cget shield.settings credentials
 'shield.settings:credentials':
   shield:
@@ -318,7 +304,7 @@ $ drush cget shield.settings credentials
 ```
 Now to get down to the user name and password. And we are adding period back in. Huh?
 
-```
+```sh
 $ drush cget shield.settings credentials.shield
 'shield.settings:credentials.shield':
     user: nisor
@@ -327,14 +313,14 @@ $ drush cget shield.settings credentials.shield
 
 and finally:
 
-```
+```sh
 $ drush cget shield.settings credentials.shield.pass
 'shield.settings:credentials.shield.pass': blahblah
 ```
 
 So if you want to **set** these:
 
-```
+```sh
 drush cset shield.settings credentials.shield.pass yomama
 
 Do you want to update credentials.shield.pass key in shield.settings
@@ -343,7 +329,7 @@ config? (y/n): y
 
 And
 
-```
+```sh
 drush cset shield.settings credentials.shield.user fred
 
 Do you want to update credentials.shield.pass key in shield.settings
@@ -352,14 +338,14 @@ config? (y/n): y
 
 And there is that message
 
-```
+```sh
 drush cget shield.settings print
 'shield.settings:print': 'Please provide credentials for access.'
 ```
 
 And so
 
-```
+```sh
 drush cset -y shield.settings print "Credentials or I won't let you in"
 ```
 
@@ -372,7 +358,7 @@ $config['shield.settings']['credentials']['shield']['pass'] = "blahblah";
 ```
 Similarly, for setting stage_file_proxy origin:
 
-```
+```sh
 drush config-set stage_file_proxy.settings
 origin https://www.mudslinger.com
 ```
@@ -453,7 +439,7 @@ From the [drush docs](https://www.drush.org/latest/commands/config_get/)
 
 - `drush config:get system.site page.front` -  displays what Drupal is using for the front page of the site: e.g. 
 
-```
+```sh
 $ drush config:get system.site page.front
   'system.site:page.front': /node
 ```
@@ -466,19 +452,19 @@ When you view the value in config, drush `cleverly` will **ignore values** overi
 
 This displays the basepath that is in the Drupal database. If you override the basepath in settings.php, you have to use the special flag to see the overridden value.
 
-```
+```sh
 drush cget narcs_infoconnect.imagepath basepath --include-overridden
 ```
 
 Also drush can execute php for a little more fun approach:
 
-```
+```sh
 drush ev "var_dump(\Drupal::configFactory()->getEditable('system.site')->get('name'))"
 ```
 
 or
 
-```
+```sh
 drush ev "print \Drupal::config('narcs_inferconnect.imagepath')->get('basepath');"
 ```
 
@@ -495,7 +481,7 @@ cdel is short for config:delete.
 
 `cst` is short for `config:status`
 
-```
+```sh
  drush cst
  --------------------------------------------- ------------
   Name                                          State
@@ -515,7 +501,7 @@ Usually you would use `drush cex` at this point to export the config and add it 
 
 After exporting drush will report that everything has been exported and that there are no differences between the database and the sync folder.
 
-```
+```sh
 drush cst
  [notice] No differences between DB and sync directory.
 ```
@@ -530,7 +516,7 @@ $settings['config_sync_directory'] = '../config/sync';
 
 - `drush cex -y` - export entire config.
 
-```
+```sh
 $ drush cex -y
  [success] Configuration successfully exported to ../config/sync.
 ../config/sync
@@ -544,7 +530,7 @@ First check what changed with `drush cst` then use `drush cim` to restore the co
 
 Drupal cleverly notices which config items have changed and loads only those changes into the database. 
 
-```
+```sh
 $ drush cst
  ------------- -----------
   Name          State
@@ -554,8 +540,8 @@ $ drush cst
 
 and
 
-```
- drush cim -y
+```sh
+$ drush cim -y
 +------------+-------------+-----------+
 | Collection | Config      | Operation |
 +------------+-------------+-----------+
@@ -569,12 +555,8 @@ and
  [success] The configuration was imported successfully.
 ```
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

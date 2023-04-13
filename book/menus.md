@@ -1,28 +1,22 @@
+---
+layout: default
+title: Menus
+permalink: /menus
+last_modified_date: '2023-04-13'
+---
+
 # Menus
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Menus](#menus)
-  - [Dynamically change menu items with hook_preprocess_menu](#dynamically-change-menu-items-with-hook_preprocess_menu)
-  - [Permanently update menu links in a hook_update using entityQuery](#permanently-update-menu-links-in-a-hook_update-using-entityquery)
-  - [Add menu items with hook_update](#add-menu-items-with-hook_update)
-  - [Permanently modify or delete menu items with hook_update](#permanently-modify-or-delete-menu-items-with-hook_update)
-  - [Peer up a menu to its parents to see if it is a child of a content type](#peer-up-a-menu-to-its-parents-to-see-if-it-is-a-child-of-a-content-type)
-  - [Find all the children of a menu](#find-all-the-children-of-a-menu)
-  - [Build a menu and all its children](#build-a-menu-and-all-its-children)
-  - [Create custom Twig extension for rendering a menu](#create-custom-twig-extension-for-rendering-a-menu)
-  - [Active Trail](#active-trail)
-  - [Get a node's menu item and more](#get-a-nodes-menu-item-and-more)
-  - [Create menu items in your custom module](#create-menu-items-in-your-custom-module)
-  - [Resources](#resources)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-menus)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Dynamically change menu items with hook_preprocess_menu
 
@@ -356,7 +350,7 @@ node\--news-stories-landing-page.html.twig:
 
 And the form looks like this:
 
-![Dropdown menu image](./images/media/dropdown_menus.png)
+![Dropdown menu image](assets/images/dropdown_menus.png)
 
 ## Build a menu and all its children
 
@@ -415,11 +409,10 @@ generateSubMenuTree($menu_tree2, $sub_nav);
 
 ## Create custom Twig extension for rendering a menu
 
-Note. The module [twig_tweak
-module](https://www.drupal.org/project/twig_tweak) can do all this with one line of code:
+Note. The module [twig_tweak module](https://www.drupal.org/project/twig_tweak) can do all this with one line of code:
 
 ```twig
-{{ drupal_menu('main',2,3,TRUE) }}
+{% raw %}{{ drupal_menu('main', 2, 3, TRUE) }}{% endraw %}
 ```
 
 More at: <https://www.drupal.org/docs/8/modules/twig-tweak/cheat-sheet>
@@ -500,7 +493,7 @@ services:
 To render your menu in the template via this twig function call:
 
 ```twig
-{{ renderMenu('main') }}
+{% raw %}{{ renderMenu('main') }}{% endraw %}
 ```
 
 ## Active Trail
@@ -533,11 +526,11 @@ $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
 $active_trail = array_keys($parameters->activeTrail);
 ```
 
-![Menu debug display](./images/media/menu_debug_dump.png)
+![Menu debug display](assets/images/menu_debug_dump.png)
 
 Extracting out the active trail gives this useful information:
 
-![Active trail debug display](./images/media/active_trail_debug.png)
+![Active trail debug display](assets/images/active_trail_debug.png)
 
 ## Get a node's menu item and more
 
@@ -621,13 +614,8 @@ the `delete()` method.
 
 - [#! code: Drupal 9: Creating A Category Menu Using Derivers, August 2022](https://www.hashbangcode.com/article/drupal-9-creating-category-menu-using-derivers)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----------
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

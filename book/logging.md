@@ -1,24 +1,22 @@
+---
+layout: default
+title: Logging
+permalink: /logging
+last_modified_date: '2023-04-13'
+---
+
 # Logging
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Logging](#logging)
-  - [Quick log to watchdog](#quick-log-to-watchdog)
-  - [Log an email notification was sent to the the email address for the site.](#log-an-email-notification-was-sent-to-the-the-email-address-for-the-site)
-  - [Logging from a service using dependency injection](#logging-from-a-service-using-dependency-injection)
-  - [Another example using the logging via dependency injection](#another-example-using-the-logging-via-dependency-injection)
-  - [Logging exceptions from a try catch block](#logging-exceptions-from-a-try-catch-block)
-  - [Display a message in the notification area](#display-a-message-in-the-notification-area)
-  - [Display a variable while debugging](#display-a-variable-while-debugging)
-  - [Reference](#reference)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-loggin)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Quick log to watchdog
 
@@ -314,7 +312,7 @@ var_dump($is_front);
 print_r($is_front);
 ```
 
-![Displaying var_dump in Drupal](./images/media/vardump.png)
+![Displaying var_dump in Drupal](assets/images/vardump.png)
 
 ## Reference
 
@@ -324,15 +322,6 @@ print_r($is_front);
 
 ---
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
