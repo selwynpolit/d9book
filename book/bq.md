@@ -30,7 +30,7 @@
 
 ### Overview
 
-The Batch API provides very useful functionality that lets you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's to be processed and use the batch API to process those chunks of ids.
+The Batch API provides very useful functionality that lets you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's (using `array_chunk`)to be processed and use the batch API to process those arrays (chunks) of ids.  You can also provide code that will let it figure out how much work to do and stop itself.
 
 In addition, you create a function to handle things once all the chunks are complete. You can also give the Batch API a bunch of work to do and have it figure out for itself when it is finished.
 
@@ -38,22 +38,46 @@ Also, it's useful that the Batch API uses the Drupal Queue system, allowing it t
 
 You can use the Batch API in controllers, forms, hook updates, and Drush commands. The implementation of each one is slightly different, as you can see in the examples.
 
-Most often you start a batch from a form where you fill in some options and click a button. In the case of a controller, the batch runs when the browser is pointed at a URL. Drush commands are typed in the terminal.
+Most often you start a batch from a form where you fill in some options and click a button. In the case of a controller, you activate a batch when you point the browser at a URL. Drush commands are typed in the terminal.
+
+In the code: 
+For a drush command, you use `drush_backend_batch_process()` to kick off the batch (from DirtSalesforceController.php):
+
+```php
+if ($browser === FALSE) {
+  drush_backend_batch_process();
+}
+```
+
+Here is an explanation from the source of what it does:
+```php
+ * Process a Drupal batch by spawning multiple Drush processes.
+ *
+ * This function will include the correct batch engine for the current
+ * major version of Drupal, and will make use of the drush_backend_invoke
+ * system to spawn multiple worker threads to handle the processing of
+ * the current batch, while keeping track of available memory.
+ *
+ * The batch system will process as many batch sets as possible until
+ * the entire batch has been completed or 60% of the available memory
+ * has been used.
+ *
+ * This function is a drop in replacement for the existing batch_process()
+ * function of Drupal.
+```
 
 Although it will be covered in more detail in the future, it is useful to know that there is now a batch builder: The BatchBuilder class for batch API  <https://www.drupal.org/node/2875389>. It provides a more streamlined object oriented approach to creating batches.
 
 
 ### Using the Batch API with a form
 
-This example replaces a multivalue field with some new values processing 10 nodes at a time. The decision to process 10 at a time is arbitrary, but be aware that the more nodes you process at a time, the more likely the batch will fail.
+This example replaces a multivalue field with some new values processing 10 nodes at a time. The decision to process 10 at a time is arbitrary, but be aware that the more nodes you process at a time, the higher the possibility that the process will time out causing the batch will fail.
 
-The form example can be accessed at
-<https://d9book.ddev.site/batch-examples/batchform>
+The form example is in the accompanying source and is accessed at <https://d9book.ddev.site/batch-examples/batchform>
 
-The source file would be at `web/modules/custom/batch_examples/src/Form/BatchForm.php` and is presented in pieces below:
+The source file is at `web/modules/custom/batch_examples/src/Form/BatchForm.php` and is presented in pieces below:
 
-Here is a simple form with a button used to kick off the batch
-operation.
+Here is a simple form with a button used to kick off the batch operation.
 
 ```php
 <?php
@@ -408,19 +432,19 @@ You can't use `$this->my_function` even if they are in the same class. Grab the 
 
 ```php
 <?php
-namespace Drupal\dir_salesforce\Controller;
+namespace Drupal\dirt_salesforce\Controller;
 ```
 
 You can however refer to the functions with `self::` e.g.
 
 ```php
 <?php
-$node_to_update_dir_contact_nid = self::getFirstRef($node_to_update, 'field_sf_dir_contact_ref');
+$node_to_update_dirt_contact_nid = self::getFirstRef($node_to_update, 'field_sf_dirt_contact_ref');
 ```
 
 ### Looking at the source
 
-Here is the link to the source for the Batch API.  As always, looking at the source is the definitive way to understand how anything works.  It is really well commented.
+Here is the link to the source for the Batch API.  As always, looking at the source is the definitive way to understand how anything works.  In this case it is really well commented.
 
 From <https://git.drupalcode.org/project/drupal/-/blob/10.0.x/core/includes/form.inc>, there is an example batch that calls `my_function_1` and `my_function_2`. Note for my function 1, the arguments are just separated by commas. 
 
@@ -523,7 +547,7 @@ $context['message'] = t('Running Batch "@id" @details',
 
 You do have to provide your own info for the variables.
 
-You can also stop the batch engine yourself with something like this. If you don't know beforehand how many records you need to process, you might use this.
+You can also stop the batch engine yourself with something like this. If you don't know beforehand how many records you need to process, you could use code like this.
 
 ```php
 <?php
