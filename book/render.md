@@ -1,44 +1,22 @@
+---
+layout: default
+title: Render Arrays
+permalink: /render
+last_modified_date: '2023-04-14'
+---
+
 # Render Arrays
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-
-- [Render Arrays](#render-arrays)
-  - [Overview](#overview)
-  - [Overview of the Theme system and Render API.](#overview-of-the-theme-system-and-render-api)
-  - [Caching](#caching)
-  - [Properties](#properties)
-  - [Image](#image)
-  - [Simple Text](#simple-text)
-  - [Text with variable substitution (Placeholders)](#text-with-variable-substitution-placeholders)
-  - [Wrap an element with a div with a class](#wrap-an-element-with-a-div-with-a-class)
-  - [Prefix and suffix](#prefix-and-suffix)
-  - [Date](#date)
-  - [Image](#image-1)
-  - [Several Url's.](#several-urls)
-  - [Two paragraphs](#two-paragraphs)
-  - [A button that opens a modal dialog](#a-button-that-opens-a-modal-dialog)
-  - [A link](#a-link)
-  - [A link with a class](#a-link-with-a-class)
-  - [A link and its TWIG template](#a-link-and-its-twig-template)
-  - [A link with parameters and a template file](#a-link-with-parameters-and-a-template-file)
-  - [Simple unordered list](#simple-unordered-list)
-  - [Unordered list of links for a menu](#unordered-list-of-links-for-a-menu)
-  - [Nested Unordered List](#nested-unordered-list)
-  - [Select (dropdown)](#select-dropdown)
-  - [Select (dropdown) Ajaxified](#select-dropdown-ajaxified)
-  - [Limit allowed tags in markup](#limit-allowed-tags-in-markup)
-  - [Resources](#resources)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-render)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
+---
 
 ## Overview
 
@@ -459,7 +437,7 @@ $variables['back_home_link'] = $back_home_link
 and in the template you would expect to see something like:
 
 ```twig
-{{ content.back_home_link }}
+{% raw %}{{ content.back_home_link }}{% endraw %}
 ```
 
 
@@ -506,6 +484,7 @@ $next_breakout = [
 // ...
 
 $next_links[] = $next_breakout;
+```
 
 Then we wrap up all the variables and send them to buildDetails
 
@@ -542,13 +521,13 @@ Then in team-abc--correctional-voting.html.twig the `next` links are rendered --
 
 ```twig
 <div class="cell small-12 medium-6">
-  {% if content.next_links %}
+  {% raw %}{% if content.next_links %}
     <ul class="no-bullet nav-links prev">
       {% for next_link in content.next_links %}
         Move mouse below for Next invisible links<li>{{ next_link }}</li>
       {% endfor %}
     </ul>
-  {% endif %}
+  {% endif %}{% endraw %}
 </div>
 ```
 This example may be a little confusing as it loops through an array of links.
@@ -731,16 +710,8 @@ function postal_theme_preprocess_menu(&$vars, $hook) {
 -   Render Arrays from Drupal.org updated August 2022
     <https://www.drupal.org/docs/drupal-apis/render-api/render-arrays>
 
--   
-
-
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

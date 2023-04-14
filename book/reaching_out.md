@@ -1,31 +1,22 @@
+---
+layout: default
+title: Reaching out of Drupal
+permalink: /reaching-out
+last_modified_date: '2023-04-14'
+---
+
 # Reaching out of Drupal
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-
-- [Reaching out of Drupal](#reaching-out-of-drupal)
-  - [Overview](#overview)
-  - [Guzzle example](#guzzle-example)
-  - [Guzzle POST example](#guzzle-post-example)
-  - [Magic methods to send synchronous requests](#magic-methods-to-send-synchronous-requests)
-  - [HTTP basic authentication](#http-basic-authentication)
-  - [Exception handling](#exception-handling)
-  - [Guzzle Exceptions](#guzzle-exceptions)
-  - [HTTP response status codes](#http-response-status-codes)
-  - [Reading from an API](#reading-from-an-api)
-  - [Download a file using guzzle](#download-a-file-using-guzzle)
-  - [Download a file using curl in PHP](#download-a-file-using-curl-in-php)
-  - [Resources](#resources)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-reaching)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
+---
 
 ## Overview
 
@@ -528,15 +519,8 @@ curl_close($ch);
 
 -   PSR-7: HTTP message interfaces describes common interfaces for representing HTTP messages and URIs <https://www.php-fig.org/psr/psr-7/>
 
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

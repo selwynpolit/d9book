@@ -1,40 +1,22 @@
+---
+layout: default
+title: Routes
+permalink: /routes
+last_modified_date: '2023-04-14'
+---
+
 # Routes and Controllers
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-
-- [Routes and Controllers](#routes-and-controllers)
-  - [Overview](#overview)
-    - [Route](#route)
-    - [Controller](#controller)
-    - [Connecting to a twig template](#connecting-to-a-twig-template)
-  - [Simple page without arguments](#simple-page-without-arguments)
-  - [Page with arguments](#page-with-arguments)
-  - [Simple form](#simple-form)
-  - [Admin form (or settings form)](#admin-form-or-settings-form)
-  - [Routing permissions](#routing-permissions)
-    - [A specific permission](#a-specific-permission)
-    - [Multiple permissions](#multiple-permissions)
-  - [Set the page title dynamically](#set-the-page-title-dynamically)
-  - [Disable caching on a route](#disable-caching-on-a-route)
-  - [Generate route and controller with Drush](#generate-route-and-controller-with-drush)
-  - [Finding routes with Drush](#finding-routes-with-drush)
-    - [All routes](#all-routes)
-    - [Specific path](#specific-path)
-    - [Specific route name](#specific-route-name)
-  - [Getting some help from Chat GPT](#getting-some-help-from-chat-gpt)
-  - [Resources](#resources)
-
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-routes)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
+---
 
 ## Overview
 
@@ -112,7 +94,7 @@ This route is for a page with no arguments/parameters.
 
 In the file page_example.routing.yml (e.g. `web/modules/contrib/examples/page_example/page_example.routing.yml` and the controller is at `web/modules/contrib/examples/page_example/src/Controller/PageExampleController.php`
 
-```php
+```yml
 # If the user accesses https://example.com/?q=examples/page-example/simple,
 # or https://example.com/examples/page-example/simple,
 # the routing system will look for a route with that path. 
@@ -132,7 +114,7 @@ page_example_simple:
 
 From `web/modules/contrib/examples/page_example/page_example.routing.yml` {first}/{second} are the arguments.
 
-```php
+```yml
 # Since the parameters are passed to the function after the match, the
 # function can do additional checking or make use of them before executing
 # the callback function. The placeholder names "first" and "second" are
@@ -149,7 +131,7 @@ page_example_arguments:
 
 From `web/modules/custom/rsvp/rsvp.routing.yml`. This route will cause Drupal to load the form: `RSVPForm.php` so the user can fill it out.
 
-```yaml
+```yml
 rsvp.form:
   path: '/rsvplist'
   defaults:
@@ -163,7 +145,7 @@ rsvp.form:
 
 From `web/modules/custom/rsvp/rsvp.routing.yml` this route loads the admin or settings form `RSVPConfigurationForm`.
 
-```php
+```yml
 rsvp.admin_settings:
   path:'/admin/config/content/rsvp'
   defaults:
@@ -182,14 +164,14 @@ These are defined in your `module.permissions.yml` e.g. `rsvp.permissions.yml`. 
 
 This requires the user to be logged in to access this route:
 
-```yaml
+```yml
 requirements:
   _user_is_logged_in: 'TRUE'
 ```
 
 To skip permissions, set `_access` to TRUE like this:
 
-```yaml
+```yml
 requirements:
   _access: 'TRUE'
 ```
@@ -199,9 +181,9 @@ requirements:
 
 To specify a particular permission, use the following. Note. Case is critical!
 
-```yaml
+```yml
 requirements:
-_permission: 'administer rsvplist'
+  _permission: 'administer rsvplist'
 ```
 
 
@@ -212,7 +194,6 @@ Drupal allows stacking permissions with the plus(`+`) sign. Note the `+` sign me
 ```yaml
   requirements:
     _permission: 'vote on own squishy item+manage squishy process'
-
 ```
 
 
@@ -276,7 +257,7 @@ For more, on generating controllers see <https://www.drush.org/latest/generators
 
 This is what it looks like to generate a controller:
 
-```
+```sh
 $ drush generate controller
 
  Welcome to controller generator!
@@ -361,7 +342,7 @@ This is a huge timesaver!
 
 Drush lets you figure out the controller associated with a route since version 10.5.  Here are some of the options:
 
-```
+```sh
 $ drush route
 $ drush route --path=/user/1
 $ drush route --name=update.status
@@ -538,18 +519,8 @@ This would define a route at the path /temperature-table that displays the table
 
 - Controllers article from Drupalize.me updated December 2021 <https://drupalize.me/topic/controllers>
 
-
-
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

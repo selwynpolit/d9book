@@ -32,7 +32,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Drush - the amazing command line tool that makes everyone\'s life so much better](drush)
 - [Email - Sending emails in Drupal](email)
 - [Entities - More entities - the primary building blocks of Drupal](entities)
-- [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](book/forms.md)
+- [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](forms)
 - [General - Useful things that seemed to not fit well elsewhere](general)
 - [Hooks - hooking into the Drupal hook system to make modifications](hooks)
 - [Learning and keeping up with the latest on Drupal](learn)
@@ -41,19 +41,20 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Menus](menus)
 - [Modal dialogs](modals)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](nodes-and-fields)
-- [Reaching out of Drupal](book/reaching_out.html)
-- [Redirects](book/redirects.html)
-- [Render Arrays](book/render.html)
-- [Routes and Controllers](book/routes.html)
-- [Services and Dependency injection](book/services.html)
-- [State API, Tempstore and UserData (Interesting flavors of storage)](book/state.md)
-- [Twig - Formatting and controlling your output](book/twig.md)
-- [Queries - entityQueries, SQL queries, inserting and deleting content](book/queries.md)
-- [PHPUnit and Drupal Test Traits](book/dtt.md)
-- [Taxonomy](book/taxonomy.md)
+- [Queries - entityQueries, SQL queries, inserting and deleting content](queries)
+- [Reaching out of Drupal](reaching-out)
+- [Redirects](redirects)
+- [Render Arrays](render)
+- [Routes and Controllers](routes)
+- [Services and Dependency injection](services)
+- [State API, Tempstore and UserData (Interesting flavors of storage)](state)
+- [Taxonomy](taxonomy)
+- [PHPUnit and Drupal Test Traits](dtt)
+- [Twig - Formatting and controlling your output](twig)
 
 ---
-If you are inspired, please be a part of this project by contributing your own brilliance (imposters welcomed!) and add your name on the [attribution page.](book/attribution.html)
+
+If you are inspired, please be a part of this project by contributing your own brilliance (imposters welcomed!) and add your name on the [attribution page](attribution).
 
 ---
 

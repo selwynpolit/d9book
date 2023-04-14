@@ -1,44 +1,22 @@
+---
+layout: default
+title: Services
+permalink: /services
+last_modified_date: '2023-04-14'
+---
+
 # Services and Dependency Injection
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Services and Dependency Injection](#services-and-dependency-injection)
-  - [Overview](#overview)
-  - [Static](#static)
-  - [Static Shorthand methods](#static-shorthand-methods)
-  - [Services in action](#services-in-action)
-  - [ControllerBase shortcuts](#controllerbase-shortcuts)
-  - [Injected/Dependency Injection](#injecteddependency-injection)
-    - [Controller details](#controller-details)
-    - [Controller Example 1](#controller-example-1)
-    - [Controller Example 2](#controller-example-2)
-  - [Finding services](#finding-services)
-  - [Creating a custom service](#creating-a-custom-service)
-    - [Arguments](#arguments)
-    - [Passing the config factory to our service](#passing-the-config-factory-to-our-service)
-    - [Taxonomy Tree Custom Service](#taxonomy-tree-custom-service)
-  - [Using your custom service](#using-your-custom-service)
-  - [Dependency Injection](#dependency-injection)
-    - [Overview](#overview-1)
-    - [Service Container](#service-container)
-    - [Controller Example 1](#controller-example-1-1)
-    - [Controller Example 2](#controller-example-2-1)
-    - [Blocks and other plugins](#blocks-and-other-plugins)
-  - [Procedural to Class-based dependency injection](#procedural-to-class-based-dependency-injection)
-  - [Drush services commands](#drush-services-commands)
-    - [List all services](#list-all-services)
-    - [Generate custom service](#generate-custom-service)
-  - [Resources](#resources)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-services)
 
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Overview
 
@@ -446,7 +424,7 @@ You can look at
 <https://api.drupal.org/api/drupal/services>
 and search for `entity_type`. This will result in:
 
-![Finding Services on Drupal API](images/media/find-services.png)
+![Finding Services on Drupal API](assets/images/find-services.png)
 
 
 This tells you to that the service is in `core.services.yml` and that it is implemented in the `EntityTypeManager` class.
@@ -966,13 +944,7 @@ Here is the overview from the `Drupal.php` file for Drupal 9.5.0 of when and how
 
 ### List all services
 
-`drush devel:services`
-
-or
-
-`drush dcs`
-
-or
+`drush devel:services` or `drush dcs` or
 
 ```php
 drush eval "print_r(\Drupal::getContainer()->getServiceIds());"
@@ -1057,15 +1029,8 @@ etc.
 
 -   Inject a service in Drupal 8 showing an example of injecting http_client (Guzzle) by J M Olivas July 2015 <https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4>
 
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

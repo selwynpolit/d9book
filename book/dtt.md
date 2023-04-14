@@ -1,78 +1,22 @@
+---
+layout: default
+title: Tests
+permalink: /dtt
+last_modified_date: '2023-04-14'
+---
+
 # PHPUnit and Drupal Test Traits
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [PHPUnit and Drupal Test Traits](#phpunit-and-drupal-test-traits)
-  - [Overview](#overview)
-- [Location of PHPUnit Tests](#location-of-phpunit-tests)
-- [Output files from running phpunit](#output-files-from-running-phpunit)
-- [Setup PHPUnit tests](#setup-phpunit-tests)
-- [Running PHPUnit tests in the DDEV container](#running-phpunit-tests-in-the-ddev-container)
-  - [Run PHPUnit test in DDEV from the host](#run-phpunit-test-in-ddev-from-the-host)
-  - [Run PHPUnit test on the host](#run-phpunit-test-on-the-host)
-- [Generate a unit test with drush](#generate-a-unit-test-with-drush)
-- [My first PHPUnit test](#my-first-phpunit-test)
-- [Drupal Test Traits Overview](#drupal-test-traits-overview)
-- [Install/setup Drupal Test Traits](#installsetup-drupal-test-traits)
-  - [What about testing browser interaction?](#what-about-testing-browser-interaction)
-- [My first DTT tests](#my-first-dtt-tests)
-- [Running DTT tests](#running-dtt-tests)
-  - [Run tests on the host](#run-tests-on-the-host)
-  - [Run tests in a specific file](#run-tests-in-a-specific-file)
-  - [Run a specific test in a file](#run-a-specific-test-in-a-file)
-- [Logging Test Output](#logging-test-output)
-  - [Capture every page loaded](#capture-every-page-loaded)
-  - [Capture an HTML page](#capture-an-html-page)
-    - [Example of capturing a page](#example-of-capturing-a-page)
-    - [Screenshot using ExistingSiteSelenium2DriverTest](#screenshot-using-existingsiteselenium2drivertest)
-- [Writing DTT Tests](#writing-dtt-tests)
-  - [Test locations](#test-locations)
-  - [Generate DTT tests with drush](#generate-dtt-tests-with-drush)
-  - [Example tests](#example-tests)
-    - [ExampleTest.php creating user term, article](#exampletestphp-creating-user-term-article)
-    - [VotingPageTest](#votingpagetest)
-    - [ExampleLoginTest.php](#examplelogintestphp)
-    - [Selenium2DriverTest](#selenium2drivertest)
-  - [Login to your site](#login-to-your-site)
-    - [Create a new user and login as that user:](#create-a-new-user-and-login-as-that-user)
-    - [Create an admin user](#create-an-admin-user)
-    - [Login as an existing user](#login-as-an-existing-user)
-  - [Fill out a form](#fill-out-a-form)
-    - [Parameter gotcha](#parameter-gotcha)
-  - [Data Provider](#data-provider)
-  - [Fill a queue and run a trait](#fill-a-queue-and-run-a-trait)
-- [Mink](#mink)
-  - [Checking page return code](#checking-page-return-code)
-  - [Grab the text from the page](#grab-the-text-from-the-page)
-  - [Current URL](#current-url)
-- [Load and parse a CSV file](#load-and-parse-a-csv-file)
-- [Adding DTT to an existing site](#adding-dtt-to-an-existing-site)
-  - [Install DTT and dev requirements with:](#install-dtt-and-dev-requirements-with)
-  - [Create phpunit.xml file](#create-phpunitxml-file)
-  - [Create bootstrap-fast.php](#create-bootstrap-fastphp)
-  - [Add .phpunit.result.cache file to .gitignore](#add-phpunitresultcache-file-to-gitignore)
-  - [Remove DTT and core-dev](#remove-dtt-and-core-dev)
-  - [Hide deprecation notices](#hide-deprecation-notices)
-- [Troubleshooting DTT Tests](#troubleshooting-dtt-tests)
-  - [Which test?](#which-test)
-  - [PolyfillAssertTrait not found](#polyfillasserttrait-not-found)
-  - [Class not found errors](#class-not-found-errors)
-  - [var\_dump, echo, print](#var_dump-echo-print)
-- [Using Xdebug and PHPStorm to debug DTT scripts](#using-xdebug-and-phpstorm-to-debug-dtt-scripts)
-- [Resources](#resources)
-  - [General](#general)
-  - [Documentation](#documentation)
-  - [Testing setup](#testing-setup)
-  - [Mocking](#mocking)
-  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dtt)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Overview
 
@@ -152,7 +96,7 @@ tests/src/FunctionalJavascript
 
 For core they are in web/core/modules (or docroot/core/modules) e.g. in the action module, the directory structure looks like this:
 
-![Phpunit Test Location](./images/media/phpunit-test-location.png)
+![Phpunit Test Location](assets/images/phpunit-test-location.png)
 
 # Output files from running phpunit
 
@@ -165,19 +109,19 @@ Below you will see a bunch of directories (probably one for each run of the test
 <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/simpletest/browser_output"/>
 ```
 
-![Test output location](./images/media/test-output.png)
+![Test output location](assets/images/test-output.png)
 
 If you don't need to view the reports from your tests, you can safely delete these directories as well as the html files shown below.
 
 At the same level is a browser_output directory which has some html
 files which reference the directories above:
 
-![Browser Ouput1](./images/media/browser-output1.png)
+![Browser Ouput1](assets/images/browser-output1.png)
 
 While tests are running, I noticed that files appear in the
 /simpletest/browser_output folder at the topmost level of the project. They go away when the tests complete..
 
-![Browser Output2](./images/media/browser-output2.png)
+![Browser Output2](assets/images/browser-output2.png)
 
 # Setup PHPUnit tests 
 
@@ -356,7 +300,7 @@ class ExampleTest extends UnitTestCase {
 
 Drush wrote the test file in `modules/custom/tea_teks_voting/tests/src/Unit/ExampleTest.php`
 
-![Generated test location](./images/media/generated-test.png)
+![Generated test location](assets/images/generated-test.png)
 
 To run this test use
 
@@ -1149,7 +1093,7 @@ do {
 
 The output appears as png files like:
 
-![Output files](./images/media/output-files.png)
+![Output files](assets/images/output-files.png)
 
 Curiously, this only captures the visible part of the page - I notice parts of it were clipped.
 
@@ -1831,7 +1775,7 @@ TA\"**,**met**,**met**
 
 Picture of CSV file with color formatting:
 
-![CSV in color](./images/media/csv-in-color.png)
+![CSV in color](assets/images/csv-in-color.png)
 
 # Adding DTT to an existing site
 
@@ -2237,7 +2181,7 @@ and the output:
 
 It is easiest to make sure you have PHPStorm Xdebug working first, then make sure the path mappings are correct. Note. This process is almost identical to debugging drush commands.
 
-![Path mappings](./images/media/path-mappings.png)
+![Path mappings](assets/images/path-mappings.png)
 
 ```
 $ ddev exec enable_xdebug
@@ -2399,14 +2343,6 @@ When Phpstorm pops up, specify that the vendor directory is at
 
 ---
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

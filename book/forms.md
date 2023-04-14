@@ -1,73 +1,22 @@
+---
+layout: default
+title: Forms
+permalink: /forms
+last_modified_date: '2023-04-14'
+---
+
 # Forms, Form API and AJAX
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-
-
-- [Forms, Form API and AJAX](#forms-form-api-and-ajax)
-  - [Overview](#overview)
-  - [Find a form id in the page source](#find-a-form-id-in-the-page-source)
-  - [Additional buttons on your custom forms](#add-buttons-to-your-custom-forms)
-  - [Modify a button on a form with hook_form_alter](#modify-a-button-on-a-form-with-hook_form_alter)
-  - [Hide a field with hook_form_alter](#hide-a-field-with-hook_form_alter)
-  - [Hide revision info and moderation state](#hide-revision-info-and-moderation-state)
-  - [Conditional fields and field states API (#states)](#conditional-fields-and-field-states-api-states)
-    - [Conditional fields in a form](#conditional-fields-in-a-form)
-    - [Conditional fields in node add or edit form](#conditional-fields-in-node-add-or-edit-form)
-  - [Get the key and value from a select drop-down](#get-the-key-and-value-from-a-select-drop-down)
-  - [Autocomplete](#autocomplete)
-    - [Add an autocomplete taxonomy field](#add-an-autocomplete-taxonomy-field)
-    - [Add a views-driven entity autocomplete field](#add-a-views-driven-entity-autocomplete-field)
-    - [Disable autocomplete for user login and password fields](#disable-autocomplete-for-user-login-and-password-fields)
-  - [Validating input](#validating-input)
-    - [Validate string length](#validate-string-length)
-    - [Validate an email](#validate-an-email)
-    - [Validate date](#validate-date)
-    - [Validate a node add or edit](#validate-a-node-add-or-edit)
-  - [Displaying Forms](#displaying-forms)
-    - [Embedding a form:](#embedding-a-form)
-    - [Show a form in a block](#show-a-form-in-a-block)
-    - [Provide a block template for a form in a block](#provide-a-block-template-for-a-form-in-a-block)
-  - [Redirecting](#redirecting)
-    - [Form submission with redirect](#form-submission-with-redirect)
-    - [Ajax redirect](#ajax-redirect)
-    - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown)
-  - [Add Javascript to a form](#add-javascript-to-a-form)
-  - [AJAX Forms](#ajax-forms)
-    - [Popup an AJAX modal dialog](#popup-an-ajax-modal-dialog)
-    - [AJAX modal dialog with redirect example](#ajax-modal-dialog-with-redirect-example)
-      - [Ajax submit](#ajax-submit)
-      - [Ajax redirect](#ajax-redirect-1)
-    - [AJAX redirect from a select element (dropdown)](#ajax-redirect-from-a-select-element-dropdown-1)
-    - [Update a value in another field(I am I want) using AJAX](#update-a-value-in-another-fieldi-am-i-want-using-ajax)
-    - [I Am I Want revisited](#i-am-i-want-revisited)
-      - [Custom responses](#custom-responses)
-    - [How do you find all the possible AJAX commands to use with addCommand()?](#how-do-you-find-all-the-possible-ajax-commands-to-use-with-addcommand)
-    - [Another AJAX Submit example](#another-ajax-submit-example)
-  - [Config Forms](#config-forms)
-    - [Generate a config form with drush](#generate-a-config-form-with-drush)
-    - [Config forms overview](#config-forms-overview)
-  - [The basics of implementing forms](#the-basics-of-implementing-forms)
-    - [Base Classes for forms](#base-classes-for-forms)
-    - [Create your form class by extending Formbase](#create-your-form-class-by-extending-formbase)
-    - [The main methods](#the-main-methods)
-      - [getFormId()](#getformid)
-      - [buildForm()](#buildform)
-      - [submitForm()](#submitform)
-    - [Form validation example #1](#form-validation-example-1)
-    - [Form Validation example #2](#form-validation-example-2)
-    - [Field attributes](#field-attributes)
-    - [Form Elements](#form-elements)
-    - [Retrieving field values](#retrieving-field-values)
-  - [Resources](#resources)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-forms)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Overview
 
@@ -291,10 +240,8 @@ $form['nonstandard']['copies_yes_no'] = [
   '#title' => $this->t('Did the requestor ask for copies of nonstandard documents (e.g., oversized paper, DVD, or VHS tape)?'),
   '#default_value' => 0,
   '#options' => [
-    0 => $this
-      ->t('Yes'),
-    1 => $this
-      ->t('No'),
+    0 => $this->t('Yes'),
+    1 => $this->t('No'),
   ],
 ];
 
@@ -613,7 +560,7 @@ public function build() {
 In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
 
 (Here is an image of this source code. Strangely, Jekyll/Github requires me to jump through some hoops for TWIG source. I'm still experimenting.)
-![block template](./images/media/block_template.png)
+![block template](assets/images/block_template.png)
 
 Here is the source:
 {% raw %}
@@ -917,9 +864,9 @@ Notice in the `buildform()` function that the code references the machine
 name for the library (not the library's filename which is
 `ajax_example.libraries.yml`.)
 
-Here is the JS for completeness:
+Here is the js for completeness:
 
-```JS
+```js
 (function ($) {
 
   // Re-enable form elements that are disabled for non-ajax situations.
@@ -2265,15 +2212,8 @@ $delete_extras = $form_state->getValue('delete_extras');
   
 * Conditional fields module <https://www.drupal.org/project/conditional_fields>
 
-
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

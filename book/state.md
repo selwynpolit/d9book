@@ -1,27 +1,24 @@
+---
+layout: default
+title: State
+permalink: /state
+last_modified_date: '2023-04-14'
+---
+
 # State API, TempStore and UserData
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [State API, TempStore and UserData](#state-api-tempstore-and-userdata)
-  - [State API](#state-api)
-    - [Using Drush to read the State API](#using-drush-to-read-the-state-api)
-    - [Example accessing State API](#example-accessing-state-api)
-    - [Long strings broken into paragraphs](#long-strings-broken-into-paragraphs)
-  - [UserData](#userdata)
-  - [TempStore](#tempstore)
-    - [PrivateTempStore](#privatetempstore)
-    - [SharedTempStore](#sharedtempstore)
-      - [Injecting tempstore.shared](#injecting-tempstoreshared)
-  - [Reference](#reference)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-state)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
+
+## Overview
 
 The State API, TempStore API, and UserData are all storage mechanisms in Drupal. There is some overlap in their capabilities however they can be used for different purposes. Here is a brief explanation of each:
 
@@ -188,7 +185,7 @@ public function build4() {
 
 Here is the data stored in the `users_data` table. Notice that there is also some user data from the contact module as well as the data from the `state_examples` module that was created from the code above.
 
-![Users_data table](./images/media/users_data_table.png)
+![Users_data table](assets/images/users_data_table.png)
 
 
 
@@ -246,7 +243,7 @@ In this example, we can see writing, reading, and deleting a private TempStore v
 Drupal automatically inserts the user id (e.g. 1:) into the front of the name field so that the data is connected with that user. Notice in the database screenshot below that the name field (i.e.
 1:selwyn.important.string) is preceded by 1: which makes it unique. Even though the code specified \"selwyn.important.string\" each user gets a unique copy. I was logged in as user 1 when I ran this program initially, and then I ran it again logged in as user 2.
 
-![Private tempstore in the database](./images/media/private_tempstore1.png)
+![Private tempstore in the database](assets/images/private_tempstore1.png)
 
 In the next example we\'re storing an array with the key
 \"selwyn.important.array\". The array is automatically serialized into the value field. Incidentally, you don\'t have to specify the type of content (i.e. array) as I have. Instead of using selwyn.important.array, you could use selwyn.important.banana or selwyn.important.kiwi (depending on your fruit preference).
@@ -273,12 +270,11 @@ $tempstore->delete('selwyn.important.array');
 ```
 
 
-![Storing an array via tempstore in the database](./images/media/tempstore_db_array.png){width="6.5in"
-height="2.21875in"}
+![Storing an array via tempstore in the database](assets/images/tempstore_db_array.png)
 
 This is a screenshot of the value for the array field above. Notice the id = 123 and name = Dave. There is no need to manipulate the data to get it stored away safely. Drupal will serialize it for you:
 
-![Serialized array in database](./images/media/serialized_array.png)
+![Serialized array in database](assets/images/serialized_array.png)
 
 Also see this article showing how to save values from a form and then later retrieve and process them in a controller. Saving temporarily values of a form with Private Tempstore in Drupal 8 by Karim Boudjema Mar 2019 <http://karimboudjema.com/en/drupal/20190315/saving-temporary-values-form-private-tempstore-drupal-8>
 
@@ -341,11 +337,11 @@ Here is example code showing writing, reading and deleting data from SharedTempS
 ```
 And here is the data in the database:
 
-![Shared tempstore in the database](./images/media/shared_tempstore1.png)
+![Shared tempstore in the database](assets/images/shared_tempstore1.png)
 
 And you can see the data owner in the screen shot below:
 
-![Shared tempstore data in the database](./images/media/shared_tempstore2.png)
+![Shared tempstore data in the database](assets/images/shared_tempstore2.png)
 
 #### Injecting tempstore.shared
 
@@ -359,10 +355,8 @@ services:
 ```
 
 ```php
-
   /** @var \Drupal\Core\TempStore\SharedTempStore|null  */
   protected ?SharedTempStore $tempStore = NULL;
-
 
   public function __construct(EntityTypeManager $entityTypeManager, AccountInterface $account, SharedTempStoreFactory $sharedTempStoreFactory) {
     $this->entityTypeManager = $entityTypeManager;
@@ -433,16 +427,6 @@ In `core.services.yml`, you can see that `tempstore.shared` uses the `SharedTemp
 
 ---
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

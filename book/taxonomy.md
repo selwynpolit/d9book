@@ -1,27 +1,22 @@
+---
+layout: default
+title: Taxonomy
+permalink: /taxonomy
+last_modified_date: '2023-04-14'
+---
+
 # Taxonomy
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Taxonomy](#taxonomy)
-  - [Lookup term by name](#lookup-term-by-name)
-  - [Lookup term name using its tid](#lookup-term-name-using-its-tid)
-  - [Lookup term using its uuid](#lookup-term-using-its-uuid)
-  - [Load terms from a term reference field](#load-terms-from-a-term-reference-field)
-  - [Find terms referenced in a paragraph in a term reference field](#find-terms-referenced-in-a-paragraph-in-a-term-reference-field)
-  - [Get URL alias from a term ID](#get-url-alias-from-a-term-id)
-  - [Load all terms for a vocabulary](#load-all-terms-for-a-vocabulary)
-  - [Load all terms for a vocabulary and put them in a select (dropdown)](#load-all-terms-for-a-vocabulary-and-put-them-in-a-select-dropdown)
-  - [Create taxonomy term programatically](#create-taxonomy-term-programatically)
-  - [Find all nodes with a matching term](#find-all-nodes-with-a-matching-term)
-  - [Find nodes with a matching term using entityQuery](#find-nodes-with-a-matching-term-using-entityquery)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-taxonomy)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Lookup term by name
 
@@ -282,12 +277,12 @@ public function loadTerms() {
 
 Vid is the vocabulary id e.g. event_category or type
 
-'''php
+```php
 $term = Term::create([
   'name' => 'protest',
   'vid' => 'event_category',
 ])->save();
-'''
+```
 
 ## Find all nodes with a matching term
 
@@ -342,12 +337,8 @@ protected function loadFirstOpinion($term_id) {
   return $ra;
 ```
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

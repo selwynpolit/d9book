@@ -1,45 +1,22 @@
+---
+layout: default
+title: Twig
+permalink: /twig
+last_modified_date: '2023-04-14'
+---
+
 # TWIG
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [TWIG](#twig)
-  - [Overview](#overview)
-    - [Theme System Overview](#theme-system-overview)
-    - [Twig Templating Engine](#twig-templating-engine)
-  - [Displaying Data](#displaying-data)
-    - [Fields or Logic](#fields-or-logic)
-    - [Which template, which variables?](#which-template-which-variables)
-    - [Display fields or variables](#display-fields-or-variables)
-    - [Node Title with and without a link](#node-title-with-and-without-a-link)
-    - [Fields](#fields)
-    - [Paragraph field](#paragraph-field)
-    - [Loop thru paragraph reference fields](#loop-thru-paragraph-reference-fields)
-    - [Body](#body)
-    - [Multi-value fields](#multi-value-fields)
-    - [Fields with HTML](#fields-with-html)
-    - [The date/time a node is published, updated or created](#the-datetime-a-node-is-published-updated-or-created)
-    - [Format a date field](#format-a-date-field)
-    - [Smart date field formatting](#smart-date-field-formatting)
-    - [Entity Reference field](#entity-reference-field)
-    - [Entity reference destination content](#entity-reference-destination-content)
-    - [Taxonomy term](#taxonomy-term)
-    - [Render a block](#render-a-block)
-    - [Render a list created in the template\_preprocess\_node()](#render-a-list-created-in-the-template_preprocess_node)
-    - [Links](#links)
-    - [Links to other pages on site](#links-to-other-pages-on-site)
-    - [Link to a user using user id](#link-to-a-user-using-user-id)
-    - [External link in a field via an entity reference](#external-link-in-a-field-via-an-entity-reference)
-    - [Render an internal link programatically](#render-an-internal-link-programatically)
-    - [Render an image with an image style](#render-an-image-with-an-image-style)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-twig)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 Drupal 10 uses **Twig 3**. Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
 
@@ -625,7 +602,7 @@ Link field (URL)
 
 This is the simplest way. Just set the display mode to link
 
-![Suggest Button](./images/media/suggest_button.png)
+![Suggest Button](assets/images/suggest_button.png)
 
 
 And output the link without a label.
@@ -792,11 +769,23 @@ Here we use sidebar_standard image style
 Or for a media field, set the image style on the display mode and use this:
 
 ```twig
-{% raw %}
-{{ content.field_banner_image.0 }}
-{% endraw %}
+{% raw %}{{ content.field_banner_image.0 }}{% endraw %}
 ```
 
+---
 
-
-
+<script src="https://giscus.app/client.js"
+        data-repo="selwynpolit/d9book"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
+        data-category="Q&A"
+        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
