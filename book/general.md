@@ -830,6 +830,8 @@ After
 \Drupal::messenger()->addMessage($message, $type, $repeat);
 ```
 
+Read more under https://www.drupal.org/node/2774931.
+
 ---
 
 <script src="https://giscus.app/client.js"

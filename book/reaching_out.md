@@ -320,12 +320,12 @@ class DrupalHTTPClient {
       }
       if ($response->getStatusCode() == '200') {
         $data = $response->getBody()->getContents();
-        //drupal_set_message($data);
+        //\Drupal::messenger()->addMessage(serialize($data));
         $result = json_decode($data, true);
         if($msg) {
           $setMessage = is_array($result) && isset($result['message']) ? $result['message'] :
             (is_string($data) ? $data : "Request is done successfully ");
-          drupal_set_message($type.":".$setMessage);
+            \Drupal::messenger()->addMessage($type.":".$setMessage);
         }
         if(isset($result['exception'])){
           $result_message = '';
@@ -336,13 +336,13 @@ class DrupalHTTPClient {
           return NULL;
         }
         return $result;
-      }else{
-        drupal_set_message($type.' exception contact administrator');
+      } else {
+        \Drupal::messenger()->addError($type.' exception contact administrator');
         \Drupal::logger('server_exception')->error(" \"Server error: <i>`<strong>".$method."</strong> ".$url."`</i> resulted in a <strong>`".$response->getStatusCode()." ".$response->getReasonPhrase()."`</strong> response \" in <i>".__METHOD__."() (line ".__LINE__." of ".__FILE__."</i>).");
       }
     }
     catch (\GuzzleHttp\Exception\ConnectException $e) {
-      drupal_set_message('Cannot contact '.$type);
+      \Drupal::messenger()->addError('Cannot contact '.$type);
       \Drupal::logger('connect_exception')->error(" \"Connection error: <i>`<strong>".$method."</strong> ".$url."`</i> resulted in a <strong>`".$e->getMessage()."`</strong> response \" in <i>".__METHOD__."() (line ".__LINE__." of ".__FILE__."</i>).");
     }
     return NULL;
