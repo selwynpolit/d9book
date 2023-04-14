@@ -1347,7 +1347,11 @@ protected function setupTestProgram1ForVotingRound0() {
   $teks_program_status = $program_node->get('field_tks_program_status')->value;
   if ($teks_program_status == 'publisher_complete') {
     $this->loginAdminUser();
-    $this->drupalGet(Url::fromRoute('tea_teks_publisher.change_input_collection_status', ['node' => 852071,]));
+    $page_source = $this->drupalGet(Url::fromRoute('tea_teks_publisher.change_input_collection_status', ['node' => 852071,]));
+
+    // To check if the form displayed correctly you can look for something in the $page_source and check the return code.
+    $this->assertSession()->statusCodeEquals(200);
+    
     $this->submitForm([
       'program_status' => 'ready_for_release',
     ], 'Change Status');
