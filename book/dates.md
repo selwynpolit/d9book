@@ -495,6 +495,21 @@ protected function loadFirstOpinionYear($term_id) {
 }
 ```
 
+To find any nodes that were changed in the last 7 days, use the following:
+
+```php
+  $query = \Drupal::entityQuery('node')
+  ->condition('field_tks_program_status', 'ready_for_release')
+  ->accessCheck(FALSE)
+  ->condition('type', 'teks_pub_program');
+  // Query changed date within 7 days of today.
+  $query->condition('changed', strtotime('-7 days'), '>=');
+
+  $program_nids = $query->execute();
+  $program_nids = array_values($program_nids);
+```
+
+
 ## Query the creation date using entityQuery
 
 
