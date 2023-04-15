@@ -772,6 +772,33 @@ Or for a media field, set the image style on the display mode and use this:
 {% raw %}{{ content.field_banner_image.0 }}{% endraw %}
 ```
 
+### Hide if there is no content in a field or image 
+
+From
+inside-marthe/themes/custom/dp/templates/content/node\--video-detail.html.twig I check to see if there are any values in this array `related_lessons_nid`s and display the view.
+
+```twig
+{% raw %}{% if related_lessons_nids|length %}
+  <div class="section section--featured">
+    <div class="grid-container">
+      <h2 class="section-header text-center large-text-left">Related Lessons</h2>
+      <div class="grid-x grid-margin-x" data-equalizer data-equalize-on="large">
+        {{ drupal_view('video', 'embed_collection_related_lessons', related_lessons_nids|join(', ')) }}
+      </div>
+    </div>
+  </div>
+{% endif %}{% endraw %}
+```
+
+Not empty:
+
+```twig
+{% raw %}{% if content.field_myfield is not empty %}
+  {# Do something here #}
+{% endif %}{% endraw %}
+```
+
+
 ---
 
 <script src="https://giscus.app/client.js"
