@@ -959,6 +959,31 @@ This loads all the authors and adds `and` between them except for the last one:
 </div>{% endraw %}
 ```
 
+This version inserts commas:
+
+From
+`org/docroot/themes/custom/org/templates/field/field--node--field-categories--opinion.html.twig`
+
+```twig
+{% raw %}{% if label_hidden %}
+  {% if multiple %}
+      {% for item in items %}
+        {%if loop.index > 1 %}, {% endif %}{{ item.content }}
+      {% endfor %}
+  {% else %}
+    {% for item in items %}        
+      {%if loop.index > 1 %}, {% endif %}{{ item.content }}
+    {% endfor %}
+  {% endif %}
+{% else %}
+    <div{{ title_attributes }}>{{ label }}</div>
+    {% for item in items %}
+      {%if loop.index > 1 %}, {% endif %}{{ item.content }}
+    {% endfor %}
+{% endif %}{% endraw %}
+```
+
+
 
 
 
