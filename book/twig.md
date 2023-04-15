@@ -798,6 +798,172 @@ Not empty:
 {% endif %}{% endraw %}
 ```
 
+### Hide if there is no image present 
+
+If there is an image (and it is renderable) display the image
+
+```twig
+{% raw %}{% if content.field_teacher_commentary_image|render %}
+  <img src="{{file_url( content.field_teacher_commentary_image['#items'].entity.uri.value ) }}" width="420" height="255" alt="" class="left">
+{% endif %}{% endraw %}
+```
+
+### Attributes
+
+From <https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes>:
+
+Elements in HTML have **attributes**; these are additional values that configure the elements or adjust their behavior in various ways to meet the criteria the users want.
+
+Read more about using attributes in templates
+[https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates)
+
+To add a data attribute use:
+
+```twig
+{% raw %}{{ attributes.setAttribute('data-myname','tommy') }}{% endraw %}
+```
+
+e.g.
+
+```twig
+{% raw %}<article{{ attributes.addClass(classes).setAttribute('my-name', 'Selwyn') }}>{% endraw %}
+```
+
+Produces:
+
+```html
+<article data-history-node-id="3224" data-quickedit-entity-id="node/3224" role="article" class="contextual-region node node--type-article node--promoted node--view-mode-full" about="/burger1" typeof="schema:Article" my-name="Selwyn" data-quickedit-entity-instance-id="0">
+```
+
+More useful examples at <https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates>
+such as:
+
+```twig
+{% raw %}{% set classes = ['red', 'green', 'blue'] %}
+{% set my_id = 'specific-id' %}
+{% set image_src = 'https://www.drupal.org/files/powered-blue-135x42.png' %}
+
+<img{{ attributes.addClass(classes).removeClass('green').setAttribute('id', my_id).setAttribute('src', image_src) }}>{% endraw %}
+```
+
+Which outputs the following:
+
+ ```html
+ <img id="specific-id" class="red blue" src="https://www.drupal.org/files/powered-blue-135x42.png">
+```
+
+
+Check if an attribute has a class
+
+```twig
+{% raw %}{{ attributes.hasClass($class) }}{% endraw %}
+```
+
+Remove an attribute
+
+```twig
+{% raw %}{{ attributes.removeAttribute() }}{% endraw %}
+```
+
+Convert attributes to array
+
+```twig
+{% raw %}{{ attributes.toArray () }}{% endraw %}
+```
+
+
+### Output the content but leave off the field_image
+
+From
+`very/web/themes/very/templates/node--teaser.html.twig`:
+
+```twig
+{% raw %}<div{{ content_attributes.addClass('content') }}>
+  {{ content|without('field_image')|render|striptags }}
+</div>{% endraw %}
+```
+
+###  Add a class
+
+```twig
+{% raw %}<div{{ content_attributes.addClass('node__content') }}>{% endraw %}
+```
+
+### Add a class conditionally
+
+From `very/web/themes/very/templates/node--teaser.html.twig`
+
+For an unpublished node, wrap this class around the word unpublished
+
+```twig
+{% raw %}{% if not node.published %}
+  <p class="node--unpublished">{{ 'Unpublished'|t }}</p>
+{% endif %}{% endraw %}
+```
+
+### Links to other pages on site
+
+Absolute:
+
+```twig
+{% raw %}<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>{% endraw %}
+```
+
+Relative (see path vs url):
+
+```twig
+{% raw %}<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>{% endraw %}
+```
+
+Could also link to users using
+
+```twig
+{% raw %}<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>{% endraw %}
+```
+
+
+### Loop.index in a paragraph twig template
+
+From:
+`web/themes/custom/dprime/templates/field/field--paragraph--field-links--sidebar-cta.html.twig`
+
+Notice the use of `loop.index` to only output this for the first item
+
+```twig
+{% raw %}{% for item in items %}
+  {% if loop.index == 1 %}
+    <div class="cell medium-6">
+      <a href="{{item.content['#url']}}" class="button {% if loop.index == 2 %}hollow {% endif %}button--light m-b-0"{% if item.content['#options']['attributes']['target'] %} target="{{item.content['#options']['attributes']['target']}}" {% endif %}>{{item.content['#title']}}</a>
+    </div>
+  {% endif %}
+{% endfor %}{% endraw %}
+```
+
+### Loop thru an array of items with a separator
+
+This loads all the authors and adds `and` between them except for the last one:
+
+```twig
+{% raw %}<div>
+  {%- if content.author -%}
+      by
+    {%- for author in content.author -%}
+      {% if loop.last %}
+        {% set separator = '' %}
+      {% else %}
+        {% set separator = ' and ' %}
+      {% endif %}
+      {{ author }} {{ separator }}
+    {%- endfor -%}
+  {%- endif -%}
+</div>{% endraw %}
+```
+
+
+
+
+
+
 
 ---
 
