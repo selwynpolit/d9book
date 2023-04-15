@@ -50,7 +50,7 @@ See below for examples of each.
 Drush can generate all the files to create a new command. Use:
 
 ```bash
-$ drush generate drush:command-file
+$ drush generate drush-command-file
 ```
 Or `drush dcf`
 
