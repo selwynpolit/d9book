@@ -1,28 +1,20 @@
+---
+layout: default
+title: Composer
+permalink: /composer
+last_modified_date: '2023-04-13'
+---
+
 # Composer, Updates and Patches
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Composer, Updates and Patches](#composer-updates-and-patches)
-  - [Creating a local patch to a contrib module](#creating-a-local-patch-to-a-contrib-module)
-  - [Composer.json patches in separate file](#composerjson-patches-in-separate-file)
-  - [Updating Drupal Core](#updating-drupal-core)
-  - [Test composer (dry run)](#test-composer-dry-run)
-  - [Version constraints](#version-constraints)
-  - [Troubleshooting](#troubleshooting)
-    - [Composer won\'t update Drupal core](#composer-wont-update-drupal-core)
-    - [The big reset button](#the-big-reset-button)
-  - [Reference](#reference)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-composer)
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-
 
 ## Creating a local patch to a contrib module
 
@@ -45,7 +37,7 @@ For my patch, I want to remove this section of the `file_entity.links.task.yml` 
 
 First get the repo/git version of the module
 
-```
+```sh
 $ composer update drupal/file_entity --prefer-source
 ```
 
@@ -53,11 +45,13 @@ Change the file in the text editor
 
 Run git diff to see the changes:
 
-```
+```sh
 $ git diff
 ```
+
 The output shows:
-```
+
+```diff
 diff --git a/file_entity.links.task.yml b/file_entity.links.task.yml
 index 3ea93fc..039f7f9 100644
 --- a/file_entity.links.task.yml
@@ -80,8 +74,7 @@ index 3ea93fc..039f7f9 100644
 
 Create the patch
 
-
-```
+```sh
 git diff >file_entity_disable_file_menu_tab.patch
 ```
 
@@ -103,6 +96,7 @@ line starting with \"drupal/file_entity\":
     "drupal/file_entity": {
         "Temporarily disable the files menu tab": "./patches/file_entity_disable_file_menu_tab.patch"
     }
+}
 ```
 
 Revert the file in git and then try to apply the patch.
@@ -119,55 +113,41 @@ To apply the patch:
 patch -p1 < ./patches/fix_scary_module.patch
 ```
 
-## Composer.json patches in separate file
+## composer.json patches in separate file
 
 To separate patches into a different file other than composer json add
 `"patches-file"` section under `"extra"`. See example below:
 
-```JSON
+```json
 "extra": {
     "installer-paths": {
-        "docroot/core": [
-            "type:drupal-core"
-        ],
-        "docroot/modules/contrib/{$name}": [
-            "type:drupal-module"
-        ],
-        "docroot/themes/contrib/{$name}": [
-            "type:drupal-theme"
-        ],
-        "docroot/libraries/{$name}": [
-            "type:drupal-library"
-        ],
-        "docroot/profiles/{$name}": [
-            "type:drupal-profile"
-        ],
-        "vendor/scripts/drush/{$name}": [
-            "type:drupal-drush"
-        ],
-        "docroot/themes/shared/{$name}": [
-            "type:drupal-custom-theme"
-        ],
-        "docroot/modules/shared/{$name}": [
-            "type:drupal-custom-module"
-        ]
+        "web/core": ["type:drupal-core"],
+        "web/libraries/{$name}": ["type:drupal-library"],
+        "web/modules/contrib/{$name}": ["type:drupal-module"],
+        "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+        "web/themes/contrib/{$name}": ["type:drupal-theme"],
+        "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
+        "web/modules/custom/{$name}": ["type:drupal-custom-module"],
+        "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
     },
     "drupal-scaffold": {
+        "locations": {
+            "web-root": "web/"
+        },
         "excludes": [
             "robots.txt",
             ".htaccess"
         ]
     },
     "patches-file": "patches/composer.patches.json"
-
-},
+}
 ```
 
 If composer install fails, try `composer -vvv` for verbose output
 
 If the issue is that it can't find the file for example if it displays the following:
 
-```bash
+```sh
   - Applying patches for drupal/addtocalendar
     ./patches/add_to_calendar_smart_date_handling.patch (Add support for smart_date fields)
 patch '-p1' --no-backup-if-mismatch -d 'web/modules/contrib/addtocalendar' < '/Users/selwyn/Sites/txglobal/patches/add_to_calendar_smart_date_handling.patch'
@@ -176,15 +156,11 @@ can't find file to patch at input line 5
 Perhaps you used the wrong -p or --strip option?
 ```
 
-
-
-This means the patch is trying to run the patch in the directory
-`web/modules/contrib/addtocalendar` (notice the `-d
-web/modules/contrib/addtocalendar` above
+This means the patch is trying to run the patch in the directory `web/modules/contrib/addtocalendar` (notice the `-d web/modules/contrib/addtocalendar` above
 
 In this case, recreate the patch with the `--no-prefix` option i.e.
 
-```
+```sh
 git diff --no-prefix >./patches/patch2.patch
 ```
 
@@ -192,40 +168,38 @@ Then composer install will apply the patch correctly
 
 More at <https://github.com/cweagans/composer-patches/issues/146>
 
-
 ## Updating Drupal Core
 
 if there is `drupal/core-recommended` in your `composer.json` use:
 
-```
+```sh
 $ composer update drupal/core-recommended -W
 ```
+
 if there is no `drupal/core-recommended` in your `composer.json` use:
 
-```
+```sh
 $ composer update drupal/core -W
 ```
 
 Note `composer update -W` is the same as `composer update --with-dependencies`
 
-
 ## Test composer (dry run)
 
 If you want to run through an installation without actually installing a package, you can use --dry-run. This will simulate the installation and show you what would happen.
 
-```
+```sh
 composer update --dry-run "drupal/*"
 ```
 produces something like:
 
-```
+```sh
 Package operations: 0 installs, 4 updates, 0 removals
   - Updating drupal/core (8.8.2) to drupal/core (8.8.4)
   - Updating drupal/config_direct_save (1.0.0) to drupal/config_direct_save (1.1.0)
   - Updating drupal/core-recommended (8.8.2) to drupal/core-recommended (8.8.4)
   - Updating drupal/crop (1.5.0) to drupal/crop (2.0.0)
 ```
-
 
 ## Version constraints
 
@@ -268,7 +242,6 @@ Examples:
 
 More at <https://getcomposer.org/doc/articles/versions.md>
 
-
 ## Troubleshooting
 
 ### Composer won\'t update Drupal core
@@ -279,18 +252,17 @@ Why won\'t composer install Drupal version 8.9.1.
 
 composer why-not drupal/core:8.9.1
 
-
 ### The big reset button
 
 If composer barfs with a bunch of errors, try removing vendor, /core,
 modules/contrib (and optionally composer.lock using:
 
-```bash
+```sh
 $ rm -fr core/ modules/contrib/ vendor/
 ```
 Then try run composer install again to see how it does:
 
-```bash
+```sh
 $ composer install --ignore-platform-reqs
 ```
 Note `--ignore-platform-reqs` is only necessary if your php on your host
@@ -298,11 +270,9 @@ computer is different to the version in your DDEV containers.
 
 You could always use this for DDEV:
 
-```bash
+```sh
 $ ddev composer install
 ```
-
-
 
 ## Reference
 
@@ -312,17 +282,8 @@ $ ddev composer install
 -   Composer Documentation <https://getcomposer.org/doc/>
 -   Composer documentation article on versions and constraints <https://getcomposer.org/doc/articles/versions.md>
 
-
-
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

@@ -1,44 +1,22 @@
+---
+layout: default
+title: Links
+permalink: /links
+last_modified_date: '2023-04-13'
+---
+
 # Links, Aliases and URLs
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Links, Aliases and URLs](#links-aliases-and-urls)
-  - [Create an internal url](#create-an-internal-url)
-  - [Create an external url](#create-an-external-url)
-  - [The Drupal Core Url Class](#the-drupal-core-url-class)
-  - [The Drupal Core Link Class](#the-drupal-core-link-class)
-    - [Create a link to a node](#create-a-link-to-a-node)
-    - [Create a link to a path with parameters](#create-a-link-to-a-path-with-parameters)
-  - [Another way to create a link to a node:](#another-way-to-create-a-link-to-a-node)
-  - [Create a link from an internal URL](#create-a-link-from-an-internal-url)
-  - [Retrieve a link field from a node or a paragraph](#retrieve-a-link-field-from-a-node-or-a-paragraph)
-  - [Retrieve a URL field](#retrieve-a-url-field)
-    - [External links](#external-links)
-    - [Internal links](#internal-links)
-  - [Get the NID from a URL Alias](#get-the-nid-from-a-url-alias)
-  - [Get the Taxonomy Term ID from a URL alias](#get-the-taxonomy-term-id-from-a-url-alias)
-  - [Get URL alias for a taxonomy term](#get-url-alias-for-a-taxonomy-term)
-  - [Get the User ID from a URL alias](#get-the-user-id-from-a-url-alias)
-  - [Get the URL alias for a node](#get-the-url-alias-for-a-node)
-  - [Create a Node Alias](#create-a-node-alias)
-  - [Get the current Path](#get-the-current-path)
-  - [Get current nid, node type and title](#get-current-nid-node-type-and-title)
-  - [How to get current Route name](#how-to-get-current-route-name)
-  - [Get current Document root path](#get-current-document-root-path)
-  - [Retrieve URL argument parameters](#retrieve-url-argument-parameters)
-  - [Retrieve query and GET or POST parameters ($\_POST and $\_GET)](#retrieve-query-and-get-or-post-parameters-_post-and-_get)
-  - [Modify URL Aliases programmatically with hook\_pathauto\_alias\_alter](#modify-url-aliases-programmatically-with-hook_pathauto_alias_alter)
-  - [Drupal l() is deprecated](#drupal-l-is-deprecated)
-  - [Reference links](#reference-links)
-  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-links)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Create an internal url
 
@@ -559,8 +537,9 @@ Also see an example at <https://makedrupaleasy.com/articles/drupal-version-7-9-h
 
 ## Drupal l() is deprecated
 
+Deprecated
+{: .label .label-red }
 The l() method (lower case letter L) was a convenience wrapper for the link generator service's generate() method.
-
 So do this instead:
 
 ```php
@@ -583,14 +562,6 @@ print render($project_link);
 
 ---
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

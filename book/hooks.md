@@ -1,33 +1,22 @@
+---
+layout: default
+title: Hooks
+permalink: /hooks
+last_modified_date: '2023-04-13'
+---
+
 # Hooks
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Hooks](#hooks)
-  - [Overview](#overview)
-  - [Modify the login form](#modify-the-login-form)
-  - [Modify the node edit form](#modify-the-node-edit-form)
-  - [Modify fields in a node](#modify-fields-in-a-node)
-  - [hook\_update](#hook_update)
-  - [Theme hooks](#theme-hooks)
-    - [Hook\_preprocess](#hook_preprocess)
-    - [hook\_preprocess\_node example 1](#hook_preprocess_node-example-1)
-    - [hook\_preprocess\_node example 2](#hook_preprocess_node-example-2)
-  - [Reference](#reference)
-    - [Entity hooks](#entity-hooks)
-    - [Theme hooks](#theme-hooks-1)
-    - [Links](#links)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-hooks)
 
 ---
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
 
 ## Overview
 
@@ -343,8 +332,7 @@ Now in the twig template we can output the scrunch_date we created in the templa
 
 
 ```twig
-{% raw %}
-{%  if content.field_date %}
+{% raw %}{%  if content.field_date %}
   {% if scrunch_date %}
     <div>
       {{ scrunch_date }}
@@ -354,8 +342,7 @@ Now in the twig template we can output the scrunch_date we created in the templa
       {{ content.field_date }}
     </div>
   {% endif %}
-{% endif %}
-{% endraw %}
+{% endif %}{% endraw %}
 ```
 
 
@@ -704,15 +691,6 @@ mechanisms of the previous section. There are two hooks for this: the theme-hook
 
 -   How to setup Devel and Kint on Drupal 9 by Alex Aug 2021
     <https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9>
- 
----
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 
 ---
 

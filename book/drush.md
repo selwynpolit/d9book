@@ -1,52 +1,20 @@
+---
+layout: default
+title: Drush
+permalink: /drush
+last_modified_date: '2023-04-13'
+---
+
 # Drush
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Drush](#drush)
-  - [Overview](#overview)
-  - [Drush commands](#drush-commands)
-    - [Generate commands](#generate-commands)
-    - [Drush command Example](#drush-command-example)
-  - [Drush Scripts](#drush-scripts)
-    - [Run your scripts](#run-your-scripts)
-    - [Arguments example](#arguments-example)
-    - [Arguments example2](#arguments-example2)
-    - [Hello world example](#hello-world-example)
-    - [Database query example](#database-query-example)
-    - [entityQuery example](#entityquery-example)
-  - [Drush does that?](#drush-does-that)
-    - [List blocks](#list-blocks)
-    - [Generate code](#generate-code)
-    - [Sanitize Databases](#sanitize-databases)
-    - [Delete nodes](#delete-nodes)
-    - [Delete redirects](#delete-redirects)
-    - [Watch the watchdog log](#watch-the-watchdog-log)
-    - [Read Drupal config](#read-drupal-config)
-    - [Check if current config matches exported config](#check-if-current-config-matches-exported-config)
-    - [User Login](#user-login)
-    - [Drupal:directory](#drupaldirectory)
-  - [Global Install](#global-install)
-  - [Drush aliases](#drush-aliases)
-    - [Example Drush alias file](#example-drush-alias-file)
-    - [Example Acquia Drush alias files](#example-acquia-drush-alias-files)
-    - [Example Drush alias file from Drush project](#example-drush-alias-file-from-drush-project)
-  - [Drush rsync](#drush-rsync)
-  - [Drush SQL-sync](#drush-sql-sync)
-    - [SQL Queries](#sql-queries)
-  - [Drush launcher](#drush-launcher)
-  - [Drupal 7 Drush scripts](#drupal-7-drush-scripts)
-  - [Resources](#resources)
-  - [Drupal at your fingertips by Selwyn Polit is licensed under CC BY 4.0](#drupal-at-your-fingertips-by-selwyn-polit-is-licensed-under-cc-by-40)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-drush)
-
----
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
 
 ---
 
@@ -427,7 +395,7 @@ drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefini
 
 which outputs something like:
 
-![Block listing](./images/media/block_listing.png)
+![Block listing](assets/images/block_listing.png)
 
 ### Generate code
 
@@ -1295,18 +1263,8 @@ if ($arg) {
 
 -   Controlling multiple sites with Drush 9 from [Joachim Noreiko](https://www.drupal.org/user/107701) Mar 2019 <http://www.noreiko.com/blog/controlling-multiple-sites-drush-9>
 
-
-
----
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
 ---
 
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

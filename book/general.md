@@ -1,43 +1,22 @@
+---
+layout: default
+title: General
+permalink: /general
+last_modified_date: '2023-04-13'
+---
+
 # General
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [General](#general)
-  - [Get the current user](#get-the-current-user)
-  - [Get the logged in user name and email](#get-the-logged-in-user-name-and-email)
-  - [Check if you are on the Front page](#check-if-you-are-on-the-front-page)
-  - [Check if site is in system maintenance mode](#check-if-site-is-in-system-maintenance-mode)
-  - [Get Node URL alias or Taxonomy Alias by Node id or Term ID](#get-node-url-alias-or-taxonomy-alias-by-node-id-or-term-id)
-  - [Taxonomy alias](#taxonomy-alias)
-  - [Get current Path](#get-current-path)
-  - [Get current nid, node type and title](#get-current-nid-node-type-and-title)
-  - [How to check whether a module is installed or not](#how-to-check-whether-a-module-is-installed-or-not)
-  - [Get current Route name](#get-current-route-name)
-  - [Get the current page title](#get-the-current-page-title)
-  - [Get the current user](#get-the-current-user-1)
-  - [Check if you are on the Front page](#check-if-you-are-on-the-front-page-1)
-  - [Check if site in system maintenance mode](#check-if-site-in-system-maintenance-mode)
-  - [Retrieve query and get or post parameters (\$\_POST and \$\_GET)](#retrieve-query-and-get-or-post-parameters-_post-and-_get)
-  - [Retrieve URL argument parameters](#retrieve-url-argument-parameters)
-  - [Get Current Language in a constructor](#get-current-language-in-a-constructor)
-  - [Add a variable to any page on the site](#add-a-variable-to-any-page-on-the-site)
-  - [Add a variable to be rendered in a node.](#add-a-variable-to-be-rendered-in-a-node)
-  - [Add a bunch of variables to be rendered in a node](#add-a-bunch-of-variables-to-be-rendered-in-a-node)
-  - [Grabbing entity reference fields in hook_preprocess_node for injection into the twig template](#grabbing-entity-reference-fields-in-hook_preprocess_node-for-injection-into-the-twig-template)
-  - [Render a list created in the template_preprocess_node()](#render-a-list-created-in-the-template_preprocess_node)
-  - [Indexing paragraphs so you can theme the first one](#indexing-paragraphs-so-you-can-theme-the-first-one)
-  - [Add meta tags using template_preprocess_html](#add-meta-tags-using-template_preprocess_html)
-  - [How to strip % characters from a string](#how-to-strip--characters-from-a-string)
-  - [Remote media entities](#remote-media-entities)
-  - [Deprecated functions like drupal_set_message](#deprecated-functions-like-drupal_set_message)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-general)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 ## Get the current user
 
@@ -392,7 +371,7 @@ $term_name = $path_args[3];
 
 For https://txg.ddev.site/newsroom/search/?country=1206
 
-![Variables display in PHPStorm debug pane](./images/media/image1-general.png)
+![Variables display in PHPStorm debug pane](assets/images/image1-general.png)
 
 ## Get Current Language in a constructor
 
@@ -514,17 +493,17 @@ this:
 
 ```twig
 <div class="stock-field-class">
-{{ content['stock_field'] }}
+  {% raw %}{{ content['stock_field'] }}{% endraw %}
 </div>
 ```
 
 Note. You can always just add a variable like
 
 ```php
-$variables['abc']="hello";
+$variables['abc'] = 'hello';
 ```
 
-which can be referenced in the template as `{{ abc }}` (or `{{ kint(abc) }}`)
+which can be referenced in the template as `{% raw %}{{ abc }}{% endraw %}` (or `{% raw %}{{ kint(abc) }}{% endraw %}` )
 
 ## Add a bunch of variables to be rendered in a node
 
@@ -648,9 +627,9 @@ and render it in the twig template `node--article--full.html.twig`
 
 ```twig
 <ol>
-  {% for burger in burgers %}
-  <li>{{ burger['name'] }}</li>
-  {% endfor %}
+  {% raw %}{% for burger in burgers %}
+    <li> {{ burger['name'] }} </li>
+  {% endfor %}{% endraw %}
 </ol>
 ```
 
@@ -686,11 +665,11 @@ function dprime_preprocess_field(&$variables) {
 In the twig template for that paragraph, you can use the value `paragraph.index` as in:
 
 ```twig
-{% if paragraph.index == 0 %}
+{% raw %}{% if paragraph.index == 0 %}
   <li class="accordion-item is-active" data-accordion-item="">
 {% else %}
   <li class="accordion-item" data-accordion-item="">
-{% endif %}
+{% endif %}{% endraw %}
 ```
 
 ## Add meta tags using template_preprocess_html
@@ -853,14 +832,8 @@ After
 
 Read more under https://www.drupal.org/node/2774931.
 
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

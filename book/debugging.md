@@ -1,42 +1,20 @@
-# Debugging
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-
-- [Debugging](#debugging)
-  - [Overview](#overview)
-  - [Enable/Disable Xdebug](#enabledisable-xdebug)
-  - [Xdebug Port](#xdebug-port)
-  - [Drupal code debugging](#drupal-code-debugging)
-  - [Command line or drush debugging](#command-line-or-drush-debugging)
-  - [Add a breakpoint in code](#add-a-breakpoint-in-code)
-  - [Troubleshooting Xdebug with DDEV](#troubleshooting-xdebug-with-ddev)
-    - [Could not connect to debugging client](#could-not-connect-to-debugging-client)
-    - [PhpStorm refuses to debug](#phpstorm-refuses-to-debug)
-      - [Curl](#curl)
-      - [Logs](#logs)
-      - [Telnet](#telnet)
-      - [Is Xdebug enabled?](#is-xdebug-enabled)
-  - [What is listening on the debug port?](#what-is-listening-on-the-debug-port)
-  - [Enable twig debugging output in source](#enable-twig-debugging-output-in-source)
-  - [Devel and Devel Kint Extras](#devel-and-devel-kint-extras)
-    - [Setup](#setup)
-    - [Add kint to a custom module](#add-kint-to-a-custom-module)
-    - [Dump variables in a TWIG template](#dump-variables-in-a-twig-template)
-    - [Kint::dump](#kintdump)
-    - [Set max levels to avoid running out of memory](#set-max-levels-to-avoid-running-out-of-memory)
-  - [Resources](#resources)
-
-
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-debug)
-
+---
+layout: default
+title: Debugging
+permalink: /debugging
+last_modified_date: '2023-04-13'
 ---
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+# Debugging
+{: .no_toc .fw-500 }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+- TOC
+{:toc}
+
+![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-debug)
 
 ---
 
@@ -82,11 +60,11 @@ Phpstorm and DDEV make this process as painless as possible. Once you enable Xde
 
 To start debugging, open the index.php file and set a breakpoint by clicking on a line number.
 
-![Click listen for PHP Debug Connections button in PhpStorm](./images/media/listen_button.png)
+![Click listen for PHP Debug Connections button in PhpStorm](assets/images/listen_button.png)
 
 Select a breakpoint:
 
-![Set a breakpoint in PhpStorm](./images/media/breakpoint.png)
+![Set a breakpoint in PhpStorm](assets/images/breakpoint.png)
 
 Next refresh the Drupal home page in a browser
 
@@ -94,20 +72,20 @@ You should immediately see a dialog pop up in PhpStorm asking you to to configur
 
 Note. If you select one of the other lines you will see a different php file pop up and you won\'t be debugging Drupal, but probably some Symfony file.
 
-![PhpStorm incoming connection dialog](./images/media/incoming_connection.png)
+![PhpStorm incoming connection dialog](assets/images/incoming_connection.png)
 
 If you accidentally selected the wrong local path, in PhpStorm, go to Settings, PHP, Servers and delete all servers that are displayed. The correct one will be recreated after you retry the operation above.
 
-![Breakpoint reached in debugging in PhpStorm](./images/media/breakpoint_reached.png)
+![Breakpoint reached in debugging in PhpStorm](assets/images/breakpoint_reached.png)
 
 Once you accept the local path, you should see a highlighted line
 indicating the current line. The debug window will appear below showing the call stack
 
-![PhpStorm debug call stack](./images/media/debug_call_stack.png)
+![PhpStorm debug call stack](assets/images/debug_call_stack.png)
 
 You will also see the variables and watch pane:
 
-![PhpStorm debug variables and watch pane](./images/media/debug_variables_watch.png)
+![PhpStorm debug variables and watch pane](assets/images/debug_variables_watch.png)
 
 ## Command line or drush debugging
 
@@ -120,11 +98,11 @@ $ vendor/bin/drush status
 ```
 To setup command line debugging, follow the steps above to setup for [Drupal Code debugging](#drupal-code-debugging) to confirm that you have debugging working. Then look in PhpStorm's: settings, PHP, Servers, and select the server you set up from the previous steps. Specify the top level path as shown below. Usually it will be `/var/www/html`
 
-![PhpStorm debug servers options](./images/media/php_debug_servers.png)
+![PhpStorm debug servers options](assets/images/php_debug_servers.png)
 
 Next open vendor/drush/drush/src/Drush.php and specify a breakpoint like this:
 
-![Set a breakpoint in PhpStorm in the drush source code](./images/media/drush_breakpoint.png)
+![Set a breakpoint in PhpStorm in the drush source code](assets/images/drush_breakpoint.png)
 
 Now in the terminal ssh into the DDEV container and execute drush:
 
@@ -135,10 +113,9 @@ $ vendor/bin/drush status
 ```
 PhpStorm will pop up and display the current line and you can debug to your heart\'s content:
 
-![Debugging drush in PhpStorm](./images/media/phpstorm_debugging_drush.png)
+![Debugging drush in PhpStorm](assets/images/phpstorm_debugging_drush.png)
 
-More at
-<https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/>
+More at <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/>
 
 ## Add a breakpoint in code
 
@@ -159,7 +136,7 @@ Xdebug: \[Step Debug\] Could not connect to debugging client. Tried: host.docker
 ```
 This means you have not clicked the PhpStorm button:  \"Start listening for PHP Debug Connections\". Just click it and try again
 
-![Click listen for PHP Debug Connections button in PhpStorm](./images/media/listen_button.png)
+![Click listen for PHP Debug Connections button in PhpStorm](assets/images/listen_button.png)
 
 ### PhpStorm refuses to debug
 
@@ -396,17 +373,8 @@ if(class_exists('Kint')){
 
 -   DDEV docs on using a different port for debugging <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#using-xdebug-on-a-port-other-than-the-default-9003>
 
-
-
----
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
 ---
 
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

@@ -1,23 +1,22 @@
+---
+layout: default
+title: Cron
+permalink: /cron
+last_modified_date: '2023-04-13'
+---
+
 # CRON
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [CRON](#cron)
-  - [Hook_cron](#hook_cron)
-  - [When did the cron job last run?](#when-did-the-cron-job-last-run)
-  - [How to stop cron from continuously executing things](#how-to-stop-cron-from-continuously-executing-things)
-  - [Setting up cron](#setting-up-cron)
-    - [Samples from crontabs file](#samples-from-crontabs-file)
-  - [Resolving the ip and name for cron](#resolving-the-ip-and-name-for-cron)
-  - [crontab guru](#crontab-guru)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-cron)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 [Drupal hook_cron API](https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/9.4.x)
 
@@ -114,12 +113,8 @@ Here is a Drupal cron job on a prod server where it uses a `---resolve` param to
 
 This is a quick and simple editor for cron schedule expressions [crontab guru](https://crontab.guru/)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

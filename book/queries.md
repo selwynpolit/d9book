@@ -1,41 +1,22 @@
+---
+layout: default
+title: Queries
+permalink: /queries
+last_modified_date: '2023-04-14'
+---
+
 # Queries
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Queries](#queries)
-- [entityQuery](#entityquery)
-  - [Find matching nodes - example 1](#find-matching-nodes---example-1)
-  - [Find matching nodes - example 2](#find-matching-nodes---example-2)
-  - [Find matching article nodes -- example 3](#find-matching-article-nodes----example-3)
-  - [Find nodes that match a taxonomy term](#find-nodes-that-match-a-taxonomy-term)
-  - [Find 5 nodes that have a matching taxonomy term](#find-5-nodes-that-have-a-matching-taxonomy-term)
-  - [Find matching nodes and delete them](#find-matching-nodes-and-delete-them)
-  - [Slice up entityQuery results into batches of 100 nodes](#slice-up-entityquery-results-into-batches-of-100-nodes)
-  - [Query the creation date (among other things) using entityQuery](#query-the-creation-date-among-other-things-using-entityquery)
-  - [entityQuery frequently used conditions](#entityquery-frequently-used-conditions)
-  - [Update menu items programatically](#update-menu-items-programatically)
-- [Static and dynamic Queries](#static-and-dynamic-queries)
-  - [Static Queries](#static-queries)
-  - [Get a connection object](#get-a-connection-object)
-  - [SQL select example](#sql-select-example)
-  - [Find the biggest value in a field](#find-the-biggest-value-in-a-field)
-  - [SQL update query - example 1](#sql-update-query---example-1)
-  - [SQL update query - example 2](#sql-update-query---example-2)
-  - [SQL update query - example 3](#sql-update-query---example-3)
-  - [SQL insert](#sql-insert)
-  - [SQL Insert Query](#sql-insert-query)
-  - [SQL Delete query](#sql-delete-query)
-  - [Paragraph query](#paragraph-query)
-  - [Create a custom table for your module](#create-a-custom-table-for-your-module)
-- [Reference](#reference)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-queries)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+---
 
 For most work, I use entityQueries. There are a few circumstances where I've needed to get into the SQL which meant using static or dynamic queries. There are examples of these different techniques below.
 
@@ -697,13 +678,8 @@ function nocs_connect_schema() {
     and
     <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

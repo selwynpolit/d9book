@@ -1,62 +1,23 @@
+---
+layout: default
+title: Development
+permalink: /development
+last_modified_date: '2023-04-13'
+---
+
 # Development
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Development](#development)
-  - [Local Drupal site setup](#local-drupal-site-setup)
-      - [First Option](#first-option)
-      - [Second Option](#second-option)
-  - [Checking Your Permissions](#checking-your-permissions)
-  - [Converting existing site (non-composer based) to use composer:](#converting-existing-site-non-composer-based-to-use-composer)
-  - [Composer best practices for Drupal 8](#composer-best-practices-for-drupal-8)
-  - [DDEV](#ddev)
-    - [Local config -  your .ddev/config.local.yaml](#local-config----your-ddevconfiglocalyaml)
-      - [NFS](#nfs)
-      - [Mutagen](#mutagen)
-    - [setup aliases in ddev](#setup-aliases-in-ddev)
-    - [Upgrading ddev](#upgrading-ddev)
-    - [Show others your ddev local site](#show-others-your-ddev-local-site)
-    - [Email Capture and Review](#email-capture-and-review)
-    - [DDEV and Xdebug](#ddev-and-xdebug)
-    - [Command line or drush debugging](#command-line-or-drush-debugging)
-    - [Use drush commands in your shell with DDEV](#use-drush-commands-in-your-shell-with-ddev)
-    - [Load your data from an Acquia site](#load-your-data-from-an-acquia-site)
-    - [Cleanup some disk space](#cleanup-some-disk-space)
-    - [Accessing specific containers](#accessing-specific-containers)
-  - [DDEV Troubleshooting](#ddev-troubleshooting)
-    - [Running out of docker disk space](#running-out-of-docker-disk-space)
-    - [DDEV won't start](#ddev-wont-start)
-  - [PHPStorm](#phpstorm)
-    - [Setting up PHPStorm and Drupal](#setting-up-phpstorm-and-drupal)
-    - [PHPStorm and Xdebug](#phpstorm-and-xdebug)
-      - [add a breakpoint in code](#add-a-breakpoint-in-code)
-    - [Collecting PhpStorm debugging logs](#collecting-phpstorm-debugging-logs)
-  - [Troubleshooting Xdebug with DDEV](#troubleshooting-xdebug-with-ddev)
-  - [What is listening on port 9000?](#what-is-listening-on-port-9000)
-  - [Setup settings.local.php and disable Cache](#setup-settingslocalphp-and-disable-cache)
-  - [Development.services.yml](#developmentservicesyml)
-  - [Enable twig debugging output in source](#enable-twig-debugging-output-in-source)
-  - [Kint](#kint)
-    - [Setup](#setup)
-    - [Add kint to a custom module](#add-kint-to-a-custom-module)
-    - [Dump variables in a TWIG template](#dump-variables-in-a-twig-template)
-    - [Kint::dump](#kintdump)
-    - [Set max levels to avoid running out of memory](#set-max-levels-to-avoid-running-out-of-memory)
-  - [Replacing deprecated functions](#replacing-deprecated-functions)
-  - [Missing module](#missing-module)
-  - [You have requested a non-existent service](#you-have-requested-a-non-existent-service)
-  - [Resources](#resources)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dev)
 
 ---
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
 
----
 ## Local Drupal site setup
 
 Local development is best done using containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process. 
@@ -515,17 +476,17 @@ PHPStorm has a series of instructions for [configuring PHPStorm with Xdebug](htt
 
 Some settings I use
 
-![Graphical user interface, text, application, email Description automatically generated](./images/media/image1-phpstorm.png)
+![Graphical user interface, text, application, email Description automatically generated](assets/images/image1-phpstorm.png)
 
 And for this project
 
-![Graphical user interface, text, application, email Description automatically generated](./images/media/image2-phpstorm.png)
+![Graphical user interface, text, application, email Description automatically generated](assets/images/image2-phpstorm.png)
 
 If phpstorm doesn't stop when you set a breakpoint on some code, try deleting the server from the config debug, php, servers.
 
 Make sure PHPStorm is listening by clicking the listen button
 
-![Graphical user interface, text, application, Word Description automatically generated](./images/media/image3-phpstorm.png)
+![Graphical user interface, text, application, Word Description automatically generated](assets/images/image3-phpstorm.png)
 
 When you try again it will be recreated but you will probably need to specify the path (from the image above).
 
@@ -837,8 +798,8 @@ function custom_kint_preprocess_page(&$variables) {
 
 ### Dump variables in a TWIG template
 
-```
-{{ kint(attributes) }}
+```twig
+{% raw %}{{ kint(attributes) }}{% endraw %}
 ```
 
 ### Kint::dump
@@ -898,14 +859,6 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and then `trun
 
 ---
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
----
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
----
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

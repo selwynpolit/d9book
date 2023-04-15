@@ -1,30 +1,22 @@
+---
+layout: default
+title: Modals
+permalink: /modals
+last_modified_date: '2023-04-13'
+---
+
 # Modal Dialogs
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-
-- [Modal Dialogs](#modal-dialogs)
-  - [Overview](#overview)
-  - [Dialog title](#dialog-title)
-  - [Links to slide-in dialogs](#links-to-slide-in-dialogs)
-  - [Modal dialog example](#modal-dialog-example)
-    - [Passing entities as parameters](#passing-entities-as-parameters)
-  - [Modal form example](#modal-form-example)
-  - [Slide-in dialog/Off-canvas dialog](#slide-in-dialogoff-canvas-dialog)
-  - [Slide-in Dialog Example](#slide-in-dialog-example)
-  - [Block with a link to popup a custom modal dialog](#block-with-a-link-to-popup-a-custom-modal-dialog)
-  - [No-code modal dialogs](#no-code-modal-dialogs)
-  - [Resources](#resources)
-
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-dialogs)
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
+---
 
 ## Overview
 
@@ -47,7 +39,7 @@ taa.srp_delete_citation:
     _form: 'Drupal\taa\Form\DeleteCitationForm'
 ```
 
-![Modal dialog title](./images/media/dialog-title.png)
+![Modal dialog title](assets/images/dialog-title.png)
 
 ## Links to slide-in dialogs
 
@@ -95,7 +87,7 @@ You could easily make this a modal dialog by specifying:
 This example displays a page with links to pop up two different modal
 dialogs. Clicking on either of the links will display a slightly
 different modal dialogs. The page looks like this:
-![modal example 1](./images/media/modal-example1.png)
+![modal example 1](assets/images/modal-example1.png)
 
 Here is the routing file at
 web/modules/custom/modal_examples/modal_examples.routing.yml.
@@ -342,12 +334,12 @@ class ModalExamplesController2 extends ControllerBase {
 Here is the first modal dialog as it appears on the site when the modal1
 link is clicked:
 
-![First dialog](./images/media/first-dialog.png)
+![First dialog](assets/images/first-dialog.png)
 
 
 And the second
 
-![Second dialog](./images/media/second-dialog.png)
+![Second dialog](assets/images/second-dialog.png)
 
 
 ### Passing entities as parameters
@@ -428,11 +420,11 @@ we click the button labelled, \"Click to see the Modal Form\", a modal dialog wi
 
  Here is the initial form:
 
-![Initial form](./images/media/initial-form.png)
+![Initial form](assets/images/initial-form.png)
 
 And here is the modal popped up over it:
 
-![Modal over initial form](./images/media/modal-over-initial-form.png)
+![Modal over initial form](assets/images/modal-over-initial-form.png)
 
 Here is the code for the first form in 
 `web/modules/custom/modal_examples/src/Form/ExampleForm.php`. Notice the
@@ -746,10 +738,9 @@ or top of the screen. Like any modal dialogs they can contain forms
 This example shows 4 different types of links which fire off variations
 of slide-in dialogs. Check out the links below:
 
-![Slide-in example](./images/media/slide-in-example.png)
+![Slide-in example](assets/images/slide-in-example.png)
 
 In `web/modules/custom/modal_examples/modal_examples.routing.yml` we specify the routes for our controller, `example2` as well as `modal1`, `form2` and `login_form`:
-
 
 
 ```yaml
@@ -1008,20 +999,19 @@ public function buildModal1(int $program_id, string $type) {
 
 This is what to expect when you click the first link:
 
-![First slide-in modal](./images/media/first-modal.png)
+![First slide-in modal](assets/images/first-modal.png)
 
 And the second which shows the dialog sliding in from the top:
 
-![Second slide-in modal](./images/media/second-modal.png)
+![Second slide-in modal](assets/images/second-modal.png)
 
 Here is our custom form sliding in:
 
-![Third slide-in modal](./images/media/third-modal.png)
+![Third slide-in modal](assets/images/third-modal.png)
 
 And finally the login form sliding in:
 
-![Fourth slide-in modal](./images/media/fourth-modal.png)
-
+![Fourth slide-in modal](assets/images/fourth-modal.png)
 
 
 ## Block with a link to popup a custom modal dialog
@@ -1041,9 +1031,7 @@ custom_modal.modal:
     _permission: 'access content'
 ```
 
-
 Here we define a block in `ModalBlock.php` that will present a button, which when clicked, will bring up a modal dialog. Note in the `build()` method that we get the route using `Url::fromRoute('custom_modal.modal')`.
-
 
 ```php
 /**
@@ -1140,18 +1128,8 @@ do here)
 -   Article about creating a modal dialog in a custom module from Jan
     2018 <http://befused.com/drupal/modal-module>
 
-
-
-
-
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
-
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="

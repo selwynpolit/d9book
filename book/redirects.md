@@ -1,21 +1,22 @@
+---
+layout: default
+title: Redirects
+permalink: /redirects
+last_modified_date: '2023-04-14'
+---
+
 # Redirects
+{: .no_toc .fw-500 }
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
+## Table of contents
+{: .no_toc .text-delta }
 
-- [Redirects](#redirects)
-  - [Redirect to an internal url](#redirect-to-an-internal-url)
-  - [Redirect in a form](#redirect-in-a-form)
-  - [Redirect off-site (to a third-party URL)](#redirect-off-site-to-a-third-party-url)
-  - [Redirect to an existing route with an anchor (or fragment)](#redirect-to-an-existing-route-with-an-anchor-or-fragment)
-  - [Redirect to a complex route](#redirect-to-a-complex-route)
-  - [Redirect in a controller](#redirect-in-a-controller)
-  - [Redirect user after login](#redirect-user-after-login)
-  - [Redirect to the 403 or 404 page](#redirect-to-the-403-or-404-page)
-  - [Redirect to a new page after node operation](#redirect-to-a-new-page-after-node-operation)
+- TOC
+{:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-redirects)
+
+---
 
 ## Redirect to an internal url
 
@@ -229,12 +230,8 @@ function cn_submit_handler( $form, FormStateInterface $form_state) {
 
 More at <https://drupal.stackexchange.com/questions/163626/how-to-perform-a-redirect-to-custom-page-after-node-save-or-delete>
 
-<h3 style="text-align: center;">
-<a href="/d9book">home</a>
-</h3>
-
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 ---
+
 <script src="https://giscus.app/client.js"
         data-repo="selwynpolit/d9book"
         data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
