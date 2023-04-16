@@ -191,14 +191,14 @@ public static function exampleProcessBatch(int $batch_id, array $nids, array &$c
 }
 ```
 
-The Form API will take care of getting the batches executed. If you aren't using a form, you use `batch_process()`  like the line shown below. For this method, you specify any valid alias and the system will redirect to that alias after the batch completes.
+The Form API will take care of getting the batches executed. If you aren't using a form, you use `batch_process()` like the line shown below. For this method, you specify any valid alias and the system will redirect to that alias after the batch completes.
 
 ```php
-return batch_process('node/[nid]'); // nid - node id.
+// node/1 should be a valid node.
+return batch_process('node/1'); 
 ```
 
-{: .note }
-Also you can set up a `$batch` array with a title and a progress message with some variables that will get displayed.
+{: .note }Also you can set up a `$batch` array with a title and a progress message with some variables that will get displayed.
 
 You specify a `finished` index, which identifies a function to call after the batch is finished processing, as in the example below.
 
