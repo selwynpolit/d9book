@@ -1247,6 +1247,118 @@ Note. If you ever see a 502 bad gateway error when embedding a drupal_view, dele
 
 
 
+### Count how many rows returned from a view
+
+https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views
+
+Check if View has Results
+
+```twig
+{% raw %}{% set view = drupal_view_result('related', 'block_1')|length %}
+{% if view > 0 %}
+  {{ drupal_view('related', 'block_1') }}
+{% endif %}{% endraw %}
+```
+
+
+### If view results empty, show a different view
+
+In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` we show units (the first view) but if there aren't any, show `aofs` (the second view.)
+
+```twig
+{% raw %}{% if drupal_view_result('related_news_for_news_story', 'block_unit', node.id, unit_ids) %}
+  {{ drupal_view('related_news_for_news_story', 'block_unit', node.id, unit_ids) }}
+{% elseif drupal_view_result('related_news_aof', 'block_aof', node.id, aof_ids) %}
+  {{ drupal_view('related_news_aof', 'block_aof', node.id, aof_ids) }}
+{% endif %}{% endraw %}
+```
+
+### Selectively pass 1 termid or 2 to a view as the contextual filter
+
+In the view, you can allow multiple terms for a `contextual filter`
+
+From: <https://drupal.stackexchange.com/questions/78701/views-multiple-contextual-filters-taxonomy>:
+
+Instead of Content: The name of Taxonomy (taxonomy_vocabulary\_#) you need to select Content: Has taxonomy term ID *Contextual filter* and enable *Allow multiple values* to able to use multiple values in the form of 1+2+3 (for OR) or 1,2,3 (for AND).
+
+Then in the template, check if there is a second value and build the arguments in the form id+id (e.g. "13+16" In this example, I have to assume the setup allows only 2 taxonomy terms to be entered. See below for an unlimited amount of terms.
+
+From
+`/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--upcoming-events.html.twig`: 
+
+```twig
+{% raw %}{# if there is a second category, pass it separated by + #}
+{% if paragraph.field_ref_tax.1.target_id %}
+  {% set args = paragraph.field_ref_tax.1.target_id~'+'~paragraph.field_ref_tax.1.target_id  %}
+  args: {{ args }}
+  {{ drupal_view('events', 'embed_2', paragraph.field_ref_tax.0.target_id~'+'~paragraph.field_ref_tax.1.target_id) }}
+{% else %}
+  {{ drupal_view('events', 'embed_2', paragraph.field_ref_tax.0.target_id) }}
+{% endif %}{% endraw %}
+```
+
+Or even nicer, we could loop thru an unlimited number of terms, build a string of them to pass to a view.
+
+From:
+`/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
+
+```twig
+{% raw %}
+{# Figure out parameters to pass to view for news items #}
+{% set params = '' %}
+{% for item in paragraph.field_ref_tax_two %}
+  {% set params = params ~ item.target_id %}
+  {% if not loop.last %}
+    {% set params = params ~ '+' %}
+  {% endif %}
+{% endfor %}
+params: {{ params }}
+{% endraw %}
+```
+
+
+This will output something like: `5+6+19`
+
+And pass the output to a view like this:
+
+```twig
+{% raw %}{{ drupal_view('news', 'embed_2', params) }}{% endraw %}
+```
+
+
+### Views templates
+
+Using machine names for the view, you can copy the base view templates (just like in Drupal 7) to make specific templates.
+
+From
+<https://www.drupal.org/docs/theming-drupal/twig-in-drupal/twig-template-naming-conventions>:
+
+Using a View named foobar with its style: unformatted and row style: Fields, and using display:Page.
+
+```
+views-view--foobar--page.html.twig
+views-view--page.html.twig
+views-view--foobar.html.twig
+views-view.html.twig
+
+views-view-unformatted--foobar--page.html.twig
+views-view-unformatted--page.html.twig
+views-view-unformatted--foobar.html.twig
+views-view-unformatted.html.twig
+
+views-view-fields--foobar--page.html.twig
+views-view-fields--page.html.twig
+views-view-fields--foobar.html.twig
+views-view-fields.html.twig
+```
+
+or for `views-view-list.html.twig`, you could use `views-view-list---foobar.html.twig`
+
+e.g. `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/views/views-view-list--resource-library.html.twig`
+
+
+
+
 
 
 ---

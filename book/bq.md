@@ -441,7 +441,7 @@ In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/inclu
 ```
 
  {: .note }
-Also, it is interesting to note that the example shows a call to  `batch_process('node/1')` to execute the abtch.  This could be any valid url alias e.g., `/admin/content`.
+To execute the batch, the example shows a call to  `batch_process('node/1')`.  This could be any valid url alias e.g., `/admin/content`.
 
 
 So here are the arguments for my_function_1:
