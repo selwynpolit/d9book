@@ -29,7 +29,7 @@ The State API, TempStore API, and UserData are all storage mechanisms in Drupal.
 **TempStore:** This provides a way to store user-specific data (also key-value pairs) that may be needed for a short period of time but does not need to be permanently stored. For example, it can be used to store data that is being edited in a form, allowing users to continue working on the form even if they navigate away from the page before saving the changes. It is also ideal for storing data such as the contents of a shopping cart.  I've used tempstore to quickly access a list of nodes that need to be voted on by each voter.  This means they don't need to run a complex set of queries more than once.
 
 {: .note }
-The Drupal cache system can be used to load complicated data really quickly.  I use this for storing arrays of nodes and data for a complicated voting application to improve scalability and performance.
+Similarly to TempStore, you can also use the Drupal cache system to load complicated data really quickly.  I use this for storing arrays of nodes and data for a complicated voting application to improve scalability and performance.
 
 
 ## State API

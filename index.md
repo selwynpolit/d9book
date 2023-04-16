@@ -59,7 +59,6 @@ If you are inspired, please be a part of this project by contributing your own b
 ---
 
 ### I'm working on writing more about:
-- Email
 - Events
 - Javascript
 - Media image files
