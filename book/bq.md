@@ -198,7 +198,8 @@ The Form API will take care of getting the batches executed. If you aren't using
 return batch_process('node/1'); 
 ```
 
-{: .note }Also you can set up a `$batch` array with a title and a progress message with some variables that will get displayed.
+{: .note }
+Also you can set up a `$batch` array with a title and a progress message with some variables that will get displayed.
 
 You specify a `finished` index, which identifies a function to call after the batch is finished processing, as in the example below.
 
