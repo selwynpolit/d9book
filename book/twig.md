@@ -986,6 +986,164 @@ From
 
 
 
+## Add Javascript into a twig template
+
+```twig
+{% raw %}<script>
+  function hidePRSnippet(config, data) {
+    if (data.average_rating < 3.5 && data.average_rating !== 0) {
+      document.getElementById('pr-reviewsnippet').remove();
+    }
+  }
+
+  var powerReviewsConfig = {{ accPowerreviews | raw}};
+  for (var i = 0; i < powerReviewsConfig.length; i++) {
+    if (powerReviewsConfig[i].hasOwnProperty('components') && powerReviewsConfig[i].components.hasOwnProperty('ReviewSnippet')) {
+      powerReviewsConfig[i]['on_render'] = hidePRSnippet;
+    }
+  }
+  POWERREVIEWS.display.render(powerReviewsConfig);
+</script>{% endraw %}
+```
+
+
+## Control/Logic
+
+### Concatenate values into a string with join
+
+This would typically be used when passing a series of node id\'s to a
+view to filter its output.
+
+```twig
+{% raw %}{% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}{% endraw %}
+```
+
+This produces `1+2+3+4`
+
+### Include partial templates
+
+```twig
+{% raw %}{% include '@txg/partials/searchfilterform.html.twig' %}{% endraw %}
+```
+
+
+### Loop through entity reference items
+
+In
+`txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I need to loop through a bunch of entity reference values and build a string of id+id+id... (with an undefined number) so
+
+```twig
+{% raw %}{% set blah = '' %}
+{% for item in node.field_ref_unit %}
+  {% set blah = blah ~ item.target_id %}
+  {% if not loop.last %}
+    {% set blah = blah ~ '+' %}
+  {% endif %}
+{% endfor %}
+
+<div>blah:{{ blah }}</div>
+<div>node id: {{ node.id }}</div>
+{{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}{% endraw %}
+```
+
+
+
+
+### IF OR
+
+If there is a value in `field_event_date` or `field_display_date`, then display it/them.
+
+```twig
+{% raw %}<div{{ content_attributes.addClass('teaser__content') }}>
+  {% if content.field_event_date or content.field_display_date %}
+    <div class="teaser__date">
+      {{ content.field_event_date|render|striptags }}
+      {{ content.field_display_date|render|striptags }}
+    </div>
+  {% endif %}  {% endraw %}
+```
+
+
+### Test if a formatted text field is empty
+
+To check a body field or other formatted text field, use \|render to render it first.
+
+```twig
+{% raw %}{% if content.body|render  %}
+  <li><a class="scroll" href="#section-overview">Overview</a></li>
+{% endif %}{% endraw %}
+```
+
+
+
+### Test empty variable
+
+This code checks if a variable is empty using [empty](https://twig.symfony.com/doc/3.x/tests/empty.html) test if the attributes variable is not set. From
+<https://www.drupal.org/project/drupal/issues/2558079>:
+
+```twig
+{% raw %}{% if attributes is empty %}
+  {{ link(item.title, item.url) }}
+{%  else %}
+  {{ link(item.title, item.url, attributes) }}
+{% endif %}{% endraw %}
+```
+
+You can also use:
+
+```twig
+{% raw %}{% if blah is not empty %}
+  {{content.name}}
+{% endif %}{% endraw %}
+```
+
+
+### Conditionals (empty, defined, even)
+
+```twig
+{% raw %}{% if rows %}
+  {{rows}}
+{% elseif empty %}
+  {{ empty }}
+{% endif %}
+
+{% if var is defined %}
+  {{ content.name}}
+{% endif %}
+
+{%if var is even %}
+  {{ content.name}}
+{% endif %}{% endraw %}
+```
+
+
+e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlight-card.html.twig`
+
+```twig
+{% raw %}{% set showCat = TRUE %}
+{% if view_mode == 'overview' or view_mode == 'home' %}
+  {% set showCat = FALSE %}
+{% endif %}
+<div class="cell medium-4 home-highlight-card m-b-3" data-equalizer-watch>
+  <a href="{% spaceless %}{{ content.field_link.0 }}{% endspaceless %}" class="card h-100" data-interchange="[{{ content.field_image.0['#item'].entity.uri.value | image_style('highlight_card_standard') }}, small]" {% if content.field_link.0['#options']['attributes']['target'] %} target="{{content.field_link.0['#options']['attributes']['target']}}"{% endif %}>
+    <div class="card-content">
+      {%  if showCat %}
+        <span class="card-label">{{content.field_text2}}</span>
+      {% endif %}
+      <h3 class="card-header">{{content.field_text}}</h3>
+      {{content.field_description}}
+      {% if content.field_button_text|render %}
+        <span class="button full-width show-on-hover">{{ content.field_button_text }}</span>
+      {% else %}
+        <span class="button full-width show-on-hover">{{ content.field_text|render }}</span>
+      {% endif %}
+    </div>
+  </a>
+</div>{% endraw %}
+```
+
+
+
 
 
 
