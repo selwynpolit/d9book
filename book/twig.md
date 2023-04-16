@@ -1145,6 +1145,107 @@ e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlig
 
 
 
+### Test if a paragraph is empty using striptags
+
+From `/inside-marthe/themes/custom/dp/templates/content/node--video-collection.html.twig`:
+
+Normally you wouldn't need the striptags, but when twig debugging is enabled, the render information includes debug tags. See https://www.drupal.org/project/drupal/issues/2547559#comment-12103048
+
+```twig
+{% raw %}{% if content.field_related_lessons|render|striptags|trim is not empty %}
+  {{ content.field_related_lessons}}
+{% endif %}{% endraw %}
+```
+
+Or this much simpler version which also comes from the same issue page above (it doesn't seem to work as well as the version above):
+
+```twig
+{% raw %}{% if content.field_related_lessons.value %}
+  {{ content.field_related_lessons}}
+{% endif %}{% endraw %}
+```
+
+
+
+### Comparing strings
+
+For complicated strings, you have to use the Twig [same as](https://twig.symfony.com/doc/3.x/tests/sameas.html) function because using `if x == y` doesn\'t work. See the commented out part where I tried `==`:
+
+```twig
+{% raw %}{% set start = node.field_when.0.value|date('l F j, Y') %}
+{% set end = node.field_when.0.end_value|date('l F j, Y') %}
+<p class="date"> {{ start }}</p>
+{#{% if not start == end %}#}
+{% if not start is same as(end) %}
+  <p class="date"> {{ end }}</p>
+{% endif %}{% endraw %}
+```
+
+
+
+### Include other templates as partials
+
+In `very/web/themes/very/templates/node--featured.html.twig`
+
+You can re-use templates. Just put them in the partials directory (you don't have to but it is a good convention) and include them.
+
+```twig
+{% raw %}{{ include('node--teaser.html.twig') }}{% endraw %}
+```
+
+### Check if an attribute has a class
+
+```twig
+{% raw %}{{ attributes.hasClass($class) }}{% endraw %}
+```
+
+
+### Remove an attribute
+
+```twig
+{% raw %}{{ attributes.removeAttribute() }}{% endraw %}
+```
+
+
+### Convert attributes to array
+
+```twig
+{% raw %}{{ attributes.toArray () }}{% endraw %}
+```
+
+
+## Views
+
+### Render a view with contextual filter
+
+>Pro tip: Create `embed` displays (rather than blocks or pages) so users don't see these blocks appearing in the block management page. see <https://drupal.stackexchange.com/questions/287209/what-does-the-embed-display-type-do>
+
+To use a field value in a view as an argument, using
+[twig_tweak](https://www.drupal.org/project/twig_tweak), you can render the view and its arguments/parameters. In the example below, these are the contextual filters defined in the view.
+
+```twig
+{% raw %}{{ drupal_view('map_data_for_a_country', 'block_stats', node.field_iso_n3_country_code.0.value) }}{% endraw %}
+```
+
+>Note. Using content.field as a parameter doesn't work because
+content.fields get rendered so they are usually filled with HTML or
+labels or both. Parameters need to simply be numbers or strings.
+
+Other examples. Here an entity reference field is passed as a parameter. This works for taxonomy terms like this also.
+
+```twig
+{% raw %}{{ drupal_view('news_stories_for_a_topic','block_1', node.field_ref_topic.0.target_id) }}{% endraw %}
+```
+
+Or
+
+```twig
+{% raw %}{{ drupal_view('resellers_for_this_vendor', 'embed_1', node.field_vendor_id.value ) }}{% endraw %}
+```
+
+Note. If you ever see a 502 bad gateway error when embedding a drupal_view, delete the display and create a new one and it may just work fine.
+
+
 
 
 

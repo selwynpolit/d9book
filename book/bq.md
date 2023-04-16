@@ -417,11 +417,32 @@ $node_to_update_dirt_contact_nid = self::getFirstRef($node_to_update, 'field_sf_
 
 ### Looking at the source
 
-[Here is the link to the source for the Batch API.](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc) As always, looking at the source is the definitive way to understand how anything works.  In this case it is really well commented.
+The [source code for the Batch API](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc) is really well commented and worth reading.
 
-From, there is an example batch that calls `my_function_1` and `my_function_2`. Note for my function 1, the arguments are just separated by commas. 
+#### Passing parameters to the functions in a batch operation
+In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L562-678>, there is an example batch that defines two operations that call `my_function_1` and `my_function_2`. Notice how parameters can be passed to my_function_1 separated by commas. From <https://git.drupalcode.org/project/drupal/blob/8.7.8/core/includes/form.inc#L570>:
 
-Also, it is interesting to note that they call `batch_process('node/1')` but that could be any valid url alias e.g., `/admin/content`.
+```php
+ * Example:
+ * @code
+ * $batch = array(
+ *   'title' => t('Exporting'),
+ *   'operations' => array(
+ *     array('my_function_1', array($account->id(), 'story')),
+ *     array('my_function_2', array()),
+ *   ),
+ *   'finished' => 'my_finished_callback',
+ *   'file' => 'path_to_file_containing_my_functions',
+ * );
+ * batch_set($batch);
+ * // Only needed if not inside a form _submit handler.
+ * // Setting redirect in batch_process.
+ * batch_process('node/1');
+```
+
+ {: .note }
+Also, it is interesting to note that the example shows a call to  `batch_process('node/1')` to execute the abtch.  This could be any valid url alias e.g., `/admin/content`.
+
 
 So here are the arguments for my_function_1:
 
