@@ -1755,8 +1755,35 @@ Functions
 
 ## Twig Tweak
 
-This is an [essential]{.underline} module to add to all projects.
+This is an **essential** module to add to all projects.
 
+### Documentation
+
+There are some docs at
+<https://www.drupal.org/docs/contributed-modules/twig-tweak/rendering-blocks-with-twig-tweak>
+
+and a cheat sheet at <https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/docs/cheat-sheet.md>
+
+### Display a block with twig_tweak
+
+Here is a simple example:
+
+`{{ drupal_block('plugin_id') }}`
+
+It looks like the best source of information is really in the [source file](https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/src/TwigTweakExtension.php) or at: web/modules/contrib/twig_tweak/src/TwigExtension.php
+
+All the variations are listed there including the instructions to get
+drush to list all the blocks on your site.
+
+```bash
+drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefinitions()));"
+```
+
+It outputs something like:
+
+![Block listing](images/block_listing.png)
+![Screenshot of JSON data in long text field](images/media/json_long_text.png){width="6.482112860892388in"
+height="2.5779440069991253in"}
 
 
 
