@@ -1648,6 +1648,109 @@ In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I ne
 ```
 
 
+## Twig filters and functions
+
+Use these to do almost anything with variables in your twig templates.
+
+See cheat sheet at
+<https://www.drupal.org/docs/contributed-modules/twig-tweak/cheat-sheet#s-view-filter>
+also <https://twig.symfony.com/doc/3.x/> for filters and functions
+
+Here are some examples.  A complete list is included below:
+
+```twig
+{% raw %}{{ <span>Hello I am an html twig, but my html will be stripped</span> | striptags }}
+
+{{'welcome' | upper }}
+
+{{ data | json_encode() }}
+
+{%filter upper %}
+ This test becomes uppercase
+{% endfilter %}{% endraw %}
+```
+
+Filters
+
+-   [abs](https://twig.symfony.com/doc/3.x/filters/abs.html)
+-   [batch](https://twig.symfony.com/doc/3.x/filters/batch.html)
+-   [capitalize](https://twig.symfony.com/doc/3.x/filters/capitalize.html)
+-   [column](https://twig.symfony.com/doc/3.x/filters/column.html)
+-   [convert_encoding](https://twig.symfony.com/doc/3.x/filters/convert_encoding.html)
+-   [country_name](https://twig.symfony.com/doc/3.x/filters/country_name.html)
+-   [currency_name](https://twig.symfony.com/doc/3.x/filters/currency_name.html)
+-   [currency_symbol](https://twig.symfony.com/doc/3.x/filters/currency_symbol.html)
+-   [data_uri](https://twig.symfony.com/doc/3.x/filters/data_uri.html)
+-   [date](https://twig.symfony.com/doc/3.x/filters/date.html)
+-   [date_modify](https://twig.symfony.com/doc/3.x/filters/date_modify.html)
+-   [default](https://twig.symfony.com/doc/3.x/filters/default.html)
+-   [escape](https://twig.symfony.com/doc/3.x/filters/escape.html)
+-   [filter](https://twig.symfony.com/doc/3.x/filters/filter.html)
+-   [first](https://twig.symfony.com/doc/3.x/filters/first.html)
+-   [format](https://twig.symfony.com/doc/3.x/filters/format.html)
+-   [format_currency](https://twig.symfony.com/doc/3.x/filters/format_currency.html)
+-   [format_date](https://twig.symfony.com/doc/3.x/filters/format_date.html)
+-   [format_datetime](https://twig.symfony.com/doc/3.x/filters/format_datetime.html)
+-   [format_number](https://twig.symfony.com/doc/3.x/filters/format_number.html)
+-   [format_time](https://twig.symfony.com/doc/3.x/filters/format_time.html)
+-   [html_to_markdown](https://twig.symfony.com/doc/3.x/filters/html_to_markdown.html)
+-   [inky_to_html](https://twig.symfony.com/doc/3.x/filters/inky_to_html.html)
+-   [inline_css](https://twig.symfony.com/doc/3.x/filters/inline_css.html)
+-   [join](https://twig.symfony.com/doc/3.x/filters/join.html)
+-   [json_encode](https://twig.symfony.com/doc/3.x/filters/json_encode.html)
+-   [keys](https://twig.symfony.com/doc/3.x/filters/keys.html)
+-   [language_name](https://twig.symfony.com/doc/3.x/filters/language_name.html)
+-   [last](https://twig.symfony.com/doc/3.x/filters/last.html)
+-   [length](https://twig.symfony.com/doc/3.x/filters/length.html)
+-   [locale_name](https://twig.symfony.com/doc/3.x/filters/locale_name.html)
+-   [lower](https://twig.symfony.com/doc/3.x/filters/lower.html)
+-   [map](https://twig.symfony.com/doc/3.x/filters/map.html)
+-   [markdown_to_html](https://twig.symfony.com/doc/3.x/filters/markdown_to_html.html)
+-   [merge](https://twig.symfony.com/doc/3.x/filters/merge.html)
+-   [nl2br](https://twig.symfony.com/doc/3.x/filters/nl2br.html)
+-   [number_format](https://twig.symfony.com/doc/3.x/filters/number_format.html)
+-   [raw](https://twig.symfony.com/doc/3.x/filters/raw.html)
+-   [reduce](https://twig.symfony.com/doc/3.x/filters/reduce.html)
+-   [replace](https://twig.symfony.com/doc/3.x/filters/replace.html)
+-   [reverse](https://twig.symfony.com/doc/3.x/filters/reverse.html)
+-   [round](https://twig.symfony.com/doc/3.x/filters/round.html)
+-   [slice](https://twig.symfony.com/doc/3.x/filters/slice.html)
+-   [slug](https://twig.symfony.com/doc/3.x/filters/slug.html)
+-   [sort](https://twig.symfony.com/doc/3.x/filters/sort.html)
+-   [spaceless](https://twig.symfony.com/doc/3.x/filters/spaceless.html)
+-   [split](https://twig.symfony.com/doc/3.x/filters/split.html)
+-   [striptags](https://twig.symfony.com/doc/3.x/filters/striptags.html)
+-   [timezone_name](https://twig.symfony.com/doc/3.x/filters/timezone_name.html)
+-   [title](https://twig.symfony.com/doc/3.x/filters/title.html)
+-   [trim](https://twig.symfony.com/doc/3.x/filters/trim.html)
+-   [u](https://twig.symfony.com/doc/3.x/filters/u.html)
+-   [upper](https://twig.symfony.com/doc/3.x/filters/upper.html)
+-   [url_encode](https://twig.symfony.com/doc/3.x/filters/url_encode.html)
+
+Functions
+
+-   [attribute](https://twig.symfony.com/doc/3.x/functions/attribute.html)
+-   [block](https://twig.symfony.com/doc/3.x/functions/block.html)
+-   [constant](https://twig.symfony.com/doc/3.x/functions/constant.html)
+-   [country_names](https://twig.symfony.com/doc/3.x/functions/country_names.html)
+-   [country_timezones](https://twig.symfony.com/doc/3.x/functions/country_timezones.html)
+-   [currency_names](https://twig.symfony.com/doc/3.x/functions/currency_names.html)
+-   [cycle](https://twig.symfony.com/doc/3.x/functions/cycle.html)
+-   [date](https://twig.symfony.com/doc/3.x/functions/date.html)
+-   [dump](https://twig.symfony.com/doc/3.x/functions/dump.html)
+-   [html_classes](https://twig.symfony.com/doc/3.x/functions/html_classes.html)
+-   [include](https://twig.symfony.com/doc/3.x/functions/include.html)
+-   [language_names](https://twig.symfony.com/doc/3.x/functions/language_names.html)
+-   [locale_names](https://twig.symfony.com/doc/3.x/functions/locale_names.html)
+-   [max](https://twig.symfony.com/doc/3.x/functions/max.html)
+-   [min](https://twig.symfony.com/doc/3.x/functions/min.html)
+-   [parent](https://twig.symfony.com/doc/3.x/functions/parent.html)
+-   [random](https://twig.symfony.com/doc/3.x/functions/random.html)
+-   [range](https://twig.symfony.com/doc/3.x/functions/range.html)
+-   [script_names](https://twig.symfony.com/doc/3.x/functions/script_names.html)
+-   [source](https://twig.symfony.com/doc/3.x/functions/source.html)
+-   [template_from_string](https://twig.symfony.com/doc/3.x/functions/template_from_string.html)
+-   [timezone_names](https://twig.symfony.com/doc/3.x/functions/timezone_names.html)
 
 
 
