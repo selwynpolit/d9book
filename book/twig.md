@@ -1566,6 +1566,92 @@ function mytheme_preprocess_views_view_field(&$variables) {
 
 
 
+#### Same field used twice
+
+Note. If you use the same field twice in a view i.e. if you need to display different parts of the same field in different places, views names them something like this: field_library_media and field_library_media_1. In that circumstance, you have to refer to them in the function like this:
+
+// if($variables['field']->field == 'field_library_media') {
+  if($variables['field']->options['id'] == 'field_library_media_1') {
+
+
+Here is a real example where a media field id is being displayed and I switch it out with the formatted size of the media file.
+
+```php
+/**
+ * Implements hook_preprocess_views_view_field().
+ */
+function dirt_bootstrap_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+  if($view->id() == 'resource_library') {
+//    if($variables['field']->field == 'field_library_media') {
+    if($variables['field']->options['id'] == 'field_library_media_1') {
+      $target_id = $variables['field']->getValue($variables['row']);
+      $file_size = 0;
+      if ($target_id) {
+        $media_item = Media::load($target_id);
+        // Get the file.
+        if ($media_item->hasField('field_media_document')) {
+          $file_id = $media_item->field_media_document->getValue()[0]['target_id'];
+        }
+        elseif ($media_item->hasField('field_media_image')) {
+          $file_id = $media_item->field_media_image->getValue()[0]['target_id'];
+        }
+        elseif ($media_item->hasField('field_media_audio_file')) {
+          $file_id = $media_item->field_media_audio_file->getValue()[0]['target_id'];
+        }
+        elseif ($media_item->hasField('field_media_video_file')) {
+          $file_id = $media_item->field_media_video_file->getValue()[0]['target_id'];
+        }
+        if (isset($file_id)) {
+          $file = File::load($file_id);
+          if ($file) {
+            // Get file size.
+            $file_size = format_size($file->getSize());
+          }
+        }
+      }
+      $variables['output'] = $file_size; // Default variable in Twig file is "output"
+    }
+  }
+}
+```
+
+### Concatenate values into a string with join
+
+This would typically be used when passing a series of node id\'s to a
+view to filter its output.
+
+```twig
+{% raw %}{% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}{% endraw %}
+```
+This produces 1+2+3+4
+
+### Loop through entity reference items
+
+In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I need to loop through a bunch of entity reference values and build a
+ string of id+id+id... (with an undefined number) so
+
+
+
+```twig
+{% raw %}{% set blah = '' %}
+{% for item in node.field_ref_unit %}
+  {% set blah = blah ~ item.target_id %}
+  {% if not loop.last %}
+    {% set blah = blah ~ '+' %}
+  {% endif %}
+{% endfor %}
+
+<div>blah:{{ blah }}</div>
+<div>node id: {{ node.id }}</div>
+{{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}{% endraw %}
+```
+
+
+
+
+
+
 ---
 
 <script src="https://giscus.app/client.js"
