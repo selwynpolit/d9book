@@ -1357,7 +1357,212 @@ or for `views-view-list.html.twig`, you could use `views-view-list---foobar.html
 e.g. `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/views/views-view-list--resource-library.html.twig`
 
 
+### Inject variables
 
+You can inject variables into a view using `hook_preprocess_views_view`() eg. from `txg/web/themes/custom/txg/txg.theme`.  The code below used to was load up various items to populate the select dropdown controls in the view:
+
+```php
+function txg_preprocess_views_view(&$variables) {
+  $view = $variables['view'];
+  $id = $view->storage->id();
+  $display_id = $view->current_display;
+
+  // Build /newsroom/search
+  if ($id == 'news_events_search' && $display_id == 'page_news') {
+    $variables['filter_data'] = generate_search_filter_data();
+  }
+}```
+
+
+Here is the code that builds the data for the select controls:
+
+```php
+/**
+ * Populate dropdowns.
+ *
+ * Builds the search filter data to populate select dropdowns on
+ * /newsroom, /newsroom-search etc. pages.
+ *
+ * @return array
+ *   Array of values for dropdown.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function generate_search_filter_data() {
+
+  // Grab the Get parameters.
+  $country_nid = \Drupal::request()->query->get('country');
+  $aof_nid = \Drupal::request()->query->get('aof');
+  $unit_nid = \Drupal::request()->query->get('unit');
+  $continent_arg = \Drupal::request()->query->get('continent');
+  $topic_tid = \Drupal::request()->query->get('topic');
+
+  // Office: AOF and child units from main menu.
+  $office_nid = 0;
+  if (!empty($aof_nid)) {
+    if (is_numeric($aof_nid)) {
+      $office_nid = $aof_nid;
+    }
+  }
+  if (!empty($unit_nid)) {
+    if (is_numeric($unit_nid)) {
+      $office_nid = $unit_nid;
+    }
+  }
+
+  $storage = get_offices($office_nid);
+  $data[] = [
+    'type' => 'office',
+    'info' => $storage,
+  ];
+
+  // Topic taxonomy terms.
+  $vid = 'topic';
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid);
+  $storage = [];
+  foreach ($terms as $term) {
+    $storage[] = [
+      "value" => $term->tid,
+      "title" => $term->name,
+    ];
+  }
+  // Update the select to show the current value from the url.
+  foreach ($storage as &$item) {
+    if ($item['value'] == $topic_tid) {
+      $item['selected'] = 'selected';
+      break;
+    }
+  }
+  $data[] = [
+    'type' => 'topic',
+    'info' => $storage,
+  ];
+
+  // Continent.
+  $continents = [
+    ['title' => 'Africa', 'value' => 'Africa'],
+    ['title' => 'Antarctica', 'value' => 'Antarctica'],
+    ['title' => 'Asia', 'value' => 'Asia'],
+    ['title' => 'Europe', 'value' => 'Europe'],
+    ['title' => 'North America', 'value' => 'north%20america'],
+    ['title' => 'Oceania', 'value' => 'Oceania'],
+    ['title' => 'South America', 'value' => 'south%20america'],
+  ];
+  // Update the select to show the current value from the url.
+  foreach ($continents as &$continent) {
+    if (!empty($continent_arg)) {
+      if (strtolower($continent['title']) == strtolower($continent_arg)) {
+        $continent['selected'] = 'selected';
+      }
+    }
+  }
+  $data[] = [
+    'type' => 'continent',
+    'info' => $continents,
+  ];
+
+  // Country.
+  $data_storage = Drupal::entityTypeManager()->getStorage('node');
+  $query = Drupal::entityQuery('node')
+    ->condition('status', 1)
+    ->condition('type', 'country')
+    ->sort('title', 'ASC');
+  $nids = $query->execute();
+  $nodes = $data_storage->loadMultiple($nids);
+  $storage = [];
+  foreach ($nodes as $node) {
+    $storage[] = [
+      'title' => $node->getTitle(),
+      'value' => $node->id(),
+    ];
+  }
+  // Set the default country so it appears in the select dropdown.
+  foreach ($storage as &$item) {
+    if ($item['value'] == $country_nid) {
+      $item['selected'] = 'selected';
+      break;
+    }
+  }
+  $data[] = [
+    'type' => 'country',
+    'info' => $storage,
+  ];
+
+  return $data;
+}
+```
+
+
+
+Here the output for all views uses the `views-view.html.twig` template
+
+```twig
+{% raw %}<!-- BEGIN OUTPUT from 'core/themes/classy/templates/views/views-view.html.twig' -->{% endraw %}
+```
+
+If we want to override the `frontpage` view we can copy the template from above to our theme and rename it  `views-view--frontpage.html.twig`
+
+Notice that it will override all displays (in this case the page and the `feed` displays -- "page_1" and "feed_1" respectively) so we can be more specific
+
+Rename it to `views-view--frontpage--page_1.html.twig`
+
+From
+<https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/group/views_templates/8.5.x>
+
+All views templates can be overridden with a variety of names, using the view, the display ID of the view, the display type of the view, or some combination thereof.
+
+For each view, there will be a minimum of two templates used. The first is used for all views: [views-view.html.twig](https://api.drupal.org/api/drupal/core%21modules%21views%21templates%21views-view.html.twig/8.2.x).
+
+The second template is determined by the style selected for the view. Note that certain aspects of the view can also change which style is used; for example, arguments which provide a summary view might change the style to one of the special summary styles.
+
+The default style for all views is [views-view-unformatted.html.twig](https://api.drupal.org/api/drupal/core%21modules%21views%21templates%21views-view-unformatted.html.twig/8.2.x).
+
+Many styles will then farm out the actual display of each row to a row style; the default row style is `views-view-fields.html.twig`.
+
+Here is an example of all the templates that will be tried in the following case:
+
+View: foobar
+Style: unformatted
+Row style: Fields. 
+Display:Page.
+
+```
+-	views-view--foobar--page.html.twig
+-	views-view--page.html.twig
+-	views-view--foobar.html.twig
+-	views-view.html.twig
+-	views-view-unformatted--foobar--page.html.twig
+-	views-view-unformatted--page.html.twig
+-	views-view-unformatted--foobar.html.twig
+-	views-view-unformatted.html.twig
+-	views-view-fields--foobar--page.html.twig
+-	views-view-fields--page.html.twig
+-	views-view-fields--foobar.html.twig
+-	views-view-fields.html.twig
+```
+
+{: .important }
+When adding a new template to your theme, be sure to flush the theme registry cache!
+
+From <https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view_field/8.2.x>:
+
+When changing the value of a field in a view, use `preprocess_views_view_field()`.
+
+```php
+function mytheme_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+  if($view->id() == 'my_view') {
+    if($variables['field']->field == 'field_my_field') {
+      $my_field_value = $variables['field']->getValue($variables['row']);
+      $my_altered_value = 'xx';
+      $variables['output'] = $my_altered_value; // Default variable in Twig file is "output"
+      // OR
+      $variables['my_output'] = $my_altered_value; // New variable in Twig file (views-view-field--my-view--field-my-field.html.twig)
+    }
+  }
+}
+```
 
 
 
