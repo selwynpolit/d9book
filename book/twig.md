@@ -1914,7 +1914,7 @@ Dump node.changed.value:
 {{ dump(node.changed.value) }}
 Dump node.published_at.value:
 {{ dump(node.published_at.value) }}
-</pre>{% raw %}
+</pre>{% endraw %}
 ```
 The output might look like this. Note the published value may be null as I didn't use Drupal scheduling to publish the node:
 
