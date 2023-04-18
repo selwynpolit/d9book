@@ -1781,8 +1781,8 @@ drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefini
 
 It outputs something like:
 
-![Block listing](images/block_listing.png)
-![Screenshot of JSON data in long text field](images/media/json_long_text.png){width="6.482112860892388in"
+![Block listing](assets/images/block_listing.png)
+![Screenshot of JSON data in long text field](assets/images/json_long_text.png){width="6.482112860892388in"
 height="2.5779440069991253in"}
 
 
