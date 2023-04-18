@@ -59,7 +59,7 @@ Other great sources of news are:
 
 ## Drupal Podcasts
 
-* Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013.  Check it out at  <https://www.talkingdrupal.com>
+* Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013 and is still going strong.  Check it out at  <https://www.talkingdrupal.com>
 
 * Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot. <https://www.lullabot.com/podcasts/lullabot-podcast>
 
