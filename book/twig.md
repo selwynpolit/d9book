@@ -1818,7 +1818,7 @@ filters you have configured in your view.
 
 ### Some tricky quotes magic
 
-Here I am trying to create a string type=\"aof\" so I had to escape at least one of the quotes like this \\\" (backslash and  double quote)
+Here I am trying to create a string `type="aof"` so I had to escape at least one of the quotes like this \\\" (backslash and  double quote)
 
 ```twig
 {% raw %}{% set office_type = 'type=\"' ~ item.type ~ '"' %}{% endraw %}
@@ -1993,6 +1993,85 @@ array(2) {
 }
 ```
 
+
+
+### Using kint or dump to display variable in a template
+
+With `devel` and `devel: kint` enabled, you can display variables in templates. Here we show the content variable from the above block template. Note. There is also a built in `dump()` function which is super useful.
+
+```twig
+{% raw %}{{ kint(content) }}{% endraw %}
+```
+
+You can also
+
+```twig
+{% raw %}{{ dump(content) }}{% endraw %}
+```
+
+And dump a value from a paragraph field. The pre tags will format the output a little more sanely.
+
+```twig
+{% raw %}<pre>
+{{ dump(paragraph.field_ref_tax.value) }}
+</pre>{% endraw %}
+```
+
+Or the body field:
+
+```twig
+{% raw %}{{ kint(content['body']) }}{% endraw %}
+```
+
+Or the tags field content[‘field_tags’]
+
+```twig
+{% raw %}{{ kint(content['field_tags']) }}{% endraw %}
+```
+
+
+
+### 502 bad gateway error
+
+While working on Twig changes, if you ever see a 502 bad gateway error, try commenting out the twig template code you just added and see if it displays. I know, it's not a friendly error at all!
+
+### Views error
+
+If you ever see a 502 bad gateway error when embedding a drupal_view, delete the display and create a new one and it may just work fine.
+
+### Striptags (when twig debug info causes if to fail)
+
+When you care about the output being affected by twig debugging, you need to use `striptags`.  In this case, because I enabled twig debugging, the content.field_landing_opinion_page_type was not ever `'ORD`'
+
+So here I compare a field value so I have to use striptags to remove all html.  I ended up using the combination of `render|striptags|trim`:
+
+```twig
+{% raw %}{% if content.field_landing_opinion_page_type|render|striptags|trim == 'ORD' %}
+  {{ drupal_block('opinion_landing', wrapper=false) }}
+{% endif %}{% endraw %}
+```
+
+
+## Reference
+
+- Drupal 10 uses **Twig 3**. Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
+
+- Theme system overview on api.drupal.org  <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10>
+
+- Twig 3 documentation <https://twig.symfony.com/doc/3.x/>
+
+- Drupal.org Theming documentation <https://www.drupal.org/docs/theming-drupal>
+
+- Handy Twig functions you can use directly in templates - Updated
+    Jan 2023. <https://www.drupal.org/docs/theming-drupal/twig-in-drupal/functions-in-twig-templates>
+
+- [Twig Tweak](https://www.drupal.org/project/twig_tweak) 3 cheat sheet Updated October 2022 <https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/docs/cheat-sheet.md>
+
+- [Twig Tweak](https://www.drupal.org/project/twig_tweak) 2 cheat sheet Updated May 2022 <https://www.drupal.org/docs/contributed-modules/twig-tweak-2x/cheat-sheet#s-view-filter>
+
+- Using attributes in templates updated March 2023 <https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates>
+
+- [Twig tweaks](https://www.drupal.org/project/twig_tweak) and Views has some useful notes on using twig tweak with views. Updated November 2020 <https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views>
 
 
 ---
