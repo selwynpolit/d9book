@@ -1782,8 +1782,216 @@ drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefini
 It outputs something like:
 
 ![Block listing](assets/images/block_listing.png)
-![Screenshot of JSON data in long text field](assets/images/json_long_text.png){width="6.482112860892388in"
-height="2.5779440069991253in"}
+
+
+### Display filter form block
+
+You can then use this to display your ajax exposed filter form block
+
+```twig
+    {% raw %}{{ drupal_block('views_exposed_filter_block:news_listing_for_news_landing-page_1') }}{% endraw %}
+```
+
+
+
+
+
+
+### Embed view in twig template
+
+In `inside-marthe/themes/custom/dprime/templates/content/node-overview.html.twig`  there is a view rendered in the twig template. This requires the [twig tweak](https://www.drupal.org/project/twig_tweak) module:
+
+```twig
+{% raw %}<div class="l-sidebar-content">
+  {% include '@danaprime/partials/subnav.html.twig' %}
+  {{content.field_ref_sidebars}}
+  {{ drupal_view('news', 'embed_page_sidebar', content.field_news_categories|render|trim) }}
+</div>{% endraw %}
+```
+
+You can, also specify additional parameters which map to contextual
+filters you have configured in your view.
+
+```twig
+{% raw %}{{ drupal_view('who_s_new', 'block_1', arg_1, arg_2, arg_3) }}{% endraw %}
+```
+
+### Some tricky quotes magic
+
+Here I am trying to create a string type=\"aof\" so I had to escape at least one of the quotes like this \\\" (backslash and  double quote)
+
+```twig
+{% raw %}{% set office_type = 'type=\"' ~ item.type ~ '"' %}{% endraw %}
+```
+
+The entire piece of debug code is reproduced below:
+
+```twig
+{% raw %}<div>
+  {% for filter in filter_data %}
+    {% if filter.type == 'office' %}
+      {% for item in filter.info %}
+        type={{ filter.type }}, title = {{ item.title }}, value = {{ item.value }}, selected= {{ item.selected }}, item.type = {{ item.type }}<br>
+        {% set officetype = '' %}
+        {% if item.type is defined and item.type %}
+          {% set office_type = 'type=\"' ~ item.type ~ '"' %}
+          Office_type:{{ office_type }} <br>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</div>{% endraw %}
+```
+
+The real implementation is shown below:
+
+From `txg/web/themes/custom/txg/templates/partials/searchfilterform.html.twig`
+
+See the line below that sets office_type = ...
+
+
+```twig
+{% raw %}{% for item in filter.info %}
+  {% set selected = '' %}
+  {% if item.selected is defined and item.selected %}
+    {% set selected = 'selected' %}
+  {% endif %}
+  {% set officetype = '' %}
+  {% if item.type is defined and item.type %}
+    {% set office_type = 'type=\"' ~ item.type ~ '"' %}
+  {% endif %}
+  <option value="/search-news?{{ filter.type }}={{ item.value }} {{ office_type }}" {{ selected }}>{{ item.title }}</option>
+{% endfor %}{% endraw %}
+```
+
+## Troubleshooting
+
+
+### Enable Twig debugging output in source
+
+In `sites/default/development.services.yml` in the `parameters`, `twig.config`, set `debug:true`. See `core.services.yml` for lots of other items to change for development.
+
+```yaml
+# Local development services.
+#
+parameters:
+  http.response.debug_cacheability_headers: true
+  twig.config:
+    debug: true
+    auto_reload: true
+    cache: false
+
+# To disable caching, you need this and a few other items
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory
+```
+
+You also need this in settings.local.php:
+
+```php
+/**
+ * Enable local development services.
+ */
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
+```
+You also need to disable the render cache in `settings.local.php` with:
+
+```php
+$settings['cache']['bins']['render'] = 'cache.backend.null';
+```
+
+### Debugging - Dump a variable
+
+When troubleshooting or trying to make sense of what is being output,
+use dump.
+
+```twig
+{% raw %}<pre>
+Dump node.created.value:
+{{ dump(node.created.value) }}
+Dump node.changed.value:
+{{ dump(node.changed.value) }}
+Dump node.published_at.value:
+{{ dump(node.published_at.value) }}
+</pre>{% raw %}
+```
+The output might look like this. Note the published value may be null as I didn't use Drupal scheduling to publish the node:
+
+```
+Dump node.created.value:
+string(10) \"1604034000\"
+
+Dump node.changed.value:
+string(10) \"1604528207\"
+
+Dump node.published_at.value:
+NULL
+```
+
+### Dump taxonomy reference field
+
+Here we dump a taxonomy reference field which is useful for debugging purposes. The pre tags format it a little nicer than if we don't have them.
+
+```twig
+<pre>
+{{ dump(paragraph.field_ref_tax.value) }}
+</pre>
+```
+
+And get ouput:
+
+
+```
+array(2) {
+  [0]=>
+  array(4) {
+    ["target_id"]=>
+    string(2) "13"
+    ["_attributes"]=>
+    array(0) {
+    }
+    ["_loaded"]=>
+    bool(true)
+    ["_accessCacheability"]=>
+    object(Drupal\Core\Cache\CacheableMetadata)#7683 (3) {
+      ["cacheContexts":protected]=>
+      array(1) {
+        [0]=>
+        string(16) "user.permissions"
+      }
+      ["cacheTags":protected]=>
+      array(0) {
+      }
+      ["cacheMaxAge":protected]=>
+      int(-1)
+    }
+  }
+  [1]=>
+  array(4) {
+    ["target_id"]=>
+    string(2) "16"
+    ["_attributes"]=>
+    array(0) {
+    }
+    ["_loaded"]=>
+    bool(true)
+    ["_accessCacheability"]=>
+    object(Drupal\Core\Cache\CacheableMetadata)#7705 (3) {
+      ["cacheContexts":protected]=>
+      array(1) {
+        [0]=>
+        string(16) "user.permissions"
+      }
+      ["cacheTags":protected]=>
+      array(0) {
+      }
+      ["cacheMaxAge":protected]=>
+      int(-1)
+    }
+  }
+}
+```
 
 
 
