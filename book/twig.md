@@ -2056,22 +2056,21 @@ So here I compare a field value so I have to use striptags to remove all html.  
 
 - Drupal 10 uses **Twig 3**. Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
 
-- Theme system overview on api.drupal.org  <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10>
+- [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
 
-- Twig 3 documentation <https://twig.symfony.com/doc/3.x/>
+- [Twig 3 documentation](https://twig.symfony.com/doc/3.x/)
 
-- Drupal.org Theming documentation <https://www.drupal.org/docs/theming-drupal>
+- [Drupal.org Theming documentation](https://www.drupal.org/docs/theming-drupal)
 
-- Handy Twig functions you can use directly in templates - Updated
-    Jan 2023. <https://www.drupal.org/docs/theming-drupal/twig-in-drupal/functions-in-twig-templates>
+- [Handy Twig functions you can use directly in templates - Updated Jan 2023](https://www.drupal.org/docs/theming-drupal/twig-in-drupal/functions-in-twig-templates)
 
-- [Twig Tweak](https://www.drupal.org/project/twig_tweak) 3 cheat sheet Updated October 2022 <https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/docs/cheat-sheet.md>
+- [Twig Tweak 3 cheat sheet Updated October 2022](https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/docs/cheat-sheet.md)
 
-- [Twig Tweak](https://www.drupal.org/project/twig_tweak) 2 cheat sheet Updated May 2022 <https://www.drupal.org/docs/contributed-modules/twig-tweak-2x/cheat-sheet#s-view-filter>
+- [Twig Tweak 2 cheat sheet Updated May 2022](https://www.drupal.org/docs/contributed-modules/twig-tweak-2x/cheat-sheet#s-view-filter)
 
-- Using attributes in templates updated March 2023 <https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates>
+- [Using attributes in templates updated March 2023](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates)
 
-- [Twig tweaks](https://www.drupal.org/project/twig_tweak) and Views has some useful notes on using twig tweak with views. Updated November 2020 <https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views>
+- [Twig tweaks and Views has some useful notes on using twig tweak with views - Updated November 2020](https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views)
 
 
 ---
