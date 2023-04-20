@@ -1915,7 +1915,9 @@ rsvp.admin_settings:
 
 ## The basics of implementing forms
 
-Forms live in `module/src/Form/MyClassForm.php` e.g. `/modules/custom/dmod/src/Form/HeaderFooterForm.php`.
+### Location
+
+Forms are stored in `modules/src/Form/MyClassForm.php` e.g. `/modules/custom/dmod/src/Form/HeaderFooterForm.php`.
 
 ### Base Classes for forms
 
@@ -1985,7 +1987,7 @@ $form['submit'] = [
 ];
 ```
 
-And don't **EVER EVER** forget to return the \$form render array you just created  otherwise you get an empty form.  Not that it ever ever happened to me ;-))
+Don't **EVER EVER** forget to return the \$form render array you just created  otherwise you get an empty form.  Not that it ever ever happened to me ;-))
 
 ```php
 return $form;
