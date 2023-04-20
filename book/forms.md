@@ -1910,6 +1910,8 @@ rsvp.admin_settings:
         label: 'Content type'
 ```
 
+---
+
 
 ## The basics of implementing forms
 
