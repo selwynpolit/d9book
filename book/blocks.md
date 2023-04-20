@@ -795,6 +795,18 @@ quick_pivot.config:
 
 ## Modify a block with hook_block_view_alter or hook_block_build_alter
 
+Some drupal hooks only run inside a contributed modules and some only inside a theme and some both.
+
+```php
+function themename_preprocess_block(&$variables)
+{
+    if ($variables['plugin_id'] == 'entity_browser_block:department_info') {
+          $variables['#attached']['library'][] = 'drupal/libraryname'; 
+    }
+```
+What's described below could potentially be done on a theme preprocess for the block.
+
+
 If you need to modify a block, you can supposedly use `hook_block_view_alter` or `hook_block_build_alter`, although I haven't been able to make this work... hmm.
 
 There is a comment that may be worth exploring at https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/function/hook_block_view_alter/8.2.x.
