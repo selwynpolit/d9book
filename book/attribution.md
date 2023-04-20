@@ -27,7 +27,9 @@ Please add your name below if you add to the project
 
 [Sean Adams-Hiett](https://github.com/pyrello) - Fixes.
 
+[Gary Gao](https://github.com/angrytoast) - Query access checking.
+
 [Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme.
 
-[Bmartinez](https://github.com/bmartinez287) - Block chapter fixes.
+[Bernard Martinez](https://github.com/bmartinez287) - Block chapter fixes.
 
