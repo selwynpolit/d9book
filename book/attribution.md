@@ -29,3 +29,5 @@ Please add your name below if you add to the project
 
 [Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme.
 
+[Bmartinez](https://github.com/bmartinez287) - Block chapter fixes.
+
