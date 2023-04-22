@@ -3,6 +3,7 @@ layout: default
 title: Twig
 permalink: /twig
 last_modified_date: '2023-04-14'
+render_with_liquid: false
 ---
 
 # TWIG
@@ -66,15 +67,15 @@ Twig can do things that PHP can't such as whitespacing control, sandboxing, auto
 Double curly braces are used to output a variable. E.g.
 
 ```twig
-{% raw %}{{ content.title }}{% endraw %}
+{{ content.title }}
 ```
 
 Brace and percent are used to put logic into Twig templates e.g. if, then, else or for loops. E.g.
 
 ```twig
-{% raw %}{%if content.price is defined %}
+{% if content.price is defined %}
   <h2>Price: {{ content.price }} </h2>
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 Use brace and pound symbol (hash) for comments e.g.
@@ -85,7 +86,6 @@ Use brace and pound symbol (hash) for comments e.g.
 
 Here are some of the Twig functions that you can use in twig templates: <https://www.drupal.org/docs/8/theming/twig/functions-in-twig-templates> There are lots of them e.g.
 
-
 - `file_url($uri)`
 - `link($text, $uri, $attributes)`
 - `path($name, $parameters, $options)`
@@ -93,10 +93,9 @@ Here are some of the Twig functions that you can use in twig templates: <https:/
 
 And even more Twig fun at <https://twig.symfony.com/doc/3.x/functions/index.html>
 
-
 ### Which template, which variables?
 
-There is usually one `page.tpl.php` and *multiple* node templates. One node template per content type. Eg. `node-news-story.html.twig`, `node-event.html.twig`. There can also be field specific templates e.g. `web/themes/custom/txg/templates/field/field--field-3-column-links.html.twig`
+There is usually one `page.tpl.php` and _multiple_ node templates. One node template per content type. Eg. `node-news-story.html.twig`, `node-event.html.twig`. There can also be field specific templates e.g. `web/themes/custom/txg/templates/field/field--field-3-column-links.html.twig`
 
 In the `page.html.twig`, you can refer to variables as `page.content` or `node.label`
 
@@ -104,28 +103,31 @@ whereas node templates expect `content.field_image` or `node.field_myfield`
 
 Note. If you don't see a field output for a node, try specifying the preface `node.` instead of `content.`.
 
-Field specific template are usually very simple and refer to 
+Field specific template are usually very simple and refer to
+
 ```twig
-{% raw %}{{ items }}{% endraw %}
+{{ items }}
 ```
- and 
- ```twig
- {% raw %}{{ item.content }} {% endraw %}
- ```
+
+and
+
+```twig
+{{ item.content }} 
+```
 
 e.g. from txg/web/themes/contrib/zurb_foundation/templates/page.html.twig
 
 ```twig
-{% raw %}<section>
+<section>
   {{ page.content }}
-</section>{% endraw %}
+</section>
 ```
 
 And from `txg/web/themes/custom/txg/templates/content/page--node--event.html.twig` I accidentally started implementing this in the page template. See below
 for the node template.
 
 ```twig
-{% raw %}{{ drupal_field('field_image', 'node') }}
+{{ drupal_field('field_image', 'node') }}
 
 <h1>{{ node.label }}</h1>
 <div>For: {{ node.field_for.0.value }}</div>
@@ -143,15 +145,15 @@ for the node template.
 
 {% if node.field_event_cta_link.0.url %}
   CTA:<div class="button"><a href="{{ node.field_event_cta_link.0.url }}">{{ node.field_event_cta_link.0.title }}</a></div>
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 Here is the same basic stuff (as above) but implemented in the node template at `txg/web/themes/custom/txg/templates/content/node--event.html.twig`:
 
->Note. That `node.label` becomes `label` and `node.field_for` becomes `content.field_for`.
+> Note. That `node.label` becomes `label` and `node.field_for` becomes `content.field_for`.
 
 ```twig
-{% raw %}<h1>{{ label }}</h1>
+<h1>{{ label }}</h1>
 {{ content.field_image }}
 <div>Node: {{ node.id }}</div>
 <div>For: {{ content.field_for }}</div>
@@ -168,7 +170,7 @@ Here is the same basic stuff (as above) but implemented in the node template at 
 
 {% if node.field_event_cta_link.0.url %}
   CTA:<div class="button"> <a href="{{ node.field_event_cta_link.0.url }}">{{ node.field_event_cta_link.0.title }}</a></div>
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 ### Display fields or variables
@@ -178,7 +180,7 @@ Using `node.field_myfield` will bypass the rendering and display any markup in t
 This will display all the content rendered
 
 ```twig
-{% raw %}{{ content }}{% endraw %}
+{{ content }}
 ```
 
 ### Node Title with and without a link
@@ -186,24 +188,25 @@ This will display all the content rendered
 Render node title (or label) (with markup -- so it may include \<span\> tags)
 
 ```twig
-{% raw %}{{ label }}{% endraw %}
+{{ label }}
 ```
 
 Render node label (without markup -- no html in this version)
 
 ```twig
-{% raw %}{{ node.label }}{% endraw %}
+{{ node.label }}
 ```
 
 Render link to node
 
 ```twig
-{% raw %}<a href="{{ url }}">{{ label }}</a>{% endraw %}
+<a href="{{ url }}">{{ label }}</a>
 ```
 
 // Or a little more complex..
+
 ```twig
-{% raw %}<div class="title"><a href="{{ url }}">{{ label }}</a> | <span>{{ content.field_vendor_ref }}</span></div>{% endraw %}
+<div class="title"><a href="{{ url }}">{{ label }}</a> | <span>{{ content.field_vendor_ref }}</span></div>
 ```
 
 ### Fields
@@ -211,19 +214,19 @@ Render link to node
 There are many ways to limit things and only show some of the content. Mostly often you will need to show specific fields. Note. This will include rendered info such as labels etc.
 
 ```twig
-{% raw %}{{ content.field_yomama }}{% endraw %}
+{{ content.field_yomama }}
 ```
 
 or
 
 ```twig
-{% raw %}{{ content.field_ref_topic }}{% endraw %}
+{{ content.field_ref_topic }}
 ```
 
 Any field -- just jam `content.` in front of it
 
 ```twig
-{% raw %}{{ content.field_intl_students_and_scholars }}{% endraw %}
+{{ content.field_intl_students_and_scholars }}
 ```
 
 You can also grab node specific fields if `content.` type fields don't do the trick.
@@ -231,21 +234,21 @@ You can also grab node specific fields if `content.` type fields don't do the tr
 In a node template, you can display specific node fields by prefacing them with `node` e.g.:
 
 ```twig
-{% raw %}{{ node.id }}
+{{ node.id }}
 {{ node.label }}
 {{ node.field_date.value }}
-{{ node.field_date.end_value }}{% endraw %}
+{{ node.field_date.end_value }}
 ```
-
 
 ### Paragraph field
 
 These still work fine: `content.field_abc` or `node.field_ref_topic` but instead of `node`, you preface fields with `paragraph` like this:
 
 ```twig
-{% raw %}termid0: {{ paragraph.field_ref_tax.0.target_id }}
-termid1: {{ paragraph.field_ref_tax.1.target_id }}{% endraw %}
+termid0: {{ paragraph.field_ref_tax.0.target_id }}
+termid1: {{ paragraph.field_ref_tax.1.target_id }}
 ```
+
 and we get this result if we have selected two terms 13 and 16.
 
 ```
@@ -256,9 +259,9 @@ termid1: 16
 To dump a taxonomy reference field for debugging purposes use the code below. The pre tags format it a little nicer than if we don't have them.
 
 ```twig
-{% raw %}<pre>
+<pre>
 {{ dump(paragraph.field_ref_tax.value) }}
-</pre>{% endraw %}
+</pre>
 ```
 
 ### Loop thru paragraph reference fields
@@ -266,24 +269,24 @@ To dump a taxonomy reference field for debugging purposes use the code below. Th
 Here we go looping thru all the values in a multi-value reference field.
 
 ```twig
-{% raw %}{% for tax in paragraph.field_ref_tax %}
+{% for tax in paragraph.field_ref_tax %}
   <div>target_id: {{ tax.target_id }}</div>
-{% endfor %}{% endraw %}
+{% endfor %}
 ```
 
 It's the same as outputting these guys:
 
 ```twig
-{% raw %}termid0: {{ paragraph.field_ref_tax.0.target_id }}
-termid1: {{ paragraph.field_ref_tax.1.target_id }}{% endraw %}
+termid0: {{ paragraph.field_ref_tax.0.target_id }}
+termid1: {{ paragraph.field_ref_tax.1.target_id }}
 ```
+
 and to make this more useful, here we build a string of them to pass to a view.
 
 From:
 dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph\--news-preview.html.twig
 
 ```twig
-{% raw %}
 {# Figure out parameters to pass to view for news items #}
 {% set params = '' %}
 {% for item in paragraph.field_ref_tax_two %}
@@ -293,7 +296,6 @@ dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph\--news-prev
   {% endif %}
 {% endfor %}
 params: {{ params }}
-{% endraw %}
 ```
 
 This will output something like: 5+6+19
@@ -301,26 +303,27 @@ This will output something like: 5+6+19
 ### Body
 
 ```twig
-{% raw %}{{ content.body }}{% endraw %}
+{{ content.body }}
 ```
+
 Or
 
 ```twig
-{% raw %}{{ node.body.value }}{% endraw %}
+{{ node.body.value }}
 ```
-
 
 And for summary
 
 ```twig
-{% raw %}{{ node.body.summary | raw }}{% endraw %}
+{{ node.body.summary | raw }}
 ```
+
 ### Multi-value fields
 
 Fields that you preface with `node.` can also handle an index (the 0 below) i.e. to indicate the first value in a multi-value field, 1 to indicate the second etc.
 
 ```twig
-{% raw %}{{ node.field_iso_n3_country_code.0.value }}{% endraw %}
+{{ node.field_iso_n3_country_code.0.value }}
 ```
 
 ### Fields with HTML
@@ -331,20 +334,19 @@ aware this has security considerations which you can mitigate using
 filters:
 
 ```twig
-{% raw %}<div>How to order: {{ how_to_order|raw }}</div>{% endraw %}
+<div>How to order: {{ how_to_order|raw }}</div>
 ```
 
 And maybe you want to only allow \<b\> tags
 
 ```twig
-{% raw %}{{ word|striptags('<b>')|raw }}{% endraw %}
+{{ word|striptags('<b>')|raw }}
 ```
 
 Or several tags. In this case \<b\>\<a\>\<pre\>
 
-
 ```twig
-{% raw %}{{ word|striptags('<b>,<a>,<pre>')|raw }}{% endraw %}
+{{ word|striptags('<b>,<a>,<pre>')|raw }}
 ```
 
 ### The date/time a node is published, updated or created
@@ -353,7 +355,7 @@ Each of these calls return a datetime value in string form which can be
 massaged by the twig date() function for formatting.
 
 ```twig
-{% raw %}<pre>
+<pre>
 Created:   {{ node.created.value }}
 Created:   {{ node.createdtime }}
 Created:   {{ node.created.value|date('Y-m-d') }}
@@ -364,7 +366,7 @@ Modified:  {{ node.changed.value|date('Y-m-d') }}
 
 Published: {{ node.published_at.value }}
 Published: {{ node.published_at.value|date('Y-m-d') }}
-</pre>{% endraw %}
+</pre>
 ```
 
 Here is the output you might see. Note. The first published is apparently blank because I didn't use the drupal scheduling to publish the node (maybe?) and the second one seems to have defaulted to today's date.
@@ -383,34 +385,33 @@ Published: 2020-11-20
 Updated/changed
 
 ```twig
-{% raw %}{% set post_date = node.changedtime %}{% endraw %}
+{% set post_date = node.changedtime %}
 ```
 
 Created (same as authored on date on node edit form):
 
 ```twig
-{% raw %}{{ node.createdtime }}{% raw %}
+{{ node.createdtime }}
 ```
 
 And pretty formatted like Sep 2, 2023
 
 ```twig
-{% raw %}{{ node.createdtime\|date('M d, Y') }}{% raw %}
+{{ node.createdtime\|date('M d, Y') }}
 ```
 
 Also
 
-
 ```twig
-{% raw %}<div class="date">Date posted: {{ node.getCreatedTime|date('m/d/Y') }}</div>
-<div class="date">Date posted: {{ node.getChangedTime|date('m/d/Y') }}</div>{% endraw %}
+<div class="date">Date posted: {{ node.getCreatedTime|date('m/d/Y') }}</div>
+<div class="date">Date posted: {{ node.getChangedTime|date('m/d/Y') }}</div>
 ```
 
 Node published date:
 
 ```twig
-{% raw %}Date published: {{ _context.node.published_at.value }}
-Date published: {{ node.published_at.value }}{% endraw %}
+Date published: {{ _context.node.published_at.value }}
+Date published: {{ node.published_at.value }}
 ```
 
 ### Format a date field
@@ -418,82 +419,80 @@ Date published: {{ node.published_at.value }}{% endraw %}
 Use the field's format settings; include wrappers. This example includes wrappers.
 
 ```twig
-{% raw %}{{ content.field_blog_date }}{% endraw %}
+{{ content.field_blog_date }}
 ```
 
-The examples below do not include wrappers. 
+The examples below do not include wrappers.
 
 Use the field's format settings. This will use the format defined in `Content type » Manage Displays »Your View Mode`.
 
 ```twig
-{% raw %}{{ content.field_blog_date.0 }}{% endraw %}
+{{ content.field_blog_date.0 }}
 ```
 
 Using Twig date filter and a defined Drupal date format
 
 ```twig
-{% raw %}{{ node.field_blog_date.value|date('U')|format_date('short_mdyyyy') }}{% endraw %}
+{{ node.field_blog_date.value|date('U')|format_date('short_mdyyyy') }}
 ```
 
 Use Twig date filter
 
 ```twig
-{% raw %}{{ node.field_blog_date.value|date('n/j/Y') }}{% endraw %}
+{{ node.field_blog_date.value|date('n/j/Y') }}
 ```
-
 
 ### Smart date field formatting
 
 When using the [smart date](https://www.drupal.org/project/smart_date) module, dates are stored as timestamps so you have to use the twig date function to format them. If you just put this in your template:
 
 ```twig
-{% raw %}{{ content.field_when }}{% endraw %}
+{{ content.field_when }}
 ```
 
 The output will include whichever formatting you specify in Drupal. While I assume there is a way to pass a [smart date](https://www.drupal.org/project/smart_date) formatting string to twig, I haven\'t discovered it yet. Here are ways to format a [smart date](https://www.drupal.org/project/smart_date).
 
-Specify the index (the 0 indicating the first value, or 1 for the second) e.g. node.field.0.value and pipe the twig [date](https://twig.symfony.com/doc/3.x/filters/date.html) function  for formatting:
+Specify the index (the 0 indicating the first value, or 1 for the second) e.g. node.field.0.value and pipe the twig [date](https://twig.symfony.com/doc/3.x/filters/date.html) function for formatting:
 
 Date as in July 18, 2023
-```twig
-{% raw %}{{ node.field_when.0.value|date('F j, Y') }}{% endraw %}
-```
 
+```twig
+{{ node.field_when.0.value|date('F j, Y') }}
+```
 
 End date
-```twig
-{% raw %}{{ node.field_when.0.end_value|date('F j, Y') }}{% endraw %}
-```
 
+```twig
+{{ node.field_when.0.end_value|date('F j, Y') }}
+```
 
 Timezone as in America/Chicago
 
 ```twig
-{% raw %}{{ node.field_when.0.value|date('e') }}{% endraw %}
+{{ node.field_when.0.value|date('e') }}
 ```
-
 
 Timezone as in CDT
-```twig
-{% raw %}{{ node.field_when.0.value|date('T') }}{% endraw %}
-```
 
+```twig
+{{ node.field_when.0.value|date('T') }}
+```
 
 Day of the week
-```twig
-{% raw %}{{ node.field_when.0.value|date('l') }} {# day of week #}{% endraw %}
-```
 
+```twig
+{{ node.field_when.0.value|date('l') }} {# day of week #}
+```
 
 Hide the end date if it is the same as the start date
 
 ```twig
-{% raw %}{% set start = node.field_when.0.value|date('l F j, Y') %}
+{% set start = node.field_when.0.value|date('l F j, Y') %}
 {% set end = node.field_when.0.end_value|date('l F j, Y') %}
   <p class="date"> {{ start }}</p>
 {% if not start is same as(end) %}
   <p class="date"> {{ end }}</p>
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 ### Entity Reference field
@@ -501,7 +500,7 @@ Hide the end date if it is the same as the start date
 If you have an entity reference field such as field_ref_topic (entity reference to topic content) you have to specify the target_id like this. If you have only 1 reference, use the .0, for the second one use .1 and so on.
 
 ```twig
-{% raw %}{{ node.field_ref_topic.0.target_id }}{% endraw %}
+{{ node.field_ref_topic.0.target_id }}
 ```
 
 Note. This will show the node id of the entity reference field. See below to see the content that the entity reference field points to.
@@ -510,16 +509,16 @@ Note. This will show the node id of the entity reference field. See below to see
 
 If you have an entity reference and you want to display the content from the node that is referenced i.e. if you have a contract with a reference to the vendor node and you want to display information from the vendor node on the contract you can dereference fields in the entity destination:
 
-From `dirt/web/themes/custom/dirt_bootstrap/templates/content/node--contract--vendor-list.html.twig`: 
+From `dirt/web/themes/custom/dirt_bootstrap/templates/content/node--contract--vendor-list.html.twig`:
 
 ```twig
-{% raw %}{{ node.field_sf_contract_ref.entity.field_contract_overview.value }}{% endraw %}
+{{ node.field_sf_contract_ref.entity.field_contract_overview.value }}
 ```
 
 Or
 
 ```twig
-{% raw %}{{ content.field_sf_contract_ref.entity.field_contract_overview }}{% endraw %}
+{{ content.field_sf_contract_ref.entity.field_contract_overview }}
 ```
 
 The field in the contract node is called `field_sf_contract_ref`. The field in the referenced entity is called field_contract_overview. Notice how with the `node.` style, you must specify `.value` at the end.
@@ -527,10 +526,10 @@ The field in the contract node is called `field_sf_contract_ref`. The field in t
 Here is an example of a taxonomy term where the title of the term will be displayed.
 
 ```twig
-{% raw %}<pre>
+<pre>
 Dump category:
 {{ dump(node.field_ref_tax.entity.label) }}
-</pre>{% endraw %}
+</pre>
 ```
 
 ### Taxonomy term
@@ -538,17 +537,17 @@ Dump category:
 Here is an example of displaying a taxonomy term.
 
 ```twig
-{% raw %}<pre>
+<pre>
 Dump category: {{ dump(node.field_ref_tax.entity.label) }}
-</pre>{% endraw %}
+</pre>
 ```
 
 ### Render a block
 
-Example block with a machine name of  `block---system-powered-by-block.html.twig` from a custom theme
+Example block with a machine name of `block---system-powered-by-block.html.twig` from a custom theme
 
 ```twig
-{% raw %}{%
+{%
   set classes = [
     'block',
     'block-' ~ configuration.provider|clean_class,
@@ -565,7 +564,7 @@ Example block with a machine name of  `block---system-powered-by-block.html.twig
     {{ content }}
   {% endblock %}
   also powered by <a href="http://austinprogressivecalendar.com">Austin Progressive Calendar</a>
-</div>{% endraw %}
+</div>
 ```
 
 ### Render a list created in the template_preprocess_node()
@@ -587,11 +586,11 @@ function burger_theme_preprocess_node(&$variables) {
 and render it in the `node--article--full.html.twig`
 
 ```twig
-{% raw %}<ol>
+<ol>
   {% for burger in burgers %}
   <li>{{ burger['name'] }}</li>
   {% endfor %}
-</ol>{% endraw %}
+</ol>
 ```
 
 ### Links
@@ -604,39 +603,38 @@ This is the simplest way. Just set the display mode to link
 
 ![Suggest Button](assets/images/suggest_button.png)
 
-
 And output the link without a label.
 
 ```twig
-{% raw %}{{ content.field_suggest_button }}{% endraw %}
+{{ content.field_suggest_button }}
 ```
-
 
 If you need a little more control you might use this version which allows classes etc. We are adding several classes onto the anchor to make it look like a button. In this case with an internal link, it shows up using the alias of the link i.e. it shows `/contracts` instead of `node/7` when you hover over the link.
 
 ```twig
-{% raw %}<p><a class="btn secondary navy centered" href="{{ node.field_suggest_button.0.url }}">{{ node.field_suggest_button.0.title }}</a></p>{% endraw %}
+<p><a class="btn secondary navy centered" href="{{ node.field_suggest_button.0.url }}">{{ node.field_suggest_button.0.title }}</a></p>
 ```
 
 Using `.uri` causes the link (internal only. External links are fine) to show up as `node/7` when you hover over the link.
 
 ```twig
-{% raw %}
+
 <p><a class="btn secondary navy centered" href="{{ node.field_suggest_button.uri }}">{{ node.field_suggest_button.0.title }}</a></p>
-{% endraw %}
+
 ```
 
 Don't try this as it won't work:
 
 ```twig
-{% raw %}//bad
+//bad
 {{ node.field_suggest_button.url }}.
-//bad{% endraw %}
+//bad
 ```
+
 Want to use the text from a different field? No problem.
 
 ```twig
-{% raw %}<div class="title"><a href="{{ node.field_link.uri }}">{{ node.field_contract_number.value }}</a></div>{% endraw %}
+<div class="title"><a href="{{ node.field_link.uri }}">{{ node.field_contract_number.value }}</a></div>
 ```
 
 ### Links to other pages on site
@@ -644,7 +642,7 @@ Want to use the text from a different field? No problem.
 Absolute link:
 
 ```twig
-{% raw %}<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>{% endraw %}
+<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
 ```
 
 Relative link
@@ -652,7 +650,7 @@ Relative link
 See path vs url:
 
 ```twig
-{% raw %}<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>{% endraw %}
+<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to Weather Balloon node 3223 </a>
 ```
 
 ### Link to a user using user id
@@ -660,7 +658,7 @@ See path vs url:
 You can link to users using the following:
 
 ```twig
-{% raw %}<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>{% endraw %}
+<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>
 ```
 
 ### External link in a field via an entity reference
@@ -681,13 +679,10 @@ if ($vendor_url) {
 }
 ```
 
-
-And in the template we retrieve the URI with `.uri`: 
+And in the template we retrieve the URI with `.uri`:
 
 ```twig
-{% raw %}
 <p><a class="styled-link ext" href="{{ node.field_sf_contract_ref.entity.field_vendor_url.uri }}">Vendor Website</a></p>
-{% endraw %}
 ```
 
 Here we check if there is a target value and output that also. E.g.
@@ -702,29 +697,27 @@ From
 `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-product-card.html.twig` we wrap some stuff in a link:
 
 ```twig
-{% raw %}
+
 <a href="{{content.field_link.0['#url']}}" {% if content.field_link.0['#options']['attributes']['target'] %} target="{{content.field_link.0['#options']['attributes']['target']}}" {% endif %} class="button">{{content.field_link.0['#title']}}
   {{ content.field_image }}
   <h2 class="module-header">{{content.field_text}}</h2>
   {{content.field_text2}}
 </a>
-{% endraw %}
-```
 
+```
 
 And from
 `txg/web/themes/custom/txg/templates/content/node--event--card.html.twig` if there is a url, display the link with the url, otherwise just display the title for the link. I'm not 100% sure this is really valid. Can you put in a title and no link?
 
 ```twig
-{% raw %}
+
 {% if node.field_event_location_link.0.url %}
     <a href="{{ node.field_event_location_link.0.url }}">{{ node.field_event_location.0.value }}</a>
 {% else %}
   {{ node.field_event_location.0.value }}
 {% endif %}
-{% endraw %}
-```
 
+```
 
 ### Render an internal link programatically
 
@@ -745,14 +738,14 @@ if ($instructions_node) {
 }
 ```
 
-
 We can put the pieces in the twig template like this
 
 ```twig
-{% raw %}
+
 <a href="{{ order_type_link }}">{{ order_link_title }}</a>
-{% endraw %}
+
 ```
+
 ### Render an image with an image style
 
 From `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-resource.html.twig`
@@ -760,25 +753,24 @@ From `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-reso
 Here we use sidebar_standard image style
 
 ```twig
-{% raw %}
-<aside class="module module--featured" data-interchange="[{{ content.field_image.0['#item'].entity.uri.value | image_style('sidebar_standard') }}, small]">
-{% endraw %}
-```
 
+<aside class="module module--featured" data-interchange="[{{ content.field_image.0['#item'].entity.uri.value | image_style('sidebar_standard') }}, small]">
+
+```
 
 Or for a media field, set the image style on the display mode and use this:
 
 ```twig
-{% raw %}{{ content.field_banner_image.0 }}{% endraw %}
+{{ content.field_banner_image.0 }}
 ```
 
-### Hide if there is no content in a field or image 
+### Hide if there is no content in a field or image
 
 From
 inside-marthe/themes/custom/dp/templates/content/node\--video-detail.html.twig I check to see if there are any values in this array `related_lessons_nid`s and display the view.
 
 ```twig
-{% raw %}{% if related_lessons_nids|length %}
+{% if related_lessons_nids|length %}
   <div class="section section--featured">
     <div class="grid-container">
       <h2 class="section-header text-center large-text-left">Related Lessons</h2>
@@ -787,25 +779,25 @@ inside-marthe/themes/custom/dp/templates/content/node\--video-detail.html.twig I
       </div>
     </div>
   </div>
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 Not empty:
 
 ```twig
-{% raw %}{% if content.field_myfield is not empty %}
+{% if content.field_myfield is not empty %}
   {# Do something here #}
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
-### Hide if there is no image present 
+### Hide if there is no image present
 
 If there is an image (and it is renderable) display the image
 
 ```twig
-{% raw %}{% if content.field_teacher_commentary_image|render %}
+{% if content.field_teacher_commentary_image|render %}
   <img src="{{file_url( content.field_teacher_commentary_image['#items'].entity.uri.value ) }}" width="420" height="255" alt="" class="left">
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 ### Attributes
@@ -820,57 +812,68 @@ Read more about using attributes in templates
 To add a data attribute use:
 
 ```twig
-{% raw %}{{ attributes.setAttribute('data-myname','tommy') }}{% endraw %}
+{{ attributes.setAttribute('data-myname','tommy') }}
 ```
 
 e.g.
 
 ```twig
-{% raw %}<article{{ attributes.addClass(classes).setAttribute('my-name', 'Selwyn') }}>{% endraw %}
+<article{{ attributes.addClass(classes).setAttribute('my-name', 'Selwyn') }}>
 ```
 
 Produces:
 
 ```html
-<article data-history-node-id="3224" data-quickedit-entity-id="node/3224" role="article" class="contextual-region node node--type-article node--promoted node--view-mode-full" about="/burger1" typeof="schema:Article" my-name="Selwyn" data-quickedit-entity-instance-id="0">
+<article
+  data-history-node-id="3224"
+  data-quickedit-entity-id="node/3224"
+  role="article"
+  class="contextual-region node node--type-article node--promoted node--view-mode-full"
+  about="/burger1"
+  typeof="schema:Article"
+  my-name="Selwyn"
+  data-quickedit-entity-instance-id="0"
+></article>
 ```
 
 More useful examples at <https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates>
 such as:
 
 ```twig
-{% raw %}{% set classes = ['red', 'green', 'blue'] %}
+{% set classes = ['red', 'green', 'blue'] %}
 {% set my_id = 'specific-id' %}
 {% set image_src = 'https://www.drupal.org/files/powered-blue-135x42.png' %}
 
-<img{{ attributes.addClass(classes).removeClass('green').setAttribute('id', my_id).setAttribute('src', image_src) }}>{% endraw %}
+<img{{ attributes.addClass(classes).removeClass('green').setAttribute('id', my_id).setAttribute('src', image_src) }}>
 ```
 
 Which outputs the following:
 
- ```html
- <img id="specific-id" class="red blue" src="https://www.drupal.org/files/powered-blue-135x42.png">
+```html
+<img
+  id="specific-id"
+  class="red blue"
+  src="https://www.drupal.org/files/powered-blue-135x42.png"
+/>
 ```
-
 
 Check if an attribute has a class
 
 ```twig
-{% raw %}{{ attributes.hasClass($class) }}{% endraw %}
+{{ attributes.hasClass($class) }}
 ```
 
 Remove an attribute
 
 ```twig
-{% raw %}{{ attributes.removeAttribute() }}{% endraw %}
+{{ attributes.removeAttribute() }}
 ```
 
 Convert attributes to array
 
 ```twig
-{% raw %}{{ attributes.toArray () }}{% endraw %}
+{{ attributes.toArray () }}
 ```
-
 
 ### Output the content but leave off the field_image
 
@@ -878,15 +881,15 @@ From
 `very/web/themes/very/templates/node--teaser.html.twig`:
 
 ```twig
-{% raw %}<div{{ content_attributes.addClass('content') }}>
+<div{{ content_attributes.addClass('content') }}>
   {{ content|without('field_image')|render|striptags }}
-</div>{% endraw %}
+</div>
 ```
 
-###  Add a class
+### Add a class
 
 ```twig
-{% raw %}<div{{ content_attributes.addClass('node__content') }}>{% endraw %}
+<div{{ content_attributes.addClass('node__content') }}>
 ```
 
 ### Add a class conditionally
@@ -896,9 +899,9 @@ From `very/web/themes/very/templates/node--teaser.html.twig`
 For an unpublished node, wrap this class around the word unpublished
 
 ```twig
-{% raw %}{% if not node.published %}
+{% if not node.published %}
   <p class="node--unpublished">{{ 'Unpublished'|t }}</p>
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 ### Links to other pages on site
@@ -906,21 +909,20 @@ For an unpublished node, wrap this class around the word unpublished
 Absolute:
 
 ```twig
-{% raw %}<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>{% endraw %}
+<a href="{{ url('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>
 ```
 
 Relative (see path vs url):
 
 ```twig
-{% raw %}<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>{% endraw %}
+<a href="{{ path('entity.node.canonical', {node: 3223}) }}">Link to WEA node 3223 </a>
 ```
 
 Could also link to users using
 
 ```twig
-{% raw %}<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>{% endraw %}
+<a href="{{ url('entity.user.canonical', {user: 1}) }}">Link to user 1 </a>
 ```
-
 
 ### Loop.index in a paragraph twig template
 
@@ -930,13 +932,13 @@ From:
 Notice the use of `loop.index` to only output this for the first item
 
 ```twig
-{% raw %}{% for item in items %}
+{% for item in items %}
   {% if loop.index == 1 %}
     <div class="cell medium-6">
       <a href="{{item.content['#url']}}" class="button {% if loop.index == 2 %}hollow {% endif %}button--light m-b-0"{% if item.content['#options']['attributes']['target'] %} target="{{item.content['#options']['attributes']['target']}}" {% endif %}>{{item.content['#title']}}</a>
     </div>
   {% endif %}
-{% endfor %}{% endraw %}
+{% endfor %}
 ```
 
 ### Loop thru an array of items with a separator
@@ -944,7 +946,7 @@ Notice the use of `loop.index` to only output this for the first item
 This loads all the authors and adds `and` between them except for the last one:
 
 ```twig
-{% raw %}<div>
+<div>
   {%- if content.author -%}
       by
     {%- for author in content.author -%}
@@ -956,7 +958,7 @@ This loads all the authors and adds `and` between them except for the last one:
       {{ author }} {{ separator }}
     {%- endfor -%}
   {%- endif -%}
-</div>{% endraw %}
+</div>
 ```
 
 This version inserts commas:
@@ -965,13 +967,13 @@ From
 `org/docroot/themes/custom/org/templates/field/field--node--field-categories--opinion.html.twig`
 
 ```twig
-{% raw %}{% if label_hidden %}
+{% if label_hidden %}
   {% if multiple %}
       {% for item in items %}
         {%if loop.index > 1 %}, {% endif %}{{ item.content }}
       {% endfor %}
   {% else %}
-    {% for item in items %}        
+    {% for item in items %}
       {%if loop.index > 1 %}, {% endif %}{{ item.content }}
     {% endfor %}
   {% endif %}
@@ -980,16 +982,13 @@ From
     {% for item in items %}
       {%if loop.index > 1 %}, {% endif %}{{ item.content }}
     {% endfor %}
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
-
-
 
 ## Add Javascript into a twig template
 
 ```twig
-{% raw %}<script>
+<script>
   function hidePRSnippet(config, data) {
     if (data.average_rating < 3.5 && data.average_rating !== 0) {
       document.getElementById('pr-reviewsnippet').remove();
@@ -1003,9 +1002,8 @@ From
     }
   }
   POWERREVIEWS.display.render(powerReviewsConfig);
-</script>{% endraw %}
+</script>
 ```
-
 
 ## Control/Logic
 
@@ -1015,7 +1013,7 @@ This would typically be used when passing a series of node id\'s to a
 view to filter its output.
 
 ```twig
-{% raw %}{% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}{% endraw %}
+{% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}
 ```
 
 This produces `1+2+3+4`
@@ -1023,9 +1021,8 @@ This produces `1+2+3+4`
 ### Include partial templates
 
 ```twig
-{% raw %}{% include '@txg/partials/searchfilterform.html.twig' %}{% endraw %}
+{% include '@txg/partials/searchfilterform.html.twig' %}
 ```
-
 
 ### Loop through entity reference items
 
@@ -1033,7 +1030,7 @@ In
 `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I need to loop through a bunch of entity reference values and build a string of id+id+id... (with an undefined number) so
 
 ```twig
-{% raw %}{% set blah = '' %}
+{% set blah = '' %}
 {% for item in node.field_ref_unit %}
   {% set blah = blah ~ item.target_id %}
   {% if not loop.last %}
@@ -1043,38 +1040,32 @@ In
 
 <div>blah:{{ blah }}</div>
 <div>node id: {{ node.id }}</div>
-{{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}{% endraw %}
+{{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}
 ```
-
-
-
 
 ### IF OR
 
 If there is a value in `field_event_date` or `field_display_date`, then display it/them.
 
 ```twig
-{% raw %}<div{{ content_attributes.addClass('teaser__content') }}>
+<div{{ content_attributes.addClass('teaser__content') }}>
   {% if content.field_event_date or content.field_display_date %}
     <div class="teaser__date">
       {{ content.field_event_date|render|striptags }}
       {{ content.field_display_date|render|striptags }}
     </div>
-  {% endif %}  {% endraw %}
+  {% endif %}  
 ```
-
 
 ### Test if a formatted text field is empty
 
 To check a body field or other formatted text field, use \|render to render it first.
 
 ```twig
-{% raw %}{% if content.body|render  %}
+{% if content.body|render  %}
   <li><a class="scroll" href="#section-overview">Overview</a></li>
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
-
 
 ### Test empty variable
 
@@ -1082,26 +1073,25 @@ This code checks if a variable is empty using [empty](https://twig.symfony.com/d
 <https://www.drupal.org/project/drupal/issues/2558079>:
 
 ```twig
-{% raw %}{% if attributes is empty %}
+{% if attributes is empty %}
   {{ link(item.title, item.url) }}
 {%  else %}
   {{ link(item.title, item.url, attributes) }}
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 You can also use:
 
 ```twig
-{% raw %}{% if blah is not empty %}
+{% if blah is not empty %}
   {{content.name}}
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
 
 ### Conditionals (empty, defined, even)
 
 ```twig
-{% raw %}{% if rows %}
+{% if rows %}
   {{rows}}
 {% elseif empty %}
   {{ empty }}
@@ -1113,14 +1103,13 @@ You can also use:
 
 {%if var is even %}
   {{ content.name}}
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
 
 e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlight-card.html.twig`
 
 ```twig
-{% raw %}{% set showCat = TRUE %}
+{% set showCat = TRUE %}
 {% if view_mode == 'overview' or view_mode == 'home' %}
   {% set showCat = FALSE %}
 {% endif %}
@@ -1139,11 +1128,8 @@ e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlig
       {% endif %}
     </div>
   </a>
-</div>{% endraw %}
+</div>
 ```
-
-
-
 
 ### Test if a paragraph is empty using striptags
 
@@ -1152,36 +1138,32 @@ From `/inside-marthe/themes/custom/dp/templates/content/node--video-collection.h
 Normally you wouldn't need the striptags, but when twig debugging is enabled, the render information includes debug tags. See https://www.drupal.org/project/drupal/issues/2547559#comment-12103048
 
 ```twig
-{% raw %}{% if content.field_related_lessons|render|striptags|trim is not empty %}
+{% if content.field_related_lessons|render|striptags|trim is not empty %}
   {{ content.field_related_lessons}}
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 Or this much simpler version which also comes from the same issue page above (it doesn't seem to work as well as the version above):
 
 ```twig
-{% raw %}{% if content.field_related_lessons.value %}
+{% if content.field_related_lessons.value %}
   {{ content.field_related_lessons}}
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
-
 
 ### Comparing strings
 
 For complicated strings, you have to use the Twig [same as](https://twig.symfony.com/doc/3.x/tests/sameas.html) function because using `if x == y` doesn\'t work. See the commented out part where I tried `==`:
 
 ```twig
-{% raw %}{% set start = node.field_when.0.value|date('l F j, Y') %}
+{% set start = node.field_when.0.value|date('l F j, Y') %}
 {% set end = node.field_when.0.end_value|date('l F j, Y') %}
 <p class="date"> {{ start }}</p>
 {#{% if not start == end %}#}
 {% if not start is same as(end) %}
   <p class="date"> {{ end }}</p>
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
-
 
 ### Include other templates as partials
 
@@ -1190,62 +1172,57 @@ In `very/web/themes/very/templates/node--featured.html.twig`
 You can re-use templates. Just put them in the partials directory (you don't have to but it is a good convention) and include them.
 
 ```twig
-{% raw %}{{ include('node--teaser.html.twig') }}{% endraw %}
+{{ include('node--teaser.html.twig') }}
 ```
 
 ### Check if an attribute has a class
 
 ```twig
-{% raw %}{{ attributes.hasClass($class) }}{% endraw %}
+{{ attributes.hasClass($class) }}
 ```
-
 
 ### Remove an attribute
 
 ```twig
-{% raw %}{{ attributes.removeAttribute() }}{% endraw %}
+{{ attributes.removeAttribute() }}
 ```
-
 
 ### Convert attributes to array
 
 ```twig
-{% raw %}{{ attributes.toArray () }}{% endraw %}
+{{ attributes.toArray () }}
 ```
-
 
 ## Views
 
 ### Render a view with contextual filter
 
->Pro tip: Create `embed` displays (rather than blocks or pages) so users don't see these blocks appearing in the block management page. see <https://drupal.stackexchange.com/questions/287209/what-does-the-embed-display-type-do>
+> Pro tip: Create `embed` displays (rather than blocks or pages) so users don't see these blocks appearing in the block management page. see <https://drupal.stackexchange.com/questions/287209/what-does-the-embed-display-type-do>
 
 To use a field value in a view as an argument, using
 [twig_tweak](https://www.drupal.org/project/twig_tweak), you can render the view and its arguments/parameters. In the example below, these are the contextual filters defined in the view.
 
 ```twig
-{% raw %}{{ drupal_view('map_data_for_a_country', 'block_stats', node.field_iso_n3_country_code.0.value) }}{% endraw %}
+{{ drupal_view('map_data_for_a_country', 'block_stats', node.field_iso_n3_country_code.0.value) }}
 ```
 
->Note. Using content.field as a parameter doesn't work because
-content.fields get rendered so they are usually filled with HTML or
-labels or both. Parameters need to simply be numbers or strings.
+> Note. Using content.field as a parameter doesn't work because
+> content.fields get rendered so they are usually filled with HTML or
+> labels or both. Parameters need to simply be numbers or strings.
 
 Other examples. Here an entity reference field is passed as a parameter. This works for taxonomy terms like this also.
 
 ```twig
-{% raw %}{{ drupal_view('news_stories_for_a_topic','block_1', node.field_ref_topic.0.target_id) }}{% endraw %}
+{{ drupal_view('news_stories_for_a_topic','block_1', node.field_ref_topic.0.target_id) }}
 ```
 
 Or
 
 ```twig
-{% raw %}{{ drupal_view('resellers_for_this_vendor', 'embed_1', node.field_vendor_id.value ) }}{% endraw %}
+{{ drupal_view('resellers_for_this_vendor', 'embed_1', node.field_vendor_id.value ) }}
 ```
 
 Note. If you ever see a 502 bad gateway error when embedding a drupal_view, delete the display and create a new one and it may just work fine.
-
-
 
 ### Count how many rows returned from a view
 
@@ -1254,23 +1231,22 @@ https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views
 Check if View has Results
 
 ```twig
-{% raw %}{% set view = drupal_view_result('related', 'block_1')|length %}
+{% set view = drupal_view_result('related', 'block_1')|length %}
 {% if view > 0 %}
   {{ drupal_view('related', 'block_1') }}
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
 
 ### If view results empty, show a different view
 
 In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` we show units (the first view) but if there aren't any, show `aofs` (the second view.)
 
 ```twig
-{% raw %}{% if drupal_view_result('related_news_for_news_story', 'block_unit', node.id, unit_ids) %}
+{% if drupal_view_result('related_news_for_news_story', 'block_unit', node.id, unit_ids) %}
   {{ drupal_view('related_news_for_news_story', 'block_unit', node.id, unit_ids) }}
 {% elseif drupal_view_result('related_news_aof', 'block_aof', node.id, aof_ids) %}
   {{ drupal_view('related_news_aof', 'block_aof', node.id, aof_ids) }}
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 ### Selectively pass 1 termid or 2 to a view as the contextual filter
@@ -1279,22 +1255,22 @@ In the view, you can allow multiple terms for a `contextual filter`
 
 From: <https://drupal.stackexchange.com/questions/78701/views-multiple-contextual-filters-taxonomy>:
 
-Instead of Content: The name of Taxonomy (taxonomy_vocabulary\_#) you need to select Content: Has taxonomy term ID *Contextual filter* and enable *Allow multiple values* to able to use multiple values in the form of 1+2+3 (for OR) or 1,2,3 (for AND).
+Instead of Content: The name of Taxonomy (taxonomy\_vocabulary\_#) you need to select Content: Has taxonomy term ID _Contextual filter_ and enable _Allow multiple values_ to able to use multiple values in the form of 1+2+3 (for OR) or 1,2,3 (for AND).
 
-Then in the template, check if there is a second value and build the arguments in the form id+id (e.g. "13+16" In this example, I have to assume the setup allows only 2 taxonomy terms to be entered. See below for an unlimited amount of terms.
+Then in the template, check if there is a second value and build the arguments in the form id+id (e.g. "13+16") In this example, I have to assume the setup allows only 2 taxonomy terms to be entered. See below for an unlimited amount of terms.
 
 From
-`/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--upcoming-events.html.twig`: 
+`/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--upcoming-events.html.twig`:
 
 ```twig
-{% raw %}{# if there is a second category, pass it separated by + #}
+{# if there is a second category, pass it separated by + #}
 {% if paragraph.field_ref_tax.1.target_id %}
   {% set args = paragraph.field_ref_tax.1.target_id~'+'~paragraph.field_ref_tax.1.target_id  %}
   args: {{ args }}
   {{ drupal_view('events', 'embed_2', paragraph.field_ref_tax.0.target_id~'+'~paragraph.field_ref_tax.1.target_id) }}
 {% else %}
   {{ drupal_view('events', 'embed_2', paragraph.field_ref_tax.0.target_id) }}
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 Or even nicer, we could loop thru an unlimited number of terms, build a string of them to pass to a view.
@@ -1303,7 +1279,6 @@ From:
 `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
 
 ```twig
-{% raw %}
 {# Figure out parameters to pass to view for news items #}
 {% set params = '' %}
 {% for item in paragraph.field_ref_tax_two %}
@@ -1313,18 +1288,15 @@ From:
   {% endif %}
 {% endfor %}
 params: {{ params }}
-{% endraw %}
 ```
-
 
 This will output something like: `5+6+19`
 
 And pass the output to a view like this:
 
 ```twig
-{% raw %}{{ drupal_view('news', 'embed_2', params) }}{% endraw %}
+{{ drupal_view('news', 'embed_2', params) }}
 ```
-
 
 ### Views templates
 
@@ -1356,10 +1328,9 @@ or for `views-view-list.html.twig`, you could use `views-view-list---foobar.html
 
 e.g. `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/views/views-view-list--resource-library.html.twig`
 
-
 ### Inject variables
 
-You can inject variables into a view using `hook_preprocess_views_view`() eg. from `txg/web/themes/custom/txg/txg.theme`.  The code below used to was load up various items to populate the select dropdown controls in the view:
+You can inject variables into a view using `hook_preprocess_views_view`() eg. from `txg/web/themes/custom/txg/txg.theme`. The code below used to was load up various items to populate the select dropdown controls in the view:
 
 ```php
 function txg_preprocess_views_view(&$variables) {
@@ -1371,8 +1342,8 @@ function txg_preprocess_views_view(&$variables) {
   if ($id == 'news_events_search' && $display_id == 'page_news') {
     $variables['filter_data'] = generate_search_filter_data();
   }
-}```
-
+}
+```
 
 Here is the code that builds the data for the select controls:
 
@@ -1493,15 +1464,13 @@ function generate_search_filter_data() {
 }
 ```
 
-
-
 Here the output for all views uses the `views-view.html.twig` template
 
 ```twig
-{% raw %}<!-- BEGIN OUTPUT from 'core/themes/classy/templates/views/views-view.html.twig' -->{% endraw %}
+<!-- BEGIN OUTPUT from 'core/themes/classy/templates/views/views-view.html.twig' -->
 ```
 
-If we want to override the `frontpage` view we can copy the template from above to our theme and rename it  `views-view--frontpage.html.twig`
+If we want to override the `frontpage` view we can copy the template from above to our theme and rename it `views-view--frontpage.html.twig`
 
 Notice that it will override all displays (in this case the page and the `feed` displays -- "page_1" and "feed_1" respectively) so we can be more specific
 
@@ -1524,7 +1493,7 @@ Here is an example of all the templates that will be tried in the following case
 
 View: foobar
 Style: unformatted
-Row style: Fields. 
+Row style: Fields.
 Display:Page.
 
 ```
@@ -1564,15 +1533,12 @@ function mytheme_preprocess_views_view_field(&$variables) {
 }
 ```
 
-
-
 #### Same field used twice
 
 Note. If you use the same field twice in a view i.e. if you need to display different parts of the same field in different places, views names them something like this: field_library_media and field_library_media_1. In that circumstance, you have to refer to them in the function like this:
 
 // if($variables['field']->field == 'field_library_media') {
   if($variables['field']->options['id'] == 'field_library_media_1') {
-
 
 Here is a real example where a media field id is being displayed and I switch it out with the formatted size of the media file.
 
@@ -1622,19 +1588,19 @@ This would typically be used when passing a series of node id\'s to a
 view to filter its output.
 
 ```twig
-{% raw %}{% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}{% endraw %}
+{% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}
 ```
+
 This produces 1+2+3+4
 
 ### Loop through entity reference items
 
-In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I need to loop through a bunch of entity reference values and build a
- string of id+id+id... (with an undefined number) so
-
-
+In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig`
+I need to loop through a bunch of entity reference values and build a string
+of id+id+id... (with an undefined number) so:
 
 ```twig
-{% raw %}{% set blah = '' %}
+{% set blah = '' %}
 {% for item in node.field_ref_unit %}
   {% set blah = blah ~ item.target_id %}
   {% if not loop.last %}
@@ -1644,9 +1610,8 @@ In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I ne
 
 <div>blah:{{ blah }}</div>
 <div>node id: {{ node.id }}</div>
-{{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}{% endraw %}
+{{ drupal_view('related_news_for_news_story', 'block_unit', node.id, blah) }}
 ```
-
 
 ## Twig filters and functions
 
@@ -1656,10 +1621,10 @@ See cheat sheet at
 <https://www.drupal.org/docs/contributed-modules/twig-tweak/cheat-sheet#s-view-filter>
 also <https://twig.symfony.com/doc/3.x/> for filters and functions
 
-Here are some examples.  A complete list is included below:
+Here are some examples. A complete list is included below:
 
 ```twig
-{% raw %}{{ <span>Hello I am an html twig, but my html will be stripped</span> | striptags }}
+{{ <span>Hello I am an html twig, but my html will be stripped</span> | striptags }}
 
 {{'welcome' | upper }}
 
@@ -1667,91 +1632,90 @@ Here are some examples.  A complete list is included below:
 
 {%filter upper %}
  This test becomes uppercase
-{% endfilter %}{% endraw %}
+{% endfilter %}
 ```
 
 Filters
 
--   [abs](https://twig.symfony.com/doc/3.x/filters/abs.html)
--   [batch](https://twig.symfony.com/doc/3.x/filters/batch.html)
--   [capitalize](https://twig.symfony.com/doc/3.x/filters/capitalize.html)
--   [column](https://twig.symfony.com/doc/3.x/filters/column.html)
--   [convert_encoding](https://twig.symfony.com/doc/3.x/filters/convert_encoding.html)
--   [country_name](https://twig.symfony.com/doc/3.x/filters/country_name.html)
--   [currency_name](https://twig.symfony.com/doc/3.x/filters/currency_name.html)
--   [currency_symbol](https://twig.symfony.com/doc/3.x/filters/currency_symbol.html)
--   [data_uri](https://twig.symfony.com/doc/3.x/filters/data_uri.html)
--   [date](https://twig.symfony.com/doc/3.x/filters/date.html)
--   [date_modify](https://twig.symfony.com/doc/3.x/filters/date_modify.html)
--   [default](https://twig.symfony.com/doc/3.x/filters/default.html)
--   [escape](https://twig.symfony.com/doc/3.x/filters/escape.html)
--   [filter](https://twig.symfony.com/doc/3.x/filters/filter.html)
--   [first](https://twig.symfony.com/doc/3.x/filters/first.html)
--   [format](https://twig.symfony.com/doc/3.x/filters/format.html)
--   [format_currency](https://twig.symfony.com/doc/3.x/filters/format_currency.html)
--   [format_date](https://twig.symfony.com/doc/3.x/filters/format_date.html)
--   [format_datetime](https://twig.symfony.com/doc/3.x/filters/format_datetime.html)
--   [format_number](https://twig.symfony.com/doc/3.x/filters/format_number.html)
--   [format_time](https://twig.symfony.com/doc/3.x/filters/format_time.html)
--   [html_to_markdown](https://twig.symfony.com/doc/3.x/filters/html_to_markdown.html)
--   [inky_to_html](https://twig.symfony.com/doc/3.x/filters/inky_to_html.html)
--   [inline_css](https://twig.symfony.com/doc/3.x/filters/inline_css.html)
--   [join](https://twig.symfony.com/doc/3.x/filters/join.html)
--   [json_encode](https://twig.symfony.com/doc/3.x/filters/json_encode.html)
--   [keys](https://twig.symfony.com/doc/3.x/filters/keys.html)
--   [language_name](https://twig.symfony.com/doc/3.x/filters/language_name.html)
--   [last](https://twig.symfony.com/doc/3.x/filters/last.html)
--   [length](https://twig.symfony.com/doc/3.x/filters/length.html)
--   [locale_name](https://twig.symfony.com/doc/3.x/filters/locale_name.html)
--   [lower](https://twig.symfony.com/doc/3.x/filters/lower.html)
--   [map](https://twig.symfony.com/doc/3.x/filters/map.html)
--   [markdown_to_html](https://twig.symfony.com/doc/3.x/filters/markdown_to_html.html)
--   [merge](https://twig.symfony.com/doc/3.x/filters/merge.html)
--   [nl2br](https://twig.symfony.com/doc/3.x/filters/nl2br.html)
--   [number_format](https://twig.symfony.com/doc/3.x/filters/number_format.html)
--   [raw](https://twig.symfony.com/doc/3.x/filters/raw.html)
--   [reduce](https://twig.symfony.com/doc/3.x/filters/reduce.html)
--   [replace](https://twig.symfony.com/doc/3.x/filters/replace.html)
--   [reverse](https://twig.symfony.com/doc/3.x/filters/reverse.html)
--   [round](https://twig.symfony.com/doc/3.x/filters/round.html)
--   [slice](https://twig.symfony.com/doc/3.x/filters/slice.html)
--   [slug](https://twig.symfony.com/doc/3.x/filters/slug.html)
--   [sort](https://twig.symfony.com/doc/3.x/filters/sort.html)
--   [spaceless](https://twig.symfony.com/doc/3.x/filters/spaceless.html)
--   [split](https://twig.symfony.com/doc/3.x/filters/split.html)
--   [striptags](https://twig.symfony.com/doc/3.x/filters/striptags.html)
--   [timezone_name](https://twig.symfony.com/doc/3.x/filters/timezone_name.html)
--   [title](https://twig.symfony.com/doc/3.x/filters/title.html)
--   [trim](https://twig.symfony.com/doc/3.x/filters/trim.html)
--   [u](https://twig.symfony.com/doc/3.x/filters/u.html)
--   [upper](https://twig.symfony.com/doc/3.x/filters/upper.html)
--   [url_encode](https://twig.symfony.com/doc/3.x/filters/url_encode.html)
+- [abs](https://twig.symfony.com/doc/3.x/filters/abs.html)
+- [batch](https://twig.symfony.com/doc/3.x/filters/batch.html)
+- [capitalize](https://twig.symfony.com/doc/3.x/filters/capitalize.html)
+- [column](https://twig.symfony.com/doc/3.x/filters/column.html)
+- [convert_encoding](https://twig.symfony.com/doc/3.x/filters/convert_encoding.html)
+- [country_name](https://twig.symfony.com/doc/3.x/filters/country_name.html)
+- [currency_name](https://twig.symfony.com/doc/3.x/filters/currency_name.html)
+- [currency_symbol](https://twig.symfony.com/doc/3.x/filters/currency_symbol.html)
+- [data_uri](https://twig.symfony.com/doc/3.x/filters/data_uri.html)
+- [date](https://twig.symfony.com/doc/3.x/filters/date.html)
+- [date_modify](https://twig.symfony.com/doc/3.x/filters/date_modify.html)
+- [default](https://twig.symfony.com/doc/3.x/filters/default.html)
+- [escape](https://twig.symfony.com/doc/3.x/filters/escape.html)
+- [filter](https://twig.symfony.com/doc/3.x/filters/filter.html)
+- [first](https://twig.symfony.com/doc/3.x/filters/first.html)
+- [format](https://twig.symfony.com/doc/3.x/filters/format.html)
+- [format_currency](https://twig.symfony.com/doc/3.x/filters/format_currency.html)
+- [format_date](https://twig.symfony.com/doc/3.x/filters/format_date.html)
+- [format_datetime](https://twig.symfony.com/doc/3.x/filters/format_datetime.html)
+- [format_number](https://twig.symfony.com/doc/3.x/filters/format_number.html)
+- [format_time](https://twig.symfony.com/doc/3.x/filters/format_time.html)
+- [html_to_markdown](https://twig.symfony.com/doc/3.x/filters/html_to_markdown.html)
+- [inky_to_html](https://twig.symfony.com/doc/3.x/filters/inky_to_html.html)
+- [inline_css](https://twig.symfony.com/doc/3.x/filters/inline_css.html)
+- [join](https://twig.symfony.com/doc/3.x/filters/join.html)
+- [json_encode](https://twig.symfony.com/doc/3.x/filters/json_encode.html)
+- [keys](https://twig.symfony.com/doc/3.x/filters/keys.html)
+- [language_name](https://twig.symfony.com/doc/3.x/filters/language_name.html)
+- [last](https://twig.symfony.com/doc/3.x/filters/last.html)
+- [length](https://twig.symfony.com/doc/3.x/filters/length.html)
+- [locale_name](https://twig.symfony.com/doc/3.x/filters/locale_name.html)
+- [lower](https://twig.symfony.com/doc/3.x/filters/lower.html)
+- [map](https://twig.symfony.com/doc/3.x/filters/map.html)
+- [markdown_to_html](https://twig.symfony.com/doc/3.x/filters/markdown_to_html.html)
+- [merge](https://twig.symfony.com/doc/3.x/filters/merge.html)
+- [nl2br](https://twig.symfony.com/doc/3.x/filters/nl2br.html)
+- [number_format](https://twig.symfony.com/doc/3.x/filters/number_format.html)
+- [raw](https://twig.symfony.com/doc/3.x/filters/raw.html)
+- [reduce](https://twig.symfony.com/doc/3.x/filters/reduce.html)
+- [replace](https://twig.symfony.com/doc/3.x/filters/replace.html)
+- [reverse](https://twig.symfony.com/doc/3.x/filters/reverse.html)
+- [round](https://twig.symfony.com/doc/3.x/filters/round.html)
+- [slice](https://twig.symfony.com/doc/3.x/filters/slice.html)
+- [slug](https://twig.symfony.com/doc/3.x/filters/slug.html)
+- [sort](https://twig.symfony.com/doc/3.x/filters/sort.html)
+- [spaceless](https://twig.symfony.com/doc/3.x/filters/spaceless.html)
+- [split](https://twig.symfony.com/doc/3.x/filters/split.html)
+- [striptags](https://twig.symfony.com/doc/3.x/filters/striptags.html)
+- [timezone_name](https://twig.symfony.com/doc/3.x/filters/timezone_name.html)
+- [title](https://twig.symfony.com/doc/3.x/filters/title.html)
+- [trim](https://twig.symfony.com/doc/3.x/filters/trim.html)
+- [u](https://twig.symfony.com/doc/3.x/filters/u.html)
+- [upper](https://twig.symfony.com/doc/3.x/filters/upper.html)
+- [url_encode](https://twig.symfony.com/doc/3.x/filters/url_encode.html)
 
 Functions
 
--   [attribute](https://twig.symfony.com/doc/3.x/functions/attribute.html)
--   [block](https://twig.symfony.com/doc/3.x/functions/block.html)
--   [constant](https://twig.symfony.com/doc/3.x/functions/constant.html)
--   [country_names](https://twig.symfony.com/doc/3.x/functions/country_names.html)
--   [country_timezones](https://twig.symfony.com/doc/3.x/functions/country_timezones.html)
--   [currency_names](https://twig.symfony.com/doc/3.x/functions/currency_names.html)
--   [cycle](https://twig.symfony.com/doc/3.x/functions/cycle.html)
--   [date](https://twig.symfony.com/doc/3.x/functions/date.html)
--   [dump](https://twig.symfony.com/doc/3.x/functions/dump.html)
--   [html_classes](https://twig.symfony.com/doc/3.x/functions/html_classes.html)
--   [include](https://twig.symfony.com/doc/3.x/functions/include.html)
--   [language_names](https://twig.symfony.com/doc/3.x/functions/language_names.html)
--   [locale_names](https://twig.symfony.com/doc/3.x/functions/locale_names.html)
--   [max](https://twig.symfony.com/doc/3.x/functions/max.html)
--   [min](https://twig.symfony.com/doc/3.x/functions/min.html)
--   [parent](https://twig.symfony.com/doc/3.x/functions/parent.html)
--   [random](https://twig.symfony.com/doc/3.x/functions/random.html)
--   [range](https://twig.symfony.com/doc/3.x/functions/range.html)
--   [script_names](https://twig.symfony.com/doc/3.x/functions/script_names.html)
--   [source](https://twig.symfony.com/doc/3.x/functions/source.html)
--   [template_from_string](https://twig.symfony.com/doc/3.x/functions/template_from_string.html)
--   [timezone_names](https://twig.symfony.com/doc/3.x/functions/timezone_names.html)
-
+- [attribute](https://twig.symfony.com/doc/3.x/functions/attribute.html)
+- [block](https://twig.symfony.com/doc/3.x/functions/block.html)
+- [constant](https://twig.symfony.com/doc/3.x/functions/constant.html)
+- [country_names](https://twig.symfony.com/doc/3.x/functions/country_names.html)
+- [country_timezones](https://twig.symfony.com/doc/3.x/functions/country_timezones.html)
+- [currency_names](https://twig.symfony.com/doc/3.x/functions/currency_names.html)
+- [cycle](https://twig.symfony.com/doc/3.x/functions/cycle.html)
+- [date](https://twig.symfony.com/doc/3.x/functions/date.html)
+- [dump](https://twig.symfony.com/doc/3.x/functions/dump.html)
+- [html_classes](https://twig.symfony.com/doc/3.x/functions/html_classes.html)
+- [include](https://twig.symfony.com/doc/3.x/functions/include.html)
+- [language_names](https://twig.symfony.com/doc/3.x/functions/language_names.html)
+- [locale_names](https://twig.symfony.com/doc/3.x/functions/locale_names.html)
+- [max](https://twig.symfony.com/doc/3.x/functions/max.html)
+- [min](https://twig.symfony.com/doc/3.x/functions/min.html)
+- [parent](https://twig.symfony.com/doc/3.x/functions/parent.html)
+- [random](https://twig.symfony.com/doc/3.x/functions/random.html)
+- [range](https://twig.symfony.com/doc/3.x/functions/range.html)
+- [script_names](https://twig.symfony.com/doc/3.x/functions/script_names.html)
+- [source](https://twig.symfony.com/doc/3.x/functions/source.html)
+- [template_from_string](https://twig.symfony.com/doc/3.x/functions/template_from_string.html)
+- [timezone_names](https://twig.symfony.com/doc/3.x/functions/timezone_names.html)
 
 ## Twig Tweak
 
@@ -1768,7 +1732,9 @@ and a cheat sheet at <https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/d
 
 Here is a simple example:
 
-`{{ drupal_block('plugin_id') }}`
+```twig
+{{ drupal_block('plugin_id') }}
+```
 
 It looks like the best source of information is really in the [source file](https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/src/TwigTweakExtension.php) or at: web/modules/contrib/twig_tweak/src/TwigExtension.php
 
@@ -1783,51 +1749,45 @@ It outputs something like:
 
 ![Block listing](assets/images/block_listing.png)
 
-
 ### Display filter form block
 
 You can then use this to display your ajax exposed filter form block
 
 ```twig
-    {% raw %}{{ drupal_block('views_exposed_filter_block:news_listing_for_news_landing-page_1') }}{% endraw %}
+    {{ drupal_block('views_exposed_filter_block:news_listing_for_news_landing-page_1') }}
 ```
-
-
-
-
-
 
 ### Embed view in twig template
 
-In `inside-marthe/themes/custom/dprime/templates/content/node-overview.html.twig`  there is a view rendered in the twig template. This requires the [twig tweak](https://www.drupal.org/project/twig_tweak) module:
+In `inside-marthe/themes/custom/dprime/templates/content/node-overview.html.twig` there is a view rendered in the twig template. This requires the [twig tweak](https://www.drupal.org/project/twig_tweak) module:
 
 ```twig
-{% raw %}<div class="l-sidebar-content">
+<div class="l-sidebar-content">
   {% include '@danaprime/partials/subnav.html.twig' %}
   {{content.field_ref_sidebars}}
   {{ drupal_view('news', 'embed_page_sidebar', content.field_news_categories|render|trim) }}
-</div>{% endraw %}
+</div>
 ```
 
 You can, also specify additional parameters which map to contextual
 filters you have configured in your view.
 
 ```twig
-{% raw %}{{ drupal_view('who_s_new', 'block_1', arg_1, arg_2, arg_3) }}{% endraw %}
+{{ drupal_view('who_s_new', 'block_1', arg_1, arg_2, arg_3) }}
 ```
 
 ### Some tricky quotes magic
 
-Here I am trying to create a string `type="aof"` so I had to escape at least one of the quotes like this \\\" (backslash and  double quote)
+Here I am trying to create a string `type="aof"` so I had to escape at least one of the quotes like this \\\" (backslash and double quote)
 
 ```twig
-{% raw %}{% set office_type = 'type=\"' ~ item.type ~ '"' %}{% endraw %}
+{% set office_type = 'type=\"' ~ item.type ~ '"' %}
 ```
 
 The entire piece of debug code is reproduced below:
 
 ```twig
-{% raw %}<div>
+<div>
   {% for filter in filter_data %}
     {% if filter.type == 'office' %}
       {% for item in filter.info %}
@@ -1840,7 +1800,7 @@ The entire piece of debug code is reproduced below:
       {% endfor %}
     {% endif %}
   {% endfor %}
-</div>{% endraw %}
+</div>
 ```
 
 The real implementation is shown below:
@@ -1849,9 +1809,8 @@ From `txg/web/themes/custom/txg/templates/partials/searchfilterform.html.twig`
 
 See the line below that sets office_type = ...
 
-
 ```twig
-{% raw %}{% for item in filter.info %}
+{% for item in filter.info %}
   {% set selected = '' %}
   {% if item.selected is defined and item.selected %}
     {% set selected = 'selected' %}
@@ -1861,11 +1820,10 @@ See the line below that sets office_type = ...
     {% set office_type = 'type=\"' ~ item.type ~ '"' %}
   {% endif %}
   <option value="/search-news?{{ filter.type }}={{ item.value }} {{ office_type }}" {{ selected }}>{{ item.title }}</option>
-{% endfor %}{% endraw %}
+{% endfor %}
 ```
 
 ## Troubleshooting
-
 
 ### Enable Twig debugging output in source
 
@@ -1895,6 +1853,7 @@ You also need this in settings.local.php:
  */
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
+
 You also need to disable the render cache in `settings.local.php` with:
 
 ```php
@@ -1907,15 +1866,16 @@ When troubleshooting or trying to make sense of what is being output,
 use dump.
 
 ```twig
-{% raw %}<pre>
+<pre>
 Dump node.created.value:
 {{ dump(node.created.value) }}
 Dump node.changed.value:
 {{ dump(node.changed.value) }}
 Dump node.published_at.value:
 {{ dump(node.published_at.value) }}
-</pre>{% endraw %}
+</pre>
 ```
+
 The output might look like this. Note the published value may be null as I didn't use Drupal scheduling to publish the node:
 
 ```
@@ -1935,12 +1895,11 @@ Here we dump a taxonomy reference field which is useful for debugging purposes. 
 
 ```twig
 <pre>
-{{ dump(paragraph.field_ref_tax.value) }}
+  {{ dump(paragraph.field_ref_tax.value) }}
 </pre>
 ```
 
 And get ouput:
-
 
 ```
 array(2) {
@@ -1993,43 +1952,39 @@ array(2) {
 }
 ```
 
-
-
 ### Using kint or dump to display variable in a template
 
 With `devel` and `devel: kint` enabled, you can display variables in templates. Here we show the content variable from the above block template. Note. There is also a built in `dump()` function which is super useful.
 
 ```twig
-{% raw %}{{ kint(content) }}{% endraw %}
+{{ kint(content) }}
 ```
 
 You can also
 
 ```twig
-{% raw %}{{ dump(content) }}{% endraw %}
+{{ dump(content) }}
 ```
 
 And dump a value from a paragraph field. The pre tags will format the output a little more sanely.
 
 ```twig
-{% raw %}<pre>
+<pre>
 {{ dump(paragraph.field_ref_tax.value) }}
-</pre>{% endraw %}
+</pre>
 ```
 
 Or the body field:
 
 ```twig
-{% raw %}{{ kint(content['body']) }}{% endraw %}
+{{ kint(content['body']) }}
 ```
 
 Or the tags field content[‘field_tags’]
 
 ```twig
-{% raw %}{{ kint(content['field_tags']) }}{% endraw %}
+{{ kint(content['field_tags']) }}
 ```
-
-
 
 ### 502 bad gateway error
 
@@ -2041,16 +1996,15 @@ If you ever see a 502 bad gateway error when embedding a drupal_view, delete the
 
 ### Striptags (when twig debug info causes if to fail)
 
-When you care about the output being affected by twig debugging, you need to use `striptags`.  In this case, because I enabled twig debugging, the content.field_landing_opinion_page_type was not ever `'ORD`'
+When you care about the output being affected by twig debugging, you need to use `striptags`. In this case, because I enabled twig debugging, the content.field_landing_opinion_page_type was not ever `'ORD`'
 
-So here I compare a field value so I have to use striptags to remove all html.  I ended up using the combination of `render|striptags|trim`:
+So here I compare a field value so I have to use striptags to remove all html. I ended up using the combination of `render|striptags|trim`:
 
 ```twig
-{% raw %}{% if content.field_landing_opinion_page_type|render|striptags|trim == 'ORD' %}
+{% if content.field_landing_opinion_page_type|render|striptags|trim == 'ORD' %}
   {{ drupal_block('opinion_landing', wrapper=false) }}
-{% endif %}{% endraw %}
+{% endif %}
 ```
-
 
 ## Reference
 
@@ -2071,7 +2025,6 @@ So here I compare a field value so I have to use striptags to remove all html.  
 - [Using attributes in templates updated March 2023](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates)
 
 - [Twig tweaks and Views has some useful notes on using twig tweak with views - Updated November 2020](https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views)
-
 
 ---
 

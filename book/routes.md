@@ -147,7 +147,7 @@ From `web/modules/custom/rsvp/rsvp.routing.yml` this route loads the admin or se
 
 ```yml
 rsvp.admin_settings:
-  path:'/admin/config/content/rsvp'
+  path: '/admin/config/content/rsvp'
   defaults:
     _form: 'Drupal\rsvp\Form\RSVPConfigurationForm'
     _title: 'RSVP Configuration Settings'
@@ -489,7 +489,7 @@ followed by this thoughtful addition:
 ```
 To use this controller, you would need to define a route in your module's routing file that points to the displayTable method. For example:
 ```
-```php
+```yml
 mymodule.temperature_table:
   path: '/temperature-table'
   defaults:
