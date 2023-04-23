@@ -8,8 +8,8 @@
 # in the templates via {{ site.myvariable }}.
 title: Drupal Book
 description: Drupal at your fingertips
-baseurl: "/book" # the subpath of your site, e.g. /blog
-url: "https://selwynpolit.github.io/d9book" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: '/book' # the subpath of your site, e.g. /blog
+url: 'https://selwynpolit.github.io/d9book' # the base hostname & protocol for your site, e.g. http://example.com
 repository: selwynpolit/d9book # for github-metadata
 
 # Theme
@@ -28,10 +28,10 @@ exclude:
   - README.md
 
 # Set a path/url to a logo that will be displayed instead of the title
-# logo: "/assets/images/just-the-docs.png"
+# logo: '/assets/images/just-the-docs.png'
 
 # Set a path/url to a favicon that will be displayed by the browser
-favicon_ico: "/assets/images/favicon.ico"
+favicon_ico: '/assets/images/favicon.ico'
 
 # Enable or disable the site search
 # Supports true (default) or false
@@ -81,15 +81,14 @@ heading_anchors: true
 # Aux links for the upper right navigation
 aux_links:
   "<img src='https://atuin.ru/demo/simple-icons/icons/twitter.svg' alt='Twitter logo' title='Author in Twitter' style='width: 30px; height: 30px;'>":
-    - "//twitter.com/selwynpolit"
+    - '//twitter.com/selwynpolit'
   "<img src='https://atuin.ru/demo/simple-icons/icons/github.svg' alt='GitHub logo' title='D9Book on GitHub' style='width: 30px; height: 30px;'>":
-    - "//github.com/selwynpolit/d9book/tree/gh-pages"
+    - '//github.com/selwynpolit/d9book/tree/gh-pages'
 
 # Makes Aux links open in a new tab
 aux_links_new_tab: true
 
 # Sort order for navigation links
-# nav_sort: case_insensitive # default, equivalent to nil
 nav_sort: case_sensitive # Capital letters sorted before lowercase
 
 # External navigation links
@@ -102,24 +101,31 @@ nav_external_links:
 
 # Back to top link
 back_to_top: true
-back_to_top_text: "Back to top"
+back_to_top_text: 'Back to top'
 
-footer_content: <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://selwynpolit.github.io/d9book/index.html">Drupal at your fingertips</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.drupal.org/u/selwynpolit">Selwyn Polit</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+footer_content: |
+  <span xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+  <a property="dct:title" rel="cc:attributionURL" href="http://www.selwynpolit.github.io/d9book">Drupal at your fingertips</a>
+  by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="http://www.drupal.org/u/selwynpolit">Selwyn Polit</a>
+  is licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener noreferrer">CC BY 4.0
+  <img style="height:16px!important;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg">
+  <img style="height:16px!important;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg">
+  </a></span>
 
 # Footer last edited timestamp
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
-last_edit_time_format: "%b %e %Y" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
+last_edit_time_format: '%b %e %Y' # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
 
-# Footer "Edit this page on GitHub" link text
+# Footer 'Edit this page on GitHub' link text
 gh_edit_link: true # show or hide edit this page link
-gh_edit_link_text: "Edit this page on GitHub"
-gh_edit_repository: "https://github.com/selwynpolit/d9book" # the github URL for your repo
-gh_edit_branch: "gh-pages" # the branch that your docs is served from
+gh_edit_link_text: 'Edit this page on GitHub'
+gh_edit_repository: 'https://github.com/selwynpolit/d9book' # the github URL for your repo
+gh_edit_branch: 'gh-pages' # the branch that your docs is served from
 # gh_edit_source: book # the source that your files` originate from
-gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
+gh_edit_view_mode: 'tree' # "tree" or "edit" if you want the user to jump into the editor immediately
 
 # Color scheme currently only supports "dark", "light"/nil (default), or a custom scheme that you define
-color_scheme: dark
+color_scheme: book
 
 #callouts_level: quiet # or loud
 callouts_level: loud
