@@ -2,7 +2,7 @@
 layout: default
 title: Twig
 permalink: /twig
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-04-22'
 render_with_liquid: false
 ---
 
@@ -320,7 +320,7 @@ And for summary
 
 ### Multi-value fields
 
-Fields that you preface with `node.` can also handle an index (the 0 below) i.e. to indicate the first value in a multi-value field, 1 to indicate the second etc.
+Fields that you preface with `node.` can also handle an index (the `0` below) i.e. to indicate the first value in a multi-value field, 1 to indicate the second etc.
 
 ```twig
 {{ node.field_iso_n3_country_code.0.value }}
@@ -497,7 +497,7 @@ Hide the end date if it is the same as the start date
 
 ### Entity Reference field
 
-If you have an entity reference field such as field_ref_topic (entity reference to topic content) you have to specify the target_id like this. If you have only 1 reference, use the .0, for the second one use .1 and so on.
+If you have an entity reference field such as field_ref_topic (entity reference to topic content) you have to specify the target_id like this. If you have only 1 reference, use the `.0`, for the second one use `.1` and so on.
 
 ```twig
 {{ node.field_ref_topic.0.target_id }}
