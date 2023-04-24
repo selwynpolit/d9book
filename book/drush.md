@@ -215,6 +215,49 @@ Here is the composer.json from a project where I used (Search API module)[https:
 ```
 
 
+### Drush commands and  parameters
+
+You can specify the commands with a member function and all its parameters like this:
+
+
+Here we have a command 
+```php
+public function commandWarmVotingCache($scope = 'current', $program_nid = 0, $options = ['option-name' => 'default']): int {
+```
+This expects a command like: `drush cwarm current 12345`
+
+{: .note }
+The $options parameter is not generally for you to use.  Drush uses it for all sorts of parameters internally.  It is interesting to look at the values in the debugger.
+
+
+### Output messages on screen
+Here we use `print`:
+
+```php
+  $program_title = $program_node->getTitle();
+  print "Warming cache for program_nid: $program_nid Title: $program_title\n";
+  $progress = new Progress($program_nid);
+  $max_vote_number = $program_node->get('field_srp_vote_number')->value;
+  for ($vote_number = 0; $vote_number <= $max_vote_number; $vote_number++) {
+    $status = $progress->getTeamKssCompletionStatus($vote_number);
+    print "vote_number: $vote_number, Team KSS completion status: $status\n";
+  }
+```
+
+You can use the Drupal logger to output data to the terminal.  If you specify `->info` instead of `->notice` below you will only see the output in the terminal if you add -vvv to the drush command i.e. `drush cwarm current -vvv`
+```php
+\Drupal::logger('tea_teks_voting')->notice("Drush cache warm requested. Scope: $scope, Program_nid = $program_nid");
+```
+
+```php
+  if ($rc === 0 ) {
+    $this->logger()->success(dt('Operation completed.'));
+  }
+  else {
+    $this->logger()->error(dt('Failed to complete processing.'));
+  }
+```
+
 
 ## Drush Scripts
 
