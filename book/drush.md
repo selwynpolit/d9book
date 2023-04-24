@@ -56,7 +56,7 @@ Or `drush dcf`
 
 ### Drush command Example
 
-The Search API module (<https://www.drupal.org/project/search_api>) has a set of Drush commands.
+The (Search API module)[https://www.drupal.org/project/search_api] has a set of Drush commands.
 
 Here is `web/modules/contrib/search_api/drush.services.yml`
 
@@ -144,28 +144,76 @@ public function enable($indexId) {
   $this->commandHelper->enableIndexCommand([$indexId]);
 }
 ```
-You also need a `composer.json` in the project. Note the `extra, drush, services` that reference the `drush.services.yml` file:
+You also need a `composer.json` in the custom module directory. Note the `extra, drush, services` that reference the `drush.services.yml` file:
 
-```yaml
+
+Here is the version that drush generates by default:
+
+```yml
 {
-    "name": "drupal/migrate_json_darn",
-    "description": "Provides a command for linking up videos in video collections.",
-    "type": "drupal-module",
-    "authors": [
-        {
-            "name": "Selwyn Polit",
-            "homepage": "https://www.drupal.org/u/selwynpolit"
-        }
-    ],
+    "name": "org/tea_vote_cache",
+    "type": "drupal-drush",
     "extra": {
         "drush": {
             "services": {
-                "drush.services.yml": "^9 || ^10"
+                "drush.services.yml": "^10"
             }
         }
     }
 }
 ```
+
+```
+Here is the composer.json from a project where I used (Search API module)[https://www.drupal.org/project/search_api] module at web/modules/contrib/search_api/composer.json:
+
+```yml
+{
+  "name": "drupal/search_api",
+  "description": "Provides a generic framework for modules offering search capabilities.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/search_api",
+  "authors": [
+    {
+      "name": "Thomas Seidl",
+      "homepage": "https://www.drupal.org/u/drunken-monkey"
+    },
+    {
+      "name": "Nick Veenhof",
+      "homepage": "https://www.drupal.org/u/nick_vh"
+    },
+    {
+      "name": "See other contributors",
+      "homepage":"https://www.drupal.org/node/790418/committers"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/search_api",
+    "irc": "irc://irc.freenode.org/drupal-search-api",
+    "source": "https://git.drupalcode.org/project/search_api"
+  },
+  "license": "GPL-2.0-or-later",
+  "require-dev": {
+    "drupal/language_fallback_fix": "@dev",
+    "drupal/search_api_autocomplete": "@dev"
+  },
+  "suggest": {
+    "drupal/facets": "Adds the ability to create faceted searches.",
+    "drupal/search_api_autocomplete": "Allows adding autocomplete suggestions to search fields.",
+    "drupal/search_api_solr": "Adds support for using Apache Solr as a backend."
+  },
+  "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": "^9 || ^10"
+      }
+    }
+  },
+  "conflict": {
+    "drupal/search_api_solr": "2.* || 3.0 || 3.1"
+  }
+}
+```
+
 
 
 ## Drush Scripts
