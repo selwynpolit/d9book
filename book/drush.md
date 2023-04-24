@@ -163,7 +163,7 @@ Here is the version that drush generates by default:
 }
 ```
 
-```
+
 Here is the composer.json from a project where I used (Search API module)[https://www.drupal.org/project/search_api] module at web/modules/contrib/search_api/composer.json:
 
 ```yml
