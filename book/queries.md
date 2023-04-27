@@ -299,6 +299,36 @@ function park_academy_update_8002() {
   }
 }
 ```
+
+## Query multi-value fields
+
+When querying multivalue fields, you need to use `%delta` to specify the position (or delta) for the value you are looking for.  You also have to identify to the query which position (or delta) you want to query.  In the example below, we specify `field_srp_voting_status.%delta` as 1 - indicating the second position (0 based always) and `field_srp_voting_status.%delta.value` for the actual value we are looking for (either accepted, rejected or incomplete):
+
+```php
+    $vote_number = 1;
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'correlation', '=')
+      ->accessCheck(FALSE)
+      ->condition('field_program', $this->programNid, '=')
+      ->condition('field_voting_status.%delta', $vote_number, '=')
+      ->condition('field_voting_status.%delta.value', [
+        'accepted',
+        'rejected',
+        'incomplete'
+      ], 'IN');
+    $correlation_nids = $query->execute();
+    $correlation_nids = array_values($correlation_nids);
+    return $correlation_nids;
+```
+
+## Query entity reference fields
+
+In the following query, we check for a value in the entity that is referenced in the entity reference field?  I.e. if you have an entity reference field which references node (entity) 27.  This query can look in node 27 and check a field value in that node.  Here we check in field_first_name for the the value `Fred`:
+
+```php
+      ->condition('field_tks_pub_expectation.entity.field_first_name', 'Fred', '=')
+```
+
 # Static and dynamic Queries
 
 Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the entityQuery approach where you build the various parts of the query.
