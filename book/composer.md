@@ -169,7 +169,8 @@ Then composer install will apply the patch correctly
 More at <https://github.com/cweagans/composer-patches/issues/146>
 
 
-### To stop files being overwritten during composer operations
+## Stop files being overwritten during composer operations
+
 Depending on your composer.json, files like development.services.yml may be overwritten from during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
 
 The following snippet prevents the development.services.yml from being regularly overwritten:
@@ -185,7 +186,7 @@ The following snippet prevents the development.services.yml from being regularly
 ```
 from <https://www.drupal.org/docs/develop/development-tools/disable-caching#s-beware-of-scaffolding>
 
-and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>
+and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>:
 
 Sometimes, a project might prefer to entirely replace a scaffold file provided by a dependency, and receive no further updates for it. This can be done by setting the value for the scaffold file to exclude to false:
 
