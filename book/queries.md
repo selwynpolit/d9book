@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-04-27'
 ---
 
 # Queries
