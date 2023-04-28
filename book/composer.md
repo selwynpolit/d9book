@@ -168,6 +168,40 @@ Then composer install will apply the patch correctly
 
 More at <https://github.com/cweagans/composer-patches/issues/146>
 
+
+### To stop files being overwritten during composer operations
+Depending on your composer.json, files like development.services.yml may be overwritten from during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
+
+The following snippet prevents the development.services.yml from being regularly overwritten:
+```
+"drupal-scaffold": {
+    "locations": {
+        "web-root": "web/"
+    },
+    "file-mapping": {
+        "[web-root]/sites/development.services.yml": false
+    }
+},
+```
+from <https://www.drupal.org/docs/develop/development-tools/disable-caching#s-beware-of-scaffolding>
+
+and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>
+
+Sometimes, a project might prefer to entirely replace a scaffold file provided by a dependency, and receive no further updates for it. This can be done by setting the value for the scaffold file to exclude to false:
+
+```
+  "name": "my/project",
+  ...
+  "extra": {
+    "drupal-scaffold": {
+      "file-mapping": {
+        "[web-root]/robots.txt": false
+      },
+      ...
+    }
+  }
+```
+
 ## Updating Drupal Core
 
 if there is `drupal/core-recommended` in your `composer.json` use:
@@ -281,6 +315,7 @@ $ ddev composer install
 -   Making a patch (Dec 2022) <https://www.drupal.org/node/707484>
 -   Composer Documentation <https://getcomposer.org/doc/>
 -   Composer documentation article on versions and constraints <https://getcomposer.org/doc/articles/versions.md>
+-   Using Drupal's Composer Scaffold updated Dec 2922 <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>
 
 ---
 
