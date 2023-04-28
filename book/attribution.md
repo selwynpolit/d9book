@@ -33,3 +33,6 @@ Please add your name below if you add to the project
 
 [Bernard Martinez](https://github.com/bmartinez287) - Block chapter fixes.
 
+[Bronius Motekaitis](https://github.com/bronius) - Migration chapter.
+
+
