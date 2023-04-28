@@ -1825,7 +1825,38 @@ See the line below that sets office_type = ...
 
 ## Troubleshooting
 
-### Enable Twig debugging output in source
+### Enable Twig debugging and disable caches
+
+This will cause twig debugging information to be displayed in the HTML code like the following:
+
+```html
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'toolbar' -->
+<!-- BEGIN OUTPUT from 'core/themes/stable/templates/navigation/toolbar.html.twig' -->
+
+```
+and
+
+```html
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'page' -->
+<!-- FILE NAME SUGGESTIONS:
+   * page--teks--admin--srp--program--expectation--correlation--vote-all.html.twig
+   * page--teks--admin--srp--program--expectation--correlation--852136.html.twig
+   * page--teks--admin--srp--program--expectation--correlation--%.html.twig
+   * page--teks--admin--srp--program--expectation--correlation.html.twig
+   * page--teks--admin--srp--program--expectation--852131.html.twig
+   * page--teks--admin--srp--program--expectation--%.html.twig
+   * page--teks--admin--srp--program--expectation.html.twig
+   * page--teks--admin--srp--program--852061.html.twig
+   * page--teks--admin--srp--program--%.html.twig
+   * page--teks--admin--srp--program.html.twig
+   * page--teks--admin--srp.html.twig
+   x page--teks--admin.html.twig
+   * page--teks.html.twig
+   * page.html.twig
+-->
+```
 
 In `sites/default/development.services.yml` in the `parameters`, `twig.config`, set `debug:true`. See `core.services.yml` for lots of other items to change for development.
 
@@ -1845,7 +1876,7 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-You also need this in settings.local.php:
+You also need this in `settings.local.php`:
 
 ```php
 /**
@@ -1854,10 +1885,14 @@ You also need this in settings.local.php:
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
 
-You also need to disable the render cache in `settings.local.php` with:
+You also need to disable the render cache in `settings.local.php`.  Here all caching is disabled  with:
 
 ```php
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;
 $settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['page'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 ```
 
 ### Debugging - Dump a variable
