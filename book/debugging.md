@@ -20,7 +20,19 @@ last_modified_date: '2023-04-28'
 
 ## Overview
 
-Using a combination of PhpStorm, DDEV and Xdebug makes debugging a pleasure. PhpStorm is not essential, it works fine with other IDE\'s also. Many Drupal developers have not experienced using a true debugger, once they do, they wonder how they ever delivered any code without it.
+Using a combination of PhpStorm, DDEV and Xdebug makes debugging a pleasure. PhpStorm is not essential. Xdebug works fine with other IDE\'s also. In my experience, many Drupal developers have not experienced using a true debugger, but once they do, they wonder how they ever delivered any code without it.
+
+## Enable error reporting
+If you experience a WSOD, this can often give you some useful clue:
+
+/**
+ * Show all error messages, with backtrace information.
+ *
+ * In case the error level could not be fetched from the database, as for
+ * example the database connection failed, we rely only on this value.
+ */
+$config['system.logging']['error_level'] = 'verbose';
+
 
 ## Disable caches and enable Twig debugging
 
