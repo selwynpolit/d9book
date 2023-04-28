@@ -25,6 +25,7 @@ Using a combination of PhpStorm, DDEV and Xdebug makes debugging a pleasure. Php
 ## Enable error reporting
 If you experience a WSOD, this can often give you some useful clue:
 
+```php
 /**
  * Show all error messages, with backtrace information.
  *
@@ -32,6 +33,7 @@ If you experience a WSOD, this can often give you some useful clue:
  * example the database connection failed, we rely only on this value.
  */
 $config['system.logging']['error_level'] = 'verbose';
+```
 
 
 ## Disable caches and enable Twig debugging
