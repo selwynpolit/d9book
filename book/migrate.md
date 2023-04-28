@@ -56,9 +56,17 @@ This migration Process snippet example demonstrates how to populate the fields o
 
 ## Resources
 
-* 31 days of Drupal migrations by Mauricio Dinarte August 2019 <https://understanddrupal.com/migrations>![image](https://user-images.githubusercontent.com/532848/235267280-c5c9df7e-6f1e-493b-8533-94d78e9a91bf.png)
-* Stop waiting for Feeds module: how to import RSS in Drupal 8 by Campbell Vertesi June 2017 <https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8> ![image](https://user-images.githubusercontent.com/532848/235267480-6248e88a-0a30-4762-8697-ffde401b7977.png)
-* Issue on Drupal.org where Mike Ryan (the author of the migrate module) addresses how o start a migration programmatically <https://www.drupal.org/project/drupal/issues/2764287>![image](https://user-images.githubusercontent.com/532848/235267674-ecb63d32-d298-4e83-a35b-49dcb45deb33.png)
+* 31 days of Drupal migrations by Mauricio Dinarte August 2019 <https://understanddrupal.com/migrations>
+* Stop waiting for Feeds module: how to import RSS in Drupal 8 by Campbell Vertesi June 2017 <https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8> 
+* Issue on Drupal.org where Mike Ryan, the author of the migrate module,  addresses how to start a migration programmatically <https://www.drupal.org/project/drupal/issues/2764287>
+* Video from Twin Cities Drupal community where Mauricio Dinarte and Benjamin Melançon demonstrate how to implement migrations - June 20187. <https://www.youtube.com/watch?v=eBP2vQIwx-o>
+* Migrating to Drupal From Alternate Sources by Joshua Turton showing migrations from CSV, XML/RSS and Wordpress into Drupal 8 - November 2018  <https://www.phase2technology.com/blog/migrating-drupal-alternate-sources>
+* Nice intro to Drupal 8 migration by Chris of Redfin Solutions from Nov 2017.  <https://redfinsolutions.com/blog/understanding-drupal-8s-migrate-api>
+* Migrating files and images on Drupal.org updated Feb 2023. <https://www.drupal.org/docs/drupal-apis/migrate-api/migrate-destination-plugins-examples/migrating-files-and-images>
+* Drupal 8 content migrations from CSV or spreadsheet August 2020 <https://atendesigngroup.com/articles/drupal-8-content-migrations-csv-spreadsheet>
+
+
+
 
 
 
