@@ -184,24 +184,30 @@ The following snippet prevents the development.services.yml from being regularly
     }
 },
 ```
-from <https://www.drupal.org/docs/develop/development-tools/disable-caching#s-beware-of-scaffolding>
+The code above is from <https://www.drupal.org/docs/develop/development-tools/disable-caching#s-beware-of-scaffolding>
 
-and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>:
-
-Sometimes, a project might prefer to entirely replace a scaffold file provided by a dependency, and receive no further updates for it. This can be done by setting the value for the scaffold file to exclude to false:
+and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>: Sometimes, a project might prefer to entirely replace a scaffold file provided by a dependency, and receive no further updates for it. This can be done by setting the value for the scaffold file to exclude to false.  In the example below, three files are excluded from being overwritten:
 
 ```
   "name": "my/project",
   ...
   "extra": {
     "drupal-scaffold": {
+      "locations": {
+        "web-root": "web/"
+      },
       "file-mapping": {
         "[web-root]/robots.txt": false
+        "[web-root]/.htaccess": false,
+        "[web-root]/sites/development.services.yml": false
       },
       ...
     }
   }
 ```
+More at <https://drupal.stackexchange.com/questions/290989/composer-keeps-overwriting-htaccess-and-other-files-every-time-i-do-anything>
+
+
 
 ## Updating Drupal Core
 
