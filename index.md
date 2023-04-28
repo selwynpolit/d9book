@@ -39,7 +39,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Links, Aliases and URLs](links)
 - [Logging and notification](logging)
 - [Menus](menus)
-- [Migration](migrate)
+- [Migration - automated ways to get data into Drupal](migrate)
 - [Modal dialogs](modals)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](nodes-and-fields)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](queries)
