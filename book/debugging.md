@@ -2,7 +2,7 @@
 layout: default
 title: Debugging
 permalink: /debugging
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-04-28'
 ---
 
 # Debugging
@@ -21,6 +21,78 @@ last_modified_date: '2023-04-13'
 ## Overview
 
 Using a combination of PhpStorm, DDEV and Xdebug makes debugging a pleasure. PhpStorm is not essential, it works fine with other IDE\'s also. Many Drupal developers have not experienced using a true debugger, once they do, they wonder how they ever delivered any code without it.
+
+## Disable caches and enable Twig debugging
+
+This will cause twig debugging information to be displayed in the HTML code like the following:
+
+```html
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'toolbar' -->
+<!-- BEGIN OUTPUT from 'core/themes/stable/templates/navigation/toolbar.html.twig' -->
+
+```
+and
+
+```html
+<!-- THEME DEBUG -->
+<!-- THEME HOOK: 'page' -->
+<!-- FILE NAME SUGGESTIONS:
+   * page--teks--admin--srp--program--expectation--correlation--vote-all.html.twig
+   * page--teks--admin--srp--program--expectation--correlation--852136.html.twig
+   * page--teks--admin--srp--program--expectation--correlation--%.html.twig
+   * page--teks--admin--srp--program--expectation--correlation.html.twig
+   * page--teks--admin--srp--program--expectation--852131.html.twig
+   * page--teks--admin--srp--program--expectation--%.html.twig
+   * page--teks--admin--srp--program--expectation.html.twig
+   * page--teks--admin--srp--program--852061.html.twig
+   * page--teks--admin--srp--program--%.html.twig
+   * page--teks--admin--srp--program.html.twig
+   * page--teks--admin--srp.html.twig
+   x page--teks--admin.html.twig
+   * page--teks.html.twig
+   * page.html.twig
+-->
+```
+
+In `sites/default/development.services.yml` in the `parameters`, `twig.config`, set `debug:true`. See `core.services.yml` for lots of other items to change for development.
+
+```yaml
+# Local development services.
+#
+parameters:
+  http.response.debug_cacheability_headers: true
+  twig.config:
+    debug: true
+    auto_reload: true
+    cache: false
+
+# To disable caching, you need this and a few other items
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory
+```
+
+You also need this in `settings.local.php`:
+
+```php
+/**
+ * Enable local development services.
+ */
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
+```
+
+Disable caches in `settings.local.php`:
+
+```php
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;
+$settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['page'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+```
+
+
 
 ## Enable/Disable Xdebug
 
