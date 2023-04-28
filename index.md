@@ -3,7 +3,7 @@ layout: default
 title: Home
 permalink: /
 nav_order: 1
-last_modified_date: '2023-04-12'
+last_modified_date: '2023-04-28'
 ---
 
 ## Drupal at your fingertips
@@ -39,6 +39,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Links, Aliases and URLs](links)
 - [Logging and notification](logging)
 - [Menus](menus)
+- [Migration](migrate)
 - [Modal dialogs](modals)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](nodes-and-fields)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](queries)
