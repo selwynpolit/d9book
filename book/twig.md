@@ -2,7 +2,7 @@
 layout: default
 title: Twig
 permalink: /twig
-last_modified_date: '2023-04-22'
+last_modified_date: '2023-04-28'
 render_with_liquid: false
 ---
 
