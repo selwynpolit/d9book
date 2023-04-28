@@ -5,7 +5,7 @@ permalink: /migrate
 last_modified_date: '2023-04-28'
 ---
 
-# Menus
+# Migration
 {: .no_toc .fw-500 }
 
 ## Table of contents
@@ -14,7 +14,7 @@ last_modified_date: '2023-04-28'
 - TOC
 {:toc}
 
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-menus)
+![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-migrate)
 
 ---
 
@@ -52,6 +52,18 @@ This migration Process snippet example demonstrates how to populate the fields o
     index:
       - 1
 ```
+
+
+## Resources
+
+* 31 days of Drupal migrations by Mauricio Dinarte August 2019 <https://understanddrupal.com/migrations>![image](https://user-images.githubusercontent.com/532848/235267280-c5c9df7e-6f1e-493b-8533-94d78e9a91bf.png)
+* Stop waiting for Feeds module: how to import RSS in Drupal 8 by Campbell Vertesi June 2017 <https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8> ![image](https://user-images.githubusercontent.com/532848/235267480-6248e88a-0a30-4762-8697-ffde401b7977.png)
+* Issue on Drupal.org where Mike Ryan (the author of the migrate module) addresses how o start a migration programmatically <https://www.drupal.org/project/drupal/issues/2764287>![image](https://user-images.githubusercontent.com/532848/235267674-ecb63d32-d298-4e83-a35b-49dcb45deb33.png)
+
+
+
+
+
 
 ---
 
