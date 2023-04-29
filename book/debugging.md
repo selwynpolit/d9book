@@ -23,7 +23,7 @@ last_modified_date: '2023-04-28'
 Using a combination of PhpStorm, DDEV and Xdebug makes debugging a pleasure. PhpStorm is not essential. Xdebug works fine with other IDE\'s also. In my experience, many Drupal developers have not experienced using a true debugger, but once they do, they wonder how they ever delivered any code without it.
 
 ## Enable error reporting
-If you experience a WSOD, this can often give you some useful clue:
+If you experience a WSOD (White Screen Of Death), enabling verbose error messages can often give you some useful clue:
 
 ```php
 /**
@@ -33,6 +33,30 @@ If you experience a WSOD, this can often give you some useful clue:
  * example the database connection failed, we rely only on this value.
  */
 $config['system.logging']['error_level'] = 'verbose';
+```
+For more, check out <https://drupal.stackexchange.com/questions/127182/how-do-i-enable-developer-debug-mode#:~:text=%24config%5B'system.,can%20always%20comment%20them%20out>.
+Also in <https://github.com/drupal/drupal/blob/10.1.x/core/includes/bootstrap.inc> Error reporting levels are defined:
+
+```php
+/**
+ * Error reporting level: display no errors.
+ */
+const ERROR_REPORTING_HIDE = 'hide';
+
+/**
+ * Error reporting level: display errors and warnings.
+ */
+const ERROR_REPORTING_DISPLAY_SOME = 'some';
+
+/**
+ * Error reporting level: display all messages.
+ */
+const ERROR_REPORTING_DISPLAY_ALL = 'all';
+
+/**
+ * Error reporting level: display all messages, plus backtrace information.
+ */
+const ERROR_REPORTING_DISPLAY_VERBOSE = 'verbose';
 ```
 
 
