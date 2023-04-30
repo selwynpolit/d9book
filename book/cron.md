@@ -2,7 +2,7 @@
 layout: default
 title: Cron
 permalink: /cron
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-05-01'
 ---
 
 # CRON
@@ -18,100 +18,222 @@ last_modified_date: '2023-04-13'
 
 ---
 
-[Drupal hook_cron API](https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/9.4.x)
+## Overview
 
-## Hook_cron
+Cron is a time-based task scheduler that executes commands at specified
+intervals, called **_cron jobs_**. Cron is available on Unix, Linux, and Mac
+servers, and Windows servers use a Scheduled Task to execute commands. Cron jobs
+are used in Drupal to handle maintenance tasks such as cleaning up log files and
+checking for updates.
 
-TODO: needs content.
-TODO: Needs info about the Drupal Queue system.
+## How does it work?
 
-## When did the cron job last run?
+Drupal provides an automated cron system that works with all operating systems
+because it does not involve the operating system's cron daemon. Instead, it
+works by checking at the end of each Drupal request to see when the cron last
+ran. If it has been too long, cron tasks are processed as part of that request.
 
-We can use this in `.module` files (which don't allow dependency injection) in this way. Call `\Drupal::state()-\>get()` to get the last run time.
+Module `automated_cron` subscribes to the [onTerminate] event for request. You
+can read more about how this component works in Symfony [here].
+
+File _core/modules/automated_cron/src/EventSubscriber/AutomatedCron.php_:
 
 ```php
-// Ensure that our cron job runs only once each day
-$last_run = \Drupal::state()->get('aquifer_update.last_run') ?: 0;
-if ((REQUEST_TIME - $last_run) < ( 24 * 60 * 60) ) {
-  return;
+/**
+ * Registers the methods in this class that should be listeners.
+ *
+ * @return array
+ *   An array of event listener definitions.
+ */
+public static function getSubscribedEvents(): array {
+  return [KernelEvents::TERMINATE => [['onTerminate', 100]]];
 }
 ```
 
-[Drupal class API reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/class/Drupal/8.3.x)
+Drupal then keeps track of when the cron ran and ensures that the next time it
+runs is only after the configured amount of time has elapsed.
 
-## How to stop cron from continuously executing things
+```php
+/**
+ * Run the automated cron if enabled.
+ *
+ * @param \Symfony\Component\HttpKernel\Event\TerminateEvent $event
+ *   The Event to process.
+ */
+public function onTerminate(TerminateEvent $event): void {
+  $interval = $this->config->get('interval');
+  if ($interval > 0) {
+    $cron_next = $this->state->get('system.cron_last', 0) + $interval;
+    if ((int) $event->getRequest()->server->get('REQUEST_TIME') > $cron_next) {
+      $this->cron->run();
+    }
+  }
+}
+```
 
-To stop cron from endlessly executing pending cron tasks truncate the queue table e.g. if you have queue'd up work such as in the salesforce module.
+So, in essence, if the cron is set to run every hour but the next visitor only
+comes in three hours, it will only run then.
+
+## Enable Drupal Cron
+
+- One way to enable cron is through the administration page. By default, Drupal
+  has a built-in core `automated cron` system that manages cron. You can access
+  this system by navigating to **_Configuration > System > Cron_**
+  (`/admin/config/system/cron`). If you have just installed Drupal, this option
+  should be enabled by default. You can confirm this by checking the status of
+  the Automated Cron module at `/admin/modules`.
+
+- Another way to enable cron is to run it manually from the **_Reports > Status
+  report page_**. By default, cron runs every 3 hours, but you can change this
+  to run every hour or every 6 hours. You can also use contributed modules for
+  additional cron functions.
+
+- To run cron using Drush, open a terminal or command prompt and navigate to
+  your Drupal site's root directory. Then, enter the command `drush cron`. This
+  will run cron for your site.
+
+## The cron command
+
+To get Drupal to take care of its maintenance you should have the server execute
+Drupal’s cron periodically. This is done by logging in to the server directly
+and settings the crontab file.
+
+**Crontab** (CRON TABle) - is a text file that contains the schedule of cron
+entries to be run at specified times This file can be created and edited either
+through the command line interface.
+
+In the following example, the crontab command shown below will activate the cron
+tasks automatically on the hour:
+
+```
+0 * * * * wget -O - -q -t 1 http://www.example.com/cron/<key>
+```
+
+In the above sample, the `0 * * * *` represents when the task should happen. The
+first figure represents minutes – in this case, on the 'zero' minute, or top of
+the hour. The other figures represent the hour, day, month, and day of the week.
+A `*` is a wildcard, meaning 'every time'. The minimum is every minute
+`* * * * *`.
+
+The rest of the line wget `-O - -q -t` 1 tells the server to request a URL, so
+the server executes the cron script.
+
+Here is a diagram of the general crontab syntax, for illustration:
+
+```
+# +-------------- minute (0 - 59)
+# |  +----------- hour (0 - 23)
+# |  |  +-------- day of the month (1 - 31)
+# |  |  |  +----- month (1 - 12)
+# |  |  |  |  +-- day of the week (0 - 6) (Sunday=0)
+# |  |  |  |  |
+  *  *  *  *  *   command to be executed
+```
+
+Thus, the cron command example above means
+`ping http://www.example.com/cron/<key>` at the zero minutes on every hour of
+every day of every month of every day of the week.
 
 ## Setting up cron
 
-In order to get Drupal to take care of it's maintenance you should have the server execute Drupal's cron periocally. This is done by logging in to the server directly and executing the command:
+To edit a crontab through the command line, type:
 
-```
-sudo crontab -e
-```
+1. At the Linux command prompt, type: `sudo crontab -e`
 
-This loads up vim editor with the cron jobs.
+2. Add ONE of the following lines:
 
-Find the command in Drupal at /admin/config/system/cron (Reports, status report, Last cron run - click on more information) For example:
+   ```
+   45 * * * * wget -O - -q -t 1 http://www.example.com/cron/<key>
+   45 * * * * curl -s http://example.com/cron/<key>
+   ```
 
-```
-Last run: *1 minute 37 seconds* ago.
+   This would have a wget or curl visit your cron page 45 minutes after every hour.
 
-To run cron from outside the site, go to https://ddev93.ddev.site/cron/3WpH0y_siTFCrP59LLNRD5s_dGFPpLWbhPS4BCht1b7w1Z_K4CnL46PVZ-6zd74wj6uXXO4K7w
+3. Save and exit the file. Check the Drupal status report, which shows the time
+   of the cron execution.
 
-```
+{: .note}
+> Use [crontab guru] - it's a quick and easy editor for cron schedule expressions.
 
-You can use wget, curl or lynx (or others) commands to execute the cron also.
+## Disable Drupal cron
 
-From [Drupal cron documentation](https://www.drupal.org/docs/administering-a-drupal-site/cron-automated-tasks/cron-automated-tasks-overview)
+For performance reasons, or if you want to ensure that cron can only ever run
+from an external trigger (not from Drupal), it may be desirable to disable
+Drupal's automated cron system, in one of three ways:
 
-Check your Drupal status report which shows cron run time. If this works for you and you want to try editing your Linux crontab file, here's a quick example of hourly cron.
+1. The preferred way to disable Drupal's core `automated cron` module is by
+   unchecking it at `/admin/modules`.
 
-1. At Linux command prompt, type `crontab -e`.
-2. Go to end then press Insert key. Then type or paste below.
+2. To temporarily disable cron, set the 'Run cron every' value to 'Never' (e.g.,
+   at **_Administration > Configuration > System > Cron_**
+   (`/admin/config/system/cron`)).
 
-```
-1  *   *   *   *   wget -O - -q -t 1 https://yourdrupalsite.tld/cron/Fe0lip-huaTyeUBYlCXbsc-QI-dw >/dev/null
-```
+3. For advanced reasons, another way to disable cron in Drupal is to add the
+   following line to your settings.php. Note that this fixes the setting at
+   `/admin/config/system/cron` to 'Never', and administrative users cannot
+   override it.
+   ```php
+   $config['automated_cron.settings']['interval'] = 0;
+   ```
 
-3. ESC to exit inserting. Shift-z shift-z (twice) to save and exit or Ctrl-z to exit without saving.
-4. Then, to make sure this is working, check your Drupal status report which shows cron run time.
+## hook_cron()
 
-You can use crontab guru (below) to come up with the appropriate values before the wget.  E.g. If you want cron to run every 5 minutes you could use:
+Gets fired every time the cron runs, so basically, Drupal’s cron is a collection
+of function calls to various modules. For this reason, we must avoid overloading
+the request with heavy processing; otherwise, the request might crash.
 
-- `*/5 * * * * wget...` - Every 5 minutes.
-
-- `0 22 * * 1-5 wget...` - At 10pm Monday through Friday.
-
-### Samples from crontabs file
-
-```
-0 1 \* \* \* /var/www/ddd.test.gov/vendor/drush/drush/drush feeds:import 6 -y
-
-0 2 \* \* \* /var/www/ddd.test.gov/vendor/drush/drush/drush sfproc
-dir_contracts
-
-0 3 \* \* \* /var/www/ddd.test.gov/vendor/drush/drush/drush sfproc
-enterprise_contracts
-
-0 3 \* \* \* /var/www/ddd.test.gov/vendor/drush/drush/drush sfproc
-contract_commodities
-```
-
-The \*/15 runs every 15 minutes. The 0 2 runs at 2am, 0 3 runs at 3am etc.  The drush lines are executing custom drush commands.
-
-## Resolving the ip and name for cron
-
-Here is a Drupal cron job on a prod server where it uses a `---resolve` param to resolve the ip and the name. This task runs every 15 minutes.
-
-```
-*/15 * * * * /usr/bin/curl -svo /dev/null http://prod.ddd.test.gov:8080/cron/86O435grdgfFFg7bOPT6AGEICKGd7Hf9v02pqXDwi3tnTbsbMFfaSaSPdARNEHNg --resolve prod.ddd.test.gov:8080:201.86.28.12
+```php
+function announcements_feed_cron() {
+  $config = \Drupal::config('announcements_feed.settings');
+  $interval = $config->get('cron_interval');
+  $last_check = \Drupal::state()->get('announcements_feed.last_fetch', 0);
+  $time = \Drupal::time()->getRequestTime();
+  if ($time - $last_check > $interval) {
+    \Drupal::service('announcements_feed.fetcher')->fetch(TRUE);
+    \Drupal::state()->set('announcements_feed.last_fetch', $time);
+  }
+}
 ```
 
-## crontab guru
+## Common inquiries regarding cron jobs
 
-This is a quick and simple editor for cron schedule expressions [crontab guru](https://crontab.guru/)
+### When did the cron job last run?
+
+We can use this in .module files (which don’t allow dependency injection) in
+this way.
+
+```php
+// Find out when cron was last run; the key is 'system.cron_last'.
+$cron_last = \Drupal::state()->get('system.cron_last');
+```
+
+Or in another file, we need to use dependency injection.
+
+```php
+$cron_last = $this->state->get('system.cron_last')
+```
+
+### How to stop Cron from continuously executing things?
+
+To stop cron from endlessly executing pending cron tasks truncate the queue
+table e.g. if you have queued up work such as in the salesforce module.
+
+### Resolving the ip and name for cron
+
+Here is a Drupal cron job on a prod server where it uses a `--resolve` param to
+resolve the IP and the name. This task runs every 15 minutes.
+
+```
+_/15 _ \* \* \* curl -svo /dev/null http://prod.ddd.test.gov:8080/cron/<key> --resolve prod.ddd.test.gov:8080:201.86.28.12
+```
+
+## Resources:
+
+- [Cron automated tasks overview]
+- [Configuring cron jobs using the cron command]
+- [Drupal hook_crom() API]
+- [Crontab – Quick Reference Running]
+- [Drupal cron tasks from Drush]
 
 ---
 
@@ -130,3 +252,12 @@ This is a quick and simple editor for cron schedule expressions [crontab guru](h
         crossorigin="anonymous"
         async>
 </script>
+
+[onTerminate]: https://symfony.com/doc/current/components/http_kernel.html#8-the-kernel-terminate-event
+[here]: https://symfony.com/doc/current/components/http_kernel.html
+[crontab guru]: https://crontab.guru
+[Drupal hook_crom() API]: https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10
+[Cron automated tasks overview]: https://www.drupal.org/docs/administering-a-drupal-site/cron-automated-tasks/cron-automated-tasks-overview
+[Configuring cron jobs using the cron command]: https://www.drupal.org/node/23714
+[Crontab – Quick Reference Running]: https://www.adminschoice.com/crontab-quick-reference
+[Drupal cron tasks from Drush]: https://www.drush.org/12.x/cron
