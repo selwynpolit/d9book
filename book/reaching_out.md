@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Reaching out of Drupal
+title: Outside of the Drupal Island
 permalink: /reaching-out
 last_modified_date: '2023-04-14'
 ---
