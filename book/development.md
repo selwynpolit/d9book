@@ -92,7 +92,7 @@ dr-xr-xr-x 8 sammy staff 256 Jul 21 12:56 web/sites/default
 
 You are now ready to develop a Drupal website on your local machine.
 
-## Converting existing site (non-composer based) to use composer:
+## Converting existing site (non-composer based) to use composer
 
 [Composerize Drupal](https://github.com/grasmash/composerize-drupal)
 
@@ -104,7 +104,7 @@ Also for [manual steps](https://drupalize.me/tutorial/use-composer-your-drupal-p
 
 ## DDEV
 
-For local Docker container development on any platform, there is no better tool than DDEV. This is a [well-documented](https://ddev.readthedocs.io/en/stable/), [well-supported](https://ddev.readthedocs.io/en/stable/#support-and-user-contributed-documentation) tool by the Amazing Randy Fay. You can get help from him on [Discord](https://discord.gg/hCZFfAMc5k) almost instantly.
+For local Docker container development on any platform, there is no better tool than DDEV. This is a [well-documented](https://ddev.readthedocs.io/en/stable/), [well-supported](https://ddev.readthedocs.io/en/stable/#support-and-user-contributed-documentation) tool by the Amazing Randy Fay. You can get help from him or some of the other friendly folks on [Discord](https://discord.gg/hCZFfAMc5k) almost instantly.
 
 From the docs:
 
