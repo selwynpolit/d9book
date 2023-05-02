@@ -32,7 +32,8 @@ last_modified_date: '2023-04-13'
 
 ## Pay videos
 
-* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from Lullabot which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development.
+* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from [Lullabot](https://www.lullabot.com/) which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development or bring new people up to speed.
+* [Symfonycasts](https://symfonycasts.com/) is another incredibly good service that teaches all about the nuts and bolts of Symfony, PHPUnit and many other tools.  I think the Drupal course they have might be a little dated now.
 
 
 ## Drupal Training
