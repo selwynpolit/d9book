@@ -55,7 +55,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 
 ---
 
-If you are inspired, please be a part of this project by contributing your own brilliance (imposters welcomed!) and add your name on the [attribution page](attribution).
+If you are inspired, please be a part of this project by contributing your own brilliance (imposters welcomed!) and add your name on the [attribution page](attribution). Simply click the Edit this page on GitHub at the very bottom of any page and start editing.
 
 ---
 
