@@ -224,14 +224,14 @@ Here is a Drupal cron job on a prod server where it uses a `--resolve` param to
 resolve the IP and the name. This task runs every 15 minutes.
 
 ```
-_/15 _ \* \* \* curl -svo /dev/null http://prod.ddd.test.gov:8080/cron/<key> --resolve prod.ddd.test.gov:8080:201.86.28.12
+*/15 * * * * curl -svo /dev/null http://prod.ddd.test.gov:8080/cron/<key> --resolve prod.ddd.test.gov:8080:201.86.28.12
 ```
 
 ## Resources:
 
 - [Cron automated tasks overview]
 - [Configuring cron jobs using the cron command]
-- [Drupal hook_crom() API]
+- [Drupal hook_cron() API]
 - [Crontab – Quick Reference Running]
 - [Drupal cron tasks from Drush]
 
