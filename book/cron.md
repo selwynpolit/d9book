@@ -256,7 +256,7 @@ _/15 _ \* \* \* curl -svo /dev/null http://prod.ddd.test.gov:8080/cron/<key> --r
 [onTerminate]: https://symfony.com/doc/current/components/http_kernel.html#8-the-kernel-terminate-event
 [here]: https://symfony.com/doc/current/components/http_kernel.html
 [crontab guru]: https://crontab.guru
-[Drupal hook_crom() API]: https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10
+[Drupal hook_cron() API]: https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10
 [Cron automated tasks overview]: https://www.drupal.org/docs/administering-a-drupal-site/cron-automated-tasks/cron-automated-tasks-overview
 [Configuring cron jobs using the cron command]: https://www.drupal.org/node/23714
 [Crontab – Quick Reference Running]: https://www.adminschoice.com/crontab-quick-reference
