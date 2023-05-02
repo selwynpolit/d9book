@@ -324,11 +324,11 @@ $node->get('field_cn_start_end_dates')->value
 $node->get('field_cn_start_end_dates')->end_value
 ```
 
-## Load multi-value field
+## Load multivalue field
 
 Multivalue fields can be loaded with `get('fieldname')`  or using a magic field getter like `$node->field_my_field`. Adding `->getValue()` to the end of either of these calls returns a simple array. 
 
-For example, a multi-value text field, this will return an array of values like this:
+For example, a multivalue text field, this will return an array of values like this:
 
 ```php
 $data = $node->get('field_condiment')->getValue();
@@ -338,7 +338,7 @@ $data[1]['value'] = 'mayo'
 $data[2]['value'] = 'reference'
 ```
 
-However a multi-value entity reference field (including taxonomy) will return values with the `target_id` array key. e.g. 
+However a multivalue entity reference field (including taxonomy) will return values with the `target_id` array key. e.g. 
 
 ```php
 $data = $node->get('field_event_ref')->getValue();
@@ -421,7 +421,7 @@ if(!is_null($node->get('field_voting_status')[$vote_number])) {
 
 
 
-## Update a multi-value field
+## Update a multivalue field
 
 This can be a little tricky especially if you want to preserve the existing values in the field.
 
@@ -447,11 +447,11 @@ $node->save();
 
 
 
-### Function to read and write multi-value fields
+### Function to read and write multivalue fields
 
 
 
-Here is a function which reads and writes multi-value fields safely. You pass it the `$node->field_name`, the index (vote_number) etc. and then it builds and returns an array formatted for updating the field data. It can also update the array if you pass in a value.
+Here is a function which reads and writes multivalue fields safely. You pass it the `$node->field_name`, the index (vote_number) etc. and then it builds and returns an array formatted for updating the field data. It can also update the array if you pass in a value.
 
 It could probably be genericized further.
 
@@ -509,7 +509,7 @@ $node->save();
 
 
 
-### Save multi-value field, entity reference field
+### Save multivalue field, entity reference field
 
 When you really care which delta/index/offset, you can specify that offset. It's a bit confusing how exactly it works. For text or numeric fields, it works like you'd expect. You can just specify the offset. For entity reference fields, you have to do some fiddling. Don't use `$node->set()` as this overwrites everything in the field, rather use the magic field setter variable and specify the offset.
 
@@ -548,7 +548,7 @@ if (empty($narrative_status)) {
 
 
 
-### Update a multi-value entity reference fields
+### Update a multivalue entity reference fields
 
 When writing multivalue entity reference fields, you have to load up the
 previous values, build an array of `target_ids` (node ids) and then write them all in one pass with a `$node->set()` method.
@@ -565,7 +565,7 @@ $new_program_node->set('field_srp_team_ref', $new_teams);
 
 
 
-### Generic Multi-value field writer
+### Generic Multivalue field writer
 
 
 
@@ -657,7 +657,7 @@ Here is a generic function that knows how to write values in a "sane" way.
 
 
 
-Here is an example of using the above function to write values to the field_condiment which is a multi-value text field.
+Here is an example of using the above function to write values to the field_condiment which is a multivalue text field.
 
 
 
@@ -686,7 +686,7 @@ $node->save();
 
 
 
-Here is a complete function from the controller `GeneralController.php`.  There are a wide variety of calls to `smartMultiValueFieldSetter()` showing it's use with multi-value text and entity-reference fields (including a taxonomy field):
+Here is a complete function from the controller `GeneralController.php`.  There are a wide variety of calls to `smartMultiValueFieldSetter()` showing it's use with multivalue text and entity-reference fields (including a taxonomy field):
 
 
 
@@ -773,7 +773,7 @@ Here is a complete function from the controller `GeneralController.php`.  There 
       $str .= $item['target_id'] . ', ';
     }
 
-    // Multi-value Text Field.
+    // Multivalue Text Field.
     $field_name = 'field_condiment';
     // Returns FieldItemList.
     $data = $node->get($field_name);
@@ -782,12 +782,12 @@ Here is a complete function from the controller `GeneralController.php`.  There 
     $data = $node->get($field_name)->getValue();
     $data = $node->field_condiment->getValue();
 
-    // Multi-value entity reference field.
+    // Multivalue entity reference field.
     $field_name = 'field_event';
     $data = $node->get($field_name)->getValue();
     $data = $node->field_event;
 
-    // Multi-value taxonomy entity reference field.
+    // Multivalue taxonomy entity reference field.
     $field_name = 'field_category';
     $data = $node->get($field_name)->getValue();
     // Yes, you can use a variable for a magic field getter!
@@ -1123,7 +1123,7 @@ $node->save();
 ## Set multivalue fields (regular and entity reference)
 
 ```php
-//The multi-value fields are no different. You just have to use arrays. So, instead of this:
+//The multivalue fields are no different. You just have to use arrays. So, instead of this:
 $entity->field_name_muti->value = ['foo', 'bar', 'baz']; 
 $entity->field_name_multi->target_id = [1, 2, 3]
 $entity->field_name_multi->target_id = [$another_entity1, $another_entity2, $another_entity3]
@@ -1185,7 +1185,7 @@ $ref_nid = $node->get('field_sf_contract_ref')->target_id;
 $ref_nid = $node->field_sf_contract_ref->target_id;
 ```
 
-### Load a multi-value reference field.
+### Load a multivalue reference field.
 
 Here node 35 has a `field_event` (multivalue entity reference field) with several values.  This code shows how to retrieve the first one, get it's nid and it's title:
 
@@ -1271,7 +1271,7 @@ Note this doesn't work for internal links. Note also this slightly
 convoluted example has a reference field field_sf_contract_ref which has
 a link to another entity and the `field_vendor_url->first()->getUrl()`
 is the important part. Also note, this is a single-value field (not a
-multi-value field -- so the `first()` call is a little disturbing)
+multivalue field -- so the `first()` call is a little disturbing)
 
 ```php
 $vendor_url = $node->field_sf_contract_ref->entity->field_vendor_url->first()->getUrl();
