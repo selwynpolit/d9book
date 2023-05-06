@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-05-02'
 ---
 
 # Learning and keeping up with Drupal

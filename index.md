@@ -3,7 +3,7 @@ layout: default
 title: Home
 permalink: /
 nav_order: 1
-last_modified_date: '2023-04-28'
+last_modified_date: '2023-05-02'
 ---
 
 ## Drupal at your fingertips
@@ -17,6 +17,7 @@ During my hunting through examples on [Drupal.org](https://www.drupal.org/), [St
 
 You are invited to contribute (in the open source way) by making edits and pull requests at [this link on Github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).  There is a very simple online editor which automatically forks the repo and lets you type your changes directly in your browser in [markdown format](https://github.github.com/gfm/). Try it by editing a chapter of interest to you. And while you are here, [see who else contributed to the masterpiece 😉](attribution)
 
+If you are inspired, please be a part of this project by contributing your own thoughts, code snippets, tutorials, links etc. (Imposters are welcomed!) Add your name on the [attribution page](attribution). Either add a note in the comment form at the bottom of each page or click the `Edit this page on GitHub` also at the very bottom of any page and start editing.  You don't need to know Git.
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-index)
 
@@ -52,10 +53,6 @@ You are invited to contribute (in the open source way) by making edits and pull 
 - [Taxonomy](taxonomy)
 - [PHPUnit and Drupal Test Traits](dtt)
 - [Twig - Formatting and controlling your output](twig)
-
----
-
-If you are inspired, please be a part of this project by contributing your own brilliance (imposters welcomed!) and add your name on the [attribution page](attribution). Simply click the Edit this page on GitHub at the very bottom of any page and start editing.
 
 ---
 
