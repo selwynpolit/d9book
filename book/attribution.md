@@ -29,10 +29,11 @@ Please add your name below if you add to the project
 
 [Gary Gao](https://github.com/angrytoast) - Query access checking.
 
-[Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme.
+[Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme and many other items.
 
 [Bernard Martinez](https://github.com/bmartinez287) - Block chapter fixes.
 
 [Bronius Motekaitis](https://github.com/bronius) - Migration chapter.
 
+[DarkDim](https://github.com/darkdim) - Learning chapter.
 
