@@ -37,3 +37,6 @@ Please add your name below if you add to the project
 
 [DarkDim](https://github.com/darkdim) - Learning chapter.
 
+[Balint Csuthy](https://github.com/Pasqualle) - Fix link
+
+
