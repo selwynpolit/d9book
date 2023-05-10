@@ -24,7 +24,7 @@ If you are inspired, please be a part of this project by contributing your own t
 - [Batch and Queue - Batch API](bq)
 - [Blocks - Generate the code to create blocks, dependency injection, blocks with config forms, block permissions](blocks)
 - [Caching - Cache tags, disabling caching, caching REST resources, development setup, various caching tips](caching)
-- [Composer, updates and patches](composer.md)
+- [Composer, updates and patches](composer)
 - [Config - Creating, loading, overriding, drush config commands](config)
 - [Cron - Using hook_cron, sample crontab files, how to stop cron](cron)
 - [Dates - Getting and setting date fields, date arithmetic, expiration, node creation and changed dates, Smart date module](dates)
