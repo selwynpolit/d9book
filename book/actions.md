@@ -24,9 +24,9 @@ The Actions module is a core module in Drupal 9 that allows site builders and de
 
 With the Actions module, you can create a customized workflow that can be triggered by a specific event. For example, when a user submits a form on your website, you can trigger an action to send an email notification to the site administrator. You can also chain multiple actions together to create complex workflows.
 
-The Actions module provides a user-friendly interface for defining and managing actions. You can create custom actions using PHP code or use pre-defined actions provided by Drupal core or contributed modules. The module also provides a way to organize and categorize actions, making it easy to find and use them in your workflows.
+The Actions module provides a user-friendly interface for defining and managing actions. You can create custom actions using PHP code (see below) or use pre-defined actions provided by Drupal core or contributed modules. The module also provides a way to organize and categorize actions, making it easy to find and use them in your workflows.
 
-In summary, the Actions module in Drupal 9 provides a powerful and flexible way to automate tasks on your website by defining actions and triggers, allowing you to create customized workflows that improve your site's functionality and user experience. - ChatGPT (and a minor tweak on my part.)
+TL;DR: The Actions module provides a powerful and flexible way to automate tasks on your website by defining actions and triggers, allowing you to create customized workflows that improve your site's functionality and user experience. - ChatGPT (with minor tweaks on my part.)
 
 
 
@@ -38,7 +38,7 @@ The [ECA module](https://www.drupal.org/project/eca) can use Drupal core actions
 
 
 ## Custom Actions
-A Drupal action is a fuctionality which performs specific action when executed. For example, Archive Node or Make Content Sticky.
+Here A Drupal action is a fuctionality which performs specific action when executed. For example, Archive Node or Make Content Sticky.
 
 Actions use the annotation class `Drupal\Core\Annotation\Action`, and extend `Drupal\Core\Action\ActionBase` or `Drupal\Core\Action\ConfigurableActionBase` (if the action is configurable.)
 
@@ -67,7 +67,9 @@ type --> Entity type to which the Action Plugin belongs to
 category --> (optional) Category of the Action Plugin
 
 
-## Create Simple Action
+## Archive Node Action (simple)
+
+This is a simple action which requires no configuration.  When it is run, it changes the alias of the node to /archive/<year>/<old alias>.  It also sets the title to have the word `Archive` in the front of it.  Finally it disables the sticky and promoted flags.  [It is also on gitlab here.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/ArchiveNode.php)
 
 ```php
 <?php
@@ -179,7 +181,6 @@ class ArchiveNode extends ActionBase implements ContainerFactoryPluginInterface 
 
   }
 }
-
 ```
 
 In order to get Action Plugin Discoverable you need to add `system.action.<plugin_id>.yml` which is placed in `config/install`
@@ -198,7 +199,9 @@ plugin: action_plugin_examples_archive_node
 Created Action Plugin can be viewed on the `/admin/content` page.
 
 
-## Create Custom Action Plugin with ConfigurationForm
+## Update Node Title Custom Action Plugin with Configuration
+
+This example updates a node title. It gets the new tile info from configuration.  [It is also here on Gitlab.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/UpdateNodeTitle.php)
 
 ```php
 <?php
@@ -212,7 +215,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a an Update Node Title Action.
+ * Provides an Update Node Title Action.
  *
  * @Action(
  *   id = "action_plugin_examples_update_node_title",
@@ -222,7 +225,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class UpdateNodeTitle extends ConfigurableActionBase implements ContainerFactoryPluginInterface {
-
 
   /**
    * The Messenger service.

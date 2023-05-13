@@ -39,4 +39,4 @@ Please add your name below if you add to the project
 
 [Balint Csuthy](https://github.com/Pasqualle) - Fix link
 
-
+[Bhanu](https://gist.github.com/bhanu951) - Actions chapter and a bunch of other interesting issues
