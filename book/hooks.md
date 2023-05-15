@@ -219,8 +219,7 @@ Several functions are called before the template file is invoked to modify the v
 MODULE indicates a module name, THEME indicates a theme name, and ENGINE indicates a theme engine name). Modules, themes, and theme engines can provide these functions to modify how the data is preprocessed, before it is passed to the theme template:
 
 -   **[template_preprocess](https://api.drupal.org/api/drupal/core%21includes%21theme.inc/function/template_preprocess/10)(&\$variables,
-    \$hook)**: Creates a default set of variables for all theme hooks
-    with template implementations. Provided by Drupal Core.
+    \$hook)**: Creates a default set of variables for all theme hooks with template implementations. Provided by Drupal Core.
 
 -   **template_preprocess_HOOK(&\$variables)**: Should be implemented by
     the module that registers the theme hook, to set up default
@@ -332,7 +331,7 @@ Now in the twig template we can output the scrunch_date we created in the templa
 
 
 ```twig
-{% raw %}{%  if content.field_date %}
+{%  if content.field_date %}
   {% if scrunch_date %}
     <div>
       {{ scrunch_date }}
@@ -342,8 +341,178 @@ Now in the twig template we can output the scrunch_date we created in the templa
       {{ content.field_date }}
     </div>
   {% endif %}
-{% endif %}{% endraw %}
+{% endif %}
 ```
+
+
+
+## Organizing your hooks code the OOP way
+
+from [Drupal 8 How to organise your hooks code in classes (Object-oriented way)](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
+
+To implement a hook example like [hook_form_FORM_ID_alter](https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Form!form.api.php/function/hook_form_FORM_ID_alter/8.2.x) for *node_article_edit_form.*
+
+So instead of do something like:
+
+```php
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function MY_MODULE_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Your code here the two following lines just an examples.
+  // Hide some fields.
+  $form['field_SOME_FIELD_NAME']['#access'] = FALSE;
+  // Attach some library ....
+  $form['#attached']['library'][] = 'MY_MODULE/SOME_LIBRARY';
+}
+```
+
+
+
+You can create a class called **NodeArticleEditFormHandler** inside your **src** folder like the following:
+
+```php
+<?php
+
+namespace Drupal\MY_MODULE;
+
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Class NodeArticleEditFormHandler
+ *
+ * @package Drupal\MY_MODULE
+ */
+class NodeArticleEditFormHandler {
+
+  /**
+   * Alter Form.
+   *
+   * @param array $form
+   *   Form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *    The current state of the form.
+   * @param $form_id
+   *    String representing the id of the form.
+   */
+  public function alterForm(array &$form, FormStateInterface $form_state, $form_id) {
+    // Your code here the two following lines just an examples.
+    // Hide some fields.
+    $form['field_SOME_FIELD_NAME']['#access'] = FALSE;
+    // Attach some library ....
+    $form['#attached']['library'][] = 'MY_MODULE/SOME_LIBRARY';
+  }
+
+}
+```
+
+In case you need other services you can inject your dependencies by make your class  [implements ContainerInjectionInterface](https://api.drupal.org/api/drupal/core!lib!Drupal!Core!DependencyInjection!ContainerInjectionInterface.php/interface/ContainerInjectionInterface/8.2.x) here is an example with `current user` service injection:
+ 
+
+```php
+<?php
+
+namespace Drupal\MY_MODULE;
+
+
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Class NodeArticleEditFormHandler
+ *
+ * @package Drupal\MY_MODULE
+ */
+class NodeArticleEditFormHandler implements ContainerInjectionInterface {
+
+  /**
+   * The current user account.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
+   * NodeArticleEditFormHandler constructor.
+   *
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
+   */
+  public function __construct(AccountProxyInterface $current_user) {
+    $this->currentUser = $current_user;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('current_user')
+    );
+  }
+
+  /**
+   * Alter Form.
+   *
+   * @param array $form
+   *   Form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *    The current state of the form.
+   * @param $form_id
+   *    String representing the id of the form.
+   */
+  public function alterForm(array &$form, FormStateInterface $form_state, $form_id) {
+    // Example to get current user.
+    $currentUser = $this->currentUser;
+    // Your code here the two following lines just an examples.
+    // Hide some fields.
+    $form['field_SOME_FIELD_NAME']['#access'] = FALSE;
+    // Attach some library ....
+    $form['#attached']['library'][] = 'MY_MODULE/SOME_LIBRARY';
+  }
+
+}
+```
+
+And after that change your hook into:
+ 
+
+```php
+use Drupal\MY_MODULE\NodeArticleEditFormHandler;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function MY_MODULE_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(NodeArticleEditFormHandler::class)
+    ->alterForm($form, $form_state, $form_id);
+}
+```
+
+We are done!
+Now your `.module` file is more clean, readable and maintainable with less code. You can do that with every hook for instance **EntityHandler** like:
+
+```php
+use Drupal\MY_MODULE\EntityHandler;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function MY_MODULE_entity_presave(EntityInterface $entity) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(EntityHandler::class)
+    ->entityPresave($entity);
+}
+```
+
+And so on!  You can [see another example in Drupal core from the content moderation form](https://git.drupalcode.org/project/drupal/-/blob/9.2.x/core/modules/content_moderation/content_moderation.module#L164)
+
 
 
 ## Reference
@@ -353,7 +522,7 @@ Now in the twig template we can output the scrunch_date we created in the templa
 Here is an excerpt from the Drupal API at 
 <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10>:
 
-**Create operations**
+#### Create operations
 
 To create an entity:
 
@@ -381,7 +550,7 @@ Hooks invoked during the create operation:
 
 See [Save operations](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10#save) below for the save portion of the operation.
 
-**Read/Load operations**
+#### Read/Load operations
 
 To load (read) a single entity:
 
@@ -423,7 +592,7 @@ The \"latest translation-affected revision\" is the most recently created one th
 -\>**loadRevision**(\$revision_id)
 -\>**getTranslation**(\'it\');
 
-**Save operations**
+#### Save operations
 
 To update an existing entity, you will need to load it, change properties, and then save; as described above, when creating a new entity, you will also need to save it. Here is the order of hooks and other events that happen during an entity save:
 
@@ -471,7 +640,7 @@ Some specific entity types invoke hooks during preSave() or postSave() operation
 Note that all translations available for the entity are stored during a save operation. When saving a new revision, a copy of every translation is stored, regardless of it being affected by the revision.
 
 
-**Editing operations**
+#### Editing operations
 
 When an entity\'s add/edit form is used to add or edit an entity, there are several hooks that are invoked:
 
@@ -483,7 +652,7 @@ When an entity\'s add/edit form is used to add or edit an entity, there are seve
     (for content entities only)
 
 
-**Delete operations**
+#### Delete operations
 
 To delete one or more entities, load them and then delete them:
 
@@ -527,7 +696,7 @@ This operation invokes the following operations and hooks:
 
 -   [hook_entity_revision_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_revision_delete/10)()
 
-**View/render operations**
+#### View/render operations
 
 To make a render array for a loaded entity:
 
@@ -580,7 +749,7 @@ Some specific builders have specific hooks:
 After this point in rendering, the theme system takes over. See the [Theme system and render API topic](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for more information.
 
 
-**Other entity hooks**
+#### Other entity hooks
 
 Some types of entities invoke hooks for specific operations:
 
@@ -627,11 +796,11 @@ return array(
 ```
 Given this definition, the template file with the default implementation is [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig), which can be found in the core/modules/search/templates directory, and the variables for rendering are the search result and the plugin ID. In addition, there is a function template_preprocess_search_result(), located in file [search.pages.inc](https://api.drupal.org/api/drupal/core%21modules%21search%21search.pages.inc/10), which preprocesses the information from the input variables so that it can be rendered by the Twig template; the processed variables that the Twig template receives are documented in the header of the default Twig template file.
 
-**Overriding Theme Hooks**
+#### Overriding Theme Hooks
 
 Themes may register new theme hooks within a [hook_theme](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_theme/10)() implementation, but it is more common for themes to override default implementations provided by modules than to register entirely new theme hooks. Themes can override a default implementation by creating a template file with the same name as the default implementation; for example, to override the display of search results, a theme would add a file called [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig) to its templates directory. A good starting point for doing this is normally to copy the default implementation template, and then modifying it as desired.
 
-**Preprocessing for Template Files**
+#### Preprocessing for Template Files
 
 Several functions are called before the template file is invoked to modify the variables that are passed to the template. These make up the \"preprocessing\" phase, and are executed (if they exist), in the following order (note that in the following list, HOOK indicates the hook being called or a less specific hook. For example, if \'#theme\'=\>\'node\_\_article\' is called, hook is node\_\_article and node. MODULE indicates a module name, THEME indicates a theme name, and ENGINE indicates a theme engine name). Modules, themes, and theme engines can provide these functions to modify how the data is preprocessed, before it is passed to the theme template:
 
@@ -664,7 +833,7 @@ Several functions are called before the template file is invoked to modify the v
 -   **THEME_preprocess_HOOK(&\$variables)**: Allows the theme to set
     necessary variables specific to the particular theme hook.
 
-**Theme hook suggestions**
+#### Theme hook suggestions
 
 In some cases, instead of calling the base theme hook implementation (either the default provided by the module that defined the hook, or the override provided by the theme), the theme system will instead look for \"suggestions\" of other hook names to look for. Suggestions can be specified in several ways:
 
@@ -676,21 +845,22 @@ In some cases, instead of calling the base theme hook implementation (either the
 
 For further information on overriding theme hooks see <https://www.drupal.org/node/2186401>
 
-**Altering theme hook suggestions**
+#### Altering theme hook suggestions
 
 Modules can also alter the theme suggestions provided using the
 mechanisms of the previous section. There are two hooks for this: the theme-hook-specific hook_theme_suggestions_HOOK_alter() and the generic hook_theme_suggestions_alter(). These hooks get the current list of suggestions as input, and can change this array (adding suggestions and removing them).
 
-### Links
 
--   What are hooks? from Drupalize.me March 2022
-    <https://drupalize.me/tutorial/what-are-hooks?p=2766>
 
--   Theme system overview on api.drupal.org
-    <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10>
+### Reference Links
 
--   How to setup Devel and Kint on Drupal 9 by Alex Aug 2021
-    <https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9>
+- [What are hooks? from Drupalize.me March 2022](https://drupalize.me/tutorial/what-are-hooks?p=2766)
+
+- [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
+
+- [How to setup Devel and Kint on Drupal 9 by Alex Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
+
+- [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
 
 ---
 
