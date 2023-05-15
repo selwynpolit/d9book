@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Reaching out of Drupal
-permalink: /reaching-out
+title: Getting off the Island
+permalink: /off-island
 last_modified_date: '2023-04-14'
 ---
 
