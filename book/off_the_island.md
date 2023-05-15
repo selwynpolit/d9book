@@ -5,7 +5,7 @@ permalink: /off-island
 last_modified_date: '2023-04-14'
 ---
 
-# Reaching out of Drupal
+# Getting off the Island (formerly Reaching out of Drupal)
 {: .no_toc .fw-500 }
 
 ## Table of contents
@@ -20,9 +20,7 @@ last_modified_date: '2023-04-14'
 
 ## Overview
 
-To communicate with external websites or web services we can make web
-requests via the [Drupal::httpClient](https://api.drupal.org/Drupal::httpClient) class.
-This is a wrapper for the [Guzzle HTTP Client](https://github.com/guzzle/guzzle).
+To communicate with external websites or web services we can make web requests via the [Drupal::httpClient](https://api.drupal.org/Drupal::httpClient) class. This is a wrapper for the [Guzzle HTTP Client](https://github.com/guzzle/guzzle).
 
 From <https://www.php-fig.org/psr/psr-7/> HTTP messages are the foundation of web development. Web browsers and HTTP clients such as cURL create HTTP request messages that are sent to a web server, which provides an HTTP response message. Server-side code receives an HTTP request message, and returns an HTTP response message.
 
@@ -86,8 +84,7 @@ $success = $json_data['success'];
 $result = $json_data['result'][0] . ' and ' . $json_data['result'][1];
 ```
 
-Guzzle takes care of adding a \'Content-Type\',\'application/json\'
-header, as well as json_encoding the \'json\' array.
+Guzzle takes care of adding a \'Content-Type\',\'application/json\' header, as well as json_encoding the \'json\' array.
 
 
 
