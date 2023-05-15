@@ -858,8 +858,6 @@ mechanisms of the previous section. There are two hooks for this: the theme-hook
 
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
 
-- [How to setup Devel and Kint on Drupal 9 by Alex Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
-
 - [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
 
 ---

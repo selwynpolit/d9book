@@ -853,9 +853,11 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and then `trun
 
 ## Resources
 
-- Composer best practices for Drupal 8 from Lullabot <https://www.lullabot.com/articles/drupal-8-composer-best-practices>
+- [Composer best practices for Drupal 8 from Lullabot Jan 2018](https://www.lullabot.com/articles/drupal-8-composer-best-practices)
 
-- Why DDEV by Randy Fay (Author of DDEV) from Dec 2022 <https://opensource.com/article/22/12/ddev> 
+- [Why DDEV by Randy Fay (Author of DDEV) from Dec 2022](https://opensource.com/article/22/12/ddev)
+
+- [How to setup Devel and Kint on Drupal 9 by Alex Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
 
 ---
 

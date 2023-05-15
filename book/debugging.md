@@ -471,17 +471,19 @@ if(class_exists('Kint')){
 ## Resources
 
 
--   DDEV Documentation <https://ddev.readthedocs.io/en/stable/>
+- [DDEV Documentation](https://ddev.readthedocs.io/en/stable/)
 
--   Debugging with Xdebug in DDEV docs <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/>
+- [Debugging with Xdebug in DDEV docs](https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging)
 
--   Debug Drush commands with PhpStorm at <https://www.jetbrains.com/help/phpstorm/drupal-support.html#view_drupal_api_documentation>
+- [Debug Drush commands with PhpStorm at](https://www.jetbrains.com/help/phpstorm/drupal-support.html#view_drupal_api_documentation)
 
--   Configuring PhpStorm Drupal.org docs updated September 2022 <https://www.drupal.org/docs/develop/development-tools/configuring-phpstorm>
+- [Configuring PhpStorm Drupal.org docs updated September 2022](https://www.drupal.org/docs/develop/development-tools/configuring-phpstorm)
 
--   Debugging Drush commands <https://www.jetbrains.com/help/phpstorm/drupal-support.html#debugging-drush-commands>
+- [Debugging Drush commands](https://www.jetbrains.com/help/phpstorm/drupal-support.html#debugging-drush-commands)
 
--   DDEV docs on using a different port for debugging <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#using-xdebug-on-a-port-other-than-the-default-9003>
+- [DDEV docs on using a different port for debugging](https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#using-xdebug-on-a-port-other-than-the-default-9003)
+
+- [How to setup Devel and Kint on Drupal 9 by Alex Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
 
 ---
 
