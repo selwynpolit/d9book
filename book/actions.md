@@ -198,6 +198,7 @@ plugin: action_plugin_examples_archive_node
 
 Created Action Plugin can be viewed on the `/admin/content` page.
 
+<img width="1476" alt="actions-list" src="https://github.com/bhanu951/d9book/assets/8525040/40d4e78a-b0e8-40e1-bd7d-58998fab3168">
 
 ## Update Node Title Custom Action Plugin with Configuration
 
