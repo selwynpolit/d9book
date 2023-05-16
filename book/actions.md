@@ -38,7 +38,7 @@ The [ECA module](https://www.drupal.org/project/eca) can use Drupal core actions
 
 
 ## Custom Actions
-Here A Drupal action is a fuctionality which performs specific action when executed. For example, Archive Node or Make Content Sticky.
+Here, A Drupal action is a fuctionality which performs specific action when executed. For example, Archive Node or Make Content Sticky.
 
 Actions use the annotation class `Drupal\Core\Annotation\Action`, and extend `Drupal\Core\Action\ActionBase` or `Drupal\Core\Action\ConfigurableActionBase` (if the action is configurable.)
 
@@ -201,7 +201,7 @@ Created Action Plugin can be viewed on the `/admin/content` page.
 
 ## Update Node Title Custom Action Plugin with Configuration
 
-This example updates a node title. It gets the new tile info from configuration.  [It is also here on Gitlab.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/UpdateNodeTitle.php)
+This example updates a node title. It gets the new title info from configuration.  [It is also here on Gitlab.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/UpdateNodeTitle.php)
 
 ```php
 <?php
