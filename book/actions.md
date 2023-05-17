@@ -8,7 +8,7 @@ last_modified_date: '2023-05-13'
 # Actions
 {: .no_toc .fw-500 }
 
-## Table of contents
+## Table of contentse
 {: .no_toc .text-delta }
 
 - TOC
@@ -368,7 +368,7 @@ See the [change record: Actions are now plugins, configured actions are configur
 * [Actions UI module overview updated January 2023](https://www.drupal.org/docs/8/core/modules/action/overview)
 * [Change Record - Actions are now plugins, configured actions are configuration entities](https://www.drupal.org/node/2020549)
 * [ECA: Event-Condition-Action - no-code solution to orchestrate your Drupal site](https://www.drupal.org/project/eca)
-* 
+
 ---
 
 <script src="https://giscus.app/client.js"
