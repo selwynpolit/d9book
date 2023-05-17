@@ -15,7 +15,7 @@ last_modified_date: '2023-05-13'
 {:toc}
 
 <!-- ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-actions) -->
-![visits](https://api.visitor.plantree.me/visitor-badge/pv?namespace=d9book&key=actions.md&color=blue&style=social)
+![visits](https://api.visitor.plantree.me/visitor-badge/pv?namespace=d9book&key=actions.md&color=blue&style=for-the-badge)
 <!-- <img src="https://api.visitor.plantree.me/visitor-badge/pv?namespace=d9book&amp;key=actions.md" alt="default" class="medium-zoom-image"> -->
 ---
 
