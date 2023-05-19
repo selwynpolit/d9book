@@ -11,7 +11,7 @@ last_modified_date: '2023-05-09'
 
 ![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=attribution.md&color=informational)
 
-Please add your name below if you add to the project
+Thanks to these rockstars for their contribution to the projet.  Please add your name below!
 
 [Danny Lufkin](https://github.com/dlufkin) - provided inspiration and hopefully some front-end code.
 
