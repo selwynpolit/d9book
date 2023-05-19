@@ -15,6 +15,7 @@ last_modified_date: '2023-04-13'
 {:toc}
 
 ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-blocks)
+![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=blocks.md&color=informational)
 
 Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 
