@@ -9,7 +9,7 @@ last_modified_date: '2023-05-09'
 # Attribution
 {: .fw-500 }
 
-![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=attribution.md&color=informational)
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=attribution.md)
 
 Thanks to these rockstars for their contribution to the projet.  Please add your name below!
 

@@ -15,7 +15,9 @@ last_modified_date: '2023-04-28'
 {:toc}
 
 
-![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=composer.md&color=informational)
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=composer.md)
+
+---
 
 ## Creating a local patch to a contrib module
 

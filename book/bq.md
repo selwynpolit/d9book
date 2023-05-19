@@ -14,7 +14,7 @@ last_modified_date: '2023-04-12'
 - TOC
 {:toc}
 
-![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=bq.md&color=informational)
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=bq.md)
 
 ---
 
