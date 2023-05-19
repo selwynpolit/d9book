@@ -14,7 +14,8 @@ last_modified_date: '2023-05-02'
 - TOC
 {:toc}
 
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-cron)
+
+![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=cron.md&color=informational)
 
 ---
 
