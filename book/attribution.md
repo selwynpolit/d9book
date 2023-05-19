@@ -9,7 +9,7 @@ last_modified_date: '2023-05-09'
 # Attribution
 {: .fw-500 }
 
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-attribution)
+![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=attribution.md&color=informational)
 
 Please add your name below if you add to the project
 
