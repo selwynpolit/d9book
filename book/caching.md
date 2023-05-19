@@ -14,7 +14,8 @@ last_modified_date: '2023-04-13'
 - TOC
 {:toc}
 
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-cacheing)
+
+![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=caching.md&color=informational)
 
 ## How to uncache a particular page or node
 
