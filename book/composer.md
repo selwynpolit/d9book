@@ -14,7 +14,8 @@ last_modified_date: '2023-04-28'
 - TOC
 {:toc}
 
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-composer)
+
+![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=composer.md&color=informational)
 
 ## Creating a local patch to a contrib module
 
