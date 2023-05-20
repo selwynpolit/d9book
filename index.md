@@ -19,8 +19,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 
 If you are inspired, please be a part of this project by contributing your own thoughts, code snippets, tutorials, links etc. (Imposters are welcomed!) Add your name on the [attribution page](attribution). Either add a note in the comment form at the bottom of each page or click the `Edit this page on GitHub` also at the very bottom of any page and start editing.  You don't need to know Git.
 
-<!-- ![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-index) -->
-![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=index.md&color=informational)
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=index.md)
 
 - [Batch and Queue - Batch API](bq)
 - [Blocks - Generate the code to create blocks, dependency injection, blocks with config forms, block permissions](blocks)

@@ -14,8 +14,9 @@ last_modified_date: '2023-04-13'
 - TOC
 {:toc}
 
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=caching.md)
 
-![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=caching.md&color=informational)
+---
 
 ## How to uncache a particular page or node
 

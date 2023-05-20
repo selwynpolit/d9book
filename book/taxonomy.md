@@ -14,7 +14,7 @@ last_modified_date: '2023-04-14'
 - TOC
 {:toc}
 
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-gh-pages-taxonomy)
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=taxonomy.md)
 
 ---
 

@@ -15,7 +15,9 @@ last_modified_date: '2023-04-13'
 {:toc}
 
 
-![visits](https://api.visitor.plantree.me/visitor-badge/pv?label=views&namespace=d9book&key=config.md&color=informational)
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=config.md)
+
+---
 
 Config is stored in yml files so it can be checked into git. It is
 loaded into the config table of the database for performance. Use  `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more.  You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
