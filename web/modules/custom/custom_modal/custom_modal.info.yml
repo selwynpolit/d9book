@@ -2,4 +2,4 @@ name: Custom Modal
 type: module
 description: Display a modal
 package: Custom
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^10 || ^11

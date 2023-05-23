@@ -24,9 +24,6 @@ For my own convenience, I prefer to just use `drush cr` while in the directory f
 putenv("IS_DDEV_PROJECT=true");
 ```
 
-![visitors](https://page-views.glitch.me/badge?page_id=selwynpolit.d9book-main-readme)
-
-
 ### Enable Twig debugging
 When you want to do some debugging, this can be a really useful setting to enable.
 It will display the template names in the HTML source.
@@ -34,7 +31,7 @@ It will display the template names in the HTML source.
 * Copy `sites/example.settings.local.php` to `sites/default/settings.local.php`
 * Add this to the bottom of `sites/default/settings.php`:
 
-```
+```php
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php';
 }
@@ -47,7 +44,7 @@ NOTE: `sites/default/settings.php` references `sites/default/settings.local.php`
 * Run `drush cr` after modifying the file to have changes take effect
 * Warning. Make sure your site is actually running before you make this change otherwise it will not run and make you very frustrated.
 
-```
+```yml
 # Local development services.
 #
 # To activate this feature, follow the instructions at the top of the
@@ -162,4 +159,4 @@ lando drush uli -l https://d9book.lndo.site
 
 ### Containers won't start
 
-ddev stop --remove-data --omit-snapshot. - if db corrupt and containers won’t start.  Follow this up with ddev start.  You may also have to restart docker.
+`ddev stop --remove-data --omit-snapshot` - if db corrupt and containers won’t start.  Follow this up with ddev start.  You may also have to restart docker.
