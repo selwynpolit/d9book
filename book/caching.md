@@ -2,7 +2,7 @@
 layout: default
 title: Caching
 permalink: /caching
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-05-27'
 ---
 
 # Caching and cache tags
