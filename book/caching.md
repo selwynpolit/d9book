@@ -530,6 +530,7 @@ Afterwards rebuild the Drupal cache with `drush cr` otherwise your website will 
 ## Reference
 
 * Drupal: cache tags for all, regardles of your backend From Matt Glaman 22, August 2022 <https://mglaman.dev/blog/drupal-cache-tags-all-regardless-your-backend>
+* Debugging your render cacheable metadata in Drupal From Matt Glaman 14, February 2023 <https://mglaman.dev/blog/debugging-your-render-cacheable-metadata-drupal>
 * Cache contexts overview on drupal.org <https://www.drupal.org/docs/drupal-apis/cache-api/cache-contexts>
 * Caching in Drupal 8 a quick overview of Cache tags, cache context and cache max-age with simple examples <https://zu.com/articles/caching-drupal-8>
 * Nedcamp video on caching by Kelly Lucas from November 2018 <https://www.youtube.com/watch?v=QCZe2K13bd0&list=PLgfWMnl57dv5KmHaK4AngrQAryjO_ylaM&t=0s&index=16>
