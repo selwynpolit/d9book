@@ -532,12 +532,14 @@ Afterwards rebuild the Drupal cache with `drush cr` otherwise your website will 
 This information is relevant for using [Memcache](https://www.drupal.org/project/memcache), [Redis](https://www.drupal.org/project/redis) and also [APCu](https://www.php.net/manual/en/book.apcu.php).  By default, Drupal caches information in the database.  Tables includes cache_default, cache_render, cache_page, cache_config etc.  By using the configuration below, Drupal can instead store this info in memory to increase performance.
 
 **Summary**
-Drupal will no longer automatically use the custom global cache backend specified in $settings['cache']['default'] in settings.php on certain specific cache bins that define their own default_backend in their service definition. In order to override the default backend, a line must be added explicitly to settings.php for each specific bin that provides a default_backend. This change has no effect for users that do not use a custom cache backend configuration like Redis or Memcache, and makes it possible to remove workarounds that were previously necessary to keep using the default fast chained backend for some cache bins defined in Drupal core.
+
+Drupal will no longer automatically use the custom global cache backend specified in `$settings['cache']['default']` in settings.php on certain specific cache bins that define their own default_backend in their service definition. In order to override the default backend, a line must be added explicitly to settings.php for each specific bin that provides a default_backend. This change has no effect for users that do not use a custom cache backend configuration like Redis or Memcache, and makes it possible to remove workarounds that were previously necessary to keep using the default fast chained backend for some cache bins defined in Drupal core.
 
 **Detailed description with examples**
+
 In Drupal 8 there are several ways to specify which cache backend is used for a certain cache bin (e.g. the discovery cache bin or the render cache bin).
 
-In Drupal, cache bins are defined as services and are tagged with name: cache.bin. Additionally, some cache bins specify a default_backend service within the tags. For example, the discovery cache bin from Drupal core defines a fast chained default backend:
+In Drupal, cache bins are defined as services and are tagged with name: cache.bin. Additionally, some cache bins specify a `default_backend` service within the tags. For example, the discovery cache bin from Drupal core defines a fast chained default backend:
 
 ```yml
   cache.discovery:
@@ -554,19 +556,20 @@ $settings['cache']['bins']['discovery'] = 'cache.backend.memory';
 $settings['cache']['default'] = 'cache.backend.redis';
 ```
 
-Before 8.2.0, the order of steps through which the backend was selected for a given cache bin was as follows:
+Before Drupal 8.2.0, the order of steps through which the backend was selected for a given cache bin was as follows:
 
-First look for a specific bin definition in settings. E.g., $settings['cache']['bins']['discovery']
-If not found, then use the global default defined in settings. I.e., $settings['cache']['default']
-If a global default is not defined in settings, then use the default_backend from the tag in the service definition.
+* First look for a specific bin definition in settings. E.g., `$settings['cache']['bins']['discovery']`
+* If not found, then use the global default defined in settings. I.e., `$settings['cache']['default']`
+* If a global default is not defined in settings, then use the default_backend from the tag in the service definition.
+
 This was changed to:
 
-First look for a specific bin definition in settings. E.g., $settings['cache']['bins']['discovery']
-If not found, then use the the default_backend from the tag in the service definition.
-If no default_backend for the specific bin was provided, then use the global default defined in settings. I.e., $settings['cache']['default']
+* First look for a specific bin definition in settings. E.g., `$settings['cache']['bins']['discovery']`
+* If not found, then use the the `default_backend` from the tag in the service definition.
+* If no `default_backend` for the specific bin was provided, then use the global default defined in settings. I.e., `$settings['cache']['default']`
 The old order resulted in unexpected behaviors, for example, the fast chained backend was no longer used when an alternative cache backend was set as default.
 
-The order has been changed, so that the cache bin services that explicitly set default_backends are always used unless explicitly overridden with a per-bin configuration. In core, this means, fast chained backend will be used for bootstrap, config, and discovery cache bins and memory backend will be used for the static cache bin, unless they are explicitly overridden in settings.
+The order has been changed, so that the cache bin services that explicitly set `default_backends` are always used unless explicitly overridden with a per-bin configuration. In core, this means, fast chained backend will be used for `bootstrap`, `config`, and `discovery` cache bins and `memory` backend will be used for the `static` cache bin, unless they are explicitly overridden in settings.
 
 For example, to ensure Redis is used for all cache bins, before 8.2.0, the following configuration would have been enough:
 
@@ -632,15 +635,19 @@ In order to improve cache performance, Drupal 8 now has:
 
 A cache.backend.apcu service that site administrators can assign as the backend of a cache bin via $settings['cache'] in settings.php for sites running on a single server, with a PHP installation that has APCu enabled, and that do not use Drush or other command line scripts.
 
+{: .warning }
+This references single-server sites not needing Drush.  TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
+
 A cache.backend.chainedfast service that combines APCu availability detection, APCu front caching, and cross-server / cross-process consistency management via chaining to a secondary backend (either the database or whatever is configured for $settings['cache']['default']).
 
-A default_backend service tag (the value of which can be set to a backend service name, such as cache.backend.chainedfast) that module developers can assign to cache bin services to identify bins that are good candidates for specialized cache backends.
+A `default_backend` service tag (the value of which can be set to a backend service name, such as cache.backend.chainedfast) that module developers can assign to cache bin services to identify bins that are good candidates for specialized cache backends.
 
-The above tag assigned to the cache.bootstrap, cache.config, and cache.discovery bin services.
+The above tag assigned to the `cache.bootstrap`, `cache.config`, and `cache.discovery` bin services.
 
 This means that by default (on a site with nothing set for $settings['cache'] in settings.php), the bootstrap, config, and discovery cache bins automatically benefit from APCu caching if APCu is available, and this is compatible with Drush usage (e.g., Drush can be used to clear caches and the web process receives that cache clear) and multi-server deployments.
 
 APCu will act as a very fast local cache for all requests. Other cache backends can act as bigger, more general cache backend that is consistent across processes or servers.
+
 
 **For module developers creating custom cache bins**
 
