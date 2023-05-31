@@ -595,7 +595,12 @@ Fabian Franz in his article at <https://drupalsun.com/fabianx/2015/12/01/day-1-t
  $settings['cache']['bins']['config'] = 'cache.backend.apcu';
  $settings['cache']['bins']['discovery'] = 'cache.backend.apcu';
  ```
-Proceed with caution with the above as it seems that APCu may only suitable for single server setups.
+
+{: .warning }
+Proceed with caution with the above as it seems that APCu may only suitable for single server setups. TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
+
+Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
+Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. This was from [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
 
 Drupal 8 has a so-called [fast-chained backend](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/9) as the default cache backend, which allows to store data directly on the web server while ensuring it is correctly synchronized across multiple servers. APCu is the user cache portion of APC (Advanced PHP Cache), which has served us well till PHP 5.5 got its own zend opcache. You can think of it as a key-value store that is stored in memory and the basic operations are apc_store($key, $data), apc_fetch($keys) and apc_delete($keys). For windows the equivalent on IIS would be WinCache (http://drupal.org/project/wincache).
 
@@ -616,18 +621,19 @@ Note that this is designed specifically for combining a fast inconsistent cache 
 
 ### APCu
 
-Note: apcu is not the same as apc!
-
 APCu is the official replacement for the outdated APC extension. APC provided both opcode caching (opcache) and object caching. As PHP versions 5.5 and above include their own opcache, APC was no longer compatible, and its opcache functionality became useless. The developers of APC then created APCu, which offers only the object caching (read "in memory data caching") functionality (they removed the outdated opcache). Read more at <https://www.php.net/manual/en/book.apcu.php>
+
+{: .note }
+APCu is not the same as apc!
 
 APCu support is built into Drupal Core. From this [Change record Sep 2014](https://www.drupal.org/node/2327507): 
 
 In order to improve cache performance, Drupal 8 now has:
 
-{: .warning }
 A cache.backend.apcu service that site administrators can assign as the backend of a cache bin via $settings['cache'] in settings.php for sites running on a single server, with a PHP installation that has APCu enabled, and that do not use Drush or other command line scripts.
 
 A cache.backend.chainedfast service that combines APCu availability detection, APCu front caching, and cross-server / cross-process consistency management via chaining to a secondary backend (either the database or whatever is configured for $settings['cache']['default']).
+
 A default_backend service tag (the value of which can be set to a backend service name, such as cache.backend.chainedfast) that module developers can assign to cache bin services to identify bins that are good candidates for specialized cache backends.
 
 The above tag assigned to the cache.bootstrap, cache.config, and cache.discovery bin services.
@@ -674,7 +680,9 @@ The bins set to use cache.backend.chainedfast will use APCu as the front cache t
 **For site administrators of single-server sites that don't need Drush or other CLI access**
 
 {: .warning }
-This references single-server sites not needing Drush.  TODO: I couldn't find any references to using apcu with multi-server setups so I'm a little puzzled. Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
+This references single-server sites not needing Drush.  TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
+
+Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
 Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. This was from [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
 
 You can optimize further by using APCu exclusively for certain bins, like so:
