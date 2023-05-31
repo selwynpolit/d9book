@@ -2,7 +2,7 @@
 layout: default
 title: Caching
 permalink: /caching
-last_modified_date: '2023-05-27'
+last_modified_date: '2023-05-31'
 ---
 
 # Caching and cache tags
@@ -674,7 +674,8 @@ The bins set to use cache.backend.chainedfast will use APCu as the front cache t
 **For site administrators of single-server sites that don't need Drush or other CLI access**
 
 {: .warning }
-This references single-server sites not needing Drush.  TODO: I couldn't find any references to using apcu with multi-server setups so I'm a little puzzled.
+This references single-server sites not needing Drush.  TODO: I couldn't find any references to using apcu with multi-server setups so I'm a little puzzled. Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
+Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. This was from [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
 
 You can optimize further by using APCu exclusively for certain bins, like so:
 
