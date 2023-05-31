@@ -614,7 +614,7 @@ Because this backend will mark all the cache entries in a bin as out-dated for e
 Note that this is designed specifically for combining a fast inconsistent cache backend with a slower consistent cache back-end. To still function correctly, it needs to do a consistency check (see the "last write timestamp" logic). This contrasts with \Drupal\Core\Cache\BackendChain, which assumes both chained cache backends are consistent, thus a consistency check being pointless.  This information is from <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/9>
 
 
-### APCu?
+### APCu
 
 Note: apcu is not the same as apc!
 
