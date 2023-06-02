@@ -2,7 +2,7 @@
 layout: default
 title: Links
 permalink: /links
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-06-02'
 ---
 
 # Links, Aliases and URLs
@@ -17,6 +17,14 @@ last_modified_date: '2023-04-13'
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=links.md)
 
 ---
+
+
+## Create an external url
+
+```php
+use Drupal\Core\Url
+$url = Url::fromUri('http://testsite.com/go/here');
+```
 
 ## Create an internal url
 
@@ -52,12 +60,6 @@ Then something more complicated like this URL to `/reports/search?user=admin`
   $url = Url::fromUri('internal:/reports/search', $option);
 ```
 
-## Create an external url
-
-```php
-use Drupal\Core\Url
-$url = Url::fromUri('http://testsite.com/go/here');
-```
 
 ## The Drupal Core Url Class
 
@@ -119,6 +121,13 @@ $link = \Drupal::service('link_generator')->generate('My link', $url);
 
 // ->toString() will extract the string of the URL.
 $url_string = Url::fromUri('internal:/node/' . $id)->toString();
+```
+
+## Check if a link field is empty
+```php
+if (!$citation_node->field_link->uri) {
+  // Empty.
+}
 ```
 
 ## Retrieve a link field from a node or a paragraph
