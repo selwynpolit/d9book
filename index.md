@@ -58,6 +58,7 @@ If you are inspired, please be a part of this project by contributing your own t
 
 ### I'm working on writing more about:
 - Events
+- Custom Plugins
 - Javascript
 - Media image files
 - Migration
@@ -83,4 +84,133 @@ If you are inspired, please be a part of this project by contributing your own t
         data-lang="en"
         crossorigin="anonymous"
         async>
+- [Blocks - Generate the code to create blocks, dependency injection, blocks with config forms, block permissions](blocks)
+
+- [Caching - Cache tags, disabling caching, caching REST resources, development setup, various caching tips](caching)
+
+- [Composer, updates and patches](composer)
+
+- [Config - Creating, loading, overriding, drush config commands](config)
+
+- [Cron - Using hook_cron, sample crontab files, how to stop cron](cron)
+
+- [Dates - Getting and setting date fields, date arithmetic, expiration, node creation and changed dates, Smart date module](dates)
+
+- [Debugging with PhpStorm, DDEV and Xdebug](debugging)
+
+- [Development - Local setup, creating sites, DDEV, troubleshooting, PHPStorm setup, Xdebug setup, Twig debugging](development)
+
+- [Drush - the amazing command line tool that makes everyone\'s life so much better](drush)
+
+- [Email - Sending emails in Drupal](email)
+
+- [Entities - More entities - the primary building blocks of Drupal](entities)
+
+- [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](forms)
+
+- [General - Useful things that seemed to not fit well elsewhere](general)
+
+- [Hooks - hooking into the Drupal hook system to make modifications](hooks)
+
+- [Learning and keeping up with the latest on Drupal](learn)
+
+- [Links, Aliases and URLs](links)
+
+- [Logging and notification](logging)
+
+- [Menus](menus)
+
+- [Migration - automated ways to get data into Drupal](migrate)
+
+- [Modal dialogs](modals)
+
+- [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](nodes-and-fields)
+
+- [Queries - entityQueries, SQL queries, inserting and deleting content](queries)
+
+- [Reaching out of Drupal](reaching-out)
+
+- [Redirects](redirects)
+
+- [Render Arrays](render)
+
+- [Routes and Controllers](routes)
+
+- [Services and Dependency injection](services)
+
+- [State API, Tempstore and UserData (Interesting flavors of storage)](state)
+
+- [Taxonomy](taxonomy)
+
+- [PHPUnit and Drupal Test Traits](dtt)
+
+- [Twig - Formatting and controlling your output](twig)
+
+
+
+---
+
+
+
+### I'm working on writing more about:
+
+- Events
+
+- Javascript
+
+- Media image files
+
+- Migration
+
+- Miscellaneous
+
+- Paragraphs
+
+- Security and Preventing attacks
+
+- Single sign on
+
+- Views
+
+
+
+---
+
+
+
+<script src="https://giscus.app/client.js"
+
+        data-repo="selwynpolit/d9book"
+
+        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
+
+        data-category="Q&A"
+
+        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
+
+        data-mapping="title"
+
+        data-strict="0"
+
+        data-reactions-enabled="1"
+
+        data-emit-metadata="0"
+
+        data-input-position="bottom"
+
+        data-theme="preferred_color_scheme"
+
+        data-lang="en"
+
+        crossorigin="anonymous"
+
+        async>
+
 </script>
+
+
+
+Attach files by dragging & dropping, selecting or pasting them.
+</script>
+
+ 
