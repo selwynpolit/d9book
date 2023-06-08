@@ -58,6 +58,7 @@ If you are inspired, please be a part of this project by contributing your own t
 
 ### I'm working on writing more about:
 - Events
+- Custom Plugins
 - Javascript
 - Media image files
 - Migration
