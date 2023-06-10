@@ -2,7 +2,7 @@
 layout: default
 title: Email
 permalink: /email
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-06-10'
 ---
 
 # Email
@@ -88,6 +88,37 @@ function my_module_mail($key, &$message, $params) {
   }
 }
 ```
+
+
+## Using tokens in hook_mail
+
+Here is an example in a hook_mail call where tokens are used:
+
+```php
+/**
+ * Implements hook_mail().
+ */
+function hello_world_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'hello_world_log':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('There is an error on your website');
+      $message['body'][] = $params['message'];
+      if (isset($params['user'])) {
+        $user_message = 'The user that was logged in: [current-user:name]';
+        $message['body'][] = \Drupal::token()->replace($user_message, ['current-user' => $params['user']]);
+      }
+
+      break;
+  }
+}
+```
+
+## Reference
+* [Sending html mails in Drupal 8/9 programmatically An example Drupal module including Twig template by Joris Snoek Aug 2020](https://www.lucius.digital/en/blog/sending-html-mails-drupal-89-programmatically-example-drupal-module-including-twig-template)
+* [Sending Emails Using OOP and Dependency Injection in Drupal 8, 9 By Alex Novak from November 2020.](https://www.drupalcontractors.com/blog/2020/11/09/sending-emails-using-oop-dependency-injection-drupal/)
+
+
 
 ---
 
