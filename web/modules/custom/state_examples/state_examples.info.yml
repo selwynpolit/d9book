@@ -1,0 +1,5 @@
+name: State API, TempStore and UserData Examples
+type: module
+description: Example for State API, TempStore and UserData
+package: DrupalBook
+core_version_requirement: ^9 || ^10

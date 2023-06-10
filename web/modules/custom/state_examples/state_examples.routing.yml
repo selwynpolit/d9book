@@ -1,0 +1,47 @@
+state_examples.example`:
+  path: '/state-examples/example1'
+  defaults:
+    _title: 'State API Example 1'
+    _controller: '\Drupal\state_examples\Controller\StateExamplesController::build1'
+  requirements:
+    _permission: 'access content'
+
+state_examples.example2:
+  path: '/state-examples/example2'
+  defaults:
+    _title: 'State API Example 2'
+    _controller: '\Drupal\state_examples\Controller\StateExamplesController::build2'
+  requirements:
+    _permission: 'access content'
+
+state_examples.example3:
+  path: '/state-examples/example3'
+  defaults:
+    _title: 'State API Example 3'
+    _controller: '\Drupal\state_examples\Controller\StateExamplesController::build3'
+  requirements:
+    _permission: 'access content'
+
+state_examples.example4:
+    path: '/state-examples/example4'
+    defaults:
+        _title: 'UserData Example 4'
+        _controller: '\Drupal\state_examples\Controller\StateExamplesController::build4'
+    requirements:
+        _permission: 'access content'
+
+state_examples.example5:
+  path: '/state-examples/example5'
+  defaults:
+    _title: 'Private TempStore Example 5'
+    _controller: '\Drupal\state_examples\Controller\StateExamplesController::build5'
+  requirements:
+    _permission: 'access content'
+
+state_examples.example6:
+    path: '/state-examples/example6'
+    defaults:
+        _title: 'Shared TempStore Example 6'
+        _controller: '\Drupal\state_examples\Controller\StateExamplesController::build6'
+    requirements:
+        _permission: 'access content'
