@@ -1,0 +1,12 @@
+name: DrupalBook
+type: theme
+description: 'Custom theme for experiments by a back-end developer.'
+core_version_requirement: ^9 || ^10
+libraries:
+  - drupalbook/global-styling
+base theme: stable9
+regions:
+  header: 'Header'
+  content: 'Content'
+  sidebar_first: 'Sidebar first'
+  footer: 'Footer'
