@@ -119,7 +119,6 @@ function hello_world_mail($key, &$message, $params) {
 * [Sending Emails Using OOP and Dependency Injection in Drupal 8, 9 By Alex Novak - November 2020.](https://www.drupalcontractors.com/blog/2020/11/09/sending-emails-using-oop-dependency-injection-drupal/)
 * [How email works in Drupal - updated July 2021](https://www.drupal.org/docs/contributed-modules/mime-mail/how-email-works-in-drupal)
 * [Sendgrid Integration Drupal module](https://www.drupal.org/project/sendgrid_integration)
-* 
 
 ---
 
