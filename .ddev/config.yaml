@@ -1,5 +1,5 @@
 name: d9book
-type: drupal9
+type: drupal10
 docroot: web
 php_version: "8.1"
 webserver_type: nginx-fpm

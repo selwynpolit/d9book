@@ -7,7 +7,7 @@ dependencies:
 _core:
   default_config_hash: nCa1oy25w2fh-nk_iQ7IJFQwQIcKxrV_5EQW2y8dzPc
 id: who_s_new
-label: 'Who''s new'
+label: "Who's new"
 module: user
 description: 'Shows a list of the newest user accounts on the site.'
 tag: default
@@ -20,7 +20,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Who''s new'
+      title: "Who's new"
       fields:
         name:
           id: name
@@ -180,13 +180,13 @@ display:
       tags: {  }
   block_1:
     id: block_1
-    display_title: 'Who''s new'
+    display_title: "Who's new"
     display_plugin: block
     position: 1
     display_options:
       display_description: 'A list of new users'
       display_extenders: {  }
-      block_description: 'Who''s new'
+      block_description: "Who's new"
       block_category: User
     cache_metadata:
       max-age: -1
