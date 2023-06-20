@@ -2,7 +2,7 @@
 layout: default
 title: Nodes and Fields
 permalink: /nodes-and-fields
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-06-20'
 ---
 
 # Nodes and Fields
@@ -28,6 +28,14 @@ $body = $node->body->value;
 
 //after text filters have done their magic!
 $body = $node->body->processed;
+```
+
+## Load a numeric field value
+When you load a numberic field, Drupal returns a number i.e. 0 even if that field was never initialized with a value.  
+
+```php
+$accepted_votes = $feedback_error_node->get('field_accepted_votes')->value;
+// Returns 0 if no value was entered into the field.
 ```
 
 ## Set field values
