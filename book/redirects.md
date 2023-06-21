@@ -2,7 +2,7 @@
 layout: default
 title: Redirects
 permalink: /redirects
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-06-21'
 ---
 
 # Redirects
@@ -229,6 +229,50 @@ function cn_submit_handler( $form, FormStateInterface $form_state) {
 ```
 
 More at <https://drupal.stackexchange.com/questions/163626/how-to-perform-a-redirect-to-custom-page-after-node-save-or-delete>
+
+
+## Redirect dynamically to wherever you came from
+
+In this case, in a form, we grab the referrer url in the buildForm method using the following code:
+
+```php
+public function buildForm(array $form, FormStateInterface $form_state, int $program_nid = 0, int $feedback_error_nid = 0, int $citation_nid = 0){
+  $form['#theme'] = 'tea_teks_srp__vote_error';
+
+  // Get the referer.
+  $request = \Drupal::request();
+  $referer = $request->headers->get('referer');
+  $base_url = Request::createFromGlobals()->getSchemeAndHttpHost();
+  $alias = substr($referer, strlen($base_url));
+  $form_state->set('referrer_alias', $alias);
+  ...
+}
+
+```
+Then in the submitForm() method, once we've completed the work we needed to do, we can redirect back to where we came from using the code below.  We can optionally add a fragment which refers to an ID on the page.
+
+```php
+    $referrer_alias = $form_state->get('referrer_alias');
+
+    // Add the fragment so they drop back on the item they came from.
+    $url = Url::fromUri('internal:' . $referrer_alias, ['fragment' => "item_$feedback_error_nid"]);
+    $form_state->setRedirectUrl($url);
+```
+
+Also there are a couple of other variations for getting the referrer:
+
+```php
+$request = \Drupal::request();
+$referer = $request->headers->get('referer');
+$host = \Drupal::request()->getSchemeAndHttpHost();
+$referer = substr($referer, strlen($host));
+$form_state->set('referrer_alias', $referer);
+
+
+// This version just gets the current path which might send you to the form you are already on.
+$alias = \Drupal::service('path.current')->getPath();
+$form_state->set('referrer_alias', $alias);
+```
 
 ---
 
