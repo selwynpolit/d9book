@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-04-27'
+last_modified_date: '2023-06-21'
 ---
 
 # Queries
@@ -328,6 +328,27 @@ In the following query, we check for a value in the entity that is referenced in
 ```php
       ->condition('field_tks_pub_expectation.entity.field_first_name', 'Fred', '=')
 ```
+
+For querying for a user id, we query the `field_voter.entity:user.uid` value.  See code below:
+
+```php
+protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_feedback_nid, int $vote_number) {
+  $node = [];
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'srp_voting_record')
+    ->condition('field_voter.entity:user.uid', $user_id)
+    ->condition('field_ref_error_feedback', $error_feedback_nid)
+    ->condition('field_srp_vote_number', $vote_number)
+    ->accessCheck(FALSE);
+  $nids = $query->execute();
+  if (!empty($nids)) {
+    $nid = reset($nids);
+    $node = Node::load($nid);
+  }
+  return $node;
+}
+```
+
 
 # Static and dynamic Queries
 
