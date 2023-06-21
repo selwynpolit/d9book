@@ -2,7 +2,7 @@
 layout: default
 title: Forms
 permalink: /forms
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-06-21'
 ---
 
 # Forms, Form API and AJAX
@@ -206,6 +206,40 @@ In a `.module` file you can turn off (or hide) revision information and moderati
 ```php
 $form['revision_information']['#access'] = FALSE;
 $form['moderation_state']['#access'] = FALSE;
+```
+
+## Multiple fields on the same controller/page
+If you need to have the same form appear multiple times on a page, you need to add a little special logic. In one example, I had several items displayed on a page, and each one needed an option to add feedback by the user.  This required the use of a static class variable to uniquely identify each instance of the form on the page.  
+
+```php
+/**
+ * Class SrpAddFeedbackForm.
+ */
+class SrpAddFeedbackForm extends FormBase {
+
+  /**
+   * @var int $instanceId
+   *   Used to make sure the getFormId is always unique.
+   */
+  private static int $instanceId;
+  ...  
+```
+
+In the `getFormId()` method where you would normally just use `return 'tea_teks_srp_feedback_add';`, you can use the following code instead: 
+
+```php
+/**
+ * {@inheritdoc}
+ */
+public function getFormId() {
+  if (empty(self::$instanceId)) {
+    self::$instanceId = 1;
+  }
+  else {
+    self::$instanceId++;
+  }
+  return 'tea_teks_srp_feedback_add' . self::$instanceId;
+}
 ```
 
 ## Conditional fields and field states API (#states)
