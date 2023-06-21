@@ -2,7 +2,7 @@
 layout: default
 title: Render Arrays
 permalink: /render
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-06-21'
 ---
 
 # Render Arrays
@@ -699,6 +699,33 @@ function postal_theme_preprocess_menu(&$vars, $hook) {
     }
   }
 }
+```
+
+## Disable an element
+In this example the `accept` button is disabled when `$my_current_vote` is `accepted`.
+
+```php
+  $form['accept'] = [
+    '#type' => 'submit',
+    '#value' => $value,
+    '#name' => "accept_$feedback_error_nid",
+    '#voting_action' => 'accepted',
+    '#prefix' => '<div class="srp-vote-form">',
+    '#id' => 'edit-accept-' . $feedback_error_nid,
+    '#attributes' => [
+      'class' => [
+        'hilited-button',
+        'blue-button',
+        'accept-button',
+      ],
+    ],
+  ];
+
+  if (strtolower($my_current_vote) == 'accepted') {
+    $form['accept']['#attributes']['class'][] = 'selected';
+    $form['reject']['#disabled'] = TRUE;
+  }
+
 ```
 
 
