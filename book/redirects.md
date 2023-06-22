@@ -2,7 +2,7 @@
 layout: default
 title: Redirects
 permalink: /redirects
-last_modified_date: '2023-06-21'
+last_modified_date: '2023-06-22'
 ---
 
 # Redirects
