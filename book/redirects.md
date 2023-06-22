@@ -242,8 +242,12 @@ public function buildForm(array $form, FormStateInterface $form_state, int $prog
   // Get the referer.
   $request = \Drupal::request();
   $referer = $request->headers->get('referer');
-  $base_url = Request::createFromGlobals()->getSchemeAndHttpHost();
-  $alias = substr($referer, strlen($base_url));
+  //$base_url = Request::createFromGlobals()->getSchemeAndHttpHost();
+  $base_url = \Drupal::request()->getSchemeAndHttpHost();
+  $alias = '';
+  if (!is_null($referer)) {
+    $alias = substr($referer, strlen($base_url));
+  }  
   $form_state->set('referrer_alias', $alias);
   ...
 }
@@ -257,21 +261,6 @@ Then in the submitForm() method, once we've completed the work we needed to do, 
     // Add the fragment so they drop back on the item they came from.
     $url = Url::fromUri('internal:' . $referrer_alias, ['fragment' => "item_$feedback_error_nid"]);
     $form_state->setRedirectUrl($url);
-```
-
-Also there are a couple of other variations for getting the referrer:
-
-```php
-$request = \Drupal::request();
-$referer = $request->headers->get('referer');
-$host = \Drupal::request()->getSchemeAndHttpHost();
-$referer = substr($referer, strlen($host));
-$form_state->set('referrer_alias', $referer);
-
-
-// This version just gets the current path which might send you to the form you are already on.
-$alias = \Drupal::service('path.current')->getPath();
-$form_state->set('referrer_alias', $alias);
 ```
 
 ---
