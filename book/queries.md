@@ -326,10 +326,9 @@ When querying multivalue fields, you need to use `%delta` to specify the positio
 To check if there is a value in an entity reference fields, use the following code
 
 ```php
-// check for empty or non-empty entity reference fields
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'srp_voting_record')
-      ->accessCheck(FALSE);
+$query = \Drupal::entityQuery('node')
+  ->condition('type', 'srp_voting_record')
+  ->accessCheck(FALSE);
 if ($vote_type == 'citation') {
   // Check for empty entity reference field.
   $query->notExists('field_ref_error_feedback');
@@ -343,7 +342,7 @@ if ($vote_type == 'feedback_error'){
 
 ## Query entity reference fields
 
-In the following query, we check for a value in the entity that is referenced in the entity reference field?  I.e. if you have an entity reference field which references node (entity) 27.  This query can look in node 27 and check a field value in that node.  Here we check in field_first_name for the the value `Fred`:
+In the following query, we check for a value in the entity that is referenced in the entity reference field?  For example, if you have an entity reference field which references node (entity) 27.  This query can look in node 27 and check a field value in that node.  Here we check in field_first_name for the the value `Fred`:
 
 ```php
       ->condition('field_tks_pub_expectation.entity.field_first_name', 'Fred', '=')
