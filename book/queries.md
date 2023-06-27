@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-06-21'
+last_modified_date: '2023-06-27'
 ---
 
 # Queries
@@ -319,6 +319,26 @@ When querying multivalue fields, you need to use `%delta` to specify the positio
     $correlation_nids = $query->execute();
     $correlation_nids = array_values($correlation_nids);
     return $correlation_nids;
+```
+
+
+## Query entity reference fields if they have a value or no value
+To check if there is a value in an entity reference fields, use the following code
+
+```php
+// check for empty or non-empty entity reference fields
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'srp_voting_record')
+      ->accessCheck(FALSE);
+if ($vote_type == 'citation') {
+  // Check for empty entity reference field.
+  $query->notExists('field_ref_error_feedback');
+}
+if ($vote_type == 'feedback_error'){
+  // Check for filled entity reference field.
+  $query->exists('field_ref_error_feedback');
+}
+
 ```
 
 ## Query entity reference fields
