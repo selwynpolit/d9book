@@ -2,7 +2,7 @@
 layout: default
 title: Tests
 permalink: /dtt
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-06-27'
 ---
 
 # PHPUnit and Drupal Test Traits
@@ -1537,6 +1537,38 @@ $this->submitForm([
   'pass' => $account->passRaw,
 ], 'Log in');
 ```
+
+Here is another example:
+
+```php
+// Load the form.
+$url = Url::fromRoute('tea_teks_admin.sanity_checker', [
+    'program' => $this->testProgramOneNid,
+  ]
+);
+// Confirm that it loaded without errors.
+$this->assertSession()->statusCodeEquals(200);
+// Check the destructive checkbox and click the 'verify vote counts' button.
+$this->submitForm(['destructive' => 1], 'Verify Vote Counts');
+```
+
+In the above example the code in render array for the form that builds the destructive checkbox and the submit button looks like this:
+```php
+$form['sanity_fieldset']['destructive'] = [
+  '#type' => 'checkbox',
+  '#title' => t('Check this box to permanently update statuses.'),
+  '#description' => t('Recalculate all votes and statuses for current vote number. Leave unchecked for testing.'),
+];
+$form['sanity_fieldset']['actions'] = [
+  '#type' => 'actions',
+];
+$form['sanity_fieldset']['actions']['submit'] = [
+  '#type' => 'submit',
+  '#value' => $this->t('Verify Vote Counts'),
+];
+
+```
+
 
 ### Parameter gotcha
 
