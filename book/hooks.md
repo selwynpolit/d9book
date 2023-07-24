@@ -855,9 +855,7 @@ mechanisms of the previous section. There are two hooks for this: the theme-hook
 ### Reference Links
 
 - [What are hooks? from Drupalize.me March 2022](https://drupalize.me/tutorial/what-are-hooks?p=2766)
-
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
-
 - [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
 
 ---

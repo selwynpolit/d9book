@@ -2,7 +2,7 @@
 layout: default
 title: State
 permalink: /state
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-07-23'
 ---
 
 # State API, TempStore and UserData
@@ -65,7 +65,7 @@ Writing state data looks like this:
 ```
 In the screenshot below, you can see where this is stored in the `key_value` table. Notice that the collection column is set to \"state\" indicating these are State API values.
 
-![State API data in its table](./images/media/state_data1.png)
+![State API data in its table](assets/images/state_data1.png)
 
 
 ### Using Drush to read the State API
@@ -409,24 +409,15 @@ In `core.services.yml`, you can see that `tempstore.shared` uses the `SharedTemp
 
 ## Reference
 
--   State API Overview updated September 2022
-    <https://www.drupal.org/docs/8/api/state-api/overview>
-
--   If you are upgrading from a Drupal 7 site which uses variable_set, check out this article from March 2021 about upgrading to the Drupal 8 State system at <https://www.drupal.org/node/1787318>
-
--   Drupal API documentation for UserData <https://api.drupal.org/api/drupal/core%21modules%21user%21src%21UserData.php/class/UserData/8.2.x>
-
--   Drupal API documentation for UserData::get <https://api.drupal.org/api/drupal/core%21modules%21user%21src%21UserData.php/function/UserData%3A%3Aget/8.2.x>
-
--   Storing user data such as preferences in Drupal 8 using the UserData service by Daniel Sipos Mar 2017 <https://www.webomelette.com/storing-user-data-such-preferences-drupal-8-using-userdata-service>
-
--   Drupal Documentation on PrivateTempStore <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21TempStore%21PrivateTempStore.php/class/PrivateTempStore/9.0.x>
-
--   Drupal 8: Tempstore (with code snippets) by Oleksii Raiu <https://alexrayu.com/snippets/drupal-8-tempstore>
-
--   Drupal 9: Using The Private Temporary Store Service by Phil Norton July 2022 <https://www.hashbangcode.com/article/drupal-9-using-private-temporary-store-service>
-
--   Saving temporarily values of a form with Private Tempstore in Drupal 8 by Karim Boudjema Mar 2019 <http://karimboudjema.com/en/drupal/20190315/saving-temporary-values-form-private-tempstore-drupal-8>
+- [State API Overview updated September 2022](https://www.drupal.org/docs/8/api/state-api/overview)
+- [If you are upgrading from a Drupal 7 site which uses variable_set, check out this article from March 2021 about upgrading to the Drupal 8 State system at] (https://www.drupal.org/node/1787318)
+- [Drupal API documentation for UserData](https://api.drupal.org/api/drupal/core%21modules%21user%21src%21UserData.php/class/UserData/8.2.x)
+- [Drupal API documentation for UserData::get](https://api.drupal.org/api/drupal/core%21modules%21user%21src%21UserData.php/function/UserData%3A%3Aget/8.2.x)
+- [Storing user data such as preferences in Drupal 8 using the UserData service by Daniel Sipos Mar 2017](https://www.webomelette.com/storing-user-data-such-preferences-drupal-8-using-userdata-service)
+- [Drupal Documentation on PrivateTempStore](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21TempStore%21PrivateTempStore.php/class/PrivateTempStore/9.0.x)
+- [Drupal 8: Tempstore (with code snippets) by Oleksii Raiu](https://alexrayu.com/snippets/drupal-8-tempstore)
+- [Drupal 9: Using The Private Temporary Store Service by Phil Norton July 2022] (https://www.hashbangcode.com/article/drupal-9-using-private-temporary-store-service)
+- [Saving temporarily values of a form with Private Tempstore in Drupal 8 by Karim Boudjema Mar 2019](http://karimboudjema.com/en/drupal/20190315/saving-temporary-values-form-private-tempstore-drupal-8)
 
 ---
 

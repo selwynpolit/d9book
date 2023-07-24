@@ -2,7 +2,7 @@
 layout: default
 title: Links
 permalink: /links
-last_modified_date: '2023-06-02'
+last_modified_date: '2023-07-23'
 ---
 
 # Links, Aliases and URLs
@@ -417,7 +417,7 @@ $term_name = $path_args[3];
 ```
 For <https://txg.ddev.site/newsroom/search/?country=1206>
 
-![Image path arguments](./images/media/image-path-args.png)
+![Image path arguments](assets/images/media/image-path-args.png)
 
 ## Retrieve query and GET or POST parameters (\$\_POST and \$\_GET)
 
@@ -565,9 +565,8 @@ print render($project_link);
 
 ## Reference links
 
-* Good reference from 2017 for creating links in Drupal at <https://agaric.coop/blog/creating-links-code-drupal-8>
-
-* [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
+- [Good reference from 2017 for creating links in Drupal](https://agaric.coop/blog/creating-links-code-drupal-8)
+- [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
 
 ---
 

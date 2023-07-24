@@ -2,7 +2,7 @@
 layout: default
 title: Render Arrays
 permalink: /render
-last_modified_date: '2023-06-21'
+last_modified_date: '2023-07-23'
 ---
 
 # Render Arrays
@@ -731,11 +731,8 @@ In this example the `accept` button is disabled when `$my_current_vote` is `acce
 
 ## Resources
 
--   Render API overview for Drupal 10
-    <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x>
-
--   Render Arrays from Drupal.org updated August 2022
-    <https://www.drupal.org/docs/drupal-apis/render-api/render-arrays>
+-  [Render API overview for Drupal 10](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x)
+- [Render Arrays from Drupal.org updated August 2022](https://www.drupal.org/docs/drupal-apis/render-api/render-arrays)
 
 ---
 

@@ -2,7 +2,7 @@
 layout: default
 title: Services
 permalink: /services
-last_modified_date: '2023-04-14'
+last_modified_date: '2023-07-23'
 ---
 
 # Services and Dependency Injection
@@ -1016,18 +1016,13 @@ etc.
 
 ## Resources
 
-- Services and Dependency Injection in the Drupal.org API documentation at <https://api.drupal.org/api/drupal/core%21core.api.php/group/container/10>
--   Drupal 8: Properly injecting dependencies using DI by Danny Sipos
-    from May 2016 at
-    <https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314>
-
--   Dependency injection in Drupal 8 plugins (or blocks) by Märt Matoo
-    from March 2017
-    <https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/>
-
--   Drupal 8: Properly Injecting Dependencies Using DI by Danny Sipos May 2016 [https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di\--cms-26314](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
-
--   Inject a service in Drupal 8 showing an example of injecting http_client (Guzzle) by J M Olivas July 2015 <https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4>
+- [Services and Dependency Injection in the Drupal.org API documentation](https://api.drupal.org/api/drupal/core%21core.api.php/group/container/10)
+- [Drupal 8: Properly injecting dependencies using DI by Danny Sipos
+    from May 2016](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
+- [Dependency injection in Drupal 8 plugins (or blocks) by Märt Matoo
+    from March 2017](https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/)
+- [Drupal 8: Properly Injecting Dependencies Using DI by Danny Sipos May 2016](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
+- [Inject a service in Drupal 8 showing an example of injecting http_client (Guzzle) by J M Olivas July 2015](https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4)
 
 ---
 

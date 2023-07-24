@@ -1118,15 +1118,11 @@ do here)
 
 ## Resources
 
--   Excellent tutorial on using modal forms in Drupal from March 2014
-    <https://www.mediacurrent.com/blog/loading-and-rendering-modal-forms-drupal-8/>
+- [Excellent tutorial on using modal forms in Drupal from March 2014](https://www.mediacurrent.com/blog/loading-and-rendering-modal-forms-drupal-8/)
+- [Phil Norton\'s great article on Creating AJAX dialogs from October 2022 at](https://www.hashbangcode.com/article/drupal-9-creating-ajax-dialogs)
+- [Article about creating a modal dialog in a custom module from Jan 2018](http://befused.com/drupal/modal-module)
 
--   Phil Norton\'s great article on Creating AJAX dialogs from October
-    2022 at
-    <https://www.hashbangcode.com/article/drupal-9-creating-ajax-dialogs>
 
--   Article about creating a modal dialog in a custom module from Jan
-    2018 <http://befused.com/drupal/modal-module>
 
 ---
 

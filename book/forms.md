@@ -2232,23 +2232,14 @@ $delete_extras = $form_state->getValue('delete_extras');
   }
 ```
 
-
 ## Resources
-
-* Drupal API Form Element Reference with examples <https://api.drupal.org/api/drupal/elements/10>
-
-
-* Drupal AJAX AJAX forms updated Dec 2022 <https://www.drupal.org/docs/8/api/javascript-api/ajax-forms>
-
-* Drupal AJAX Dialog boxes updated Nov 2022 <https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes>
-
-* Great tutorial from Mediacurrent on using modal forms in Drupal from Mar 2017  <https://www.mediacurrent.com/blog/loading-and-rendering-modal-forms-drupal-8/>
-
-* Form API Internal Workflow updated Dec 2022 <https://www.drupal.org/docs/drupal-apis/form-api/form-api-internal-workflow>
-
-* #! code: Drupal 9: Creating A GET Form, July 2021  <https://www.hashbangcode.com/article/drupal-9-creating-get-form>
-  
-* Conditional fields module <https://www.drupal.org/project/conditional_fields>
+- [Drupal API Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)
+- [Drupal AJAX AJAX forms updated Dec 2022](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms)
+- [Drupal AJAX Dialog boxes updated Nov 2022](https://www.drupal.org/docs/drupal-apis/ajax-api/ajax-dialog-boxes)
+- [Great tutorial from Mediacurrent on using modal forms in Drupal from Mar 2017](https://www.mediacurrent.com/blog/loading-and-rendering-modal-forms-drupal-8/)
+- [Form API Internal Workflow updated Dec 2022](https://www.drupal.org/docs/drupal-apis/form-api/form-api-internal-workflow)
+- [#! code: Drupal 9: Creating A GET Form, July 2021](https://www.hashbangcode.com/article/drupal-9-creating-get-form)
+- [Conditional fields module](https://www.drupal.org/project/conditional_fields)
 
 ---
 

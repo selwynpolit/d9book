@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-06-27'
+last_modified_date: '2023-07-23'
 ---
 
 # Queries
@@ -728,25 +728,13 @@ function nocs_connect_schema() {
 
 # Reference
 
--   API documentation for query conditions:
-    <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x>
-
--   Entity query cheat sheet:
-    <https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet>
-
--   Static queries:
-    <https://www.drupal.org/docs/drupal-apis/database-api/static-queries>
-
--   Dynamic Queries:
-    <https://www.drupal.org/docs/8/api/database-api/dynamic-queries/introduction-to-dynamic-queries>
-
--   Insert:
-    <https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
-
--   Querying date fields:
-    <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
-    and
-    <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
+- [API documentation for query conditions](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x)
+- [Entity query cheat sheet](https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet)
+- [Static queries](https://www.drupal.org/docs/drupal-apis/database-api/static-queries)
+- [Dynamic Queries](https://www.drupal.org/docs/8/api/database-api/dynamic-queries/introduction-to-dynamic-queries)
+- [Insert Queries](https://www.drupal.org/docs/drupal-apis/database-api/insert-queries)
+- [Querying date fields from 2018](https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update)
+- [Querying date fields](https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8)
 
 ---
 

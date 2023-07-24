@@ -786,11 +786,7 @@ echo urldecode('We%27re%20proud%20to%20introduce%20the%20Amazing');
 
 For this project, I had to figure out a way to make media entities that really were remote images. i.e. the API provided images but we didn't want to store them in Drupal
 
-Started by looking at
-
-https://www.drupal.org/sandbox/nickhope/3001154
-
-which was based on: https://www.drupal.org/project/media_entity_flickr
+I started by looking at <https://www.drupal.org/sandbox/nickhope/3001154> which was based on <https://www.drupal.org/project/media_entity_flickr>.
 
 I tweaked the nickhope module (media_entity_remote_file) so it worked but it had some trouble with image styles and thumbnails
 

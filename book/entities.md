@@ -240,25 +240,13 @@ Drupal includes the [Symfony Validator
 component](https://symfony.com/doc/2.8/components/validator.html), and
 provides an Entity Validation API to assist in validating the values of fields in an entity. By using the Entity Validation API you can ensure that you\'r validation logic is applied to Entity CRUD operations regardless of how they are triggered. Whether editing an Entity via a Form API form, or creating a new Entity via the REST API, the same validation code will be used.
 
-
 ## Resources
 
-Entity API on Drupal.org updated Jan 2021
-<https://www.drupal.org/docs/drupal-apis/entity-api>
-
-Introduction to Drupal Entity API from Drupal.org updated Sep 2022
-<https://www.drupal.org/docs/drupal-apis/entity-api/introduction-to-entity-api-in-drupal-8>
-
-Drupal entity API cheat sheet Updated July 2018
-
-<https://drupalsun.com/zhilevan/2018/07/21/drupal-entity-api-cheat-sheet>
-
-Drupal 8 Entity query API cheat sheet by Keith Dechant , Software
-Architect updated February 2021
-<https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet>
-
-Entity Validation API tutorial from <https://drupalize.me> (you need a paid membership to read the whole tutorial) updated February 2022 at
-<https://drupalize.me/tutorial/entity-validation-api?p=2792>
+- [Entity API on Drupal.org updated Jan 2021](https://www.drupal.org/docs/drupal-apis/entity-api)
+- [Introduction to Drupal Entity API from Drupal.org updated Sep 2022](https://www.drupal.org/docs/drupal-apis/entity-api/introduction-to-entity-api-in-drupal-8)
+- [Drupal entity API cheat sheet Updated July 2018](https://drupalsun.com/zhilevan/2018/07/21/drupal-entity-api-cheat-sheet)
+- [Drupal 8 Entity query API cheat sheet by Keith Dechant , Software Architect - updated February 2021](https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet)
+- [Entity Validation API tutorial from <https://drupalize.me> (requires paid membership to read the whole tutorial) updated February 2022 at](https://drupalize.me/tutorial/entity-validation-api?p=2792)
 
 ---
 
