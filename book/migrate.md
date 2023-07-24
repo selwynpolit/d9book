@@ -59,7 +59,7 @@ This migration Process snippet example demonstrates how to populate the fields o
 * 31 days of Drupal migrations by Mauricio Dinarte August 2019 <https://understanddrupal.com/migrations>
 * Stop waiting for Feeds module: how to import RSS in Drupal 8 by Campbell Vertesi June 2017 <https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8> 
 * Issue on Drupal.org where Mike Ryan, the author of the migrate module,  addresses how to start a migration programmatically <https://www.drupal.org/project/drupal/issues/2764287>
-* Video from Twin Cities Drupal community where Mauricio Dinarte and Benjamin Melançon demonstrate how to implement migrations - June 20187. <https://www.youtube.com/watch?v=eBP2vQIwx-o>
+* Video from Twin Cities Drupal community where Mauricio Dinarte and Benjamin Melançon demonstrate how to implement migrations - June 2017. <https://www.youtube.com/watch?v=eBP2vQIwx-o>
 * Migrating to Drupal From Alternate Sources by Joshua Turton showing migrations from CSV, XML/RSS and Wordpress into Drupal 8 - November 2018  <https://www.phase2technology.com/blog/migrating-drupal-alternate-sources>
 * Nice intro to Drupal 8 migration by Chris of Redfin Solutions from Nov 2017.  <https://redfinsolutions.com/blog/understanding-drupal-8s-migrate-api>
 * Migrating files and images on Drupal.org updated Feb 2023. <https://www.drupal.org/docs/drupal-apis/migrate-api/migrate-destination-plugins-examples/migrating-files-and-images>
