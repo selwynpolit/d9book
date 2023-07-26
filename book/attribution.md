@@ -45,3 +45,6 @@ Thanks to these rockstars for their contribution to the projet.  Please add your
 
 [Tony G.](https://github.com/tgroff) - Help with typos
 
+[James Shields](https://github.com/lostcarpark) - Custom favicon.
+
+
