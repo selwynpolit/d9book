@@ -42,3 +42,6 @@ Thanks to these rockstars for their contribution to the projet.  Please add your
 [Bhanu](https://gist.github.com/bhanu951) - Actions chapter and a bunch of other interesting issues
 
 [John Picozzi](https://github.com/johnpicozzi) - Bringing us more in line with Drupal standards.
+
+[Tony G.](https://github.com/tgroff) - Help with typos
+
