@@ -47,4 +47,5 @@ Thanks to these rockstars for their contribution to the project.  Please add you
 
 [James Shields](https://github.com/lostcarpark) - Custom favicon.
 
+[Manas Khatua](https://github.com/manask4) - Fix typos
 
