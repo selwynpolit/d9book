@@ -11,7 +11,7 @@ last_modified_date: '2023-05-09'
 
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=attribution.md)
 
-Thanks to these rockstars for their contribution to the projet.  Please add your name below!
+Thanks to these rockstars for their contribution to the project.  Please add your name below!
 
 [Danny Lufkin](https://github.com/dlufkin) - provided inspiration and hopefully some front-end code.
 
@@ -47,4 +47,5 @@ Thanks to these rockstars for their contribution to the projet.  Please add your
 
 [James Shields](https://github.com/lostcarpark) - Custom favicon.
 
+[Manas Khatua](https://github.com/manask4) - Fix typos
 
