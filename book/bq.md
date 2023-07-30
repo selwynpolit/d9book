@@ -2,7 +2,7 @@
 layout: default
 title: Batch and Queue
 permalink: /bq
-last_modified_date: '2023-04-12'
+last_modified_date: '2023-07-29'
 ---
 
 # Batch Processing and the Drupal Queue System
@@ -26,11 +26,11 @@ The Batch API provides very useful functionality that lets you do work by breaki
 
 In addition, you create a function to handle things once all the chunks are complete. You can also give the Batch API a bunch of work to do and have it figure out for itself when it is finished.
 
-Also, it's useful that the Batch API uses the Drupal Queue system, allowing it to pick up where it left off in case of problems.
+The Batch API uses the Drupal Queue system, allowing it to pick up where it left off in case of problems.
 
 You can use the Batch API in controllers, forms, hook updates, and Drush commands. The implementation of each one is slightly different, as you can see in the examples.
 
-Most often you start a batch from a form where you fill in some options and click a button. In the case of a controller, you activate a batch when you point the browser at a URL. Drush commands are typed in the terminal.
+Most often you start a batch from a form where you fill in some options and click a button. You can also run a batch on a controller where the batch operation starts when you point the browser at a URL. Batch operations in Drush commands are started when you type the command in the terminal.
 
 In the code: 
 For a drush command, you use `drush_backend_batch_process()` to kick off the batch (from DirtSalesforceController.php):
@@ -631,18 +631,13 @@ class CronEventProcessor extends EmailEventBase { }
 ## Resources
 
 Read more about batch processing at these sites:
-
 - [Smack My Batch Up : Batch Processing In Drupal 8](https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8) by Phil Norton July 2016
-
 - Highly commented [source code for batch operations around line 561 for Drupal 10](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L561) (or search for 'batch operations')
 
 Read more about the Queue API at these sites:
-
-* Karim Boudjema from August 2018 has [some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
-
-* Sarthak TTN from Feb 2017 shows some [sample code on implementing cron and the queue API](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8)
-
-* [There is a somewhat incomplete example](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9) From Alan Saunders article on December 2021
+- Karim Boudjema from August 2018 has [some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
+- Sarthak TTN from Feb 2017 shows some [sample code on implementing cron and the queue API](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8)
+- [There is a somewhat incomplete example](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9) From Alan Saunders article on December 2021
 
 ---
 
