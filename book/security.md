@@ -23,6 +23,18 @@ last_modified_date: '2023-07-31'
 Drupal is a highly secure platform mostly due to the tireless efforts of the [security team](https://www.drupal.org/drupal-security-team).  
 
 
+## Sanitizing on output to avoid Cross Site Scripting (XSS) attacks
+
+The Twig theme engine now auto escapes everything by default. That means, every string printed from a Twig template (e.g. anything between `{{ }}`) gets automatically sanitized if no filters are used.
+
+[See Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633) for the Twig filters available in Drupal. Notably, watch out for the "raw" filter, which does not escape output. Only use this when you are certain the data is trusted.
+
+When rendering attributes in Twig, make sure that you wrap them with double or single quotes. For example, `class="{{ class }}"`` is safe, `class={{ class }}` is not safe.
+
+In order to take advantage of Twig’s automatic escaping (and avoid safe markup being escaped) ideally all HTML should be outputted from Twig templates.
+
+
+
 ## Reviewing Server logs
 
 ### Find the most frequent IP addresses
@@ -110,8 +122,12 @@ Edge Protect provides advanced security controls to restrict and block attacker 
 - [Ban module in Drupal core overview for blocking IP addresses (Acquia.com)](https://www.drupal.org/docs/8/core/modules/ban/overview)
 - [Advanced Ban module](https://www.drupal.org/project/advban)
 - [Restricting website access (Acquia.com)](https://docs.acquia.com/cloud-platform/arch/security/restrict/)
-- 
+- [Writing secure code for Drupal from Drupal.org update August 2022](https://www.drupal.org/docs/8/security/drupal-8-sanitizing-output)
+- [Twig Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633)
 
+
+
+ 
 ---
 
 <script src="https://giscus.app/client.js"
