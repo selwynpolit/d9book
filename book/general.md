@@ -2,7 +2,7 @@
 layout: default
 title: General
 permalink: /general
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-07-31'
 ---
 
 # General
@@ -826,7 +826,39 @@ After
 \Drupal::messenger()->addMessage($message, $type, $repeat);
 ```
 
-Read more under https://www.drupal.org/node/2774931.
+[Read more](https://www.drupal.org/node/2774931).
+
+
+## Block excessive crawling of Drupal Views or search results
+
+[From Acquia.com](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
+
+Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options.  This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
+
+Therefore, we suggest blocking or re-routing this traffic to reduce resource consumption at the Acquia platform, avoid overages to your Acquia entitlements (for Acquia Search, Views & Visits, etc.), and to generally help your site perform better.
+
+```
+# EXAMPLE ROBOT BLOCKING CODE for Search pages or views. 
+# From: https://support-acquia.force.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results
+#   NOTE: May need editing depending on your use case(s).
+#
+# INSTRUCTIONS:
+# PLACE THIS BLOCK directly after the "RewriteEngine on" line 
+#   on your docroot/.htaccess file.
+#
+# This will block some known robots/crawlers on URLs when query arguments are present.
+#   DOES allow basic URLs like /news/feed, /node/1 or /rss, etc.
+#   BLOCKS only when search arguments are present like
+#     /news/feed?search=XXX or /rss?page=21.
+# Note: You can add more conditions if needed.
+#   For example, to only block on URLs that begin with '/search', add this
+#   line before the RewriteRule:
+#     RewriteCond %{REQUEST_URI} ^/search
+#
+RewriteCond %{QUERY_STRING} .
+RewriteCond %{HTTP_USER_AGENT} "11A465|AddThis.com|AdsBot-Google|Ahrefs|alexa site audit|Amazonbot|Amazon-Route53-Health-Check-Service|ApacheBench|AppDynamics|Applebot|ArchiveBot|AspiegelBot|Baiduspider|bingbot|BLEXBot|BluechipBacklinks|Buck|Bytespider|CCBot|check_http|cludo.com bot|contentkingapp|Cookiebot|CopperEgg|crawler4j|Csnibot|Curebot|curl|Daum|Datadog Agent|DataForSeoBot|Detectify|DotBot|DuckDuckBot|facebookexternalhit|Faraday|FeedFetcher-Google|feedonomics|Funnelback|GAChecker|Grapeshot|gobuster|gocolly|Googlebot|GoogleStackdriverMonitoring|Go-http-client|GuzzleHttp|HeadlessChrome|heritrix|hokifyBot|HTTrack|HubSpot Crawler|ICC-Crawler|Imperva|IonCrawl|KauaiBot|Kinza|LieBaoFast|Linespider|Linguee|LinkChecker|LinkedInBot|LinuxGetUrl|LMY47V|MacOutlook|Magus Bot|Mail.RU_Bot|MauiBot|Mb2345Browser|MegaIndex|Microsoft Office|Microsoft Outlook|Microsoft Word|MicroMessenger|mindbreeze-crawler|mirrorweb.com|MJ12bot|monitoring-plugins|Monsidobot|MQQBrowser|msnbot|MSOffice|MTRobot|nagios-plugins|nettle|Neevabot|newspaper|Nuclei|OnCrawl|Orbbot|PageFreezer|panscient.com|PetalBot|Pingdom.com|Pinterestbot|PiplBot|python-requests|Qwantify|Re-re Studio|Riddler|rogerbot|RustBot|Scrapy|Screaming Frog|Search365bot|SearchBlox|SearchmetricsBot|searchunify|Seekport|SemanticScholarBot|SemrushBot|SEOkicks|seoscanners|serpstatbot|SessionCam|SeznamBot|Site24x7|siteimprove|Siteimprove|SiteSucker|SkypeRoom|Sogou web spider|special_archiver|SpiderLing|StatusCake|Synack|Turnitin|trendictionbot|trendkite-akashic-crawler|UCBrowser|Uptime|UptimeRobot|UT-Dorkbot|weborama-fetcher|WhiteHat Security|Wget|www.loc.gov|Vagabondo|VelenPublicWebCrawler|Yeti|Veracode Security Scan|YandexBot|YandexImages|YisouSpider|Zabbix|ZoominfoBot" [NC]
+RewriteRule ^.* - [F,L]
+```
 
 ---
 
