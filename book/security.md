@@ -31,13 +31,13 @@ The Twig theme engine now auto escapes everything by default. That means, every 
 
 When rendering attributes in Twig, make sure that you wrap them with double or single quotes. For example, 
 ```twig
-class="{{ class }}"
+class="\{\{ class \}\}"
 ``` 
 
 is safe, 
 
 ```twig
-class={{ class }}
+class=\{\{ class \}\}
 ```
  is not safe.
 
