@@ -29,17 +29,7 @@ The Twig theme engine now auto escapes everything by default. That means, every 
 
 [See Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633) for the Twig filters available in Drupal. Notably, watch out for the "raw" filter, which does not escape output. Only use this when you are certain the data is trusted.
 
-When rendering attributes in Twig, make sure that you wrap them with double or single quotes. For example, 
-```twig
-class="\{\{ class \}\}"
-``` 
-
-is safe, 
-
-```twig
-class=\{\{ class \}\}
-```
- is not safe.
+When rendering attributes in Twig, make sure that you wrap them with double or single quotes. For example, class=\"\{\{ class \}\}\" is safe while class=\{\{ class \}\} is not safe.
 
 In order to take advantage of Twig’s automatic escaping (and avoid safe markup being escaped) ideally all HTML should be outputted from Twig templates.
 
