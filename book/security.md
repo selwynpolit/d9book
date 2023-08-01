@@ -391,6 +391,9 @@ To validate token manually (e.g. without adding `_csrf_token: 'TRUE'` to your `m
 
 Note. regarding anonymous users. Currently the `_csrf_token` check fails for users without an active session, which includes most anonymous users. See: [#2730351: CSRF check always fails for users without a session](https://www.drupal.org/project/drupal/issues/2730351)
 
+## Modules
+- [Security Kit](https://www.drupal.org/project/seckit)
+- [Security Review](https://www.drupal.org/project/security_review)
 
 
 ## Resources
