@@ -33,7 +33,136 @@ When rendering attributes in Twig, make sure that you wrap them with double or s
 
 In order to take advantage of Twig’s automatic escaping (and avoid safe markup being escaped) ideally all HTML should be outputted from Twig templates.
 
+## .htaccess magic
 
+### Disallowing access to users coming from a domain
+
+Requests from specific domains can be blocked by adding the following to `.htaccess`:
+```
+RewriteCond %{HTTP_REFERER} domain-name\.com [NC] 
+RewriteRule .* - [F]
+```
+
+For multiple domains, use something similar to the following:
+```
+RewriteCond %{HTTP_REFERER} domain-one\.com [NC,OR] 
+RewriteCond %{HTTP_REFERER} domain-two\.com RewriteRule .* - [F]
+```
+
+### Blocking core Drupal pages
+Files such as CHANGELOG.txt can be used to quickly identify security vulnerabilities in your Drupal installation to a malicious script or user. While there are a number of ways to identify the version of Drupal that you are running, one quick addition to your .htaccess file can make it slightly le obvious.
+
+```
+# Various alias rules 
+Redirect 404 /CHANGELOG.txt 
+Redirect 404 /COPYRIGHT.txt 
+Redirect 404 /cron.php 
+Redirect 404 /INSTALL.mysql.txt 
+Redirect 404 /INSTALL.pgsql.txt 
+Redirect 404 /INSTALL.sqlite.txt 
+Redirect 404 /INSTALL.txt 
+Redirect 404 /install.php 
+Redirect 404 /LICENSE.txt 
+Redirect 404 /MAINTAINERS.txt 
+Redirect 404 /PATCHES.txt 
+Redirect 404 /README.txt 
+Redirect 404 /update.php 
+Redirect 404 /UPGRADE.txt 
+Redirect 404 /web.config
+```
+
+
+### Blocking file resources from all but a handful of sites
+
+You may want to keep a specific directory from being accessed by the general public, unless it's being pulled by a particular website. This example shows blocks requests to the /sites/default/files directory unless the request comes from www?, prod-kb, or the kb subdomains of example.com.
+
+```
+RewriteCond %{REQUEST_URI} ^/sites/default/files 
+RewriteCond %{HTTP_REFERER} !^http://prod-kb.example.com [NC] 
+RewriteCond %{HTTP_REFERER} !^http://kb.example.com [NC] 
+RewriteCond %{HTTP_REFERER} !^http://(www.)?example.com [NC] RewriteRule .* - [F]
+```
+
+
+### Time-based blocks
+If you are only allowed to expose your website for a specific time period, you can do that. This condition and rule blocks access until 4 PM.
+
+```
+RewriteCond %{TIME_HOUR} ^16$
+RewriteRule ^.*$ - [F,L]
+```
+
+### Blocking HTTP commands
+You may not want to allow certain types of commands to be proceed by your site.
+
+This blocks any HTTP request that is not a GET or a POST request.
+
+```
+RewriteCond %{REQUEST_METHOD} !^(GET|POST) 
+RewriteRule .* - [F]
+```
+
+### Block specific user agents
+If your website is the victim of a DDoS attack, and you want to block a group of IP addresses using the same User Agent, the following code may be helpful. Replace the UserAgent with the name of the agent you want to block:
+
+```
+RewriteCond %{HTTP_USER_AGENT} UserAgent 
+RewriteRule .* - [F,L]
+```
+
+You can also block more than one User Agent at a time with the `[OR]` ('or next condition') flag, and the `[NC]` ('no case') flag renders the string case insensitive. Here are some examples of some user-agents with properly escaped regexes:
+
+```
+RewriteCond %{HTTP_USER_AGENT} Baiduspider [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} HTTrack [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} Yandex [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} Scrapy [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} Mozilla/5\.0\ \(compatible;\ Yahoo [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} AppleNewsBot [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} Googlebot [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} Mozilla/5\.0\ \(compatible;\ YandexBot [NC] 
+RewriteRule .* - [F,L]
+Important
+```
+
+Properly escape characters inside your regex (regular expressions) to avoid website errors.
+
+`HTTP_USER_AGENT` can use regex as an argument. As seen in the example above, many User Agents will require regex due to the complexity of their name. Rather than creating the rule manually, websites such as [https://www.regex-escape.com/regex-escaping-online.php](https://www.regex-escape.com/regex-escaping-online.php) can help construct a properly-escaped regex quickly.
+
+**How to test that the block is working**
+
+Test that the site is responding:
+
+```
+curl -H "host:www.url_you_are_testing.url http://localhost/
+```
+
+Test that the user-agent (Pcore as an example) is indeed blocked:
+
+```
+curl -H "host:www.url_you_are_testing.url" -H "user-agent:Pcore-HTTP/v0.25.0" http://localhost.com/
+```
+
+
+### Block traffic from robot crawlers
+
+While a robot crawler may not technically be an attack, some crawlers can cause real problems. You can use this when the robots do not obey the robots.txt file, or if you need an immediate block, because robots.txt is generally not fetched immediately by crawlers.
+
+```
+RewriteCond %\{HTTP_REFERER\} ^$
+RewriteCond %\{HTTP_USER_AGENT\} "<exact_name_for_the_bot>"
+RewriteRule ^(.*)$ - [F,L]
+```
+
+### Blocking hotlinks
+
+The last thing most website owners want is other websites stealing their content, or worse - hotlinking to their images and stealing their bandwidth. Here s a simple bit of code that prevents it-modify domain.com to your domain name:
+
+```
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://(www\.)?domain.com/ .*$ NC
+RewriteRule \.(gif|jpg|swf|flv|png)$ /feed/ R=302,L
+```
 
 ## Reviewing Server logs
 
@@ -113,10 +242,159 @@ If a WAF is not already in place, Acquia strongly recommend implementing one.
 
 Edge Protect provides advanced security controls to restrict and block attacker traffic before it reaches the application stack. Common attack methods are identified and blocked automatically. WAFs are extremely effective in mitigating (D)DOS attacks.
 
+## API functions best practices
+
+From [Writing secure code for Drupal](https://www.drupal.org/docs/8/security/drupal-8-sanitizing-output)
+
+- Use [t()](https://api.drupal.org/api/function/t) and [\Drupal::translation()->formatPlural()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21StringTranslation%21TranslationInterface.php/function/TranslationInterface%3A%3AformatPlural/8.2.x) with placeholders to construct safe, translatable strings. (See [Translation API overview](https://www.drupal.org/docs/8/api/translation-api/overview) for more details.)
+- Use [Html::escape()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Html.php/function/Html%3A%3Aescape/8.2.x) for plain text.
+- Use [Xss::filter()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Xss.php/function/Xss%3A%3Afilter/8) for text that should allow some HTML tags.
+- Use [Xss::filterAdmin()](https://api.drupal.org/api/drupal/core!lib!Drupal!Component!Utility!Xss.php/class/Xss) for text entered by admin users that should allow most HTML.
+- Use [UrlHelper::stripDangerousProtocols()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21UrlHelper.php/function/UrlHelper%3A%3AstripDangerousProtocols/8.0.x) or [UrlHelper::filterBadProtocol()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21UrlHelper.php/function/UrlHelper%3A%3AfilterBadProtocol/8.0.x) for checking URLs - the former can be used in conjunction with [SafeMarkup::format()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21SafeMarkup.php/function/SafeMarkup%3A%3Aformat/8.0.x).
+
+Strings sanitized by t(), Html::escape(), Xss::filter() or Xss::filterAdmin() are automatically marked safe, as are markup strings created from render arrays via [Renderer](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21Renderer.php/class/Renderer/8.4.x).
+
+While it can also sanitize text, it's almost never correct to use [check_markup](https://api.drupal.org/api/drupal/core%21modules%21filter%21filter.module/function/check_markup/8) in a theme or module except in the context of something like a text area with an associated text format.
+
+## checkPlain
+
+This is from the file web/modules/custom/rsvp/src/Controller/ReportController.php
+
+Here we pass `SafeMarkup::checkPlain`` to array_map to call it on each entry in the array. The entry array looks like:
+
+```php
+$entry[‘name’]=”fred”, 
+$entry[‘email’]="fred@bloggs.com"
+```
+
+$rows = array_map('Drupal\Component\Utility\SafeMarkup::checkPlain', $entry);
+
+Here is the whole function.
+
+```php
+$rows = $this->getAllRSVPs();
+foreach ($rows as $row) {
+  // Sanitize each entry.
+  $rows_array[] = array_map('Drupal\Component\Utility\SafeMarkup::checkPlain', $row);
+}
+```
+
+## Html::escape
+If you have html like this: 
+`<script>alert(2)</script>` which will be output as a mess with these sorts of characters: `&amp;, &lt;` etc. use Html::escape to avoid this.
+
+$rows_array[] = array_map('Drupal\Component\Utility\Html::escape', $row);
+
+## Drupal.checkPlain()
+It is best practice to use the server to sanitize text, but there may be situations where you need to lean on the client (browser) to provide additional or temporary sanitization, such as an HTML element that updates on the client side as the user enters text.
+
+These examples are for use cases of outputting text to the DOM. If you're sending text to the server, such as when making an API call, you should review Back End practices.
+
+You can use `Drupal.checkPlain()`` to escape basic characters and prevent malicious elements being introduced into the DOM, avoiding some basic Clickjacking techniques.
+
+Bad Practice:
+```js
+var rawInputText = $('#form-input').text();
+```
+Good Practice:
+
+```js
+var rawInputText     = $('#form-input').text();
+var escapedInputText = Drupal.checkPlain(rawInputText);
+```
+
+## Use the database abstraction layer to avoid SQL injection attacks
+
+Bad practice:
+Never concatenate data directly into SQL queries.
+
+```php
+\Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = '. $_GET['user']);
+```
+
+Good Practice:
+
+Use proper argument substitution. The database layer works on top of PHP PDO, and uses an array of named placeholders:
+
+```php
+\Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = :name', [':name' => $_GET['user']]);
+```
+
+For a variable number of argument, use an array of arguments or use the select() method.  See examples of each below:
+
+```php
+$users = ['joe', 'poe', $_GET['user']];
+\Database::getConnection()->query('SELECT f.bar FROM {foo} f WHERE f.bar IN (:users[])',  [':users[]' => $users]);
+```
+
+```php
+$users = ['joe', 'poe', $_GET['user']];
+$result = \Database::getConnection()->select('foo', 'f')
+  ->fields('f', ['bar'])
+  ->condition('f.bar', $users)
+  ->execute();
+```
+
+When forming a LIKE query, make sure that you escape condition values to ensure they don't contain wildcard characters like `"%"``:
+
+```php
+db_select('table', 't')
+  ->condition('t.field', '%_' . db_like($user), 'LIKE')
+  ->execute();
+```
+
+Make sure that users cannot provide any operator to a query's condition. For example, this is unsafe:
+
+```php
+db_select('table', 't')
+  ->condition('t.field', $user, $user_input)
+  ->execute();
+```
+Instead, set a list of allowed operators and only allow users to use those.
+
+`db_query`, `db_select`, and `db_like` were deprecated and removed from Drupal 9 - instead you should use a database connection object and call the query, select, and [escapeLike](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Connection.php/function/Connection%3A%3AescapeLike/9) methods on it (the parameters are the same).
+
+
+## CSRF access checking
+
+CSRF (Cross-Site Request Forgery) protection is now integrated into the routing access system and should be used for any URLs that perform actions or operations that do not use a form callback. In previous versions of Drupal, it was necessary to add a generated token as a query parameter to a URL and check this token manually in either the callback or the access callback. Now you can simply use the '_csrf_token' requirement on a route definition. Doing so will automatically add a token to the query string, and this token will be checked for you.
+
+# example.routing.yml
+
+example:
+```yaml
+  path: '/example'
+  defaults:
+    _controller: '\Drupal\example\Controller\ExampleController::content'
+  requirements:
+    _csrf_token: 'TRUE'
+```
+Note that, in order for the token to be added, the link must be generated using the `url_generator` service via route name rather than as a manually constructed path.
+
+```php
+$url = Url::fromRoute(
+  'node_test.report',
+  ['node' => $entity->id()],
+  ['query' => [
+    'token' => \Drupal::getContainer()->get('csrf_token')->get("node/{$entity->id()}/report")
+  ]]);
+```
+[See API reference: CsrfTokenGenerator::get](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Access%21CsrfTokenGenerator.php/function/CsrfTokenGenerator%3A%3Aget/9.0.x)
+
+
+To validate token manually (e.g. without adding `_csrf_token: 'TRUE'` to your `mymodule.routing.yml` file) at the route destination you can use the token and value used for generating it. 
+
+```php
+// Validate $token from GET parameter.
+\Drupal::getContainer()->get('csrf_token')->validate($token, "node/{$entity->id()}/report");
+```
+
+Note. regarding anonymous users. Currently the `_csrf_token` check fails for users without an active session, which includes most anonymous users. See: [#2730351: CSRF check always fails for users without a session](https://www.drupal.org/project/drupal/issues/2730351)
 
 
 
 ## Resources
+- [Security on Drupal.org](https://www.drupal.org/docs/develop/security)
 - [Blocking access using rewrites (Acquia.com)](https://acquia.my.site.com/s/article/360005210634-Blocking-access-using-rewrites)
 - [.htaccess documentation (Acquia.com)](https://docs.acquia.com/cloud-platform/manage/htaccess/)
 - [Ban module in Drupal core overview for blocking IP addresses (Acquia.com)](https://www.drupal.org/docs/8/core/modules/ban/overview)
@@ -124,8 +402,8 @@ Edge Protect provides advanced security controls to restrict and block attacker 
 - [Restricting website access (Acquia.com)](https://docs.acquia.com/cloud-platform/arch/security/restrict/)
 - [Writing secure code for Drupal from Drupal.org update August 2022](https://www.drupal.org/docs/8/security/drupal-8-sanitizing-output)
 - [Twig Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633)
-
-
+- [Translation API overview on Drupal.org updated August 2022](https://www.drupal.org/docs/8/api/translation-api/overview)
+- [CSRF access checking on Drupal.org updated March 2023](https://www.drupal.org/docs/8/api/routing-system/access-checking-on-routes/csrf-access-checking)
 
  
 ---
