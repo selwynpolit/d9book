@@ -20,9 +20,9 @@ last_modified_date: '2023-07-23'
 
 For most work, I use entityQueries. There are a few circumstances where I've needed to get into the SQL which meant using static or dynamic queries. There are examples of these different techniques below.
 
-# entityQuery
+## entityQuery
 
-## Find matching nodes - example 1
+### Find matching nodes - example 1
 
 In this EntityQuery example we search for nodes of content type (bundle) ws_product and match field_product_sku with the \$sku variable.
 
@@ -45,7 +45,7 @@ function getProductId($sku) {
 }
 ```
 
-## Find matching nodes - example 2
+### Find matching nodes - example 2
 
 In this entityQuery we search for published nodes of type contract with field_contract_status having the value "Active". This puts the resulting nids and node titles in a render array for display.
 
@@ -78,7 +78,7 @@ public function loadRawSalesforceData() {
 }
 ```
 
-## Find matching article nodes -- example 3
+### Find matching article nodes -- example 3
 
 This example looks for an entity of type 'article' with the name \$name
 
@@ -109,7 +109,7 @@ public function entityExists() {
 }
 ```
 
-## Find nodes that match a taxonomy term
+### Find nodes that match a taxonomy term
 
 Find all nodes that match a term_id and retrieve the first 5 nodes sorted by title. This code also puts them into a render array for display.
 
@@ -135,7 +135,7 @@ protected function loadFirstOpinion($term_id) {
   return $render_array;
 ```
 
-## Find 5 nodes that have a matching taxonomy term
+### Find 5 nodes that have a matching taxonomy term
 
 We look for published nodes of node type `opinion` that have a term in the category field, sorted by title ascending, starting with the first result and giving us 5 results. The resulting titles are put into a render array.
 
@@ -161,7 +161,7 @@ protected function loadFirstOpinion($term_id) {
   return $render_array;
 ```
 
-## Find matching nodes and delete them
+### Find matching nodes and delete them
 
 ```php
 public function deleteQuery1() {
@@ -185,7 +185,7 @@ public function deleteQuery1() {
 }
 ```
 
-## Slice up entityQuery results into batches of 100 nodes
+### Slice up entityQuery results into batches of 100 nodes
 
 This is often used for batch API operations.
 
@@ -204,7 +204,7 @@ for ($i=0;$i<=$nid_count;$i+=100) {
 }
 ```
 
-## Query the creation date (among other things) using entityQuery
+### Query the creation date (among other things) using entityQuery
 
 Note. The created (and changed) field uses a unix timestamp. This is an int 11 field in the db with a value like 1525302749 If you add a Drupal date field, its data looks like 2019-05-15T21:32:00 (varchar 20)
 
@@ -255,7 +255,7 @@ More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query
   }
 ```
 
-## entityQuery frequently used conditions
+### entityQuery frequently used conditions
 
 -   Published: `->condition('status', 1)`
 
@@ -272,7 +272,7 @@ More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query
 Lots more at
 <https://www.drupal.org/docs/8/api/database-api/dynamic-queries/conditions>
 
-## Update menu items programatically
+### Update menu items programatically
 
 To update several items in a menu use hook_update.
 
@@ -300,7 +300,7 @@ function park_academy_update_8002() {
 }
 ```
 
-## Query multi-value fields
+### Query multi-value fields
 
 When querying multivalue fields, you need to use `%delta` to specify the position (or delta) for the value you are looking for.  You also have to identify to the query which position (or delta) you want to query.  In the example below, we specify `field_srp_voting_status.%delta` as 1 - indicating the second position (0 based always) and `field_srp_voting_status.%delta.value` for the actual value we are looking for (either accepted, rejected or incomplete):
 
@@ -322,7 +322,7 @@ When querying multivalue fields, you need to use `%delta` to specify the positio
 ```
 
 
-## Query entity reference fields if they have a value or no value
+### Query entity reference fields if they have a value or no value
 To check if there is a value in an entity reference fields, use the following code
 
 ```php
@@ -340,7 +340,7 @@ if ($vote_type == 'feedback_error'){
 
 ```
 
-## Query entity reference fields
+### Query entity reference fields
 
 In the following query, we check for a value in the entity that is referenced in the entity reference field?  For example, if you have an entity reference field which references node (entity) 27.  This query can look in node 27 and check a field value in that node.  Here we check in field_first_name for the the value `Fred`:
 
@@ -369,15 +369,15 @@ protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_fe
 ```
 
 
-# Static and dynamic Queries
+## Static and dynamic Queries
 
 Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the entityQuery approach where you build the various parts of the query.
 
-## Static Queries
+### Static Queries
 
 See <https://www.drupal.org/docs/drupal-apis/database-api/static-queries>
 
-## Get a connection object
+### Get a connection object
 
 There are two ways to get a connection object:
 
@@ -391,7 +391,7 @@ $connection = Database::getConnection();
 $connection = \Drupal::service('database');
 ```
 
-## SQL select example
+### SQL select example
 
 Static query example from a controller. This loads some fields from the donors table and returns a render array with a count of how many results it found.
 
@@ -415,7 +415,7 @@ public function queryBuild1() {
 }
 ```
 
-## Find the biggest value in a field
+### Find the biggest value in a field
 
 We make a quick query and retrieve the result. In this case we are
 finding the highest value for the id column.
@@ -440,7 +440,7 @@ public function highestId() {
 }
 ```
 
-## SQL update query - example 1
+### SQL update query - example 1
 
 This shows how to update a status field to the new value \$status when the uuid matches, the event is either update or add and the status is new.
 
@@ -458,7 +458,7 @@ public function setUpdateStatus(string $uuid, string $status) {
 }
 ```
 
-## SQL update query - example 2
+### SQL update query - example 2
 
 ```php
 /**
@@ -485,7 +485,7 @@ public function convertUpdateToAddEvent(string $uuid) {
 }
 ```
 
-## SQL update query - example 3
+### SQL update query - example 3
 
 This will update values in a table and return the number of rows
 updated.
@@ -514,7 +514,7 @@ and
 
 <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>
 
-## SQL insert
+### SQL insert
 
 From
 <https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
@@ -542,7 +542,7 @@ are the difference between insert() and query()?
 -   insert() is more likely to work with other databases and future
     versions of Drupal.
 
-## SQL Insert Query
+### SQL Insert Query
 
 ```php
 /**
@@ -601,7 +601,7 @@ public function insert() {
 
 More at <https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
 
-## SQL Delete query
+### SQL Delete query
 
 This will return the number of rows affected by the SQL delete query.
 
@@ -626,7 +626,7 @@ public function deleteQuery2() {
 
 Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x> also <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>.
 
-## Paragraph query
+### Paragraph query
 
 In the txg.theme file this code digs into a table for a paragraph field
 and grabbing the delta field value.
@@ -653,7 +653,7 @@ function txg_preprocess_paragraph__simple_card(&$variables) {
 }
 ```
 
-## Create a custom table for your module
+### Create a custom table for your module
 
 If you need a custom database table (or two) for use in a custom module, you can use hook_schema in your module.install file. This will cause the table(s) to be created at module install time and **removed** at module uninstall time.
 
@@ -726,7 +726,7 @@ function nocs_connect_schema() {
 }
 ````
 
-# Reference
+## Reference
 
 - [API documentation for query conditions](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x)
 - [Entity query cheat sheet](https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet)
