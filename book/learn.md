@@ -121,6 +121,7 @@ There are many books about Drupal that are worth checking out.
 - [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users](https://www.amazon.com/Drupal-Masterclass-responsive-applications-experiences-ebook/dp/B0BNNS7JCM/ref=d_pd_sbs_vft_none_sccl_1_1/146-2345249-6494660)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://www.packtpub.com/product/drupal-10-development-cookbook-third-edition/9781803234960)
 [Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://www.packtpub.com/product/drupal-9-module-development-third-edition/9781800204621)
+- [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
 - [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
 - [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
 - [Drupal 8 Explained: Your Step-by-Step Guide to Drupal 8 from March 2017](https://www.amazon.com/Drupal-Explained-Step-Step-Guide/dp/152099026X/ref=as_li_ss_tl)
