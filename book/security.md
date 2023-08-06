@@ -2,7 +2,7 @@
 layout: default
 title: Security
 permalink: /security
-last_modified_date: '2023-07-31'
+last_modified_date: '2023-08-06'
 ---
 
 # Security
@@ -359,10 +359,10 @@ Instead, set a list of allowed operators and only allow users to use those.
 
 CSRF (Cross-Site Request Forgery) protection is now integrated into the routing access system and should be used for any URLs that perform actions or operations that do not use a form callback. In previous versions of Drupal, it was necessary to add a generated token as a query parameter to a URL and check this token manually in either the callback or the access callback. Now you can simply use the '_csrf_token' requirement on a route definition. Doing so will automatically add a token to the query string, and this token will be checked for you.
 
-# example.routing.yml
 
 example:
 ```yaml
+# example.routing.yml
   path: '/example'
   defaults:
     _controller: '\Drupal\example\Controller\ExampleController::content'
@@ -391,10 +391,16 @@ To validate token manually (e.g. without adding `_csrf_token: 'TRUE'` to your `m
 
 Note. regarding anonymous users. Currently the `_csrf_token` check fails for users without an active session, which includes most anonymous users. See: [#2730351: CSRF check always fails for users without a session](https://www.drupal.org/project/drupal/issues/2730351)
 
+
+## Anti-Spam
+The combination of the modules: [Antibot](https://www.drupal.org/project/antibot) and [Honeypot](https://www.drupal.org/project/honeypot)  make a good combination for combating site spam especially when handling anonymous facing forms or webforms.  More [at this DrupalEasy post from July 2023 ](https://www.drupaleasy.com/quicktips/honeypot-and-antibot-contrib-modules-make-great-anti-spam-team-drupal-sites)
+
+
 ## Modules
 - [Security Kit](https://www.drupal.org/project/seckit)
 - [Security Review](https://www.drupal.org/project/security_review)
-
+- [Antibot](https://www.drupal.org/project/antibot)
+- [Honeypot](https://www.drupal.org/project/honeypot)
 
 ## Resources
 - [Security on Drupal.org](https://www.drupal.org/docs/develop/security)
