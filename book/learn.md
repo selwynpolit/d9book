@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-05-08'
+last_modified_date: '2023-08-06'
 ---
 
 # Learning and keeping up with Drupal
@@ -17,6 +17,56 @@ last_modified_date: '2023-05-08'
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=learn.md)
 
 ---
+
+## Drupal Reference Materials
+- [Top level link to Essential background concepts, OOP conventions etc at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
+
+
+
+### Essential background concepts
+Here are some high level overviews of Drupal concepts:
+- [Object-oriented conventions used in Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/oo_conventions/10)
+- [Extending and altering Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/extending/10)
+- [Security and best practices](https://api.drupal.org/api/drupal/core%21core.api.php/group/best_practices/10)
+- [Types of information in Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/info_types/10)
+
+### High level User Interface concepts
+- [Menu entries, local tasks, and other links](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Menu%21menu.api.php/group/menu/10)
+- [Routing API and page controllers](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Routing%21routing.api.php/group/routing/10)
+- [Forms](https://api.drupal.org/api/drupal/core%21core.api.php/group/form_api/10)
+- [Blocks](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/group/block_api/10)
+- [Ajax](https://api.drupal.org/api/drupal/core%21core.api.php/group/ajax/10)
+
+### Storing and retrieving data
+- [Entities](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_api/10)
+- [Fields](https://api.drupal.org/api/drupal/core%21modules%21field%21field.module/group/field/10)
+- [Configuration API](https://api.drupal.org/api/drupal/core%21core.api.php/group/config_api/10)
+- [State API](https://api.drupal.org/api/drupal/core%21core.api.php/group/state_api/10)
+- [Views](https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/group/views_overview/10)
+- [Database abstraction layer](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21database.api.php/group/database/10)
+
+### Other Essential APIs
+- [Plugins](https://api.drupal.org/api/drupal/core%21core.api.php/group/plugin_api/10)
+- [Services and the Dependency Injection Container](https://api.drupal.org/api/drupal/core%21core.api.php/group/container/10)
+- [Events](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/10)
+- [Internationalization](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Language%21language.api.php/group/i18n/10)
+- [Caching](https://api.drupal.org/api/drupal/core%21core.api.php/group/cache/10)
+- [Utility classes and functions](https://api.drupal.org/api/drupal/core%21core.api.php/group/utility/10)
+- [User accounts, permissions, and roles](https://api.drupal.org/api/drupal/core%21core.api.php/group/user_api/10)
+- [Render API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10)
+- [Theme system](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
+- [Update API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Extension%21module.api.php/group/update_api/10)
+- [Migration](https://api.drupal.org/api/drupal/core%21modules%21migrate%21migrate.api.php/group/migration/10)
+
+### Additional topics
+- [Batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10)
+- [Queue API](https://api.drupal.org/api/drupal/core%21core.api.php/group/queue/10)
+- [Typed Data](https://api.drupal.org/api/drupal/core%21core.api.php/group/typed_data/10)
+- [Automated tests](https://api.drupal.org/api/drupal/core%21core.api.php/group/testing/10)
+- [PHP Runtime Assert Statements](https://api.drupal.org/api/drupal/core%21core.api.php/group/php_assert/10)
+- [Integrating third-party applications](https://api.drupal.org/api/drupal/core%21core.api.php/group/third_party/10)
+- [Drupal API longer references with more details](https://www.drupal.org/docs/drupal-apis)
+
 
 ## Free videos
 
@@ -60,23 +110,24 @@ Other great sources of news are:
 
 ## Drupal Podcasts
 
-* Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013 and is still going strong.  Check it out at  <https://www.talkingdrupal.com>
-
-* Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot. <https://www.lullabot.com/podcasts/lullabot-podcast>
-
-* Mike Anello has a Drupal Easy podcast at <https://www.drupaleasy.com/podcast>
+- [Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013 and is still going strong.](https://www.talkingdrupal.com) [This author was interviewed on Episode #398](https://www.talkingdrupal.com/398)
+- [Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot](https://www.lullabot.com/podcasts/lullabot-podcast)
+- [Mike Anello's Drupal Easy podcast](https://www.drupaleasy.com/podcast)
 
 
 ## Books
 There are many books about Drupal that are worth checking out.
-* Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition. <https://www.packtpub.com/product/drupal-10-module-development-fourth-edition/9781837631803>
-* Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users. <https://www.amazon.com/Drupal-Masterclass-responsive-applications-experiences-ebook/dp/B0BNNS7JCM/ref=d_pd_sbs_vft_none_sccl_1_1/146-2345249-6494660>
-* Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023.  <https://www.packtpub.com/product/drupal-10-development-cookbook-third-edition/9781803234960>
-* Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020. <https://www.packtpub.com/product/drupal-9-module-development-third-edition/9781800204621>
-* Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022 <https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development>
-* Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022 <https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development>
-* Check out more older Drupal books from Packt publishing at <https://subscription.packtpub.com/search?query=Drupal>
-* Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a valuable resource. <https://drupalbook.org/>
+- [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition](https://www.packtpub.com/product/drupal-10-module-development-fourth-edition/9781837631803)
+- [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users](https://www.amazon.com/Drupal-Masterclass-responsive-applications-experiences-ebook/dp/B0BNNS7JCM/ref=d_pd_sbs_vft_none_sccl_1_1/146-2345249-6494660)
+- [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://www.packtpub.com/product/drupal-10-development-cookbook-third-edition/9781803234960)
+[Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://www.packtpub.com/product/drupal-9-module-development-third-edition/9781800204621)
+- [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
+- [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
+- [Drupal 8 Explained: Your Step-by-Step Guide to Drupal 8 from March 2017](https://www.amazon.com/Drupal-Explained-Step-Step-Guide/dp/152099026X/ref=as_li_ss_tl)
+- [Drupal 8 module development. Learn how to write Drupal 8 modules by Lakshmi Narasimhan - last updated in 2017 ](https://leanpub.com/drupal8book)
+- [Check out more older Drupal books from Packt publishing](https://subscription.packtpub.com/search?query=Drupal)
+- [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
+- [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://www.amazon.com/Drupal-Theming-Twig-Chaz-Chumley-ebook/dp/B014FU8REQ/ref=sr_1_2?crid=2M686L02NP5EO&keywords=Drupal+8+explained+step+by+step&qid=1691329119&s=books&sprefix=drupal+8+explained+step+by+step%2Cstripbooks%2C105&sr=1-2)
 
 ---
 
