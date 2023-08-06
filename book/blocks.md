@@ -2,7 +2,7 @@
 layout: default
 title: Blocks
 permalink: /blocks
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-08-06'
 ---
 
 # Blocks
@@ -24,9 +24,8 @@ Blocks are plugins, which are reusable pieces of code following design patterns.
 {: .text-center }
 
 {: .more_link }
-> - [Plugin API overview](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview>)
->
-> - [Annotations-based plugins](https://www.drupal.org/docs/8/api/plugin-api/annotations-based-plugins)
+- [Plugin API overview](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview)
+- [Annotations-based plugins](https://www.drupal.org/docs/8/api/plugin-api/annotations-based-plugins)
 
 ## Create a block with Drush generate
 
