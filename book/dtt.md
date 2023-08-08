@@ -2,7 +2,7 @@
 layout: default
 title: Tests
 permalink: /dtt
-last_modified_date: '2023-06-27'
+last_modified_date: '2023-08-08'
 ---
 
 # PHPUnit and Drupal Test Traits
@@ -413,17 +413,10 @@ From <https://gitlab.com/weitzman/drupal-test-traits>:
 > details (the bootstrap is inspired
 > by [Drush](https://www.drush.org/)).
 
--   Blog: [Introducing Drupal Test
-    > Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c)
-
--   Blog: [Introducing Drupal Test Traits: Drupal extension for testing
-    > existing
-    > sites](https://www.previousnext.com.au/blog/introducing-drupal-testing-traits-drupal-extension-testing-existing-sites)
-
--   Video: [Drupalcon presentation - Introducing Drupal Test
-    > Traits](https://www.tag1consulting.com/blog/introducing-drupal-test-traits).
-
--   Repo: <https://gitlab.com/weitzman/drupal-test-traits>
+-   Blog: [Introducing Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c)
+-   Blog: [Introducing Drupal Test Traits: Drupal extension for testing existing sites](https://www.previousnext.com.au/blog/introducing-drupal-testing-traits-drupal-extension-testing-existing-sites)
+-  Video: [Drupalcon presentation - Introducing Drupal Test Traits](https://www.tag1consulting.com/blog/introducing-drupal-test-traits).
+- [Drupal Test Traits Repo](https://gitlab.com/weitzman/drupal-test-traits)
 
 > DTT also supports [testing through a real browser using headless
 > Chrome](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php) or
