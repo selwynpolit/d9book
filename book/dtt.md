@@ -2,7 +2,7 @@
 layout: default
 title: Tests
 permalink: /dtt
-last_modified_date: '2023-08-08'
+last_modified_date: '2023-08-09'
 ---
 
 # PHPUnit and Drupal Test Traits
@@ -2369,6 +2369,65 @@ When Phpstorm pops up, specify that the vendor directory is at
 
 
 - 	Drupal 8/9: Unit Test cases mocking the global Drupal object and Services by Vishwa Chikate - Talks about prophecy objecting mocking which is better than PHPunit's built in mocking.  https://medium.com/@vishwa.chikate/drupal-8-9-unit-test-cases-mocking-the-global-drupal-object-and-services-bc536477edff
+
+
+## Troubleshooting
+
+### login failures
+
+Sometimes when trying to get tests running on the host (not in ddev), you may find that tests stubbornly fail when trying to login as a Drupal user. You will see an error that looks like this:
+
+```
+1) Drupal\Tests\tea_teks_voting\ExistingSite\StandardCreateTest1::testCreateStandard
+User <em class="placeholder">testadmin</em> successfully logged in.
+Failed asserting that false is true.
+```
+In this case, my test was trying to login as a user called testadmin with code like this:
+
+```php
+  private function loginAdminUser() {
+    $user_id = 3456;
+    $user = User::load($user_id);
+    $user->passRaw = '872kjasdkhjakd74';
+    $this->drupalLogin($user);
+  }
+
+```
+
+In my setup the problem appears to be in the the `phpunit.xml` file which I have in the root of my project (i.e. ~/Sites/mysite/phpunit.xml)
+
+It requires the following line to accurately specify the actual URL of the site.  If it does not actually specify the URL, other functionality might work fine, but the login will stubbornly fail.
+
+```xml
+    <env name="DTT_BASE_URL" value="http://tea3.ddev.site"/>
+```
+
+Here is that entire section reproduced for context:
+
+```xml
+  <php>
+    <env name="DTT_BASE_URL" value="http://tea3.ddev.site"/>
+    <env name="DTT_API_URL" value="http://chrome:9222"/>
+    <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://chromedriver:9515"]'/>
+    <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
+    <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /tmp
+         Specify a temporary directory for storing debug images and html documents.
+         These artifacts get copied to /sites/simpletest/browser_output by BrowserTestBase. -->
+    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
+    <!-- To disable deprecation testing completely uncomment the next line. -->
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+    <!-- Specify the default directory screenshots should be placed. -->
+    <!--<env name="DTT_SCREENSHOT_REPORT_DIRECTORY" value=""/>-->
+    <!-- Specify the default directory page captures should be placed.
+        When using the \Drupal\Tests\Listeners\HtmlOutputPrinter printerClass this will default to
+        /sites/simpletest/browser_output. If using another printer such as teamcity this must be defined.
+        -->
+    <!--<env name="DTT_HTML_OUTPUT_DIRECTORY" value=""/>-->
+  </php>
+  ```
+
+
+
 
 ---
 
