@@ -2,7 +2,7 @@
 layout: default
 title: Development
 permalink: /development
-last_modified_date: '2023-05-14'
+last_modified_date: '2023-08-10'
 ---
 
 # Development
@@ -850,6 +850,16 @@ Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException: You ha
 ```
 
 Sometimes, when drush cr throws errors like that try `drush sqlc` and then `truncate cache_bootstrap` and `truncate cache_discovery`.
+
+
+## Generating Test Content with Devel Generate
+
+From [Working with the devel module in Drupal 9 to generate dummy content August 2023 by Karishma Amin](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
+
+When building a Drupal website, you want to have enough content to check the overall display such as layouts, views, design. Content comes in different forms and so it becomes important to test the website out with dummy content before adding live content. Instead of creating dummy content for Drupal sites manually, Devel generate allows you to create dummy content automatically.
+
+More at [Generating dummy Drupal content with Devel & more](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
+
 
 ## Resources
 
