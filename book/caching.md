@@ -2,7 +2,7 @@
 layout: default
 title: Caching
 permalink: /caching
-last_modified_date: '2023-05-31'
+last_modified_date: '2023-08-14'
 ---
 
 # Caching and cache tags
@@ -41,6 +41,20 @@ function ddd_node_view_alter(array &$build, EntityInterface $entity, EntityViewD
   }
 }
 ```
+
+
+## Disable caching on a route
+
+This will cause Drupal to rebuild the page internally on each page load but won't stop browsers or CDN's from caching. The line: `no_cache: TRUE` is all you need to disable caching for this route.
+
+```yaml
+requirements:
+  _permission: 'access content'
+options:
+  no_cache: TRUE
+```
+
+
 
 ## Don't cache data returned from a controller
 
