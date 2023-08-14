@@ -560,7 +560,7 @@ $ drush cim -y
 
 ## Troubleshooting
 
-# Config export
+### Config export
 Sometimes when you try to export config, it seems to randomly decide to delete a lot of config items although `drush config cst` shows just a few items have changed.  In this circumstance, `drush config cim -y` will try to import those few items.
 
 I've found that the problem is related to this setting in the `settings.local.php` (or `settings.php`)
