@@ -2,7 +2,7 @@
 layout: default
 title: Config
 permalink: /config
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-08-14'
 ---
 
 # Configuration and Settings
@@ -529,7 +529,7 @@ $ drush cex -y
 
 If you change the site name (for example) by mistake and want to restore it , you can re-import the values from the last export.
 
-First check what changed with `drush cst` then use `drush cim` to restore the config to it's previous glory. `cim` is short for `config:import`.
+First check what changed with `drush cst` then use `drush cim -y` to restore the config to it's previous glory. `cim` is short for `config:import`.
 
 Drupal cleverly notices which config items have changed and loads only those changes into the database. 
 
@@ -557,6 +557,26 @@ $ drush cim -y
  [notice] Finalizing configuration synchronization.
  [success] The configuration was imported successfully.
 ```
+
+## Troubleshooting
+
+# Config export
+Sometimes when you try to export config, it seems to randomly decide to delete a lot of config items although `drush config cst` shows just a few items have changed.  In this circumstance, `drush config cim -y` will try to import those few items.
+
+I've found that the problem is related to this setting in the `settings.local.php` (or `settings.php`)
+
+
+$settings['config_exclude_modules'] = ['devel', 'stage_file_proxy', 'masquerade'];
+
+For some reason, an edge condition is reached which confuses the configuration engine in Drupal.  Commenting out the above line resolves the issue.
+
+I hope this one saves you countless hours of frustration.  I know it has caused me plenty of frustration!
+
+
+
+
+
+
 
 ---
 
