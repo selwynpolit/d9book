@@ -1181,10 +1181,12 @@ $node->set('body', [
   'format' => 'links_bullets_headings_and_images',
 ]);
 ```
+Alternatively. 
 
 ```php
+$text = 'this is some text to go in the body field';
 $node->field_info = [
-  'value' => $whatever_you're_copying,
+  'value' => $text,
   'format' => 'links_and_bullets',
 ];
 ```
@@ -1193,9 +1195,8 @@ $node->field_info = [
 To empty a body field, use this:
 
 ```php
-  $node->body = [];
-  $node->body = NULL;
-
+$node->body = [];
+$node->body = NULL;
 ```
 
 ## Load a node and retrieve an entity reference node and nid (target_id)
