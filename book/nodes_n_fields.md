@@ -1186,8 +1186,8 @@ Alternatively.
 ```php
 $text = 'this is some text to go in the body field';
 $node->field_info = [
-  'value' => $text,
-  'format' => 'links_and_bullets',
+  'value' => $text,
+  'format' => 'links_and_bullets',
 ];
 ```
 
