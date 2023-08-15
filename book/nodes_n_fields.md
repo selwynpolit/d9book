@@ -1165,16 +1165,31 @@ Single text field
 $node->set('field_subtitle', NULL);
 ```
 
-## Set or clear a body field
+## Set a formatted text/body field
+
+To write to long text field, be sure to specify the text format.
 
 ```php
+$text = 'this is some text to go in the body field';
 $node->set('body', [
   'summary' => $summary,
-  'value' => $body,
+  'value' => $text,
+  //'format' => 'full_html',
+  //'format' => 'basic_html',
+  //'format' => 'restricted_html',
+  //'format' => 'plain_text',
   'format' => 'links_bullets_headings_and_images',
 ]);
 ```
 
+```php
+$node->field_info = [
+  'value' => $whatever_you're_copying,
+  'format' => 'links_and_bullets',
+];
+```
+
+## Clear a formatted text/body field
 To empty a body field, use this:
 
 ```php
