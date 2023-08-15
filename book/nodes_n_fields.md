@@ -2,7 +2,7 @@
 layout: default
 title: Nodes and Fields
 permalink: /nodes-and-fields
-last_modified_date: '2023-06-20'
+last_modified_date: '2023-08-15'
 ---
 
 # Nodes and Fields
@@ -1193,7 +1193,9 @@ $node->field_info = [
 To empty a body field, use this:
 
 ```php
-$this_node->body[$this_node->language] = [];
+  $node->body = [];
+  $node->body = NULL;
+
 ```
 
 ## Load a node and retrieve an entity reference node and nid (target_id)
