@@ -20,7 +20,7 @@ last_modified_date: '2023-08-16'
 
 ## Send email
 
-Function to send an email in your module with a hook_mail() to set the parameters.
+Function to send an email in your module with a hook_mail() to set the parameters. Also don't forget the `hook_mail` function below that needs to be in your module file.
 
 ```php
 use Drupal\Core\Mail\MailManagerInterface;
@@ -137,12 +137,42 @@ and here are a few more.
 * `MailFormatHelper::htmlToTextClean()` - Replaces non-quotation markers from a piece of indentation with spaces.
 * `MailFormatHelper::htmlToTextPad()` - Pads the last line with the given character.
 
+## Troubleshooting
+
+### Mail sends but no subject or body
+This means you either forgot to create the hook_mail module or that your key doesn't match.  Try changing the key in your hook mail to be a `default` and see if that works
+
+```php
+function tea_teks_mail($key, &$message, $params) {
+
+  $site_name = \Drupal::config('system.site')->get('name');
+  $site_mail = \Drupal::config('system.site')->get('mail');
+  switch ($key) {
+    case 'tea_teks_public_comment_error_form_notification':
+      $message['headers']['Reply-To'] = $site_mail;
+      $message['headers']['Content-Type'] = 'text/html';
+      $message['headers']['From'] = $site_name .'<' . $site_mail . '>';
+      $message['subject'] = t('@subject', array('@subject' => $params['subject']));
+      break;
+    default:
+      $message['headers']['Reply-To'] = $site_mail;
+      $message['headers']['Content-Type'] = 'text/html';
+      $message['headers']['From'] = $site_name .'<' . $site_mail . '>';
+      $message['subject'] = t('@subject', array('@subject' => $params['subject']));
+      $message['body'][] = Xss::filter($params['body']);
+      break;
+  }
+}
+
+```
+
+
 ## Reference
 - [Sending html mails in Drupal 8/9 programmatically An example Drupal module including Twig template by Joris Snoek - August 2020](https://www.lucius.digital/en/blog/sending-html-mails-drupal-89-programmatically-example-drupal-module-including-twig-template)
 - [Sending Emails Using OOP and Dependency Injection in Drupal 8, 9 By Alex Novak - November 2020.](https://www.drupalcontractors.com/blog/2020/11/09/sending-emails-using-oop-dependency-injection-drupal/)
 - [How email works in Drupal - updated July 2021](https://www.drupal.org/docs/contributed-modules/mime-mail/how-email-works-in-drupal)
 - [Sendgrid Integration Drupal module](https://www.drupal.org/project/sendgrid_integration)
-
+- [How to send a mail programmatically in Drupal 8 by Jimmy Sebastian - Mar 2022](https://www.zyxware.com/articles/5504/drupal-8-how-to-send-a-mail-programmatically-in-drupal-8)
 
 ---
 
