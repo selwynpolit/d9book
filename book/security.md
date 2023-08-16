@@ -2,7 +2,7 @@
 layout: default
 title: Security
 permalink: /security
-last_modified_date: '2023-08-06'
+last_modified_date: '2023-08-16'
 ---
 
 # Security
@@ -394,6 +394,14 @@ Note. regarding anonymous users. Currently the `_csrf_token` check fails for use
 
 ## Anti-Spam
 The combination of the modules: [Antibot](https://www.drupal.org/project/antibot) and [Honeypot](https://www.drupal.org/project/honeypot)  make a good combination for combating site spam especially when handling anonymous facing forms or webforms.  More [at this DrupalEasy post from July 2023 ](https://www.drupaleasy.com/quicktips/honeypot-and-antibot-contrib-modules-make-great-anti-spam-team-drupal-sites)
+
+Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeypot) to protect a form:
+
+```php
+// Put this in the buildForm() function.
+\Drupal::service('honeypot')->addFormProtection($form, $form_state, ['honeypot', 'time_restriction']);
+
+```
 
 
 ## Modules
