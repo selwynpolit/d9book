@@ -119,23 +119,23 @@ function hello_world_mail($key, &$message, $params) {
 See docroot/core/lib/Drupal/Core/Mail/MailFormatHelper.php for more.
 
 ```php
-        // Break a body field into paragraphs.
-        $message['body'] = implode("\n\n", $message['body']);
+// Break a body field into paragraphs.
+$message['body'] = implode("\n\n", $message['body']);
 
-        // Transforms an HTML string into plain text, preserving its structure.
-        $message['body'] = MailFormatHelper::htmlToText($message['plaintext']);
+// Transforms an HTML string into plain text, preserving its structure.
+$message['body'] = MailFormatHelper::htmlToText($message['plaintext']);
 
-        // Performs format=flowed soft wrapping for mail (RFC 3676).
-        $message['body'] = MailFormatHelper::wrapMail($message['plaintext']);
+// Performs format=flowed soft wrapping for mail (RFC 3676).
+$message['body'] = MailFormatHelper::wrapMail($message['plaintext']);
 ```
 
 and here are a few more.
 
-* MailFormatHelper::htmlToText() - Transforms an HTML string into plain text, preserving its structure.
-* MailFormatHelper::wrapMailLine() - Wraps words on a single line.
-* MailFormatHelper::htmlToMailUrls() - Keeps track of URLs and replaces them with placeholder tokens.
-* MailFormatHelper::htmlToTextClean() - Replaces non-quotation markers from a piece of indentation with spaces.
-* MailFormatHelper::htmlToTextPad() - Pads the last line with the given character.
+* `MailFormatHelper::htmlToText()` - Transforms an HTML string into plain text, preserving its structure.
+* `MailFormatHelper::wrapMailLine()` - Wraps words on a single line.
+* `MailFormatHelper::htmlToMailUrls()` - Keeps track of URLs and replaces them with placeholder tokens.
+* `MailFormatHelper::htmlToTextClean()` - Replaces non-quotation markers from a piece of indentation with spaces.
+* `MailFormatHelper::htmlToTextPad()` - Pads the last line with the given character.
 
 ## Reference
 - [Sending html mails in Drupal 8/9 programmatically An example Drupal module including Twig template by Joris Snoek - August 2020](https://www.lucius.digital/en/blog/sending-html-mails-drupal-89-programmatically-example-drupal-module-including-twig-template)
