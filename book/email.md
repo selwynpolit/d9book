@@ -173,7 +173,7 @@ function tea_teks_mail($key, &$message, $params) {
 - [How email works in Drupal - updated July 2021](https://www.drupal.org/docs/contributed-modules/mime-mail/how-email-works-in-drupal)
 - [Sendgrid Integration Drupal module](https://www.drupal.org/project/sendgrid_integration)
 - [How to send a mail programmatically in Drupal 8 by Jimmy Sebastian - Mar 2022](https://www.zyxware.com/articles/5504/drupal-8-how-to-send-a-mail-programmatically-in-drupal-8)
-
+  
 ---
 
 <script src="https://giscus.app/client.js"

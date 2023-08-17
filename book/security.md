@@ -2,7 +2,7 @@
 layout: default
 title: Security
 permalink: /security
-last_modified_date: '2023-08-16'
+last_modified_date: '2023-08-17'
 ---
 
 # Security
@@ -265,9 +265,10 @@ Here we pass `SafeMarkup::checkPlain`` to array_map to call it on each entry in 
 ```php
 $entry[‘name’]=”fred”, 
 $entry[‘email’]="fred@bloggs.com"
-```
 
+// Calling array_map on all the entries to checkPlain them.
 $rows = array_map('Drupal\Component\Utility\SafeMarkup::checkPlain', $entry);
+```
 
 Here is the whole function.
 
@@ -278,6 +279,14 @@ foreach ($rows as $row) {
   $rows_array[] = array_map('Drupal\Component\Utility\SafeMarkup::checkPlain', $row);
 }
 ```
+
+Do not call check_plain() on data before saving data to the database. The idea behind check_plain, filter_xss and filter_xss_admin is to prevent XSS attacks, which are related to the front end.
+
+When you handle database queries, use parameters and the DB API to prevent SQL injection attacks. Whenever you output data to the browsers, use check_plain, and other security methods.
+Note that check_plain(), filter_xss() and such functions do change the data. When you save data into the database, you are only escaping specific characters, but you do not alter the original text. If you use check_plain() in database insert/updates, saving data a few times can mess up your data with a lot of `&amp;`, `&lt;`, etc. character replacements and some HTML tags stripped out.
+
+
+
 
 ## Html::escape
 If you have html like this: 
@@ -417,7 +426,7 @@ Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeyp
 - [Ban module in Drupal core overview for blocking IP addresses (Acquia.com)](https://www.drupal.org/docs/8/core/modules/ban/overview)
 - [Advanced Ban module](https://www.drupal.org/project/advban)
 - [Restricting website access (Acquia.com)](https://docs.acquia.com/cloud-platform/arch/security/restrict/)
-- [Writing secure code for Drupal from Drupal.org update August 2022](https://www.drupal.org/docs/8/security/drupal-8-sanitizing-output)
+- [Writing secure code for Drupal - August 2022](https://www.drupal.org/docs/security-in-drupal/writing-secure-code-for-drupal)
 - [Twig Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633)
 - [Translation API overview on Drupal.org updated August 2022](https://www.drupal.org/docs/8/api/translation-api/overview)
 - [CSRF access checking on Drupal.org updated March 2023](https://www.drupal.org/docs/8/api/routing-system/access-checking-on-routes/csrf-access-checking)
