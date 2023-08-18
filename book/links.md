@@ -95,6 +95,93 @@ $url = Url::fromUri('internal:/node/1');
 $link = \Drupal::service('link_generator')->generate('My link', $url);
 ```
 
+If you want to use markup in the text of your link, you need to use a render array element rather than just using a string.
+
+[From Stack Exchange](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link):
+
+```php
+$url = Url::fromRoute('entity.node.canonical', ['node' => $nid]);
+$link_text =  [
+  '#type' => 'html_tag',
+  '#tag' => 'span',
+  '#value' => $this->t('Load More'),
+];
+$link = Link::fromTextAndUrl($link_text, $url);
+```
+
+### Create an absolute link to a node
+
+To create an absolute link, you add this option to the URL, not the link:
+
+[From Stack Exchange](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link):
+
+```php
+$url = Url::fromRoute('entity.node.canonical', ['node' => $nid], ['absolute' => TRUE]);
+$link = Link::fromTextAndUrl($this->t('Read more'), $url);
+$build['read_more'] = $link->toRenderable();
+```
+
+### Add a class to your link
+
+To add a class to your link, you also need to add this to the URL, not the link:
+
+[From Stack Exchange](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link):
+
+```php
+$options = [
+  'attributes' => [
+    'class' => [
+      'read-more-link',
+    ],
+  ],
+];
+$url = Url::fromRoute('entity.node.canonical', ['node' => $nid], $options);
+$link = Link::fromTextAndUrl($this->t('Read more'), $url);
+$build['read_more'] = $link->toRenderable();
+```
+
+### Add a query string to a link
+
+To add a query string to your link, you also need to this to the URL, not the link.
+
+[From Stack Exchange](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link):
+
+```php
+$options = [
+  'query' => [
+    'car' => 'BMW',
+    'model' => 'mini-cooper',
+  ],
+  'attributes' => [
+    'class' => [
+      'read-more-link',
+    ],
+  ],
+];
+$url = Url::fromRoute('entity.node.canonical', ['node' => $nid], $options);
+$link = Link::fromTextAndUrl($this->t('Read more'), $url);
+$build['read_more'] = $link->toRenderable();
+```
+
+### Create a link that opens in a new window
+
+To set the link to open in a new window with target = _blank:
+
+Note. see Url::setOptions as well.
+
+```php
+$options = [
+  'attributes' => [
+    'target' => '_blank'
+  ],
+];
+$url = Url::fromRoute('entity.media.edit_form', ['media' => $entity->id()], $options);
+$link = Link::fromTextAndUrl(t('Edit'), $url);
+$form['entity']['edit_link'] = $link->toRenderable();
+```
+
+
+
 ### Create a link to a path with parameters 
 
 To create a link to a path like `/reports/search?user=admin` use this code.
@@ -111,7 +198,7 @@ $renderable_array = $link->toRenderable();
 return $renderable_array;
 ```
 
-## Another way to create a link to a node: 
+### Another way to create a link to a node: 
 
 ```php
 $nid = $item->id();
@@ -121,7 +208,7 @@ $url = Url::fromRoute('entity.node.canonical',['node' => $nid], $options);
 $link = \Drupal::service('link_generator')->generate('My link', $url);
 ```
 
-## Create a link from an internal URL
+### Create a link from an internal URL
 
 ```php
 use Drupal\Core\Url
@@ -131,6 +218,14 @@ $link = \Drupal::service('link_generator')->generate('My link', $url);
 
 // ->toString() will extract the string of the URL.
 $url_string = Url::fromUri('internal:/node/' . $id)->toString();
+```
+
+### Create a link to homepage
+
+```php
+$url = Url::fromRoute('<front>');
+$link = Link::fromTextAndUrl($this->t('Home'), $url);
+$build['homepage_link'] = $link->toRenderable();
 ```
 
 ## Check if a link field is empty
@@ -183,7 +278,7 @@ returns a `Drupal\Core\Field\FieldItemList` which is a list of fields so you the
 
 ## Retrieve a URL field
 
-### External links
+### Retrieve External links from a URL field
 
 You can get the URL (for external links) and then just the text part.
 
@@ -209,7 +304,7 @@ if ($vendor_url) {
 
 
 
-### Internal links
+### Retrieve Internal links from a URL field
 
 For internal links, use getUrl()for the URL and -\>title for the title.
 
@@ -395,7 +490,7 @@ public function getCacheContexts() {
 }
 ```
 
-## How to get current Route name
+## Get current Route name
 
 A Drupal route is returned in the form of a string e.g.
 view.files_browser.page_1
@@ -409,7 +504,7 @@ pages, \"entity.taxonomy_term.canonical\" for the taxonomy pages,
 \"entity.user.canonical\" for the users and custom route name that we define
 in `modulename.routing.yml` file.
 
-## Get current Document root path
+## Get the current Document root path
 
 This will return the current document root path like
 \"/var/www/html/project1\".
@@ -456,7 +551,7 @@ $search_term = $query['query'];
 $collection = $query['collection'];
 ```
 
-Be wary about caching. From <https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954> the code provided only works the first time so it is important to add a '#cache' context in the markup.
+Be wary about caching. From [Stack Exchange](https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954) the code provided only works the first time so it is important to add a '#cache' context in the markup.
 
 ```php
 namespace Drupal\newday\Controller;
@@ -485,7 +580,8 @@ $day = [
 ];
 ```
 
-More about caching render arrays: <https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
+[More about caching render arrays](https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays)
+
 
 ## Modify URL Aliases programmatically with hook_pathauto_alias_alter
 
@@ -577,8 +673,9 @@ print render($project_link);
 
 ## Reference links
 
-- [Good reference from 2017 for creating links in Drupal](https://agaric.coop/blog/creating-links-code-drupal-8)
 - [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
+- [Good reference from 2017 for creating links in Drupal](https://agaric.coop/blog/creating-links-code-drupal-8) 
+- [How do I create a link from Stack Exchange - Jan 2017](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link)
 
 ---
 
