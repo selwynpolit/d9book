@@ -2,7 +2,7 @@
 layout: default
 title: Links
 permalink: /links
-last_modified_date: '2023-07-23'
+last_modified_date: '2023-08-18'
 ---
 
 # Links, Aliases and URLs
@@ -40,7 +40,7 @@ $url = Url::fromUri('internal:/reports/search');
 $url = Url::fromUri('internal:/dashboard/achievements')
 
 // Or Using link generator to create a GeneratedLink.
-$url = = Url::fromUri('internal:/node/1');
+$url = Url::fromUri('internal:/node/1');
 $link = \Drupal::service('link_generator')->generate('My link', $url);
 
 // OR
