@@ -2,7 +2,7 @@
 layout: default
 title: Logging
 permalink: /logging
-last_modified_date: '2023-04-13'
+last_modified_date: '2023-08-18'
 ---
 
 # Logging
@@ -299,6 +299,42 @@ e.g.
 ```php
 \Drupal::messenger()->addMessage('Program pending, please assign team and initialize. ', MessengerInterface::TYPE_WARNING);
 ```
+
+## Display a message with a link in the notification area 
+
+This example builds a `$helpdesk_url`, calls a `sendMail()` function and then depending on the return value `$results` it displays a message or error with a built in link in the notification area:
+
+
+```php
+    $helpdesk_url = Url::fromUri('https://helpdesk.abc..gov/helpme');
+    $helpdesk_url->setOptions(['attributes' => ['target' => '_blank']]);
+    $helpdesk_link = \Drupal::service('link_generator')->generate('please submit a help ticket here', $helpdesk_url);
+    $results = $general_utility->sendEmail([$email_to], $from_email, $subject, $message_body );
+    $result = reset($results);
+    if ($result['status'] == 'success') {
+      $render_array = [
+        '#type' => 'markup',
+        '#markup' => $this->t('The @submission_type has been created. Should you need to edit your submission, @link. Sent confirmation email to @email_to', [
+          '@submission_type' => $values['submission_type'],
+          '@link' => $helpdesk_link,
+          '@email_to' => $email_to,
+        ]),
+      ];
+      \Drupal::messenger()->addMessage($render_array);
+    }
+    else {
+      $render_array = [
+        '#type' => 'markup',
+        '#markup' => $this->t('The @submission_type has been created. Should you need to edit your submission, @link. Failed to send confirmation email to @email_to', [
+          '@submission_type' => $values['submission_type'],
+          '@link' => $helpdesk_link,
+          '@email_to' => $email_to,
+        ]),
+      ];
+      \Drupal::messenger()->addError($render_array);
+    }
+```
+
 
 ## Display a variable while debugging
 
