@@ -23,8 +23,12 @@ last_modified_date: '2023-08-18'
 
 ```php
 use Drupal\Core\Url
+
 $url = Url::fromUri('http://testsite.com/go/here');
+// Set options like target = '_blank' to open link in new window.
+$url->setOptions(['attributes' => ['target' => '_blank']]);
 ```
+
 
 ## Create an internal url
 
@@ -69,11 +73,17 @@ The `Drupal\Core\Url` class is often used to create URL's. Two important methods
 
 `Url::fromUri()` which takes an internal or external URL
 
+You can also set attributes for the url using:
+
+```php
+$helpdesk_url->setOptions(['attributes' => ['target' => '_blank']]);
+```
 See how these are used in some of the examples below.
 
 ## The Drupal Core Link Class
 
-Closely related and often used in conjunction with the Drupal Core URL class is the Drupal\Core\Link class.
+Closely related and often used in conjunction with the Drupal Core URL class is the `Drupal\Core\Link` class.  These can be used in render arrays. Note that you specify attributes like `target = "_blank"` in the Url (using `setOptions`), rather than the link.  It doesn't seem like you can specify attributes in the link. See above.
+
 
 You can generate links several different ways.
 
@@ -180,6 +190,15 @@ You can get the URL (for external links) and then just the text part.
 Note this doesn't work for internal links. Note also this slightly convoluted example has a reference field field_sf_contract_ref which has a link to another entity and the field_vendor_url-\>first()-\>getUrl() is the important part. Also note, this is a single-value field (not a multivalue field -- so the first() call may be a little disturbing to those who expect things to be a little clearer.)
 
 ```php
+$citation_link = $citation->get('field_link');
+if (!$citation_link->isEmpty()) {
+  $citation_link = $citation->field_link->first()->getUrl()->toString();
+}
+```
+
+Here is a slightly more complex example from a form:
+
+```php
 $vendor_url = $node->field_sf_contract_ref->entity->field_vendor_url->first()->getUrl();
 if ($vendor_url) {
   $vendor_url = $vendor_url->getUri();
@@ -188,14 +207,7 @@ if ($vendor_url) {
 }
 ```
 
-A slightly simpler example from a form
 
-```php
-$citation_link = $citation->get('field_link');
-if (!$citation_link->isEmpty()) {
-  $citation_link = $citation->field_link->first()->getUrl()->toString();
-}
-```
 
 ### Internal links
 
