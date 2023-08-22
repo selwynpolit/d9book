@@ -9,8 +9,7 @@ module:
   block: 0
   block_content: 0
   breakpoint: 0
-  ckeditor: 0
-  color: 0
+  ckeditor5: 0
   comment: 0
   config: 0
   contact: 0
@@ -54,8 +53,6 @@ module:
   path_alias: 0
   phil: 0
   queries: 0
-  quickedit: 0
-  rdf: 0
   search: 0
   shortcut: 0
   smart_date: 0

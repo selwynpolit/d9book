@@ -1,9 +1,8 @@
 <?php
 
-//
-// This example demonstrates how to write a drush
-// script. These scripts are run with the php:script command.
-//
+// This example demonstrates how to write a drush script.
+// These scripts are run with the php:script command.
+
 use Drush\Drush;
 
 $this->output()->writeln("Hello world!");
