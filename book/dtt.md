@@ -88,7 +88,7 @@ AdminToolbarAlterTest.php and AdminToolbarToolsSortTest.php
 
 Every time a PHPUnit test is run, a fresh Drupal database and files are created. This guarantees that any existing data won\'t taint your test\'s outcomes. DTT bypasses this process and uses the existing site although it can clean up anything that is created in the test.
 
-# Location of PHPUnit Tests
+## Location of PHPUnit Tests
 
 Tests are always in the tests folder of modules. They are often in
 different folders e.g. tests/src/Unit, tests/src/Functional,
@@ -98,7 +98,7 @@ For core they are in web/core/modules (or docroot/core/modules) e.g. in the acti
 
 ![Phpunit Test Location](assets/images/phpunit-test-location.png)
 
-# Output files from running phpunit
+## Output files from running phpunit
 
 Depending on where you specified the output for your files in the
 phpunit.xml file e.g. in web/core/phpunit.xml I specified this path.
@@ -123,7 +123,7 @@ While tests are running, I noticed that files appear in the
 
 ![Browser Output2](assets/images/browser-output2.png)
 
-# Setup PHPUnit tests 
+## Setup PHPUnit tests 
 
 Using Drupal version 9.4.5 let's get PHPunit tests running inside the ddev containers (not on the host machine).
 
@@ -191,7 +191,7 @@ Settings to change in this file:
     sites/simpletest/browser_output; you will also want to uncomment the
     printerClass attribute of the top-level phpunit tag.
 
-# Running PHPUnit tests in the DDEV container
+## Running PHPUnit tests in the DDEV container
 
 This will run the unit tests included with the action module
 
@@ -258,7 +258,7 @@ From the very top of the project:
 $ vendor/bin/phpunit -c web/core web/core/modules/action
 ```
 
-# Generate a unit test with drush
+## Generate a unit test with drush
 
 You can use drush to generate a module e.g. drush gen module. (Just
 follow the prompts). Once you have a module, use drush gen test:unit for
@@ -330,7 +330,7 @@ OK (1 test, 1 assertion)
 Note. It does expect the file web/core/phpunit.xml to exist and be
 configured correctly. See setup above for details.
 
-# My first PHPUnit test
+## My first PHPUnit test
 
 This is my test of a class I wrote called Requirements. It does require some Drupal to be bootstrapped, so it can't be a unit test. It must be a functional test and therefor in the `modules/custom/tea_teks_requirements/tests/src/Functional` directory.
 
@@ -393,7 +393,7 @@ OK (1 test, 1 assertion)
 
 Note. The OK means it worked.
 
-# Drupal Test Traits Overview
+## Drupal Test Traits Overview
 
 Drupal Test Traits is for testing Drupal sites that have content (versus Phpunit tests which start Drupal up, create an empty database and are consequently slower).
 
@@ -428,7 +428,7 @@ From <https://gitlab.com/weitzman/drupal-test-traits>:
 > to](https://gitlab.com/weitzman/drupal-test-traits#debugging-tests).
 > These files are very useful when debugging test failures.
 
-# Install/setup Drupal Test Traits
+## Install/setup Drupal Test Traits
 
 TLDR; You will need Drupal test traits installed with composer, possibly `drupal/core-dev` (also a composer install), a `/phpunit.xml` file, and a
 `/scripts/bootstrap-fast.php`. Add `weitzman/logintrait` with composer for adding users and logging in to your site. Finally for AJAX testing add a `docker-compose.testing.yaml` and using composer add `behat/mink-selenium2-driver`.
@@ -642,7 +642,7 @@ From <https://gitlab.com/weitzman/drupal-test-traits>:
 > Contrary to its name, this test type does not use the WebDriver
 > protocol at all.
 
-# My first DTT tests
+## My first DTT tests
 
 Tests must be in the ExistingSite directory and be namespaced as
 `Drupal\Tests\module_name\ExistingSite`.
@@ -742,7 +742,7 @@ Along with a boatload of deprecation notices. (Note. we can hide these with `<en
 > 1x in RequirementsCreationTest::setUp from
 > Drupal\\Tests\\tea_teks_requirements\\ExistingSite
 
-# Running DTT tests
+## Running DTT tests
 
 To run all the tests in the `modules/custom/tea_teks_requirements` 
 directory, use the following:
@@ -929,7 +929,7 @@ VotingPageTest.php file with the following command. Note. If you have another te
 $ vendor/bin/phpunit --filter testVoter1Vote docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/VotingPageTest.php
 ```
 
-# Logging Test Output
+## Logging Test Output
 
 PhpUnit can do all sorts of logging.
 
@@ -1120,15 +1120,15 @@ That whole \<php\> section looks like:
 </php>
 ```
 
-# Writing DTT Tests
+## Writing DTT Tests
 
-## Test locations
+### Test locations
 
 Tests that require no Ajax or Javascript are put in the `ExistingSite` directory. These will run quite quickly especially if you run them on the host (instead of in the DDEV/Docker containers). These tests are derived from ExistingSiteBase.
 
 Putting tests in the ExistingSiteJavascript directory (and deriving them from ExistingSiteSelenium2DriverTestBase) will cause the test to be run against the Chromedriver which can handle Javascript and Ajax.
 
-## Generate DTT tests with drush
+### Generate DTT tests with drush
 
 Use the latest drush (11 at this time) to generate both types of tests using: 
 
@@ -1144,9 +1144,9 @@ $ drush generate test:existing-js
 
 More at <https://www.drush.org/latest/generators/>
 
-## Example tests
+### Example tests
 
-### ExampleTest.php creating user term, article
+#### ExampleTest.php creating user term, article
 
 From
 <https://gitlab.com/weitzman/drupal-test-traits/-/blob/2.x/tests/ExampleTest.php>
@@ -1210,7 +1210,7 @@ class ExampleTest extends ExistingSiteBase {
 }
 ```
 
-### VotingPageTest
+#### VotingPageTest
 
 This test runs code in a project and at various times asserts that
 various things are true or equal to expected values. It also does some setup including logging in as a voter. More about that below.
@@ -1333,7 +1333,7 @@ protected function loginVoter1() {
 }
 ```
 
-### ExampleLoginTest.php
+#### ExampleLoginTest.php
 
 From
 <https://gitlab.com/weitzman/logintrait/-/blob/master/src/ExampleLoginTest.php>
@@ -1368,7 +1368,7 @@ class ExampleLoginTest extends ExistingSiteBase {
 }
 ```
 
-### Selenium2DriverTest
+#### Selenium2DriverTest
 
 This is an example from the Weitzman repo using AJAX
 
@@ -1432,7 +1432,7 @@ class ExampleSelenium2DriverTest extends ExistingSiteSelenium2DriverTestBase
 }
 ```
 
-## Login to your site
+### Login to your site
 
 There are some contributed packages with useful features. The [login trait repo](https://gitlab.com/weitzman/logintrait.git) adds some useful functionality.
 
@@ -1442,7 +1442,7 @@ Install via Composer with:
 $ composer require weitzman/logintrait
 ```
 
-### Create a new user and login as that user:
+#### Create a new user and login as that user:
 
 From
 <https://gitlab.com/weitzman/logintrait/-/blob/master/src/ExampleLoginTest.php>
@@ -1476,7 +1476,7 @@ class ExampleLoginTest extends ExistingSiteBase {
 }
 ```
 
-### Create an admin user
+#### Create an admin user
 
 This will create a user named Fred Bloggs who is in a new randomly named
 group. The user and the group will be deleted when the test run
@@ -1489,7 +1489,7 @@ $this->drupalLogin($user);
 $this->drupalGet('user');
 ```
 
-### Login as an existing user
+#### Login as an existing user
 
 Be sure to set that user's password to "password" (in the Drupal U/I or in code) in order to make this work.
 
@@ -1519,7 +1519,7 @@ $voter1->save();
 $voter1_uid = $voter1->id();
 ```
 
-## Fill out a form
+### Fill out a form
 
 Here is the code from `docroot/core/tests/Drupal/Tests/UiHelperTrait.php` to fill out the login form:
 
@@ -1563,7 +1563,7 @@ $form['sanity_fieldset']['actions']['submit'] = [
 ```
 
 
-### Parameter gotcha
+#### Parameter gotcha
 
 And my effort to fill out a form with a dropdown. This route required a node id to be passed as a parameter to the form -- hence the \['node'=\> 852071\] and my submit button is called "Change Status"
 
@@ -1693,9 +1693,9 @@ I have seen tests that fill a queue and then run the queue with
 
 //@TODO: Explore this
 
-# Mink
+## Mink
 
-## Checking page return code
+### Checking page return code
 
 This only works for non-Selenium/Chromedriver type test:
 
@@ -1712,7 +1712,7 @@ $this->drupalGet($node->toUrl());
 $this->assertSession()->statusCodeEquals(200);
 ```
 
-## Grab the text from the page
+### Grab the text from the page
 
 You can do some interesting things when running Selenium type tests. Here we can grab the text and search in it for a particular string.
 
@@ -1725,14 +1725,14 @@ $page = $session->getPage();
 $page_text = $page->getText();
 ```
 
-## Current URL
+### Current URL
 
 ```php
 $url_string = $this->getSession()->getCurrentUrl();
 print "\n Current URL: $url_string";
 ```
 
-# Load and parse a CSV file
+## Load and parse a CSV file
 
 I found it useful for tests to be able to load a CSV file to drive a test by inputting repeatable data over and over. This is similar to using a data provider function.
 
@@ -1806,9 +1806,9 @@ Picture of CSV file with color formatting:
 
 ![CSV in color](assets/images/csv-in-color.png)
 
-# Adding DTT to an existing site
+## Adding DTT to an existing site
 
-## Install DTT and dev requirements with:
+### Install DTT and dev requirements with:
 
 Follow these steps to quickly get DTT running on your project.
 
@@ -1821,7 +1821,7 @@ $ composer require drupal/core-dev --dev --update-with-all-dependencies
 Setup `phpunit.xml` in the root of the project (not docroot or web). There will usually be a `phpunit.xml.dist` file there. Use that file and add your tweaks to it using
 <https://gitlab.com/weitzman/drupal-test-traits/-/blob/master/docs/phpunit.xml> as the basis.
 
-## Create phpunit.xml file
+### Create phpunit.xml file
 
 My `phpunit.xml.dist`:
 
@@ -1900,7 +1900,7 @@ My phpunit.xml with edits for site tea3.ddev.site.  replace tea3 with the sitena
 </phpunit>
 ```
 
-## Create bootstrap-fast.php
+### Create bootstrap-fast.php
 
 Create `/scripts/bootstrap-fast.php` with the following contents
 
@@ -1936,7 +1936,7 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 // Register more namespaces, as needed.
 # $class_loader->addPsr4('Drupal\Tests\my_module\\', "$root/modules/custom/my_module/tests/src");
 ```
-## Add .phpunit.result.cache file to .gitignore
+### Add .phpunit.result.cache file to .gitignore
 
 To stop result cache getting checked into the repo, add the
 `.phpunit.result.cache` to the `.gitignore file`.
@@ -2005,9 +2005,9 @@ Now tests should look like this:
 >
 > OK (1 test, 3 assertions)
 
-# Troubleshooting DTT Tests
+## Troubleshooting DTT Tests
 
-## Which test?
+### Which test?
 
 For tests that involve the Drupal API, if a test fails, you might see output like this:
 
@@ -2018,14 +2018,36 @@ ArgumentCountError: Too few arguments to function Drupal\Core\Entity\EntityBase:
 
 This is indicating the first test by: "1)". If this were the second test in the file, it would show "2)". The error is that too few arguments were passed to EntityBase::load() -- in my case, I was passing null to a Node::load() function.
 
-## Tests run on host suddenly start failing esp 
+### Tests run on host suddenly start failing login
 
-I've noticed sometimes `$this->drupalLogin($user);` fails without explanation.  If tests have been running fine and you move the project to a different directory.  e.g. start in ~/Sites/tea and then you make a new folder ~/Sites/tea2 to run tests, the problem may very well be in the phpunit.xml at the root of the project (not docroot or web). 
+Sometimes when trying to get tests running on the host (not in ddev), you may find that tests stubbornly fail when trying to login as a Drupal user. You will see an error that looks like this:
 
-Note specifically the line below which specifies the DTT_BASE_URL.  It would have to be "http://tea2/ddev.site" in order to work correctly.
+```
+1) Drupal\Tests\tea_teks_voting\ExistingSite\StandardCreateTest1::testCreateStandard
+User <em class="placeholder">testadmin</em> successfully logged in.
+Failed asserting that false is true.
+```
+In this case, my test was trying to login as a user called testadmin with code like this:
+
+```php
+  private function loginAdminUser() {
+    $user_id = 3456;
+    $user = User::load($user_id);
+    $user->passRaw = '872kjasdkhjakd74';
+    $this->drupalLogin($user);
+  }
+
+```
+
+The call to `$this->drupalLogin($user);` fails without explanation.  If tests have been running fine and you move the project to a different directory.  e.g. start in ~/Sites/tea and then you make a new folder ~/Sites/tea2 to run tests, the problem may very well be in the phpunit.xml file.
+
+In my setup the `phpunit.xml` file which I have in the root of my project (i.e. ~/Sites/tea/phpunit.xml)
+
+Note specifically the line below which specifies the DTT_BASE_URL.  It would have to be "http://tea2.ddev.site" in order to work correctly. Since it came from the ~/Sites/tea directory previously, the value was \"http://tea.ddev.site\".  So the corrected value should be:
+
 
 ```xml
-    <env name="DTT_BASE_URL" value="http://tea.ddev.site"/>
+    <env name="DTT_BASE_URL" value="http://tea2.ddev.site"/>
 ```
 
 Here is the first 30 lines of that file for context.
@@ -2061,7 +2083,7 @@ Here is the first 30 lines of that file for context.
   </php>
 ```
 
-## PolyfillAssertTrait not found
+### PolyfillAssertTrait not found
 
 After installing DTT you see errors when you try to run the tests like this:
 
@@ -2084,7 +2106,7 @@ $ composer require drupal/core-dev --dev
 --update-with-all-dependencies
 ```
 
-## Class not found errors
+### Class not found errors
 
 If you see something like this on your brand new class you created:
 
@@ -2249,7 +2271,7 @@ and the output:
 >
 > OK (1 test, 5 assertions)
 
-# Using Xdebug and PHPStorm to debug DTT scripts
+## Using Xdebug and PHPStorm to debug DTT scripts
 
 It is easiest to make sure you have PHPStorm Xdebug working first, then make sure the path mappings are correct. Note. This process is almost identical to debugging drush commands.
 
@@ -2286,101 +2308,35 @@ docroot/modules/custom/tea_teks/modules/tea_teks_requirements/Tests/src/Existing
 When Phpstorm pops up, specify that the vendor directory is at
 `/var/www/html/vendor` - note you only have to do that once and then PHPStorm will remember it.
 
-# Resources
+## Resources
 
-## General
+### General
 
--   Video intro to DTT with Moshe Weitzman from DrupalCon Global Sep
-    2020 <https://www.youtube.com/watch?v=TExPFQ1-AA0&t=10s>
+- [Video intro to DTT with Moshe Weitzman from DrupalCon Global Sep 2020](https://www.youtube.com/watch?v=TExPFQ1-AA0&t=10s)
+- [Unit Tests in Drupal: the road to test-driven development video from DrupalCon Global 2020 by CivicActions folks: Gerardo Gonzalez and Eric Napier. This gets into the details but is hard to make out the code as it is small.](https://www.youtube.com/watch?v=UGg3G0dsAGw)
+- [Understanding Automated Tests in Drupal video from DrupalGov 2020 by Ridhima Abrol & Sujeet Kumar Verma. They are showing examples using MAMP. This covers unit vs kernel vs functional vs functional JS. There are fairly legible code examples.](https://www.youtube.com/watch?v=kQEMnk4boP4&list=TLPQMTcwODIwMjKbpqkPMTkhyA&index=4)
+-   [How to unit test your code in Drupal 8 video by Daniel Nitsche for DrupalSouth 2017 1-10-2017 (Loft??). Australian chap (very hands-on) going through live demo on PHPStorm running phpunit on Drupal 8. Using mockery.](https://www.youtube.com/watch?v=7FjjZ3OoD6Y)
+- [Running and debugging PHPUnit tests in PHPStorm with ddev and xdebug video by Australian Michael Strelan on 8-18-21. The audio is very soft. He walks through details of setting up PHPStorm for DDEV etc.](https://www.youtube.com/watch?v=OdoEyY8Kl9w). [Companion article from Michael Strelan](https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug) [and a repo] (https://github.com/mstrelan/ddev-phpunit-demo). It is useful to mention that since this video was created there is a [DDEV integration plugin](https://plugins.jetbrains.com/plugin/18813-ddev-integration) for PHPStorm which automatically configures things like path mappings, cli interpreters and phpunit configuration.  This makes some of what he describes a lot easier.
+- [From a discord chat with Randy Fey and \@shaal. This may be useful to explore phpunit tests on tugboat when we get that all set up. Here\'s a good PR where we added phpunit into DrupalPod](https://github.com/shaal/DrupalPod/pull/41/files)
+- [Benji Fisher Drupal Testing repo from February 2022.](https://github.com/benjifisher/drupal-testing) Benji set up this repository to help with testing Drupal modules for coding standards and Drupal 10 compatibility.It is based on drupal/recommended-project with some parts borrowed from Matt Glaman\'s [Drupal & Nightwatch.js training.](https://github.com/bluehorndigital/drupal-testing-workshop).  Main features: DDev configuration (mostly standard), upgrade Status module, custom DDev commands phpunit, phpcs, phpcbf, Docker config to support PHPUnit testing.
+- [The abovementioned Matt Glaman's repo from March 2021 on Drupal & Nightwatch.js training. This repository is based on a Composer build and not meant for core contributions, it is fine for contrib.](https://github.com/bluehorndigital/drupal-testing-workshop)
+- [And its companion website with some details on how to get tests
+    running](https://bluehorndigital.github.io/drupal-testing-workshop/getting-tests-running/ddev.html)
+- [Generating tests with drush](https://www.drush.org/latest/generators/)
 
--   Unit Tests in Drupal: the road to test-driven development video from
-    DrupalCon Global 2020 by CivicActions folks: Gerardo Gonzalez and
-    Eric Napier. This gets into the details but is hard to make out the
-    code as it is small. <https://www.youtube.com/watch?v=UGg3G0dsAGw>
+### Documentation
+- [Mink documentation](https://mink.behat.org/en/latest/)
 
--   Understanding Automated Tests in Drupal video from DrupalGov 2020 by
-    Ridhima Abrol & Sujeet Kumar Verma. They are showing examples using
-    MAMP. This covers unit vs kernel vs functional vs functional JS.
-    There are fairly legible code examples.
-    <https://www.youtube.com/watch?v=kQEMnk4boP4&list=TLPQMTcwODIwMjKbpqkPMTkhyA&index=4>
+### Testing setup
+- [Debug any of Drupal\'s PHPUnit tests in PhpStorm with a DDEV-Local Environment from August 3, 2021 by Joe Shindelar. Includes how to set up Chromedriver in DDEV](https://drupalize.me/blog/debug-any-drupals-phpunit-tests-phpstorm-ddev-local-environment)
+- [Joe references this article from 5-13-2021 called Update 2021 - Fully integrate DDEV and PHPStorm - including Unit Tests with Coverage by \@sasunegomo](https://susi.dev/fully-integrate-ddev-and-phpstorm-including-unit-tests-with-coverage-update-2021/)
+- [Setup Behat for Drupal 8/9 with DDEV-Local and Selenium Recipe on Github as part of the ddev-contrib repo from July 2021 by Mike Miles](https://github.com/drud/ddev-contrib/tree/master/docker-compose-services/drupal8-behat-selenium)
 
--   How to unit test your code in Drupal 8 video by Daniel Nitsche for
-    DrupalSouth 2017 1-10-2017 (Loft??). Australian chap (very hands-on)
-    going through live demo on PHPStorm running phpunit on Drupal 8.
-    Using mockery. <https://www.youtube.com/watch?v=7FjjZ3OoD6Y>
+- [Randy Fay lays out some details about running Selenium/Behat inside DDEV containers - August 2020](https://stackoverflow.com/questions/51527663/running-selenium-tests-using-behat-drupal-extension-inside-ddev-containers)
 
--   Running and debugging PHPUnit tests in PHPStorm with ddev and xdebug
-    video by Australian Michael Strelan on 8-18-21. The
-    audio is very soft. He walks through details of setting up PHPStorm for
-    DDEV etc. <https://www.youtube.com/watch?v=OdoEyY8Kl9w> . There is
-    also a companion article from Michael Strelan at
-    <https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug>
-    and a repo: <https://github.com/mstrelan/ddev-phpunit-demo>. It is useful to mention that since this video was created there is a [DDEV integration plugin](https://plugins.jetbrains.com/plugin/18813-ddev-integration) for PHPStorm which automatically configures things like path mappings, cli interpreters and phpunit configuration.  This makes some of what he describes a lot easier.
+- [Running and debugging PHPUnit tests in PHPStorm with DDev and xdebug by Michael Strelan of Australia which includes 15 minute video showing all this Aug 2021.](https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug) You can also checkout the [ddev-phpunit-demo](https://github.com/mstrelan/ddev-phpunit-demo) repo if you want to try it out yourself with DDev and PHPUnit pre-configured. 
 
--   From a discord chat with Randy Fey and \@shaal. This may be useful
-    to explore phpunit tests on tugboat when we get that all set up.
-    Here\'s a good PR where we added phpunit into DrupalPod
-    <https://github.com/shaal/DrupalPod/pull/41/files>
-
--   Benji Fisher Drupal Testing repo from February 2022. Benji set up
-    this repository to help with testing Drupal modules for coding
-    standards and Drupal 10 compatibility.It is based
-    on drupal/recommended-project with some parts borrowed from Matt
-    Glaman\'s [Drupal & Nightwatch.js
-    training](https://github.com/bluehorndigital/drupal-testing-workshop)
-    . Main features: DDev configuration (mostly standard), upgrade
-    Status module, custom DDev commands phpunit, phpcs, phpcbf, Docker
-    config to support PHPUnit testing. -
-    <https://github.com/benjifisher/drupal-testing>
-
--   The abovementioned Matt Glaman's repo from March 2021 on Drupal &
-    Nightwatch.js training. This repository is based on a Composer build
-    and not meant for core contributions, it is fine for contrib. -
-    <https://github.com/bluehorndigital/drupal-testing-workshop>
-
--   And its companion website with some details on how to get tests
-    running:
-    <https://bluehorndigital.github.io/drupal-testing-workshop/getting-tests-running/ddev.html>
-
--   Generating tests with drush:
-    <https://www.drush.org/latest/generators/>
-
-## Documentation
-
--   Mink documentation: <https://mink.behat.org/en/latest/>
-
-## Testing setup
-
--   Debug any of Drupal\'s PHPUnit tests in PhpStorm with a DDEV-Local
-    Environment from August 3, 2021 by Joe Shindelar. Includes how to
-    set up Chromedriver in DDEV:
-    <https://drupalize.me/blog/debug-any-drupals-phpunit-tests-phpstorm-ddev-local-environment>
-
--   Joe references this article from 5-13-2021 called Update 2021 -
-    Fully integrate DDEV and PHPStorm - including Unit Tests with
-    Coverage by \@sasunegomo
-    <https://susi.dev/fully-integrate-ddev-and-phpstorm-including-unit-tests-with-coverage-update-2021/>
-
--   Setup Behat for Drupal 8/9 with DDEV-Local and Selenium Recipe on
-    Github as part of the ddev-contrib repo from July 2021 by Mike
-    Miles:
-    <https://github.com/drud/ddev-contrib/tree/master/docker-compose-services/drupal8-behat-selenium>
-
--   Randy Fay lays out some details about running Selenium/Behat inside
-    DDEV containers in August 2020
-    <https://stackoverflow.com/questions/51527663/running-selenium-tests-using-behat-drupal-extension-inside-ddev-containers>
-
--   Running and debugging PHPUnit tests in PHPStorm with DDev and xdebug
-    from 8-19-21 by Michael Strelan of Australia which includes 15
-    minute video showing all this. You can also checkout
-    the [ddev-phpunit-demo](https://github.com/mstrelan/ddev-phpunit-demo) repo
-    if you want to try it out yourself with DDev and PHPUnit
-    pre-configured.
-    <https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug>
-
--   Matt Glaman's Guide to Test-Driven Development with DDEV and Drupal
-    by Heather McNamee 1-30-2019. She runs through the series of 2018
-    articles that Matt published
+- Matt Glaman's Guide to Test-Driven Development with DDEV and Drupal by Heather McNamee 1-30-2019. She runs through the series of 2018 articles that Matt published
 
     -   **Part 1. [Running Drupal's PHPUnit test suites on
         DDEV](https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev).** How
@@ -2398,76 +2354,16 @@ When Phpstorm pops up, specify that the vendor directory is at
         end-to-end tests in Node.js run against a Selenium/WebDriver
         server.
 
--   Running Drupal's PHPUnit test suites on DDEV by Matt Glaman from
-    October 2018. The first in his series referenced
-    above <https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev>
+- [Running Drupal's PHPUnit test suites on DDEV by Matt Glaman from October 2018. The first in his series referenced above](https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev)
 
--   DDEV Contrib Repo <https://github.com/drud/ddev-contrib>
+- [DDEV Contrib Repo](https://github.com/drud/ddev-contrib)
 
-## Mocking
+### Mocking
 
--   From Matthew Radcliffe mradcliffe \@mattkineme -- Mocking Drupal:
-    Unit Testing in Drupal 8 slides from a 2015 presentation at
-    <http://drupalcampohio.org/sites/default/files/slides/dco2015-mocking-drupal.pdf>
+- [From Matthew Radcliffe mradcliffe \@mattkineme -- Mocking Drupal: Unit Testing in Drupal 8 slides from a 2015 presentation at](http://drupalcampohio.org/sites/default/files/slides/dco2015-mocking-drupal.pdf)
 
+- [Drupal 8/9: Unit Test cases mocking the global Drupal object and Services by Vishwa Chikate - Talks about prophecy objecting mocking which is better than PHPunit's built in mocking.](https://medium.com/@vishwa.chikate/drupal-8-9-unit-test-cases-mocking-the-global-drupal-object-and-services-bc536477edff)
 
-- 	Drupal 8/9: Unit Test cases mocking the global Drupal object and Services by Vishwa Chikate - Talks about prophecy objecting mocking which is better than PHPunit's built in mocking.  https://medium.com/@vishwa.chikate/drupal-8-9-unit-test-cases-mocking-the-global-drupal-object-and-services-bc536477edff
-
-
-## Troubleshooting
-
-### login failures
-
-Sometimes when trying to get tests running on the host (not in ddev), you may find that tests stubbornly fail when trying to login as a Drupal user. You will see an error that looks like this:
-
-```
-1) Drupal\Tests\tea_teks_voting\ExistingSite\StandardCreateTest1::testCreateStandard
-User <em class="placeholder">testadmin</em> successfully logged in.
-Failed asserting that false is true.
-```
-In this case, my test was trying to login as a user called testadmin with code like this:
-
-```php
-  private function loginAdminUser() {
-    $user_id = 3456;
-    $user = User::load($user_id);
-    $user->passRaw = '872kjasdkhjakd74';
-    $this->drupalLogin($user);
-  }
-
-```
-
-In my setup the problem appears to be in the the `phpunit.xml` file which I have in the root of my project (i.e. ~/Sites/mysite/phpunit.xml)
-
-It requires the following line to accurately specify the actual URL of the site.  If it does not actually specify the URL, other functionality might work fine, but the login will stubbornly fail.
-
-```xml
-    <env name="DTT_BASE_URL" value="http://tea3.ddev.site"/>
-```
-
-Here is that entire section reproduced for context:
-
-```xml
-  <php>
-    <env name="DTT_BASE_URL" value="http://tea3.ddev.site"/>
-    <env name="DTT_API_URL" value="http://chrome:9222"/>
-    <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://chromedriver:9515"]'/>
-    <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
-    <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /tmp
-         Specify a temporary directory for storing debug images and html documents.
-         These artifacts get copied to /sites/simpletest/browser_output by BrowserTestBase. -->
-    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
-    <!-- To disable deprecation testing completely uncomment the next line. -->
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
-    <!-- Specify the default directory screenshots should be placed. -->
-    <!--<env name="DTT_SCREENSHOT_REPORT_DIRECTORY" value=""/>-->
-    <!-- Specify the default directory page captures should be placed.
-        When using the \Drupal\Tests\Listeners\HtmlOutputPrinter printerClass this will default to
-        /sites/simpletest/browser_output. If using another printer such as teamcity this must be defined.
-        -->
-    <!--<env name="DTT_HTML_OUTPUT_DIRECTORY" value=""/>-->
-  </php>
-  ```
 
 
 
