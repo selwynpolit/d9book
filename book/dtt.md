@@ -2,7 +2,7 @@
 layout: default
 title: Tests
 permalink: /dtt
-last_modified_date: '2023-08-09'
+last_modified_date: '2023-08-25'
 ---
 
 # PHPUnit and Drupal Test Traits
@@ -2017,6 +2017,49 @@ ArgumentCountError: Too few arguments to function Drupal\Core\Entity\EntityBase:
 ```
 
 This is indicating the first test by: "1)". If this were the second test in the file, it would show "2)". The error is that too few arguments were passed to EntityBase::load() -- in my case, I was passing null to a Node::load() function.
+
+## Tests run on host suddenly start failing esp 
+
+I've noticed sometimes `$this->drupalLogin($user);` fails without explanation.  If tests have been running fine and you move the project to a different directory.  e.g. start in ~/Sites/tea and then you make a new folder ~/Sites/tea2 to run tests, the problem may very well be in the phpunit.xml at the root of the project (not docroot or web). 
+
+Note specifically the line below which specifies the DTT_BASE_URL.  It would have to be "http://tea2/ddev.site" in order to work correctly.
+
+```xml
+    <env name="DTT_BASE_URL" value="http://tea.ddev.site"/>
+```
+
+Here is the first 30 lines of that file for context.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="scripts/bootstrap-fast.php"
+         verbose="true"
+        >
+  <php>
+    <env name="DTT_BASE_URL" value="http://tea.ddev.site"/>
+    <env name="DTT_API_URL" value="http://chrome:9222"/>
+    <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://chromedriver:9515"]'/>
+    <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
+    <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /tmp
+         Specify a temporary directory for storing debug images and html documents.
+         These artifacts get copied to /sites/simpletest/browser_output by BrowserTestBase. -->
+    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
+    <!-- To disable deprecation testing completely uncomment the next line. -->
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+    <!-- Specify the default directory screenshots should be placed. -->
+    <!--<env name="DTT_SCREENSHOT_REPORT_DIRECTORY" value=""/>-->
+    <!-- Specify the default directory page captures should be placed.
+        When using the \Drupal\Tests\Listeners\HtmlOutputPrinter printerClass this will default to
+        /sites/simpletest/browser_output. If using another printer such as teamcity this must be defined.
+        -->
+    <!--<env name="DTT_HTML_OUTPUT_DIRECTORY" value=""/>-->
+  </php>
+```
 
 ## PolyfillAssertTrait not found
 
