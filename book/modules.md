@@ -33,27 +33,30 @@ With over 50,000 modules, Drupal has the ability to do almost anything. This als
 ### OpenAI / ChatGPT / AI Search Integration
 The OpenAI module aims to provide a suite of modules and an API foundation for OpenAI integration in Drupal for generating text content, images, content analysis and more. OpenAI is the company behind artificial generational intelligence products that powers applications like ChatGPT, GPT-3, GitHub CoPilot, and more. Our goal is to find ways of augmenting and adding assistive AI tech leveraging OpenAI API services in Drupal, transforming the way you manage your content and maintenance tasks.
 
-https://www.drupal.org/project/openai
+[https://www.drupal.org/project/openai](https://www.drupal.org/project/openai)
 
 ### ChatGPT Content Creator
 This is a lightweight and simple OpenAI/ChatGPT module which can act as a content generator, act as a content translator, act as a content assistance tool like creating images from text, extracting SEO keywords from content etc. You can configure to choose either of GPT-3, GPT-3.5 or GPT-4.
 
-https://www.drupal.org/project/chatgpt_plugin
+[https://www.drupal.org/project/chatgpt_plugin](https://www.drupal.org/project/chatgpt_plugin)
 
 ### AWS AI Augmentor
 
 The AWS AI Augmentor is a submodule of Augmentor. It provides an implementation of multiple Augmentor plugins to allow Augmentor to interface with AWS AI Services API.
 
-https://www.drupal.org/project/augmentor_aws
+[https://www.drupal.org/project/augmentor_aws](https://www.drupal.org/project/augmentor_aws)
+
 
 ### Augmentor integration
 Augmentor is an AI framework for Drupal which allows for the easy integration of disparate AI systems into Drupal. It provides a plugable ecosystem for managing a variety of AI services such as GPT3, ChatGPT, NLP Cloud, Google Cloud Vision and many more. Augmentor integration module allows content augmentation e.g summarize content, generate content tags etc.
 
-https://www.drupal.org/project/augmentor
+[https://www.drupal.org/project/augmentor](https://www.drupal.org/project/augmentor)
+
+
+
 
 
 ## Content Management
-
 
 
 ### Content Autogrid
@@ -64,29 +67,40 @@ Each configured field will be shown in a column, and the data for that field sho
 
 The idea is to emulate the grid view provided in popular database administration tools, as a quick way to review available data.
 
-https://www.drupal.org/project/autogrid
+[https://www.drupal.org/project/autogrid](https://www.drupal.org/project/autogrid)
 
 ### Allow only one
 
 The Allow Only One module was created to prevent duplicate content save, based on a combination of field values. This module provides a new field type that stores configuration and is later used during validation. Important: This only works and has been tested on Node and Taxonomy_Term
 
-https://www.drupal.org/project/allow_only_one
+[https://www.drupal.org/project/allow_only_one](https://www.drupal.org/project/allow_only_one)
+
+
+
 
 
 ## Essential Utility Modules for Every Site
+
+Well maybe not every site, but certainly for most sites, your life and your content editor's lives will go better with these modules.
 
 ### Module filter
 
 The modules list page can become quite big when dealing with a fairly large site or even just a dev site meant for testing new and various modules being considered. What this module aims to accomplish is the ability to quickly find the module you are looking for without having to rely on the browsers search feature which more times than not shows you the module name in the 'Required by' or 'Depends on' sections of the various modules or even some other location on the page like a menu item.
 
-https://www.drupal.org/project/module_filter
+[https://www.drupal.org/project/module_filter](https://www.drupal.org/project/module_filter)
+
+
 
 ## Forms
 
 ### Protected Forms
 Successor of Protected Permissions module.  Light-weight, non-intrusive spam protection module that enables rejection of node, comment, webform, user profile, contact form, private message and revision log submissions which contain undesired language characters or preset patterns.
 
-https://www.drupal.org/project/protected_forms
+[https://www.drupal.org/project/protected_forms](https://www.drupal.org/project/protected_forms)
+
+
+
+
 
 
 ## Other Modules
@@ -98,7 +112,9 @@ The follow-on module from the original [Nodeque](https://www.drupal.org/project/
 
 The Entityqueue module allows users to create queues of any entity type. Each queue is implemented as an Entity Reference field, that can hold a single entity type. For instance, you can create a queue of: Nodes, Users, Taxonomy Terms, etc. Entityqueue provides Views integration, by adding an Entityqueue relationship to your view, and adding a sort for Entityqueue position.
 
-https://www.drupal.org/project/entityqueue
+[https://www.drupal.org/project/entityqueue](https://www.drupal.org/project/entityqueue)
+
+
 
 
 ## Security/Spam Protection
@@ -106,7 +122,7 @@ https://www.drupal.org/project/entityqueue
 ### Protected Forms
 Successor of Protected Permissions module.  Light-weight, non-intrusive spam protection module that enables rejection of node, comment, webform, user profile, contact form, private message and revision log submissions which contain undesired language characters or preset patterns.
 
-https://www.drupal.org/project/protected_forms
+[https://www.drupal.org/project/protected_forms](https://www.drupal.org/project/protected_forms)
 
 
 
@@ -116,7 +132,7 @@ https://www.drupal.org/project/protected_forms
 
 ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The core module is a processor that validates and executes event-condition-action plugins. Integrated with graphical user interfaces like BPMN.iO, Camunda or other possible future modellers, ECA is a robust system for building conditionally triggered action sets.
 
-https://www.drupal.org/project/eca
+[https://www.drupal.org/project/eca([]](https://www.drupal.org/project/eca))
 
 
 
