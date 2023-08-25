@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Forms
+title: Setup your Mac
 permalink: /setup_mac
 last_modified_date: '2023-08-25'
 ---
@@ -28,7 +28,7 @@ Setting up your Mac for development is a highly personal process.  Everyone has 
 Open finder and press Cmd-Shift-.
 
 {: .note }
-Note. this is a toggle
+This is a toggle, so if you press it twice, it will turn the `.` files off again.
 
 
 ## Homebrew
@@ -135,6 +135,25 @@ plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
 
 
 ## Command line tools
+
+
+## Drush
+
+### Global Drush
+I find that installing drush version 8 globally is best for my setup. Don't use homebrew to install drush. Rather use the composer version.
+
+```
+composer global require drush/drush ^8
+```
+Then add Drush to your system path by placing:
+
+```
+ export PATH="$HOME/.composer/vendor/bin:$PATH" 
+``` 
+into your ~/.zshrc ( or if using bash: `~/.bash_profile`
+
+{: .note }
+Test any of these path changes by running source ~/.zshrc to reload the environment variables.  You can also open a new iterm window if you prefer.
 
 
 ## Resources
