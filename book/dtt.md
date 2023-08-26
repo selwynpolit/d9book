@@ -397,36 +397,22 @@ Note. The OK means it worked.
 
 Drupal Test Traits is for testing Drupal sites that have content (versus Phpunit tests which start Drupal up, create an empty database and are consequently slower).
 
-From <https://gitlab.com/weitzman/drupal-test-traits>:
+From [https://gitlab.com/weitzman/drupal-test-traits](https://gitlab.com/weitzman/drupal-test-traits):
 
-> [Behat](http://behat.org) is great for facilitating conversations
-> between business managers and developers. Those are useful
-> conversations, but many organizations simply can\'t or won\'t converse
-> via Gherkin. When you are on the hook for product quality and not
-> conversations, this is a testing approach for you.
->
-> Before Drupal Test Traits, this framework was impossible to use
-> without wiping the site's database after each test. DTT lets you keep
-> your database and still test using the features of
-> Drupal's BrowserTestBase and friends.
-> See [DrupalTrait::setUp()](https://gitlab.com/weitzman/drupal-test-traits/blob/1.0.0-beta.1/src/DrupalTrait.php#L44-83) for
-> details (the bootstrap is inspired
-> by [Drush](https://www.drush.org/)).
+[Behat](http://behat.org) is great for facilitating conversations between business managers and developers. Those are useful conversations, but many organizations simply can\'t or won\'t converse via Gherkin. When you are on the hook for product quality and not conversations, this is a testing approach for you.
 
--   Blog: [Introducing Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c)
--   Blog: [Introducing Drupal Test Traits: Drupal extension for testing existing sites](https://www.previousnext.com.au/blog/introducing-drupal-testing-traits-drupal-extension-testing-existing-sites)
--  Video: [Drupalcon presentation - Introducing Drupal Test Traits](https://www.tag1consulting.com/blog/introducing-drupal-test-traits).
+Before Drupal Test Traits, this framework was impossible to use without wiping the site's database after each test. DTT lets you keep your database and still test using the features of Drupal's BrowserTestBase and friends.
+
+See [DrupalTrait::setUp()](https://gitlab.com/weitzman/drupal-test-traits/blob/1.0.0-beta.1/src/DrupalTrait.php#L44-83) for details (the bootstrap is inspired by [Drush](https://www.drush.org/)).
+
+- Blog: [Introducing Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c)
+- Blog: [Introducing Drupal Test Traits: Drupal extension for testing existing sites](https://www.previousnext.com.au/blog/introducing-drupal-testing-traits-drupal-extension-testing-existing-sites)
+- Video: [Drupalcon presentation - Introducing Drupal Test Traits](https://www.tag1consulting.com/blog/introducing-drupal-test-traits).
 - [Drupal Test Traits Repo](https://gitlab.com/weitzman/drupal-test-traits)
 
-> DTT also supports [testing through a real browser using headless
-> Chrome](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php) or
-> Selenium. So, testing client-side interactions like autocomplete,
-> #states, viewports, and drag/drop is easy.
->
-> Like Drupal core, [DTT can save HTML snapshots for each URL that it
-> navigates
-> to](https://gitlab.com/weitzman/drupal-test-traits#debugging-tests).
-> These files are very useful when debugging test failures.
+DTT also supports [testing through a real browser using headless Chrome](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php) or Selenium. So, testing client-side interactions like autocomplete, #states, viewports, and drag/drop is easy.
+
+Like Drupal core, [DTT can save HTML snapshots for each URL that it navigates to](https://gitlab.com/weitzman/drupal-test-traits#debugging-tests). These files are very useful when debugging test failures.
 
 ## Install/setup Drupal Test Traits
 
@@ -2315,13 +2301,12 @@ When Phpstorm pops up, specify that the vendor directory is at
 - [Video intro to DTT with Moshe Weitzman from DrupalCon Global Sep 2020](https://www.youtube.com/watch?v=TExPFQ1-AA0&t=10s)
 - [Unit Tests in Drupal: the road to test-driven development video from DrupalCon Global 2020 by CivicActions folks: Gerardo Gonzalez and Eric Napier. This gets into the details but is hard to make out the code as it is small.](https://www.youtube.com/watch?v=UGg3G0dsAGw)
 - [Understanding Automated Tests in Drupal video from DrupalGov 2020 by Ridhima Abrol & Sujeet Kumar Verma. They are showing examples using MAMP. This covers unit vs kernel vs functional vs functional JS. There are fairly legible code examples.](https://www.youtube.com/watch?v=kQEMnk4boP4&list=TLPQMTcwODIwMjKbpqkPMTkhyA&index=4)
--   [How to unit test your code in Drupal 8 video by Daniel Nitsche for DrupalSouth 2017 1-10-2017 (Loft??). Australian chap (very hands-on) going through live demo on PHPStorm running phpunit on Drupal 8. Using mockery.](https://www.youtube.com/watch?v=7FjjZ3OoD6Y)
+- [How to unit test your code in Drupal 8 video by Daniel Nitsche for DrupalSouth 2017 1-10-2017 (Loft??). Australian chap (very hands-on) going through live demo on PHPStorm running phpunit on Drupal 8. Using mockery.](https://www.youtube.com/watch?v=7FjjZ3OoD6Y)
 - [Running and debugging PHPUnit tests in PHPStorm with ddev and xdebug video by Australian Michael Strelan on 8-18-21. The audio is very soft. He walks through details of setting up PHPStorm for DDEV etc.](https://www.youtube.com/watch?v=OdoEyY8Kl9w). [Companion article from Michael Strelan](https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug) [and a repo] (https://github.com/mstrelan/ddev-phpunit-demo). It is useful to mention that since this video was created there is a [DDEV integration plugin](https://plugins.jetbrains.com/plugin/18813-ddev-integration) for PHPStorm which automatically configures things like path mappings, cli interpreters and phpunit configuration.  This makes some of what he describes a lot easier.
 - [From a discord chat with Randy Fey and \@shaal. This may be useful to explore phpunit tests on tugboat when we get that all set up. Here\'s a good PR where we added phpunit into DrupalPod](https://github.com/shaal/DrupalPod/pull/41/files)
 - [Benji Fisher Drupal Testing repo from February 2022.](https://github.com/benjifisher/drupal-testing) Benji set up this repository to help with testing Drupal modules for coding standards and Drupal 10 compatibility.It is based on drupal/recommended-project with some parts borrowed from Matt Glaman\'s [Drupal & Nightwatch.js training.](https://github.com/bluehorndigital/drupal-testing-workshop).  Main features: DDev configuration (mostly standard), upgrade Status module, custom DDev commands phpunit, phpcs, phpcbf, Docker config to support PHPUnit testing.
 - [The abovementioned Matt Glaman's repo from March 2021 on Drupal & Nightwatch.js training. This repository is based on a Composer build and not meant for core contributions, it is fine for contrib.](https://github.com/bluehorndigital/drupal-testing-workshop)
-- [And its companion website with some details on how to get tests
-    running](https://bluehorndigital.github.io/drupal-testing-workshop/getting-tests-running/ddev.html)
+- [And its companion website with some details on how to get tests running](https://bluehorndigital.github.io/drupal-testing-workshop/getting-tests-running/ddev.html)
 - [Generating tests with drush](https://www.drush.org/latest/generators/)
 
 ### Documentation
@@ -2355,7 +2340,6 @@ When Phpstorm pops up, specify that the vendor directory is at
         server.
 
 - [Running Drupal's PHPUnit test suites on DDEV by Matt Glaman from October 2018. The first in his series referenced above](https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev)
-
 - [DDEV Contrib Repo](https://github.com/drud/ddev-contrib)
 
 ### Mocking
