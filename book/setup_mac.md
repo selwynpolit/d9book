@@ -136,6 +136,21 @@ plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
 
 ## Command line tools
 
+### bat
+
+[bat(https://github.com/sharkdp/bat)] is a replacement for cat, does beautiful syntax highlighting
+
+```
+brew install bat
+```
+
+
+### cloc
+Count lines of code.
+
+```
+brew install cloc
+```
 
 ## Drush
 
@@ -154,6 +169,19 @@ into your ~/.zshrc ( or if using bash: `~/.bash_profile`
 
 {: .note }
 Test any of these path changes by running source ~/.zshrc to reload the environment variables.  You can also open a new iterm window if you prefer.
+
+
+## Drupal Check
+
+Built on PHPStan, this static analysis tool will check for correctness (e.g. using a class that doesn't exist), deprecation errors, and more.
+
+Why? While there are many static analysis tools out there, none of them run with the Drupal context in mind. This allows checking contrib modules for deprecation errors thrown by core.
+
+To install [drupal-check](https://github.com/mglaman/drupal-check) use:
+
+```
+composer global require mglaman/drupal-check
+```
 
 
 ## Resources
