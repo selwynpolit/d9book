@@ -63,8 +63,57 @@ echo 'export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"' >> ~/.zshrc
 echo 'export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"' >> ~/.zshrc
 ```
 
+Add some settings to let you run drush:
+
+check to make sure this is the place to add your custom settings.ini
+```
+php --ini
+```
+You should see:
+```
+Configuration File (php.ini) Path: /opt/homebrew/etc/php/8.1
+Loaded Configuration File:         /opt/homebrew/etc/php/8.1/php.ini
+Scan for additional .ini files in: /opt/homebrew/etc/php/8.1/conf.d
+Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.ini,
+```
+
+
+```
+vim /opt/homebrew/etc/php/8.1/conf.d/myphp.ini
+```
+
+Add the following:
+
+```php
+memory_limit = 1024M
+max_execution_time = 30
+upload_max_filesize = 200M
+post_max_size = 256M
+; How many GET/POST/COOKIE input variables may be accepted
+max_input_vars = 5000
+date.timezone = America/Chicago
+```
+
+run this to confirm your changes are in place:
+
+```
+php --ini
+```
+And you should see this.  Notice the last line was added:
+
+```
+Configuration File (php.ini) Path: /opt/homebrew/etc/php/8.1
+Loaded Configuration File:         /opt/homebrew/etc/php/8.1/php.ini
+Scan for additional .ini files in: /opt/homebrew/etc/php/8.1/conf.d
+Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.ini,
+/opt/homebrew/etc/php/8.1/conf.d/myphp.ini
+```
+
+
 {: .note }
 If you install composer first, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.
+
+
 
 
 ## Composer
@@ -129,6 +178,9 @@ Run stats from applications folder, in settings, select start at login.
 
 ### Iterm2 Terminal Replacement
 [Download and install iTerm2](https://iterm2.com/)
+
+Follow [instructions here](https://iterm2.com/documentation-shell-integration.html) to install Shell integration. The easiest way to install shell integration is to select the iTerm2>Install Shell Integration menu item. It will download and run a shell script.  This enables command history in the toolbelt.  Try it.  You'll love it!
+
 
 ### Oh My ZSH 
 This is a \"helper\" program and bunch of useful plugins etc to enhance the ZSH shell that comes with the current MacOS.
