@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-08-25'
+last_modified_date: '2023-08-29'
 ---
 
 # Setting up your Mac for Drupal development
@@ -30,6 +30,11 @@ Open finder and press Cmd-Shift-.
 {: .note }
 This is a toggle, so if you press it twice, it will turn the `.` files off again.
 
+### Set main display monitor
+
+In the System settings, displays, set your main display monitor to the monitor that you want.  Otherwise things pop up on the other monitors.  
+
+
 
 ## Homebrew
 Install the [Homebrew package manager](https://brew.sh/). This will allow you to install almost any app from the command line.  This provides the `brew` command used extensively in this guide.
@@ -38,6 +43,39 @@ Install the [Homebrew package manager](https://brew.sh/). This will allow you to
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+
+{: .note }
+once you install a formula with Hombrew, you might want to see the `info` that was displayed after you ran the `brew install` command.  This is that crucial info that you need to complete the installation.  Do that with `brew info formula` e.g.:
+
+`brew info php@8.1` or `brew info jq`
+
+
+## PHP
+I like to install php 8.1 so I can run composer and drush commands in the terminal without having to first ssh into the DDEV docker containers.
+
+```
+brew install php@8.1
+```
+Be sure to run these scripts to put php 8.1 first in your PATH:
+
+```
+echo 'export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"' >> ~/.zshrc
+```
+
+{: .note }
+If you install composer first, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.
+
+
+## Composer
+
+```
+brew install composer
+```
+
+{: .note }
+Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or later) first in the path.  This could cause some challenges running the Drupal Test Traits and PHPUnit.
+
 
 
 ## Browsers
@@ -84,6 +122,7 @@ Show cpu/disk/network i/o stats in toolbar
 ```
 brew install stats
 ```
+Run stats from applications folder, in settings, select start at login.
 
 
 ## Terminal
@@ -151,6 +190,44 @@ Count lines of code.
 ```
 brew install cloc
 ```
+
+
+### acli
+[Acquia CLI tool](https://docs.acquia.com/acquia-cli/install/)
+
+```
+curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
+chmod +x acli.phar
+```
+I get permission denied for 
+```
+mv acli.phar /usr/local/bin/acli
+```
+so I rather moved it to my ~/bin with
+
+```
+mv acli.phar ~/bin 
+```which is in my path
+
+```
+acli auth:login
+```
+
+Follow prompts, setup API token etc
+
+
+
+### jq
+
+jq is a tool for processing JSON inputs, applying the given filter to
+its JSON text inputs and producing the filter's results as JSON on
+standard output.
+
+```
+brew install jq
+```
+
+
 
 ## Drush
 
