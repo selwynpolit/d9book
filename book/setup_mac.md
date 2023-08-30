@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-08-29'
+last_modified_date: '2023-08-30'
 ---
 
 # Setting up your Mac for Drupal development
@@ -34,6 +34,9 @@ This is a toggle, so if you press it twice, it will turn the `.` files off again
 
 In the System settings, displays, set your main display monitor to the monitor that you want.  Otherwise things pop up on the other monitors.  
 
+## Show speaker icon in menu bar
+
+If the Sound control isn't in the menu bar, choose Apple menu > System Settings, then click Control Center in the sidebar. (You may need to scroll down.) Click the pop-up menu next to Sound on the right, then choose whether to show Sound in the menu bar all the time or only when it's active.
 
 
 ## Homebrew
