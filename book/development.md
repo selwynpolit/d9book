@@ -2,7 +2,7 @@
 layout: default
 title: Development
 permalink: /development
-last_modified_date: '2023-08-10'
+last_modified_date: '2023-08-30'
 ---
 
 # Development
@@ -130,17 +130,20 @@ From https://ddev.readthedocs.io/en/stable/users/extend/config_yaml
 
 -  You can override the config.yaml with extra files named `config.*.yaml\`. For example, many teams use `config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default config.yaml.
 
--   You could add a `config.selwyn.yaml` for Selwyn-specific values.
+- You could add a `config.selwyn.yaml` for Selwyn-specific values.
 
--   Use ddev start (or ddev restart) after making changes to get the changes to take effect.
+- Use ddev start (or ddev restart) after making changes to get the changes to take effect.
 
-In the endless quest for speed in local development, try using NFS or Mutagen on MAC OS. Apparently the WSL2 setup on Windows 10/11 is the fastest performer for DDEV at th time of this writing.
+- In the endless quest for speed in local development, try using NFS or Mutagen on MAC OS. Apparently the WSL2 setup on Windows 10/11 is the fastest performer for DDEV at the time of this writing.
+
+- I like to set the timezone and the router port in case some of my coworkers use an alternate port.
+
 
 #### NFS
 
 ```yml
-router_http_port: \"80\"
-router_https_port: \"443\"
+router_http_port: "80"
+router_https_port: "443"
 timezone: America/Chicago
 # and for nfs
 nfs_mount_enabled: true
@@ -149,6 +152,9 @@ nfs_mount_enabled: true
 #### Mutagen
 
 ```yml
+router_http_port: "80"
+router_https_port: "443"
+timezone: America/Chicago
 # instead of nfs, use mutagen
 nfs_mount_enabled: false
 mutagen_enabled: true
