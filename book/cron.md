@@ -2,7 +2,7 @@
 layout: default
 title: Cron
 permalink: /cron
-last_modified_date: '2023-05-02'
+last_modified_date: '2023-08-30'
 ---
 
 # CRON
@@ -229,14 +229,14 @@ resolve the IP and the name. This task runs every 15 minutes.
 ```
 
 ## Resources:
-- [onTerminate]: https://symfony.com/doc/current/components/http_kernel.html#8-the-kernel-terminate-event
-- [Symfony http kernel component docs]: https://symfony.com/doc/current/components/http_kernel.html
-- [crontab guru]: https://crontab.guru
-- [Drupal hook_cron() API]: https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10
-- [Cron automated tasks overview]: https://www.drupal.org/docs/administering-a-drupal-site/cron-automated-tasks/cron-automated-tasks-overview
-- [Configuring cron jobs using the cron command]: https://www.drupal.org/node/23714
-- [Crontab – Quick Reference Running]: https://www.adminschoice.com/crontab-quick-reference
-- [Drupal cron tasks from Drush]: https://www.drush.org/12.x/cron
+- [onTerminate](https://symfony.com/doc/current/components/http_kernel.html#8-the-kernel-terminate-event)
+- [Symfony http kernel component docs](https://symfony.com/doc/current/components/http_kernel.html)
+- [crontab guru](https://crontab.guru)
+- [Drupal hook_cron() API](https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10)
+- [Cron automated tasks overview](https://www.drupal.org/docs/administering-a-drupal-site/cron-automated-tasks/cron-automated-tasks-overview)
+- [Configuring cron jobs using the cron command](https://www.drupal.org/node/23714)
+- [Crontab – Quick Reference Running](https://www.adminschoice.com/crontab-quick-reference)
+- [Drupal cron tasks from Drush](https://www.drush.org/12.x/cron)
 
 ---
 
