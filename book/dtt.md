@@ -2,7 +2,7 @@
 layout: default
 title: Tests
 permalink: /dtt
-last_modified_date: '2023-08-25'
+last_modified_date: '2023-08-30'
 ---
 
 # PHPUnit and Drupal Test Traits
@@ -1971,7 +1971,7 @@ error_reporting = E_ALL
 to:
 
 ```
-error_reporting = E_ALL & ~E_DEPRECATE
+error_reporting = E_ALL & ~E_DEPRECATED
 ```
 
 Now tests should look like this:
@@ -2029,12 +2029,20 @@ The call to `$this->drupalLogin($user);` fails without explanation.  If tests ha
 
 In my setup the `phpunit.xml` file which I have in the root of my project (i.e. ~/Sites/tea/phpunit.xml)
 
-Note specifically the line below which specifies the DTT_BASE_URL.  It would have to be "http://tea2.ddev.site" in order to work correctly. Since it came from the ~/Sites/tea directory previously, the value was \"http://tea.ddev.site\".  So the corrected value should be:
+Note specifically the line below which specifies the DTT_BASE_URL.  Since this file was setup for the  `~/Sites/tea`` directory previously, the value was \"http://tea.ddev.site\".  So the corrected value should be:
 
 
 ```xml
     <env name="DTT_BASE_URL" value="http://tea2.ddev.site"/>
 ```
+
+OR
+
+```xml
+    <env name="DTT_BASE_URL" value="https://tea2.ddev.site"/>
+```
+
+
 
 Here is the first 30 lines of that file for context.
 
