@@ -80,6 +80,29 @@ Scan for additional .ini files in: /opt/homebrew/etc/php/8.1/conf.d
 Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.ini,
 ```
 
+Add a custom file e.g. `/opt/homebrew/etc/php/8.1/conf.d/selwyn.ini` with the following contents
+
+```
+memory_limit = 1024M
+max_execution_time = 30
+upload_max_filesize = 200M
+post_max_size = 256M
+; How many GET/POST/COOKIE input variables may be accepted
+max_input_vars = 5000
+date.timezone = America/Chicago
+error_reporting = E_ALL & ~E_DEPRECATED
+```
+
+now `php --ini` should report
+
+```
+Configuration File (php.ini) Path: /opt/homebrew/etc/php/8.1
+Loaded Configuration File:         /opt/homebrew/etc/php/8.1/php.ini
+Scan for additional .ini files in: /opt/homebrew/etc/php/8.1/conf.d
+Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.ini,
+/opt/homebrew/etc/php/8.1/conf.d/selwyn.ini
+```
+
 
 ```
 vim /opt/homebrew/etc/php/8.1/conf.d/myphp.ini
@@ -137,6 +160,7 @@ Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or 
 - [Opera](https://www.opera.com/)
 
 ## Dev tools
+
 - [Phpstorm](https://www.jetbrains.com/phpstorm/)
 - [VScode](https://code.visualstudio.com/)
 - [Docker](https://docs.docker.com/desktop/install/mac-install/)
@@ -148,13 +172,12 @@ Install ddev
 
 [From the DDEV docs website](https://ddev.readthedocs.io/en/latest/users/install/ddev-installation/#macos)
 
-# Install DDEV
 brew install ddev/ddev/ddev
 
 {: .note }
 You might need to have your ssh certificate set up correctly before doing this step.
 
-# Initialize mkcert
+Initialize mkcert
 mkcert -install
 
 This is the output which in this case is prompting to install nss if you have FireFox installed.  Don't forget that step.
@@ -169,12 +192,6 @@ Warning: "certutil" is not available, so the CA can't be automatically installed
 Install "certutil" with "brew install nss" and re-run "mkcert -install"
 ```
 
-### Stats
-Show cpu/disk/network i/o stats in toolbar
-```
-brew install stats
-```
-Run stats from applications folder, in settings, select start at login.
 
 
 ## Terminal
@@ -229,6 +246,104 @@ plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
 
 
 ## Command line tools
+
+### git
+
+Although the macOS comes with git, it is probably wise to install the latest with homebrew:
+
+```
+brew install git
+```
+
+#### .gitconfig 
+In your $HOME directory, create the .gitconfig file.  Replace my name with yours and your email address
+
+```
+# This is Git's per-user configuration file.
+[user]
+  name = Selwyn Polit
+  email = selwynpolit@example.com
+[core]
+	excludesfile = /Users/spolit/.gitignore_global
+
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[pull]
+        rebase = false
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
+
+```
+
+#### .gitignore_global
+
+In your $HOME directory, create the .gitignore_global file.  
+
+
+```
+# Borrowed from https://gist.github.com/octocat/9257657
+# Vim patterns from https://github.com/github/gitignore
+
+# Ignore Emacs and Vim auto backup files
+*~
+[#]*[#]
+*.swp
+*.swo
+
+# Ignore PHP Storm project files
+.idea/
+
+# Ignore Sublime project files
+*.sublime-project
+*.sublime-workspace
+
+# Ignore Codekit files
+*.codekit
+
+# Ignore logs and databases
+*.log
+*.sql
+*.sql.gz
+*.sqlite
+
+# Ignore SASS cache files
+*.scssc
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Vim temp files #
+##################
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+# Acquia CLI
+.acquia-cli.yml
+
+
+```
+
+
 
 ### bat
 
@@ -314,6 +429,19 @@ To install [drupal-check](https://github.com/mglaman/drupal-check) use:
 ```
 composer global require mglaman/drupal-check
 ```
+
+
+## Super useful utilities
+
+### Stats
+
+Show cpu/disk/network i/o stats in toolbar
+
+```
+brew install stats
+```
+Run stats from applications folder, in settings, select start at login.
+
 
 
 ## Resources
