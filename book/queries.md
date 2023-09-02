@@ -369,6 +369,65 @@ protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_fe
 ```
 
 
+### More on condition
+
+from - [API documentation for QueryInterface::condition](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21Query%21QueryInterface.php/function/QueryInterface%3A%3Acondition/8.6.x)
+
+For example, to find all entities containing both the Turkish 'merhaba' and the Polish 'siema' within a 'greetings' text field:
+
+```php
+$entity_ids = \Drupal::entityQuery($entity_type)
+  ->accessCheck(FALSE)
+  ->condition('greetings', 'merhaba', '=', 'tr')
+  ->condition('greetings.value', 'siema', '=', 'pl')
+  ->execute();
+```
+
+**Parameters** 
+
+`string|\Drupal\Core\Entity\Query\ConditionInterface $field`: Name of the field being queried or an instance of ConditionInterface. In the case of the name, it must contain a field name, optionally followed by a column name. The column can be the reference property, usually "entity", for reference fields and that can be followed similarly by a field name and so on. Additionally, the target entity type can be specified by appending the ":target_entity_type_id" to "entity". Some examples:
+
+- nid
+- tags.value
+- tags
+- tags.entity.name
+- tags.entity:taxonomy_term.name
+- uid.entity.name
+- uid.entity:user.name
+
+\"tags\" is the same as \"tags.value\" as value is the default column. If two or more conditions have the same field names they apply to the same delta within that field. In order to limit the condition to a specific item a numeric delta should be added between the field name and the column name.
+
+```php
+->condition('tags.5.value', 'news')
+```  
+This will require condition to be satisfied on a specific delta of the field. The condition above will require the 6th value of the field to match the provided value. Further, it's possible to create a condition on the delta itself by using '%delta'. For example,
+
+```php
+  ->condition('tags.%delta', 5)
+```  
+will find only entities which have at least six tags. Finally, the condition on the delta itself accompanied with a condition on the value will require the value to appear in the specific delta range. For example,
+
+```php
+  ->condition('tags.%delta', 0, '>'))
+  ->condition('tags.%delta.value', 'news'))
+```  
+
+will only find the "news" tag if it is not the first value. It should be noted that conditions on specific deltas and delta ranges are only supported when querying content entities.
+
+`string|int|bool|array|null $value`: (optional) The value for $field. In most cases, this is a scalar and it's treated as case-insensitive. For more complex operators, it is an array. The meaning of each element in the array is dependent on $operator. Defaults to NULL, for most operators (except: `'IS NULL', 'IS NOT NULL'`) it always makes the condition false.
+
+`string|null $operator`: (optional) The comparison operator. Possible values:
+`'=', '<>', '>', '>=', '<', '<=', 'STARTS_WITH', 'CONTAINS', 'ENDS_WITH'`: These operators expect `$value` to be a literal of the same type as the column.
+`'IN', 'NOT IN'`: These operators expect `$value` to be an array of literals of the same type as the column.
+`'IS NULL', 'IS NOT NULL'`: These operators ignore `$value`, for that reason it is recommended to use a `$value` of NULL for clarity.
+`'BETWEEN', 'NOT BETWEEN'`: These operators expect `$value` to be an array of two literals of the same type as the column.
+If NULL, defaults to the `'='` operator.
+
+`string|null $langcode`: (optional) The language code allows filtering results by specific language. If two or more conditions omit the langcode within one condition group then they are presumed to apply to the same translation. If within one condition group one condition has a langcode and another does not they are not presumed to apply to the same translation. If omitted (`NULL`), any translation satisfies the condition.
+
+
+
+
 ## Static and dynamic Queries
 
 Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the entityQuery approach where you build the various parts of the query.
@@ -728,7 +787,8 @@ function nocs_connect_schema() {
 
 ## Reference
 
-- [API documentation for query conditions](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x)
+- [API documentation for query Condition class](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x)
+- [API documentation for QueryInterface::condition](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21Query%21QueryInterface.php/function/QueryInterface%3A%3Acondition/8.6.x)
 - [Entity query cheat sheet](https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet)
 - [Static queries](https://www.drupal.org/docs/drupal-apis/database-api/static-queries)
 - [Dynamic Queries](https://www.drupal.org/docs/8/api/database-api/dynamic-queries/introduction-to-dynamic-queries)
