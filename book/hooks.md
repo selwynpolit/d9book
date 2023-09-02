@@ -2,7 +2,7 @@
 layout: default
 title: Hooks
 permalink: /hooks
-last_modified_date: '2023-05-14'
+last_modified_date: '2023-09-02'
 ---
 
 # Hooks
@@ -22,15 +22,11 @@ last_modified_date: '2023-05-14'
 
 Drupal hooks allow modules to alter and extend the behavior of Drupal core, or another module. They provide a way that code components in Drupal can communicate with one another. Using hooks, a module developer can change how core, or other modules work without changing the existing code. As a Drupal developer, understanding how to implement and invoke hooks is essential. (More at <https://drupalize.me/tutorial/what-are-hooks?p=2766>)
 
-According to ChapGPT: Hooks are a key aspect of Drupal\'s module system, and allow developers to interact with the core functionality of Drupal 9 or Drupal 10. They can be used to alter or extend the behavior of Drupal\'s core features, such as adding custom validation to a form,
-changing the way content is displayed, or adding new actions to the administrative interface. Hooks provide a powerful and flexible way to
-customize Drupal to meet the needs of a specific project or site, without having to modify the core code. They are essential for
-developers who want to build custom modules or themes, and are a fundamental part of the Drupal development process.
+According to ChapGPT: Hooks are a key aspect of Drupal\'s module system, and allow developers to interact with the core functionality of Drupal 9 or Drupal 10. They can be used to alter or extend the behavior of Drupal\'s core features, such as adding custom validation to a form,changing the way content is displayed, or adding new actions to the administrative interface. Hooks provide a powerful and flexible way to customize Drupal to meet the needs of a specific project or site, without having to modify the core code. They are essential for developers who want to build custom modules or themes, and are a fundamental part of the Drupal development process.
 
-## Modify the login form
+## Modify the login form with hook_form_FORM_ID_alter()   
 
-Here is code from hook_examples.module that modifies the user login form by adding a button. It passes the username and password that were
-entered to the mythical third party login endpoint.
+Here is code from hook_examples.module that modifies the user login form by adding a button. It passes the username and password that were entered to the mythical third party login endpoint.
 
 ```php
 /**
@@ -66,7 +62,7 @@ custom submit button, with a submit handler function of **hook_examples_user_log
 
 When the button is clicked, the **hook_examples_user_login_form_submit()** function gets the username and password from the form state , builds the URL for the third-party login page, including the username and password as query parameters. Finally, the user is redirected to this URL using the **\$form_state-\>setRedirect()** method.
 
-## Modify the node edit form
+## Modify the node edit form with hook_form_alter()
 
 In this example, the save button is changed from saying \"save\" to \"update event\"
 
@@ -90,12 +86,11 @@ This code uses the **hook_form_alter** hook to alter the node edit form and modi
 The **\$form_id** argument is used to check if the form being altered is the node edit form for nodes of type **event**, and if it is, the submit button\'s value is changed to \"Update Event\". A redundant check is
 added to ensure the node is of type \"event\" for clarity.
 
-## Modify fields in a node
+## Modify fields in a node with hook_ENTITY_TYPE_presave()
 
 This example does all sorts of interesting things to the node as it is about to be saved.
 
-It grabs some dates, fills out some fields if the user is anonymous, does some date calculations, changes the title of the node, looks up if
-to see if there is a connected node and grabs some info from it and updates a date field. Finally it invalidates some cache tags. Phew!
+It grabs some dates, fills out some fields if the user is anonymous, does some date calculations, changes the title of the node, searches for a connected node and grabs some info from it and updates a date field. Finally, it invalidates some cache tags. Phew!
 
 ```php
 /**
@@ -180,7 +175,7 @@ You can read more about using hook_entity_presave at
 
 ## hook_update
 
-Almost every project that runs for a while will require some hook_updates. This is the facility used to do automated changes to your sites. Here is an example that updates a menu item with a title \'Support\'.
+Almost every project that runs for a while will require some hook_updates. This is the facility used to do automated changes to your sites and are executed via drush using `drush updb`. Here is an example that updates a menu item with a title \'Support\'.
 
 This code comes from a .install file:
 
@@ -209,53 +204,39 @@ function partridge_update_8002() {
 
 ## Theme hooks
 
-Here is an excerpt from the Theme System Overview at
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10>:
+Here is an excerpt from the [Theme System Overview](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10):
 
 **Preprocessing for Template Files**
 
-Several functions are called before the template file is invoked to modify the variables that are passed to the template. These make up the \"preprocessing\" phase, and are executed (if they exist), in the following order (note that in the following list, HOOK indicates the hook being called or a less specific hook. For example, if \'#theme\'=\>\'node\_\_article\' is called, hook is node\_\_article and node.
+Several functions are called before the template file is invoked to modify the variables that are passed to the template. These make up the \"preprocessing\" phase, and are executed (if they exist), in the following order (note that in the following list, HOOK indicates the hook being called or a less specific hook. For example, if `#theme' => 'node__article` is called, hook is `node__article` and `node`.
 
 MODULE indicates a module name, THEME indicates a theme name, and ENGINE indicates a theme engine name). Modules, themes, and theme engines can provide these functions to modify how the data is preprocessed, before it is passed to the theme template:
 
--   **[template_preprocess](https://api.drupal.org/api/drupal/core%21includes%21theme.inc/function/template_preprocess/10)(&\$variables,
-    \$hook)**: Creates a default set of variables for all theme hooks with template implementations. Provided by Drupal Core.
+- **[template_preprocess](https://api.drupal.org/api/drupal/core%21includes%21theme.inc/function/template_preprocess/10)(&\$variables, \$hook)**: Creates a default set of variables for all theme hooks with template implementations. Provided by Drupal Core.
 
--   **template_preprocess_HOOK(&\$variables)**: Should be implemented by
-    the module that registers the theme hook, to set up default
-    variables.
+- **template_preprocess_HOOK(&\$variables)**: Should be implemented by the module that registers the theme hook, to set up default variables.
 
--   **MODULE_preprocess(&\$variables, \$hook)**: hook_preprocess() is
-    invoked on all implementing modules.
+- **MODULE_preprocess(&\$variables, \$hook)**: hook_preprocess() is invoked on all implementing modules.
 
--   **MODULE_preprocess_HOOK(&\$variables)**: hook_preprocess_HOOK() is
-    invoked on all implementing modules, so that modules that didn\'t
-    define the theme hook can alter the variables.
+- **MODULE_preprocess_HOOK(&\$variables)**: hook_preprocess_HOOK() is invoked on all implementing modules, so that modules that didn\'t define the theme hook can alter the variables.
 
--   **ENGINE_engine_preprocess(&\$variables, \$hook)**: Allows the theme
-    engine to set necessary variables for all theme hooks with template
-    implementations.
+- **ENGINE_engine_preprocess(&\$variables, \$hook)**: Allows the theme engine to set necessary variables for all theme hooks with template implementations.
 
--   **ENGINE_engine_preprocess_HOOK(&\$variables)**: Allows the theme
-    engine to set necessary variables for the particular theme hook.
+- **ENGINE_engine_preprocess_HOOK(&\$variables)**: Allows the theme engine to set necessary variables for the particular theme hook.
 
--   **THEME_preprocess(&\$variables, \$hook)**: Allows the theme to set
-    necessary variables for all theme hooks with template
-    implementations.
+- **THEME_preprocess(&\$variables, \$hook)**: Allows the theme to set necessary variables for all theme hooks with template  implementations.
 
--   **THEME_preprocess_HOOK(&\$variables)**: Allows the theme to set
-    necessary variables specific to the particular theme hook.
+- **THEME_preprocess_HOOK(&\$variables)**: Allows the theme to set necessary variables specific to the particular theme hook.
 
 ### Hook_preprocess
 
-Generall, `.theme` files will include the following to create or alter variables for :
+Generally, `.theme` files will include the following to create or alter variables for :
 
--   **hook_preprocess_html()** the html template
+- **hook_preprocess_html()** the html template
 
--   **hook_preprocess_page()** the page template
+- **hook_preprocess_page()** the page template
 
--   **hook_preprocess_node()** the node template. Note
-    hook_node_type_preprocess_node() also works where you can specify the node type e.g. wc_product_preprocess_node() which expects a content type of wc_product.
+- **hook_preprocess_node()** the node template. Note hook_node_type_preprocess_node() also works where you can specify the node type e.g. wc_product_preprocess_node() which expects a content type of wc_product.
 
 ### hook_preprocess_node example 1
 
@@ -301,7 +282,7 @@ use Drupal\Core\Datetime\DrupalDateTime;
  *
  * @param $variables
  */
-function veryst_preprocess_node(&$variables) {
+function verygood_preprocess_node(&$variables) {
   if (!empty($variables['content']['field_date'])) {
     $date = $variables['content']['field_date'];
 
@@ -326,7 +307,7 @@ function veryst_preprocess_node(&$variables) {
 //  kint($variables);
 }
 ```
-Now in the twig template we can output the scrunch_date we created in the template file: 
+Now in the twig template we can output the `scrunch_date` we created in the template file: 
 `web/themes/mytheme/templates/node/node--seminar--teaser.html.twig`
 
 
@@ -515,14 +496,12 @@ And so on!  You can [see another example in Drupal core from the content moderat
 
 
 
-## Reference
-
-### Entity hooks
+## Entity hooks
 
 Here is an excerpt from the Drupal API at 
 <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10>:
 
-#### Create operations
+### Create operations
 
 To create an entity:
 
@@ -538,19 +517,19 @@ There is also a shortcut method on entity classes, which creates an entity with 
 
 Hooks invoked during the create operation:
 
--   [hook_ENTITY_TYPE_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_create/10)()
+- [hook_ENTITY_TYPE_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_create/10)()
 
--   [hook_entity_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_create/10)()
+- [hook_entity_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_create/10)()
 
--   When handling content entities, if a new translation is added to the entity object:
+- When handling content entities, if a new translation is added to the entity object:
 
-    -   [hook_ENTITY_TYPE_translation_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_create/10)()
+    - [hook_ENTITY_TYPE_translation_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_create/10)()
 
-    -   [hook_entity_translation_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_translation_create/10)()
+    - [hook_entity_translation_create](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_translation_create/10)()
 
-See [Save operations](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10#save) below for the save portion of the operation.
+See [Save operations](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10#save) below for the save portion of the operation.
 
-#### Read/Load operations
+### Read/Load operations
 
 To load (read) a single entity:
 
@@ -592,135 +571,137 @@ The \"latest translation-affected revision\" is the most recently created one th
 -\>**loadRevision**(\$revision_id)
 -\>**getTranslation**(\'it\');
 
-#### Save operations
+### Save operations
 
 To update an existing entity, you will need to load it, change properties, and then save; as described above, when creating a new entity, you will also need to save it. Here is the order of hooks and other events that happen during an entity save:
 
--   preSave() is called on the entity object, and field objects.
+- preSave() is called on the entity object, and field objects.
 
--   [hook_ENTITY_TYPE_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_presave/10)()
+- [hook_ENTITY_TYPE_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_presave/10)()
 
--   [hook_entity_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_presave/10)()
+- [hook_entity_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_presave/10)()
 
--   Entity is saved to storage.
+- Entity is saved to storage.
 
--   For updates on content entities, if there is a translation added that was not previously present:
+- For updates on content entities, if there is a translation added that was not previously present:
+    - [hook_ENTITY_TYPE_translation_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_insert/10)()
 
-    -   [hook_ENTITY_TYPE_translation_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_insert/10)()
+    - [hook_entity_translation_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_translation_insert/10)()
 
-    -   [hook_entity_translation_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_translation_insert/10)()
 
 -   For updates on content entities, if there was a translation removed:
+    - [hook_ENTITY_TYPE_translation_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_delete/10)()
+    - [hook_entity_translation_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_translation_delete/10)()
 
-    -   [hook_ENTITY_TYPE_translation_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_delete/10)()
+- postSave() is called on the entity object.
 
-    -   [hook_entity_translation_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_translation_delete/10)()
 
--   postSave() is called on the entity object.
-
--   [hook_ENTITY_TYPE_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_insert/10)()
+- [hook_ENTITY_TYPE_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_insert/10)()
     (new) or hook_ENTITY_TYPE_update() (update)
 
--   [hook_entity_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_insert/10)() (new) or hook_entity_update() (update)
+- [hook_entity_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_insert/10)() (new) or hook_entity_update() (update)
+
+- [hook_entity_update](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_update/10) This hook runs once the entity storage has been updated. Note that hook implementations may not alter the stored entity data. Get the original entity object from $entity->original.
+
 
 Some specific entity types invoke hooks during preSave() or postSave() operations. Examples:
 
--   **Field configuration
-    preSave()**: hook_field_storage_config_update_forbid()
+-   **Field configuration preSave()**: hook_field_storage_config_update_forbid()
 
--   **Node postSave()**: hook_node_access_records()
-    and hook_node_access_records_alter()
+-   **Node postSave()**: hook_node_access_records() and hook_node_access_records_alter()
 
--   Config entities that are acting as entity bundles in
-    postSave(): hook_entity_bundle_create()
+-   Config entities that are acting as entity bundles in postSave(): hook_entity_bundle_create()
 
--   **Comment**: hook_comment_publish() and hook_comment_unpublish() as
-    appropriate.
+-   **Comment**: hook_comment_publish() and hook_comment_unpublish() as appropriate.
 
 Note that all translations available for the entity are stored during a save operation. When saving a new revision, a copy of every translation is stored, regardless of it being affected by the revision.
 
 
-#### Editing operations
+### Editing operations
 
 When an entity\'s add/edit form is used to add or edit an entity, there are several hooks that are invoked:
 
--   [hook_entity_prepare_form](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_prepare_form/10)()
+- [hook_entity_prepare_form](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_prepare_form/10)
 
--   [hook_ENTITY_TYPE_prepare_form](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_prepare_form/10)()
+- [hook_ENTITY_TYPE_prepare_form](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_prepare_form/10)
 
--   [hook_entity_form_display_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_form_display_alter/10)()
-    (for content entities only)
+- [hook_entity_form_display_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_form_display_alter/10) for content entities only
 
 
-#### Delete operations
+### Delete operations
 
-To delete one or more entities, load them and then delete them:
+To delete one or more entities, load them and then [delete](https://api.drupal.org/api/drupal/10/search/delete) them:
 
-\$entities = \$storage-\>**loadMultiple**(\$ids);
+```php
+$entities = $storage->loadMultiple($ids);
+$storage->delete($entities);
+```
 
-\$storage-\>[**delete**](https://api.drupal.org/api/drupal/10/search/delete)(\$entities);
+During the delete operation, the following hooks and other events happen:
 
-During the delete operation, the following hooks and other events
-happen:
+- preDelete() is called on the entity class.
 
--   preDelete() is called on the entity class.
+- [hook_ENTITY_TYPE_predelete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_predelete/10)()
 
--   [hook_ENTITY_TYPE_predelete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_predelete/10)()
+- [hook_entity_predelete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_predelete/10)()
 
--   [hook_entity_predelete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_predelete/10)()
+- Entity and field information is removed from storage.
 
--   Entity and field information is removed from storage.
+- postDelete() is called on the entity class.
 
--   postDelete() is called on the entity class.
+- [hook_ENTITY_TYPE_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_delete/10)()
 
--   [hook_ENTITY_TYPE_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_delete/10)()
-
--   [hook_entity_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_delete/10)()
+- [hook_entity_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_delete/10)()
 
 Some specific entity types invoke hooks during the delete process.
 Examples:
 
--   **Entity bundle postDelete()**: hook_entity_bundle_delete()
+- **Entity bundle postDelete()**: hook_entity_bundle_delete()
 
 Individual revisions of an entity can also be deleted:
 
-\$storage-\>**deleteRevision**(\$revision_id);
-
+```php
+$storage->deleteRevision($revision_id);
+```
 This operation invokes the following operations and hooks:
 
--   Revision is loaded (see [Read/Load operations](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10#load) above).
+- Revision is loaded (see [Read/Load operations](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10#load) above).
 
--   Revision and field information is removed from the database.
+- Revision and field information is removed from the database.
 
--   [hook_ENTITY_TYPE_revision_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_revision_delete/10)()
+- [hook_ENTITY_TYPE_revision_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_revision_delete/10)()
 
--   [hook_entity_revision_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_revision_delete/10)()
+- [hook_entity_revision_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_revision_delete/10)()
 
-#### View/render operations
+
+
+### View/render operations
+
+[**view**](https://api.drupal.org/api/drupal/10/search/view)
 
 To make a render array for a loaded entity:
 
+```php
 // You can omit the language ID if the default language is being used.
-
-\$build = \$view_builder
-
--\>[**view**](https://api.drupal.org/api/drupal/10/search/view)(\$entity, \'view_mode_name\', \$language-\>**getId**());
+$build = $view_builder
+->view($entity, 'view_mode_name', $language->getId());
+```
 
 You can also use the viewMultiple() method to view multiple entities.
 
 Hooks invoked during the operation of building a render array:
 
--   [hook_entity_view_mode_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_view_mode_alter/10)()
+- [hook_entity_view_mode_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_view_mode_alter/10)()
 
--   [hook_ENTITY_TYPE_build_defaults_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_build_defaults_alter/10)()
+- [hook_ENTITY_TYPE_build_defaults_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_build_defaults_alter/10)()
 
--   [hook_entity_build_defaults_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_build_defaults_alter/10)()
+- [hook_entity_build_defaults_alter](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_build_defaults_alter/10)()
 
 View builders for some types override these hooks, notably:
 
 -   The Tour view builder does not invoke any hooks.
 
--   The Block view builder invokes hook_block_view_alter() and hook_block_view_BASE_BLOCK_ID_alter(). Note that in other view builders, the view alter hooks are run later in the process.
+-   The Block view builder invokes hook_block_view_alter() and hook_block_view_BASE_BLOCK_ID_alter(). Note that in other view builders, the view alter hooks are run later in the process.
 
 During the rendering operation, the default entity viewer runs the following hooks and operations in the pre-render step:
 
@@ -749,7 +730,7 @@ Some specific builders have specific hooks:
 After this point in rendering, the theme system takes over. See the [Theme system and render API topic](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for more information.
 
 
-#### Other entity hooks
+### Other entity hooks
 
 Some types of entities invoke hooks for specific operations:
 
@@ -776,12 +757,11 @@ Some types of entities invoke hooks for specific operations:
     -   [hook_node_update_index](https://api.drupal.org/api/drupal/core%21modules%21node%21node.api.php/function/hook_node_update_index/10)()
 
 
-### Theme hooks
+## Theme hooks Overview
 
-Here is an excerpt from the Theme System Overview at
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10>:
+Here is an excerpt from the [Theme System Overview](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10):
 
-The theme system is invoked in [\\Drupal\\Core\\Render\\Renderer::doRender](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21Renderer.php/function/Renderer%3A%3AdoRender/10)() by calling the [\\Drupal\\Core\\Theme\\ThemeManagerInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Theme%21ThemeManagerInterface.php/function/ThemeManagerInterface%3A%3Arender/10)() function, which operates on the concept of \"theme hooks\". Theme hooks define how a particular type of data should be rendered. They are registered by modules by implementing hook_theme(), which specifies the name of the hook, the input \"variables\" used to provide data and options, and other information. Modules implementing hook_theme() also need to provide a default implementation for each of their theme hooks in a Twig file, and they may also provide preprocessing functions. For example, the core Search module defines a theme hook for a search result item in search_theme():
+The theme system is invoked in [\\Drupal\\Core\\Render\\Renderer::doRender](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21Renderer.php/function/Renderer%3A%3AdoRender/10)() by calling the [\\Drupal\\Core\\Theme\\ThemeManagerInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Theme%21ThemeManagerInterface.php/function/ThemeManagerInterface%3A%3Arender/10)() function, which operates on the concept of \"theme hooks\". Theme hooks define how a particular type of data should be rendered. They are registered by modules by implementing hook_theme(), which specifies the name of the hook, the input \"variables\" used to provide data and options, and other information. Modules implementing hook_theme() also need to provide a default implementation for each of their theme hooks in a Twig file, and they may also provide preprocessing functions. For example, the core Search module defines a theme hook for a search result item in search_theme():
 
 ```php
 return array(
@@ -794,13 +774,13 @@ return array(
   ),
 );
 ```
-Given this definition, the template file with the default implementation is [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig), which can be found in the core/modules/search/templates directory, and the variables for rendering are the search result and the plugin ID. In addition, there is a function template_preprocess_search_result(), located in file [search.pages.inc](https://api.drupal.org/api/drupal/core%21modules%21search%21search.pages.inc/10), which preprocesses the information from the input variables so that it can be rendered by the Twig template; the processed variables that the Twig template receives are documented in the header of the default Twig template file.
+Given this definition, the template file with the default implementation is [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig), which can be found in the core/modules/search/templates directory, and the variables for rendering are the search result and the plugin ID. In addition, there is a function template_preprocess_search_result(), located in file [search.pages.inc](https://api.drupal.org/api/drupal/core%21modules%21search%21search.pages.inc/10), which preprocesses the information from the input variables so that it can be rendered by the Twig template; the processed variables that the Twig template receives are documented in the header of the default Twig template file.
 
-#### Overriding Theme Hooks
+### Overriding Theme Hooks
 
-Themes may register new theme hooks within a [hook_theme](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_theme/10)() implementation, but it is more common for themes to override default implementations provided by modules than to register entirely new theme hooks. Themes can override a default implementation by creating a template file with the same name as the default implementation; for example, to override the display of search results, a theme would add a file called [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig) to its templates directory. A good starting point for doing this is normally to copy the default implementation template, and then modifying it as desired.
+Themes may register new theme hooks within a [hook_theme](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_theme/10)() implementation, but it is more common for themes to override default implementations provided by modules than to register entirely new theme hooks. Themes can override a default implementation by creating a template file with the same name as the default implementation; for example, to override the display of search results, a theme would add a file called [search-result.html.twig](https://api.drupal.org/api/drupal/10/search/search-result.html.twig) to its templates directory. A good starting point for doing this is normally to copy the default implementation template, and then modifying it as desired.
 
-#### Preprocessing for Template Files
+### Preprocessing for Template Files
 
 Several functions are called before the template file is invoked to modify the variables that are passed to the template. These make up the \"preprocessing\" phase, and are executed (if they exist), in the following order (note that in the following list, HOOK indicates the hook being called or a less specific hook. For example, if \'#theme\'=\>\'node\_\_article\' is called, hook is node\_\_article and node. MODULE indicates a module name, THEME indicates a theme name, and ENGINE indicates a theme engine name). Modules, themes, and theme engines can provide these functions to modify how the data is preprocessed, before it is passed to the theme template:
 
@@ -808,55 +788,46 @@ Several functions are called before the template file is invoked to modify the v
     \$hook)**: Creates a default set of variables for all theme hooks
     with template implementations. Provided by Drupal Core.
 
--   **template_preprocess_HOOK(&\$variables)**: Should be implemented by
-    the module that registers the theme hook, to set up default
+-   **template_preprocess_HOOK(&\$variables)**: Should be implemented by the module that registers the theme hook, to set up default
     variables.
 
--   **MODULE_preprocess(&\$variables, \$hook)**: hook_preprocess() is
-    invoked on all implementing modules.
+-   **MODULE_preprocess(&\$variables, \$hook)**: hook_preprocess() is invoked on all implementing modules.
 
--   **MODULE_preprocess_HOOK(&\$variables)**: hook_preprocess_HOOK() is
-    invoked on all implementing modules, so that modules that didn\'t
-    define the theme hook can alter the variables.
+-   **MODULE_preprocess_HOOK(&\$variables)**: hook_preprocess_HOOK() is invoked on all implementing modules, so that modules that didn\'t define the theme hook can alter the variables.
 
--   **ENGINE_engine_preprocess(&\$variables, \$hook)**: Allows the theme
-    engine to set necessary variables for all theme hooks with template
+-   **ENGINE_engine_preprocess(&\$variables, \$hook)**: Allows the theme engine to set necessary variables for all theme hooks with template implementations.
+
+-   **ENGINE_engine_preprocess_HOOK(&\$variables)**: Allows the theme engine to set necessary variables for the particular theme hook.
+
+-   **THEME_preprocess(&\$variables, \$hook)**: Allows the theme to set necessary variables for all theme hooks with template
     implementations.
 
--   **ENGINE_engine_preprocess_HOOK(&\$variables)**: Allows the theme
-    engine to set necessary variables for the particular theme hook.
+-   **THEME_preprocess_HOOK(&\$variables)**: Allows the theme to set necessary variables specific to the particular theme hook.
 
--   **THEME_preprocess(&\$variables, \$hook)**: Allows the theme to set
-    necessary variables for all theme hooks with template
-    implementations.
-
--   **THEME_preprocess_HOOK(&\$variables)**: Allows the theme to set
-    necessary variables specific to the particular theme hook.
-
-#### Theme hook suggestions
+### Theme hook suggestions
 
 In some cases, instead of calling the base theme hook implementation (either the default provided by the module that defined the hook, or the override provided by the theme), the theme system will instead look for \"suggestions\" of other hook names to look for. Suggestions can be specified in several ways:
 
--   In a render array, the \'#theme\' property (which gives the name of the hook to use) can be an array of theme hook names instead of a single hook name. In this case, the render system will look first for the highest-priority hook name, and if no implementation is found, look for the second, and so on. Note that the highest-priority suggestion is at the end of the array.
+- In a render array, the \'#theme\' property (which gives the name of the hook to use) can be an array of theme hook names instead of a single hook name. In this case, the render system will look first for the highest-priority hook name, and if no implementation is found, look for the second, and so on. Note that the highest-priority suggestion is at the end of the array.
 
--   In a render array, the \'#theme\' property can be set to the name of a hook with a \'\_\_SUGGESTION\' suffix. For example, in search results theming, the hook \'item_list\_\_search_results\' is given. In this case, the render system will look for theme templates called [item-list\--search-results.html.twig](https://api.drupal.org/api/drupal/10/search/item-list--search-results.html.twig), which would only be used for rendering item lists containing search results, and if this template is not found, it will fall back to using the base [item-list.html.twig](https://api.drupal.org/api/drupal/10/search/item-list.html.twig) template. This type of suggestion can also be combined with providing an array of theme hook names as described above.
+- In a render array, the \'#theme\' property can be set to the name of a hook with a \'\_\_SUGGESTION\' suffix. For example, in search results theming, the hook \'item_list\_\_search_results\' is given. In this case, the render system will look for theme templates called [item-list\--search-results.html.twig](https://api.drupal.org/api/drupal/10/search/item-list--search-results.html.twig), which would only be used for rendering item lists containing search results, and if this template is not found, it will fall back to using the base [item-list.html.twig](https://api.drupal.org/api/drupal/10/search/item-list.html.twig) template. This type of suggestion can also be combined with providing an array of theme hook names as described above.
 
--   A module can implement hook_theme_suggestions_HOOK(). This allows the module that defines the theme template to dynamically return an array containing specific theme hook names (presumably with \'\_\_\' suffixes as defined above) to use as suggestions. For example, the Search module does this in search_theme_suggestions_search_result() to suggest search_result\_\_PLUGIN as the theme hook for search result items, where PLUGIN is the machine name of the particular search plugin type that was used for the search (such as node_search or user_search).
+- A module can implement [hook_theme_suggestions_HOOK()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_theme_suggestions_HOOK/10). This allows the module that defines the theme template to dynamically return an array containing specific theme hook names (presumably with `__` suffixes as defined above) to use as suggestions. For example, the Search module does this in [search_theme_suggestions_search_result()](https://api.drupal.org/api/drupal/core%21modules%21search%21search.module/function/search_theme_suggestions_search_result/10) to suggest `search_result__PLUGIN` as the theme hook for search result items, where PLUGIN is the machine name of the particular search plugin type that was used for the search (such as node_search or user_search).
 
-For further information on overriding theme hooks see <https://www.drupal.org/node/2186401>
+For further information on overriding theme hooks see [https://www.drupal.org/node/2186401](https://www.drupal.org/node/2186401)
 
-#### Altering theme hook suggestions
+### Altering theme hook suggestions
 
 Modules can also alter the theme suggestions provided using the
-mechanisms of the previous section. There are two hooks for this: the theme-hook-specific hook_theme_suggestions_HOOK_alter() and the generic hook_theme_suggestions_alter(). These hooks get the current list of suggestions as input, and can change this array (adding suggestions and removing them).
+mechanisms of the previous section. There are two hooks for this: the theme-hook-specific hook_theme_suggestions_HOOK_alter() and the generic hook_theme_suggestions_alter(). These hooks get the current list of suggestions as input, and can change this array (adding suggestions and removing them).
 
 
 
-### Reference Links
+## Reference
 
-- [What are hooks? from Drupalize.me March 2022](https://drupalize.me/tutorial/what-are-hooks?p=2766)
+- [What are hooks? from Drupalize.me - March 2022](https://drupalize.me/tutorial/what-are-hooks?p=2766)
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
-- [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
+- [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU - Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
 
 ---
 
