@@ -2,13 +2,13 @@
 layout: default
 title: Actions
 permalink: /actions
-last_modified_date: '2023-05-13'
+last_modified_date: '2023-09-02'
 ---
 
 # Actions
 {: .no_toc .fw-500 }
 
-## Table of contentse
+## Table of contents
 {: .no_toc .text-delta }
 
 - TOC
