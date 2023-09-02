@@ -168,9 +168,7 @@ function ogg_mods_invalidate_node(NodeInterface $node) {
   }
 }
 ```
-You can read more about using hook_entity_presave at
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_presave/10> as well as hook_ENTITY_TYPE_presave at
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_presave/10>
+You can read more about using [hook_entity_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_presave/10) at as well as [hook_ENTITY_TYPE_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_presave/10).
 
 
 ## hook_update
