@@ -2,7 +2,7 @@
 layout: default
 title: Hooks
 permalink: /hooks
-last_modified_date: '2023-09-02'
+last_modified_date: '2023-09-04'
 ---
 
 # Hooks
@@ -599,8 +599,30 @@ To update an existing entity, you will need to load it, change properties, and t
 
 - [hook_entity_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_insert/10)() (new) or hook_entity_update() (update)
 
-- [hook_entity_update](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_update/10) This hook runs once the entity storage has been updated. Note that hook implementations may not alter the stored entity data. Get the original entity object from $entity->original.
+- [hook_entity_update](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_update/10) This hook runs once the entity storage has been updated. Note that hook implementations may not alter the stored entity data. Get the original entity object from `$entity->original`.
 
+e.g.
+```php
+/**
+ * Implements hook_entity_update().
+ */
+function tea_teks_entity_update(\Drupal\Core\Entity\EntityInterface $entity) {
+  $type = $entity->bundle();
+  if($type == 'srp_public_comment' || $type == 'srp_public_error') {
+    $approval_status = $entity->get('field_public_approval_status')->value;
+    $original_node = $entity->original;
+    $send_email = FALSE;
+
+    // Check if the user is editing a node and changed $approval_status.
+    if ($original_node && $approval_status == 'available for publisher') {
+      $original_approval_status = $original_node->get('field_public_approval_status')->value;
+      if ($original_approval_status != 'available for publisher' ) {
+        $send_email = TRUE;
+      }
+    }
+  }
+}
+```
 
 Some specific entity types invoke hooks during preSave() or postSave() operations. Examples:
 
