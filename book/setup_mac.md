@@ -369,7 +369,7 @@ brew install cloc
 curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
 chmod +x acli.phar
 ```
-I get permission denied for 
+For some reason, I got permission denied for the suggested command: 
 ```
 mv acli.phar /usr/local/bin/acli
 ```
@@ -377,7 +377,8 @@ so I rather moved it to my ~/bin with
 
 ```
 mv acli.phar ~/bin 
-```which is in my path
+```
+which is in my path.  Then authorize acli's login with:
 
 ```
 acli auth:login
@@ -429,6 +430,31 @@ To install [drupal-check](https://github.com/mglaman/drupal-check) use:
 ```
 composer global require mglaman/drupal-check
 ```
+
+## PhpStorm
+I find this to be a powerful tool in my Drupal development.  
+
+### Code Sniffing
+
+You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).  
+
+Go to: Settings, Php, Debug, Quality Tools, PHP_CodeSniffer
+
+Use the following settings:
+- Configuration: System PHP
+- Coding standard: Drupal
+
+Under the ... button set the PHP_CodeSniffer path to : /Users/spolit/.composer/vendor/bin/phpcs
+If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
+
+{: .note }
+(replace `/Users/spolit` with your own path to your username) 
+
+More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
+
+
+
+
 
 
 ## Super useful utilities

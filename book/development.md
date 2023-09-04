@@ -518,6 +518,27 @@ more at <https://xdebug.org/docs/all_functions>
 
 -   https://www.jetbrains.com/help/phpstorm/troubleshooting-php-debugging.html#collecting-logs
 
+
+### Code Sniffing
+
+You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).  
+
+Go to: Settings, Php, Debug, Quality Tools, PHP_CodeSniffer
+
+Use the following settings:
+- Configuration: System PHP
+- Coding standard: Drupal
+
+Under the ... button set the PHP_CodeSniffer path to : /Users/spolit/.composer/vendor/bin/phpcs
+If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
+
+{: .note }
+(replace `/Users/spolit` with your own path to your username) 
+
+More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
+
+
+
 ## Troubleshooting Xdebug with DDEV
 
 • Use curl or a browser to create a web request. For example, curl https://d9.ddev.site

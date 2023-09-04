@@ -116,7 +116,7 @@ function my_module_mail($key, &$message, $params) {
      * Notifications will only be sent from prod environment.
      * Configured in settings.php (or settings.local.php)
      * For development, use this in settings.local.php:
-     * $config['tea_teks.status_change_notifications']
+     * $config['tabcblah.status_change_notifications']
      * ['send_notifications'] = TRUE;
      */
     $send_notifications = \Drupal::config('tea_teks.status_change_notifications')->get('send_notifications');
