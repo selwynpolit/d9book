@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-07-23'
+last_modified_date: '2023-09-04'
 ---
 
 # Queries
@@ -426,6 +426,41 @@ If NULL, defaults to the `'='` operator.
 `string|null $langcode`: (optional) The language code allows filtering results by specific language. If two or more conditions omit the langcode within one condition group then they are presumed to apply to the same translation. If within one condition group one condition has a langcode and another does not they are not presumed to apply to the same translation. If omitted (`NULL`), any translation satisfies the condition.
 
 
+
+### User Query example
+
+```php
+  /**
+   * Get the active publisher admins and editors for this publisher nid.
+   *
+   * @param int $publisher_nid
+   *   The publisher nid.
+   * @param array $roles
+   *   The roles to check for.
+   *
+   * @return array
+   *   The active publisher admins and editors for this publisher nid.
+   */
+  public static function getActivePublisherUsers(int $publisher_nid, array $roles = ['publisher_edit', 'publisher', 'publisher_staff', 'publisher_view']): array {
+    $uids = \Drupal::entityQuery('user')
+      ->condition('field_teks_publisher', $publisher_nid)
+//      ->condition('roles.target_id', ['publisher_edit', 'publisher'], 'IN')
+      ->condition('roles', ['publisher_edit', 'publisher'], 'IN')
+      ->condition('status', 1)
+      ->sort('created', 'ASC')
+      ->execute();
+
+    $publisher_editors = [];
+    foreach ($uids as $uid) {
+      $user = User::load($uid);
+      $publisher_editors[] = [
+        'uid' => $uid,
+        'name' => $user->getAccountName(),
+        'email' => $user->getEmail(),
+      ];
+    }
+    return $publisher_editors;
+  }```
 
 
 ## Static and dynamic Queries
