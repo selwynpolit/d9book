@@ -2,7 +2,7 @@
 layout: default
 title: Modules
 permalink: /modules
-last_modified_date: '2023-08-24'
+last_modified_date: '2023-09-05'
 ---
 
 # Modules for Drupal
@@ -82,6 +82,12 @@ The Allow Only One module was created to prevent duplicate content save, based o
 ## Essential Utility Modules for Every Site
 
 Well maybe not every site, but certainly for most sites, your life and your content editor's lives will go better with these modules.
+
+### Admin Toolbar
+The Admin Toolbar module intends to improve the default Toolbar (the administration menu at the top of your site) to transform it into a drop-down menu, providing a fast access to all administration pages.
+The module works on the top of the default toolbar core module and is therefore a light module and keeps all the toolbar functionalities (shortcut / media responsive).
+[https://www.drupal.org/project/admin_toolbar](https://www.drupal.org/project/admin_toolbar)
+
 
 ### Module filter
 
