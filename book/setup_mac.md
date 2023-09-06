@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-08-31'
+last_modified_date: '2023-09-06'
 ---
 
 # Setting up your Mac for Drupal development
@@ -37,6 +37,45 @@ In the System settings, displays, set your main display monitor to the monitor t
 ## Show speaker icon in menu bar
 
 If the Sound control isn't in the menu bar, choose Apple menu > System Settings, then click Control Center in the sidebar. (You may need to scroll down.) Click the pop-up menu next to Sound on the right, then choose whether to show Sound in the menu bar all the time or only when it's active.
+
+## SSH Keys
+
+To generate a 4096 byte (4K) key use these commands and just hit return when prompted.  Don't enter a passphrase.:
+
+```bash
+cd ~/.ssh
+ssh-keygen -t rsa -b 4096 -C "johnsmith@gmail.com" 
+```
+{: .note }
+Replace johnsmith@gmail.com with your email.
+
+You will need to add the ssh key to the agent permanently.  
+for older versions of MacOS:
+`ssh-add -K ~/.ssh/id_rsa`
+for newer:
+`ssh-add --apple-use-keychain ~/.ssh/id_rsa`
+
+
+To list all the keys (or confirm that you successfully added the key to the agent.)
+`ssh-add -l`
+
+
+To remove an entry from ~/.ssh/known_hosts
+`ssh-keygen -R pogoacademystg.ssh.prod.acquia-sites.com`
+
+
+To copy the public key to the clipbpoard for pasting into Acquia/Github/Gitlab etc.
+```
+$ pbcopy < ~/.ssh/id_rsa.pub
+```
+From: https://apple.stackexchange.com/questions/48502/how-can-i-permanently-add-my-ssh-private-key-to-keychain-so-it-is-automatically
+
+
+
+More info at: [https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+and for multiple keys: [https://gist.github.com/jexchan/2351996](https://gist.github.com/jexchan/2351996)
+
+
 
 
 ## Homebrew
