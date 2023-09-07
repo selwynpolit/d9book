@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-09-06'
+last_modified_date: '2023-09-07'
 ---
 
 # Setting up your Mac for Drupal development
@@ -231,6 +231,12 @@ Warning: "certutil" is not available, so the CA can't be automatically installed
 Install "certutil" with "brew install nss" and re-run "mkcert -install"
 ```
 
+## Sequel Ace
+This is a great GUI SQL tool.
+
+`brew install --cask sequel-ace`
+
+
 
 
 ## Terminal
@@ -295,7 +301,7 @@ brew install git
 ```
 
 #### .gitconfig 
-In your $HOME directory, create the .gitconfig file.  Replace my name with yours and your email address
+In your $HOME directory, create the .gitconfig file.  Replace my name and email address with yours.
 
 ```
 # This is Git's per-user configuration file.
@@ -303,7 +309,7 @@ In your $HOME directory, create the .gitconfig file.  Replace my name with yours
   name = Selwyn Polit
   email = selwynpolit@example.com
 [core]
-	excludesfile = /Users/spolit/.gitignore_global
+  excludesfile = /Users/spolit/.gitignore_global
 
 [alias]
   co = checkout
@@ -437,6 +443,13 @@ standard output.
 brew install jq
 ```
 
+### wget
+
+GNU Wget is a free software package for retrieving files using HTTP, HTTPS, FTP and FTPS, the most widely used Internet protocols.
+
+```
+brew install wget
+```
 
 
 ## Drush
@@ -498,6 +511,8 @@ More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/
 
 ## Super useful utilities
 
+These are some useful mac utilities that make my life a little better.
+
 ### Stats
 
 Show cpu/disk/network i/o stats in toolbar
@@ -507,6 +522,14 @@ brew install stats
 ```
 Run stats from applications folder, in settings, select start at login.
 
+
+### ngrok
+
+ngrok is a secure unified ingress platform that combines your reverse proxy, firewall, API gateway and global load balancing into a production service.
+
+```
+brew install ngrok
+```
 
 
 ## Resources

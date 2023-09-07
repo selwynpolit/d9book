@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-09-04'
+last_modified_date: '2023-09-07'
 ---
 
 # Queries
@@ -460,7 +460,8 @@ If NULL, defaults to the `'='` operator.
       ];
     }
     return $publisher_editors;
-  }```
+  }
+```
 
 
 ## Static and dynamic Queries
