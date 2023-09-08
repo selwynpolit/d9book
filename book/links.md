@@ -2,7 +2,7 @@
 layout: default
 title: Links
 permalink: /links
-last_modified_date: '2023-08-18'
+last_modified_date: '2023-09-08'
 ---
 
 # Links, Aliases and URLs
@@ -413,15 +413,20 @@ $my_node_alias->save();
 
 ## Get the current Path
 
-This returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
+`\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
 
 ```php
 $currentPath  = \Drupal::service('path.current')->getPath();
-// Or with alias and query string.
+// Get the alias (i.e. if the user requested node/123, this will return e.g. /bicycles/super-cool-one) 
+$result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+// Or to include alias and query string.
 $alias = \Drupal::request()->getRequestUri();
 // Or 
 $url_string = Url::fromRoute('<current>')->toString();
 ```
+
+
 
 ## Get current nid, node type and title
 

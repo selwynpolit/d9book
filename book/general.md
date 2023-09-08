@@ -2,7 +2,7 @@
 layout: default
 title: General
 permalink: /general
-last_modified_date: '2023-07-31'
+last_modified_date: '2023-09-08'
 ---
 
 # General
@@ -67,6 +67,24 @@ or
 $user = User::load(\Drupal::currentUser()->id());
 $email = $user->get('mail')->value;
 ```
+
+## Get the current Path
+
+`\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
+
+```php
+$currentPath  = \Drupal::service('path.current')->getPath();
+// Get the alias (i.e. if the user requested node/123, this will return e.g. /bicycles/super-cool-one) 
+$result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+// Or to include alias and query string.
+$alias = \Drupal::request()->getRequestUri();
+// Or 
+$url_string = Url::fromRoute('<current>')->toString();
+```
+
+
+
 ## Check if you are on the Front page
 
 ```php
