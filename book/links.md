@@ -416,16 +416,17 @@ $my_node_alias->save();
 `\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
 
 ```php
-$currentPath  = \Drupal::service('path.current')->getPath();
-// Get the alias (i.e. if the user requested node/123, this will return e.g. /bicycles/super-cool-one) 
-$result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+$current_path  = \Drupal::service('path.current')->getPath();
+// Get the alias (i.e. if the user entered node/123, this will return e.g. /bicycles/super-cool-one) 
+$alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
 
-// Or to include alias and query string.
-$alias = \Drupal::request()->getRequestUri();
-// Or 
-$url_string = Url::fromRoute('<current>')->toString();
+// Get path with query string e.g. /abc/def/123?a=fred.
+$current_path_and_alias = \Drupal::request()->getRequestUri();
+
+// Get path e.g. /abc/def/123
+$current_path = Url::fromRoute('<current>')->toString();
 ```
-
+[Lots more on the Drupal Stackexchange](https://drupal.stackexchange.com/questions/106103/how-do-i-get-the-current-path-alias-or-path)
 
 
 ## Get current nid, node type and title
