@@ -2,7 +2,7 @@
 layout: default
 title: Composer
 permalink: /composer
-last_modified_date: '2023-04-28'
+last_modified_date: '2023-09-11'
 ---
 
 # Composer, Updates and Patches
@@ -285,6 +285,21 @@ Examples:
 • \>=1.0 \<1.1 \|\| \>=1.2
 
 More at <https://getcomposer.org/doc/articles/versions.md>
+
+## Allowing multiple version
+
+You can use double pipe (`||`) to specify multiple version. 
+
+For the [CSV serialization](https://www.drupal.org/project/csv_serialization) module the author recommends using the following to install the module:
+```
+composer require drupal/csv_serialization:^2.0 || ^3.0
+```
+
+They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in EncoderInterface::encode() between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
+
+
+
+
 
 ## Troubleshooting
 
