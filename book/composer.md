@@ -2,7 +2,7 @@
 layout: default
 title: Composer
 permalink: /composer
-last_modified_date: '2023-09-11'
+last_modified_date: '2023-09-12'
 ---
 
 # Composer, Updates and Patches
@@ -115,6 +115,74 @@ To apply the patch:
 ```
 patch -p1 < ./patches/fix_scary_module.patch
 ```
+
+## composer.json patches from Drupal.org
+
+Patches can be applied by referencing them in the composer.json file, in the following format. [cweagans/composer-patches](https://github.com/cweagans/composer-patches) can then be used to apply the patches on any subsequent website builds.
+
+In order to install and manage patches using composer we need to require the "composer-patches" module: 
+
+```
+composer require cweagans/composer-patches
+```
+
+
+Examples of patches to core look like:
+
+```json
+  "extra": {
+    "patches": {
+      "drupal/core": {
+        "Add startup configuration for PHP server": "https://www.drupal.org/files/issues/add_a_startup-1543858-30.patch"
+      }
+    }
+  },
+```
+
+
+```json
+  "extra": {
+    "patches": {
+      "drupal/core": {
+        "Ignore front end vendor folders to improve directory search performance": "https://www.drupal.org/files/issues/ignore_front_end_vendor-2329453-116.patch"",
+        "My custom local patch": "./patches/drupal/some_patch-1234-1.patch"
+      }
+    }
+  },
+```
+
+
+See [Drupal 9 and Composer Patches](https://vazcell.com/blog/how-apply-patch-drupal-9-composer)
+also [Managing patches with Composer](https://acquia.my.site.com/s/article/360048081193-Managing-patches-with-Composer)
+
+
+
+### Step by step 
+
+1. Find the issue and patch in the issue queue on Drupal.org
+2. Use the title and ID of the issue to be able to locate this post in the future. E.g. [Using an issue for the Gin admin theme](https://www.drupal.org/project/gin/issues/3188521) "Improve content form detection - 3188521" 
+3. Scroll down the issue to find the specific patch you want to apply e.g. for comment #8 grab the file link for `3188521-8.patch`.  It is [https://www.drupal.org/files/issues/2021-05-19/3188521-8.patch](https://www.drupal.org/files/issues/2021-05-19/3188521-8.patch)
+4. Add the module name, description and URL for the patch into the extra patches section of json:
+
+```json
+  "extra": {
+    "patches": {
+      "drupal/core": {
+        "Add startup configuration for PHP server": "https://www.drupal.org/files/issues/add_a_startup-1543858-30.patch"
+      },
+      "drupal/gin": {
+        "Improve content form detection - 3188521": "https://www.drupal.org/files/issues/2021-05-19/3188521-8.patch"
+      }
+    }
+  }
+
+```
+If the patch was not applied or throws an error which is quite common (because they are no longer compatible), try using `-vvv` (verbose mode) flag with composer to see the reason: 
+
+```
+composer update -vvv
+```
+
 
 ## composer.json patches in separate file
 
@@ -286,7 +354,7 @@ Examples:
 
 More at <https://getcomposer.org/doc/articles/versions.md>
 
-## Allowing multiple version
+## Allowing multiple versions
 
 You can use double pipe (`||`) to specify multiple version. 
 
