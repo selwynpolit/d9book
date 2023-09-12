@@ -335,44 +335,43 @@ Package operations: 0 installs, 4 updates, 0 removals
   - Updating drupal/crop (1.5.0) to drupal/crop (2.0.0)
 ```
 
-## Version constraints
-
 1\. The caret constraint (`^`): this will allow any new versions
-except BREAKING ones---in other words, the first number in the version
-cannot increase, but the others can. `drupal/foo:^1.0` would allow
-anything greater than or equal to 1.0 but less than 2.0.x . If you need
+except BREAKING ones---in other words, the first number in the version
+cannot increase, but the others can. `drupal/foo:^1.0` would allow
+anything greater than or equal to 1.0 but less than 2.0.x. If you need
 to specify a version, this is the recommended method.
 
 2\. The tilde constraint (\~): this is a bit more restrictive than the
-caret constraint. It means composer can download a higher version of the
-last digit specified only. For example, drupal/foo:\~1.2 will allow
+caret constraint. It means composer can download a higher version of the
+last digit specified only. For example, drupal/foo:\~1.2 will allow
 anything greater than or equal to version 1.2 (i.e., 1.2.0, 1.3.0,
 1.4.0,...,1.999.999), but it won't allow that first 1 to increment to a
-2.x release. Likewise, drupal/foo:\~1.2.3 will allow anything from 1.2.3
+2.x release. Likewise, drupal/foo:\~1.2.3 will allow anything from 1.2.3
 to 1.2.999, but not 1.3.0.
 
 3\. The other constraints are a little more self-explanatory. You can
-specify a version range with operators, a specific stability level
-(e.g., -stable or -dev ), or even specify wildcards with \*.
+specify a version range with operators, a specific stability level
+(e.g., -stable or -dev ), or even specify wildcards with \*.
 
 Version range: By using comparison operators you can specify ranges of
-valid versions. Valid operators are \>, \>=, \<, \<=, !=.
+valid versions. Valid operators are \>, \>=, \<, \<=, !=.
 
-You can define multiple ranges. Ranges separated by a space ( ) or comma
-(,) will be treated as a logical AND. A double pipe (\|\|) will be
-treated as a logical OR. AND has higher precedence than OR.
+You can define multiple ranges. Ranges separated by a space ( ) or comma
+(,) will be treated as a logical AND. A double pipe (\|\|) will be
+treated as a logical OR. AND has higher precedence than OR.
 
-Note: Be careful when using unbounded ranges as you might end up
+Note: Be careful when using unbounded ranges as you might end up
 unexpectedly installing versions that break backwards compatibility.
-Consider using the caret operator instead for safety.
+Consider using the caret operator instead for safety.
+
 
 Examples:
 
-• \>=1.0
+- \>=1.0
 
-• \>=1.0 \<2.0
+- \>=1.0 \<2.0
 
-• \>=1.0 \<1.1 \|\| \>=1.2
+- \>=1.0 \<1.1 \|\| \>=1.2
 
 More at <https://getcomposer.org/doc/articles/versions.md>
 
@@ -397,9 +396,11 @@ They say: \"It is not possible to support both Drupal 9.x and 10.x in a single r
 
 The `prohibits` command tells you which packages are blocking a given package from being installed. Specify a version constraint to verify whether upgrades can be performed in your project, and if not why not.
 
-Why won\'t composer install Drupal version 8.9.1.
+Why won\'t composer install Drupal version 8.9.1?
 
+```
 composer why-not drupal/core:8.9.1
+```
 
 ### The big reset button
 
