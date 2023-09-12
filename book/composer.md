@@ -116,7 +116,7 @@ To apply the patch:
 patch -p1 < ./patches/fix_scary_module.patch
 ```
 
-## composer.json patches from Drupal.org
+## Patch modules using patches on Drupal.org
 
 Patches can be applied by referencing them in the composer.json file, in the following format. [cweagans/composer-patches](https://github.com/cweagans/composer-patches) can then be used to apply the patches on any subsequent website builds.
 
@@ -177,6 +177,9 @@ also [Managing patches with Composer](https://acquia.my.site.com/s/article/36004
   }
 
 ```
+5. use `composer update --lock` to apply the patch and watch the output.
+
+
 If the patch was not applied or throws an error which is quite common (because they are no longer compatible), try using `-vvv` (verbose mode) flag with composer to see the reason: 
 
 ```
@@ -403,12 +406,14 @@ $ ddev composer install
 
 ## Reference
 
--   Drupal 8 composer best practices (Jan 2018)
-    <https://www.lullabot.com/articles/drupal-8-composer-best-practices>
--   Making a patch (Dec 2022) <https://www.drupal.org/node/707484>
--   Composer Documentation <https://getcomposer.org/doc/>
--   Composer documentation article on versions and constraints <https://getcomposer.org/doc/articles/versions.md>
--   Using Drupal's Composer Scaffold updated Dec 2922 <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>
+- [Drupal 8 composer best practices - Jan 2018](https://www.lullabot.com/articles/drupal-8-composer-best-practices)
+- [Making a patch - Dec 2022](https://www.drupal.org/node/707484)
+- [Composer Documentation](https://getcomposer.org/doc/)
+- [Composer documentation article on versions and constraints](https://getcomposer.org/doc/articles/versions.md)
+- [Using Drupal's Composer Scaffold updated Dec 2022](https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6)
+- [Drupal 9 and Composer Patches by Adrian Vazquez Peligero June 2021](https://vazcell.com/blog/how-apply-patch-drupal-9-composer)
+- [Managing patches with Composer March 2022](https://acquia.my.site.com/s/article/360048081193-Managing-patches-with-Composer)
+
 
 ---
 
