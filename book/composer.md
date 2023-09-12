@@ -81,8 +81,7 @@ Create the patch
 git diff >file_entity_disable_file_menu_tab.patch
 ```
 
-Add the patch to the patches section of composer.json. Notice below the
-line starting with \"drupal/file_entity\":
+Add the patch to the patches section of composer.json. Notice below the line starting with \"drupal/file_entity\" is the local file patch:
 
 ```json
 "patches": {
@@ -151,6 +150,17 @@ Examples of patches to core look like:
   },
 ```
 
+Some developers like adding the actual link to the issue in the description like this:
+
+```json
+"extra": {
+  "patches": {
+      "drupal/core": {
+          "Views Exposed Filter Block not inheriting the display handlers cache tags, causing filter options not to appear, https://www.drupal.org/project/drupal/issues/3067937": "https://www.drupal.org/files/issues/2019-07-15/drupal-exposed_filter_block_cache_tags-3067937-4.patch",
+          "Cannot use relationship for rendered entity on Views https://www.drupal.org/project/drupal/issues/2457999": "https://www.drupal.org/files/issues/2021-05-13/9.1.x-2457999-267-views-relationship-rendered-entity.patch"
+      },
+```
+
 
 See [Drupal 9 and Composer Patches](https://vazcell.com/blog/how-apply-patch-drupal-9-composer)
 also [Managing patches with Composer](https://acquia.my.site.com/s/article/360048081193-Managing-patches-with-Composer)
@@ -185,6 +195,15 @@ If the patch was not applied or throws an error which is quite common (because t
 ```
 composer update -vvv
 ```
+
+## Patches from a Gitlab merge request
+
+Using the URL of the merge request, add .patch at the end of the URL and that will be the path to the latest patch.
+
+e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
+
+The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
+
 
 
 ## composer.json patches in separate file
