@@ -55,6 +55,7 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
 - Install [Upgrade Status](https://www.drupal.org/project/upgrade_status) module to give you all the recommendations
 - Review the report at `https://tea2.ddev.site/admin/reports/upgrade-status`
   - Follow the recommendations to remove projects in the `remove` section
+    - This includes things like: Color, RDF, and themes like: Bartik, Seven and Stable.
   - Update code in modules under the `scan` section
   - Install updated versions of the modules in the `Collaborate with maintainers` section
 
