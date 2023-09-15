@@ -169,6 +169,27 @@ Successor of Protected Permissions module.  Light-weight, non-intrusive spam pro
 [https://www.drupal.org/project/protected_forms](https://www.drupal.org/project/protected_forms)
 
 
+--- 
+## User Interface
+
+### select2
+Integrates Drupal autocomplete and select fields with the [Select2 jQuery library.](https://select2.org/) Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results. The look and feel of Select2 is inspired by the excellent [Chosen library.](https://harvesthq.github.io/chosen/)
+This includes views support and provides a render element (for usage in forms), and two field widgets. One for simple select fields and another for entity reference fields.
+
+The render element supports several select2 features:
+- Single and multiple selection
+- Internationalization
+- Integrates nicely with the seven theme
+When the field widget is used in the entity reference context this module provides more features:
+- Autocomplete: The select options will not be rendered in the page and instead fetched by API during typing.
+- Autocreate: Like core's entity reference field this widget can create new entities on the fly.
+[https://www.drupal.org/project/select2](https://www.drupal.org/project/select2)
+
+Other JS select modules and libraries include: 
+- [Selectize](https://selectize.github.io/selectize.js) with its Drupal module: [https://www.drupal.org/project/selectize](https://www.drupal.org/project/selectize)
+- [Chosen](https://harvesthq.github.io/chosen/) with its Drupal module: [https://www.drupal.org/project/chosen](https://www.drupal.org/project/chosen)
+
+
 ---
 ## Workflow
 
