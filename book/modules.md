@@ -2,7 +2,7 @@
 layout: default
 title: Modules
 permalink: /modules
-last_modified_date: '2023-09-05'
+last_modified_date: '2023-09-15'
 ---
 
 # Modules for Drupal
@@ -21,7 +21,6 @@ last_modified_date: '2023-09-05'
 ## Overview
 
 With over 50,000 modules, Drupal has the ability to do almost anything. This also means it can be a little tough to find what you need. Here is a list of modules that are important, useful and interesting.
-
 
 
 
@@ -53,10 +52,49 @@ Augmentor is an AI framework for Drupal which allows for the easy integration of
 [https://www.drupal.org/project/augmentor](https://www.drupal.org/project/augmentor)
 
 
+---
 
+
+## Content Entry/editing
+
+### Existing Values Autocomplete Widget
+Provides an autocomplete widget for text fields that suggests all existing (previously entered) values for that field. This provides more flexibility than "allowed values" for the content editor to add new values. At that same time, it is simpler in many cases than creating a taxonomy vocabulary (no hierarchies, no separate system, no permissions headaches, no rendered pages per term).
+[https://www.drupal.org/project/existing_values_autocomplete_widget](https://www.drupal.org/project/existing_values_autocomplete_widget)
+
+
+### Link Field Autocomplete Filter
+Currently the autocomplete in the Link Field widget always shows content suggestions from all content (node) types. This module adds a Link Field configuration for filtering the suggested content types in the autocomplete field.
+
+[https://www.drupal.org/project/link_field_autocomplete_filter](https://www.drupal.org/project/link_field_autocomplete_filter)
+
+
+---
 
 
 ## Content Management
+
+
+### Entity Clone
+
+Allows you to clone nodes
+This module add a new entity operation which allows to clone many of the entities (config & content) provided by the Drupal core. The old Node clone module doesn’t exist for D8/9/10, rather use entity clone.  
+
+[https://www.drupal.org/project/entity_clone](https://www.drupal.org/project/entity_clone)
+
+See also: [Replicate (API only)](https://www.drupal.org/project/replicate)
+
+### Quick Node Clone
+
+Adds a "Clone" tab to a node. When clicked, a new node is created and fields from the previous node are populated into the new fields.
+[https://www.drupal.org/project/quick_node_clone](https://www.drupal.org/project/quick_node_clone)
+
+
+### Entity Bulk Clone
+Entity Bulk Clone provides the clone features for nodes using views bulk operations.
+
+[https://www.drupal.org/project/entity_bulk_clone](https://www.drupal.org/project/entity_bulk_clone)
+
+
 
 
 ### Content Autogrid
@@ -78,7 +116,7 @@ The Allow Only One module was created to prevent duplicate content save, based o
 
 
 
-
+---
 ## Essential Utility Modules for Every Site
 
 Well maybe not every site, but certainly for most sites, your life and your content editor's lives will go better with these modules.
@@ -96,7 +134,7 @@ The modules list page can become quite big when dealing with a fairly large site
 [https://www.drupal.org/project/module_filter](https://www.drupal.org/project/module_filter)
 
 
-
+---
 ## Forms
 
 ### Protected Forms
@@ -108,7 +146,7 @@ Successor of Protected Permissions module.  Light-weight, non-intrusive spam pro
 
 
 
-
+---
 ## Other Modules
 
 
@@ -122,7 +160,7 @@ The Entityqueue module allows users to create queues of any entity type. Each qu
 
 
 
-
+---
 ## Security/Spam Protection
 
 ### Protected Forms
@@ -131,7 +169,7 @@ Successor of Protected Permissions module.  Light-weight, non-intrusive spam pro
 [https://www.drupal.org/project/protected_forms](https://www.drupal.org/project/protected_forms)
 
 
-
+---
 ## Workflow
 
 ### ECA: Event - Condition - Action
@@ -142,7 +180,7 @@ ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The 
 
 
 
-
+---
 ## Resources
 - [What every Drupal website should have from the start - August 2023](https://roose.digital/en/blog/drupal/what-every-drupal-website-should-have-start)
 - [50 Drupal modules every Drupal professional should know about - September 2021](https://robertroose.com/blog/drupal/50-drupal-modules-every-drupal-professional-should-know-about)
