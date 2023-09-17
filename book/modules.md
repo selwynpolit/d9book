@@ -67,6 +67,35 @@ Augmentor is an AI framework for Drupal which allows for the easy integration of
 
 [https://www.drupal.org/project/augmentor](https://www.drupal.org/project/augmentor)
 
+---
+
+## Breadcrumbs
+
+### Easy Breadcrumb
+
+The Easy Breadcrumb module updates the core Breadcrumb block to include the current page title in the breadcrumb. It also comes with additional settings that are common features needed in breadcrumbs. Breadcrumbs use the current URL (path alias) and the current page title to build the crumbs. The module is designed to work out of the box with no adjustments, and it comes with settings to customize the crumbs.
+
+Example
+URL: `/gallery/videos/kittens`
+
+Breadcrumbs: `Home >> Gallery >> Videos >> Cute Kittens`
+
+[https://www.drupal.org/project/easy_breadcrumb](https://www.drupal.org/project/easy_breadcrumb)
+
+### Menu Breadcrumb
+
+This module allows you to use the menu the current page belongs to for the breadcrumb, generating breadcrumbs from the titles of parent menus.
+
+- Select and re-order the menus on which you want the menu-based breadcrumbs
+- Append the page title to the breadcrumb (either as a clickable url or not)
+- Hide the breadcrumb if it only contains the link to the front page
+- Generate the breadcrumb from the URL structure if content does not belong to a menu
+- If the "Taxonomy Attachment" option is selected for a menu, and if the current page belongs to a taxonomy that is on that menu, it will inherit the taxonomy page's menu breadcrumbs (e.g., for blog entries that aren't on any menu).
+- Other breadcrumb builders (e.g., the path & title-based Drupal 8 default breadcrumb builder) will be used if there is no applicable menu based breadcrumb.
+
+[https://www.drupal.org/project/menu_breadcrumb](https://www.drupal.org/project/menu_breadcrumb)
+
+
 
 ---
 ## Calendars
@@ -175,6 +204,31 @@ Provides a formatter to use that allows users to download file and image entitie
 Adds a "Clone" tab to a node. When clicked, a new node is created and fields from the previous node are populated into the new fields.
 [https://www.drupal.org/project/quick_node_clone](https://www.drupal.org/project/quick_node_clone)
 
+
+---
+## Data Import
+
+### Feeds
+
+Feeds is the module for importing or aggregating data into nodes, users, taxonomy terms and other content entities using a web interface without coding a migration. Data can be imported from various formats, such as CSV, JSON, XML and RSS feeds.
+
+- [Docs for creating/using feed](https://www.drupal.org/docs/8/modules/feeds/creating-and-editing-import-feeds)
+- [Import your content with Feeds with Drupal by Omar Lopesino - December 2018]
+[https://www.drupal.org/project/feeds](https://www.drupal.org/project/feeds)
+
+### Feeds Tamper
+Feeds Tamper provides a small plugin architecture for Feeds to modify data before it gets saved. Several plugins are available by default and are described in the examples section below. Additional plugins can be added in separate modules or through the issue queue.
+
+Examples:
+- Replace every instance of 'dog' with 'cat'.
+- Filter items based on keywords or vocabularies.
+- Make every letter uppercase, lowercase, or capitalize every first letter.
+- Break a comma separated list of words into Taxonomy terms or a multivalued text field.
+- Combine separate 'firstname' and 'lastname' fields into one 'name' field.
+- Convert urls from relative to absolute.
+- Incredibly simple plugin architecture allowing you to do almost anything to Feeds' data. This comes with simple configuration and exportability(i.e. Features.)
+
+[https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
 
 ---
 ## Email
@@ -386,6 +440,41 @@ The Pathauto module automatically generates URL/path aliases for various kinds o
 
 
 
+
+---
+## Site Navigation/Menus
+
+### Menu Block
+
+This module provides configurable blocks of menu links with additional features not available in Drupal 8+ core. Drupal core allows you to display blocks of menu links starting with any desired level of a menu and limited to any desired depth. This module provides additional configuration, so you can choose to expand all menu links with children or to root the menu tree to a specific menu item.
+
+[https://www.drupal.org/project/menu_block](https://www.drupal.org/project/menu_block)
+
+### Menu Breadcrumb
+
+This module allows you to use the menu the current page belongs to for the breadcrumb, generating breadcrumbs from the titles of parent menus.
+
+- Select and re-order the menus on which you want the menu-based breadcrumbs
+- Append the page title to the breadcrumb (either as a clickable url or not)
+- Hide the breadcrumb if it only contains the link to the front page
+- Generate the breadcrumb from the URL structure if content does not belong to a menu
+- If the "Taxonomy Attachment" option is selected for a menu, and if the current page belongs to a taxonomy that is on that menu, it will inherit the taxonomy page's menu breadcrumbs (e.g., for blog entries that aren't on any menu).
+- Other breadcrumb builders (e.g., the path & title-based Drupal 8 default breadcrumb builder) will be used if there is no applicable menu based breadcrumb.
+
+[https://www.drupal.org/project/menu_breadcrumb](https://www.drupal.org/project/menu_breadcrumb)
+
+### Menu Trail By Path
+Menu Trail By Path sets the active-trail on menu items according to the current url. For example if you are at `yoursite.com/blog/category1/article1` menu, items with these paths will get the `active-trail` class on them and expand accordingly:
+
+- blog
+- blog/category1
+- blog/category1/article1
+
+This is particularly useful if you want a lot of nodes to appear as children of certain nodes, taxonomy, term, views, referenced nodes etc. but do not want to add them all to the menu. e.g. hundreds of blog articles.
+
+Menu Trail By Path is best used in conjunction with Pathauto.
+
+This module is similar to Menutrails (D6) and Menu Position (D7), except no configuration is needed. It uses the path URL to determine the active-trail instead of setting rules for each node type. It also works for non-node pages such as taxonomy term and views. Just enable the module to see the results.
 
 
 ---
