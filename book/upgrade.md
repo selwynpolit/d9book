@@ -609,6 +609,8 @@ They say: \"It is not possible to support both Drupal 9.x and 10.x in a single r
 - [Managing patches with Composer March 2022](https://acquia.my.site.com/s/article/360048081193-Managing-patches-with-Composer)
 - [Palantir's drupal-rector repo](https://github.com/palantirnet/drupal-rector)
 - [Palantir.net: Adding Drupal Rector to a site](https://www.palantir.net/rector/adding-drupal-rector-site)
+- [Drupal rector module](https://www.drupal.org/project/rector)
+
 
 ---
 
