@@ -335,6 +335,8 @@ Package operations: 0 installs, 4 updates, 0 removals
   - Updating drupal/crop (1.5.0) to drupal/crop (2.0.0)
 ```
 
+## Version constraints
+
 1\. The caret constraint (`^`): this will allow any new versions
 except BREAKING ones---in other words, the first number in the version
 cannot increase, but the others can. `drupal/foo:^1.0` would allow
