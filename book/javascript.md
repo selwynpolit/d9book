@@ -178,14 +178,7 @@ In the `node--map.html.twig` file at `web/themes/custom/txglobal/templates/conte
 
 ## Resources
 
-Read more about batch processing at these sites:
-- [Smack My Batch Up : Batch Processing In Drupal 8](https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8) by Phil Norton July 2016
-- Highly commented [source code for batch operations around line 561 for Drupal 10](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L561) (or search for 'batch operations')
 
-Read more about the Queue API at these sites:
-- Karim Boudjema from August 2018 has [some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
-- Sarthak TTN from Feb 2017 shows some [sample code on implementing cron and the queue API](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8)
-- [There is a somewhat incomplete example](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9) From Alan Saunders article on December 2021
 
 ---
 
