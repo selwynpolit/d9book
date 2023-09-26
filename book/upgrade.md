@@ -2,7 +2,7 @@
 layout: default
 title: Upgrades
 permalink: /upgrade
-last_modified_date: '2023-09-13'
+last_modified_date: '2023-09-26'
 ---
 
 # Upgrading and patching Drupal and contrib modules
@@ -88,6 +88,8 @@ composer update
   - `drush cr`
   - `drush updb -y`
 
+See also
+- [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)
 
 
 ## Creating a local patch to a contrib module
@@ -372,6 +374,158 @@ and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-compo
 More at <https://drupal.stackexchange.com/questions/290989/composer-keeps-overwriting-htaccess-and-other-files-every-time-i-do-anything>
 
 
+## Add a module that isn't currently supported in your version of drupal
+
+Use these steps when upgrading from Drupal 9 to Drupal 10:
+
+Install the composer lenient plugin
+`composer require mglaman/composer-drupal-lenient`
+
+
+
+This makes `composer.json` look like this:
+
+
+```
+Notice the `require` key and the `config` key below
+```json
+    "require": {
+        "acquia/memcache-settings": "^1.2",
+        ...
+        "mglaman/composer-drupal-lenient": "^1.0"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true,
+            "cweagans/composer-patches": true,
+            "mglaman/composer-drupal-lenient": true
+        },
+```
+
+Specify which Drupal module that composer should be lenient with: 
+
+composer config --merge --json extra.drupal-lenient.allowed-list '["drupal/node_access_rebuild_progressive"]'
+
+And `composer.json` gets this added:
+
+```json
+        "drupal-lenient": {
+            "allowed-list": ["drupal/node_access_rebuild_progressive", "drupal/node_access_rebuild_progressive"]
+        }
+```
+
+If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use: 
+
+```
+composer require cweagans/composer-patches
+```
+
+
+Create the patch file `patches/node_access_rebuild_progressive_d10.patch` with the following contents.  It is on [drupal.org](https://www.drupal.org/project/node_access_rebuild_progressive/issues/3288770#comment-15227586).
+
+```
+diff --git docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml
+index 1a0e13eec..f322ff847 100644
+--- docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml
++++ docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml
+@@ -1,7 +1,7 @@
+ name: 'Node Access Rebuild Progressive'
+ description: 'Rebuild node access grants in chunks'
+ type: module
+-core_version_requirement: ^8 || ^9
++core_version_requirement: ^9.4 || ^10
+ 
+ # Information added by Drupal.org packaging script on 2020-06-23
+ version: '2.0.0'
+diff --git docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module
+index 45f7c8a41..d2fc50637 100644
+--- docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module
++++ docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module
+@@ -36,7 +36,7 @@ function node_access_rebuild_progressive_trigger() {
+   node_access_needs_rebuild(FALSE);
+   // Add default grants in the unlikely case
+   // no modules implement node_grants anymore.
+-  if (!count(\Drupal::moduleHandler()->getImplementations('node_grants'))) {
++  if (!count(\Drupal::moduleHandler()->hasImplementations('node_grants'))) {
+     node_access_rebuild_progressive_set_default();
+     return node_access_rebuild_progressive_finished();
+   }
+
+```
+
+In composer.json add your patch as shown below.
+
+```json
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "docroot/"
+            },
+            "file-mapping": {
+                "[web-root]/sites/development.services.yml": false
+            }
+        },
+        "installer-paths": {
+            "docroot/core": [
+                "type:drupal-core"
+            ],
+            "docroot/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "docroot/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "docroot/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "docroot/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "docroot/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "docroot/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "docroot/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
+        },
+        "patches": {
+            "drupal/node_access_rebuild_progressive": {
+                "Automated Drupal 10 compatibility fixes - 3288770": "patches/node_access_rebuild_progressive_d10.patch"
+            }
+        },
+
+```
+
+
+Install the module with:
+
+`composer require drupal/node_access_rebuild_progressive`
+
+The module will be installed and the patch applied!
+
+More at
+- [HOW TO INCORPORATE DRUPAL 9-COMPATIBLE MODULES INTO YOUR DRUPAL 10 PROJECT - Aug 2023](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
+- [https://github.com/mglaman/composer-drupal-lenient](https://github.com/mglaman/composer-drupal-lenient)
+- [Using Drupal's Lenient Composer Endpoint - Sep 2023](https://www.drupal.org/docs/develop/using-composer/using-drupals-lenient-composer-endpoint)
+- [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
+
+
 
 
 ## Test composer (dry run)
@@ -446,13 +600,15 @@ They say: \"It is not possible to support both Drupal 9.x and 10.x in a single r
 
 
 ## Reference
-- [Upgrade to Drupal 10 - March 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
+- [Drupalize.me: Upgrade to Drupal 10 - March 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
+- [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)
 - [Composer Documentation](https://getcomposer.org/doc/)
 - [Composer documentation article on versions and constraints](https://getcomposer.org/doc/articles/versions.md)
 - [Using Drupal's Composer Scaffold updated Dec 2022](https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6)
 - [Drupal 9 and Composer Patches by Adrian Vazquez Peligero June 2021](https://vazcell.com/blog/how-apply-patch-drupal-9-composer)
 - [Managing patches with Composer March 2022](https://acquia.my.site.com/s/article/360048081193-Managing-patches-with-Composer)
-
+- [Palantir's drupal-rector repo](https://github.com/palantirnet/drupal-rector)
+- [Palantir.net: Adding Drupal Rector to a site](https://www.palantir.net/rector/adding-drupal-rector-site)
 
 ---
 
