@@ -1275,6 +1275,17 @@ In your `settings.local.php` add this:
 putenv("IS_DDEV_PROJECT=true");
 ```
 
+Failing looks like this:
+
+```sh
+$ drush cr
+
+In Database.php line 378:
+
+The specified database connection is not defined: default
+```
+
+
 Et voila.  You can now issue command such as `drush cr` as if you had first `ssh'ed` into the container.  
 
 
