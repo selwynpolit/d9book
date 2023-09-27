@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-09-07'
+last_modified_date: '2023-09-27'
 ---
 
 # Setting up your Mac for Drupal development
@@ -294,14 +294,14 @@ plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
 
 ### git
 
-Although the macOS comes with git, it is probably wise to install the latest with homebrew:
+Although the macOS comes with git, it is probably wise to install the latest with homebrew using the following command:
 
 ```
 brew install git
 ```
 
 #### .gitconfig 
-In your $HOME directory, create the .gitconfig file.  Replace my name and email address with yours.
+In your $HOME directory, create the .gitconfig file.  Replace my name and email address with yours.  I've added some useful aliases which allow nice shorthand commands like `git co branch_abc` `git hist` etc.
 
 ```
 # This is Git's per-user configuration file.
@@ -328,6 +328,13 @@ In your $HOME directory, create the .gitconfig file.  Replace my name and email 
         required = true
 
 ```
+
+Also to set the default main branch as `main` rather than the old and somewhat oppressive word `master` use: 
+
+```sh
+git config --global init.defaultBranch main
+```
+
 
 #### .gitignore_global
 
