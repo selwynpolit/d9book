@@ -2,7 +2,7 @@
 layout: default
 title: Drush
 permalink: /drush
-last_modified_date: '2023-04-24'
+last_modified_date: '2023-09-27'
 ---
 
 # Drush
@@ -1245,6 +1245,40 @@ $ drush sqlq "select count(*) as redirects"
 1
 ```
 
+
+## Run drush on the host
+
+If you don't want to try `ddev drush cr` or `ddev drush cim -y` and would rather just use `drush cr` or `drush cim -y` you can set things up to do that
+
+You will need php 8.1 set up on your mac and drush installed globally.  See the `Setting up your Mac for Drupal development` chapter for details on this.
+
+In your project `settings.php` make sure the last part of the file looks like this:
+
+```php
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
+
+// Automatically generated include for settings managed by ddev.
+if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev.php')) {
+  include __DIR__ . '/settings.ddev.php';
+}
+```
+
+{: .note }
+The order of the above items is critical
+
+
+In your `settings.local.php` add this: 
+
+```php
+putenv("IS_DDEV_PROJECT=true");
+```
+
+Et voila.  You can now issue command such as `drush cr` as if you had first `ssh'ed` into the container.  
+
+
+
 ## Drush launcher
 
 install drush launcher from <https://github.com/drush-ops/drush-launcher>
@@ -1257,6 +1291,10 @@ via Composer (`$ composer require drush/drush`). This makes Drush available to y
 
 However, it is inconvenient to type `vendor/bin/drush` to execute Drush commands. By installing the drush launcher globally on your local
 machine, you can simply type drush on the command line, and the launcher will find and execute the project specific version of drush located in your project\'s vendor directory.
+
+{: .note }
+This may not be required any more.
+
 
 
 ## Drupal 7 Drush scripts

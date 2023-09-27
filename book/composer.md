@@ -366,7 +366,7 @@ And `composer.json` gets this added:
 
 ```json
         "drupal-lenient": {
-            "allowed-list": ["drupal/node_access_rebuild_progressive", "drupal/node_access_rebuild_progressive"]
+            "allowed-list": ["drupal/node_access_rebuild_progressive"]
         }
 ```
 
@@ -507,13 +507,14 @@ Notice the `require` key and the `config` key below
 
 Specify which Drupal module that composer should be lenient with: 
 
+```
 composer config --merge --json extra.drupal-lenient.allowed-list '["drupal/node_access_rebuild_progressive"]'
-
+```
 And `composer.json` gets this added:
 
 ```json
         "drupal-lenient": {
-            "allowed-list": ["drupal/node_access_rebuild_progressive", "drupal/node_access_rebuild_progressive"]
+            "allowed-list": ["drupal/node_access_rebuild_progressive"]
         }
 ```
 
