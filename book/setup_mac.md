@@ -497,21 +497,33 @@ I find this to be a powerful tool in my Drupal development.
 
 You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).  
 
-Go to: Settings, Php, Debug, Quality Tools, PHP_CodeSniffer
+Go to: Settings, Php, Quality Tools, PHP_CodeSniffer
 
 Use the following settings:
 - Configuration: System PHP
+- Check Show warning as: Warning
+- Check Show sniff name
+- If you installed the coder module in your project with `composer require drupal/coder` and the phpcs
+  - Uncheck Installed standards path: 
+- If you have phpcs installed globally, use
+  - Check Installed standards path: /Users/spolit/.composer/vendor/bin/phpcs
 - Coding standard: Drupal
 
-Under the ... button set the PHP_CodeSniffer path to : /Users/spolit/.composer/vendor/bin/phpcs
-If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
+
+If you installed the coder module in your project: Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf`. 
+
+If you have installed phpcs and coder globally, Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/.composer/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/.composer/vendor/bin/phpcbf`. 
+
 
 {: .note }
-(replace `/Users/spolit` with your own path to your username) 
+(replace `/Users/spolit` with your own path to your username and `tea` with the name of the directory for your site.) 
 
 More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
 
 
+To install phpcs & phpcf *globally* use: 
+`composer global require squizlabs/php_codesniffer`
+To install coder module *globally* so you can codesniff using Drupal standards, use `composer global require drupal/coder`
 
 
 
@@ -532,7 +544,8 @@ Run stats from applications folder, in settings, select start at login.
 
 ### ngrok
 
-ngrok is a secure unified ingress platform that combines your reverse proxy, firewall, API gateway and global load balancing into a production service.
+ngrok lets you quickly share a site you are developing on with others. From the ddev docs: `ddev share` proxies the project via ngrok for sharing your project with others on your team or around the world. It’s built into DDEV and requires an [ngrok.com](https://ngrok.com) account. Run `ddev share` and then give the resultant URL to your collaborator or use it on your mobile device. More at [https://ddev.readthedocs.io/en/latest/users/topics/sharing/](https://ddev.readthedocs.io/en/latest/users/topics/sharing/)
+
 
 ```
 brew install ngrok
