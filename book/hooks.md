@@ -2,7 +2,7 @@
 layout: default
 title: Hooks
 permalink: /hooks
-last_modified_date: '2023-09-04'
+last_modified_date: '2023-09-29'
 ---
 
 # Hooks
@@ -171,7 +171,7 @@ function ogg_mods_invalidate_node(NodeInterface $node) {
 You can read more about using [hook_entity_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_presave/10) at as well as [hook_ENTITY_TYPE_presave](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_presave/10).
 
 
-## hook_update
+## hook_update_n
 
 Almost every project that runs for a while will require some hook_updates. This is the facility used to do automated changes to your sites and are executed via drush using `drush updb`. Here is an example that updates a menu item with a title \'Support\'.
 
@@ -199,6 +199,7 @@ function partridge_update_8002() {
 }
 ```
 
+[More at this Specbee blog post](https://www.specbee.com/blogs/update-and-post-update-hooks-for-successful-drupal-site-updates)
 
 ## Theme hooks
 
@@ -848,6 +849,8 @@ mechanisms of the previous section. There are two hooks for this: the theme-hook
 - [What are hooks? from Drupalize.me - March 2022](https://drupalize.me/tutorial/what-are-hooks?p=2766)
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
 - [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU - Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
+- [Understanding update and post update hooks for successful Drupal site updates - May 2023](https://www.specbee.com/blogs/update-and-post-update-hooks-for-successful-drupal-site-updates)
+
 
 ---
 

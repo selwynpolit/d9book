@@ -929,6 +929,18 @@ drush php-eval "\Drupal::keyValue('system.schema')->delete('my_already_removed_m
 drush php-eval "\Drupal::keyValue('system.schema')->delete('update_test_0');"
 ```
 
+This can be done using a `hook_update_n` in your `.module` file like this:
+
+```php
+/**
+ * Remove the rules and typed_data key/value entries from the system.schema.
+ */
+function tea_teks_update_8001() {
+  \Drupal::keyValue('system.schema')->delete('rules');
+  \Drupal::keyValue('system.schema')->delete('typed_data');
+}
+```
+
 Alternatively, adding the missing modules with `composer install`, enabling them and deploying everything to production.  Then disabling them properly, deploying that to production, then removing the modules with `composer remove` and deploying may also work.  Of course, this method is a lot more work.
 
 ---
