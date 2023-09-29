@@ -2,7 +2,7 @@
 layout: default
 title: General
 permalink: /general
-last_modified_date: '2023-09-16'
+last_modified_date: '2023-09-29'
 ---
 
 # General
@@ -900,6 +900,35 @@ function multiauthor_form_alter(array &$form, FormStateInterface $form_state, st
 
 This hook alters the Basic page add and edit forms, setting my custom "Additional author" field (field_additional_authors) to the "author" group in the "Additional authors" accordion. Users added to the `Additional authors` field get the same read, update, and delete permissions at the owner of the node.
 
+
+## System.schema (module is missing from your site)
+
+
+When running `drush updb`, if the system reports:
+
+```
+[notice] Module rules has an entry in the system.schema key/value storage, but is missing from your site. <a href="https://www.drupal.org/node/3137656">More information about this error</a>.
+[notice] Module typed_data has an entry in the system.schema key/value storage, but is not installed. <a href="https://www.drupal.org/node/3137656">More information about this error</a>.
+```
+[From https://www.drupal.org/node/3137656](https://www.drupal.org/node/3137656)
+
+In the database, there is a table called `key_value` with a field called `collection` that contains the value `system.schema` for some rows. The field `name` has the names of modules. 
+
+
+To repair these sorts of errors, you must remove the orphaned entries from the `system.schema` key/value storage system. There is no UI for doing this. You can use drush to invoke a system service to manipulate the system.schema data in the `key_value` table. For example, to clean up these two errors:
+
+```
+Module my_already_removed_module has a schema in the key_value store, but is missing from your site.
+Module update_test_0 has a schema in the key_value store, but is not installed.
+```
+You would need to run the following commands:
+
+```
+drush php-eval "\Drupal::keyValue('system.schema')->delete('my_already_removed_module');"
+drush php-eval "\Drupal::keyValue('system.schema')->delete('update_test_0');"
+```
+
+Alternatively, adding the missing modules with `composer install`, enabling them and deploying everything to production.  Then disabling them properly, deploying that to production, then removing the modules with `composer remove` and deploying may also work.  Of course, this method is a lot more work.
 
 ---
 
