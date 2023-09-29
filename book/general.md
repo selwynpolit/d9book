@@ -914,6 +914,7 @@ When running `drush updb`, if the system reports:
 
 In the database, there is a table called `key_value` with a field called `collection` that contains the value `system.schema` for some rows. The field `name` has the names of modules. 
 
+![Image of key_value table](assets/images/system_schema_rules.png)
 
 To repair these sorts of errors, you must remove the orphaned entries from the `system.schema` key/value storage system. There is no UI for doing this. You can use drush to invoke a system service to manipulate the system.schema data in the `key_value` table. For example, to clean up these two errors:
 
