@@ -3,7 +3,7 @@ layout: default
 title: Attribution
 permalink: /attribution
 search_exclude: true
-last_modified_date: '2023-05-09'
+last_modified_date: '2023-09-29'
 ---
 
 # Attribution
@@ -25,7 +25,7 @@ Thanks to these rockstars for their contribution to the project.  Please add you
 
 [Ales Rebec](https://github.com/alesrebec) - Styling help and email chapter.
 
-[Sean Adams-Hiett](https://github.com/pyrello) - Fixes.
+[Sean Adams-Hiett](https://github.com/pyrello) - Help with editing..
 
 [Gary Gao](https://github.com/angrytoast) - Query access checking.
 
@@ -37,15 +37,15 @@ Thanks to these rockstars for their contribution to the project.  Please add you
 
 [DarkDim](https://github.com/darkdim) - Learning chapter.
 
-[Balint Csuthy](https://github.com/Pasqualle) - Fix link
+[Balint Csuthy](https://github.com/Pasqualle) - Help with editing.
 
-[Bhanu](https://gist.github.com/bhanu951) - Actions chapter and a bunch of other interesting issues
+[Bhanu](https://gist.github.com/bhanu951) - Actions chapter and a bunch of other interesting issues.
 
 [John Picozzi](https://github.com/johnpicozzi) - Bringing us more in line with Drupal standards.
 
-[Tony G.](https://github.com/tgroff) - Help with typos
+[Tony G.](https://github.com/tgroff) - Help with editing.
 
 [James Shields](https://github.com/lostcarpark) - Custom favicon.
 
-[Manas Khatua](https://github.com/manask4) - Fix typos
+[Manas Khatua](https://github.com/manask4) - Help with editing.
 
