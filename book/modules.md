@@ -2,7 +2,7 @@
 layout: default
 title: Modules
 permalink: /modules
-last_modified_date: '2023-09-15'
+last_modified_date: '2023-10-04'
 ---
 
 # Modules for Drupal
@@ -239,6 +239,12 @@ This module allows Drupal to bypass the PHP mail() function and send email direc
 
 What does SMTP NOT do? This module does not support (and will not support) sending mail via other protocols or APIs other than SMTP.  For Example: While services like sendgrid do support SMTP, you may get a better experience using the [Sendgrid Integration Module](https://www.drupal.org/project/sendgrid_integration)
 
+### Reroute Email
+
+This module intercepts all outgoing emails from a Drupal site and reroutes them to one or more predefined configurable email addresses.  It also logs any email attempts to watchdog.
+
+
+[Reroute Email Module](https://www.drupal.org/project/reroute_email)
 
 ---
 ## Essential Utility Modules for Every Site
