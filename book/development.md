@@ -2,7 +2,7 @@
 layout: default
 title: Development
 permalink: /development
-last_modified_date: '2023-08-30'
+last_modified_date: '2023-10-04'
 ---
 
 # Development
@@ -184,11 +184,10 @@ Note. don't use `.homeadditions` - use the `homeadditions`.
 
 After you install a new version of ddev, run `ddev stop` and then `ddev config` to reconfigure things for your project. Just press enter for all the questions. It keeps things rolling smoothly. Run `ddev start` to start it all back up again
 
-### Show others your ddev local site 
+### Show others your ddev local site using ngrok
 
-Sharing your DDEV-Local site via a public URL using `ddev share` and ngrok. by Mike Anello
+Check out [sharing your DDEV-Local site via a public URL using `ddev share` and ngrok - Mike Anello updated Mar 2020](https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok)
 
-https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok
 
 ### Email Capture and Review
 
@@ -356,7 +355,7 @@ List all docker volumes
 docker volume ls
 ```
 
-[DDEV General cleanup topic](https://github.com/drud/ddev/issues/1465)
+[DDEV General cleanup](https://github.com/drud/ddev/issues/1465)
 
 ### Accessing specific containers
 
@@ -887,14 +886,25 @@ When building a Drupal website, you want to have enough content to check the ove
 
 More at [Generating dummy Drupal content with Devel & more](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
 
+## Enable verbose display of warning and error messages
+
+In `settings.php`, `settings.local.php` or `settings.ddev.php` make sure there is the following:
+
+```php
+// Enable verbose logging for errors.
+// https://www.drupal.org/forum/support/post-installation/2018-07-18/enable-drupal-8-backend-errorlogdebugging-mode
+$config['system.logging']['error_level'] = 'verbose';
+```
+
+Also see [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+
 
 ## Resources
 
-- [Composer best practices for Drupal 8 from Lullabot Jan 2018](https://www.lullabot.com/articles/drupal-8-composer-best-practices)
-
-- [Why DDEV by Randy Fay (Author of DDEV) from Dec 2022](https://opensource.com/article/22/12/ddev)
-
-- [How to setup Devel and Kint on Drupal 9 by Alex Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
+- [Composer best practices for Drupal 8 from Lullabot - Jan 2018](https://www.lullabot.com/articles/drupal-8-composer-best-practices)
+- [Why DDEV by Randy Fay (Author of DDEV) - Dec 2022](https://opensource.com/article/22/12/ddev)
+- [How to setup Devel and Kint on Drupal 9 by Alex - Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
+- [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
 
 ---
 

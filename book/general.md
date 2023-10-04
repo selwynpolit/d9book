@@ -2,7 +2,7 @@
 layout: default
 title: General
 permalink: /general
-last_modified_date: '2023-09-29'
+last_modified_date: '2023-10-04'
 ---
 
 # General
@@ -942,6 +942,20 @@ function tea_teks_update_8001() {
 ```
 
 Alternatively, adding the missing modules with `composer install`, enabling them and deploying everything to production.  Then disabling them properly, deploying that to production, then removing the modules with `composer remove` and deploying may also work.  Of course, this method is a lot more work.
+
+
+## Enable verbose display of warning and error messages
+
+In `settings.php`, `settings.local.php` or `settings.ddev.php` make sure there is the following:
+
+```php
+// Enable verbose logging for errors.
+// https://www.drupal.org/forum/support/post-installation/2018-07-18/enable-drupal-8-backend-errorlogdebugging-mode
+$config['system.logging']['error_level'] = 'verbose';
+```
+
+Also see [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+
 
 ---
 
