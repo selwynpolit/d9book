@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-08-06'
+last_modified_date: '2023-10-05'
 ---
 
 # Learning and keeping up with Drupal
@@ -78,7 +78,7 @@ Here are some high level overviews of Drupal concepts:
 * Phil Norton of #!code writes some amazing articles at <https://www.hashbangcode.com/> and has useful code snippets at <https://www.hashbangcode.com/snippets>
 * Martin Anderson-Clutz's sandbox for a wide variety of fantastic Drupal, Acquia and module information at <https://www.mandclu.com/>. He is also the author and maintainer of the <a href="https://www.drupal.org/project/smart_date">Smart Date Module</a> and about 8 bazillion other modules.
 * Matt Glaman posts regularly about fascinating aspects of Drupal (and is the author of existing and upcoming Drupal books).  Keep up with him at <https://mglaman.dev/>
-
+* Salsa Digital Agency has some good articles that are worth keeping up with at <https://salsa.digital/insights>
 
 ## Pay videos
 
