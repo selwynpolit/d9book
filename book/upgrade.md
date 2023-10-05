@@ -2,7 +2,7 @@
 layout: default
 title: Upgrades
 permalink: /upgrade
-last_modified_date: '2023-09-26'
+last_modified_date: '2023-10-05'
 ---
 
 # Upgrading and patching Drupal and contrib modules
@@ -90,6 +90,8 @@ composer update
 
 See also
 - [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)
+- [Drupal 9 to 10 Upgrade by Andrey Rudenko - October 2023](https://www.adcisolutions.com/knowledge/drupal-9-to-10-upgrade)
+- [Migration from Drupal 7 Simplified as Acquia’s Innovative Tool Goes FOSS - Sep 2023. Drupal 7 to 10 Acquia tool](https://www.thedroptimes.com/34727/migration-drupal-7-simplified-acquias-innovative-tool-goes-foss)
 
 
 ## Creating a local patch to a contrib module
