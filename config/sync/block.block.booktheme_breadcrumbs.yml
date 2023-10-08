@@ -1,0 +1,22 @@
+uuid: 0201f1ba-e46d-4b29-b032-1ee55f1a74a2
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - booktheme
+_core:
+  default_config_hash: VhBzWb7lMRtIOg9G7VSw_0uopi-7zXeHq4vXqqV1HFE
+id: booktheme_breadcrumbs
+theme: booktheme
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

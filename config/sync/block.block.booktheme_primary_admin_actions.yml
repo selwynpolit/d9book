@@ -1,0 +1,20 @@
+uuid: 50f4f306-4ab5-4de1-8d29-c76df838e0d8
+langcode: en
+status: true
+dependencies:
+  theme:
+    - booktheme
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: booktheme_primary_admin_actions
+theme: booktheme
+region: header
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

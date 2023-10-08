@@ -1,0 +1,23 @@
+uuid: 88380b2a-8fb9-49c0-bb28-426e9d858463
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - booktheme
+_core:
+  default_config_hash: imMyHD6LYci0gtXq56qr9ZKGHzbEG9uFydrN5EhKtSU
+id: booktheme_search_form_wide
+theme: booktheme
+region: secondary_menu
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }

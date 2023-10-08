@@ -1,4 +1,10 @@
 # Custom module library for general purposes.
+jsplay:
+  version: 1.x
+  js:
+    js/jsplay.js: {}
+  dependencies:
+    - core/jquery
 general:
   js:
     js/general.js: {}
@@ -8,6 +14,7 @@ general:
   dependencies:
     - core/drupalSettings
     - general/jquery-labelauty
+    - core/jquery
 
 # Third-party library (self hosted).
 jquery-labelauty:

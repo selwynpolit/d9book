@@ -73,4 +73,8 @@ module:
 theme:
   claro: 0
   olivero: 0
+  stable: 0
+  classy: 0
+  booktheme: 0
+  stable9: 0
 profile: standard

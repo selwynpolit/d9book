@@ -1,0 +1,22 @@
+uuid: 7654065a-ae30-4332-bd94-85337cfe612c
+langcode: en
+status: true
+dependencies:
+  theme:
+    - booktheme
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
+id: booktheme_primary_local_tasks
+theme: booktheme
+region: header
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

@@ -1,0 +1,23 @@
+name: selwyn
+type: theme
+'base theme': stable9
+starterkit: true
+version: VERSION
+libraries:
+  - selwyn/base
+  - selwyn/global-stuff
+  - selwyn/messages
+  - core/normalize
+libraries-extend:
+  user/drupal.user:
+    - selwyn/user
+  core/drupal.dropbutton:
+    - selwyn/dropbutton
+  core/drupal.dialog:
+    - selwyn/dialog
+  file/drupal.file:
+    - selwyn/file
+  core/drupal.progress:
+    - selwyn/progress
+core_version_requirement: ^10
+generator: 'starterkit_theme:10.1.5'
