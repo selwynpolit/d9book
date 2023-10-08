@@ -2,7 +2,7 @@
 layout: default
 title: Javascript
 permalink: /javascript
-last_modified_date: '2023-09-23'
+last_modified_date: '2023-10-08'
 ---
 
 # Using Javascript in Drupal
@@ -32,72 +32,366 @@ last_modified_date: '2023-09-23'
 ```
 
 
+## Add some global JS to the theme
+
+In `booktheme.info.yml` you need to specify the key to your theme library.  Specifically the `booktheme/global` library.  This refers to a key `global` in the booktheme.libraries.yml file.  Here is the `booktheme.info.yml` file:
+
+
+```yaml
+name: Book Theme
+type: theme
+base theme: classy
+description: A flexible theme with a responsive, mobile-first layout.
+package: d9book
+core_version_requirement: ^10 || ^11
+libraries:
+  - booktheme/global
+regions:
+  header: 'Header'
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  featured: 'Featured'
+  breadcrumb: 'Breadcrumb'
+  content: 'Content'
+  sidebar_first: 'Sidebar first'
+  sidebar_second: 'Sidebar second'
+  footer: 'Footer'
+```
+
+Then in the `booktheme.libraries.yml` file you need a key `global` and under that, refer to the file: `booktheme.js` in the `js` folder of the theme.  Here is the `booktheme.libraries.yml` file:
+
+```yaml
+# Main theme library.
+global:
+  js:
+    js/booktheme.js: {}
+  css:
+    base:
+      css/base/elements.css: {}
+    component:
+      css/components/block.css: {}
+      css/components/breadcrumb.css: {}
+      css/components/field.css: {}
+      css/components/form.css: {}
+      css/components/header.css: {}
+      css/components/menu.css: {}
+      css/components/messages.css: {}
+      css/components/node.css: {}
+      css/components/sidebar.css: {}
+      css/components/table.css: {}
+      css/components/tabs.css: {}
+      css/components/buttons.css: {}
+    layout:
+      css/layouts/layout.css: {}
+    theme:
+      css/theme/print.css: { media: print }
+```
+
+Then in the `booktheme.js` file you can add your javascript.  Here is the `booktheme.js` file:
+
+```js
+/**
+ * @file
+ * Book Theme behaviors.
+ */
+
+(function ($, Drupal) {
+
+  'use strict';
+
+  /**
+   * Behavior description.
+   */
+  Drupal.behaviors.booktheme = {
+    attach: function (context, settings) {
+
+      console.log('It works!');
+
+    }
+  };
+
+} (jQuery, Drupal));
+
+```
+
+You can add any key to your main libraries.yml file and then add it to the theme.info.yml file.  The name is up to you.  Notice here how I added a key `global-stuff` to the `selwyn.libraries.yml` file below. I also added a dependency to jQuery as jQuery is no longer loaded automatically on every page in Drupal:
+
+```yaml
+global-stuff:
+  js:
+    js/selwyn.js: {}
+  dependencies:
+    - core/jquery
+
+base:
+  version: VERSION
+  css:
+    component:
+      css/components/action-links.css:
+        weight: -10
+...
+progress:
+  version: VERSION
+  css:
+    component:
+      css/components/progress.css:
+        weight: -10
+search-results:
+  version: VERSION
+  css:
+    component:
+      css/components/search-results.css: {  }
+user:
+  version: VERSION
+  css:
+    component:
+      css/components/user.css:
+        weight: -10
+```
+and then in my `selwyn.info.yml` file I added the key `selwyn/global-stuff` to the libraries key:
+
+```yaml
+name: selwyn
+type: theme
+'base theme': stable9
+starterkit: true
+version: VERSION
+libraries:
+  - selwyn/base
+  - selwyn/global-stuff
+  - selwyn/messages
+  - core/normalize
+libraries-extend:
+  user/drupal.user:
+    - selwyn/user
+  core/drupal.dropbutton:
+    - selwyn/dropbutton
+  core/drupal.dialog:
+    - selwyn/dialog
+  file/drupal.file:
+    - selwyn/file
+  core/drupal.progress:
+    - selwyn/progress
+core_version_requirement: ^10
+generator: 'starterkit_theme:10.1.5'
+
+```
+
+
+## Add JS to a module 
+
+In your module folder, add your js file.  e.g. here in `web/modules/general/js/jsplay.js`:
+
+```js
+(function ($, Drupal) {
+
+  'use strict';
+
+  /**
+   * Behavior description.
+   */
+  Drupal.behaviors.logitworks = {
+    attach: function (context, settings) {
+
+      console.log('It really works!');
+
+    }
+  };
+
+} (jQuery, Drupal));
+
+```
+
+In your `general.libraries.yml` file, add the key `jsplay` and if you need jQuery, add it as a dependency
+
+```yaml
+# Custom module library for general purposes.
+jsplay:
+  version: 1.x
+  js:
+    js/jsplay.js: {}
+  dependencies:
+    - core/jquery
+```
+
+Then to get the js to load on any page content, add this to your module file:
+
+```php
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function general_preprocess_page(&$variables) {
+  $variables['#attached']['library'][] =  'general/jsplay';
+}
+```
+
+[More at Adding Assets to a Drupal module via libraries](https://www.drupal.org/docs/develop/creating-modules/adding-assets-css-js-to-a-drupal-module-via-librariesyml)
+
+
+## Standard JS IIFE (immediately invoked function expression)
+
+```js
+(function (Drupal, $) {
+  "use strict";
+  // Our code here.
+  console.log('Yep - more stuff working.')
+}) (Drupal, jQuery);
+```
+
+## Click to enable a dropdown menu
+```js
+(function (Drupal, $) {
+
+  "use strict";
+
+  Drupal.behaviors.selwynMenuTweaker = {
+    attach: function (context, settings) {
+      $(context).find('#df-user-account').on('click', function() {
+        flipNav();
+
+      });
+      
+      function flipNav() {
+        $('#df-account-dropdown').toggle(400);
+        console.log('selwynclickedme');
+      }
+
+  }
+};
+
+})(Drupal, jQuery);
+
+```
+
+## Cycle through some elements and add some text or css  to them
+
+```js
+
+(function (Drupal, $) {
+    Drupal.behaviors.andtestthis = {
+        attach: function (context, settings) {
+            $('#noah').append(" and test this") ;
+
+        }
+    };
+}) (Drupal, jQuery);
+```
+
+or using native js `forEach`:
+```js
+(function (Drupal, $) {
+  Drupal.behaviors.logitworks = {
+    attach: function (context, settings) {
+
+      const noah_elements = document.querySelectorAll('#noah');
+      noah_elements.forEach(element => {
+        // Do something with each element
+        element.append('test');
+      });
+
+      const elements = document.querySelectorAll('.yomama');
+      elements.forEach(element => {
+        element.style.backgroundColor = 'red';
+      });
+
+
+    }
+  };
+}) (Drupal, jQuery);
+
+```
+
+
+
+
 
 ## Add a quick function to run when the page is ready
 
-Note the namespace. This is a good practice to avoid conflicts with other javascript on the page.
 
 ```js
-// Our namespace:
-var SelwynTest = SelwynTest || {};
 
-// Change the #mission text to "peace out" when the page is ready
-SelwynTest.modTitles = function () {
-    $('#mission').append("peace out") ;
-};
+(function($) {
+    $(document).ready(function() {
+        // Your code here.
+        console.log('Yep - more stuff working.');
+    });
+})(jQuery);
 
-$(document).ready(SelwynTest.modTitles);
 
 ```
 
-Check out `Drupal.behaviors` also.
-
-
-## Cycle through some elements and do something to them:
+Using `Drupal.behaviors`:
 
 ```js
-// Our namespace:
-var SelwynTest = SelwynTest || {};
+(function($) {
 
-SelwynTest.modTitles = function () {
-$('#mission').append("peace out") ;  /* append div id mission text with “peace out */
+  // Define a namespace for your JavaScript code.
+  Drupal.behaviors.myModule = {
 
-    /* loop through all the missions and add test to the end */
-    var missions = $('#mission') ;
+    // This function is called when the document is ready.
+    attach: function(context, settings) {
 
-    missions.each( function () {
-        $(this).append(' now');
-    })    
-};
+      // Add a message to the page.
+      $('body').append('<p>Hello, world!</p>');
+    }
+  };
 
-$(document).ready(SelwynTest.modTitles);
+})(jQuery);
 ```
 
 
-## Cycle through blocks and change their titles
+## Dropdown list
+
 ```js
-// Our namespace:
-var SelwynTest = SelwynTest || {};
+!function (document, Drupal, $) {
+  'use strict';
 
-SelwynTest.modTitles = function () {
-    $('#mission').append(" and peace out") ;
-    
-    var blocks = $('.block') ;
+  Drupal.behaviors.dropDownList = {
 
-    blocks.each( function () {
-        /* add to the end of the block */
-        $(this).append(" - text added to the end of a block");
-        
-        /* change the title of each block */
-        var title = $(this).children(".title");
-        console.log(title.text());
-        title.append(" - click to close");
-    
-    })
-        
-};
+    attach: function attach(context) {
+      $(document).on('click', '.js-header-dropdown__link', function () {
+        // Close all popups but this.
+        $('.js-header-dropdown__link')
+          .not(this)
+          .removeClass('is-dropdown')
+          .next($('.js-header-dropdown'))
+          .removeClass('is-open');
 
+        // Enable popup.
+        $(this)
+          .toggleClass('is-dropdown')
+          .next($('.js-header-dropdown'))
+          .toggleClass('is-open');
+      });
+
+      // Close popup when clicking outside container.
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('.js-header-dropdown__link').length)
+          $('.js-header-dropdown__link')
+            .removeClass('is-dropdown')
+            .next($('.js-header-dropdown'))
+            .removeClass('is-open');
+      });
+
+      // Close popup when hitting `esc` key.
+      $(document).keydown(function(e) {
+        if (e.keyCode == 27) {
+          $('.js-header-dropdown__link')
+            .removeClass('is-dropdown')
+            .next($('.js-header-dropdown'))
+            .removeClass('is-open');
+        }
+      });
+    }
+  };
+}(document, Drupal, jQuery);
 ```
+
+
+
+
 
 
 ## Asset library overview
@@ -178,7 +472,8 @@ In the `node--map.html.twig` file at `web/themes/custom/txglobal/templates/conte
 
 ## Resources
 
-
+[Adding assets (CSS, JS) to a Drupal theme via *.libraries.yml - Oct 2023](https://www.drupal.org/docs/develop/theming-drupal/adding-assets-css-js-to-a-drupal-theme-via-librariesyml)
+[Cache busting javascript using VERSION value in libraries.yml - June 2022](https://chromatichq.com/insights/drupal-libraries-version/)
 
 ---
 
