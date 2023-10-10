@@ -2,7 +2,7 @@
 layout: default
 title: Tests
 permalink: /dtt
-last_modified_date: '2023-08-30'
+last_modified_date: '2023-10-10'
 ---
 
 # PHPUnit and Drupal Test Traits
@@ -425,14 +425,14 @@ The details are as follows:
     there is a 2.x dev branch. Moshe recommends using that so use the
     following command to install it:
 
-```
-$ composer require --dev weitzman/drupal-test-traits:^2
+```sh
+composer require --dev weitzman/drupal-test-traits:^2
 ```
 
 2.  Install the dev requirements with:
 
-```
-$ composer require drupal/core-dev --dev --update-with-all-dependencies
+```sh
+composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
 If you skip the `drupal/core-dev` step, you will see errors when you try to run the tests like this:
