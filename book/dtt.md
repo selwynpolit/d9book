@@ -423,17 +423,9 @@ The details are as follows:
 
 1.  Install DTT. At the time of this writing the 1.6 version was out but
     there is a 2.x dev branch. Moshe recommends using that so use the
-    following command to install it:
+    following command to install it: `composer require --dev weitzman/drupal-test-traits:^2`
 
-```sh
-composer require --dev weitzman/drupal-test-traits:^2
-```
-
-2.  Install the dev requirements with:
-
-```sh
-composer require drupal/core-dev --dev --update-with-all-dependencies
-```
+2.  Install the dev requirements: `composer require drupal/core-dev --dev --update-with-all-dependencies`
 
 If you skip the `drupal/core-dev` step, you will see errors when you try to run the tests like this:
 
