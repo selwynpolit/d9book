@@ -416,30 +416,13 @@ Like Drupal core, [DTT can save HTML snapshots for each URL that it navigates to
 
 ## Install/setup Drupal Test Traits
 
-TLDR; You will need Drupal test traits installed with composer, possibly `drupal/core-dev` (also a composer install), a `/phpunit.xml` file, and a
-`/scripts/bootstrap-fast.php`. Add `weitzman/logintrait` with composer for adding users and logging in to your site. Finally for AJAX testing add a `docker-compose.testing.yaml` and using composer add `behat/mink-selenium2-driver`.
+TLDR; You will need Drupal test traits installed with composer, `drupal/core-dev` (also a composer install), a `/phpunit.xml` file, and a `/scripts/bootstrap-fast.php`. Add `weitzman/logintrait` with composer for adding users and logging in to your site. Finally for AJAX testing add a `docker-compose.testing.yaml` and using composer add `behat/mink-selenium2-driver`.
 
 The details are as follows:
 
-1.  Install DTT. At the time of this writing the 1.6 version was out but
-    there is a 2.x dev branch. Moshe recommends using that so use the
-    following command to install it: `composer require --dev weitzman/drupal-test-traits:^2`
+1.  Install DTT. At the time of this writing the 1.6 version was out but there is a 2.x dev branch. Moshe recommends using that so use the following command to install it: `composer require --dev weitzman/drupal-test-traits:^2`
 
 2.  Install the dev requirements: `composer require drupal/core-dev --dev --update-with-all-dependencies`
-
-If you skip the `drupal/core-dev` step, you will see errors when you try to run the tests like this:
-
-> selwyn@tea3-web:/var/www/html\$ ./vendor/bin/phpunit
-> \--bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php
-> ./docroot/modules/custom/tea_teks/modules/tea_teks_requirements/tests/src/ExistingSite/RequirementsCreationTest.php
->
-> PHP Fatal error: Trait
-> \"Symfony\\Bridge\\PhpUnit\\Legacy\\PolyfillAssertTrait\" not found in
-> /var/www/html/docroot/sites/simpletest/Assert.php on line 91
->
-> Fatal error: Trait
-> \"Symfony\\Bridge\\PhpUnit\\Legacy\\PolyfillAssertTrait\" not found in
-> /var/www/html/docroot/sites/simpletest/Assert.php on line 91
 
 3.  Create a `phpunit.xml` file. I put `phpunit.xml` in the root of the project (not docroot or web.) See example file contents below.
 
@@ -2161,6 +2144,24 @@ class TeamTest extends ExistingSiteBase {
   }
 
 }
+```
+
+### PHP Fatal error: Trait \"Symfony\\Bridge\\PhpUnit\\Legacy\\PolyfillAssertTrait\" not found
+
+This means you forgot to install the dev requirements with : `composer require drupal/core-dev --dev --update-with-all-dependencies`
+
+If you try running a test like: 
+
+```sh
+./vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./docroot/modules/custom/tea_teks/modules/tea_teks_requirements/tests/src/ExistingSite/RequirementsCreationTest.php
+```
+and see errors like: 
+
+```
+PHP Fatal error: Trait
+\"Symfony\\Bridge\\PhpUnit\\Legacy\\PolyfillAssertTrait\" not found in /var/www/html/docroot/sites/simpletest/Assert.php  on line 91
+
+Fatal error: Trait \"Symfony\\Bridge\\PhpUnit\\Legacy\\PolyfillAssertTrait\" not found in /var/www/html/docroot/sites/simpletest/Assert.php on line 91
 ```
 
 ## var_dump, echo, print
