@@ -2,7 +2,7 @@
 layout: default
 title: Modules
 permalink: /modules
-last_modified_date: '2023-10-04'
+last_modified_date: '2023-10-10'
 ---
 
 # Modules for Drupal
@@ -284,7 +284,10 @@ A collection of useful UI tools for working with fields.
 
 [https://www.drupal.org/project/field_tools](https://www.drupal.org/project/field_tools)
 
+### Views Reference Field
+This lets you add a view (and a view's display) to a content type so it gets rendered when the node gets rendered.
 
+[https://www.drupal.org/project/viewsreference](https://www.drupal.org/project/viewsreference)
 
 ---
 ## Forms
