@@ -499,7 +499,7 @@ drush cache:rebuild
 
 and you can use the abbreviated form of the drush command: `drush sset` or `drush sget`.
 
-[More at](https://www.drupal.org/docs/user_guide/en/extend-maintenance.html)
+[More at Drupal.org's Enabling and Disabling Maintenance Mode - Feb 2023](https://www.drupal.org/docs/user_guide/en/extend-maintenance.html)
 
 ## Drush does that?
 
