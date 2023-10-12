@@ -477,13 +477,13 @@ To check if the site is in maintenance mode, use this command.  It will return 1
 
 ```sh
 drush state:get system.maintenance_mode
-1
 ```
 
+Set the site into maintenance mode:
 ```sh
-drush state:get system.maintenance_mode
-1
+drush state:set system.maintenance_mode 1
 ```
+
 
 Take the site out of maintenance mode:
 ```sh
