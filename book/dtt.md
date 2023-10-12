@@ -2,7 +2,7 @@
 layout: default
 title: Tests
 permalink: /dtt
-last_modified_date: '2023-10-10'
+last_modified_date: '2023-10-12'
 ---
 
 # PHPUnit and Drupal Test Traits
@@ -431,17 +431,19 @@ The details are as follows:
 5.  Add a .ddev/docker-compose.testing.yaml (don't accidentally type docker-compose**R** as Ddev won\'t create that container
     and you\'ll be left puzzled.
 
-6.  Install the mink-selenium2 driver with:\
+6.  Install the mink-selenium2 driver with:
 
 ```
-$ composer require 'behat/mink-selenium2-driver' --dev
+composer require 'behat/mink-selenium2-driver' --dev
 ```
 
 7.  Install login traits with:
 
 ```
-$ composer require weitzman/logintrait
+composer require weitzman/logintrait
 ```
+
+### phpunit.xml
 
 Here are the `/phpunit.xml` file contents. Note the location of the
 `bootstrap-fast.php`:
@@ -507,6 +509,8 @@ Here are the `/phpunit.xml` file contents. Note the location of the
 </phpunit>
 ```
 
+### boostrap-fast.php
+
 Here are the /scripts/bootstrap-fast.php contents from
 vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php:
 
@@ -543,6 +547,8 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 # $class_loader->addPsr4('Drupal\Tests\my_module\\', "$root/modules/custom/my_module/tests/src");
 ```
 
+### docker-composer.testing.yaml
+
 Here is the docker-compose.testing.yaml from [Michael Strelan on drupal.org](https://www.drupal.org/u/mstrelan). Once you add this and restart DDEV, you will be able to do AJAX and Javascript testing of DTT tests. Note this is a "just works" situation as Michael puts it. Note that if you have this file in place, you don't need to provide all the `env` values in the `phpunit.xml` above.
 
 ```yaml
@@ -574,7 +580,7 @@ services:
     networks: [default, ddev_default]
 ```
 
-## What about testing browser interaction?
+## Testing browser interaction?
 
 Without the docker-compose.testing.yaml, you can only run the most basic DTT tests such as
 [ExampleTest.php](https://gitlab.com/weitzman/drupal-test-traits/-/blob/master/tests/ExampleTest.php).
