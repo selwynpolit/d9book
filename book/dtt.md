@@ -420,26 +420,31 @@ TLDR; You will need Drupal test traits installed with composer, `drupal/core-dev
 
 The details are as follows:
 
-1.  Install DTT. At the time of this writing the 1.6 version was out but there is a 2.x dev branch. Moshe recommends using that so use the following command to install it: `composer require --dev weitzman/drupal-test-traits:^2`
-
-2.  Install the dev requirements: `composer require drupal/core-dev --dev --update-with-all-dependencies`
-
-3.  Create a `phpunit.xml` file. I put `phpunit.xml` in the root of the project (not docroot or web.) See example file contents below.
-
-4.  Create a `bootstrap-fast.php`. I put `bootstrap-fast.php` in the /scripts (also in the root of the project). This file is included in DTT at `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`.
-
-5.  Add a .ddev/docker-compose.testing.yaml (don't accidentally type docker-compose**R** as Ddev won\'t create that container
-    and you\'ll be left puzzled.
-
-6.  Install the mink-selenium2 driver with:
-
+- Install DTT. At the time of this writing the 1.6 version was out but there is a 2.x dev branch. Moshe recommends using that so use the following command to install it: 
+```sh
+composer require --dev weitzman/drupal-test-traits:^2
 ```
+
+- Install the dev requirements: 
+```sh
+composer require drupal/core-dev --dev --update-with-all-dependencies
+```
+
+- Create a `phpunit.xml` file. I put `phpunit.xml` in the root of the project (not docroot or web.) See example file contents below.
+
+- Create a `bootstrap-fast.php`. I put `bootstrap-fast.php` in the /scripts (also in the root of the project). This file is included in DTT at `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`.
+
+- Add a .ddev/docker-compose.testing.yaml (don't accidentally add an `r` at the end of the docker-compose i.e. type docker-compose**r** as Ddev won\'t create that container and you may be left puzzled)
+
+- Install the mink-selenium2 driver with:
+
+```sh
 composer require 'behat/mink-selenium2-driver' --dev
 ```
 
-7.  Install login traits with:
+- Install login traits with:
 
-```
+```sh
 composer require weitzman/logintrait
 ```
 
