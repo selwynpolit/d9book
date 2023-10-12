@@ -2,7 +2,7 @@
 layout: default
 title: Drush
 permalink: /drush
-last_modified_date: '2023-09-27'
+last_modified_date: '2023-10-12'
 ---
 
 # Drush
@@ -471,6 +471,36 @@ print "finished.\n";
 return;
 ```
 
+## Maintenance mode
+
+To check if the site is in maintenance mode, use this command.  It will return 1 indicating the site is IN maintenance mode, 0 indicating it is *NOT* in maintenance mode:
+
+```sh
+drush state:get system.maintenance_mode
+1
+```
+
+```sh
+drush state:get system.maintenance_mode
+1
+```
+
+Take the site out of maintenance mode:
+```sh
+drush state:set system.maintenance_mode 0
+```
+
+Also
+```sh
+drush config:set system.maintenance message "Optional message" -y
+drush state:set system.maintenance_mode 1 --input-format=integer
+drush cache:rebuild
+```
+
+and you can use the abbreviated form of the drush command: `drush sset` or `drush sget`.
+
+[More at](https://www.drupal.org/docs/user_guide/en/extend-maintenance.html)
+
 ## Drush does that?
 
 Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do almost anything. Here are a few that I like:
@@ -678,6 +708,9 @@ $ drush uli --no-browser --uri=https://d9book2.ddev.site https://d9book2.ddev.si
 ```
 
 More at <https://www.drush.org/latest/commands/user_login/>
+
+
+
 
 
 ### Drupal:directory
