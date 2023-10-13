@@ -2,7 +2,7 @@
 layout: default
 title: Composer
 permalink: /composer
-last_modified_date: '2023-09-26'
+last_modified_date: '2023-10-13'
 ---
 
 # Composer, Updates and Patches
@@ -307,13 +307,13 @@ More at <https://drupal.stackexchange.com/questions/290989/composer-keeps-overwr
 if there is `drupal/core-recommended` in your `composer.json` use:
 
 ```sh
-$ composer update drupal/core-recommended -W
+composer update drupal/core-recommended -W
 ```
 
 if there is no `drupal/core-recommended` in your `composer.json` use:
 
 ```sh
-$ composer update drupal/core -W
+composer update drupal/core -W
 ```
 
 Note `composer update -W` is the same as `composer update --with-dependencies`
