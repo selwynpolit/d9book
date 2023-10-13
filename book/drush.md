@@ -2,7 +2,7 @@
 layout: default
 title: Drush
 permalink: /drush
-last_modified_date: '2023-10-12'
+last_modified_date: '2023-10-13'
 ---
 
 # Drush
@@ -503,7 +503,7 @@ and you can use the abbreviated form of the drush command: `drush sset` or `drus
 
 ## Drush does that?
 
-Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do almost anything. Here are a few that I like:
+Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do aso many things. Here are a few that I like:
 
 
 ### List blocks
