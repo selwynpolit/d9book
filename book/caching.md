@@ -2,7 +2,7 @@
 layout: default
 title: Caching
 permalink: /caching
-last_modified_date: '2023-10-13'
+last_modified_date: '2023-10-16'
 ---
 
 # Caching and cache tags
@@ -193,7 +193,7 @@ $build = [
   '#markup' => $sMarkup,        
   '#cache' => [
     'keys' => ['home-all','home'],
-    'tags'=> ['node_list'], // invalidate cache when any node content is added/changed etc.
+    'tags'=> ['node_list'], // invalidate cache when any nodes are added/changed etc.
     'max-age' => '36600', // invalidate cache after 10h
   ],
 ];
@@ -218,6 +218,27 @@ function filters_invalidate_vocabulary_cache_tag($vocab_id) {
 ```
 
 If you want this to work for nodes, you may be able to  just change `$vocab_id` for `$node_type`.
+
+### Invalidate a specific node
+
+In this function, we build a `$cache_tag` like \"node: 123\" and call `Cache:invalidateTags()` so Drupal will force a reload from the database for anything that depends on that node.
+
+
+```php
+use Drupal\Core\Cache\Cache;
+
+
+public function vote(array $options): void {
+  $this->load();
+  $voter_uid = $options['voter_uid'];
+  $vote_number = $options['vote_number'];
+  /** @var VotingRound $voting_round */
+  $voting_round = $this->votingRound[$vote_number];
+  $voting_round->vote($voter_uid, $options);
+  $cache_tag = 'node:' . $this->programNid;
+  Cache::invalidateTags([$cache_tag]);
+}
+```
 
 ## Setting cache keys in a block
 
