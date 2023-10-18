@@ -2,7 +2,7 @@
 layout: default
 title: Composer
 permalink: /composer
-last_modified_date: '2023-10-13'
+last_modified_date: '2023-10-18'
 ---
 
 # Composer, Updates and Patches
@@ -317,6 +317,36 @@ composer update drupal/core -W
 ```
 
 Note `composer update -W` is the same as `composer update --with-dependencies`
+
+## What are the dependencies?
+
+To check why a project is included use `composer why` or `composer depends`.
+
+```sh
+composer why enyo/dropzone
+drupal/recommended-project dev-master requires enyo/dropzone (^5.9)
+```
+
+Or
+```sh
+composer why drupal/tamper
+drupal/recommended-project dev-master  requires drupal/tamper (^1.0@alpha)
+drupal/feeds_tamper        2.0.0-beta3 requires drupal/tamper (^1.0-alpha3)
+```
+
+You can also see a recursive tree of why the package is depended upon:
+
+```sh
+composer depends drupal/tamper -t
+drupal/tamper 1.0.0-alpha4 Generic plugin to modify data.
+├──drupal/recommended-project dev-master (requires drupal/tamper ^1.0@alpha)
+└──drupal/feeds_tamper 2.0.0-beta3 (requires drupal/tamper ^1.0-alpha3)
+   └──drupal/recommended-project dev-master (requires drupal/feeds_tamper ^2.0@beta)
+```
+
+See [more about composer why/depends](https://getcomposer.org/doc/03-cli.md#depends-why)
+See [also this explanation of why-not](https://getcomposer.org/doc/03-cli.md#prohibits-why-not)
+
 
 ## Test composer (dry run)
 
