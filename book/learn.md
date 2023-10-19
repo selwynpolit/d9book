@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-10-05'
+last_modified_date: '2023-10-19'
 ---
 
 # Learning and keeping up with Drupal
@@ -17,6 +17,10 @@ last_modified_date: '2023-10-05'
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=learn.md)
 
 ---
+
+## Drupal Basics
+- [Drupalize.me offers some free lessons covering Understanding Drupal and Planning your site](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam)
+- 
 
 ## Drupal Reference Materials
 - [Top level link to Essential background concepts, OOP conventions etc at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
