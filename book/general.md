@@ -960,7 +960,7 @@ Also see [Enable verbose error logging for better backtracing and debugging - Ap
 
 During module development or upgrades, it can be really useful to quickly uninstall and reinstall modules.  Luckily the [devel module](https://www.drupal.org/project/devel) provides an easy way. Either navigate to `/devel/reinstall` or use the Druplicon menu option and select `development` and then click on `reinstall modules`  You will need the [admin toolbar module](https://www.drupal.org/project/admin_toolbar) with it's `admin toolbar extra tools` submodule enabled.
 
-![Menu option to reinstall modules](../assets/images/reinstall_modules.png)
+![Menu option to reinstall modules](assets/images/reinstall_modules.png)
 
 ---
 
