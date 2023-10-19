@@ -19,8 +19,8 @@ last_modified_date: '2023-10-19'
 ---
 
 ## Drupal Basics
-- [Drupalize.me offers some free lessons covering Understanding Drupal and Planning your site](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam)
-- 
+- [Drupal User Guide for people with minimal knowledge of Drupal](https://www.drupal.org/docs/user_guide/en/index.html)
+- [Understanding Drupal and Planning your site from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam)
 
 ## Drupal Reference Materials
 - [Top level link to Essential background concepts, OOP conventions etc at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
