@@ -3,7 +3,7 @@ layout: default
 title: Attribution
 permalink: /attribution
 search_exclude: true
-last_modified_date: '2023-09-29'
+last_modified_date: '2023-10-19'
 ---
 
 # Attribution
@@ -48,4 +48,6 @@ Thanks to these rockstars for their contribution to the project.  Please add you
 [James Shields](https://github.com/lostcarpark) - Custom favicon.
 
 [Manas Khatua](https://github.com/manask4) - Help with editing.
+
+[Tyler36](https://github.com/tyler36) - Drush commands
 
