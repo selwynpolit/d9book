@@ -3,7 +3,7 @@ layout: default
 title: Home
 permalink: /
 nav_order: 1
-last_modified_date: '2023-05-02'
+last_modified_date: '2023-10-19'
 ---
 
 ## Drupal at your fingertips
@@ -17,7 +17,7 @@ by Selwyn Polit
 
 This book is a quick reference for developers creating Drupal sites. While working on such sites during my career, I have gathered a large collection of notes and code which I use for my reference.  I hope it will be useful for you, too.
 
-During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal) and many other places, I often wished there was a succinct set of current annotated code samples explaining how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples), which is very handy. But this book is designed to otherwise fill that gap. Please forgive the `todo` items, but I've found that if I want to get it perfect, it won't ever get published.
+During my hunting through examples on [Drupal.org](https://www.drupal.org/), [Stack Overflow](https://stackoverflow.com/questions/tagged/drupal) and many other places, I often wished there was a succinct set of current annotated code samples explaining how to do things the [Drupal way](https://events.drupal.org/neworleans2016/sessions/drupal-way-philosophy).  Of course, there is the excellent [examples module](https://www.drupal.org/project/examples), which is very handy. This book is meant to otherwise fill that gap. Please forgive the `todo` items, but I've found that if I want to get it perfect, it won't ever get published.
 
 You are invited to contribute (in the open source way) by making edits and pull requests at [this link on Github](https://github.com/selwynpolit/d9book/tree/gh-pages/book).  There is a very simple online editor which automatically forks the repo and lets you type your changes directly in your browser in [markdown format](https://github.github.com/gfm/). Try it by editing a chapter of interest to you. And while you are here, [see who else contributed to the masterpiece 😉](attribution)
 
@@ -52,23 +52,23 @@ If you are inspired, please be a part of this project by contributing your own t
 - [Redirects](redirects)
 - [Render Arrays](render)
 - [Routes and Controllers](routes)
+- [Security](security)
 - [Services and Dependency injection](services)
+- [Setup your mac for Drupal development](setup_mac)
 - [State API, Tempstore and UserData (Interesting flavors of storage)](state)
 - [Taxonomy](taxonomy)
-- [PHPUnit and Drupal Test Traits](dtt)
+- [Testing with PHPUnit and Drupal Test Traits](dtt)
 - [Twig - Formatting and controlling your output](twig)
+- [Upgrading and patching Drupal and contrib modules](upgrade)
 
 ---
 
-### I'm working on writing more about:
+### More coming on these topics
 - Events
 - Custom Plugins
-- Javascript
 - Media image files
 - Migration
-- Miscellaneous
 - Paragraphs
-- Security and Preventing attacks
 - Single sign on
 - Views
 
