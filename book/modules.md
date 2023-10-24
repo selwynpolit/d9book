@@ -2,7 +2,7 @@
 layout: default
 title: Modules
 permalink: /modules
-last_modified_date: '2023-10-10'
+last_modified_date: '2023-10-23'
 ---
 
 # Modules for Drupal
@@ -96,6 +96,32 @@ This module allows you to use the menu the current page belongs to for the bread
 [https://www.drupal.org/project/menu_breadcrumb](https://www.drupal.org/project/menu_breadcrumb)
 
 
+---
+## Cache Control/Performance
+
+### Acquia Purge
+The acquia_purge module invalidates cached content on Acquia Cloud and allows you to set Drupal's time to live (TTL) to a high value like a year. This makes your site more resilient, the stack do less work and improves the performance of your site dramatically!
+
+[https://www.drupal.org/project/acquia_purge](https://www.drupal.org/project/acquia_purge)
+
+### Pantheon Advanced Page Cache
+Pantheon Advanced Page Cache module is a bridge between Drupal cache metadata and the Pantheon Global CDN.
+
+Just by turning on this module your Drupal site will start emitting the HTTP headers necessary to make the Pantheon Global CDN aware of data underlying the response. Then, when the underlying data changes (nodes and taxonomy terms are updated, user permissions changed) this module will clear only the relevant pages from the edge cache.
+
+This module has no configuration settings of its own, just enable it and it will pass along information already present in Drupal to the Global CDN.
+
+[https://www.drupal.org/project/pantheon_advanced_page_cache](https://www.drupal.org/project/pantheon_advanced_page_cache)
+
+
+### Warmer
+
+Provides all the necessary infrastructure to orchestrate your cache warming processes. You can warm the cache of your critical entities (and more!) right after you deploy to production. Additionally cron will keep them warm for you.
+All these operations are executed asynchronously to avoid impacting the users.
+includes CDN warmer
+[https://www.drupal.org/project/warmer](https://www.drupal.org/project/warmer)
+
+
 
 ---
 ## Calendars
@@ -152,6 +178,22 @@ Provides an autocomplete widget for text fields that suggests all existing (prev
 Currently the autocomplete in the Link Field widget always shows content suggestions from all content (node) types. This module adds a Link Field configuration for filtering the suggested content types in the autocomplete field.
 
 [https://www.drupal.org/project/link_field_autocomplete_filter](https://www.drupal.org/project/link_field_autocomplete_filter)
+
+
+-- 
+
+## Cleanup
+
+### Node Revision Delete
+
+The Node Revision Delete module lets you track and prune old revisions of content types.
+
+You can configure how many revisions you want to keep per content type and configure how long revision should be kept. When saving the configuration you can optionally start a batch job to queue all content to delete revisions that are allowed to be deleted. Includes drush command(s).
+
+
+[https://www.drupal.org/project/node_revision_delete](https://www.drupal.org/project/node_revision_delete)
+
+
 
 
 ---
