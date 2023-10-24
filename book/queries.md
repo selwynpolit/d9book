@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-09-07'
+last_modified_date: '2023-10-24'
 ---
 
 # Queries
@@ -184,6 +184,17 @@ public function deleteQuery1() {
   return $render_array;
 }
 ```
+
+### Sort by Node ID, title (nid)
+
+```php
+// Descending.
+$query->sort('nid', 'DESC');
+// Or ascending.
+$query->sort('nid', 'ASC');
+// Or node title.
+$query->sort('title', 'ASC');
+``````
 
 ### Slice up entityQuery results into batches of 100 nodes
 
