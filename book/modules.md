@@ -2,7 +2,7 @@
 layout: default
 title: Modules
 permalink: /modules
-last_modified_date: '2023-10-23'
+last_modified_date: '2023-10-26'
 ---
 
 # Modules for Drupal
@@ -632,6 +632,7 @@ Entity Embed allows any entity to be embedded within a text area using a WYSIWYG
 - [50 Drupal modules every Drupal professional should know about - September 2021](https://robertroose.com/blog/drupal/50-drupal-modules-every-drupal-professional-should-know-about)
 - [27 more Drupal modules every Drupal professional should know about - October 2021](https://robertroose.com/blog/drupal/27-more-drupal-modules-every-drupal-professional-should-know-about)
 - [5 best modules to implement Drupal Google Maps - April 2023](https://gole.ms/blog/google-maps-drupal)
+- [The best new Drupal modules I found at DrupalCon Lille Oct 2023](https://cyberschorsch.dev/drupal/best-new-drupal-modules-i-found-drupalcon-lille)
 
 
 ---
