@@ -2,7 +2,7 @@
 layout: default
 title: Email
 permalink: /email
-last_modified_date: '2023-09-04'
+last_modified_date: '2023-10-26'
 ---
 
 # Email
@@ -283,7 +283,9 @@ function tea_teks_mail($key, &$message, $params) {
 - [How email works in Drupal - updated July 2021](https://www.drupal.org/docs/contributed-modules/mime-mail/how-email-works-in-drupal)
 - [Sendgrid Integration Drupal module](https://www.drupal.org/project/sendgrid_integration)
 - [How to send a mail programmatically in Drupal 8 by Jimmy Sebastian - Mar 2022](https://www.zyxware.com/articles/5504/drupal-8-how-to-send-a-mail-programmatically-in-drupal-8)
-  
+- [Sending Emails with Drupal Symfony Mailer - Oct 2023](https://jigarius.com/blog/drupal-symfony-mailer)
+
+
 ---
 
 <script src="https://giscus.app/client.js"
