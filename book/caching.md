@@ -2,7 +2,7 @@
 layout: default
 title: Caching
 permalink: /caching
-last_modified_date: '2023-10-16'
+last_modified_date: '2023-11-1'
 ---
 
 # Caching and cache tags
@@ -763,6 +763,7 @@ services:
 * New cache backend configuration order, per-bin default before default configuration (How to specify cache backend), June 2016 <https://www.drupal.org/node/2754947>
 * [Cache API Drupal Core](https://api.drupal.org/api/drupal/core!core.api.php/group/cache/10.1.x)
 * [Drupal BigPipe Module: The Phenomenal to Improve Website Performance](https://www.lnwebworks.com/Insight/drupal-bigpipe-module)
+* [Drupal performance — a complete Drupal self-help guide to ensuring your website’s performance by Kristen Pol Sep 2023](https://salsa.digital/insights/drupal-performance-a-complete-drupal-self-help-guide-to-ensuring-your-websites-performance)
 ---
 
 <script src="https://giscus.app/client.js"

@@ -2,7 +2,7 @@
 layout: default
 title: Security
 permalink: /security
-last_modified_date: '2023-08-17'
+last_modified_date: '2023-11-1'
 ---
 
 # Security
@@ -430,8 +430,13 @@ Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeyp
 - [Twig Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633)
 - [Translation API overview on Drupal.org updated August 2022](https://www.drupal.org/docs/8/api/translation-api/overview)
 - [CSRF access checking on Drupal.org updated March 2023](https://www.drupal.org/docs/8/api/routing-system/access-checking-on-routes/csrf-access-checking)
-
- 
+- [Drupal security — a complete Drupal self-help guide to ensuring your website’s security by Kristen Pol Sep 2023](https://salsa.digital/insights/drupal-security-a-complete-drupal-self-help-guide-to-ensuring-your-websites-security)
+- [Drupal defense in depth — securing Drupal at the people layer - May 2023](https://salsa.digital/insights/drupal-defense-in-depth-securing-drupal-at-the-people-layer)
+- [Drupal defense in depth — securing Drupal at the process layer May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-the-process-layer)
+- [Drupal defense in depth — securing Drupal at the content layer with a CDN - May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-the-content-layer-with-a-cdn)
+- [Drupal defense in depth — securing Drupal at edge layer via a Web Application Firewall (WAF) May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-edge-layer-via-a-web-application-firewall-waf)
+- [Drupal defense in depth — securing Drupal at the application layer - May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-the-application-layer)
+- 
 ---
 
 <script src="https://giscus.app/client.js"

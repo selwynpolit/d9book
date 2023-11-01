@@ -2,7 +2,7 @@
 layout: default
 title: General
 permalink: /general
-last_modified_date: '2023-10-19'
+last_modified_date: '2023-11-1'
 ---
 
 # General
@@ -961,6 +961,12 @@ Also see [Enable verbose error logging for better backtracing and debugging - Ap
 During module development or upgrades, it can be really useful to quickly uninstall and reinstall modules.  Luckily the [devel module](https://www.drupal.org/project/devel) provides an easy way. Either navigate to `/devel/reinstall` or use the Druplicon menu option and select `development` and then click on `reinstall modules`  You will need the [admin toolbar module](https://www.drupal.org/project/admin_toolbar) with it's `admin toolbar extra tools` submodule enabled.
 
 ![Menu option to reinstall modules](assets/images/reinstall_modules.png)
+
+
+## Resources
+
+- [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
+- [Drupal accessibility — a comprehensive Drupal self-help guide to creating accessible websites by John Cloys Sep 2023](https://salsa.digital/insights/drupal-accessibility-comprehensive-drupal-self-help-guide-creating-accessible-websites)
 
 ---
 
