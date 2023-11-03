@@ -2,7 +2,7 @@
 layout: default
 title: Twig
 permalink: /twig
-last_modified_date: '2023-04-28'
+last_modified_date: '2023-11-3'
 render_with_liquid: false
 ---
 
@@ -2060,6 +2060,8 @@ So here I compare a field value so I have to use striptags to remove all html. I
 - [Using attributes in templates updated March 2023](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates)
 
 - [Twig tweaks and Views has some useful notes on using twig tweak with views - Updated November 2020](https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views)
+
+- [Getting Drupal 8/9 Field Values in Twig by Sarah Carney July 2018](https://sarahcodes.medium.com/getting-drupal-8-field-values-in-twig-22b80cb609bd)
 
 ---
 
