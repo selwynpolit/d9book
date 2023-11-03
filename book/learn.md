@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-10-19'
+last_modified_date: '2023-11-3'
 ---
 
 # Learning and keeping up with Drupal
@@ -122,8 +122,9 @@ Other great sources of news are:
 ## Books
 There are many books about Drupal that are worth checking out.
 - [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition](https://www.packtpub.com/product/drupal-10-module-development-fourth-edition/9781837631803)
-- [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users](https://www.amazon.com/Drupal-Masterclass-responsive-applications-experiences-ebook/dp/B0BNNS7JCM/ref=d_pd_sbs_vft_none_sccl_1_1/146-2345249-6494660)
+- Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024 [on Packt publishing](https://www.packtpub.com/product/drupal-10-masterclass/9781837633104)[ or Amazon](https://www.amazon.com/Drupal-Masterclass-responsive-applications-experiences-ebook/dp/B0BNNS7JCM/ref=d_pd_sbs_vft_none_sccl_1_1/146-2345249-6494660)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://www.packtpub.com/product/drupal-10-development-cookbook-third-edition/9781803234960)
+- [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://www.packtpub.com/product/modernizing-drupal-10-theme-development/9781803238098)
 [Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://www.packtpub.com/product/drupal-9-module-development-third-edition/9781800204621)
 - [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
 - [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
