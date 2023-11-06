@@ -135,6 +135,11 @@ There are many books about Drupal that are worth checking out.
 - [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
 - [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://www.amazon.com/Drupal-Theming-Twig-Chaz-Chumley-ebook/dp/B014FU8REQ/ref=sr_1_2?crid=2M686L02NP5EO&keywords=Drupal+8+explained+step+by+step&qid=1691329119&s=books&sprefix=drupal+8+explained+step+by+step%2Cstripbooks%2C105&sr=1-2)
 
+
+<iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin" style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=selwynpolit-20&language=en_US&marketplace=amazon&region=US&placement=1803234962&asins=1803234962&linkId=ced74ff961fa32eb929c0aebef132fb7&show_border=true&link_opens_in_new_window=true"></iframe>
+
+
+
 ---
 
 <script src="https://giscus.app/client.js"
