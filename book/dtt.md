@@ -2306,6 +2306,46 @@ docroot/modules/custom/tea_teks/modules/tea_teks_requirements/Tests/src/Existing
 When Phpstorm pops up, specify that the vendor directory is at
 `/var/www/html/vendor` - note you only have to do that once and then PHPStorm will remember it.
 
+## Setup Nightwatch.js in DDev
+In order to run Nightwatch, you need to have a few dependencies available: Node.js, Chrome (and Chromedriver), and Yarn. 
+
+The web container for DDev comes with Node.js and Yarn preinstalled & you can use the Chromedriver Docker image provided by DrupalCi. When you enable testing support, DDev will generate the `.ddev/docker-compose.testing.yaml` file defines a Chromedriver service.
+
+Inside `.ddev/docker-compose.testing.yaml`, make sure enviroment variables are configured properly, for example: (Recommended)
+```
+# Nightwatch
+DRUPAL_TEST_BASE_URL: http://${DDEV_HOSTNAME}
+DRUPAL_TEST_DB_URL: mysql://db:db@db:3306/db
+DRUPAL_TEST_WEBDRIVER_HOSTNAME: chromedriver
+DRUPAL_TEST_WEBDRIVER_PORT: 9515
+DRUPAL_TEST_CHROMEDRIVER_AUTOSTART: 'false'
+DRUPAL_TEST_WEBDRIVER_CHROME_ARGS: "--disable-gpu --headless --no-sandbox"
+DRUPAL_NIGHTWATCH_OUTPUT: reports/nightwatch
+DRUPAL_NIGHTWATCH_IGNORE_DIRECTORIES: node_modules,vendor,.*,sites/*/files,sites/*/private,sites/simpletest
+```
+
+Alternatively, you can configure the enviroment vaiables in the `.env` file.
+```
+cd web/core
+cp .env.example .env
+```
+
+If needed, you can run `ddev describe` to find the connection info about your DDEV project for **DRUPAL_TEST_BASE_URL** & **DRUPAL_TEST_DB_URL**.
+
+Also if you haven't already, be sure to install the Node.js dependencies for Drupal core.
+```
+ddev ssh
+cd web/core
+yarn install
+```
+
+Finally, start/restart ddev & in the core directory, you can now test w/ Nightwatch! For example, to run all tests w/ the core tag, you can run:
+```
+ddev ssh
+cd web/core
+yarn test:nightwatch --tag core
+```
+
 ## Resources
 
 ### General
