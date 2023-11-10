@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-09-27'
+last_modified_date: '2023-11-10'
 ---
 
 # Setting up your Mac for Drupal development
@@ -121,7 +121,7 @@ Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.
 
 Add a custom file e.g. `/opt/homebrew/etc/php/8.1/conf.d/selwyn.ini` with the following contents
 
-```
+```php
 memory_limit = 1024M
 max_execution_time = 30
 upload_max_filesize = 200M
@@ -132,7 +132,7 @@ date.timezone = America/Chicago
 error_reporting = E_ALL & ~E_DEPRECATED
 ```
 
-now `php --ini` should report
+To test that your settings are in place, run`php --ini`.  Notice the last line was added indicating that your custom php settings file was loaded.
 
 ```
 Configuration File (php.ini) Path: /opt/homebrew/etc/php/8.1
@@ -141,39 +141,6 @@ Scan for additional .ini files in: /opt/homebrew/etc/php/8.1/conf.d
 Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.ini,
 /opt/homebrew/etc/php/8.1/conf.d/selwyn.ini
 ```
-
-
-```
-vim /opt/homebrew/etc/php/8.1/conf.d/myphp.ini
-```
-
-Add the following:
-
-```php
-memory_limit = 1024M
-max_execution_time = 30
-upload_max_filesize = 200M
-post_max_size = 256M
-; How many GET/POST/COOKIE input variables may be accepted
-max_input_vars = 5000
-date.timezone = America/Chicago
-```
-
-run this to confirm your changes are in place:
-
-```
-php --ini
-```
-And you should see this.  Notice the last line was added:
-
-```
-Configuration File (php.ini) Path: /opt/homebrew/etc/php/8.1
-Loaded Configuration File:         /opt/homebrew/etc/php/8.1/php.ini
-Scan for additional .ini files in: /opt/homebrew/etc/php/8.1/conf.d
-Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.ini,
-/opt/homebrew/etc/php/8.1/conf.d/myphp.ini
-```
-
 
 {: .note }
 If you install composer first, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.
