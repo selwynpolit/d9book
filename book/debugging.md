@@ -5,7 +5,7 @@ permalink: /debugging
 last_modified_date: '2023-09-14'
 ---
 
-# Debugging
+# Debugging and Profiling
 {: .no_toc .fw-500 }
 
 ## Table of contents
@@ -137,9 +137,9 @@ $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 To enable or disable Xdebug when using DDEV use:
 
 ```bash
-$ ddev xdebug on
+ddev xdebug on
 
-$ ddev xdebug off
+ddev xdebug off
 ```
 Note. Enabling Xdebug will slow down your app because xdebug has a
 significant performance impact so be sure to disable it when you are
@@ -232,6 +232,35 @@ More at <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-de
 To add a breakpoint in code, you can use: xdebug_break()
 
 more at <https://xdebug.org/docs/all_functions>
+
+
+## Install Xdebug Profiling with DDEV
+
+from <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/xdebug-profiling/>
+
+- Create the directory `.ddev/xdebug`, which is where the output files will be dumped.
+- Switch Xdebug to profiling mode by adding this in `.ddev/php/xdebug.ini`:
+
+```
+xdebug.mode=profile
+xdebug.start_with_request=yes
+xdebug.output_dir=/var/www/html/.ddev/xdebug
+xdebug.profiler_output_name=trace.%c%p%r%u.out
+
+
+```
+
+- Enable Xdebug with `ddev xdebug on`.
+
+- Make an HTTP request to the DDEV project and the profile will be located in `.ddev/xdebug` directory.
+
+- Analyze it with any call graph viewer, for example kcachegrind.
+
+- When you’re done, execute `ddev xdebug off` to avoid generating unneeded profile files.
+
+
+You can load the files ending in .out in a utility like qcachegrind.  This is installed with: `brew install qcachegrind`
+
 
 ## Troubleshooting Xdebug with DDEV
 
