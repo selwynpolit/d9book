@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-11-6'
+last_modified_date: '2023-11-10'
 ---
 
 # Learning and keeping up with Drupal
@@ -21,6 +21,7 @@ last_modified_date: '2023-11-6'
 ## Drupal Basics
 - [Drupal User Guide for people with minimal knowledge of Drupal](https://www.drupal.org/docs/user_guide/en/index.html)
 - [Understanding Drupal and Planning your site from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam)
+- [Drupal Site Builder Certification Learning Plan from Acquia Academy](https://community.acquiaacademy.com/learn/public/learning_plan/view/85/drupal-site-builder-certification-learning-plan)
 
 ## Drupal Reference Materials
 - [Top level link to Essential background concepts, OOP conventions etc at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
