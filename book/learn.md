@@ -122,19 +122,22 @@ Other great sources of news are:
 
 ## Books
 There are many books about Drupal that are worth checking out.
-- [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition](https://www.packtpub.com/product/drupal-10-module-development-fourth-edition/9781837631803)
-- Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024 [from Amazon](https://amzn.to/3QOEqiN) or [on from Packt publishing](https://www.packtpub.com/product/drupal-10-masterclass/9781837633104)
-- [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023] from [Amazon](https://amzn.to/3SuU18j) or [Packt publishing](https://www.packtpub.com/product/drupal-10-development-cookbook-third-edition/9781803234960)
-- [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://www.packtpub.com/product/modernizing-drupal-10-theme-development/9781803238098)
-[Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://www.packtpub.com/product/drupal-9-module-development-third-edition/9781800204621)
+- [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition](https://amzn.to/478JGDk)
+- Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024 (https://amzn.to/3QOEqiN)
+- [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
+- [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9)
+[Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://amzn.to/468GRRx)
 - [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
 - [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
 - [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
-- [Drupal 8 Explained: Your Step-by-Step Guide to Drupal 8 from March 2017](https://www.amazon.com/Drupal-Explained-Step-Step-Guide/dp/152099026X/ref=as_li_ss_tl)
+- [Drupal 8 Explained: Your Step-by-Step Guide to Drupal 8 updated for 2019](https://amzn.to/47a8FpS)
 - [Drupal 8 module development. Learn how to write Drupal 8 modules by Lakshmi Narasimhan - last updated in 2017 ](https://leanpub.com/drupal8book)
 - [Check out more older Drupal books from Packt publishing](https://subscription.packtpub.com/search?query=Drupal)
 - [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
-- [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://www.amazon.com/Drupal-Theming-Twig-Chaz-Chumley-ebook/dp/B014FU8REQ/ref=sr_1_2?crid=2M686L02NP5EO&keywords=Drupal+8+explained+step+by+step&qid=1691329119&s=books&sprefix=drupal+8+explained+step+by+step%2Cstripbooks%2C105&sr=1-2)
+- [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://amzn.to/3MzPrly)
+
+{: .note }
+Some of these are affiliate links which means I could make some money if you purchase items using this link.
 
 
 <iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin" style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=selwynpolit-20&language=en_US&marketplace=amazon&region=US&placement=1803234962&asins=1803234962&linkId=ced74ff961fa32eb929c0aebef132fb7&show_border=true&link_opens_in_new_window=true"></iframe>
