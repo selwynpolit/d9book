@@ -2,7 +2,7 @@
 layout: default
 title: Drush
 permalink: /drush
-last_modified_date: '2023-10-13'
+last_modified_date: '2023-11-12'
 ---
 
 # Drush
@@ -746,18 +746,39 @@ cd $(drush dd files)
 ```
 
 
-## Global Install
-
-To install drush globally so you can just issue drush commands from anywhere on your system (mac only) use:
-
-```
-$ composer global require drush/drush:\^8.0
-```
-And add this to your .bashrc or .zshrc:
+### Global Drush
+I find that installing drush version 8 globally is best for my setup. Don't use homebrew to install drush. Rather use the composer version.
 
 ```
-alias drush = '~.composer/vendor/drush/drush/drush'
+composer global require drush/drush ^8
 ```
+Then add Drush to your system path by placing the following in your ~/.zshrc ( or if using bash: `~/.bash_profile`:
+
+```
+ export PATH="$HOME/.composer/vendor/bin:$PATH" 
+``` 
+
+{: .note }
+Test any of these path changes by running `source ~/.zshrc` to reload the environment variables.  You can also open a new iterm window if you prefer.
+
+By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands e.g. 
+
+`drush cr` or `drush cst` etc.
+
+As of November 2023 and v1.22.4+ to allow local drush on host you will need to install the following Ddev addon:
+
+`ddev get rfay/ddev-drushonhost`
+
+See <https://github.com/rfay/ddev-drushonhost> for documentation
+
+You will need: 
+`export IS_DDEV_PROJECT=true`
+
+or add this to your `settings.local.php`:
+`putenv("IS_DDEV_PROJECT=true");`
+
+Discussion: <https://github.com/ddev/ddev/pull/5328>
+
 
 
 ## Drush aliases
