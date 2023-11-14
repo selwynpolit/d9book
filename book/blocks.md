@@ -2,7 +2,7 @@
 layout: default
 title: Blocks
 permalink: /blocks
-last_modified_date: '2023-08-06'
+last_modified_date: '2023-11-13'
 ---
 
 # Blocks
@@ -346,7 +346,6 @@ public function build() {
   ];
 }
 ```
-TODO: NEED A BETTER EXAMPLE OF A D.I. BLOCK HERE especially showing a build()
 
 ## Create a block with an entityQuery
 
@@ -1000,8 +999,7 @@ public function build() {
 ```
 
 One last item. Configuration expects a schema for things being saved.
-Here we create a <module_name>.schema.yml in <module_name>/config/schema and it looks
-like:
+Here we create a `<module_name>.schema.yml` in `<module_name>/config/schema` and it looks like:
 
 ```yml
 
