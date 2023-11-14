@@ -2,7 +2,7 @@
 layout: default
 title: Caching
 permalink: /caching
-last_modified_date: '2023-11-1'
+last_modified_date: '2023-11-13'
 ---
 
 # Caching and cache tags
@@ -449,6 +449,149 @@ Cache contexts, tags and max-age must always be set, because they affect the cac
 Cache keys must only be set if the render array should be cached.
 
 There are more details at the link above
+
+## Caching your data for better performance
+
+For this use case, I need to store data gathered from multiple nodes in a cache so I can access it really quickly.  I load up an array of data in `$this->expectations` and store it in the cache.  This stores the array into a row of the `cache_default` table identified by a cache id.
+
+{: .note }
+To clear this data from cache, use `drush cr` or use the Drupal u/i (Configuration, Development, Performance and click clear all caches button). This will permanently erase each row of cached data from the `cache_default` table and the other `cache_*` tables.
+
+
+```php
+// Write data to the cache.
+$cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+\Drupal::cache()->set($cache_id, $this->expectations, Cache::PERMANENT);
+// Read from the cache.
+$cache_data = \Drupal::cache()->get($cache_id);
+```
+Here are some rows in the `cache_default` table:
+![Cache row of data in cache_default table](assets/images/cached_data.png)
+
+Here is what the `$this->expectations` array looks like from the `data` field:
+![Contents of data field](assets/images/cache_longblob.png)
+
+Here is a complete function which loads data from the cache.  If the cache is empty, the data is rebuilt from nodes and then stored in the cache:
+
+```php
+  protected function loadExpectations() {
+    $cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+    $cache_data = \Drupal::cache()->get($cache_id);
+    if (!$cache_data) {
+      // Retrieve expectation info for this team.
+      $expectation_nodes = Node::loadMultiple($this->expectationNids);
+      foreach ($expectation_nodes as $expectation_node) {
+        $expectation_nid = $expectation_node->id();
+        $this->expectations[$expectation_nid] = [
+          'nid' => $expectation_nid,
+          'pub_status' => $expectation_node->get('field_tks_expectation_pub_status')->value ?? 'error',
+          'kss_nid' => $expectation_node->get('field_tks_kss_parent_nid')->target_id,
+          'cfitem_nid' => $expectation_node->get('field_tks_expectation')->target_id,
+        ];
+      }
+      \Drupal::cache()->set($cache_id, $this->expectations, Cache::PERMANENT);
+      return;
+    }
+    $this->expectations = $cache_data->data;
+  }
+```
+
+Read more about the [Cache API](https://api.drupal.org/api/drupal/core!core.api.php/group/cache)
+
+### Invalidating caches
+
+Build an array of cache names (or cache_ids) and call `invalidateMultiple()`:
+
+```php
+  public function invalidateAllCaches() {
+    $citation_cache_id = "citations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+    $correlation_cache_id = "correlations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+    $expectation_cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+    $cache_ids = [$citation_cache_id, $correlation_cache_id, $expectation_cache_id];
+    \Drupal::cache()->invalidateMultiple($cache_ids);
+  }
+```
+
+### Specify custom cache bins
+
+To specify your own cache bin e.g. \"voting\", pass the name of your cache bin to the `\Drupal::cache()` calls like this:
+
+```php
+$cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+$cache_data = \Drupal::cache('voting')->get($cache_id);
+// And.
+\Drupal::cache('voting')->set($cache_id, $this->expectations, Cache::PERMANENT);
+```
+
+This does require an entry in your module.services.yml file.  e.g. in docroot/modules/custom/tea_teks/modules/tea_teks_voting/tea_teks_voting.services.yml:
+
+```yml
+services:
+  cache.voting:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin }
+    factory: cache_factory:get
+    arguments: [voting]
+```
+
+Your data will be stored in a table called `cache_voting`.
+
+{: .note }
+To clear this data from cache, use `drush cr` or use the Drupal u/i (Configuration, Development, Performance and click clear all caches button). This will permanently erase each line of cached data from the various `cache_*` tables.
+
+From the [cache api](https://api.drupal.org/api/drupal/core!core.api.php/group/cache):
+
+**Cache bins**
+
+Cache storage is separated into \"bins\", each containing various cache items. Each bin can be configured separately; see Configuration.
+
+When you request a cache object, you can specify the bin name in your call to \Drupal::cache(). Alternatively, you can request a bin by getting service \"cache.nameofbin\" from the container. The default bin is called \"default\", with service name \"cache.default\", it is used to store common and frequently used caches.
+
+Other common cache bins are the following:
+
+`bootstrap`: Data needed from the beginning to the end of most requests, that has a very strict limit on variations and is invalidated rarely.
+`render`: Contains cached HTML strings like cached pages and blocks, can grow to large size.
+`data`: Contains data that can vary by path or similar context.
+`discovery`: Contains cached discovery data for things such as plugins, views_data, or YAML discovered data such as library info.
+
+A module can define a cache bin by defining a service in its modulename.services.yml file as follows (substituting the desired name for \"nameofbin\"):
+
+
+
+
+## Caching data so it doesn't get cleared by a cache rebuild
+
+Using the [Permanent Cache Bin module](https://www.drupal.org/project/pcb) you can put your cached data into a cache bin and have it survive cache clearing.  This can be really useful if you need some cached data to stay around while you are clearing Drupal's other caches.
+
+This requires an entry in your `module.services.yml` file.  e.g. in docroot/modules/custom/tea_teks/modules/tea_teks_voting/tea_teks_voting.services.yml.  Notice the `default_backend:` value which makes it permanent:
+
+
+```yml
+services:
+  cache.voting:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin, default_backend: cache.backend.permanent_database }
+    factory: cache_factory:get
+    arguments: [voting]
+```
+
+{: .note }
+Executing invalidate in code does **not** clear any caches that are using `cache.backend.permanent_database`. 
+
+**F.A.Q**
+Now clearing caches leaves your cache_voting table intact.
+
+1. How to clear permanent cache through drush?
+To clear permanent cache drush pcbf [bin] (e.g. `drush pcbf voting`)
+
+2. How to clear permanent cache programmatically?
+`\Drupal::service('cache.voting')->deleteAllPermanent();`
+
+3. How to clear permanent cache through admin?
+For each cache bin using pcb, there will be a button in Admin -> Development -> Performance page (admin/config/development/performance). Use them to clear cache for specific bins through Admin UI.
+
 
 ## Development Setup
 
