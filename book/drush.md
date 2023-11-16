@@ -2,7 +2,7 @@
 layout: default
 title: Drush
 permalink: /drush
-last_modified_date: '2023-11-12'
+last_modified_date: '2023-11-16'
 ---
 
 # Drush
@@ -747,7 +747,8 @@ cd $(drush dd files)
 
 
 ### Global Drush
-I find that installing drush version 8 globally is best for Drupal development as I frequently run drush commands in the terminal. Drush runs very fast (faster than the equivalent `ddev drush` commands) when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within /vendor/bin) and call it. Always install drush in each project using composer.
+
+I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded my Oh-my-Zsh.  Drush runs slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within /vendor/bin) and call it. Always install drush in each project using composer.
 
 Don't use homebrew to install drush. Rather use the composer version.
 
