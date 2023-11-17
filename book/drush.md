@@ -2,7 +2,7 @@
 layout: default
 title: Drush
 permalink: /drush
-last_modified_date: '2023-11-16'
+last_modified_date: '2023-11-17'
 ---
 
 # Drush
