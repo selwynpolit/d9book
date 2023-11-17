@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-11-16'
+last_modified_date: '2023-11-17'
 ---
 
 # Setting up your Mac for Drupal development
@@ -523,15 +523,18 @@ You can set up PhpStorm to automatically look at your code and warn you of lines
 
 Go to: Settings, Php, Quality Tools, PHP_CodeSniffer
 
+![Image of PHP Codesniffer settings](assets/images/phpstorm_codesniffer.png))
+
 Use the following settings:
-- Configuration: System PHP
-- Check Show warning as: Warning
+- Configuration: `System PHP`
+- Check files with extensions: `php,js,css,inc, module`
+- Check Show warning as: `Warning`
 - Check Show sniff name
-- If you installed the coder module in your project with `composer require drupal/coder` and the phpcs
-  - Uncheck Installed standards path: 
+- If you installed the coder module in your project with `composer require drupal/coder` 
+  - Uncheck Installed standards path: and set it to: `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your project.)
 - If you have phpcs installed globally, use
-  - Check Installed standards path: /Users/spolit/.composer/vendor/bin/phpcs
-- Coding standard: Drupal
+  - Check Installed standards path and set it to: `/Users/spolit/.composer/vendor/bin/phpcs` (Replace this with the path to your global composer directory.)
+- Coding standard: `Drupal`
 
 
 If you installed the coder module in your project: Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf`. 
