@@ -552,6 +552,9 @@ To install phpcs & phpcf *globally* use:
 `composer global require squizlabs/php_codesniffer`
 To install coder module *globally* so you can codesniff using Drupal standards, use `composer global require drupal/coder`
 
+To use phpcs on the command line with a global installation of codesniffer, use:
+
+`phpcs web/sites/default/settings.php`
 
 
 
