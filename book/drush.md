@@ -750,7 +750,10 @@ cd $(drush dd files)
 
 I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded my Oh-my-Zsh.  Drush runs slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within /vendor/bin) and call it. Always install drush in each project using composer.
 
-Don't use homebrew to install drush. Rather use the composer version.
+{: .warning }
+You should be aware that you might get unpredictable results if you use differing versions of PHP on your local vs in the DDEV containers.  E.g. if your local mac has PHP 7 and your DDEV is using PHP 8.1, you are likely to have unpredictable results when you issue some drush commands.  Generally speaking I haven't seen things be too wacky, but you should be aware of this.
+
+Don't use homebrew to install drush. Rather use the composer version:
 
 ```
 composer global require drush/drush ^8
@@ -777,10 +780,45 @@ See <https://github.com/rfay/ddev-drushonhost> for documentation
 You will need: 
 `export IS_DDEV_PROJECT=true`
 
-or add this to your `settings.local.php`:
+OR
+
+In your project `settings.php` make sure the last part of the file looks like this (the order is critical):
+
+```php
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
+
+// Automatically generated include for settings managed by ddev.
+$ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
+if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
+  require $ddev_settings;
+}
+
+```
+
+ Then add this to your `settings.local.php`:
 `putenv("IS_DDEV_PROJECT=true");`
 
 Discussion: <https://github.com/ddev/ddev/pull/5328>
+
+Restart the project with `ddev restart`.
+
+Et voila!  You can now issue command such as `drush cr` as if you had first `ssh'ed` into the container.  
+
+
+**Troubleshooting**
+Failing looks like this:
+
+```sh
+$ drush cr
+
+In Database.php line 378:
+
+The specified database connection is not defined: default
+```
+
+Try a `ddev restart`
 
 
 
@@ -1305,45 +1343,12 @@ $ drush sqlq "select count(*) as redirects"
 
 ## Run drush on the host
 
-If you don't want to try `ddev drush cr` or `ddev drush cim -y` and would rather just use `drush cr` or `drush cim -y` you can set things up to do that
+If you prefer to type `drush cr` or `drush cim -y` (versus `ddev drush cr` or `ddev drush cim -y`), you can set things up to do that.
 
-You will need php 8.1 set up on your mac and drush installed globally.  See the `Setting up your Mac for Drupal development` chapter for details on this.
-
-In your project `settings.php` make sure the last part of the file looks like this:
-
-```php
-if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-  include $app_root . '/' . $site_path . '/settings.local.php';
-}
-
-// Automatically generated include for settings managed by ddev.
-if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev.php')) {
-  include __DIR__ . '/settings.ddev.php';
-}
-```
-
-{: .note }
-The order of the above items is critical
+Assuming you use PHP 8.1 for your Drupal project, you will need php 8.1 set up on your mac and drush installed globally.  See the [Global Drush Section](#global-drush) or You can read more in the [Setting up your Mac: Global Drush Section](/book/setup_mac.md#global-drush) for details.  It is advisable that the PHP installed on your local computer be the same as the PHP in the DDEV containers to avoid surprises.
 
 
-In your `settings.local.php` add this: 
 
-```php
-putenv("IS_DDEV_PROJECT=true");
-```
-
-Failing looks like this:
-
-```sh
-$ drush cr
-
-In Database.php line 378:
-
-The specified database connection is not defined: default
-```
-
-
-Et voila.  You can now issue command such as `drush cr` as if you had first `ssh'ed` into the container.  
 
 
 
