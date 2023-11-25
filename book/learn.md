@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-11-10'
+last_modified_date: '2023-11-24'
 ---
 
 # Learning and keeping up with Drupal
@@ -125,11 +125,12 @@ There are many books about Drupal that are worth checking out.
 - [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition](https://amzn.to/478JGDk)
 - [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/3QOEqiN)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
-- [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9)
+- [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9) For an interview [with the author](https://www.talkingdrupal.com/425)
 [Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://amzn.to/468GRRx)
 - [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
 - [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
 - [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
+- [Decoupled Drupal in Practice by Preston So Jan 2019](https://amzn.to/3uDWW4v)
 - [Drupal 8 Explained: Your Step-by-Step Guide to Drupal 8 updated for 2019](https://amzn.to/47a8FpS)
 - [Drupal 8 module development. Learn how to write Drupal 8 modules by Lakshmi Narasimhan - last updated in 2017 ](https://leanpub.com/drupal8book)
 - [Check out more older Drupal books from Packt publishing](https://subscription.packtpub.com/search?query=Drupal)
@@ -137,7 +138,7 @@ There are many books about Drupal that are worth checking out.
 - [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://amzn.to/3MzPrly)
 
 {: .note }
-Some of these are affiliate links which means I could make some money if you purchase items using this link.
+Some of these are affiliate links so Amazon may send me some money if you purchase items using these links.
 
 
 <iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin" style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=selwynpolit-20&language=en_US&marketplace=amazon&region=US&placement=1803234962&asins=1803234962&linkId=ced74ff961fa32eb929c0aebef132fb7&show_border=true&link_opens_in_new_window=true"></iframe>
