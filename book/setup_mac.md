@@ -588,6 +588,14 @@ ngrok lets you quickly share a site you are developing on with others. From the 
 brew install ngrok
 ```
 
+### rectangle
+
+Rectangle is a window management app based on Spectacle, written in Swift. [More at https://github.com/rxhanson/Rectangle](https://github.com/rxhanson/Rectangle)
+
+```
+brew install --cask rectangle```
+
+
 
 ## Resources
 - [macOS Monterey: Setting up a Mac for Development by Tania Rascia Jan 2022](https://www.taniarascia.com/setting-up-a-brand-new-mac-for-development)
