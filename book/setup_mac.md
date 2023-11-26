@@ -2,7 +2,7 @@
 layout: default
 title: Setup your Mac
 permalink: /setup_mac
-last_modified_date: '2023-11-17'
+last_modified_date: '2023-11-26'
 ---
 
 # Setting up your Mac for Drupal development
@@ -51,28 +51,35 @@ Replace johnsmith@gmail.com with your email.
 
 You will need to add the ssh key to the agent permanently.  
 for older versions of MacOS:
-`ssh-add -K ~/.ssh/id_rsa`
+```
+ssh-add -K ~/.ssh/id_rsa
+```
 for newer:
-`ssh-add --apple-use-keychain ~/.ssh/id_rsa`
+```
+ssh-add --apple-use-keychain ~/.ssh/id_rsa
+```
 
 
 To list all the keys (or confirm that you successfully added the key to the agent.)
-`ssh-add -l`
+```
+ssh-add -l
+```
 
 
 To remove an entry from ~/.ssh/known_hosts
-`ssh-keygen -R pogoacademystg.ssh.prod.acquia-sites.com`
+```
+ssh-keygen -R pogoacademystg.ssh.prod.acquia-sites.com
+```
 
 
 To copy the public key to the clipbpoard for pasting into Acquia/Github/Gitlab etc.
 ```
 $ pbcopy < ~/.ssh/id_rsa.pub
 ```
-From: https://apple.stackexchange.com/questions/48502/how-can-i-permanently-add-my-ssh-private-key-to-keychain-so-it-is-automatically
+[More at https://apple.stackexchange.com/questions/48502/how-can-i-permanently-add-my-ssh-private-key-to-keychain-so-it-is-automatically](https://apple.stackexchange.com/questions/48502/how-can-i-permanently-add-my-ssh-private-key-to-keychain-so-it-is-automatically)
 
 
-
-More info at: [https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+And [https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 and for multiple keys: [https://gist.github.com/jexchan/2351996](https://gist.github.com/jexchan/2351996)
 
 
