@@ -379,12 +379,33 @@ protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_fe
 }
 ```
 
+### Nodes that were modified recently
 
-### More on condition
+To select for nodes that were modified within the last seven days, use the following:
+
+```php
+$num_days_string = '-7 days';
+$query = \Drupal::entityQuery('node')
+  ->condition('type', 'srp_voting_record')
+  ->condition('changed', strtotime($num_days_string), '>=');
+  ->accessCheck(FALSE)
+$voting_record_nids = $query->execute();
+if (empty($voting_record_nids)) {
+  return [];
+}
+// Re-arrange indexing as 0, 1, 2...
+$voting_record_nids = array_values($voting_record_nids);
+```
+
+
+### More details about condition
 
 from - [API documentation for QueryInterface::condition](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21Query%21QueryInterface.php/function/QueryInterface%3A%3Acondition/8.6.x)
 
-For example, to find all entities containing both the Turkish 'merhaba' and the Polish 'siema' within a 'greetings' text field:
+
+**Language specific query**
+
+This example shows searching for entities with both the Turkish 'merhaba' (notice 'tr' as the last parameter) and the Polish 'siema' (notice 'pl as the last parameter) within a 'greetings' text field:
 
 ```php
 $entity_ids = \Drupal::entityQuery($entity_type)
@@ -395,6 +416,8 @@ $entity_ids = \Drupal::entityQuery($entity_type)
 ```
 
 **Parameters** 
+
+Notice that the first parameter can be a string or a ConditionInterface:
 
 `string|\Drupal\Core\Entity\Query\ConditionInterface $field`: Name of the field being queried or an instance of ConditionInterface. In the case of the name, it must contain a field name, optionally followed by a column name. The column can be the reference property, usually "entity", for reference fields and that can be followed similarly by a field name and so on. Additionally, the target entity type can be specified by appending the ":target_entity_type_id" to "entity". Some examples:
 
