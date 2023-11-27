@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-10-24'
+last_modified_date: '2023-11-27'
 ---
 
 # Queries
@@ -276,9 +276,9 @@ More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query
 
 -   Reference field empty: `->notExists('field_sf_account_ref');`
 
--   Null: `->condition(\$field,NULL, \'IS NULL\');`
+-   Null: `->condition($field, NULL, 'IS NULL');`
 
--   Not Null: `->condition(\$field,NULL, \'IS NOT NULL\');`
+-   Not Null: `->condition($field,NULL, 'IS NOT NULL');`
 
 Lots more at
 <https://www.drupal.org/docs/8/api/database-api/dynamic-queries/conditions>
