@@ -149,7 +149,7 @@ timezone: America/Chicago
 
 ### Fish shell in DDEV containers
 
-This is a real productivity enhancement.  When you use `ddev ssh` you get the old boring bash shell.  For a cooler more whizbang shell, use the following:
+This is a real productivity enhancement.  When you use `ddev ssh` you get the old boring bash shell.  For a cooler more whizbang [fish](https://fishshell.com/) shell, which will delight you with features like tab completions and syntax highlighting that just work, with nothing new to learn or configure, use the following:
 
 In your `.ddev/config.yaml` add the following line:
 
@@ -184,7 +184,7 @@ Type `help` for instructions on how to use fish
 spolit@ddev101-web /v/w/html (main)>
 ```
 
-If you don't see fish loading, you can confirm that the .profile successfully made it to the containers by using ssh'ing into the container and cat'ing the file and file'ing the file.  If you don't see clear text as shown below, try using a different editor to recreate the file:
+If you don't see fish loading, you can confirm that the `.profile` file successfully made it to the containers by ssh'ing into the container and cat'ing and file'ing the file. `file` should return `ASCII text` and cat should display clear text with no strange codes.  See below for details. If you don't see clear text, try using a different editor to recreate the file:
 
 ```bash
 ddev ssh
