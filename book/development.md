@@ -2,7 +2,7 @@
 layout: default
 title: Development
 permalink: /development
-last_modified_date: '2023-10-04'
+last_modified_date: '2023-11-28'
 ---
 
 # Development
@@ -132,42 +132,98 @@ From the docs:
 
 From https://ddev.readthedocs.io/en/stable/users/extend/config_yaml
 
--  You can override the config.yaml with extra files named `config.*.yaml\`. For example, many teams use `config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default config.yaml.
+-  You can override the config.yaml with extra files named `config.*.yaml\`. For example, use `.ddev/config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default config.yaml.
 
-- You could add a `config.selwyn.yaml` for Selwyn-specific values.
+- Additionally, you could add a `.ddev/config.selwyn.yaml` for Selwyn-specific values. I like to set the timezone and the router port in case some of my coworkers use an alternate port:
+
+```yaml
+router_http_port: "80"
+router_https_port: "443"
+timezone: America/Chicago
+```
 
 - Use ddev start (or ddev restart) after making changes to get the changes to take effect.
 
-- In the endless quest for speed in local development, try using NFS or Mutagen on MAC OS. Apparently the WSL2 setup on Windows 10/11 is the fastest performer for DDEV at the time of this writing.
-
-- I like to set the timezone and the router port in case some of my coworkers use an alternate port.
+- In the endless quest for speed in local development, DDEV uses Mutagen on MAC OS. Apparently the WSL2 setup on Windows 10/11 is the fastest performer for DDEV at the time of this writing.
 
 
-#### NFS
+### Fish shell in DDEV containers
 
-```yml
-router_http_port: "80"
-router_https_port: "443"
-timezone: America/Chicago
-# and for nfs
-nfs_mount_enabled: true
+This is a real productivity enhancement.  When you use `ddev ssh` you get the old boring bash shell.  For a cooler more whizbang shell, use the following:
+
+In your `.ddev/config.yaml` add the following line:
+
+```yaml
+webimage_extra_packages: [fish]
 ```
 
-#### Mutagen
+In your `.ddev/homeadditions/.profile` add this:
 
-```yml
-router_http_port: "80"
-router_https_port: "443"
-timezone: America/Chicago
-# instead of nfs, use mutagen
-nfs_mount_enabled: false
-mutagen_enabled: true
+```bash
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+fish
 ```
+
+Now ddev ssh will load fish automagically
+
+```
+ddev ssh
+Welcome to fish, the friendly interactive shell
+Type `help` for instructions on how to use fish
+spolit@ddev101-web /v/w/html (main)>
+```
+
+If you don't see fish loading, you can confirm that the .profile successfully made it to the containers by using ssh'ing into the container and cat'ing the file and file'ing the file.  If you don't see clear text as shown below, try using a different editor to recreate the file:
+
+```bash
+ddev ssh
+spolit@tea-web:/var/www/html$ cat ~/.profile
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+
+spolit@tea-web:/var/www/html$ file ~/.profile
+/home/spolit/.profile: ASCII text
+```
+
+{: .note }
+You can also create a global .profile file to run in all containers at ~/.ddev/homeadditions.  This doesn't apply to loading fish in all containers as there is not currently a facility to handle global `webimage_extra_packages`.
+
 
 ### setup aliases in ddev
 
-I love short linux aliases like ll (or just l) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add
-aliases using this technique
+I love short linux aliases like `ll`` (or just `l`) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add aliases using this technique
 
 Use ddev ssh to "ssh" into the container and then type ll to list the files in a directory.
 
@@ -175,14 +231,14 @@ Either copy `.ddev/homeadditions/bash_aliases.example` to `.ddev/homeadditions/b
 
 OR
 
-Create a file `.ddev/homeadditions/.bash_aliases` with these contents: note. those are the letter L lower case (as in lima).
+Create a file `.ddev/homeadditions/.bash_aliases` with these contents: note. those are the letter `L` lower case (as in lima).
 
 ```
-alias ll=\"ls -lhAp"
-alias l=\"ls -lhAp"
+alias ll="ls -lhAp"
+alias l="ls -lhAp"
 ```
 
-Note. don't use `.homeadditions` - use the `homeadditions`.
+Note. don't use `.homeadditions` - use the `homeadditions` with no period (or full stop) in front.
 
 ### Upgrading ddev
 
@@ -190,20 +246,24 @@ After you install a new version of ddev, run `ddev stop` and then `ddev config` 
 
 ### Show others your ddev local site using ngrok
 
-Check out [sharing your DDEV-Local site via a public URL using `ddev share` and ngrok - Mike Anello updated Mar 2020](https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok)
+Check out [sharing your DDEV-Local site via a public URL using `ddev share` and ngrok by Mike Anello updated Mar 2020](https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok)
 
 
 ### Email Capture and Review
 
-MailHog is a mail catcher which is configured to capture and display emails sent by PHP in the development environment.
+Mailpit (which replaced MailHog) is a mail catcher which is configured to capture and display emails sent in the development environment.
 
-After your project is started, access the MailHog web interface at its default port:
+After your project is started, access the Mailpit web interface at `http://mysite.ddev.site:8026` or use `ddev launch -m` to launch Mailpit.
 
-http://mysite.ddev.site:8025
 
-Please note this will not intercept emails if your application is configured to use SMTP or a 3rd-party ESP integration. If you are using SMTP for outgoing mail handling (Swiftmailer or SMTP modules for example), update your application configuration to use localhost on port 1025 as the SMTP server locally in order to use MailHog.
+Mailpit will not intercept emails if your application is configured to use SMTP or a third-party ESP integration.
 
-`ddev launch -m` will launch the MailHog UI.
+If you’re using SMTP for outgoing mail—with Symfony Mailer or SMTP modules, for example—update your application’s SMTP server configuration to use localhost and Mailpit’s port 1025.
+
+
+[Read more in the DDEV docs](https://ddev.readthedocs.io/en/latest/users/usage/developer-tools/#email-capture-and-review-mailpit)
+
+
 
 ### DDEV and Xdebug
 
