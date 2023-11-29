@@ -2,7 +2,7 @@
 layout: default
 title: Learning
 permalink: /learn
-last_modified_date: '2023-11-24'
+last_modified_date: '2023-11-29'
 ---
 
 # Learning and keeping up with Drupal
@@ -126,7 +126,7 @@ There are many books about Drupal that are worth checking out.
 - [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/3QOEqiN)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
 - [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9) For an interview [with the author](https://www.talkingdrupal.com/425)
-[Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://amzn.to/468GRRx)
+- [Daniel Sipos's Drupal 9 Module Development Third Edition Published in Aug 2020](https://amzn.to/468GRRx)
 - [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
 - [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
 - [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
