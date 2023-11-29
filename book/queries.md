@@ -2,7 +2,7 @@
 layout: default
 title: Queries
 permalink: /queries
-last_modified_date: '2023-11-27'
+last_modified_date: '2023-11-29'
 ---
 
 # Queries
@@ -395,6 +395,56 @@ if (empty($voting_record_nids)) {
 }
 // Re-arrange indexing as 0, 1, 2...
 $voting_record_nids = array_values($voting_record_nids);
+```
+
+### andCondition and orCondition example
+
+Here is an example of a submitForm function where after a node is deleted, an additional query is fired off which looks for nodes that are either:
+1. Of type `srp_voting_records` with matching $ef_node_id's
+2. Of type `srp_publisher_response` with matching $ef_node_id's
+
+Then it deletes those nodes it found.
+
+Note. the `ef` in `$ef_node_id` stands for error/feedback if that makes the code any clearer.
+
+```php
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $ef_node_id = $form_state->get('ef_node_id');
+    $program_nid = $form_state->get('program_nid');
+    $type_text = $form_state->get('type_text');
+    $node = Node::load($ef_node_id);
+    if($node) {
+      $node->delete();
+      \Drupal::messenger()->addMessage("{$type_text} deleted.");
+      $storage = \Drupal::entityTypeManager()->getStorage('node');
+      $query = \Drupal::entityQuery('node')
+        ->accessCheck(FALSE)
+        ->sort('title', 'ASC');
+      $orCorr1 = $query->andConditionGroup()
+        ->condition('type', 'srp_voting_record', '=')
+        ->condition('field_ref_error_feedback', $ef_node_id, '=');
+      $orCorr2 = $query->andConditionGroup()
+        ->condition('type', 'srp_publisher_response', '=')
+        ->condition('field_srp_feedback_error_item', $ef_node_id, '=');
+      $orCorr3 = $query->orConditionGroup()
+        ->condition($orCorr1)
+        ->condition($orCorr2);
+      $query->condition($orCorr3);
+      $nids = $query->execute();
+      foreach($nids as $nid)
+      {
+        $delete_node = Node::load($nid);
+        $delete_node->delete();
+      }
+    }
+    else {
+      \Drupal::messenger()->addMessage("{$type_text} Not Found.");
+    }
+
+    $referrer_alias = $form_state->get("referrer_alias");
+    $url = Url::fromUri('internal:' . $referrer_alias);
+    $form_state->setRedirectUrl($url);
+  }
 ```
 
 
