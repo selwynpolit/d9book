@@ -2,7 +2,7 @@
 layout: default
 title: Security
 permalink: /security
-last_modified_date: '2023-11-1'
+last_modified_date: '2023-12-01'
 ---
 
 # Security
@@ -418,7 +418,7 @@ Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeyp
 - [Security Review](https://www.drupal.org/project/security_review)
 - [Antibot](https://www.drupal.org/project/antibot)
 - [Honeypot](https://www.drupal.org/project/honeypot)
-- [Anti-Spam by Clean Talk](https://www.drupal.org/project/cleantalk)
+- [Anti-Spam by Clean Talk (paid SAAS service)](https://www.drupal.org/project/cleantalk)
 
 ## Resources
 - [Security on Drupal.org](https://www.drupal.org/docs/develop/security)

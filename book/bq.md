@@ -2,7 +2,7 @@
 layout: default
 title: Batch and Queue
 permalink: /bq
-last_modified_date: '2023-11-13'
+last_modified_date: '2023-12-01'
 ---
 
 # Batch Processing and the Drupal Queue System
@@ -381,6 +381,17 @@ If you want to update the default value of a field for all nodes using the Batch
 - [Using the Batch API and hook_update_N in Drupal 8](https://www.thirdandgrove.com/insights/using-batch-api-and-hookupdaten-drupal-8/)
 - [Drupal API \| batch_example_update_8001 \| batch_example.install](https://api.drupal.org/api/examples/batch_example%21batch_example.install/function/batch_example_update_8001/8.x-1.x)
 
+
+### Using the Batch API in a drush command
+
+You follow all the same procedures as shown in the form or controller style above, but to execute the batch, you need to use:
+
+```php
+// Start the batch process.
+  drush_backend_batch_process();
+```
+
+
 ### Important rules about functions when using Batch API
 
 All batch functions must be `public static functions` and all functions calling those must be explicitly namespaced like:
@@ -400,6 +411,7 @@ You can however refer to the functions with `self::` e.g.
 ```php
 $node_to_update_dirt_contact_nid = self::getFirstRef($node_to_update, 'field_sf_dirt_contact_ref');
 ```
+
 
 ### Looking at the source code for the Batch API
 
