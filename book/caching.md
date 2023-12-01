@@ -161,8 +161,9 @@ Open the inspect pane in the browser, on the network tab, click on the doc (the 
 
 e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
 
-~[Debugging cache tags](assets/images/debug_cache_tags.png)
+![Debugging cache tags](assets/images/debug_cache_tags.png)
 
+More [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
 
 ## Using cache tags
@@ -1010,7 +1011,7 @@ services:
 * [Cache API Drupal Core](https://api.drupal.org/api/drupal/core!core.api.php/group/cache/10.1.x)
 * [Drupal BigPipe Module: The Phenomenal to Improve Website Performance](https://www.lnwebworks.com/Insight/drupal-bigpipe-module)
 * [Drupal performance — a complete Drupal self-help guide to ensuring your website’s performance by Kristen Pol Sep 2023](https://salsa.digital/insights/drupal-performance-a-complete-drupal-self-help-guide-to-ensuring-your-websites-performance)
-
+* [Cache tags on Drupal.org updated March 2023](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
 ---
 
