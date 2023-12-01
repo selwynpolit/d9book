@@ -60,44 +60,22 @@ const ERROR_REPORTING_DISPLAY_VERBOSE = 'verbose';
 ```
 
 
-## Disable caches and enable Twig debugging
+### Disable caching and enable TWIG debugging
 
-This will cause twig debugging information to be displayed in the HTML code like the following:
+Generally I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
 
-```html
-<!-- THEME DEBUG -->
-<!-- THEME HOOK: 'toolbar' -->
-<!-- BEGIN OUTPUT from 'core/themes/stable/templates/navigation/toolbar.html.twig' -->
+To enable TWIG debugging output in source, in `sites/default/development.services.yml` set `twig.config debug:true`.  See `core.services.yml` for lots of other items to change for development.
 
-```
-and
+TWIG debugging output looks like this:
 
-```html
-<!-- THEME DEBUG -->
-<!-- THEME HOOK: 'page' -->
-<!-- FILE NAME SUGGESTIONS:
-   * page--teks--admin--srp--program--expectation--correlation--vote-all.html.twig
-   * page--teks--admin--srp--program--expectation--correlation--852136.html.twig
-   * page--teks--admin--srp--program--expectation--correlation--%.html.twig
-   * page--teks--admin--srp--program--expectation--correlation.html.twig
-   * page--teks--admin--srp--program--expectation--852131.html.twig
-   * page--teks--admin--srp--program--expectation--%.html.twig
-   * page--teks--admin--srp--program--expectation.html.twig
-   * page--teks--admin--srp--program--852061.html.twig
-   * page--teks--admin--srp--program--%.html.twig
-   * page--teks--admin--srp--program.html.twig
-   * page--teks--admin--srp.html.twig
-   x page--teks--admin.html.twig
-   * page--teks.html.twig
-   * page.html.twig
--->
-```
+![TWIG debugging output](assets/images/twig_debug_output.png)
 
-In `sites/default/development.services.yml` in the `parameters`, `twig.config`, set `debug:true`. See `core.services.yml` for lots of other items to change for development.
 
-```yaml
+```yml
 # Local development services.
 #
+# To activate this feature, follow the instructions at the top of the
+# 'example.settings.local.php' file, which sits next to this file.
 parameters:
   http.response.debug_cacheability_headers: true
   twig.config:
@@ -111,7 +89,64 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-You also need this in `settings.local.php`:
+Here is the entire `development.services.yml` file that I usually use:
+
+```yml
+# Local development services.
+#
+# put this in /sites/development.services.yml
+#
+# To activate this feature, follow the instructions at the top of the
+# 'example.settings.local.php' file, which sits next to this file.
+parameters:
+  http.response.debug_cacheability_headers: true
+  twig.config:
+    # Twig debugging:
+    #
+    # When debugging is enabled:
+    # - The markup of each Twig template is surrounded by HTML comments that
+    #   contain theming information, such as template file name suggestions.
+    # - Note that this debugging markup will cause automated tests that directly
+    #   check rendered HTML to fail. When running automated tests, 'debug'
+    #   should be set to FALSE.
+    # - The dump() function can be used in Twig templates to output information
+    #   about template variables.
+    # - Twig templates are automatically recompiled whenever the source code
+    #   changes (see auto_reload below).
+    #
+    # For more information about debugging Twig templates, see
+    # https://www.drupal.org/node/1906392.
+    #
+    # Not recommended in production environments
+    # @default false
+    debug: true
+    # Twig auto-reload:
+    #
+    # Automatically recompile Twig templates whenever the source code changes.
+    # If you don't provide a value for auto_reload, it will be determined
+    # based on the value of debug.
+    #
+    # Not recommended in production environments
+    # @default null
+    #    auto_reload: null
+    auto_reload: true
+    # Twig cache:
+    #
+    # By default, Twig templates will be compiled and stored in the filesystem
+    # to increase performance. Disabling the Twig cache will recompile the
+    # templates from source each time they are used. In most cases the
+    # auto_reload setting above should be enabled rather than disabling the
+    # Twig cache.
+    #
+    # Not recommended in production environments
+    # @default true
+    cache: false
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory
+```
+
+You need to enable your `development.services.yml` file so add this to your `settings.local.php`:
 
 ```php
 /**
@@ -120,7 +155,8 @@ You also need this in `settings.local.php`:
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
 
-Disable caches in `settings.local.php`:
+
+You also need to disable caches and JS/CSS preprocessing in `settings.local.php` with:
 
 ```php
 $config['system.performance']['css']['preprocess'] = FALSE;

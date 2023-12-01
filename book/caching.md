@@ -150,38 +150,20 @@ More about caching render arrays at <https://www.drupal.org/docs/8/api/render-ap
 
 ## Debugging Cache tags
 
-In `development.services.yml` set these parameters 
+In `development.services.yml` set the `http.response.debug_cacheability_headers` parameter:
 
 ```yml
 parameters:
   http.response.debug_cacheability_headers: true
 ```
 
-in Chrome, the network tab, click on the doc and view the Headers. You will see the following two headers showing both the cache contexts and the cache tags
+Open the inspect pane in the browser, on the network tab, click on the doc (the first item at the top of the list) and scroll down to the response headers. You will see the following headers: `X-Drupal-Cache-Tags`, `X-Drupal-Cache-Contexts` and `X-Drupal-Cache-Max-Age` which show the cache tags, contexts and max age.
 
-1.  **X-Drupal-Cache-Contexts:**
+e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
 
-> languages:language_interface route session theme timezone url.path
-> url.query_args url.site user
+~[Debugging cache tags](assets/images/debug_cache_tags.png)
 
-2.  **X-Drupal-Cache-Tags:**
 
-> block_view config:block.block.bartik_account_menu
-> config:block.block.bartik_branding
-> config:block.block.bartik_breadcrumbs
-> config:block.block.bartik_content config:block.block.bartik_footer
-> config:block.block.bartik_help config:block.block.bartik_local_actions
-> config:block.block.bartik_local_tasks
-> config:block.block.bartik_main_menu config:block.block.bartik_messages
-> config:block.block.bartik_page_title config:block.block.bartik_powered
-> config:block.block.bartik_search config:block.block.bartik_tools
-> config:block.block.helloworldsalutation config:block.block.modalblock
-> config:block.block.productimagegallery config:block.block.rsvpblock
-> config:block.block.views_block\_\_aquifer_listing_block_1
-> config:block.block.views_block\_\_related_videos_block_1
-> config:block.block.views_block\_\_user_guide_pages_referencing_a\_product_block_1
-> config:block.block.views_block\_\_workshop_count_proposed_workshop_block
-> config:bloc
 
 ## Using cache tags
 
@@ -597,9 +579,13 @@ For each cache bin using pcb, there will be a button in Admin -> Development -> 
 
 ### Disable caching and enable TWIG debugging
 
-Generally I enable twig debugging and disable caching while developing a site.  
+Generally I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
 
-To enable TWIG debugging output in source, in sites/default/development.services.yml set twig.config debug:true.  See core.services.yml for lots of other items to change for development
+To enable TWIG debugging output in source, in `sites/default/development.services.yml` set `twig.config debug:true`.  See `core.services.yml` for lots of other items to change for development.
+
+TWIG debugging output looks like this:
+
+![TWIG debugging output](assets/images/twig_debug_output.png)
 
 ```yml
 # Local development services.
@@ -608,7 +594,6 @@ To enable TWIG debugging output in source, in sites/default/development.services
 # 'example.settings.local.php' file, which sits next to this file.
 parameters:
   http.response.debug_cacheability_headers: true
-  dino.roar.use_key_value_cache: true
   twig.config:
     debug: true
     auto_reload: true
@@ -620,7 +605,65 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-to enable put this in settings.local.php:
+Here is the entire `development.services.yml` file that I usually use:
+
+```yml
+# Local development services.
+#
+# put this in /sites/development.services.yml
+#
+# To activate this feature, follow the instructions at the top of the
+# 'example.settings.local.php' file, which sits next to this file.
+parameters:
+  http.response.debug_cacheability_headers: true
+  twig.config:
+    # Twig debugging:
+    #
+    # When debugging is enabled:
+    # - The markup of each Twig template is surrounded by HTML comments that
+    #   contain theming information, such as template file name suggestions.
+    # - Note that this debugging markup will cause automated tests that directly
+    #   check rendered HTML to fail. When running automated tests, 'debug'
+    #   should be set to FALSE.
+    # - The dump() function can be used in Twig templates to output information
+    #   about template variables.
+    # - Twig templates are automatically recompiled whenever the source code
+    #   changes (see auto_reload below).
+    #
+    # For more information about debugging Twig templates, see
+    # https://www.drupal.org/node/1906392.
+    #
+    # Not recommended in production environments
+    # @default false
+    debug: true
+    # Twig auto-reload:
+    #
+    # Automatically recompile Twig templates whenever the source code changes.
+    # If you don't provide a value for auto_reload, it will be determined
+    # based on the value of debug.
+    #
+    # Not recommended in production environments
+    # @default null
+    #    auto_reload: null
+    auto_reload: true
+    # Twig cache:
+    #
+    # By default, Twig templates will be compiled and stored in the filesystem
+    # to increase performance. Disabling the Twig cache will recompile the
+    # templates from source each time they are used. In most cases the
+    # auto_reload setting above should be enabled rather than disabling the
+    # Twig cache.
+    #
+    # Not recommended in production environments
+    # @default true
+    cache: false
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory
+```
+
+
+You need to enable your `development.services.yml` file so add this to your `settings.local.php`:
 
 ```php
 /**
@@ -628,13 +671,19 @@ to enable put this in settings.local.php:
  */
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
-You also need to disable the render cache in settings.local.php with: 
+
+
+You also need to disable caches and JS/CSS preprocessing in `settings.local.php` with: 
 
 ```php
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;
 $settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['page'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 ```
 
-### Disable Cache for development
+### Disable Caching for development (more detailed steps)
 
 From https://www.drupal.org/node/2598914
 
@@ -668,9 +717,10 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-NOTE: Do not create development.services.yml, it already exists under /sites.  You can copy it from there.
+{: .note }
+Dont create `development.services.yml`, it already exists under `/sites` so you can copy it from there.
 
-4. In `settings.local.php` change the following to be TRUE if you want to work with enabled css- and js-aggregation:
+4. In `settings.local.php` change the following to be `TRUE` if you want to work with enabled css- and js-aggregation:
 
 ```php
 $config['system.performance']['css']['preprocess'] = FALSE;
@@ -685,13 +735,7 @@ $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 $settings['cache']['bins']['page'] = 'cache.backend.null';
 ```
 
-If you do not want to install test modules and themes, set the following to FALSE:
-
-```php
-$settings['extension_discovery_scan_tests'] = FALSE;
-```
-
-1. In `sites/development.services.yml` add the following block to disable the twig cache:
+6. In `sites/development.services.yml` add the following block to disable the twig cache:
 
 ```yaml
 parameters:
@@ -701,13 +745,72 @@ parameters:
     cache: false
 ```
 
-NOTE: If the parameters block is already present in the yml file, append the twig.config block to it.
+NOTE: If the `parameters` block is already present in `sites/development.services.yml`, append the twig.config block to it.
 
-Afterwards rebuild the Drupal cache with `drush cr` otherwise your website will encounter an unexpected error on page reload.
+Rebuild the Drupal cache with `drush cr` otherwise your website will encounter an unexpected error on page reload.
+
+Here is the entire `development.services.yml` file that I usually use:
+
+```yml
+# Local development services.
+#
+# put this in /sites/development.services.yml
+#
+# To activate this feature, follow the instructions at the top of the
+# 'example.settings.local.php' file, which sits next to this file.
+parameters:
+  http.response.debug_cacheability_headers: true
+  twig.config:
+    # Twig debugging:
+    #
+    # When debugging is enabled:
+    # - The markup of each Twig template is surrounded by HTML comments that
+    #   contain theming information, such as template file name suggestions.
+    # - Note that this debugging markup will cause automated tests that directly
+    #   check rendered HTML to fail. When running automated tests, 'debug'
+    #   should be set to FALSE.
+    # - The dump() function can be used in Twig templates to output information
+    #   about template variables.
+    # - Twig templates are automatically recompiled whenever the source code
+    #   changes (see auto_reload below).
+    #
+    # For more information about debugging Twig templates, see
+    # https://www.drupal.org/node/1906392.
+    #
+    # Not recommended in production environments
+    # @default false
+    debug: true
+    # Twig auto-reload:
+    #
+    # Automatically recompile Twig templates whenever the source code changes.
+    # If you don't provide a value for auto_reload, it will be determined
+    # based on the value of debug.
+    #
+    # Not recommended in production environments
+    # @default null
+    #    auto_reload: null
+    auto_reload: true
+    # Twig cache:
+    #
+    # By default, Twig templates will be compiled and stored in the filesystem
+    # to increase performance. Disabling the Twig cache will recompile the
+    # templates from source each time they are used. In most cases the
+    # auto_reload setting above should be enabled rather than disabling the
+    # Twig cache.
+    #
+    # Not recommended in production environments
+    # @default true
+    cache: false
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory
+```
+
+
 
 ## How to specify the cache backend
 
-This information is relevant for using [Memcache](https://www.drupal.org/project/memcache), [Redis](https://www.drupal.org/project/redis) and also [APCu](https://www.php.net/manual/en/book.apcu.php).  By default, Drupal caches information in the database.  Tables includes cache_default, cache_render, cache_page, cache_config etc.  By using the configuration below, Drupal can instead store this info in memory to increase performance.
+This is relevant for using [Memcache](https://www.drupal.org/project/memcache), [Redis](https://www.drupal.org/project/redis) and also [APCu](https://www.php.net/manual/en/book.apcu.php).  By default, Drupal caches information in the database.  Tables includes cache_default, cache_render, cache_page, cache_config etc.  By using the configuration below, Drupal can instead store this info in memory to increase performance.
 
 **Summary**
 
@@ -715,7 +818,7 @@ Drupal will no longer automatically use the custom global cache backend specifie
 
 **Detailed description with examples**
 
-In Drupal 8 there are several ways to specify which cache backend is used for a certain cache bin (e.g. the discovery cache bin or the render cache bin).
+In modern Drupal there are several ways to specify which cache backend is used for a certain cache bin (e.g. the discovery cache bin or the render cache bin).
 
 In Drupal, cache bins are defined as services and are tagged with name: cache.bin. Additionally, some cache bins specify a `default_backend` service within the tags. For example, the discovery cache bin from Drupal core defines a fast chained default backend:
 
