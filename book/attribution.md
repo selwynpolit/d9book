@@ -3,7 +3,7 @@ layout: default
 title: Attribution
 permalink: /attribution
 search_exclude: true
-last_modified_date: '2023-10-19'
+last_modified_date: '2023-12-01'
 ---
 
 # Attribution
@@ -49,5 +49,6 @@ Thanks to these rockstars for their contribution to the project.  Please add you
 
 [Manas Khatua](https://github.com/manask4) - Help with editing.
 
-[Tyler36](https://github.com/tyler36) - Drush commands
+[Tyler36](https://github.com/tyler36) - Drush commands.
 
+[Peter Elias](https://github.com/pheski) - Anti-spam modules.
