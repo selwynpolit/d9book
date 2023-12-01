@@ -391,6 +391,40 @@ You follow all the same procedures as shown in the form or controller style abov
   drush_backend_batch_process();
 ```
 
+From <https://drupal.stackexchange.com/questions/225273/how-can-execute-batch-api-over-cron-jobs>: 
+
+```php
+function module_name_drush_command() {
+  $items = array();
+  $items['migrate-batch-list'] = array(
+    'description' => 'Migrate import match',
+    'examples' => array(
+      'drush migrate-batch-list' => 'Migrate import match',
+    ),
+  );
+return $items;
+}
+
+function drush_module_name_migrate_batch_list() {
+  drush_print('Migrate import match list.');
+
+  $operations = array(...something here you want.);
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'importingmatch_finishedBatch',
+    'title' => t('Import match'),
+    'init_message' => t('Starting import match.....'),
+    'progress_message' => t('Completed @current step of @total.'),
+    'error_message' => t('Import match deletion has encountered an error.'),
+  );
+
+  // Initialize the batch.
+  batch_set($batch);
+
+  // Start the batch process.
+  drush_backend_batch_process();
+}```
+
 
 ### Important rules about functions when using Batch API
 

@@ -2,7 +2,7 @@
 layout: default
 title: Caching
 permalink: /caching
-last_modified_date: '2023-11-13'
+last_modified_date: '2023-12-01'
 ---
 
 # Caching and cache tags
@@ -995,6 +995,15 @@ services:
     calls:
       - [setContainer, ['@service_container']]
 ```
+
+## Manually clearing caches
+
+
+Using SequelAce or similar tool, truncate all the tables that start with `cache_`:
+
+~[truncating cache tables](assets/images/truncate_cache_tables.png)
+
+More [at Drupalize.me](https://drupalize.me/tutorial/clear-drupals-cache)
 
 
 ## Reference
