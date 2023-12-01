@@ -2,7 +2,7 @@
 layout: default
 title: Debugging
 permalink: /debugging
-last_modified_date: '2023-09-14'
+last_modified_date: '2023-12-01'
 ---
 
 # Debugging and Profiling
@@ -265,9 +265,26 @@ More at <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-de
 
 ## Add a breakpoint in code
 
-To add a breakpoint in code, you can use: xdebug_break()
+To add a breakpoint in code, you can also use: `xdebug_break()`.
 
-more at <https://xdebug.org/docs/all_functions>
+[More at](https://xdebug.org/docs/all_functions)
+
+## Debugging Cache tags
+
+In `development.services.yml` set the `http.response.debug_cacheability_headers` parameter:
+
+```yml
+parameters:
+  http.response.debug_cacheability_headers: true
+```
+
+Open the inspect pane in the browser, on the network tab, click on the doc (the first item at the top of the list) and scroll down to the response headers. You will see the following headers: `X-Drupal-Cache-Tags`, `X-Drupal-Cache-Contexts` and `X-Drupal-Cache-Max-Age` which show the cache tags, contexts and max age.
+
+e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
+
+![Debugging cache tags](assets/images/debug_cache_tags.png)
+
+More [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
 
 ## Install Xdebug Profiling with DDEV
@@ -535,7 +552,6 @@ if(class_exists('Kint')){
 
 ## Resources
 
-
 - [DDEV Documentation](https://ddev.readthedocs.io/en/stable/)
 - [Debugging with Xdebug in DDEV docs](https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging)
 - [Debug Drush commands with PhpStorm at](https://www.jetbrains.com/help/phpstorm/drupal-support.html#view_drupal_api_documentation)
@@ -544,6 +560,8 @@ if(class_exists('Kint')){
 - [DDEV docs on using a different port for debugging](https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#using-xdebug-on-a-port-other-than-the-default-9003)
 - [How to setup Devel and Kint on Drupal 9 by Alex Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
 - [Debugging with VScode, DDEV and Lando by Ankitha Shetty September 2023](https://www.specbee.com/blogs/simplified-php-debugging-xdebug-lando-ddev-drupal)
+- [Debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging)
+- [Debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
 ---
 
