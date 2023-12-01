@@ -60,7 +60,7 @@ const ERROR_REPORTING_DISPLAY_VERBOSE = 'verbose';
 ```
 
 
-### Disable caching and enable TWIG debugging
+## Disable caching and enable TWIG debugging
 
 Generally I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
 
