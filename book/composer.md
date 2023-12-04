@@ -2,7 +2,7 @@
 layout: default
 title: Composer
 permalink: /composer
-last_modified_date: '2023-10-18'
+last_modified_date: '2023-12-02'
 ---
 
 # Composer, Updates and Patches
@@ -706,7 +706,38 @@ They say: \"It is not possible to support both Drupal 9.x and 10.x in a single r
 {: .note }
 TODO: I couldn't make this work.  Anyone want to weigh in on this?
 
+## Specify a particular version of PHP
 
+You can specify the version of PHP in composer.json as shown below:
+
+```json
+"config": {
+
+    "platform": {
+        "php": "8.1"
+    }
+
+},
+```
+
+Here is more of the config section of a composer.json for clarity:
+
+```json
+    "config": {
+        "platform": {
+            "php": "8.1"
+        },
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true
+        },
+        "sort-packages": true
+    },
+```
 
 
 ## Troubleshooting
