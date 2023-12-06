@@ -2,7 +2,7 @@
 layout: default
 title: General
 permalink: /general
-last_modified_date: '2023-11-1'
+last_modified_date: '2023-12-06'
 ---
 
 # General
@@ -899,6 +899,67 @@ function multiauthor_form_alter(array &$form, FormStateInterface $form_state, st
 ```
 
 This hook alters the Basic page add and edit forms, setting my custom "Additional author" field (field_additional_authors) to the "author" group in the "Additional authors" accordion. Users added to the `Additional authors` field get the same read, update, and delete permissions at the owner of the node.
+
+## Elapsed time
+
+To record how long something takes in Drupal, use the Timer utility class.  In the example below, this info is also logged to the watchdog log.
+
+
+In your config or `settings.local.php` (to temporarily override that value) you can enable or disable the timer with:
+
+```php
+$config['tea_teks_srp.testing']['display_elapsed_time'] = TRUE;
+$config['tea_teks_srp.testing']['log_elapsed_time'] = TRUE;
+```
+
+This example uses a form so this is the constructor:
+
+```php
+class SrpVoteOnCitationForm extends FormBase {
+
+  protected bool $displayElapsedTime = FALSE;
+  protected bool $logElapsedTime = FALSE;
+
+  public function __construct(VotingProcessorInterface $votingProcessor) {
+    $this->displayElapsedTime = \Drupal::config('tea_teks_srp.testing')->get('display_elapsed_time');
+    $this->displayElapsedTime = \Drupal::config('tea_teks_srp.testing')->get('log_elapsed_time');
+
+  }
+```
+
+In the `submitForm()` we start the timer, do some work and then stop the timer and report the result like this:
+
+```php
+public function submitForm(array &$form, FormStateInterface $form_state) {
+  $user_id = \Drupal::currentUser()->id();
+  Timer::start('vote:voter_id:' . $user_id);
+
+  $current_path = \Drupal::service('path.current')->getPath();
+  if ($this->displayElapsedTime) {
+    $msg = 'Voter: ' . number_format($user_id). ' Citation: ' . number_format($citation_nid) .' Vote: ' . strtolower($voting_action) . ' Url:' . $current_path ;
+    \Drupal::messenger()->addMessage($msg);
+  }
+  if ($this->logElapsedTime) {
+    \Drupal::logger('tea_teks_srp')->info($msg);
+  }
+
+  // do the work...
+
+  $end_time_in_ms = Timer::read($timer_name);
+Timer::stop($timer_name);
+$end_time = number_format($end_time_in_ms / 1000, 4);
+$msg = ' Vote: ' . strtolower($voting_action) .' took ' . $end_time . 's' . ' Voter: ' . number_format($user_id) . ' Citation: ' . number_format($citation_nid);
+if ($this->displayElapsedTime) {
+  // Display elapsed time message.
+  \Drupal::messenger()->addMessage($msg);
+}
+if ($this->logElapsedTime) {
+  // Log the elapsed time message to watchdog.
+  \Drupal::logger('tea_teks_srp')->info($msg);
+}
+```
+
+
 
 
 ## System.schema (module is missing from your site)
