@@ -789,18 +789,40 @@ if ($contract_id) {
 }
 ```
 
-## How to strip % characters from a string
+## Decoding URL encoded strings 
+
+Encoded strings have all non-alphanumeric characters except -_. replaced with a percent (%) sign followed by two hex digits and spaces encoded as plus (+) signs. This is the same way that the posted data from a WWW form is encoded, and also the same way as in `application/x-www-form-urlencoded` media type. 
+
+When you see strings like `%20` or `%E2` and you need plaintext, use `urldecode()`.
 
 ```php
-$str = "threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you%E2%80%99re-road";
-echo $str . "\n";
+echo urldecode("threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you%E2%80%99re-road") . "\n";
+echo urldecode('We%27re%20proud%20to%20introduce%20the%20Amazing') . "\n";
+//$str = "threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you%E2%80%99re-road";
 //echo htmlspecialchars_decode($str) . "\n";
-
-echo (urldecode($str)) . "\n";
-echo urlencode("threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you're-road");
-
-echo urldecode('We%27re%20proud%20to%20introduce%20the%20Amazing');
 ```
+returns:
+
+```
+threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you’re-road
+We're proud to introduce the Amazing
+```
+
+Encoding looks like this:
+```php
+echo urlencode("threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you're-road") . "\n";
+```
+returns:
+
+```
+threatgeek%2F2016%2F05%2Fwelcome-jungle-tips-staying-secure-when-you%E2%80%99re-road
+```
+
+
+
+[More at php.net](https://www.php.net/manual/en/function.urlencode.php)
+
+
 
 ## Remote media entities
 
@@ -959,6 +981,40 @@ if ($this->logElapsedTime) {
 }
 ```
 
+## Populate a select list with the options from a list field
+
+When you need to build a form with a drop-down (select) list of the options, you can call this function to build the select options that are defined in a `list (text)` field.  You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field.  You get back a nice array for use in the select list.
+
+
+```php
+public static function getSelectOptions(string $entity_type, string $bundle, string $field_name): array {
+  $options_array = [];
+  $definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type, $bundle);
+  if (isset($definitions[$field_name])) {
+    $options_array = $definitions[$field_name]->getSetting('allowed_values');
+  }
+  return $options_array;
+}
+```
+
+Then in our form we pass those parameters to get the `$audience_select_options`: 
+
+```php
+$audience_select_options = RetrievePublisherData::getSelectOptions('node', 'teks_pub_citation', 'field_tks_audience');
+```
+
+Then use the options to populate the form element `$form['audience']` like this:
+
+```php
+$form['audience'] = [
+  '#type' => 'select',
+  '#title' => t('Audience'),
+  '#empty_value' => '',
+  '#empty_option' => '- Select the Audience -',
+  '#required' => TRUE,
+  '#options' => $audience_select_options,
+];
+```
 
 
 
