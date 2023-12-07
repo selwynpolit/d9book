@@ -985,6 +985,11 @@ if ($this->logElapsedTime) {
 
 When you need to build a form with a drop-down (select) list of the options, you can call this function to build the select options that are defined in a `list (text)` field.  You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field.  You get back a nice array for use in the select list.
 
+Example of list (text) field:
+
+![Field list options](assets/images/field_list_options.png)
+
+
 
 ```php
 public static function getSelectOptions(string $entity_type, string $bundle, string $field_name): array {
