@@ -1,23 +1,8 @@
----
-layout: default
-title: Cron
-permalink: /cron
-last_modified_date: '2023-08-31'
----
+
 
 # CRON
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=cron.md)
-
----
 
 ## Overview
 

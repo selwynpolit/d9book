@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Actions
-permalink: /actions
-last_modified_date: '2023-09-02'
 ---
 
 # Actions
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=actions.md)
-
----
 
 ## Overview
 
@@ -28,14 +15,12 @@ The Actions module provides a user-friendly interface for defining and managing 
 
 TL;DR: The Actions module provides a powerful and flexible way to automate tasks on your website by defining actions and triggers, allowing you to create customized workflows that improve your site's functionality and user experience. - ChatGPT (with minor tweaks on my part.)
 
-
-
 From the config page in Drupal: 
 >There are two types of actions: simple and advanced. Simple actions do not require any additional configuration and are listed here automatically. Advanced actions need to be created and configured before they can be used because they have options that need to be specified; for example, sending an email to a specified address or unpublishing content containing certain words. To create an advanced action, select the action from the drop-down list in the advanced action section below and click the Create button.
 
-{: .note }
+::: tip Note
 The [ECA module](https://www.drupal.org/project/eca) can use Drupal core actions (and events) if you need to do even more.
-
+:::
 
 ## Custom Actions
 Here, A Drupal action is a fuctionality which performs specific action when executed. For example, Archive Node or Make Content Sticky.
@@ -55,21 +40,16 @@ Action Plugin definition is defined in Plugin Annotation. It has 3 required keys
  *   category = @Translation("Custom")
  * )
  */
-
 ```
 
-id --> ID of the Action Plugin
-
-label --> Name of the Action Plugin
-
-type --> Entity type to which the Action Plugin belongs to
-
-category --> (optional) Category of the Action Plugin
-
+- `id` --> ID of the Action Plugin
+- `label` --> Name of the Action Plugin
+- `type` --> Entity type to which the Action Plugin belongs to
+- `category` --> (optional) Category of the Action Plugin
 
 ## Archive Node Action (simple)
 
-This is a simple action which requires no configuration.  When it is run, it changes the alias of the node to /archive/<year>/<old alias>.  It also sets the title to have the word `Archive` in the front of it.  Finally it disables the sticky and promoted flags.  [It is also on gitlab here.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/ArchiveNode.php)
+This is a simple action which requires no configuration.  When it is run, it changes the alias of the node to `/archive/<year>/<old alias>`.  It also sets the title to have the word `Archive` in the front of it.  Finally it disables the sticky and promoted flags.  [It is also on gitlab here.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/ArchiveNode.php)
 
 ```php
 <?php
@@ -198,7 +178,7 @@ plugin: action_plugin_examples_archive_node
 
 Created Action Plugin can be viewed on the `/admin/content` page.
 
-<img width="1476" alt="actions-list" src="https://github.com/bhanu951/d9book/assets/8525040/40d4e78a-b0e8-40e1-bd7d-58998fab3168">
+![actions-list](/images/actions-list.png)
 
 ## Update Node Title Custom Action Plugin with Configuration
 
@@ -361,27 +341,8 @@ On the top of the page your new plugin should be present in the select list for 
 
 See the [change record: Actions are now plugins, configured actions are configuration entities](https://www.drupal.org/node/2020549)
 
-
 ## Reference
 
 * [Actions UI module overview updated January 2023](https://www.drupal.org/docs/8/core/modules/action/overview)
 * [Change Record - Actions are now plugins, configured actions are configuration entities](https://www.drupal.org/node/2020549)
 * [ECA: Event-Condition-Action - no-code solution to orchestrate your Drupal site](https://www.drupal.org/project/eca)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

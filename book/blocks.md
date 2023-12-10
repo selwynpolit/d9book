@@ -1,22 +1,10 @@
 ---
-layout: default
 title: Blocks
-permalink: /blocks
-last_modified_date: '2023-11-13'
 ---
 
 # Blocks
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=blocks.md)
 
----
 
 Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 

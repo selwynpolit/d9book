@@ -1,0 +1,96 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - gh-pages
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  pages: write
+  contents: read
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    name: 🧹 Clean up GitHub repository
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - name: 🗑 Delete deployment
+        uses: strumwolf/delete-deployment-environment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: github-pages
+          onlyRemoveDeployments: true
+
+      - name: 🗑 Delete workflow runs
+        uses: dmvict/clean-workflow-runs@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          save_period: 30
+          save_min_runs_number: 0
+
+  build:
+    name: 🏗️ Build (node - ${{ matrix.node }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: [18.x, 20.x, 21.x]
+
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ⚙️ Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: ⚙️ Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        timeout-minutes: 5
+        with:
+          cache: pnpm
+          node-version: ${{ matrix.node }}
+
+      - name: ⚙️ Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: 📦 Install dependencies
+        env:
+          PNPM_FLAGS: --frozen-lockfile --color=always
+        run: pnpm i ${{ env.PNPM_FLAGS }}
+
+      - name: 🏗️ Build site with VitePress
+        run: pnpm notes:build
+
+      - name: 📤 Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./dist
+
+  deploy:
+    name: 🌐 Deploy
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

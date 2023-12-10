@@ -1,14 +1,8 @@
 ---
-layout: default
 title: Attribution
-permalink: /attribution
-search_exclude: true
-last_modified_date: '2023-12-01'
 ---
 
 # Attribution
-{: .fw-500 }
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=attribution.md)
 
 Thanks to these rockstars for their contribution to the project.  Please add your name below!
@@ -29,7 +23,7 @@ Thanks to these rockstars for their contribution to the project.  Please add you
 
 [Gary Gao](https://github.com/angrytoast) - Query access checking.
 
-[Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme and many other items.
+[Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme (x2) and many other items.
 
 [Bernard Martinez](https://github.com/bmartinez287) - Block chapter fixes.
 

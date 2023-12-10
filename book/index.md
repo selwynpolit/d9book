@@ -1,19 +1,30 @@
 ---
-layout: default
-title: Home
-permalink: /
-nav_order: 1
-last_modified_date: '2023-10-23'
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home
+
+hero:
+  name: "Drupal at your fingertips"
+  text: by Selwyn Polit
+  tagline: "Drupal 9 & 10 developer's quick code reference"
+  # actions:
+  #   - theme: brand
+  #     text: Markdown Examples
+  #     link: /markdown-examples
+  #   - theme: alt
+  #     text: API Examples
+  #     link: /api-examples
+
+# features:
+#   - title: Feature A
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#   - title: Feature B
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#   - title: Feature C
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 
-## Drupal at your fingertips
 
-![Image of Drupal drop over open pages of a book](assets/images/d9book.svg)
-
-### Drupal 9 & 10 developer's quick code reference
-
-by Selwyn Polit
-{: .text-delta}
+<!-- ![Image of Drupal drop over open pages of a book](assets/images/d9book.svg) -->
 
 This book is a quick reference for developers creating Drupal sites. While working on such sites during my career, I have gathered a large collection of notes and code which I use for my reference.  I hope it will be useful for you, too.
 
@@ -65,7 +76,7 @@ If you want to contribute to the expense of creating this book, I have added a [
 - [Twig - Formatting and controlling your output](twig)
 - [Upgrading and patching Drupal and contrib modules](upgrade)
 
----
+<!-- ---
 
 ### More coming on these topics
 - Events
@@ -76,31 +87,4 @@ If you want to contribute to the expense of creating this book, I have added a [
 - Single sign on
 - Views
 
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8V22RQEJ71"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8V22RQEJ71');
-</script>
-
+--- -->
