@@ -1060,11 +1060,10 @@ Some other variations are:
 
     // Option 1.
     $field = $entity->$field_name;
-    $x = $field->getFieldDefinition()
+    $human_readable_value = $field->getFieldDefinition()
       ->getFieldStorageDefinition()
       ->getOptionsProvider('value', $field->getEntity())->getPossibleOptions()[$list_item_value];
-    return $x;
-
+    return $human_readable_value;
 
     // Option 2.
     // E.g. 'node.article.field_foo'.
@@ -1073,7 +1072,6 @@ Some other variations are:
     $allowed_values = $field_storage_definition->getSettings()['allowed_values'];
     $human_readable_value = $allowed_values[$list_item_value];
     return $human_readable_value;
-
 
     // Option 3.
     // E.g. 'node.article.field_foo'.
