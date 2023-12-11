@@ -2,7 +2,7 @@
 layout: default
 title: General
 permalink: /general
-last_modified_date: '2023-12-06'
+last_modified_date: '2023-12-11'
 ---
 
 # General
@@ -922,7 +922,7 @@ function multiauthor_form_alter(array &$form, FormStateInterface $form_state, st
 
 This hook alters the Basic page add and edit forms, setting my custom "Additional author" field (field_additional_authors) to the "author" group in the "Additional authors" accordion. Users added to the `Additional authors` field get the same read, update, and delete permissions at the owner of the node.
 
-## Elapsed time
+## Calculating, displaying and logging elapsed time
 
 To record how long something takes in Drupal, use the Timer utility class.  In the example below, this info is also logged to the watchdog log.
 
@@ -987,7 +987,7 @@ When you need to build a form with a drop-down (select) list of the options, you
 
 Example of list (text) field:
 
-![Field list options](assets/images/field_list_options.png)
+![Field list options](assets/images/field_list_options2.png)
 
 
 
@@ -1020,6 +1020,74 @@ $form['audience'] = [
   '#options' => $audience_select_options,
 ];
 ```
+
+## Get the human readable value from a list field
+
+When you need to get the human readable value from a `list (text)` field you can use this code:
+
+ call this function to build the select options that are defined in a `list (text)` field.  You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field.  You get back a nice array for use in the select list.
+
+Example of list (text) field:
+
+
+![Field list options](assets/images/field_list_options2.png)
+
+This seems to be the simplest version:
+
+```php
+  public static function getListFieldHumanReadableValue(EntityInterface $entity, string $field_name, string $list_item_value): string {
+    $allowed_values = $entity->$field_name->getSetting('allowed_values');
+    $human_readable_value = $allowed_values[$list_item_value];
+    return $human_readable_value;
+  }
+
+```
+
+which is called like this:
+```php
+$human_readable_value = VotingUtility::getListFieldHumanReadableValue($program_node, 'field_srp_program_status', 'rereview_requested');
+```
+
+`$allowed values` show up in an indexed array like this:
+
+![list allowed values](assets/images/list_text_allowed_values.png)
+
+
+Some other variations are:
+
+```php
+  public static function getListFieldHumanReadableValue(EntityInterface $entity, string $field_name, string 
+
+    // Option 1.
+    $field = $entity->$field_name;
+    $x = $field->getFieldDefinition()
+      ->getFieldStorageDefinition()
+      ->getOptionsProvider('value', $field->getEntity())->getPossibleOptions()[$list_item_value];
+    return $x;
+
+
+    // Option 2.
+    // E.g. 'node.article.field_foo'.
+    $field_string = "node.teks_pub_program.$field_name";
+    $field_storage_definition = FieldConfig::load($field_string)->getFieldStorageDefinition();
+    $allowed_values = $field_storage_definition->getSettings()['allowed_values'];
+    $human_readable_value = $allowed_values[$list_item_value];
+    return $human_readable_value;
+
+
+    // Option 3.
+    // E.g. 'node.article.field_foo'.
+    $field_string = "node.teks_pub_program.$field_name";
+    $allowed_values = FieldConfig::load($field_string)->getFieldStorageDefinition()->getSettings()['allowed_values'];
+    $human_readable_value = $allowed_values[$list_item_value];
+    //$x = $entity->get($field_name)->view()[0]['#markup'];
+    return $human_readable_value;
+  }
+
+```
+
+
+
 
 
 
