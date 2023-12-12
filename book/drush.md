@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Drush
-permalink: /drush
-last_modified_date: '2023-11-17'
 ---
 
 # Drush
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=drush.md)
-
----
 
 ## Overview
 

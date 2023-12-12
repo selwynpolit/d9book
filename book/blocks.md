@@ -5,15 +5,16 @@ title: Blocks
 # Blocks
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=blocks.md)
 
+## Overview
 
 Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 
-![Location of block source files](assets/images/image-block-location.png)
-{: .text-center }
+![Location of block source files](/images/image-block-location.png)
 
-{: .more_link }
+::: tip More links
 - [Plugin API overview](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview)
 - [Annotations-based plugins](https://www.drupal.org/docs/8/api/plugin-api/annotations-based-plugins)
+:::
 
 ## Create a block with Drush generate
 
@@ -84,15 +85,11 @@ The following directories and files have been created or updated:
 
 ----------------------------------------------------------
 
-•
-/Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.info.yml
-
-•
-/Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.module
+• /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.info.yml
+• /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.module
 ```
 
 Use `drush generate` to create the code for a block. Specify the module name (e.g. block_module) so Drush knows where to put the block code. We also must give the block an admin label, plugin ID, and class.
-
 
 ```sh
 $ drush generate block
@@ -137,8 +134,7 @@ The following directories and files have been created or updated:
 
 ----------------------------------------------------------
 
-•
-/Users/selwyn/Sites/ddev93/web/modules/block_module/src/Plugin/Block/BlockModuleExampleBlock.php
+• /Users/selwyn/Sites/ddev93/web/modules/block_module/src/Plugin/Block/BlockModuleExampleBlock.php
 ```
 
 This generates a file at `web/modules/custom/block_module/src/Plugin/Block/BlockModuleExampleBlock.php` that looks like this:
@@ -184,21 +180,21 @@ clear the cache with:
 
 In Drupal, navigate to /admin/structure/block and place the block (\"block module example\") in the content area. See the diagram below on how to place the block in the content area.
 
-![Graphical user interface, table Description automatically generated](assets/images/image2.png)
+![Graphical user interface, table Description automatically generated](images/image2.png)
 
-![Graphical user interface Description automatically generated](assets/images/image3.png)
+![Graphical user interface Description automatically generated](images/image3.png)
 
 You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "Place block," a "Configure block" screen appears. You can safely just click "Save block."
 
-![Graphical user interface, application Description automatically generated](assets/images/image4.png)
+![Graphical user interface, application Description automatically generated](images/image4.png)
 
 Navigate back to the home page of the site and you'll see your block appearing. Screenshot below:
 
-![Graphical user interface, text, application, email Description automatically generated](assets/images/image5.png)
+![Graphical user interface, text, application, email Description automatically generated](images/image5.png)
 
 You can safely remove the block via the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
 
-![Remove block](assets/images/image6.png)
+![Remove block](images/image6.png)
 
 ## Anatomy of a custom block with dependency injection
 
@@ -224,8 +220,7 @@ If you want to use Dependency Injection, implement: `ContainerFactoryPluginInter
 e.g.
 
 ```php
-class ImageGalleryBlock extends BlockBase implements
-ContainerFactoryPluginInterface {
+class ImageGalleryBlock extends BlockBase implements ContainerFactoryPluginInterface {
 ```
 Be sure to include:
 
@@ -384,7 +379,7 @@ class OpinionLanding extends BlockBase {
 
 Here is an example which includes a block and a corresponding config form that controls what is displayed in the block. The block can be placed using the Block Layout system in Drupal at /admin/structure/block (shown below) or via twig in a template file.
 
-![Block layout system](assets/images/image7.png)
+![Block layout system](images/image7.png)
 
 ### The config form definition
 
@@ -571,7 +566,6 @@ class QuickPivotSubscribeForm extends FormBase {
 }
 
 ```
-
 
 Here is the entire QuickPivotConfigForm.php file:
 
@@ -786,11 +780,11 @@ quick_pivot.config:
 Some drupal hooks only run inside a contributed modules and some only inside a theme and some both.
 
 ```php
-function themename_preprocess_block(&$variables)
-{
-    if ($variables['plugin_id'] == 'entity_browser_block:department_info') {
-          $variables['#attached']['library'][] = 'drupal/libraryname'; 
-    }
+function themename_preprocess_block(&$variables) {
+  if ($variables['plugin_id'] == 'entity_browser_block:department_info') {
+    $variables['#attached']['library'][] = 'drupal/libraryname'; 
+  }
+}
 ```
 What's described below could potentially be done on a theme preprocess for the block.
 
@@ -843,8 +837,7 @@ function pega_academy_core_block_view_alter(array &$build, \Drupal\Core\Block\Bl
   if ($block->getBaseId() === 'block_content') {
     if ($block->label() === "Home Page Alert") {
       $build['#pre_render'][] = 'Drupal\pega_academy_core\Controller\DashboardController::home_page_alert_prerender';
-//      $build['content'] = '<p>New content built here!</p>';
-
+      // $build['content'] = '<p>New content built here!</p>';
     }
   }
 }
@@ -905,7 +898,6 @@ public function blockForm($form, FormStateInterface $form_state) {
   ];
   return $form;
 }
-
 ```
 
 And `blockSubmit()` handles the submission of the config form. You don't need to save anything. The data is saved automatically into the Drupal config system. You just specify a configuration key like `$this->configuration['block_count']` and the rest is handled for you.
@@ -990,10 +982,7 @@ One last item. Configuration expects a schema for things being saved.
 Here we create a `<module_name>.schema.yml` in `<module_name>/config/schema` and it looks like:
 
 ```yml
-
-
 # Schema for the configuration files for my module.
-
 block.settings.alchemy_block:
   type: block_settings
   label: 'Alchemy block'
@@ -1019,20 +1008,17 @@ Adding this render call will cause Drupal to render the content for that node, w
 Then add your fields:
 
 ```twig
-  {content.field_one}  etc.
+{content.field_one}  etc.
 ```
-
 
 ## Block Permission (blockAccess)
 
 This code is taken from the Drupal core user_login_block (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being anonymous. If these are not passed, the access returned is forbidden and the block is not built.
 
-
 ```php
 use Drupal\Core\Access\AccessResult;
 
 $account = \Drupal::currentUser();
-
 
 /**
  * {@inheritdoc}
@@ -1048,7 +1034,6 @@ protected function blockAccess(AccountInterface $account) {
 ```
 
 Another example from the Drupal core Copyright.php file:
-
 
 ```php
 // $account comes from
@@ -1071,8 +1056,6 @@ if ($account->isAnonymous()) {
   return AccessResult::forbidden();
 }
 ```
-
-
 
 ### Blocks shouldn't talk to the router, NodeRouteContext and friends should
 
@@ -1128,7 +1111,6 @@ Then in the block we check to make sure the user is viewing a node and that the 
 
 More at https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id/314152#314152
 
-
 Note.  While this practice is not recommended, the RSVP module does have an example of a block talking to the router i.e. `\Drupal::routeMatch()` - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
 
 ```php
@@ -1150,7 +1132,6 @@ Note.  While this practice is not recommended, the RSVP module does have an exam
   }
 ```
 
-
 ### Values returned by blockAccess()
 
 Some options that can be returned from blockAccess() are:
@@ -1160,21 +1141,3 @@ return AccessResult::forbidden();
 return AccessResult::allowed();
 return AccessResult::allowedIf(TRUE);
 ```
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

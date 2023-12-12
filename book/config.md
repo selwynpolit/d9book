@@ -1,23 +1,9 @@
 ---
-layout: default
 title: Config
-permalink: /config
-last_modified_date: '2023-08-14'
 ---
 
 # Configuration and Settings
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=config.md)
-
----
 
 Config is stored in yml files so it can be checked into git. It is
 loaded into the config table of the database for performance. Use  `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more.  You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
@@ -571,27 +557,3 @@ $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy', 'masquerade'
 For some reason, an edge condition is reached which confuses the configuration engine in Drupal.  Commenting out the above line resolves the issue.
 
 I hope this one saves you countless hours of frustration.  I know it has caused me plenty of frustration!
-
-
-
-
-
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

@@ -1,7 +1,8 @@
-
+---
+title: Cron
+---
 
 # CRON
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=cron.md)
 
 ## Overview
@@ -16,7 +17,7 @@ The Drupal core module [automated_cron](https://git.drupalcode.org/project/drupa
 
 You can read more about [Symfony's: the workflow of a request](https://symfony.com/doc/current/components/http_kernel.html#the-workflow-of-a-request) and specifically about how [the kernel.terminate event fits into that workflow.](https://symfony.com/doc/current/components/http_kernel.html#8-the-kernel-terminate-event)
 
-From [module's AutomatedCron.php](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/automated_cron/src/EventSubscriber/AutomatedCron.php) Drupal watches for an `onTerminate` event:
+From [module's AutomatedCron.php](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/automated_cron/src/EventSubscriber/AutomatedCron.php) Drupal watches for an [`onTerminate`](https://symfony.com/doc/current/components/http_kernel.html#8-the-kernel-terminate-event) event:
 
 ```php
 /**
@@ -124,8 +125,9 @@ This would have a `wget` or `curl` visit your cron page 45 minutes after every h
 
 3. Save and exit the file. Check the Drupal status report, which shows the time of the cron execution.
 
-{: .note}
+::: tip
 Use [crontab guru](https://crontab.guru/) - it's a quick and easy editor for cron schedule expressions.
+:::
 
 ## Disable Drupal cron
 
@@ -207,9 +209,6 @@ if ($ids) {
 }
 ```
 
-
-
-
 ## Common inquiries regarding cron jobs
 
 ### When did the cron job last run?
@@ -241,7 +240,6 @@ Here is a Drupal cron job on a prod server where it uses a `--resolve` param to 
 ```
 
 ## Resources:
-- [onTerminate](https://symfony.com/doc/current/components/http_kernel.html#8-the-kernel-terminate-event)
 - [Symfony http kernel component docs](https://symfony.com/doc/current/components/http_kernel.html)
 - [crontab guru](https://crontab.guru)
 - [Drupal hook_cron() API](https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10)
@@ -249,22 +247,3 @@ Here is a Drupal cron job on a prod server where it uses a `--resolve` param to 
 - [Configuring cron jobs using the cron command](https://www.drupal.org/node/23714)
 - [Crontab – Quick Reference Running](https://www.adminschoice.com/crontab-quick-reference)
 - [Drupal cron tasks from Drush](https://www.drush.org/12.x/cron)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
-

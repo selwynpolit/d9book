@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Email
-permalink: /email
-last_modified_date: '2023-10-26'
 ---
 
 # Email
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=email.md)
-
----
 
 ## Send email
 
@@ -74,10 +61,13 @@ function send_my_email($to, $params, $subject, $body) {
   // Return the result.
   return $result['result'];
 }
+```
 
-{: .note }
-Don\'t forget to add this to your `.module` file or no email will ever be sent!
+::: tip Note
+Don\`t forget to add this to your `.module` file or no email will ever be sent!
+:::
 
+```php
 /**
  * Implements hook_mail().
  */
@@ -165,8 +155,10 @@ function my_module_mail($key, &$message, $params) {
     return $results;
   }
 ```
-{: .note }
+
+::: tip Note
 Don\'t forget to add the hook_mail in your `.module` file.
+:::
 
 ```php
 /**
@@ -276,7 +268,6 @@ function tea_teks_mail($key, &$message, $params) {
 
 ```
 
-
 ## Reference
 - [Sending html mails in Drupal 8/9 programmatically An example Drupal module including Twig template by Joris Snoek - August 2020](https://www.lucius.digital/en/blog/sending-html-mails-drupal-89-programmatically-example-drupal-module-including-twig-template)
 - [Sending Emails Using OOP and Dependency Injection in Drupal 8, 9 By Alex Novak - November 2020.](https://www.drupalcontractors.com/blog/2020/11/09/sending-emails-using-oop-dependency-injection-drupal/)
@@ -284,22 +275,3 @@ function tea_teks_mail($key, &$message, $params) {
 - [Sendgrid Integration Drupal module](https://www.drupal.org/project/sendgrid_integration)
 - [How to send a mail programmatically in Drupal 8 by Jimmy Sebastian - Mar 2022](https://www.zyxware.com/articles/5504/drupal-8-how-to-send-a-mail-programmatically-in-drupal-8)
 - [Sending Emails with Drupal Symfony Mailer - Oct 2023](https://jigarius.com/blog/drupal-symfony-mailer)
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Caching
-permalink: /caching
-last_modified_date: '2023-12-01'
 ---
 
 # Caching and cache tags
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=caching.md)
-
----
 
 ## How to uncache a particular page or node
 
@@ -53,8 +40,6 @@ requirements:
 options:
   no_cache: TRUE
 ```
-
-
 
 ## Don't cache data returned from a controller
 
@@ -161,7 +146,7 @@ Open the inspect pane in the browser, on the network tab, click on the doc (the 
 
 e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
 
-![Debugging cache tags](assets/images/debug_cache_tags.png)
+![Debugging cache tags](images/debug_cache_tags.png)
 
 More [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
@@ -437,9 +422,9 @@ There are more details at the link above
 
 For this use case, I need to store data gathered from multiple nodes in a cache so I can access it really quickly.  I load up an array of data in `$this->expectations` and store it in the cache.  This stores the array into a row of the `cache_default` table identified by a cache id.
 
-{: .note }
+::: tip
 To clear this data from cache, use `drush cr` or use the Drupal u/i (Configuration, Development, Performance and click clear all caches button). This will permanently erase each row of cached data from the `cache_default` table and the other `cache_*` tables.
-
+:::
 
 ```php
 // Write data to the cache.
@@ -449,10 +434,10 @@ $cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publi
 $cache_data = \Drupal::cache()->get($cache_id);
 ```
 Here are some rows in the `cache_default` table:
-![Cache row of data in cache_default table](assets/images/cached_data.png)
+![Cache row of data in cache_default table](images/cached_data.png)
 
 Here is what the `$this->expectations` array looks like from the `data` field:
-![Contents of data field](assets/images/cache_longblob.png)
+![Contents of data field](images/cache_longblob.png)
 
 Here is a complete function which loads data from the cache.  If the cache is empty, the data is rebuilt from nodes and then stored in the cache:
 
@@ -540,9 +525,6 @@ Other common cache bins are the following:
 
 A module can define a cache bin by defining a service in its modulename.services.yml file as follows (substituting the desired name for \"nameofbin\"):
 
-
-
-
 ## Caching data so it doesn't get cleared by a cache rebuild
 
 Using the [Permanent Cache Bin module](https://www.drupal.org/project/pcb) you can put your cached data into a cache bin and have it survive cache clearing.  This can be really useful if you need some cached data to stay around while you are clearing Drupal's other caches.
@@ -560,8 +542,9 @@ services:
     arguments: [voting]
 ```
 
-{: .note }
+::: tip Note
 Executing invalidate in code does **not** clear any caches that are using `cache.backend.permanent_database`. 
+:::
 
 **F.A.Q**
 Now clearing caches leaves your cache_voting table intact.
@@ -586,7 +569,7 @@ To enable TWIG debugging output in source, in `sites/default/development.service
 
 TWIG debugging output looks like this:
 
-![TWIG debugging output](assets/images/twig_debug_output.png)
+![TWIG debugging output](images/twig_debug_output.png)
 
 ```yml
 # Local development services.
@@ -663,7 +646,6 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-
 You need to enable your `development.services.yml` file so add this to your `settings.local.php`:
 
 ```php
@@ -672,7 +654,6 @@ You need to enable your `development.services.yml` file so add this to your `set
  */
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
-
 
 You also need to disable caches and JS/CSS preprocessing in `settings.local.php` with: 
 
@@ -718,8 +699,9 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-{: .note }
+::: tip Note
 Dont create `development.services.yml`, it already exists under `/sites` so you can copy it from there.
+:::
 
 4. In `settings.local.php` change the following to be `TRUE` if you want to work with enabled css- and js-aggregation:
 
@@ -807,8 +789,6 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-
-
 ## How to specify the cache backend
 
 This is relevant for using [Memcache](https://www.drupal.org/project/memcache), [Redis](https://www.drupal.org/project/redis) and also [APCu](https://www.php.net/manual/en/book.apcu.php).  By default, Drupal caches information in the database.  Tables includes cache_default, cache_render, cache_page, cache_config etc.  By using the configuration below, Drupal can instead store this info in memory to increase performance.
@@ -881,8 +861,9 @@ Fabian Franz in his article at <https://drupalsun.com/fabianx/2015/12/01/day-1-t
  $settings['cache']['bins']['discovery'] = 'cache.backend.apcu';
  ```
 
-{: .warning }
+::: warning
 Proceed with caution with the above as it seems that APCu may only suitable for single server setups. TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
+:::
 
 Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
 Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. This was from [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
@@ -908,8 +889,9 @@ Note that this is designed specifically for combining a fast inconsistent cache 
 
 APCu is the official replacement for the outdated APC extension. APC provided both opcode caching (opcache) and object caching. As PHP versions 5.5 and above include their own opcache, APC was no longer compatible, and its opcache functionality became useless. The developers of APC then created APCu, which offers only the object caching (read "in memory data caching") functionality (they removed the outdated opcache). Read more at <https://www.php.net/manual/en/book.apcu.php>
 
-{: .note }
+::: tip Note
 APCu is not the same as apc!
+:::
 
 APCu support is built into Drupal Core. From this [Change record Sep 2014](https://www.drupal.org/node/2327507): 
 
@@ -917,8 +899,9 @@ In order to improve cache performance, Drupal 8 now has:
 
 A cache.backend.apcu service that site administrators can assign as the backend of a cache bin via $settings['cache'] in settings.php for sites running on a single server, with a PHP installation that has APCu enabled, and that do not use Drush or other command line scripts.
 
-{: .warning }
+::: warning
 This references single-server sites not needing Drush.  TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
+:::
 
 A cache.backend.chainedfast service that combines APCu availability detection, APCu front caching, and cross-server / cross-process consistency management via chaining to a secondary backend (either the database or whatever is configured for $settings['cache']['default']).
 
@@ -968,8 +951,9 @@ The bins set to use cache.backend.chainedfast will use APCu as the front cache t
 
 **For site administrators of single-server sites that don't need Drush or other CLI access**
 
-{: .warning }
+::: warning
 This references single-server sites not needing Drush.  TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
+:::
 
 Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
 Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. This was from [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
@@ -1001,7 +985,7 @@ services:
 
 Using SequelAce or similar tool, truncate all the tables that start with `cache_`:
 
-~[truncating cache tables](assets/images/truncate_cache_tables.png)
+![truncating cache tables](images/truncate_cache_tables.png)
 
 More [at Drupalize.me](https://drupalize.me/tutorial/clear-drupals-cache)
 
@@ -1016,26 +1000,8 @@ More [at Drupalize.me](https://drupalize.me/tutorial/clear-drupals-cache)
 * [#! code: Drupal 9: Debugging Cache Problems With The Cache Review Module, September 2022](https://www.hashbangcode.com/article/drupal-9-debugging-cache-problems-cache-review-module)
 * [#! code: Drupal 9: Using The Caching API To Store Data, April 2022](https://www.hashbangcode.com/article/drupal-9-using-caching-api-store-data)
 * [#! code: Drupal 8: Custom Cache Bin, September 2019](https://www.hashbangcode.com/article/drupal-8-custom-cache-bins)
-* [New cache backend configuration order, per-bin default before default configuration (How to specify cache backend), June 2016)( https://www.drupal.org/node/2754947)
+* [New cache backend configuration order, per-bin default before default configuration (How to specify cache backend), June 2016](https://www.drupal.org/node/2754947)
 * [Cache API Drupal Core](https://api.drupal.org/api/drupal/core!core.api.php/group/cache/10.1.x)
 * [Drupal BigPipe Module: The Phenomenal to Improve Website Performance](https://www.lnwebworks.com/Insight/drupal-bigpipe-module)
 * [Drupal performance — a complete Drupal self-help guide to ensuring your website’s performance by Kristen Pol Sep 2023](https://salsa.digital/insights/drupal-performance-a-complete-drupal-self-help-guide-to-ensuring-your-websites-performance)
 * [Cache tags on Drupal.org updated March 2023](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

@@ -1,23 +1,9 @@
 ---
-layout: default
 title: Composer
-permalink: /composer
-last_modified_date: '2023-12-02'
 ---
 
 # Composer, Updates and Patches
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=composer.md)
-
----
 
 ## Creating a local patch to a contrib module
 
@@ -72,7 +58,6 @@ index 3ea93fc..039f7f9 100644
  entity.file.add_form:
    route_name: entity.file.add_form
    base_route: entity.file.add_form
-
 ```
 
 Create the patch
@@ -161,11 +146,8 @@ Some developers like adding the actual link to the issue in the description like
       },
 ```
 
-
 See [Drupal 9 and Composer Patches](https://vazcell.com/blog/how-apply-patch-drupal-9-composer)
 also [Managing patches with Composer](https://acquia.my.site.com/s/article/360048081193-Managing-patches-with-Composer)
-
-
 
 ### Step by step 
 
@@ -189,7 +171,6 @@ also [Managing patches with Composer](https://acquia.my.site.com/s/article/36004
 ```
 5. use `composer update --lock` to apply the patch and watch the output.
 
-
 If the patch was not applied or throws an error which is quite common (because they are no longer compatible), try using `-vvv` (verbose mode) flag with composer to see the reason: 
 
 ```
@@ -203,7 +184,6 @@ Using the URL of the merge request, add .patch at the end of the URL and that wi
 e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
 
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
-
 
 
 ## composer.json patches in separate file
@@ -261,13 +241,12 @@ Then composer install will apply the patch correctly
 
 More at <https://github.com/cweagans/composer-patches/issues/146>
 
-
 ## Stop files being overwritten during composer operations
 
 Depending on your composer.json, files like development.services.yml may be overwritten from during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
 
 The following snippet prevents the development.services.yml from being regularly overwritten:
-```
+```json
 "drupal-scaffold": {
     "locations": {
         "web-root": "web/"
@@ -281,7 +260,7 @@ The code above is from <https://www.drupal.org/docs/develop/development-tools/di
 
 and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-composer-scaffold#toc_6>: Sometimes, a project might prefer to entirely replace a scaffold file provided by a dependency, and receive no further updates for it. This can be done by setting the value for the scaffold file to exclude to false.  In the example below, three files are excluded from being overwritten:
 
-```
+```json
   "name": "my/project",
   ...
   "extra": {
@@ -299,7 +278,6 @@ and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-compo
   }
 ```
 More at <https://drupal.stackexchange.com/questions/290989/composer-keeps-overwriting-htaccess-and-other-files-every-time-i-do-anything>
-
 
 
 ## Updating Drupal Core
@@ -346,7 +324,6 @@ drupal/tamper 1.0.0-alpha4 Generic plugin to modify data.
 
 See [more about composer why/depends](https://getcomposer.org/doc/03-cli.md#depends-why)
 See [also this explanation of why-not](https://getcomposer.org/doc/03-cli.md#prohibits-why-not)
-
 
 ## Test composer (dry run)
 
@@ -395,9 +372,9 @@ Specify which Drupal module that composer should be lenient with:
 And `composer.json` gets this added:
 
 ```json
-        "drupal-lenient": {
-            "allowed-list": ["drupal/node_access_rebuild_progressive"]
-        }
+    "drupal-lenient": {
+        "allowed-list": ["drupal/node_access_rebuild_progressive"]
+    }
 ```
 
 If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use: 
@@ -408,7 +385,7 @@ composer require cweagans/composer-patches
 
 Create the patch file `patches/node_access_rebuild_progressive_d10.patch` with the following contents.  It is on [drupal.org](https://www.drupal.org/project/node_access_rebuild_progressive/issues/3288770#comment-15227586).
 
-```
+```diff
 diff --git docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml
 index 1a0e13eec..f322ff847 100644
 --- docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml
@@ -487,7 +464,6 @@ In composer.json add your patch as in below.  It is on [drupal.org](https://www.
 
 ```
 
-
 Install the module with:
 
 `composer require drupal/node_access_rebuild_progressive`
@@ -504,12 +480,8 @@ More at
 Install the composer lenient plugin
 `composer require mglaman/composer-drupal-lenient`
 
-
-
 This makes `composer.json` look like this:
 
-
-```
 Notice the `require` key and the `config` key below
 ```json
     "require": {
@@ -533,6 +505,7 @@ Notice the `require` key and the `config` key below
             "cweagans/composer-patches": true,
             "mglaman/composer-drupal-lenient": true
         },
+    },
 ```
 
 Specify which Drupal module that composer should be lenient with: 
@@ -554,10 +527,9 @@ If you haven't already installed the [cweagans composer patches plugin](https://
 composer require cweagans/composer-patches
 ```
 
-
 Create the patch file `patches/node_access_rebuild_progressive_d10.patch` with the following contents.  It is on [drupal.org](https://www.drupal.org/project/node_access_rebuild_progressive/issues/3288770#comment-15227586).
 
-```
+```diff
 diff --git docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml
 index 1a0e13eec..f322ff847 100644
 --- docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.info.yml
@@ -635,7 +607,6 @@ In composer.json add your patch as shown below.
         },
 
 ```
-
 
 Install the module with:
 
@@ -739,7 +710,6 @@ Here is more of the config section of a composer.json for clarity:
     },
 ```
 
-
 ## Troubleshooting
 
 ### Composer won\'t update Drupal core
@@ -786,21 +756,3 @@ $ ddev composer install
 - [Utilizing incompatible Drupal 9 modules with Drupal 10 - Aug 2023 ](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
 - [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
 - [Using Drupal's Lenient Composer Endpoint - Sep 2023](https://www.drupal.org/docs/develop/using-composer/using-drupals-lenient-composer-endpoint)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

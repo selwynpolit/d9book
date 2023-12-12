@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Debugging
-permalink: /debugging
-last_modified_date: '2023-12-01'
 ---
 
 # Debugging and Profiling
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=debugging.md)
-
----
 
 ## Overview
 
@@ -59,7 +46,6 @@ const ERROR_REPORTING_DISPLAY_ALL = 'all';
 const ERROR_REPORTING_DISPLAY_VERBOSE = 'verbose';
 ```
 
-
 ## Disable caching and enable TWIG debugging
 
 Generally I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
@@ -68,8 +54,7 @@ To enable TWIG debugging output in source, in `sites/default/development.service
 
 TWIG debugging output looks like this:
 
-![TWIG debugging output](assets/images/twig_debug_output.png)
-
+![TWIG debugging output](images/twig_debug_output.png)
 
 ```yml
 # Local development services.
@@ -155,7 +140,6 @@ You need to enable your `development.services.yml` file so add this to your `set
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
 
-
 You also need to disable caches and JS/CSS preprocessing in `settings.local.php` with:
 
 ```php
@@ -165,8 +149,6 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 $settings['cache']['bins']['page'] = 'cache.backend.null';
 $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 ```
-
-
 
 ## Enable/Disable Xdebug
 
@@ -199,18 +181,17 @@ To override the port, add an override file in the project's `.ddev/php` directo
 xdebug.client_port=9000
 ```
 
-
 ## Drupal code debugging
 
 Phpstorm and DDEV make this process as painless as possible. Once you enable Xdebug in DDEV, simply click the \"start listening for PHP Debug Connections\" button. 
 
 To start debugging, open the index.php file and set a breakpoint by clicking on a line number.
 
-![Click listen for PHP Debug Connections button in PhpStorm](assets/images/listen_button.png)
+![Click listen for PHP Debug Connections button in PhpStorm](images/listen_button.png)
 
 Select a breakpoint:
 
-![Set a breakpoint in PhpStorm](assets/images/breakpoint.png)
+![Set a breakpoint in PhpStorm](images/breakpoint.png)
 
 Next refresh the Drupal home page in a browser
 
@@ -218,20 +199,20 @@ You should immediately see a dialog pop up in PhpStorm asking you to to configur
 
 Note. If you select one of the other lines you will see a different php file pop up and you won\'t be debugging Drupal, but probably some Symfony file.
 
-![PhpStorm incoming connection dialog](assets/images/incoming_connection.png)
+![PhpStorm incoming connection dialog](images/incoming_connection.png)
 
 If you accidentally selected the wrong local path, in PhpStorm, go to Settings, PHP, Servers and delete all servers that are displayed. The correct one will be recreated after you retry the operation above.
 
-![Breakpoint reached in debugging in PhpStorm](assets/images/breakpoint_reached.png)
+![Breakpoint reached in debugging in PhpStorm](images/breakpoint_reached.png)
 
 Once you accept the local path, you should see a highlighted line
 indicating the current line. The debug window will appear below showing the call stack
 
-![PhpStorm debug call stack](assets/images/debug_call_stack.png)
+![PhpStorm debug call stack](images/debug_call_stack.png)
 
 You will also see the variables and watch pane:
 
-![PhpStorm debug variables and watch pane](assets/images/debug_variables_watch.png)
+![PhpStorm debug variables and watch pane](images/debug_variables_watch.png)
 
 ## Command line or drush debugging
 
@@ -244,11 +225,11 @@ $ vendor/bin/drush status
 ```
 To setup command line debugging, follow the steps above to setup for [Drupal Code debugging](#drupal-code-debugging) to confirm that you have debugging working. Then look in PhpStorm's: settings, PHP, Servers, and select the server you set up from the previous steps. Specify the top level path as shown below. Usually it will be `/var/www/html`
 
-![PhpStorm debug servers options](assets/images/php_debug_servers.png)
+![PhpStorm debug servers options](images/php_debug_servers.png)
 
 Next open vendor/drush/drush/src/Drush.php and specify a breakpoint like this:
 
-![Set a breakpoint in PhpStorm in the drush source code](assets/images/drush_breakpoint.png)
+![Set a breakpoint in PhpStorm in the drush source code](images/drush_breakpoint.png)
 
 Now in the terminal ssh into the DDEV container and execute drush:
 
@@ -259,7 +240,7 @@ $ vendor/bin/drush status
 ```
 PhpStorm will pop up and display the current line and you can debug to your heart\'s content:
 
-![Debugging drush in PhpStorm](assets/images/phpstorm_debugging_drush.png)
+![Debugging drush in PhpStorm](images/phpstorm_debugging_drush.png)
 
 More at <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/>
 
@@ -282,7 +263,7 @@ Open the inspect pane in the browser, on the network tab, click on the doc (the 
 
 e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
 
-![Debugging cache tags](assets/images/debug_cache_tags.png)
+![Debugging cache tags](images/debug_cache_tags.png)
 
 More [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
@@ -299,8 +280,6 @@ xdebug.mode=profile
 xdebug.start_with_request=yes
 xdebug.output_dir=/var/www/html/.ddev/xdebug
 xdebug.profiler_output_name=trace.%c%p%r%u.out
-
-
 ```
 
 - Enable Xdebug with `ddev xdebug on`.
@@ -311,9 +290,7 @@ xdebug.profiler_output_name=trace.%c%p%r%u.out
 
 - When you’re done, execute `ddev xdebug off` to avoid generating unneeded profile files.
 
-
 You can load the files ending in .out in a utility like qcachegrind.  This is installed with: `brew install qcachegrind`
-
 
 ## Troubleshooting Xdebug with DDEV
 
@@ -328,7 +305,7 @@ Xdebug: \[Step Debug\] Could not connect to debugging client. Tried: host.docker
 ```
 This means you have not clicked the PhpStorm button:  \"Start listening for PHP Debug Connections\". Just click it and try again
 
-![Click listen for PHP Debug Connections button in PhpStorm](assets/images/listen_button.png)
+![Click listen for PHP Debug Connections button in PhpStorm](images/listen_button.png)
 
 ### PhpStorm refuses to debug
 
@@ -359,7 +336,6 @@ This means you have not clicked the "Start listening for PHP Debug Connections" 
 
 Note. Port 9003 is more current.
 
-
 #### Telnet
 
 With PhpStorm NOT listening for a PHP Debug connection, try to telnet to see what is listening to port 9003 with this:
@@ -380,7 +356,7 @@ Connected to d9book2.ddev.site.
 
 Escape character is \'\^\]\'.
 ```
-Use Control \] to exit and then type quit to return to exit telnet.
+Use Control [\] to exit and then type quit to return to exit telnet.
 
 On a mac, use `sudo lsof -i :9003 -sTCP:LISTEN` to find out what is listening on that port and stop it, or change the xdebug port and configure both DDEV and PhpStorm to use the new one . 
 
@@ -428,10 +404,6 @@ Here `netstat` reports that something is listening on port 9003. Again, if you g
 $ netstat -an | grep 9003
 tcp4       0      0  *.9003                 *.*                    LISTEN
 ```
-
-
-
-
 
 Here is an example running `lsof` and finding php-fpm listening on port 9000
 
@@ -484,16 +456,13 @@ You also need to disable the render cache in `settings.local.php` with:
 $settings['cache']['bins']['render'] = 'cache.backend.null';
 ```
 
-
 ## Devel and Devel Kint Extras
 
-From
-<https://www.webwash.net/how-to-print-variables-using-devel-and-kint-in-drupal/>
+From  https://www.webwash.net/how-to-print-variables-using-devel-and-kint-in-drupal
 
 ### Setup
 
-We need both the Devel and Devel Kint Extras module. [Devel Kint
-Extras](https://www.drupal.org/project/devel_kint_extras) ships with the kint-php library so installing this via Composer will take care of it automatically.
+We need both the Devel and Devel Kint Extras module. [Devel Kint Extras](https://www.drupal.org/project/devel_kint_extras) ships with the kint-php library so installing this via Composer will take care of it automatically.
 
 Install using Composer:
 
@@ -521,7 +490,9 @@ function custom_kint_preprocess_page(&$variables) {
 
 ### Dump variables in a TWIG template
 
-\{\{ kint(attributes) \}\}
+```twig
+{{ kint(attributes) }}
+```
 
 ### Kint::dump
 
@@ -562,21 +533,3 @@ if(class_exists('Kint')){
 - [Debugging with VScode, DDEV and Lando by Ankitha Shetty September 2023](https://www.specbee.com/blogs/simplified-php-debugging-xdebug-lando-ddev-drupal)
 - [Debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging)
 - [Debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
