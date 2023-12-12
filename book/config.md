@@ -434,7 +434,7 @@ Here is a screenshot of 4 `bool` fields defined in the Config Pages user interfa
 ![Fields defined for a config in Config Pages](assets/images/config_pages_fields.png)
 
 Here is the data entry screen:
-![Config pages data entry screen](../assets/images/config_pages_entry_screen.png)
+![Config pages data entry screen](assets/images/config_pages_entry_screen.png)
 
 Here is the code to load the values from the config.
 
