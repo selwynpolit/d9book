@@ -9,6 +9,7 @@ export default defineConfig({
   outDir: './dist',
   cleanUrls: true,
   lastUpdated: true,
+  head: [['link', { rel: 'icon', href: '/d9book/favicon.ico' }]],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -16,18 +17,20 @@ export default defineConfig({
       { text: 'Attribution', link: '/attribution' }
     ],
 
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: [],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
+      { icon: 'x', link: '//twitter.com/selwynpolit' },
+      { icon: 'github', link: '//github.com/selwynpolit' }
+    ],
+
+    footer: {
+      message:
+          '<span>\n' +
+          '  <a property="dct:title" rel="cc:attributionURL" href="//selwynpolit.github.io/d9book">Drupal at your fingertips</a>\n' +
+          '  by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="//drupal.org/u/selwynpolit">Selwyn Polit</a>\n' +
+          '  is licensed under <a href="//creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener noreferrer">CC BY 4.0\n' +
+          '  </a></span>',
+    }
   }
 })

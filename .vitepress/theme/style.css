@@ -43,7 +43,7 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
- :root {
+:root {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
@@ -93,15 +93,15 @@
 :root {
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #bd34fe 30%,
-    #41d1ff
+      120deg,
+      #bd34fe 30%,
+      #41d1ff
   );
 
   --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #bd34fe 50%,
-    #47caff 50%
+      -45deg,
+      #bd34fe 50%,
+      #47caff 50%
   );
   --vp-home-hero-image-filter: blur(44px);
 }
@@ -137,3 +137,34 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/**
+ * Component: Back to top
+ * -------------------------------------------------------------------------- */
+
+.go-to-top {
+  width: 3rem;
+  height: 3rem;
+  line-height: 3.5rem;
+  padding: 0;
+  text-align: center;
+  border-radius: 50%;
+  background-color: var(--vp-c-gray-3);
+  box-shadow: 0 2px 12px var(--vp-c-green-soft);
+  cursor: pointer;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  transition: opacity 0.3s;
+
+  &:hover {
+    background-color: var(--vp-c-gray-2);
+  }
+
+  & .icon-top {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 14px;
+    display: inline-block;
+    color: var(--vp-c-brand-1);
+  }
+}

@@ -1,6 +1,8 @@
 // https://vitepress.dev/guide/custom-theme
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
+import vitepressBackToTop from 'vitepress-plugin-back-to-top';
+
 import './style.css'
 
 /** @type {import('vitepress').Theme} */
@@ -12,6 +14,6 @@ export default {
     })
   },
   enhanceApp({ app, router, siteData }) {
-    // ...
+    vitepressBackToTop({ threshold: 300 });
   }
 }

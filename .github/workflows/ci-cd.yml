@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - gh-pages
+      - vitepress
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,6 +42,7 @@ jobs:
 
   build:
     name: 🏗️ Build (node - ${{ matrix.node }})
+    needs: cleanup
     runs-on: ubuntu-latest
 
     strategy:
@@ -74,7 +76,7 @@ jobs:
         run: pnpm i ${{ env.PNPM_FLAGS }}
 
       - name: 🏗️ Build site with VitePress
-        run: pnpm notes:build
+        run: pnpm book:build
 
       - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@v2
