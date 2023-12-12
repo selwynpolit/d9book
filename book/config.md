@@ -2,7 +2,7 @@
 layout: default
 title: Config
 permalink: /config
-last_modified_date: '2023-08-14'
+last_modified_date: '2023-12-11'
 ---
 
 # Configuration and Settings
@@ -425,6 +425,41 @@ $config
 
 \Drupal::messenger()->addMessage('Values have been saved.');
 ```
+
+## Using the Config Pages module
+
+[Config Pages](https://www.drupal.org/project/config_pages) is a really useful module which allows you to quickly create some `config` along with forms to control them.  
+
+Here is a screenshot of 4 `bool` fields defined in the Config Pages user interface.
+![Fields defined for a config in Config Pages](assets/images/config_pages_fields.png)
+
+Here is the data entry screen:
+![Config pages data entry screen](../assets/images/config_pages_entry_screen.png)
+
+Here is the code to load the values from the config.
+
+```php
+use Drupal\config_pages\Entity\ConfigPages;
+
+  /**
+   * Load custom settings from the ConfigPages custom_settings entity.
+   */
+  protected function loadCustomSettings(): void {
+    $custom_settings_entity = ConfigPages::config('custom_settings');
+    $this->logBatchVoteTime = $custom_settings_entity->get('field_log_batch_vote_time')->value;
+    $this->logSingleVoteTime = $custom_settings_entity->get('field_log_single_vote_time')->value;
+    $this->displaySingleVoteTime = $custom_settings_entity->get('field_display_single_vote_time')->value;
+    $this->displayBatchVoteTime = $custom_settings_entity->get('field_display_batch_vote_time')->value;
+    if ($this->logBatchVoteTime ||
+      $this->logSingleVoteTime ||
+      $this->displaySingleVoteTime ||
+      $this->displayBatchVoteTime) {
+      $this->shouldComputeElapsedTime = TRUE;
+    }
+  }
+```
+
+
 
 ## Drush config commands
 
