@@ -2,7 +2,7 @@
 layout: default
 title: Config
 permalink: /config
-last_modified_date: '2023-12-11'
+last_modified_date: '2023-12-12'
 ---
 
 # Configuration and Settings
@@ -459,6 +459,23 @@ use Drupal\config_pages\Entity\ConfigPages;
   }
 ```
 
+{:.note }
+From their [docs page](https://www.drupal.org/docs/contributed-modules/config-pages/usage-of-configpages)
+There are other three ways to load the configuration values:
+
+```php
+// This example uses side-loading for simplicity.
+$config_pages = \Drupal::service('config_pages.loader');
+$entity = $config_pages->load($config_page_machine_name, $optional_context);
+
+// This example uses call to a static method load:
+$entity = ConfigPages::config($config_page_machine_name);
+
+// This example uses storage manager to get a config page via storage manager:
+$storage = \Drupal::entityTypeManager()->getStorage('config_pages');
+$entity = $storage->load($config_page_machine_name);
+```
+Each of these methods, will return a loaded entity with a given active context.
 
 
 ## Drush config commands
