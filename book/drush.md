@@ -503,7 +503,7 @@ drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefini
 
 which outputs something like:
 
-![Block listing](assets/images/block_listing.png)
+![Block listing](images/block_listing.png)
 
 ### Generate code
 

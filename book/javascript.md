@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Javascript
-permalink: /javascript
-last_modified_date: '2023-10-08'
 ---
 
 # Using Javascript in Drupal
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=javascript.md)
-
----
 
 ## is this legit? TODO
 
@@ -31,11 +18,9 @@ last_modified_date: '2023-10-08'
 })(jQuery, Drupal);
 ```
 
-
 ## Add some global JS to the theme
 
 In `booktheme.info.yml` you need to specify the key to your theme library.  Specifically the `booktheme/global` library.  This refers to a key `global` in the booktheme.libraries.yml file.  Here is the `booktheme.info.yml` file:
-
 
 ```yaml
 name: Book Theme
@@ -179,7 +164,6 @@ generator: 'starterkit_theme:10.1.5'
 
 ```
 
-
 ## Add JS to a module 
 
 In your module folder, add your js file.  e.g. here in `web/modules/general/js/jsplay.js`:
@@ -229,7 +213,6 @@ function general_preprocess_page(&$variables) {
 
 [More at Adding Assets to a Drupal module via libraries](https://www.drupal.org/docs/develop/creating-modules/adding-assets-css-js-to-a-drupal-module-via-librariesyml)
 
-
 ## Standard JS IIFE (immediately invoked function expression)
 
 ```js
@@ -268,18 +251,17 @@ function general_preprocess_page(&$variables) {
 ## Cycle through some elements and add some text or css  to them
 
 ```js
-
 (function (Drupal, $) {
     Drupal.behaviors.andtestthis = {
         attach: function (context, settings) {
             $('#noah').append(" and test this") ;
-
         }
     };
 }) (Drupal, jQuery);
 ```
 
 or using native js `forEach`:
+
 ```js
 (function (Drupal, $) {
   Drupal.behaviors.logitworks = {
@@ -295,31 +277,20 @@ or using native js `forEach`:
       elements.forEach(element => {
         element.style.backgroundColor = 'red';
       });
-
-
     }
   };
 }) (Drupal, jQuery);
-
 ```
-
-
-
-
 
 ## Add a quick function to run when the page is ready
 
-
 ```js
-
 (function($) {
     $(document).ready(function() {
         // Your code here.
         console.log('Yep - more stuff working.');
     });
 })(jQuery);
-
-
 ```
 
 Using `Drupal.behaviors`:
@@ -340,7 +311,6 @@ Using `Drupal.behaviors`:
 
 })(jQuery);
 ```
-
 
 ## Dropdown list
 
@@ -389,11 +359,6 @@ Using `Drupal.behaviors`:
 }(document, Drupal, jQuery);
 ```
 
-
-
-
-
-
 ## Asset library overview
 
 These are collections of css and js files
@@ -404,15 +369,13 @@ There are 3 ways to use asset libraries:
 
 1.	Info file
 2.	Preprocess function
-3.	`{{ attach_library(‘classy/node’) }}`
+3.	`{ { attach_library('classy/node') } }`
 
 Here is an example of an asset library in use:
 
-```yaml
-
 In `burger.info.yml` for the theme: 
 
-```yaml
+```yml
 name: "Hamburger Theme"
 description: "interesting description for the theme"
 type: theme
@@ -421,7 +384,6 @@ base theme: classy
 libraries:
   - burger/global-styling
 ```
-
 
 So to add css in that library:
 
@@ -437,18 +399,17 @@ and make a `css` folder in the theme folder with a file called custom.css:
 
 ```css
 * {
-    color: red;
-  }
+  color: red;
+}
 ```
 
 Don't forget to flush caches.
-
 
 ## Add Javascript to a project using asset libraries
 
 In this project at `web/themes/custom/txglobal/txglobal.libraries.yml` we are trying to load some js in the file `js/globe.js` only on specific pages.  The asset library is defined below (see map:) and in the template file, we specify which assets to include.  That causes `globe.js` to be loaded when that template is used.
 
-```js
+```yml
 global:
   version: VERSION
   css:
@@ -463,32 +424,13 @@ map:
 ```
 In the `node--map.html.twig` file at `web/themes/custom/txglobal/templates/content/node--map.html.twig` we attach the library `txglobal.libraries.yml` from above using:
 
-```yaml
+```twig
 {{ attach_library('txglobal/map') }}
 ```
-
 
 ---
 
 ## Resources
 
-[Adding assets (CSS, JS) to a Drupal theme via *.libraries.yml - Oct 2023](https://www.drupal.org/docs/develop/theming-drupal/adding-assets-css-js-to-a-drupal-theme-via-librariesyml)
-[Cache busting javascript using VERSION value in libraries.yml - June 2022](https://chromatichq.com/insights/drupal-libraries-version/)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
+- [Adding assets (CSS, JS) to a Drupal theme via *.libraries.yml - Oct 2023](https://www.drupal.org/docs/develop/theming-drupal/adding-assets-css-js-to-a-drupal-theme-via-librariesyml)
+- [Cache busting javascript using VERSION value in libraries.yml - June 2022](https://chromatichq.com/insights/drupal-libraries-version/)

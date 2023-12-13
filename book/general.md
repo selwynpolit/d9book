@@ -1,22 +1,9 @@
 ---
-layout: default
 title: General
-permalink: /general
-last_modified_date: '2023-12-06'
 ---
 
 # General
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=general.md)
-
----
 
 ## Get the current user
 
@@ -84,7 +71,6 @@ $current_path_and_alias = \Drupal::request()->getRequestUri();
 $current_path = Url::fromRoute('<current>')->toString();
 ```
 [Lots more on the Drupal Stackexchange](https://drupal.stackexchange.com/questions/106103/how-do-i-get-the-current-path-alias-or-path)
-
 
 
 ## Check if you are on the Front page
@@ -391,7 +377,7 @@ $term_name = $path_args[3];
 
 For https://txg.ddev.site/newsroom/search/?country=1206
 
-![Variables display in PHPStorm debug pane](assets/images/image1-general.png)
+![Variables display in PHPStorm debug pane](images/image1-general.png)
 
 ## Get Current Language in a constructor
 
@@ -513,7 +499,7 @@ this:
 
 ```twig
 <div class="stock-field-class">
-  {% raw %}{{ content['stock_field'] }}{% endraw %}
+  {{ content['stock_field'] }}
 </div>
 ```
 
@@ -523,7 +509,14 @@ Note. You can always just add a variable like
 $variables['abc'] = 'hello';
 ```
 
-which can be referenced in the template as `{% raw %}{{ abc }}{% endraw %}` (or `{% raw %}{{ kint(abc) }}{% endraw %}` )
+which can be referenced in the template as
+```twig
+{{ abc }}
+```
+or
+```twig
+{{ kint(abc) }}
+```
 
 ## Add a bunch of variables to be rendered in a node
 
@@ -818,11 +811,7 @@ returns:
 threatgeek%2F2016%2F05%2Fwelcome-jungle-tips-staying-secure-when-you%E2%80%99re-road
 ```
 
-
-
 [More at php.net](https://www.php.net/manual/en/function.urlencode.php)
-
-
 
 ## Remote media entities
 
@@ -987,7 +976,7 @@ When you need to build a form with a drop-down (select) list of the options, you
 
 Example of list (text) field:
 
-![Field list options](assets/images/field_list_options.png)
+![Field list options](images/field_list_options.png)
 
 
 
@@ -1021,8 +1010,6 @@ $form['audience'] = [
 ];
 ```
 
-
-
 ## System.schema (module is missing from your site)
 
 
@@ -1036,7 +1023,7 @@ When running `drush updb`, if the system reports:
 
 In the database, there is a table called `key_value` with a field called `collection` that contains the value `system.schema` for some rows. The field `name` has the names of modules. 
 
-![Image of key_value table](assets/images/system_schema_rules.png)
+![Image of key_value table](images/system_schema_rules.png)
 
 To repair these sorts of errors, you must remove the orphaned entries from the `system.schema` key/value storage system. There is no UI for doing this. You can use drush to invoke a system service to manipulate the system.schema data in the `key_value` table. For example, to clean up these two errors:
 
@@ -1082,7 +1069,7 @@ Also see [Enable verbose error logging for better backtracing and debugging - Ap
 
 During module development or upgrades, it can be really useful to quickly uninstall and reinstall modules.  Luckily the [devel module](https://www.drupal.org/project/devel) provides an easy way. Either navigate to `/devel/reinstall` or use the Druplicon menu option and select `development` and then click on `reinstall modules`  You will need the [admin toolbar module](https://www.drupal.org/project/admin_toolbar) with it's `admin toolbar extra tools` submodule enabled.
 
-![Menu option to reinstall modules](assets/images/reinstall_modules.png)
+![Menu option to reinstall modules](images/reinstall_modules.png)
 
 
 ## Resources
@@ -1090,20 +1077,3 @@ During module development or upgrades, it can be really useful to quickly uninst
 - [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
 - [Drupal accessibility — a comprehensive Drupal self-help guide to creating accessible websites by John Cloys Sep 2023](https://salsa.digital/insights/drupal-accessibility-comprehensive-drupal-self-help-guide-creating-accessible-websites)
 
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

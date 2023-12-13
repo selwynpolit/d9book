@@ -24,7 +24,7 @@ hero:
 ---
 
 
-<!-- ![Image of Drupal drop over open pages of a book](assets/images/d9book.svg) -->
+<!-- ![Image of Drupal drop over open pages of a book](images/d9book.svg) -->
 
 This book is a quick reference for developers creating Drupal sites. While working on such sites during my career, I have gathered a large collection of notes and code which I use for my reference.  I hope it will be useful for you, too.
 
