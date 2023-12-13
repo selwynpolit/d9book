@@ -54,7 +54,7 @@ To enable TWIG debugging output in source, in `sites/default/development.service
 
 TWIG debugging output looks like this:
 
-![TWIG debugging output](images/twig_debug_output.png)
+![TWIG debugging output](/images/twig_debug_output.png)
 
 ```yml
 # Local development services.
@@ -187,11 +187,11 @@ Phpstorm and DDEV make this process as painless as possible. Once you enable Xde
 
 To start debugging, open the index.php file and set a breakpoint by clicking on a line number.
 
-![Click listen for PHP Debug Connections button in PhpStorm](images/listen_button.png)
+![Click listen for PHP Debug Connections button in PhpStorm](/images/listen_button.png)
 
 Select a breakpoint:
 
-![Set a breakpoint in PhpStorm](images/breakpoint.png)
+![Set a breakpoint in PhpStorm](/images/breakpoint.png)
 
 Next refresh the Drupal home page in a browser
 
@@ -199,20 +199,20 @@ You should immediately see a dialog pop up in PhpStorm asking you to to configur
 
 Note. If you select one of the other lines you will see a different php file pop up and you won\'t be debugging Drupal, but probably some Symfony file.
 
-![PhpStorm incoming connection dialog](images/incoming_connection.png)
+![PhpStorm incoming connection dialog](/images/incoming_connection.png)
 
 If you accidentally selected the wrong local path, in PhpStorm, go to Settings, PHP, Servers and delete all servers that are displayed. The correct one will be recreated after you retry the operation above.
 
-![Breakpoint reached in debugging in PhpStorm](images/breakpoint_reached.png)
+![Breakpoint reached in debugging in PhpStorm](/images/breakpoint_reached.png)
 
 Once you accept the local path, you should see a highlighted line
 indicating the current line. The debug window will appear below showing the call stack
 
-![PhpStorm debug call stack](images/debug_call_stack.png)
+![PhpStorm debug call stack](/images/debug_call_stack.png)
 
 You will also see the variables and watch pane:
 
-![PhpStorm debug variables and watch pane](images/debug_variables_watch.png)
+![PhpStorm debug variables and watch pane](/images/debug_variables_watch.png)
 
 ## Command line or drush debugging
 
@@ -225,11 +225,11 @@ $ vendor/bin/drush status
 ```
 To setup command line debugging, follow the steps above to setup for [Drupal Code debugging](#drupal-code-debugging) to confirm that you have debugging working. Then look in PhpStorm's: settings, PHP, Servers, and select the server you set up from the previous steps. Specify the top level path as shown below. Usually it will be `/var/www/html`
 
-![PhpStorm debug servers options](images/php_debug_servers.png)
+![PhpStorm debug servers options](/images/php_debug_servers.png)
 
 Next open vendor/drush/drush/src/Drush.php and specify a breakpoint like this:
 
-![Set a breakpoint in PhpStorm in the drush source code](images/drush_breakpoint.png)
+![Set a breakpoint in PhpStorm in the drush source code](/images/drush_breakpoint.png)
 
 Now in the terminal ssh into the DDEV container and execute drush:
 
@@ -240,7 +240,7 @@ $ vendor/bin/drush status
 ```
 PhpStorm will pop up and display the current line and you can debug to your heart\'s content:
 
-![Debugging drush in PhpStorm](images/phpstorm_debugging_drush.png)
+![Debugging drush in PhpStorm](/images/phpstorm_debugging_drush.png)
 
 More at <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/>
 
@@ -263,7 +263,7 @@ Open the inspect pane in the browser, on the network tab, click on the doc (the 
 
 e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
 
-![Debugging cache tags](images/debug_cache_tags.png)
+![Debugging cache tags](/images/debug_cache_tags.png)
 
 More [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
@@ -305,7 +305,7 @@ Xdebug: \[Step Debug\] Could not connect to debugging client. Tried: host.docker
 ```
 This means you have not clicked the PhpStorm button:  \"Start listening for PHP Debug Connections\". Just click it and try again
 
-![Click listen for PHP Debug Connections button in PhpStorm](images/listen_button.png)
+![Click listen for PHP Debug Connections button in PhpStorm](/images/listen_button.png)
 
 ### PhpStorm refuses to debug
 

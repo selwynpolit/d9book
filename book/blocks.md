@@ -180,21 +180,21 @@ clear the cache with:
 
 In Drupal, navigate to /admin/structure/block and place the block (\"block module example\") in the content area. See the diagram below on how to place the block in the content area.
 
-![Graphical user interface, table Description automatically generated](images/image2.png)
+![Graphical user interface, table Description automatically generated](/images/image2.png)
 
-![Graphical user interface Description automatically generated](images/image3.png)
+![Graphical user interface Description automatically generated](/images/image3.png)
 
 You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "Place block," a "Configure block" screen appears. You can safely just click "Save block."
 
-![Graphical user interface, application Description automatically generated](images/image4.png)
+![Graphical user interface, application Description automatically generated](/images/image4.png)
 
 Navigate back to the home page of the site and you'll see your block appearing. Screenshot below:
 
-![Graphical user interface, text, application, email Description automatically generated](images/image5.png)
+![Graphical user interface, text, application, email Description automatically generated](/images/image5.png)
 
 You can safely remove the block via the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
 
-![Remove block](images/image6.png)
+![Remove block](/images/image6.png)
 
 ## Anatomy of a custom block with dependency injection
 
@@ -379,7 +379,7 @@ class OpinionLanding extends BlockBase {
 
 Here is an example which includes a block and a corresponding config form that controls what is displayed in the block. The block can be placed using the Block Layout system in Drupal at /admin/structure/block (shown below) or via twig in a template file.
 
-![Block layout system](images/image7.png)
+![Block layout system](/images/image7.png)
 
 ### The config form definition
 

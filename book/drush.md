@@ -503,7 +503,7 @@ drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefini
 
 which outputs something like:
 
-![Block listing](images/block_listing.png)
+![Block listing](/images/block_listing.png)
 
 ### Generate code
 
@@ -1332,7 +1332,7 @@ $ drush sqlq "select count(*) as redirects"
 
 If you prefer to type `drush cr` or `drush cim -y` (versus `ddev drush cr` or `ddev drush cim -y`), you can set things up to do that.
 
-Assuming you use PHP 8.1 for your Drupal project, you will need php 8.1 set up on your mac and drush installed globally.  See the [Global Drush Section](#global-drush) or [Setting up your Mac: Global Drush](/d9book/setup_mac#global-drush) for details.  It is advisable that the PHP installed on your local computer be the same as the PHP in the DDEV containers to avoid surprises.
+Assuming you use PHP 8.1 for your Drupal project, you will need php 8.1 set up on your mac and drush installed globally.  See the [Global Drush Section](#global-drush) or [Setting up your Mac: Global Drush](setup_mac global-drush) for details.  It is advisable that the PHP installed on your local computer be the same as the PHP in the DDEV containers to avoid surprises.
 
 
 

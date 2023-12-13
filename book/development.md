@@ -529,17 +529,17 @@ PHPStorm has a series of instructions for [configuring PHPStorm with Xdebug](htt
 
 Some settings I use
 
-![Graphical user interface, text, application, email Description automatically generated](images/image1-phpstorm.png)
+![Graphical user interface, text, application, email Description automatically generated](/images/image1-phpstorm.png)
 
 And for this project
 
-![Graphical user interface, text, application, email Description automatically generated](images/image2-phpstorm.png)
+![Graphical user interface, text, application, email Description automatically generated](/images/image2-phpstorm.png)
 
 If phpstorm doesn't stop when you set a breakpoint on some code, try deleting the server from the config debug, php, servers.
 
 Make sure PHPStorm is listening by clicking the listen button
 
-![Graphical user interface, text, application, Word Description automatically generated](images/image3-phpstorm.png)
+![Graphical user interface, text, application, Word Description automatically generated](/images/image3-phpstorm.png)
 
 When you try again it will be recreated but you will probably need to specify the path (from the image above).
 

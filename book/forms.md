@@ -102,7 +102,7 @@ and here is the beginning of the `submit` function that goes along with the `upd
     batch_set($batch);    
 ```
 
->Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](/d9book/book/bq.html)
+>Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](bq)
 
 ## Modify a button on a form with hook_form_alter
 
@@ -575,7 +575,7 @@ public function build() {
 In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
 
 (Here is an image of this source code. Strangely, Jekyll/Github requires me to jump through some hoops for TWIG source. I'm still experimenting.)
-![block template](images/block_template.png)
+![block template](/images/block_template.png)
 
 Here is the source:
 

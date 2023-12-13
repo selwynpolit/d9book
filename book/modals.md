@@ -26,7 +26,7 @@ taa.srp_delete_citation:
     _form: 'Drupal\taa\Form\DeleteCitationForm'
 ```
 
-![Modal dialog title](images/dialog-title.png)
+![Modal dialog title](/images/dialog-title.png)
 
 ## Links to slide-in dialogs
 
@@ -74,7 +74,7 @@ You could easily make this a modal dialog by specifying:
 This example displays a page with links to pop up two different modal
 dialogs. Clicking on either of the links will display a slightly
 different modal dialogs. The page looks like this:
-![modal example 1](images/modal-example1.png)
+![modal example 1](/images/modal-example1.png)
 
 Here is the routing file at
 web/modules/custom/modal_examples/modal_examples.routing.yml.
@@ -321,12 +321,12 @@ class ModalExamplesController2 extends ControllerBase {
 Here is the first modal dialog as it appears on the site when the modal1
 link is clicked:
 
-![First dialog](images/first-dialog.png)
+![First dialog](/images/first-dialog.png)
 
 
 And the second
 
-![Second dialog](images/second-dialog.png)
+![Second dialog](/images/second-dialog.png)
 
 
 ### Passing entities as parameters
@@ -407,11 +407,11 @@ we click the button labelled, \"Click to see the Modal Form\", a modal dialog wi
 
  Here is the initial form:
 
-![Initial form](images/initial-form.png)
+![Initial form](/images/initial-form.png)
 
 And here is the modal popped up over it:
 
-![Modal over initial form](images/modal-over-initial-form.png)
+![Modal over initial form](/images/modal-over-initial-form.png)
 
 Here is the code for the first form in 
 `web/modules/custom/modal_examples/src/Form/ExampleForm.php`. Notice the
@@ -725,7 +725,7 @@ or top of the screen. Like any modal dialogs they can contain forms
 This example shows 4 different types of links which fire off variations
 of slide-in dialogs. Check out the links below:
 
-![Slide-in example](images/slide-in-example.png)
+![Slide-in example](/images/slide-in-example.png)
 
 In `web/modules/custom/modal_examples/modal_examples.routing.yml` we specify the routes for our controller, `example2` as well as `modal1`, `form2` and `login_form`:
 
@@ -986,19 +986,19 @@ public function buildModal1(int $program_id, string $type) {
 
 This is what to expect when you click the first link:
 
-![First slide-in modal](images/first-modal.png)
+![First slide-in modal](/images/first-modal.png)
 
 And the second which shows the dialog sliding in from the top:
 
-![Second slide-in modal](images/second-modal.png)
+![Second slide-in modal](/images/second-modal.png)
 
 Here is our custom form sliding in:
 
-![Third slide-in modal](images/third-modal.png)
+![Third slide-in modal](/images/third-modal.png)
 
 And finally the login form sliding in:
 
-![Fourth slide-in modal](images/fourth-modal.png)
+![Fourth slide-in modal](/images/fourth-modal.png)
 
 
 ## Block with a link to popup a custom modal dialog

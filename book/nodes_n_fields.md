@@ -2183,7 +2183,7 @@ The JSON data is written into a multivalue long text field using the
 value. If it is 1, then this will be written into the second value. This
 is what it looks like in Drupal on a node edit screen.
 
-![Screenshot of JSON data in long text field](images/json_long_text.png)
+![Screenshot of JSON data in long text field](/images/json_long_text.png)
 
 
 ## Create a node with an image

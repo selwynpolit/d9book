@@ -516,7 +516,7 @@ $term_name = $path_args[3];
 ```
 For <https://txg.ddev.site/newsroom/search/?country=1206>
 
-![Image path arguments](images/media/image-path-args.png)
+![Image path arguments](/images/image-path-args.png)
 
 ## Retrieve query and GET or POST parameters (\$\_POST and \$\_GET)
 

@@ -55,7 +55,7 @@ Writing state data looks like this:
 ```
 In the screenshot below, you can see where this is stored in the `key_value` table. Notice that the collection column is set to \"state\" indicating these are State API values.
 
-![State API data in its table](images/state_data1.png)
+![State API data in its table](/images/state_data1.png)
 
 
 ### Using Drush to read the State API
@@ -178,7 +178,7 @@ public function build4() {
 
 Here is the data stored in the `users_data` table. Notice that there is also some user data from the contact module as well as the data from the `state_examples` module that was created from the code above.
 
-![Users_data table](images/users_data_table.png)
+![Users_data table](/images/users_data_table.png)
 
 
 
@@ -236,7 +236,7 @@ In this example, we can see writing, reading, and deleting a private TempStore v
 Drupal automatically inserts the user id (e.g. 1:) into the front of the name field so that the data is connected with that user. Notice in the database screenshot below that the name field (i.e.
 1:selwyn.important.string) is preceded by 1: which makes it unique. Even though the code specified \"selwyn.important.string\" each user gets a unique copy. I was logged in as user 1 when I ran this program initially, and then I ran it again logged in as user 2.
 
-![Private tempstore in the database](images/private_tempstore1.png)
+![Private tempstore in the database](/images/private_tempstore1.png)
 
 In the next example we\'re storing an array with the key
 \"selwyn.important.array\". The array is automatically serialized into the value field. Incidentally, you don\'t have to specify the type of content (i.e. array) as I have. Instead of using selwyn.important.array, you could use selwyn.important.banana or selwyn.important.kiwi (depending on your fruit preference).
@@ -263,11 +263,11 @@ $tempstore->delete('selwyn.important.array');
 ```
 
 
-![Storing an array via tempstore in the database](images/tempstore_db_array.png)
+![Storing an array via tempstore in the database](/images/tempstore_db_array.png)
 
 This is a screenshot of the value for the array field above. Notice the id = 123 and name = Dave. There is no need to manipulate the data to get it stored away safely. Drupal will serialize it for you:
 
-![Serialized array in database](images/serialized_array.png)
+![Serialized array in database](/images/serialized_array.png)
 
 Also see this article showing how to save values from a form and then later retrieve and process them in a controller. Saving temporarily values of a form with Private Tempstore in Drupal 8 by Karim Boudjema Mar 2019 <http://karimboudjema.com/en/drupal/20190315/saving-temporary-values-form-private-tempstore-drupal-8>
 
@@ -330,11 +330,11 @@ Here is example code showing writing, reading and deleting data from SharedTempS
 ```
 And here is the data in the database:
 
-![Shared tempstore in the database](images/shared_tempstore1.png)
+![Shared tempstore in the database](/images/shared_tempstore1.png)
 
 And you can see the data owner in the screen shot below:
 
-![Shared tempstore data in the database](images/shared_tempstore2.png)
+![Shared tempstore data in the database](/images/shared_tempstore2.png)
 
 #### Injecting tempstore.shared
 

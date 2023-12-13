@@ -335,7 +335,7 @@ var_dump($is_front);
 print_r($is_front);
 ```
 
-![Displaying var_dump in Drupal](images/vardump.png)
+![Displaying var_dump in Drupal](/images/vardump.png)
 
 ## Reference
 

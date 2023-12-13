@@ -83,7 +83,7 @@ tests/src/FunctionalJavascript
 
 For core they are in web/core/modules (or docroot/core/modules) e.g. in the action module, the directory structure looks like this:
 
-![Phpunit Test Location](images/phpunit-test-location.png)
+![Phpunit Test Location](/images/phpunit-test-location.png)
 
 ## Output files from running phpunit
 
@@ -96,19 +96,19 @@ Below you will see a bunch of directories (probably one for each run of the test
 <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/simpletest/browser_output"/>
 ```
 
-![Test output location](images/test-output.png)
+![Test output location](/images/test-output.png)
 
 If you don't need to view the reports from your tests, you can safely delete these directories as well as the html files shown below.
 
 At the same level is a browser_output directory which has some html
 files which reference the directories above:
 
-![Browser Ouput1](images/browser-output1.png)
+![Browser Ouput1](/images/browser-output1.png)
 
 While tests are running, I noticed that files appear in the
 /simpletest/browser_output folder at the topmost level of the project. They go away when the tests complete..
 
-![Browser Output2](images/browser-output2.png)
+![Browser Output2](/images/browser-output2.png)
 
 ## Setup PHPUnit tests 
 
@@ -286,7 +286,7 @@ class ExampleTest extends UnitTestCase {
 
 Drush wrote the test file in `modules/custom/tea_teks_voting/tests/src/Unit/ExampleTest.php`
 
-![Generated test location](images/generated-test.png)
+![Generated test location](/images/generated-test.png)
 
 To run this test use
 
@@ -1044,7 +1044,7 @@ do {
 
 The output appears as png files like:
 
-![Output files](images/output-files.png)
+![Output files](/images/output-files.png)
 
 Curiously, this only captures the visible part of the page - I notice parts of it were clipped.
 
@@ -1762,7 +1762,7 @@ TA\"**,**met**,**met**
 
 Picture of CSV file with color formatting:
 
-![CSV in color](images/csv-in-color.png)
+![CSV in color](/images/csv-in-color.png)
 
 ## Adding DTT to an existing site
 
@@ -2259,7 +2259,7 @@ and the output:
 
 It is easiest to make sure you have PHPStorm Xdebug working first, then make sure the path mappings are correct. Note. This process is almost identical to debugging drush commands.
 
-![Path mappings](images/path-mappings.png)
+![Path mappings](/images/path-mappings.png)
 
 ```
 $ ddev exec enable_xdebug

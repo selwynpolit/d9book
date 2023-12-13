@@ -146,7 +146,7 @@ Open the inspect pane in the browser, on the network tab, click on the doc (the 
 
 e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
 
-![Debugging cache tags](images/debug_cache_tags.png)
+![Debugging cache tags](/images/debug_cache_tags.png)
 
 More [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
@@ -434,10 +434,10 @@ $cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publi
 $cache_data = \Drupal::cache()->get($cache_id);
 ```
 Here are some rows in the `cache_default` table:
-![Cache row of data in cache_default table](images/cached_data.png)
+![Cache row of data in cache_default table](/images/cached_data.png)
 
 Here is what the `$this->expectations` array looks like from the `data` field:
-![Contents of data field](images/cache_longblob.png)
+![Contents of data field](/images/cache_longblob.png)
 
 Here is a complete function which loads data from the cache.  If the cache is empty, the data is rebuilt from nodes and then stored in the cache:
 
@@ -569,7 +569,7 @@ To enable TWIG debugging output in source, in `sites/default/development.service
 
 TWIG debugging output looks like this:
 
-![TWIG debugging output](images/twig_debug_output.png)
+![TWIG debugging output](/images/twig_debug_output.png)
 
 ```yml
 # Local development services.
@@ -985,7 +985,7 @@ services:
 
 Using SequelAce or similar tool, truncate all the tables that start with `cache_`:
 
-![truncating cache tables](images/truncate_cache_tables.png)
+![truncating cache tables](/images/truncate_cache_tables.png)
 
 More [at Drupalize.me](https://drupalize.me/tutorial/clear-drupals-cache)
 

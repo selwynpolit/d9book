@@ -587,7 +587,7 @@ Link field (URL)
 
 This is the simplest way. Just set the display mode to link
 
-![Suggest Button](images/suggest_button.png)
+![Suggest Button](/images/suggest_button.png)
 
 And output the link without a label.
 
@@ -1733,7 +1733,7 @@ drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefini
 
 It outputs something like:
 
-![Block listing](images/block_listing.png)
+![Block listing](/images/block_listing.png)
 
 ### Display filter form block
 

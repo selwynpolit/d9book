@@ -337,7 +337,7 @@ node\--news-stories-landing-page.html.twig:
 
 And the form looks like this:
 
-![Dropdown menu image](images/dropdown_menus.png)
+![Dropdown menu image](/images/dropdown_menus.png)
 
 ## Build a menu and all its children
 
@@ -513,11 +513,11 @@ $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
 $active_trail = array_keys($parameters->activeTrail);
 ```
 
-![Menu debug display](images/menu_debug_dump.png)
+![Menu debug display](/images/menu_debug_dump.png)
 
 Extracting out the active trail gives this useful information:
 
-![Active trail debug display](images/active_trail_debug.png)
+![Active trail debug display](/images/active_trail_debug.png)
 
 ## Get a node's menu item and more
 

@@ -29,7 +29,7 @@ Using `$node->field_mydatefield->date` is ideal as it returns a `DrupalDateTime`
 
 If you need to do calculations involving Unix timestamps, then using `$node->field_mydatefield->getTimestamp()` is useful although `DrupalDateTime` is probably better. More about DrupalDateTime at <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x>. Also at <https://drupal.stackexchange.com/questions/252333/how-to-get-formatted-date-string-from-a-datetimeitem-object>
 
-See [Nodes and Fields chapter Date fields section ](book/nodes_n_fields.html#date-fields) for more on date fields
+See [Nodes and Fields chapter Date fields section ](nodes_n_fields.html date-fields) for more on date fields
 
 
 ## Retrieve a date field

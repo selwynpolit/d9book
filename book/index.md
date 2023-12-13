@@ -24,7 +24,7 @@ hero:
 ---
 
 
-<!-- ![Image of Drupal drop over open pages of a book](images/d9book.svg) -->
+<!-- ![Image of Drupal drop over open pages of a book](/images/d9book.svg) -->
 
 This book is a quick reference for developers creating Drupal sites. While working on such sites during my career, I have gathered a large collection of notes and code which I use for my reference.  I hope it will be useful for you, too.
 
@@ -63,7 +63,7 @@ If you want to contribute to the expense of creating this book, I have added a [
 - [Modules- a collection of useful and essential](modules)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](nodes-and-fields)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](queries)
-- [Reaching out of Drupal](reaching-out)
+<!-- - [Reaching out of Drupal](reaching-out) -->
 - [Redirects](redirects)
 - [Render Arrays](render)
 - [Routes and Controllers](routes)

@@ -411,7 +411,7 @@ You can look at
 <https://api.drupal.org/api/drupal/services>
 and search for `entity_type`. This will result in:
 
-![Finding Services on Drupal API](images/find-services.png)
+![Finding Services on Drupal API](/images/find-services.png)
 
 
 This tells you to that the service is in `core.services.yml` and that it is implemented in the `EntityTypeManager` class.
