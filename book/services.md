@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Services
-permalink: /services
-last_modified_date: '2023-07-23'
 ---
 
 # Services and Dependency Injection
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=services.md)
-
----
 
 ## Overview
 
@@ -424,7 +411,7 @@ You can look at
 <https://api.drupal.org/api/drupal/services>
 and search for `entity_type`. This will result in:
 
-![Finding Services on Drupal API](assets/images/find-services.png)
+![Finding Services on Drupal API](images/find-services.png)
 
 
 This tells you to that the service is in `core.services.yml` and that it is implemented in the `EntityTypeManager` class.
@@ -1023,21 +1010,3 @@ etc.
     from March 2017](https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/)
 - [Drupal 8: Properly Injecting Dependencies Using DI by Danny Sipos May 2016](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
 - [Inject a service in Drupal 8 showing an example of injecting http_client (Guzzle) by J M Olivas July 2015](https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

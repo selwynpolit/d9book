@@ -1452,20 +1452,3 @@ if ($arg) {
 
 -   Controlling multiple sites with Drush 9 from [Joachim Noreiko](https://www.drupal.org/user/107701) Mar 2019 <http://www.noreiko.com/blog/controlling-multiple-sites-drush-9>
 
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

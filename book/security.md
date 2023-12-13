@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Security
-permalink: /security
-last_modified_date: '2023-12-01'
 ---
 
 # Security
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=security.md)
-
----
 
 ## Overview
 
@@ -437,21 +424,3 @@ Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeyp
 - [Drupal defense in depth — securing Drupal at the content layer with a CDN - May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-the-content-layer-with-a-cdn)
 - [Drupal defense in depth — securing Drupal at edge layer via a Web Application Firewall (WAF) May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-edge-layer-via-a-web-application-firewall-waf)
 - [Drupal defense in depth — securing Drupal at the application layer - May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-the-application-layer)
-- 
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

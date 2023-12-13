@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Learning
-permalink: /learn
-last_modified_date: '2023-11-29'
 ---
 
 # Learning and keeping up with Drupal
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=learn.md)
-
----
 
 ## Drupal Basics
 - [Drupal User Guide for people with minimal knowledge of Drupal](https://www.drupal.org/docs/user_guide/en/index.html)
@@ -25,7 +12,6 @@ last_modified_date: '2023-11-29'
 
 ## Drupal Reference Materials
 - [Top level link to Essential background concepts, OOP conventions etc at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
-
 
 
 ### Essential background concepts
@@ -137,28 +123,8 @@ There are many books about Drupal that are worth checking out.
 - [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
 - [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://amzn.to/3MzPrly)
 
-{: .note }
+::: tip note
 Some of these are affiliate links so Amazon may send me some money if you purchase items using these links.
-
+:::
 
 <iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin" style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=selwynpolit-20&language=en_US&marketplace=amazon&region=US&placement=1803234962&asins=1803234962&linkId=ced74ff961fa32eb929c0aebef132fb7&show_border=true&link_opens_in_new_window=true"></iframe>
-
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Redirects
-permalink: /redirects
-last_modified_date: '2023-06-22'
 ---
 
 # Redirects
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=redirects.md)
-
----
 
 ## Redirect to an internal url
 
@@ -262,21 +249,3 @@ Then in the submitForm() method, once we've completed the work we needed to do, 
     $url = Url::fromUri('internal:' . $referrer_alias, ['fragment' => "item_$feedback_error_nid"]);
     $form_state->setRedirectUrl($url);
 ```
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

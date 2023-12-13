@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Setup your Mac
-permalink: /setup_mac
-last_modified_date: '2023-11-26'
 ---
 
 # Setting up your Mac for Drupal development
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=setup_mac.md)
-
----
 
 ## Overview
 Setting up your Mac for development is a highly personal process.  Everyone has their own preferences.  I've collected some practices that work well for me here.
@@ -27,8 +14,9 @@ Setting up your Mac for development is a highly personal process.  Everyone has 
 
 Open finder and press Cmd-Shift-.
 
-{: .note }
+::: tip Note
 This is a toggle, so if you press it twice, it will turn the `.` files off again.
+:::
 
 ### Set main display monitor
 
@@ -46,8 +34,9 @@ To generate a 4096 byte (4K) key use these commands and just hit return when pro
 cd ~/.ssh
 ssh-keygen -t rsa -b 4096 -C "johnsmith@gmail.com" 
 ```
-{: .note }
+::: tip Note
 Replace johnsmith@gmail.com with your email.
+:::
 
 You will need to add the ssh key to the agent permanently.  
 for older versions of MacOS:
@@ -93,8 +82,9 @@ Install the [Homebrew package manager](https://brew.sh/). This will allow you to
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-{: .note }
+::: tip Note
 once you install a formula with Hombrew, you might want to see the `info` that was displayed after you ran the `brew install` command.  This is that crucial info that you need to complete the installation.  Do that with `brew info formula` e.g.:
+:::
 
 `brew info php@8.1` or `brew info jq`
 
@@ -149,11 +139,9 @@ Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.
 /opt/homebrew/etc/php/8.1/conf.d/selwyn.ini
 ```
 
-{: .note }
+::: tip Note
 If you install composer first, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.
-
-
-
+:::
 
 ## Composer
 
@@ -161,9 +149,9 @@ If you install composer first, you might end up with php 8.2 installed which has
 brew install composer
 ```
 
-{: .note }
+::: tip Note
 Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or later) first in the path.  This could cause some challenges running the Drupal Test Traits and PHPUnit.
-
+:::
 
 
 ## Browsers
@@ -187,8 +175,9 @@ Install ddev
 
 brew install ddev/ddev/ddev
 
-{: .note }
+::: tip Note
 You might need to have your ssh certificate set up correctly before doing this step.
+:::
 
 Initialize mkcert
 mkcert -install
@@ -453,8 +442,9 @@ Then add Drush to your system path by placing the following in your ~/.zshrc ( o
  export PATH="$HOME/.composer/vendor/bin:$PATH" 
 ``` 
 
-{: .note }
+::: tip Note
 Test any of these path changes by running `source ~/.zshrc` to reload the environment variables.  You can also open a new iterm window if you prefer.
+:::
 
 By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands e.g. 
 
@@ -530,7 +520,7 @@ You can set up PhpStorm to automatically look at your code and warn you of lines
 
 Go to: Settings, Php, Quality Tools, PHP_CodeSniffer
 
-![Image of PHP Codesniffer settings](assets/images/phpstorm_codesniffer.png)
+![Image of PHP Codesniffer settings](images/phpstorm_codesniffer.png)
 
 Use the following settings:
 - Configuration: `System PHP`
@@ -549,8 +539,9 @@ If you installed the coder module in your project: Under the ... button (on the 
 If you have installed phpcs and coder globally, Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/.composer/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/.composer/vendor/bin/phpcbf`. 
 
 
-{: .note }
+::: tip Note
 (replace `/Users/spolit` with your own path to your username and `tea` with the name of the directory for your site.) 
+:::
 
 More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
 
@@ -593,29 +584,9 @@ brew install ngrok
 Rectangle is a window management app based on Spectacle, written in Swift. [More at https://github.com/rxhanson/Rectangle](https://github.com/rxhanson/Rectangle)
 
 ```
-brew install --cask rectangle```
-
-
+brew install --cask rectangle
+```
 
 ## Resources
 - [macOS Monterey: Setting up a Mac for Development by Tania Rascia Jan 2022](https://www.taniarascia.com/setting-up-a-brand-new-mac-for-development)
 - [How I upgrade my Mac for development in Catalina macOS by SaKKo May 2021](https://dev.to/sakko/how-i-upgrade-my-mac-for-development-in-catalina-macos-33g1) - This covers xcode, git, iterm2, oh my zsh, NVM, Ruby, Homebrew, Postgresql, MySql, ElasticSearch, Redis and other apps. 
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

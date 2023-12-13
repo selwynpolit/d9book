@@ -10,12 +10,29 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   head: [['link', { rel: 'icon', href: '/d9book/favicon.ico' }]],
+  rewrites: {
+    'nodes_n_fields.md': 'nodes-and-fields.md',
+    'off_the_island.md': 'off-island.md',
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Attribution', link: '/attribution' }
     ],
+
+    outline: {
+      level: [2, 3],
+    },
+
+    search: {
+      provider: 'local'
+    },
+
+    editLink: {
+      pattern: 'https://github.com/selwynpolit/d9book/edit/gh-pages/book/:path',
+      text: 'Edit this page on GitHub'
+    },
 
     sidebar: [],
 
