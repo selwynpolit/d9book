@@ -1,12 +1,14 @@
 // https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
-import DefaultTheme from 'vitepress/theme'
+import { useData, useRoute } from 'vitepress';
 import vitepressBackToTop from 'vitepress-plugin-back-to-top';
 import giscusTalk from 'vitepress-plugin-comment-with-giscus';
-import { useData, useRoute } from 'vitepress';
 import googleAnalytics from 'vitepress-plugin-google-analytics';
+import imageViewer from 'vitepress-plugin-image-viewer';
+import DefaultTheme from 'vitepress/theme';
+import { h } from 'vue';
 
-import './style.css'
+import 'viewerjs/dist/viewer.min.css';
+import './style.css';
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -14,7 +16,7 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
+    });
   },
   enhanceApp({ app, router, siteData }) {
     vitepressBackToTop({ threshold: 300 });
@@ -24,9 +26,12 @@ export default {
     // Get frontmatter and route
     const { frontmatter } = useData();
     const route = useRoute();
-    
+
+    imageViewer(route);
+
     // Obtain configuration from: https://giscus.app/
-    giscusTalk({
+    giscusTalk(
+      {
         repo: 'selwynpolit/d9book',
         repoId: 'MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg=',
         category: 'Q&A', // default: `General`
@@ -37,14 +42,16 @@ export default {
         lightTheme: 'light', // default: `light`
         darkTheme: 'transparent_dark', // default: `transparent_dark`
         // ...
-    }, {
-        frontmatter, route
-    },
-        // Whether to activate the comment area on all pages.
-        // The default is true, which means enabled, this parameter can be ignored;
-        // If it is false, it means it is not enabled.
-        // You can use `comment: true` preface to enable it separately on the page.
-        true
+      },
+      {
+        frontmatter,
+        route,
+      },
+      // Whether to activate the comment area on all pages.
+      // The default is true, which means enabled, this parameter can be ignored;
+      // If it is false, it means it is not enabled.
+      // You can use `comment: true` preface to enable it separately on the page.
+      true,
     );
-}
-}
+  },
+};
