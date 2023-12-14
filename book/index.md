@@ -6,7 +6,10 @@ hero:
   name: "Drupal at your fingertips"
   text: by Selwyn Polit
   tagline: "Drupal 9 & 10 developer's quick code reference"
-  # actions:
+  image:
+    src: /images/d9book.svg
+    alt: Drupal Book  
+# actions:
   #   - theme: brand
   #     text: Markdown Examples
   #     link: /markdown-examples

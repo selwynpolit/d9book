@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { generateSidebar } from 'vitepress-sidebar';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -9,16 +10,19 @@ export default defineConfig({
   outDir: './dist',
   cleanUrls: true,
   lastUpdated: true,
-  head: [['link', { rel: 'icon', href: '/d9book/favicon.ico' }]],
+  head: [['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }]],
   rewrites: {
     'nodes_n_fields.md': 'nodes-and-fields.md',
     'off_the_island.md': 'off-island.md',
   },
   themeConfig: {
+    logo: '/images/d9book.svg',
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Attribution', link: '/attribution' }
+      { text: 'Attribution', link: '/attribution' },
+      { text: 'Fork me', link: 'https://github.com/selwynpolit/d9book/fork' }
     ],
 
     outline: {
@@ -34,7 +38,13 @@ export default defineConfig({
       text: 'Edit this page on GitHub'
     },
 
-    sidebar: [],
+    sidebar: generateSidebar({
+      documentRootPath: 'book',
+      useTitleFromFrontmatter: true,
+      sortMenusByName: true,
+      hyphenToSpace: true,
+      excludeFiles: ['attribution.md'],
+    }),
 
     socialLinks: [
       { icon: 'x', link: '//twitter.com/selwynpolit' },

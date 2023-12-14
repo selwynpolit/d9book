@@ -1,5 +1,5 @@
 ---
-permalink: /upgrade
+title: Updates
 ---
 
 # Upgrading and patching Drupal and contrib modules
