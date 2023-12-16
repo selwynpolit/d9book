@@ -412,6 +412,58 @@ $config
 \Drupal::messenger()->addMessage('Values have been saved.');
 ```
 
+## Using the Config Pages module
+
+[Config Pages](https://www.drupal.org/project/config_pages) is a really useful module which allows you to quickly create some `config` along with forms to control them.  
+
+Here is a screenshot of 4 `bool` fields defined in the Config Pages user interface.
+![Fields defined for a config in Config Pages](assets/images/config_pages_fields.png)
+
+Here is the data entry screen:
+![Config pages data entry screen](assets/images/config_pages_entry_screen.png)
+
+Here is the code to load the values from the config.
+
+```php
+use Drupal\config_pages\Entity\ConfigPages;
+
+  /**
+   * Load custom settings from the ConfigPages custom_settings entity.
+   */
+  protected function loadCustomSettings(): void {
+    $custom_settings_entity = ConfigPages::config('custom_settings');
+    $this->logBatchVoteTime = $custom_settings_entity->get('field_log_batch_vote_time')->value;
+    $this->logSingleVoteTime = $custom_settings_entity->get('field_log_single_vote_time')->value;
+    $this->displaySingleVoteTime = $custom_settings_entity->get('field_display_single_vote_time')->value;
+    $this->displayBatchVoteTime = $custom_settings_entity->get('field_display_batch_vote_time')->value;
+    if ($this->logBatchVoteTime ||
+      $this->logSingleVoteTime ||
+      $this->displaySingleVoteTime ||
+      $this->displayBatchVoteTime) {
+      $this->shouldComputeElapsedTime = TRUE;
+    }
+  }
+```
+
+{:.note }
+From their [docs page](https://www.drupal.org/docs/contributed-modules/config-pages/usage-of-configpages)
+There are other three ways to load the configuration values:
+
+```php
+// This example uses side-loading for simplicity.
+$config_pages = \Drupal::service('config_pages.loader');
+$entity = $config_pages->load($config_page_machine_name, $optional_context);
+
+// This example uses call to a static method load:
+$entity = ConfigPages::config($config_page_machine_name);
+
+// This example uses storage manager to get a config page via storage manager:
+$storage = \Drupal::entityTypeManager()->getStorage('config_pages');
+$entity = $storage->load($config_page_machine_name);
+```
+Each of these methods, will return a loaded entity with a given active context.
+
+
 ## Drush config commands
 
 Drush will provide you with all the tools you need to fiddle with config from the command line. Check out the [drush docs](https://www.drush.org/latest/commands/all/)
