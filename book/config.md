@@ -3,10 +3,11 @@ title: Config
 ---
 
 # Configuration and Settings
+
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=config.md)
 
 Config is stored in yml files so it can be checked into git. It is
-loaded into the config table of the database for performance. Use  `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more.  You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
+loaded into the config table of the database for performance. Use `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more. You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
 
 Config files should be stored in a non-web accessible directory and
 specified in settings.php e.g.
@@ -54,7 +55,7 @@ $settings['config_sync_directory'] = '../config/sync';
 
 [Drupal::config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
 
-You can override config items in a `settings.php` or `local.settings.php` using the `$config` global variable. 
+You can override config items in a `settings.php` or `local.settings.php` using the `$config` global variable.
 
 ## Views
 
@@ -91,7 +92,7 @@ url: 'https://pbx.pizza.com/'
 langcode: 'en'
 ```
 
-You can copy it to the `config/sync` directory, manually paste the contents into the config Drupal u/i or import it into the db with drush.  The drush way is the easiest in my opinion.
+You can copy it to the `config/sync` directory, manually paste the contents into the config Drupal u/i or import it into the db with drush. The drush way is the easiest in my opinion.
 
 ```
 drush config-import --source=modules/custom/pizza_academy_core/config/install/ --partial -y
@@ -109,13 +110,13 @@ Once you grab the url, you can use it later in your code.
 
 ## Import something you changed in your module
 
-During module development, you might find you want to add some configuration.  This is very useful as part of that workflow.
+During module development, you might find you want to add some configuration. This is very useful as part of that workflow.
 
 ```
 drush @dev2 config-import --source=modules/migrate/test1/config/install/ --partial -y
 ```
 
-Note. the @dev2 is a site alias.  See [Drush alias docs for more info](https://www.drush.org/latest/site-aliases/). These are sooo useful.
+Note. the @dev2 is a site alias. See [Drush alias docs for more info](https://www.drush.org/latest/site-aliases/). These are sooo useful.
 
 ## Config Storage in the database
 
@@ -182,6 +183,7 @@ chance to change the returned value:
 // default from global $config (as well as translations).
 $message = \Drupal::config('system.maintenance')->get('message');
 ```
+
 To override configuration values in global `$config` in settings.php, use
 a line like this (which references the configuration keys:
 
@@ -194,6 +196,7 @@ For nested values, use nested array keys
 ```php
 $config['system.performance']['css']['preprocess'] = 0;
 ```
+
 If you have a configuration change, for example, you have enabled google
 tag manager. When you export the config `drush cex -y` and `git diff` to see what changed in config,
 you'll see (in the last 2 lines) that status is changed from true to false.
@@ -291,6 +294,7 @@ $ drush cget shield.settings credentials
     user: nisor
     pass: blahblah
 ```
+
 Now to get down to the user name and password. And we are adding period back in. Huh?
 
 ```sh
@@ -345,6 +349,7 @@ via `settings.php` (or `settings.local.php` :
 $config['shield.settings']['credentials']['shield']['user'] = "nisor";
 $config['shield.settings']['credentials']['shield']['pass'] = "blahblah";
 ```
+
 Similarly, for setting stage_file_proxy origin:
 
 ```sh
@@ -360,7 +365,7 @@ need the standard `buildForm()`, `submitForm()` and `getFormId()` methods.
 
 e.g. in `docroot/modules/custom/danamod/src/Form/HeaderFooterForm.php`
 
-In the buildform, you load the config object, then  `get` each value from the object, load them into the form (in `#default_value` array items) so the user can see the current value.
+In the buildform, you load the config object, then `get` each value from the object, load them into the form (in `#default_value` array items) so the user can see the current value.
 
 ```php
 // Load the values from config.
@@ -370,7 +375,7 @@ $address1 = $config->get('footer_address1');
 $address2 = $config->get('footer_address2');
 $address3 = $config->get('footer_address3');
 $email = $config->get('footer_email');
-$logo_url = $config->get('logo_url'); 
+$logo_url = $config->get('logo_url');
 
 // And put them into the form render array.
 
@@ -404,9 +409,9 @@ $config->save();
 And a little shorthand
 
 ```php
-$config 
-  ->set('display_stars', $display_stars) 
-  ->set('display_summary_summative', $display_summary_summative) 
+$config
+  ->set('display_stars', $display_stars)
+  ->set('display_summary_summative', $display_summary_summative)
   ->save();
 
 \Drupal::messenger()->addMessage('Values have been saved.');
@@ -414,13 +419,13 @@ $config
 
 ## Using the Config Pages module
 
-[Config Pages](https://www.drupal.org/project/config_pages) is a really useful module which allows you to quickly create some `config` along with forms to control them.  
+[Config Pages](https://www.drupal.org/project/config_pages) is a really useful module which allows you to quickly create some `config` along with forms to control them.
 
 Here is a screenshot of 4 `bool` fields defined in the Config Pages user interface.
-![Fields defined for a config in Config Pages](assets/images/config_pages_fields.png)
+![Fields defined for a config in Config Pages](/images/config_pages_fields.png)
 
 Here is the data entry screen:
-![Config pages data entry screen](assets/images/config_pages_entry_screen.png)
+![Config pages data entry screen](/images/config_pages_entry_screen.png)
 
 Here is the code to load the values from the config.
 
@@ -461,8 +466,8 @@ $entity = ConfigPages::config($config_page_machine_name);
 $storage = \Drupal::entityTypeManager()->getStorage('config_pages');
 $entity = $storage->load($config_page_machine_name);
 ```
-Each of these methods, will return a loaded entity with a given active context.
 
+Each of these methods, will return a loaded entity with a given active context.
 
 ## Drush config commands
 
@@ -478,7 +483,7 @@ From the [drush docs](https://www.drush.org/latest/commands/config_get/)
 
 - `drush config:get system.site` - displays the system.site config.
 
-- `drush config:get system.site page.front` -  displays what Drupal is using for the front page of the site: e.g. 
+- `drush config:get system.site page.front` - displays what Drupal is using for the front page of the site: e.g.
 
 ```sh
 $ drush config:get system.site page.front
@@ -487,7 +492,7 @@ $ drush config:get system.site page.front
 
 ### Viewing overridden config values
 
-When you view the value in config, drush `cleverly` will **ignore values** overidden in settings.php. 
+When you view the value in config, drush `cleverly` will **ignore values** overidden in settings.php.
 
 - drush cget narcs_infoconnect.imagepath basepath
 
@@ -517,7 +522,6 @@ cdel is short for config:delete.
 
 - `drush \@dev2 cdel migrate_plus.migration_group.default`
 
-
 ### Check what has changed with config:status
 
 `cst` is short for `config:status`
@@ -537,7 +541,7 @@ cdel is short for config:delete.
   ...
 ```
 
-`Only in DB` means the config has not yet been exported.  Best practice is to check the config info git for loading onto the production site.
+`Only in DB` means the config has not yet been exported. Best practice is to check the config info git for loading onto the production site.
 Usually you would use `drush cex` at this point to export the config and add it to git.
 
 After exporting drush will report that everything has been exported and that there are no differences between the database and the sync folder.
@@ -549,7 +553,7 @@ drush cst
 
 ### Export entire config
 
-`cex` is short for `config:export` This will dump the entire config,  a bunch of yml files into the config sync folder which is specified in `settings.php` (or `settings.local.php`) as
+`cex` is short for `config:export` This will dump the entire config, a bunch of yml files into the config sync folder which is specified in `settings.php` (or `settings.local.php`) as
 
 ```php
 $settings['config_sync_directory'] = '../config/sync';
@@ -569,7 +573,7 @@ If you change the site name (for example) by mistake and want to restore it , yo
 
 First check what changed with `drush cst` then use `drush cim -y` to restore the config to it's previous glory. `cim` is short for `config:import`.
 
-Drupal cleverly notices which config items have changed and loads only those changes into the database. 
+Drupal cleverly notices which config items have changed and loads only those changes into the database.
 
 ```sh
 $ drush cst
@@ -599,13 +603,13 @@ $ drush cim -y
 ## Troubleshooting
 
 ### Config export
-Sometimes when you try to export config, it seems to randomly decide to delete a lot of config items although `drush config cst` shows just a few items have changed.  In this circumstance, `drush config cim -y` will try to import those few items.
+
+Sometimes when you try to export config, it seems to randomly decide to delete a lot of config items although `drush config cst` shows just a few items have changed. In this circumstance, `drush config cim -y` will try to import those few items.
 
 I've found that the problem is related to this setting in the `settings.local.php` (or `settings.php`)
 
-
 $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy', 'masquerade'];
 
-For some reason, an edge condition is reached which confuses the configuration engine in Drupal.  Commenting out the above line resolves the issue.
+For some reason, an edge condition is reached which confuses the configuration engine in Drupal. Commenting out the above line resolves the issue.
 
-I hope this one saves you countless hours of frustration.  I know it has caused me plenty of frustration!
+I hope this one saves you countless hours of frustration. I know it has caused me plenty of frustration!

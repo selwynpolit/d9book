@@ -3,6 +3,7 @@ title: General
 ---
 
 # General
+
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=general.md)
 
 ## Get the current user
@@ -29,6 +30,7 @@ $user = User::load(\Drupal::currentUser()->id());
 ```php
 $username = \Drupal::currentUser()->getAccountName();
 ```
+
 or
 
 ```php
@@ -61,7 +63,7 @@ $email = $user->get('mail')->value;
 
 ```php
 $current_path  = \Drupal::service('path.current')->getPath();
-// Get the alias (i.e. if the user entered node/123, this will return e.g. /bicycles/super-cool-one) 
+// Get the alias (i.e. if the user entered node/123, this will return e.g. /bicycles/super-cool-one)
 $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
 
 // Get path with query string e.g. /abc/def/123?a=fred.
@@ -70,8 +72,8 @@ $current_path_and_alias = \Drupal::request()->getRequestUri();
 // Get path e.g. /abc/def/123
 $current_path = Url::fromRoute('<current>')->toString();
 ```
-[Lots more on the Drupal Stackexchange](https://drupal.stackexchange.com/questions/106103/how-do-i-get-the-current-path-alias-or-path)
 
+[Lots more on the Drupal Stackexchange](https://drupal.stackexchange.com/questions/106103/how-do-i-get-the-current-path-alias-or-path)
 
 ## Check if you are on the Front page
 
@@ -93,11 +95,10 @@ Sometimes we need a relative path and sometimes we need an absolute path. There 
 
 Parameters:
 
--   absolute true will return absolute path.
--   absolute false will return relative path.
+- absolute true will return absolute path.
+- absolute false will return relative path.
 
 Returns the node alias. Note. If a nice url is not set using pathauto, you get `/node/1234`
-
 
 ```php
 use Drupal\Core\Url;
@@ -201,7 +202,7 @@ public function getCacheTags() {
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     //if there is node add its cachetag
     return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
-  } 
+  }
   else {
     //Return default tags instead.
     return parent::getCacheTags();
@@ -223,7 +224,7 @@ $moduleHandler = \Drupal::service('module_handler');
 $module_name = “views”;
 if ($moduleHandler->moduleExists($module_name)) {
   echo "$module_name installed";
-} 
+}
 else {
   echo "$module_name not installed";
 }
@@ -424,7 +425,7 @@ Global $language = Drupal::languageManager()->getLanguage(Language:TYPE_INTERFAC
 
 This is part of the packt publishing Mastering Drupal 8 module development video series: https://www.packtpub.com/product/mastering-drupal-8-development-video/9781787124493
 
-Note. To test this in modules/custom/pseudo_client/get/ 
+Note. To test this in modules/custom/pseudo_client/get/
 
 > php -S localhost:8888
 >
@@ -473,7 +474,7 @@ themes/custom/dprime/templates/partials/footer.html.twig
 </div>
 ```
 
-## Add a variable to be rendered in a node. 
+## Add a variable to be rendered in a node.
 
 From dev1 custom theme burger_burgler.
 
@@ -483,7 +484,7 @@ Here two vars `stock_field` and `my_custom_field` are added and will be rendered
 function burger_burgler_preprocess_node(&$variables) {
 
   $variables['content']['stock_field'] = [
-    '#type'=>'markup', 
+    '#type'=>'markup',
     '#markup'=>'stock field here',
   ];
 
@@ -510,10 +511,13 @@ $variables['abc'] = 'hello';
 ```
 
 which can be referenced in the template as
+
 ```twig
 {{ abc }}
 ```
+
 or
+
 ```twig
 {{ kint(abc) }}
 ```
@@ -599,7 +603,7 @@ how_to_order }}`
 
 From `web/themes/custom/dirt_bootstrap/dirt_bootstrap.theme`
 
-In  `function dirt_bootstrap_preprocess_node(&$variables)`
+In `function dirt_bootstrap_preprocess_node(&$variables)`
 
 ```php
 if ($type === 'contract') {
@@ -782,9 +786,9 @@ if ($contract_id) {
 }
 ```
 
-## Decoding URL encoded strings 
+## Decoding URL encoded strings
 
-Encoded strings have all non-alphanumeric characters except -_. replaced with a percent (%) sign followed by two hex digits and spaces encoded as plus (+) signs. This is the same way that the posted data from a WWW form is encoded, and also the same way as in `application/x-www-form-urlencoded` media type. 
+Encoded strings have all non-alphanumeric characters except -\_. replaced with a percent (%) sign followed by two hex digits and spaces encoded as plus (+) signs. This is the same way that the posted data from a WWW form is encoded, and also the same way as in `application/x-www-form-urlencoded` media type.
 
 When you see strings like `%20` or `%E2` and you need plaintext, use `urldecode()`.
 
@@ -794,6 +798,7 @@ echo urldecode('We%27re%20proud%20to%20introduce%20the%20Amazing') . "\n";
 //$str = "threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you%E2%80%99re-road";
 //echo htmlspecialchars_decode($str) . "\n";
 ```
+
 returns:
 
 ```
@@ -802,9 +807,11 @@ We're proud to introduce the Amazing
 ```
 
 Encoding looks like this:
+
 ```php
 echo urlencode("threatgeek/2016/05/welcome-jungle-tips-staying-secure-when-you're-road") . "\n";
 ```
+
 returns:
 
 ```
@@ -859,22 +866,21 @@ After
 
 [Read more](https://www.drupal.org/node/2774931).
 
-
 ## Block excessive crawling of Drupal Views or search results
 
 [From Acquia.com](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
 
-Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options.  This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
+Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
 
 Therefore, we suggest blocking or re-routing this traffic to reduce resource consumption at the Acquia platform, avoid overages to your Acquia entitlements (for Acquia Search, Views & Visits, etc.), and to generally help your site perform better.
 
 ```
-# EXAMPLE ROBOT BLOCKING CODE for Search pages or views. 
+# EXAMPLE ROBOT BLOCKING CODE for Search pages or views.
 # From: https://support-acquia.force.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results
 #   NOTE: May need editing depending on your use case(s).
 #
 # INSTRUCTIONS:
-# PLACE THIS BLOCK directly after the "RewriteEngine on" line 
+# PLACE THIS BLOCK directly after the "RewriteEngine on" line
 #   on your docroot/.htaccess file.
 #
 # This will block some known robots/crawlers on URLs when query arguments are present.
@@ -896,7 +902,7 @@ RewriteRule ^.* - [F,L]
 Thanks to Mike Anello of [DrupalEasy for this useful solution.](https://www.drupaleasy.com/blogs/ultimike/2023/02/method-utilizing-multiple-authors-single-drupal-node)
 
 **TL;DR**
-Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods.  Mike prefers using a a reference field for this purpose.  He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named multiauthor that implements a single Drupal hook: 
+Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods. Mike prefers using a a reference field for this purpose. He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named multiauthor that implements a single Drupal hook:
 
 ```php
 /**
@@ -913,8 +919,7 @@ This hook alters the Basic page add and edit forms, setting my custom "Additiona
 
 ## Calculating, displaying and logging elapsed time
 
-To record how long something takes in Drupal, use the Timer utility class.  In the example below, this info is also logged to the watchdog log.
-
+To record how long something takes in Drupal, use the Timer utility class. In the example below, this info is also logged to the watchdog log.
 
 In your config or `settings.local.php` (to temporarily override that value) you can enable or disable the timer with:
 
@@ -972,13 +977,11 @@ if ($this->logElapsedTime) {
 
 ## Populate a select list with the options from a list field
 
-When you need to build a form with a drop-down (select) list of the options, you can call this function to build the select options that are defined in a `list (text)` field.  You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field.  You get back a nice array for use in the select list.
+When you need to build a form with a drop-down (select) list of the options, you can call this function to build the select options that are defined in a `list (text)` field. You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field. You get back a nice array for use in the select list.
 
 Example of list (text) field:
 
 ![Field list options](/images/field_list_options2.png)
-
-
 
 ```php
 public static function getSelectOptions(string $entity_type, string $bundle, string $field_name): array {
@@ -991,7 +994,7 @@ public static function getSelectOptions(string $entity_type, string $bundle, str
 }
 ```
 
-Then in our form we pass those parameters to get the `$audience_select_options`: 
+Then in our form we pass those parameters to get the `$audience_select_options`:
 
 ```php
 $audience_select_options = RetrievePublisherData::getSelectOptions('node', 'teks_pub_citation', 'field_tks_audience');
@@ -1014,12 +1017,11 @@ $form['audience'] = [
 
 When you need to get the human readable value from a `list (text)` field you can use this code:
 
- call this function to build the select options that are defined in a `list (text)` field.  You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field.  You get back a nice array for use in the select list.
+call this function to build the select options that are defined in a `list (text)` field. You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field. You get back a nice array for use in the select list.
 
 Example of list (text) field:
 
-
-![Field list options](assets/images/field_list_options2.png)
+![Field list options](/images/field_list_options2.png)
 
 This seems to be the simplest version:
 
@@ -1033,19 +1035,19 @@ This seems to be the simplest version:
 ```
 
 which is called like this:
+
 ```php
 $human_readable_value = VotingUtility::getListFieldHumanReadableValue($program_node, 'field_srp_program_status', 'rereview_requested');
 ```
 
 `$allowed values` show up in an indexed array like this:
 
-![list allowed values](assets/images/list_text_allowed_values.png)
-
+![list allowed values](/images/list_text_allowed_values.png)
 
 Some other variations are:
 
 ```php
-  public static function getListFieldHumanReadableValue(EntityInterface $entity, string $field_name, string 
+  public static function getListFieldHumanReadableValue(EntityInterface $entity, string $field_name, string
 
     // Option 1.
     $field = $entity->$field_name;
@@ -1075,16 +1077,16 @@ Some other variations are:
 
 ## System.schema (module is missing from your site)
 
-
 When running `drush updb`, if the system reports:
 
 ```
 [notice] Module rules has an entry in the system.schema key/value storage, but is missing from your site. <a href="https://www.drupal.org/node/3137656">More information about this error</a>.
 [notice] Module typed_data has an entry in the system.schema key/value storage, but is not installed. <a href="https://www.drupal.org/node/3137656">More information about this error</a>.
 ```
+
 [From https://www.drupal.org/node/3137656](https://www.drupal.org/node/3137656)
 
-In the database, there is a table called `key_value` with a field called `collection` that contains the value `system.schema` for some rows. The field `name` has the names of modules. 
+In the database, there is a table called `key_value` with a field called `collection` that contains the value `system.schema` for some rows. The field `name` has the names of modules.
 
 ![Image of key_value table](/images/system_schema_rules.png)
 
@@ -1094,6 +1096,7 @@ To repair these sorts of errors, you must remove the orphaned entries from the `
 Module my_already_removed_module has a schema in the key_value store, but is missing from your site.
 Module update_test_0 has a schema in the key_value store, but is not installed.
 ```
+
 You would need to run the following commands:
 
 ```
@@ -1113,8 +1116,7 @@ function tea_teks_update_8001() {
 }
 ```
 
-Alternatively, adding the missing modules with `composer install`, enabling them and deploying everything to production.  Then disabling them properly, deploying that to production, then removing the modules with `composer remove` and deploying may also work.  Of course, this method is a lot more work.
-
+Alternatively, adding the missing modules with `composer install`, enabling them and deploying everything to production. Then disabling them properly, deploying that to production, then removing the modules with `composer remove` and deploying may also work. Of course, this method is a lot more work.
 
 ## Enable verbose display of warning and error messages
 
@@ -1130,13 +1132,11 @@ Also see [Enable verbose error logging for better backtracing and debugging - Ap
 
 ## Reinstall modules
 
-During module development or upgrades, it can be really useful to quickly uninstall and reinstall modules.  Luckily the [devel module](https://www.drupal.org/project/devel) provides an easy way. Either navigate to `/devel/reinstall` or use the Druplicon menu option and select `development` and then click on `reinstall modules`  You will need the [admin toolbar module](https://www.drupal.org/project/admin_toolbar) with it's `admin toolbar extra tools` submodule enabled.
+During module development or upgrades, it can be really useful to quickly uninstall and reinstall modules. Luckily the [devel module](https://www.drupal.org/project/devel) provides an easy way. Either navigate to `/devel/reinstall` or use the Druplicon menu option and select `development` and then click on `reinstall modules` You will need the [admin toolbar module](https://www.drupal.org/project/admin_toolbar) with it's `admin toolbar extra tools` submodule enabled.
 
 ![Menu option to reinstall modules](/images/reinstall_modules.png)
-
 
 ## Resources
 
 - [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
 - [Drupal accessibility — a comprehensive Drupal self-help guide to creating accessible websites by John Cloys Sep 2023](https://salsa.digital/insights/drupal-accessibility-comprehensive-drupal-self-help-guide-creating-accessible-websites)
-
