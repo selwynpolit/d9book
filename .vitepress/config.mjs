@@ -16,6 +16,11 @@ export default defineConfig({
     'nodes_n_fields.md': 'nodes-and-fields.md',
     'off_the_island.md': 'off-island.md',
   },
+  vite: {
+    ssr: {
+      noExternal: ['@nolebase/vitepress-plugin-enhanced-readabilities'],
+    },
+  },
   themeConfig: {
     logo: '/images/d9book.svg',
 
