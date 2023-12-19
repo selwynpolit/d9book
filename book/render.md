@@ -424,7 +424,7 @@ $variables['back_home_link'] = $back_home_link
 and in the template you would expect to see something like:
 
 ```twig
-{% raw %}{{ content.back_home_link }}{% endraw %}
+{{ content.back_home_link }}
 ```
 
 
@@ -504,7 +504,7 @@ public function buildDetails(array $content, array $breadcrumbs, array $manageme
 ```
 
 
-Then in team-abc--correctional-voting.html.twig the `next` links are rendered -- see `{{next_link }}`
+Then in team-abc--correctional-voting.html.twig the `next` links are rendered -- see <code v-pre>{{ next_link }}</code>
 
 ```twig
 <div class="cell small-12 medium-6">

@@ -12,7 +12,7 @@ Drupal is a highly secure platform mostly due to the tireless efforts of the [se
 
 ## Sanitizing on output to avoid Cross Site Scripting (XSS) attacks
 
-The Twig theme engine now auto escapes everything by default. That means, every string printed from a Twig template (e.g. anything between `{{ }}`) gets automatically sanitized if no filters are used.
+The Twig theme engine now auto escapes everything by default. That means, every string printed from a Twig template (e.g. anything between <code v-pre>{{ }}</code>) gets automatically sanitized if no filters are used.
 
 [See Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633) for the Twig filters available in Drupal. Notably, watch out for the "raw" filter, which does not escape output. Only use this when you are certain the data is trusted.
 

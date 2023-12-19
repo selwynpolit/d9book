@@ -1652,10 +1652,10 @@ Using the field field_event_date, here is the twig template code to display the 
 {{ node.field_event_date.0.value|date('g:ia') }} - {{ node.field_event_date.0.end_value|date('g:ia') }}
 ```
 
-If you simply used { { content } } all fields are displayed correctly --
+If you simply used <code v-pre>{{ content }}</code> all fields are displayed correctly --
 timezone is correct.
 
-If you use { { content.field_date_start } } - timezone show correctly also
+If you use <code v-pre>{{ content.field_date_start }}</code> - timezone show correctly also
 
 But I want to grab the time only to display separately from the date and put this in the twig template:
 
@@ -1706,7 +1706,9 @@ function txglobal_preprocess_node(&$variables) {
 
 and then in the template, use
 
-`{{ start_time }} - {{ end_time }}`
+```twig
+{{ start_time }} - {{ end_time }}
+```
 
 Interestingly, if you use the [smart_date module](https://www.drupal.org/project/smart_date), you might use this version.
 Notice that dates are already stored as timestamps so you don't have to
@@ -2007,7 +2009,7 @@ Smart date fields are always stored as unix timestamp values e.g.
 $start = $node->field_when->value;
 $formatter = \Drupal::service('date.formatter');
 $start_time = $formatter->format($start, 'custom', 'm/d/Y g:ia'); //12/21/2020 10:00 am
-
+```
 Alternatively, you could load it, create a `DrupalDateTime` and then
 format it
 

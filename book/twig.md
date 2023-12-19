@@ -1497,8 +1497,9 @@ Display:Page.
 -	views-view-fields.html.twig
 ```
 
-{: .important }
+::: tip Important
 When adding a new template to your theme, be sure to flush the theme registry cache!
+:::
 
 From <https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view_field/8.2.x>:
 

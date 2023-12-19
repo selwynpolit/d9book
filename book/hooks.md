@@ -239,7 +239,7 @@ The render array you want to change will be in the content variable which shows 
 
 Usually fields such as field_image will be automatically rendered by the node template (unless you've tweaked it to display in some other template.)
 
-In your node\'s Twig template you would specify `{{ custom_variable }}` to have it display on every node.
+In your node\'s Twig template you would specify <code v-pre>{{ custom_variable }}</code> to have it display on every node.
 
 
 

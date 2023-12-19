@@ -3,9 +3,10 @@ title: Attribution
 ---
 
 # Attribution
+
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=attribution.md)
 
-Thanks to these rockstars for their contribution to the project.  Please add your name below!
+Thanks to these rockstars for their contribution to the project. Please add your name below!
 
 [Danny Lufkin](https://github.com/dlufkin) - provided inspiration and hopefully some front-end code.
 

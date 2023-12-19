@@ -113,17 +113,17 @@ To edit a crontab through the command line, type:
 
 2. Add ONE of the following lines:
 
-    ```
-    45 * * * * wget -O - -q -t 1 https://example.com/cron/<key>
-    ```
-    
-    or
-    
-    ```
-    45 * * * * curl -s https://example.com/cron/<key>
-    ```
-    
-    This would have a `wget` or `curl` visit your cron page 45 minutes after every hour.
+   ```
+   45 * * * * wget -O - -q -t 1 https://example.com/cron/<key>
+   ```
+
+   or
+
+   ```
+   45 * * * * curl -s https://example.com/cron/<key>
+   ```
+
+   This would have a `wget` or `curl` visit your cron page 45 minutes after every hour.
 
 3. Save and exit the file. Check the Drupal status report, which shows the time of the cron execution.
 

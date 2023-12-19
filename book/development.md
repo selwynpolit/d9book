@@ -207,7 +207,7 @@ You can also create a global .profile file to run in all containers at ~/.ddev/h
 
 ### setup aliases in ddev
 
-I love short linux aliases like `ll`` (or just `l`) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add aliases using this technique
+I love short linux aliases like `ll` (or just `l`) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add aliases using this technique
 
 Use ddev ssh to "ssh" into the container and then type ll to list the files in a directory.
 
@@ -872,7 +872,7 @@ function custom_kint_preprocess_page(&$variables) {
 ### Dump variables in a TWIG template
 
 ```twig
-{% raw %}{{ kint(attributes) }}{% endraw %}
+{{ kint(attributes) }}
 ```
 
 ### Kint::dump

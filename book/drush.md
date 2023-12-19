@@ -213,9 +213,9 @@ public function commandWarmVotingCache($scope = 'current', $program_nid = 0, $op
 ```
 This expects a command like: `drush cwarm current 12345`
 
-{: .note }
+::: tip Note
 The $options parameter is not generally for you to use.  Drush uses it for all sorts of parameters internally.  It is interesting to look at the values in the debugger.
-
+:::
 
 ### Output messages on screen
 Here we use `print`:
@@ -737,8 +737,9 @@ cd $(drush dd files)
 
 I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded my Oh-my-Zsh.  Drush runs slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within /vendor/bin) and call it. Always install drush in each project using composer.
 
-{: .warning }
+::: warning
 You should be aware that you might get unpredictable results if you use differing versions of PHP on your local vs in the DDEV containers.  E.g. if your local mac has PHP 7 and your DDEV is using PHP 8.1, you are likely to have unpredictable results when you issue some drush commands.  Generally speaking I haven't seen things be too wacky, but you should be aware of this.
+:::
 
 Don't use homebrew to install drush. Rather use the composer version:
 
@@ -751,8 +752,9 @@ Then add Drush to your system path by placing the following in your ~/.zshrc ( o
  export PATH="$HOME/.composer/vendor/bin:$PATH" 
 ``` 
 
-{: .note }
+::: tip Note
 Test any of these path changes by running `source ~/.zshrc` to reload the environment variables.  You can also open a new iterm window if you prefer.
+:::
 
 By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands e.g. 
 
@@ -1352,9 +1354,9 @@ via Composer (`$ composer require drush/drush`). This makes Drush available to y
 However, it is inconvenient to type `vendor/bin/drush` to execute Drush commands. By installing the drush launcher globally on your local
 machine, you can simply type drush on the command line, and the launcher will find and execute the project specific version of drush located in your project\'s vendor directory.
 
-{: .note }
+::: tip Note
 This may not be required any more.
-
+:::
 
 
 ## Drupal 7 Drush scripts

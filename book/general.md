@@ -598,8 +598,8 @@ $node->field_sf_contract_ref->entity->field_how_to_order->value;
 
 Where `field_sf_contract_ref` is the reference field, which points to an
 entity which has a field called `field_how_to_order`. Then we can jam it
-into the `$variables` array and refer to it in the twig template as `{{
-how_to_order }}`
+into the `$variables` array and refer to it in the twig template as <code v-pre>{{
+how_to_order }}</code>
 
 From `web/themes/custom/dirt_bootstrap/dirt_bootstrap.theme`
 
@@ -644,9 +644,9 @@ and render it in the twig template `node--article--full.html.twig`
 
 ```twig
 <ol>
-  {% raw %}{% for burger in burgers %}
+  {% for burger in burgers %}
     <li> {{ burger['name'] }} </li>
-  {% endfor %}{% endraw %}
+  {% endfor %}
 </ol>
 ```
 
@@ -682,11 +682,11 @@ function dprime_preprocess_field(&$variables) {
 In the twig template for that paragraph, you can use the value `paragraph.index` as in:
 
 ```twig
-{% raw %}{% if paragraph.index == 0 %}
+{% if paragraph.index == 0 %}
   <li class="accordion-item is-active" data-accordion-item="">
 {% else %}
   <li class="accordion-item" data-accordion-item="">
-{% endif %}{% endraw %}
+{% endif %}
 ```
 
 ## Add meta tags using template_preprocess_html

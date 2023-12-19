@@ -369,7 +369,7 @@ There are 3 ways to use asset libraries:
 
 1.	Info file
 2.	Preprocess function
-3.	`{ { attach_library('classy/node') } }`
+3.	<code v-pre>{{ attach_library('classy/node') }}</code>
 
 Here is an example of an asset library in use:
 

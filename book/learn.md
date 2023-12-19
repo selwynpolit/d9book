@@ -123,7 +123,7 @@ There are many books about Drupal that are worth checking out.
 - [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
 - [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://amzn.to/3MzPrly)
 
-::: tip note
+::: tip Note
 Some of these are affiliate links so Amazon may send me some money if you purchase items using these links.
 :::
 

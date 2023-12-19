@@ -49,8 +49,9 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
 - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail. 
 - You may have to remove Drush and reinstall after you finish upgrade
 
-{: .note }
+::: tip Note
 Using the --no-update flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
+:::
 
 - Update core
   - Update drupal/core-dev

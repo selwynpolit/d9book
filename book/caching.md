@@ -505,8 +505,9 @@ services:
 
 Your data will be stored in a table called `cache_voting`.
 
-{: .note }
+::: tip Note
 To clear this data from cache, use `drush cr` or use the Drupal u/i (Configuration, Development, Performance and click clear all caches button). This will permanently erase each line of cached data from the various `cache_*` tables.
+:::
 
 From the [cache api](https://api.drupal.org/api/drupal/core!core.api.php/group/cache):
 

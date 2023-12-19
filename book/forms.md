@@ -616,9 +616,7 @@ And in the template, you can see `content.previous_clip` referencing this conten
 
 ```twig
 <div class="cell medium-6 medium-order-2 text-center">
-  {% raw %}
   {{ content.select }}
-  {% endraw %}
 </div>
 <div class="cell small-6 medium-order-1 medium-3">
   <a href="{{ content.previous_url }}" class="linkPager linkPager--prev">
@@ -627,9 +625,7 @@ And in the template, you can see `content.previous_clip` referencing this conten
   </span>
     <span class="linkPager-text">
     <span class="linkPager-title">Prev</span>
-    {% raw %}
     {{ content.previous_clip }}
-    {% endraw %}
   </span>
   </a>
 </div>

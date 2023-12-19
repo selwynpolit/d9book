@@ -151,7 +151,6 @@ Now in the twig node template we can output the `scrunch_date` we created.
 From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
 
 ```twig
-{% raw %}
 {%  if content.field_date %}
   {% if scrunch_date %}
     <div>
@@ -163,7 +162,6 @@ From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
     </div>
   {% endif %}
 {% endif %}
-{% endraw %}
 ```
 
 ## Saving date fields

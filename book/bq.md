@@ -171,8 +171,9 @@ The Form API will take care of getting the batches executed. If you aren't using
 return batch_process('node/1'); 
 ```
 
-{: .note }
+::: tip Note
 You can set up a `$batch` array with a title and a progress message with some variables that will get displayed.
+:::
 
 Specify a `finished` index, which identifies a function to call after the batch is finished processing, as in the example below.
 
@@ -243,8 +244,9 @@ return batch_process('node/1');
 
 After the batch is complete, Drupal will redirect you to that url. E.g. `/node/1`
 
-{: .more_link }
+::: tip More link
 [Drupal API \| Batch operations](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10.0.x)
+:::
 
 In this example of a processing function, you can see error handling, logging, and tracking while retrieving files from a remote source. This is fairly common when moving data between systems. The rest of the code is almost identical to the previous example.
 
@@ -459,9 +461,9 @@ In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/inclu
  * batch_process('node/1');
 ```
 
- {: .note }
+::: tip Note
 To execute the batch, the example shows a call to  `batch_process('node/1')`.  This could be any valid url alias e.g., `/admin/content`.
-
+:::
 
 So here are the arguments for my_function_1:
 
