@@ -20,29 +20,29 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  cleanup:
-    name: 🧹 Clean up GitHub repository
-    runs-on: ubuntu-latest
-    permissions: write-all
+  # cleanup:
+  #   name: 🧹 Clean up GitHub repository
+  #   runs-on: ubuntu-latest
+  #   permissions: write-all
 
-    steps:
-      - name: 🗑 Delete deployment
-        uses: strumwolf/delete-deployment-environment@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          environment: github-pages
-          onlyRemoveDeployments: true
+  #   steps:
+  #     - name: 🗑 Delete deployment
+  #       uses: strumwolf/delete-deployment-environment@v2
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         environment: github-pages
+  #         onlyRemoveDeployments: true
 
-      - name: 🗑 Delete workflow runs
-        uses: dmvict/clean-workflow-runs@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          save_period: 30
-          save_min_runs_number: 0
+  #     - name: 🗑 Delete workflow runs
+  #       uses: dmvict/clean-workflow-runs@v1
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         save_period: 30
+  #         save_min_runs_number: 0
 
   build:
     name: 🏗️ Build (node - ${{ matrix.node }})
-    needs: cleanup
+    # needs: cleanup
     runs-on: ubuntu-latest
 
     strategy:
