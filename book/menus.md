@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Menus
-permalink: /menus
-last_modified_date: '2023-04-13'
 ---
 
 # Menus
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=menus.md)
-
----
 
 ## Dynamically change menu items with hook_preprocess_menu
 
@@ -350,7 +337,7 @@ node\--news-stories-landing-page.html.twig:
 
 And the form looks like this:
 
-![Dropdown menu image](assets/images/dropdown_menus.png)
+![Dropdown menu image](/images/dropdown_menus.png)
 
 ## Build a menu and all its children
 
@@ -412,7 +399,7 @@ generateSubMenuTree($menu_tree2, $sub_nav);
 Note. The module [twig_tweak module](https://www.drupal.org/project/twig_tweak) can do all this with one line of code:
 
 ```twig
-{% raw %}{{ drupal_menu('main', 2, 3, TRUE) }}{% endraw %}
+{{ drupal_menu('main', 2, 3, TRUE) }}
 ```
 
 More at: <https://www.drupal.org/docs/8/modules/twig-tweak/cheat-sheet>
@@ -493,7 +480,7 @@ services:
 To render your menu in the template via this twig function call:
 
 ```twig
-{% raw %}{{ renderMenu('main') }}{% endraw %}
+{{ renderMenu('main') }}
 ```
 
 ## Active Trail
@@ -526,11 +513,11 @@ $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
 $active_trail = array_keys($parameters->activeTrail);
 ```
 
-![Menu debug display](assets/images/menu_debug_dump.png)
+![Menu debug display](/images/menu_debug_dump.png)
 
 Extracting out the active trail gives this useful information:
 
-![Active trail debug display](assets/images/active_trail_debug.png)
+![Active trail debug display](/images/active_trail_debug.png)
 
 ## Get a node's menu item and more
 
@@ -613,21 +600,3 @@ the `delete()` method.
     <https://www.drupal.org/docs/8/modules/twig-tweak/cheat-sheet>
 
 - [#! code: Drupal 9: Creating A Category Menu Using Derivers, August 2022](https://www.hashbangcode.com/article/drupal-9-creating-category-menu-using-derivers)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

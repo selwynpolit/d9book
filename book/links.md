@@ -1,23 +1,9 @@
 ---
-layout: default
 title: Links
-permalink: /links
-last_modified_date: '2023-09-08'
 ---
 
 # Links, Aliases and URLs
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=links.md)
-
----
-
 
 ## Create an external url
 
@@ -530,7 +516,7 @@ $term_name = $path_args[3];
 ```
 For <https://txg.ddev.site/newsroom/search/?country=1206>
 
-![Image path arguments](assets/images/media/image-path-args.png)
+![Image path arguments](/images/image-path-args.png)
 
 ## Retrieve query and GET or POST parameters (\$\_POST and \$\_GET)
 
@@ -658,10 +644,8 @@ function dirt_pathauto_alias_alter(&$alias, array &$context) {
 
 Also see an example at <https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field>
 
-## Drupal l() is deprecated
+## Drupal l() is deprecated <Badge type="danger" text="Deprecated" />
 
-Deprecated
-{: .label .label-red }
 The l() method (lower case letter L) was a convenience wrapper for the link generator service's generate() method.
 So do this instead:
 
@@ -682,21 +666,3 @@ print render($project_link);
 - [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
 - [Good reference from 2017 for creating links in Drupal](https://agaric.coop/blog/creating-links-code-drupal-8) 
 - [How do I create a link from Stack Exchange - Jan 2017](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

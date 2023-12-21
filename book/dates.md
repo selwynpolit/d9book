@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Dates and Times
-permalink: /dates
-last_modified_date: '2023-04-13'
 ---
 
 # Dates and Times
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=dates.md)
-
----
 
 ## Overview
 
@@ -42,7 +29,7 @@ Using `$node->field_mydatefield->date` is ideal as it returns a `DrupalDateTime`
 
 If you need to do calculations involving Unix timestamps, then using `$node->field_mydatefield->getTimestamp()` is useful although `DrupalDateTime` is probably better. More about DrupalDateTime at <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x>. Also at <https://drupal.stackexchange.com/questions/252333/how-to-get-formatted-date-string-from-a-datetimeitem-object>
 
-See [Nodes and Fields chapter Date fields section ](book/nodes_n_fields.html#date-fields) for more on date fields
+See [Nodes and Fields chapter Date fields section](/nodes-and-fields#date-fields) for more on date fields
 
 
 ## Retrieve a date field
@@ -164,7 +151,6 @@ Now in the twig node template we can output the `scrunch_date` we created.
 From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
 
 ```twig
-{% raw %}
 {%  if content.field_date %}
   {% if scrunch_date %}
     <div>
@@ -176,7 +162,6 @@ From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
     </div>
   {% endif %}
 {% endif %}
-{% endraw %}
 ```
 
 ## Saving date fields
@@ -856,21 +841,3 @@ From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time
 * Patrick's article:  Date (range) fields and Entity Query from February 2018  <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>
 
 * Drupal APIS <https://www.drupal.org/docs/drupal-apis>
-  
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

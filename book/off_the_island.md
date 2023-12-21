@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Getting off the Island
-permalink: /off-island
-last_modified_date: '2023-04-14'
 ---
 
 # Getting off the Island (formerly Reaching out of Drupal)
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=off_the_island.md)
-
----
 
 ## Overview
 
@@ -515,21 +502,3 @@ curl_close($ch);
 -   Nice little code snippet from J M Olivas showing how to use dependency injection with Guzzle at <https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4>
 
 -   PSR-7: HTTP message interfaces describes common interfaces for representing HTTP messages and URIs <https://www.php-fig.org/psr/psr-7/>
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

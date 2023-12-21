@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Development
-permalink: /development
-last_modified_date: '2023-11-28'
 ---
 
 # Development
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=development.md)
-
----
 
 ## Overview
 This section of the book is about your local development environment and the tools that I find most efficient and effective. 
@@ -67,9 +54,6 @@ ddev config --docroot=web --project-name=$SITE_NAME --project-type=drupal9
 ddev start
 ddev exec drush site-install --account-name=admin --account-pass=admin
 ```
-
-
-
 
 ## Checking Your Permissions
 
@@ -217,13 +201,13 @@ spolit@tea-web:/var/www/html$ file ~/.profile
 /home/spolit/.profile: ASCII text
 ```
 
-{: .note }
+::: tip
 You can also create a global .profile file to run in all containers at ~/.ddev/homeadditions.  This doesn't apply to loading fish in all containers as there is not currently a facility to handle global `webimage_extra_packages`.
-
+:::
 
 ### setup aliases in ddev
 
-I love short linux aliases like `ll`` (or just `l`) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add aliases using this technique
+I love short linux aliases like `ll` (or just `l`) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add aliases using this technique
 
 Use ddev ssh to "ssh" into the container and then type ll to list the files in a directory.
 
@@ -545,17 +529,17 @@ PHPStorm has a series of instructions for [configuring PHPStorm with Xdebug](htt
 
 Some settings I use
 
-![Graphical user interface, text, application, email Description automatically generated](assets/images/image1-phpstorm.png)
+![Graphical user interface, text, application, email Description automatically generated](/images/image1-phpstorm.png)
 
 And for this project
 
-![Graphical user interface, text, application, email Description automatically generated](assets/images/image2-phpstorm.png)
+![Graphical user interface, text, application, email Description automatically generated](/images/image2-phpstorm.png)
 
 If phpstorm doesn't stop when you set a breakpoint on some code, try deleting the server from the config debug, php, servers.
 
 Make sure PHPStorm is listening by clicking the listen button
 
-![Graphical user interface, text, application, Word Description automatically generated](assets/images/image3-phpstorm.png)
+![Graphical user interface, text, application, Word Description automatically generated](/images/image3-phpstorm.png)
 
 When you try again it will be recreated but you will probably need to specify the path (from the image above).
 
@@ -595,12 +579,11 @@ Use the following settings:
 Under the ... button set the PHP_CodeSniffer path to : /Users/spolit/.composer/vendor/bin/phpcs
 If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
 
-{: .note }
+::: tip Note
 (replace `/Users/spolit` with your own path to your username) 
+:::
 
 More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
-
-
 
 ## Troubleshooting Xdebug with DDEV
 
@@ -762,7 +745,7 @@ encounter an unexpected error on page reload.
 
 I usually develop with this in sites/default/development.services.yml
 
-```twig
+```yml
 # Local development services.
 #
 # To activate this feature, follow the instructions at the top of the
@@ -829,7 +812,7 @@ $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml'
 In `sites/default/development.services.yml` set `twig.config debug:true`.
 See `core.services.yml` for lots of other items to change for development
 
-```twig
+```yml
 # Local development services.
 #
 parameters:
@@ -889,7 +872,7 @@ function custom_kint_preprocess_page(&$variables) {
 ### Dump variables in a TWIG template
 
 ```twig
-{% raw %}{{ kint(attributes) }}{% endraw %}
+{{ kint(attributes) }}
 ```
 
 ### Kint::dump
@@ -969,21 +952,3 @@ Also see [Enable verbose error logging for better backtracing and debugging - Ap
 - [Why DDEV by Randy Fay (Author of DDEV) - Dec 2022](https://opensource.com/article/22/12/ddev)
 - [How to setup Devel and Kint on Drupal 9 by Alex - Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
 - [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Forms
-permalink: /forms
-last_modified_date: '2023-06-21'
 ---
 
 # Forms, Form API and AJAX
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=forms.md)
-
----
 
 ## Overview
 
@@ -113,12 +100,9 @@ and here is the beginning of the `submit` function that goes along with the `upd
       'operations' => $operations,
     ];
     batch_set($batch);    
-    
 ```
 
->Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](/d9book/book/bq.html)
-
-
+>Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](bq)
 
 ## Modify a button on a form with hook_form_alter
 
@@ -454,7 +438,7 @@ public function validateForm(array &$form, FormStateInterface $form_state) {
 
 You can also add a custom validation in a .module file. Here we use setTime()to remove the time part of a datetime so we can make comparisons of just the date.
 
-From a .module file.
+From a `.module` file.
 
 ```php
 /**
@@ -538,9 +522,6 @@ function cn_form_validate($form, FormStateInterface $form_state) {
 }
 ```
 
-
-
-
 ## Displaying Forms
 
 ### Embedding a form:
@@ -594,10 +575,10 @@ public function build() {
 In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
 
 (Here is an image of this source code. Strangely, Jekyll/Github requires me to jump through some hoops for TWIG source. I'm still experimenting.)
-![block template](assets/images/block_template.png)
+![block template](/images/block_template.png)
 
 Here is the source:
-{% raw %}
+
 ```twig
 <div
   {{ attributes }}>
@@ -611,19 +592,12 @@ Here is the source:
   {% endblock %}
 </div>
 ```
-{% endraw %}
-
 
 The template outputs the guts of the block as 
 
-
-{% raw %}
 ```twig
 {{ block content }}
 ```
-{% endraw %}
-
-
 
 For my custom theme called dprime, I added a new template file at
 `themes/custom/dprime/templates/block/block--videopaginationblock.html.twig` and added lots of fun stuff to output the form in bits and pieces.
@@ -642,9 +616,7 @@ And in the template, you can see `content.previous_clip` referencing this conten
 
 ```twig
 <div class="cell medium-6 medium-order-2 text-center">
-  {% raw %}
   {{ content.select }}
-  {% endraw %}
 </div>
 <div class="cell small-6 medium-order-1 medium-3">
   <a href="{{ content.previous_url }}" class="linkPager linkPager--prev">
@@ -653,9 +625,7 @@ And in the template, you can see `content.previous_clip` referencing this conten
   </span>
     <span class="linkPager-text">
     <span class="linkPager-title">Prev</span>
-    {% raw %}
     {{ content.previous_clip }}
-    {% endraw %}
   </span>
   </a>
 </div>
@@ -2240,21 +2210,3 @@ $delete_extras = $form_state->getValue('delete_extras');
 - [Form API Internal Workflow updated Dec 2022](https://www.drupal.org/docs/drupal-apis/form-api/form-api-internal-workflow)
 - [#! code: Drupal 9: Creating A GET Form, July 2021](https://www.hashbangcode.com/article/drupal-9-creating-get-form)
 - [Conditional fields module](https://www.drupal.org/project/conditional_fields)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

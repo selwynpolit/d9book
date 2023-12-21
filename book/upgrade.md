@@ -1,23 +1,9 @@
 ---
-layout: default
-title: Upgrades
-permalink: /upgrade
-last_modified_date: '2023-10-05'
+title: Updates
 ---
 
 # Upgrading and patching Drupal and contrib modules
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=upgrade.md)
-
----
 
 ## Updating Drupal Core
 
@@ -63,8 +49,9 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
 - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail. 
 - You may have to remove Drush and reinstall after you finish upgrade
 
-{: .note }
+::: tip Note
 Using the --no-update flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
+:::
 
 - Update core
   - Update drupal/core-dev
@@ -599,9 +586,6 @@ composer require drupal/csv_serialization:^2.0 || ^3.0
 
 They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in EncoderInterface::encode() between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
 
-
-
-
 ## Reference
 - [Drupalize.me: Upgrade to Drupal 10 - March 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
 - [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)
@@ -613,22 +597,3 @@ They say: \"It is not possible to support both Drupal 9.x and 10.x in a single r
 - [Palantir's drupal-rector repo](https://github.com/palantirnet/drupal-rector)
 - [Palantir.net: Adding Drupal Rector to a site](https://www.palantir.net/rector/adding-drupal-rector-site)
 - [Drupal rector module](https://www.drupal.org/project/rector)
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

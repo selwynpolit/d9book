@@ -1,30 +1,17 @@
 ---
-layout: default
 title: Modules
-permalink: /modules
-last_modified_date: '2023-10-26'
 ---
 
 # Modules for Drupal
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=modules.md)
-
----
 
 ## Overview
 
 With over 50,000 modules, Drupal has the ability to do almost anything. This also means it can be a little tough to find what you need. Here is a list of modules that are important, useful and interesting.
 
-{: .note }
+::: tip
 If you want to check the usage for a module that isn't as popular as say [token](https://www.drupal.org/project/token) which clearly displays `636,845 sites report using this module` Check the url [https://www.drupal.org/project/usage/token](https://www.drupal.org/project/usage/token) Just replace `token` with the machine name for that module.
-
+:::
 
 ## Access/Permissions
 
@@ -41,8 +28,6 @@ In each case, the rule only applies to logged-in users with general permission t
 
 [https://www.drupal.org/project/access_by_ref](https://www.drupal.org/project/access_by_ref)
 
-
----
 ## AI (Artifical Intelligence)
 
 ### OpenAI / ChatGPT / AI Search Integration
@@ -61,13 +46,10 @@ The AWS AI Augmentor is a submodule of Augmentor. It provides an implementation 
 
 [https://www.drupal.org/project/augmentor_aws](https://www.drupal.org/project/augmentor_aws)
 
-
 ### Augmentor integration
 Augmentor is an AI framework for Drupal which allows for the easy integration of disparate AI systems into Drupal. It provides a plugable ecosystem for managing a variety of AI services such as GPT3, ChatGPT, NLP Cloud, Google Cloud Vision and many more. Augmentor integration module allows content augmentation e.g summarize content, generate content tags etc.
 
 [https://www.drupal.org/project/augmentor](https://www.drupal.org/project/augmentor)
-
----
 
 ## Breadcrumbs
 
@@ -95,8 +77,6 @@ This module allows you to use the menu the current page belongs to for the bread
 
 [https://www.drupal.org/project/menu_breadcrumb](https://www.drupal.org/project/menu_breadcrumb)
 
-
----
 ## Cache Control/Performance
 
 ### Acquia Purge
@@ -113,7 +93,6 @@ This module has no configuration settings of its own, just enable it and it will
 
 [https://www.drupal.org/project/pantheon_advanced_page_cache](https://www.drupal.org/project/pantheon_advanced_page_cache)
 
-
 ### Warmer
 
 Provides all the necessary infrastructure to orchestrate your cache warming processes. You can warm the cache of your critical entities (and more!) right after you deploy to production. Additionally cron will keep them warm for you.
@@ -122,9 +101,6 @@ includes CDN warmer
 
 [https://www.drupal.org/project/warmer](https://www.drupal.org/project/warmer)
 
-
-
----
 ## Calendars
 
 ### Add To Calendar Button
@@ -141,11 +117,6 @@ External CSS and JS files are provided by [Addtocalendar.com](https://addtocalen
 
 [https://www.drupal.org/project/addtocalendar](https://www.drupal.org/project/addtocalendar)
 
-
-
-
-
----
 ## Content Entry/Editing
 
 ### Automatic Entity Label
@@ -159,7 +130,6 @@ Advanced users can use PHP code for automatically generating labels. This requir
 
 [https://www.drupal.org/project/auto_entitylabel](https://www.drupal.org/project/auto_entitylabel)
 
-
 ### Conditional Fields
 Define dependencies between fields based on their states and values. It provides a user interface to the States API, plus the ability to modify fields appearance and behavior based on various conditions when viewing content.
 
@@ -169,19 +139,14 @@ Define dependencies between fields based on their states and values. It provides
 
 [https://www.drupal.org/project/conditional_fields](https://www.drupal.org/project/conditional_fields)
 
-
 ### Existing Values Autocomplete Widget
 Provides an autocomplete widget for text fields that suggests all existing (previously entered) values for that field. This provides more flexibility than "allowed values" for the content editor to add new values. At that same time, it is simpler in many cases than creating a taxonomy vocabulary (no hierarchies, no separate system, no permissions headaches, no rendered pages per term).
 [https://www.drupal.org/project/existing_values_autocomplete_widget](https://www.drupal.org/project/existing_values_autocomplete_widget)
-
 
 ### Link Field Autocomplete Filter
 Currently the autocomplete in the Link Field widget always shows content suggestions from all content (node) types. This module adds a Link Field configuration for filtering the suggested content types in the autocomplete field.
 
 [https://www.drupal.org/project/link_field_autocomplete_filter](https://www.drupal.org/project/link_field_autocomplete_filter)
-
-
--- 
 
 ## Cleanup
 
@@ -191,14 +156,7 @@ The Node Revision Delete module lets you track and prune old revisions of conten
 
 You can configure how many revisions you want to keep per content type and configure how long revision should be kept. When saving the configuration you can optionally start a batch job to queue all content to delete revisions that are allowed to be deleted. Includes drush command(s).
 
-
 [https://www.drupal.org/project/node_revision_delete](https://www.drupal.org/project/node_revision_delete)
-
-
-
-
----
-
 
 ## Content Management
 
@@ -207,8 +165,6 @@ You can configure how many revisions you want to keep per content type and confi
 The Allow Only One module was created to prevent duplicate content save, based on a combination of field values. This module provides a new field type that stores configuration and is later used during validation. Important: This only works and has been tested on Node and Taxonomy_Term
 
 [https://www.drupal.org/project/allow_only_one](https://www.drupal.org/project/allow_only_one)
-
-
 
 ### Content Autogrid
 
@@ -229,13 +185,10 @@ This module add a new entity operation which allows to clone many of the entitie
 
 See also: [Replicate (API only)](https://www.drupal.org/project/replicate)
 
-
-
 ### Entity Bulk Clone
 Entity Bulk Clone provides the clone features for nodes using views bulk operations.
 
 [https://www.drupal.org/project/entity_bulk_clone](https://www.drupal.org/project/entity_bulk_clone)
-
 
 ### File Download (includes download counter)
 Provides a formatter to use that allows users to download file and image entities directly.  Also includes a separate module to count downloads and display results in a View. Modelled off the statistics module which counts content views, this counts downloads using the File Download formatter.
@@ -247,8 +200,6 @@ Provides a formatter to use that allows users to download file and image entitie
 Adds a "Clone" tab to a node. When clicked, a new node is created and fields from the previous node are populated into the new fields.
 [https://www.drupal.org/project/quick_node_clone](https://www.drupal.org/project/quick_node_clone)
 
-
----
 ## Data Import
 
 ### Feeds
@@ -273,7 +224,6 @@ Examples:
 
 [https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
 
----
 ## Email
 
 ### SMTP Authentication Support
@@ -286,10 +236,8 @@ What does SMTP NOT do? This module does not support (and will not support) sendi
 
 This module intercepts all outgoing emails from a Drupal site and reroutes them to one or more predefined configurable email addresses.  It also logs any email attempts to watchdog.
 
-
 [Reroute Email Module](https://www.drupal.org/project/reroute_email)
 
----
 ## Essential Utility Modules for Every Site
 
 Well maybe not every site, but certainly for most sites, your life and your content editor's lives will go better with these modules.
@@ -299,22 +247,18 @@ The Admin Toolbar module intends to improve the default Toolbar (the administrat
 The module works on the top of the default toolbar core module and is therefore a light module and keeps all the toolbar functionalities (shortcut / media responsive).
 [https://www.drupal.org/project/admin_toolbar](https://www.drupal.org/project/admin_toolbar)
 
-
 ### Module filter
 
 The modules list page can become quite big when dealing with a fairly large site or even just a dev site meant for testing new and various modules being considered. What this module aims to accomplish is the ability to quickly find the module you are looking for without having to rely on the browsers search feature which more times than not shows you the module name in the 'Required by' or 'Depends on' sections of the various modules or even some other location on the page like a menu item.
 
 [https://www.drupal.org/project/module_filter](https://www.drupal.org/project/module_filter)
 
----
 ## Fields
-
 
 ### Field Group
 Fieldgroup groups fields together. All fieldable entities will have the possibility to add groups to wrap their fields together. Fieldgroup comes with default HTML wrappers like vertical tabs, horizontal tabs, accordions, fieldsets or div wrappers. The field group project is a follow-up on the field group module in CCK.
 
 [https://www.drupal.org/project/field_group](https://www.drupal.org/project/field_group)
-
 
 ### Field tools
 A collection of useful UI tools for working with fields.
@@ -332,7 +276,6 @@ This lets you add a view (and a view's display) to a content type so it gets ren
 
 [https://www.drupal.org/project/viewsreference](https://www.drupal.org/project/viewsreference)
 
----
 ## Forms
 
 ### Protected Forms
@@ -340,8 +283,6 @@ Successor of Protected Permissions module.  Light-weight, non-intrusive spam pro
 
 [https://www.drupal.org/project/protected_forms](https://www.drupal.org/project/protected_forms)
 
-
----
 ## Icons
 
 ### Font Awesome Icons
@@ -349,15 +290,12 @@ This module provides a CKEditor plugin to allow users to select Font Awesome ico
 
 [https://www.drupal.org/project/fontawesome](https://www.drupal.org/project/fontawesome)
 
-
----
 ## Images
 
 ### Focal Point
 Focal Point allows you to specify the portion of an image that is most important. This information can be used when the image is cropped or cropped and scaled so that you don't, for example, end up with an image that cuts off the subject's head.
 
 [https://www.drupal.org/project/focal_point](https://www.drupal.org/project/focal_point)
-
 
 ### Image URL Formatter
 This module add a url formatter for image field which allows you to output the image url directly.
@@ -379,20 +317,17 @@ to load SVG image. Load SVG files into the Image field, it is not needed to crea
 Additional features (beyond the main functionality):
 
 - Ability to select width and height of the image in formatter settings
-- Ability to render svg image as <img> or <svg> tags.
+- Ability to render svg image as `<img>` or `<svg>` tags.
 - Responsive image support. Please activate svg_image_responsive submodule to get such functionality
 
 [https://www.drupal.org/project/svg_image](https://www.drupal.org/project/svg_image)
 
----
 ## Other
-
 
 ### Duration Field
 This module creates a new duration field, that can be added to any entity. A duration field can collect any combination of year, month, day, hour, minute and second. Field settings allow for the site builder to determine what level of granularity they wish to collect from users, so if the required level of granularity is a date, the field settings would be set to collect year, month and day. The module is flexible in that users could choose to only collect year and seconds. While this doesn't really make sense for most logical data collection, the module has the flexibility that allows it to happen.
 
 [https://www.drupal.org/project/duration_field](https://www.drupal.org/project/duration_field)
-
 
 ### Entity Queue
 
@@ -407,12 +342,9 @@ Smart Trim implements a new field formatter for textfields (text, text_long, and
 
 [https://www.drupal.org/project/smart_trim](https://www.drupal.org/project/smart_trim)
 
-
----
 ## Permissions
 
 [How to restrict access to content by role in Drupal 8 - Aug 2018](https://www.optasy.com/blog/how-do-you-restrict-access-content-drupal-8-6-modules-will-do-job-you)
-
 
 ### Node View Permissions
 Node view permissions module enables permissions \"View own content\" and \"View any content\" for each content type on permissions page as it was on Drupal 6. It's as simple as that.  It's implemented in a non-conflict way, so you can use it with any other permissions related module.
@@ -436,7 +368,6 @@ Taxonomy term permissions can be coupled to specific user accounts and/or user r
 
 [https://www.drupal.org/project/permissions_by_term](https://www.drupal.org/project/permissions_by_term)
 
----
 ## Problem solving 
 
 ### Easy Install
@@ -444,10 +375,7 @@ A module built to resolve and avoid the error: \"Unable to install already exist
 
 [https://www.drupal.org/project/easy_install](https://www.drupal.org/project/easy_install)
 
-
----
 ## Security/Spam Protection
-
 
 ### Antibot
 Antibot is an extremely lightweight module designed to eliminate robotic form submissions on your website in an innovative-fashion. The module works completely behind the scenes and doesn't require any interaction from the end-users (no annoying CAPTCHAs!). The only requirement to the end user is that they must have JavaScript enabled. If they do not, the protected forms will be hidden and a message will appear, telling the user that the form requires JavaScript be enabled in order to use it.
@@ -482,7 +410,6 @@ SecKit provides Drupal with various security-hardening options. This lets you mi
 
 [https://www.drupal.org/project/seckit](https://www.drupal.org/project/seckit)
 
---- 
 ## SEO
 
 ### Pathauto
@@ -490,10 +417,6 @@ The Pathauto module automatically generates URL/path aliases for various kinds o
 
 [https://www.drupal.org/project/pathauto](https://www.drupal.org/project/pathauto)
 
-
-
-
----
 ## Site Navigation/Menus
 
 ### Menu Block
@@ -528,8 +451,6 @@ Menu Trail By Path is best used in conjunction with Pathauto.
 
 This module is similar to Menutrails (D6) and Menu Position (D7), except no configuration is needed. It uses the path URL to determine the active-trail instead of setting rules for each node type. It also works for non-node pages such as taxonomy term and views. Just enable the module to see the results.
 
-
----
 ## Social media
 
 ### AddToAny Share Buttons
@@ -538,8 +459,6 @@ Share buttons for Drupal including AddToAny's universal sharing button, Facebook
 Vector share buttons use AddToAny SVG sharing icons. AddToAny vector icons load efficiently, are mathematically precise, scalable to any size, and stunning on High-PPI screens such as Retina and Retina HD displays.
 
 [https://www.drupal.org/project/addtoany](https://www.drupal.org/project/addtoany)
-
-
 
 ### Social media share
 The social media share module allows the user to share the current page to different social media platforms. It is rendered as a block, you can place it anywhere on your site. It also provides social media field type so that you can add it as a field in entity and take all benefits from field API.
@@ -559,9 +478,6 @@ You have full flexibility to add more services, modify the elements before rende
 
 [https://www.drupal.org/project/social_media](https://www.drupal.org/project/social_media)
 
-
-
----
 ## Twig
 
 ### Bamboo Twig
@@ -571,8 +487,6 @@ Bamboo Twig has a lot of advantages and brings a lot of new features to the Twig
 It boosts performance by using lazy loading, improves the code quality with automated workflow. It also includes automated unit and kernel tests to ensure stability.
 
 [https://www.drupal.org/project/bamboo_twig](https://www.drupal.org/project/bamboo_twig)
-
-
 
 ### Snippet Manager
 Snippets are pieces of Twig code that can be used to build site layouts. The module provides an administrative interface to manage and render snippets on the site.
@@ -584,9 +498,6 @@ Twig Tweak is a small module which provides a Twig extension with some useful fu
 
 [https://www.drupal.org/project/twig_tweak](https://www.drupal.org/project/twig_tweak)
 
-
-
---- 
 ## User Interface
 
 ### select2
@@ -606,15 +517,13 @@ Other JS select modules and libraries include:
 - [Selectize](https://selectize.github.io/selectize.js) with its Drupal module: [https://www.drupal.org/project/selectize](https://www.drupal.org/project/selectize)
 - [Chosen](https://harvesthq.github.io/chosen/) with its Drupal module: [https://www.drupal.org/project/chosen](https://www.drupal.org/project/chosen)
 
-
----
 ## Workflow
 
 ### ECA: Event - Condition - Action
 
 ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The core module is a processor that validates and executes event-condition-action plugins. Integrated with graphical user interfaces like BPMN.iO, Camunda or other possible future modellers, ECA is a robust system for building conditionally triggered action sets.
 
-[https://www.drupal.org/project/eca([]](https://www.drupal.org/project/eca))
+[https://www.drupal.org/project/eca](https://www.drupal.org/project/eca)
 
 ## Wysiwyg
 
@@ -624,31 +533,9 @@ Entity Embed allows any entity to be embedded within a text area using a WYSIWYG
 
 [https://www.drupal.org/project/entity_embed](https://www.drupal.org/project/entity_embed)
 
-
-
----
 ## Resources
 - [What every Drupal website should have from the start - August 2023](https://roose.digital/en/blog/drupal/what-every-drupal-website-should-have-start)
 - [50 Drupal modules every Drupal professional should know about - September 2021](https://robertroose.com/blog/drupal/50-drupal-modules-every-drupal-professional-should-know-about)
 - [27 more Drupal modules every Drupal professional should know about - October 2021](https://robertroose.com/blog/drupal/27-more-drupal-modules-every-drupal-professional-should-know-about)
 - [5 best modules to implement Drupal Google Maps - April 2023](https://gole.ms/blog/google-maps-drupal)
 - [The best new Drupal modules I found at DrupalCon Lille Oct 2023](https://cyberschorsch.dev/drupal/best-new-drupal-modules-i-found-drupalcon-lille)
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

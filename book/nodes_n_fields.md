@@ -1,22 +1,10 @@
 ---
-layout: default
 title: Nodes and Fields
 permalink: /nodes-and-fields
-last_modified_date: '2023-08-15'
 ---
 
 # Nodes and Fields
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=nodes_n_fields.md)
-
----
 
 ## Load a node and get a formatted text field
 
@@ -64,9 +52,6 @@ if ($ref instanceof EntityInterface && $ref->getEntityTypeId === 'node') {
     // yep
 }
 ```
-
-
-
 
 ## Get the current nid, node type and title
 
@@ -313,8 +298,6 @@ if (!is_null($url)) {
 }
 ```
 
-
-
 ## Load a node and update a field
 
 ```php
@@ -356,13 +339,9 @@ $data[1]['target_id'] = 2
 $data[2]['target_id'] = 14
 ```
 
-
-
 ### Iterate through results
 
-
-
- Using `$node->field_condiment` or `$node->get('field_condiment')` returns a `Drupal\Core\Field\FieldItemList` which is iteratable. You can loop through the results and retrieve the values like this:
+Using `$node->field_condiment` or `$node->get('field_condiment')` returns a `Drupal\Core\Field\FieldItemList` which is iteratable. You can loop through the results and retrieve the values like this:
 
 ```php
 $items = $node->field_condiment;
@@ -374,8 +353,6 @@ foreach ($items as $item) {
 ```
 
 For entity reference fields, use `target_id` rather than `->value`.
-
-
 
 And you can check if there is a particular item in the array like this:
 
@@ -395,13 +372,9 @@ $result= $node->field_condiment?->get($vote_number)?->value;
 $result = $node->field_condiment[$vote_number]?->value;
 ```
 
-
-
 ### Read a specific instance
 
 You can directly reference an item by specifying an array offset. The index key (0 or 1 below) can also be referred to as the delta. 
-
-
 
 ```php
 $status = $node->get('field_voting_status')[0]->value;
@@ -409,25 +382,15 @@ $status = $node->get('field_voting_status')[1]->value;
 
 ```
 
-
-
 Note. If the value for delta 1 is empty, Drupal will throw a warning message `*Warning*: Attempt to read property "value" on null in ...`
 
 So rather than reading the `[1]->value` directly,  you should check if there is a value using `isset()` and then, you can read the `->value`.  Note. When you do the isset() test, you don't add the `->value` at the end e.g.
-
-
 
 ```php
 if(!is_null($node->get('field_voting_status')[$vote_number])) {
   $voting_status = $correlation_node->field_voting_status[$vote_number]->value;
 }
 ```
-
-
-
-
-
-
 
 ## Update a multivalue field
 
@@ -453,11 +416,7 @@ $node->set('field_srp_voting_status', $values);
 $node->save();
 ```
 
-
-
 ### Function to read and write multivalue fields
-
-
 
 Here is a function which reads and writes multivalue fields safely. You pass it the `$node->field_name`, the index (vote_number) etc. and then it builds and returns an array formatted for updating the field data. It can also update the array if you pass in a value.
 
@@ -514,9 +473,6 @@ $node->set('field_activity_status', $activity_status_values);
 $node->save();
 ```
 
-
-
-
 ### Save multivalue field, entity reference field
 
 When you really care which delta/index/offset, you can specify that offset. It's a bit confusing how exactly it works. For text or numeric fields, it works like you'd expect. You can just specify the offset. For entity reference fields, you have to do some fiddling. Don't use `$node->set()` as this overwrites everything in the field, rather use the magic field setter variable and specify the offset.
@@ -529,7 +485,7 @@ $citation_node->field_srp_voting_status[$vote_number] = 'incomplete';
 
 Be cautions, you might think this would work but it *doesn\'t*
 ```php
-$program_node->set('field_srp_team_ref', [$vote_number => 1234;
+$program_node->set('field_srp_team_ref', [$vote_number => 1234]);
 ```
 
 If you are going to write index 2 and there is a possibility that there isn't an index 0 and 1, you need something like this (in `protected function correlationSanityCheckFix(Node $correlation_node)`):
@@ -554,8 +510,6 @@ if (empty($narrative_status)) {
 }
 ```
 
-
-
 ### Update a multivalue entity reference fields
 
 When writing multivalue entity reference fields, you have to load up the
@@ -571,15 +525,9 @@ $new_teams[$new_program_vote_number] = $team_id;
 $new_program_node->set('field_srp_team_ref', $new_teams);
 ```
 
-
-
 ### Generic Multivalue field writer
 
-
-
 Here is a generic function that knows how to write values in a "sane" way.
-
-
 
 ```php
   /**
@@ -663,11 +611,7 @@ Here is a generic function that knows how to write values in a "sane" way.
 
 ```
 
-
-
 Here is an example of using the above function to write values to the field_condiment which is a multivalue text field.
-
-
 
 ```php
 $node = Node::load(35);
@@ -688,15 +632,7 @@ self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 1, 'dummy'
 $node->save();
 ```
 
-
-
-
-
-
-
 Here is a complete function from the controller `GeneralController.php`.  There are a wide variety of calls to `smartMultiValueFieldSetter()` showing it's use with multivalue text and entity-reference fields (including a taxonomy field):
-
-
 
 ```php
   public function multiTest() {
@@ -829,8 +765,6 @@ Here is a complete function from the controller `GeneralController.php`.  There 
   }
 
 ```
-
-
 
 ## Does this field exist in my entity?
 
@@ -1715,18 +1649,18 @@ potentially \~6 hours.
 Using the field field_event_date, here is the twig template code to display the date. You'd expect it to show the correct timezone
 
 ```twig
-{% raw %}{{ node.field_event_date.0.value|date('g:ia') }} - {{ node.field_event_date.0.end_value|date('g:ia') }}{% endraw %}
+{{ node.field_event_date.0.value|date('g:ia') }} - {{ node.field_event_date.0.end_value|date('g:ia') }}
 ```
 
-If you simply used `{% raw %}{{ content }}{% endraw %}` all fields are displayed correctly --
+If you simply used <code v-pre>{{ content }}</code> all fields are displayed correctly --
 timezone is correct.
 
-If you use `{% raw %}{{ content.field_date_start }}{% endraw %}` -- timezone show correctly also
+If you use <code v-pre>{{ content.field_date_start }}</code> - timezone show correctly also
 
 But I want to grab the time only to display separately from the date and put this in the twig template:
 
 ```twig
-{% raw %}{{ node.field_date_start.value|date("g:ia") }}{% endraw %}
+{{ node.field_date_start.value|date("g:ia") }}
 ```
 
 It fails.
@@ -1772,7 +1706,9 @@ function txglobal_preprocess_node(&$variables) {
 
 and then in the template, use
 
-`{{ start_time }} - {{ end_time }}`
+```twig
+{{ start_time }} - {{ end_time }}
+```
 
 Interestingly, if you use the [smart_date module](https://www.drupal.org/project/smart_date), you might use this version.
 Notice that dates are already stored as timestamps so you don't have to
@@ -2073,7 +2009,7 @@ Smart date fields are always stored as unix timestamp values e.g.
 $start = $node->field_when->value;
 $formatter = \Drupal::service('date.formatter');
 $start_time = $formatter->format($start, 'custom', 'm/d/Y g:ia'); //12/21/2020 10:00 am
-
+```
 Alternatively, you could load it, create a `DrupalDateTime` and then
 format it
 
@@ -2249,7 +2185,7 @@ The JSON data is written into a multivalue long text field using the
 value. If it is 1, then this will be written into the second value. This
 is what it looks like in Drupal on a node edit screen.
 
-![Screenshot of JSON data in long text field](assets/images/json_long_text.png)
+![Screenshot of JSON data in long text field](/images/json_long_text.png)
 
 
 ## Create a node with an image
@@ -2459,21 +2395,3 @@ Entity query cheat sheet:
 Drupal entity API cheat sheet
 
 <https://drupalsun.com/zhilevan/2018/07/21/drupal-entity-api-cheat-sheet>
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

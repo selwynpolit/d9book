@@ -1,23 +1,9 @@
 ---
-layout: default
 title: Twig
-permalink: /twig
-last_modified_date: '2023-11-3'
-render_with_liquid: false
 ---
 
 # TWIG
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=twig.md)
-
----
 
 Drupal 10 uses **Twig 3**. Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
 
@@ -601,7 +587,7 @@ Link field (URL)
 
 This is the simplest way. Just set the display mode to link
 
-![Suggest Button](assets/images/suggest_button.png)
+![Suggest Button](/images/suggest_button.png)
 
 And output the link without a label.
 
@@ -1511,8 +1497,9 @@ Display:Page.
 -	views-view-fields.html.twig
 ```
 
-{: .important }
+::: tip Important
 When adding a new template to your theme, be sure to flush the theme registry cache!
+:::
 
 From <https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view_field/8.2.x>:
 
@@ -1747,7 +1734,7 @@ drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefini
 
 It outputs something like:
 
-![Block listing](assets/images/block_listing.png)
+![Block listing](/images/block_listing.png)
 
 ### Display filter form block
 
@@ -2062,21 +2049,3 @@ So here I compare a field value so I have to use striptags to remove all html. I
 - [Twig tweaks and Views has some useful notes on using twig tweak with views - Updated November 2020](https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views)
 
 - [Getting Drupal 8/9 Field Values in Twig by Sarah Carney July 2018](https://sarahcodes.medium.com/getting-drupal-8-field-values-in-twig-22b80cb609bd)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

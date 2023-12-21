@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Render Arrays
-permalink: /render
-last_modified_date: '2023-07-23'
 ---
 
 # Render Arrays
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=render.md)
-
----
 
 ## Overview
 
@@ -437,7 +424,7 @@ $variables['back_home_link'] = $back_home_link
 and in the template you would expect to see something like:
 
 ```twig
-{% raw %}{{ content.back_home_link }}{% endraw %}
+{{ content.back_home_link }}
 ```
 
 
@@ -517,7 +504,7 @@ public function buildDetails(array $content, array $breadcrumbs, array $manageme
 ```
 
 
-Then in team-abc--correctional-voting.html.twig the `next` links are rendered -- see `{{next_link }}`
+Then in team-abc--correctional-voting.html.twig the `next` links are rendered -- see <code v-pre>{{ next_link }}</code>
 
 ```twig
 <div class="cell small-12 medium-6">
@@ -733,21 +720,3 @@ In this example the `accept` button is disabled when `$my_current_vote` is `acce
 
 -  [Render API overview for Drupal 10](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x)
 - [Render Arrays from Drupal.org updated August 2022](https://www.drupal.org/docs/drupal-apis/render-api/render-arrays)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

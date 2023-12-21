@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Logging
-permalink: /logging
-last_modified_date: '2023-08-18'
 ---
 
 # Logging
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=logging.md)
-
----
 
 ## Quick log to watchdog
 
@@ -348,28 +335,10 @@ var_dump($is_front);
 print_r($is_front);
 ```
 
-![Displaying var_dump in Drupal](assets/images/vardump.png)
+![Displaying var_dump in Drupal](/images/vardump.png)
 
 ## Reference
 
 * How to Log Messages in Drupal 8 by Amber Matz of Drupalize.me Updated October 2015 <https://drupalize.me/blog/201510/how-log-messages-drupal-8>
 * Logging API updated January 2023 <https://www.drupal.org/docs/8/api/logging-api/overview>
 * Drupal APIs <https://www.drupal.org/docs/drupal-apis>
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

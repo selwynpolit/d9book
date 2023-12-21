@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Queries
-permalink: /queries
-last_modified_date: '2023-11-29'
 ---
 
 # Queries
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=queries.md)
-
----
 
 For most work, I use entityQueries. There are a few circumstances where I've needed to get into the SQL which meant using static or dynamic queries. There are examples of these different techniques below.
 
@@ -915,21 +902,3 @@ function nocs_connect_schema() {
 - [Insert Queries](https://www.drupal.org/docs/drupal-apis/database-api/insert-queries)
 - [Querying date fields from 2018](https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update)
 - [Querying date fields](https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8)
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

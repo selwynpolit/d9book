@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Hooks
-permalink: /hooks
-last_modified_date: '2023-09-29'
 ---
 
 # Hooks
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=hooks.md)
-
----
 
 ## Overview
 
@@ -252,7 +239,7 @@ The render array you want to change will be in the content variable which shows 
 
 Usually fields such as field_image will be automatically rendered by the node template (unless you've tweaked it to display in some other template.)
 
-In your node\'s Twig template you would specify `{{ custom_variable }}` to have it display on every node.
+In your node\'s Twig template you would specify <code v-pre>{{ custom_variable }}</code> to have it display on every node.
 
 
 
@@ -850,22 +837,3 @@ mechanisms of the previous section. There are two hooks for this: the theme-hook
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
 - [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU - Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
 - [Understanding update and post update hooks for successful Drupal site updates - May 2023](https://www.specbee.com/blogs/update-and-post-update-hooks-for-successful-drupal-site-updates)
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

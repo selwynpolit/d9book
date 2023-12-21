@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Batch and Queue
-permalink: /bq
-last_modified_date: '2023-12-01'
 ---
 
 # Batch Processing and the Drupal Queue System
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=bq.md)
-
----
 
 ## Batch Processing Using the Batch API
 
@@ -184,8 +171,9 @@ The Form API will take care of getting the batches executed. If you aren't using
 return batch_process('node/1'); 
 ```
 
-{: .note }
+::: tip Note
 You can set up a `$batch` array with a title and a progress message with some variables that will get displayed.
+:::
 
 Specify a `finished` index, which identifies a function to call after the batch is finished processing, as in the example below.
 
@@ -256,8 +244,9 @@ return batch_process('node/1');
 
 After the batch is complete, Drupal will redirect you to that url. E.g. `/node/1`
 
-{: .more_link }
+::: tip More link
 [Drupal API \| Batch operations](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10.0.x)
+:::
 
 In this example of a processing function, you can see error handling, logging, and tracking while retrieving files from a remote source. This is fairly common when moving data between systems. The rest of the code is almost identical to the previous example.
 
@@ -472,9 +461,9 @@ In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/inclu
  * batch_process('node/1');
 ```
 
- {: .note }
+::: tip Note
 To execute the batch, the example shows a call to  `batch_process('node/1')`.  This could be any valid url alias e.g., `/admin/content`.
-
+:::
 
 So here are the arguments for my_function_1:
 
@@ -675,21 +664,3 @@ Read more about the Queue API at these sites:
 - [Karim Boudjema from August 2018 has some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
 - [Sarthak TTN from Feb 2017 shows some sample code on implementing cron and the queue API](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8)
 - [There is a somewhat incomplete example from Alan Saunders article on December 2021](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9) 
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>

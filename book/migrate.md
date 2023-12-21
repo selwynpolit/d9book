@@ -1,22 +1,9 @@
 ---
-layout: default
 title: Migrate
-permalink: /migrate
-last_modified_date: '2023-04-28'
 ---
 
 # Migration
-{: .no_toc .fw-500 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-- TOC
-{:toc}
-
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=migrate.md)
-
----
 
 ## Import content from another Migration into Paragraphs
 
@@ -64,29 +51,3 @@ This migration Process snippet example demonstrates how to populate the fields o
 * Nice intro to Drupal 8 migration by Chris of Redfin Solutions from Nov 2017.  <https://redfinsolutions.com/blog/understanding-drupal-8s-migrate-api>
 * Migrating files and images on Drupal.org updated Feb 2023. <https://www.drupal.org/docs/drupal-apis/migrate-api/migrate-destination-plugins-examples/migrating-files-and-images>
 * Drupal 8 content migrations from CSV or spreadsheet August 2020 <https://atendesigngroup.com/articles/drupal-8-content-migrations-csv-spreadsheet>
-
-
-
-
-
-
-
-
-
----
-
-<script src="https://giscus.app/client.js"
-        data-repo="selwynpolit/d9book"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxNTQ1Nzg="
-        data-category="Q&A"
-        data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyMjY2NDE4"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
