@@ -1108,8 +1108,9 @@ Then in the block we check to make sure the user is viewing a node and that the 
   }
 
 ```
-::: More link
-More at https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id/314152#314152
+
+::: tip More link
+https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id/314152#314152
 :::
 
 
