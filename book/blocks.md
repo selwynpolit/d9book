@@ -178,7 +178,7 @@ clear the cache with:
 
 `ddev drush cr`
 
-In Drupal, navigate to /admin/structure/block and place the block (\"block module example\") in the content area. See the diagram below on how to place the block in the content area.
+In Drupal, navigate to `/admin/structure/block` and place the block (`block module example`) in the content area. See the diagram below on how to place the block in the content area.
 
 ![Graphical user interface, table Description automatically generated](/images/image2.png)
 
@@ -267,7 +267,7 @@ Or like this:
  */
 ```
 
-In most cases you will implement ContainerFactoryPluginInterface.
+In most cases you will implement `ContainerFactoryPluginInterface`.
 Plugins require this for dependency injection. So don't forget:
 
 ```php
@@ -276,7 +276,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 class HelloWorldSalutationBlock extends BlockBase implements ContainerFactoryPluginInterface {
 ```
 
-If you want dependency injection, you will need a create() function.
+If you want dependency injection, you will need a `create()` function.
 
 This will call the constructor (to do lazy loading) and call the
 container to `->get()` the service you need. In the example below
