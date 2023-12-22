@@ -30,6 +30,7 @@ If you want to contribute to the expense of creating this book, I have added a [
 - [Entities - More entities - the primary building blocks of Drupal](entities)
 - [Forms - Creating and modifying forms using the Form API, AJAX forms, modals](forms)
 - [General - Useful things that seemed to not fit well elsewhere](general)
+- [Getting off the island - Reaching out of Drupal into the wider web](off-island)
 - [Hooks - hooking into the Drupal hook system to make modifications](hooks)
 - [Learning and keeping up with the latest on Drupal](learn)
 - [Links, Aliases and URLs](links)

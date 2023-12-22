@@ -5,7 +5,7 @@ layout: home
 hero:
   name: 'Drupal at your fingertips'
   text: 'by Selwyn Polit'
-  tagline: "Drupal 9 & 10 developer's quick code reference"
+  tagline: "Modern Drupal developer's quick code reference for versions 9 and 10"
   image:
     src: /images/d9book.svg
     alt: Drupal Book
@@ -21,10 +21,12 @@ hero:
 features:
   - icon: 🎯
     title: Actions
+    details: Use the Drupal core Actions module to control Drupal
     link: /actions
 
   - icon: 🔢
     title: Batch and Queue
+    details: The Batch API and Queue subsystem let you take on large tasks
     link: /bq
 
   - icon: 🧱
@@ -39,6 +41,7 @@ features:
 
   - icon: 📦
     title: Composer
+    details: Using Composer to manage dependencies and patches
     link: /composer
 
   - icon: 🧰
@@ -68,7 +71,7 @@ features:
 
   - icon: ⚙️
     title: Drush
-    details: The amazing command line tool that makes everyone\'s life so much better
+    details: The amazing essential command line tool that makes everyone\'s life so much better
     link: /drush
 
   - icon: 📧
@@ -93,11 +96,12 @@ features:
 
   - icon: 🏝
     title: Getting off the Island
+    details: Reaching out of Drupal using Guzzle, downloading files
     link: /off-island
 
   - icon: 🪝
     title: Hooks
-    details: hooking into the Drupal hook system to make modifications
+    details: Hooking into the Drupal hook system to modify all sorts of things on the fly
     link: /hooks
 
   - icon: JS
@@ -107,7 +111,7 @@ features:
 
   - icon: 🎓
     title: Learning
-    details: Learning and keeping up with the latest on Drupal
+    details: Learning and keeping up with the latest on Drupal including podcasts, books and blogs
     link: /learn
 
   - icon: 🔗
@@ -122,6 +126,7 @@ features:
 
   - icon: 🍽️
     title: Menus
+    details: Grappling with the Drupal menu system
     link: /menus
 
   - icon: 🦅
@@ -131,11 +136,12 @@ features:
 
   - icon: 🖲️
     title: Modal dialogs
+    details: Popping up useful messages and forms to improve the user experience
     link: /modals
 
   - icon: 🧩
     title: Modules
-    details: A collection of useful and essential
+    details: A collection of useful and essential modules
     link: /modules
 
   - icon: 🌳
@@ -150,22 +156,27 @@ features:
 
   - icon: 🔀
     title: Redirects
+    details: Redirecting to web pages on and off-site, from controllers, forms and more.
     link: /redirects
 
   - icon: 🔲
     title: Render Arrays
+    details: The building blocks of Drupal's rendering system
     link: /render
 
   - icon: 🚦
     title: Routes and Controllers
+    details: Navigating around Drupal 
     link: /routes
 
   - icon: 🔐
     title: Security
+    details: Protecting your site from malware and malicious threat actors
     link: /security
 
   - icon: 🛠️
     title: Services and Dependency injection
+    details: The new modern way to write code, creating services and using D.I. in controllers, drush commands
     link: /services
 
   - icon: 💻
@@ -180,11 +191,12 @@ features:
 
   - icon: 📑
     title: Taxonomy
+    details: Getting around in Drupal's Taxonomy system
     link: /taxonomy
 
   - icon: ♻️
     title: Tests
-    details: Testing with PHPUnit and Drupal Test Traits
+    details: Creating automated tests with PHPUnit and Drupal Test Traits
     link: /dtt
 
   - icon: 🌿
