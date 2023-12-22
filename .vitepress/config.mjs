@@ -12,10 +12,10 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   head: [['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }]],
-  rewrites: {
-    'nodes_n_fields.md': 'nodes-and-fields.md',
+  //rewrites: {
+    //'nodes_n_fields.md': 'nodes-and-fields.md',
     //'off_the_island.md': 'off-island.md',
-  },
+  //},
   vite: {
     ssr: {
       noExternal: ['@nolebase/vitepress-plugin-enhanced-readabilities'],
