@@ -375,7 +375,7 @@ class OpinionLanding extends BlockBase {
     return $render_array;
 ```
 
-## Create a Block with a corresponding config form
+## Create a Block with a config form
 
 Here is an example which includes a block and a corresponding config form that controls what is displayed in the block. The block can be placed using the Block Layout system in Drupal at /admin/structure/block (shown below) or via twig in a template file.
 
@@ -1085,7 +1085,7 @@ edit etc.). This can be changed:
  *   }
 ```
 
-The order of named options passed to ContextDefinition after the first argument does not matter.
+The order of named options passed to `@ContextDefinition` after the first argument does not matter.
 
 Then in the block we check to make sure the user is viewing a node and that the user has `view rsvplist` permission.  See the code below:
 
@@ -1147,3 +1147,13 @@ return AccessResult::forbidden();
 return AccessResult::allowed();
 return AccessResult::allowedIf(TRUE);
 ```
+
+
+## Resources
+
+- [Drupal blocks in the user interface on Drupal.org updated Feb 2023](https://www.drupal.org/docs/user_guide/en/block-concept.html)
+- [Block API overview on Drupal.org updated April 2023](https://www.drupal.org/docs/drupal-apis/block-api/block-api-overview)
+- [Plugin API overview on Drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview)
+- [Drupal Blocks API](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/group/block_api/10)
+- [Programatically creating a block in Drupal 9 - Dec 2021](https://www.specbee.com/blogs/programmatically-creating-block-in-drupal-9)
+- [How to Create a Custom Block in Drupal 8/9/10 Oct 2022](https://www.agiledrop.com/blog/how-create-custom-block-drupal-8-9-10)
