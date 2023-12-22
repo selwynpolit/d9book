@@ -1108,10 +1108,15 @@ Then in the block we check to make sure the user is viewing a node and that the 
   }
 
 ```
-
+::: More link
 More at https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id/314152#314152
+:::
 
-Note.  While this practice is not recommended, the RSVP module does have an example of a block talking to the router i.e. `\Drupal::routeMatch()` - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
+
+::: tip Note
+While this practice is not recommended, the RSVP module does have an example of a block talking to the router i.e. `\Drupal::routeMatch()` - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
+:::
+
 
 ```php
   /**
