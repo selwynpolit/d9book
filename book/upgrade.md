@@ -40,7 +40,7 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
 - Update all your contributed modules and themes to Drupal 10 compatible versions while you're still on Drupal 9.
 
 ### The Upgrade Status Module
-- Install [Upgrade Status](https://www.drupal.org/project/upgrade_status) module to give you all the recommendations
+- Install the [Upgrade Status](https://www.drupal.org/project/upgrade_status) module to give you all the recommendations required for the upgrade.
 - Review the report at `https://tea2.ddev.site/admin/reports/upgrade-status`
   - Make sure you are at the required version of Drupal 9. i.e. 9.4.x
   - Follow the recommendations to remove projects in the `remove` section
@@ -67,8 +67,8 @@ Deprecated or obsolete core extensions installed.  Upgrade these to Drupal 10 co
 Modules to update:
 ![Modules to update](/images/upgrade_status_update_section.png)
 
-Compatible section:
-![Compatible section](/images/upgrade_status_compatible_section.png)
+<!-- Compatible section:
+![Compatible section](/images/upgrade_status_compatible_section.png) -->
 
 ::: tip
 In the compatible section, you may notice that some items show unchecked in the Drupal.ord 10-ready column.  You don't have to worry about these items as they are submodules that are not installed.
