@@ -51,12 +51,10 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
 
 ::: tip Note
 Using the --no-update flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
+
+Also you may have to remove Drush and reinstall after you finish the upgrade.
 :::
 
-
-::: tip Note
-You may have to remove Drush and reinstall after you finish the upgrade.
-:::
 
 Modules that need to be removed as they are not installed:
 
