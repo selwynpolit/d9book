@@ -87,6 +87,10 @@ As you finish each section you can confirm that everything is complete by clicki
 
 ### Update core
 
+::: tip Note
+If Drush is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site.
+:::
+
   - Update drupal/core-dev
 If you have the drupal/core-dev dependencies installed you'll need to update those with:
 ```
