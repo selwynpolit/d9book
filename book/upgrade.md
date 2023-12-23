@@ -67,11 +67,11 @@ Deprecated or obsolete core extensions installed.  Upgrade these to Drupal 10 co
 Modules to update:
 ![Modules to update](/images/upgrade_status_update_section.png)
 
-<!-- Compatible section:
-![Compatible section](/images/upgrade_status_compatible_section.png) -->
+Compatible section:
+![Compatible section](/images/upgrade_status_compatible_section.png)
 
-::: tip
-In the compatible section, you may notice that some items show unchecked in the Drupal.ord 10-ready column.  You don't have to worry about these items as they are submodules that are not installed.
+::: tip Note
+In the compatible section, you may notice that some items show `unchecked` in the `Drupal.org 10-ready column`.  No action is required for these items as they are submodules that are not installed.
 ![unchecked items](/images/upgrade_status_uninstalled.png)
 :::
 
@@ -88,7 +88,7 @@ As you finish each section you can confirm that everything is complete by clicki
 ### Update core
 
 ::: tip Note
-If Drush is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site.
+If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12.
 :::
 
   - Update drupal/core-dev
