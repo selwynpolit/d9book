@@ -72,7 +72,7 @@ Modules to update:
 Compatible section:
 ![Compatible section](/images/upgrade_status_compatible_section.png)
 
-::: tip Note
+::: tip
 In the compatible section, you may notice that some items show unchecked in the Drupal.ord 10-ready column.  You don't have to worry about these items as they are submodules that are not installed.
 ![unchecked items](/images/upgrade_status_uninstalled.png)
 :::
