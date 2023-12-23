@@ -67,7 +67,7 @@ Deprecated or obsolete core extensions installed.  Upgrade these to Drupal 10 co
 ![Deprecated or obsolete core extensions](/images/upgrade_status_deprecated_core.png)
 
 Modules to update:
-![Modules to update](upgrade_status_update_section.png)
+![Modules to update](/images/upgrade_status_update_section.png)
 
 Compatible section:
 ![Compatible section](/images/upgrade_status_compatible_section.png)
