@@ -26,6 +26,7 @@ Note `composer update -W` is the same as `composer update --with-dependencies`
 
 Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
 
+### CKEditor
 - Install the latest and greatest Drupal 9.x version
 - If you are using CKEditor, move to CKEditor 5
   - make sure your CKEditor plugins have CKEditor 5 versions (or remove those that don't)
@@ -38,22 +39,56 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
 
 - Update all your contributed modules and themes to Drupal 10 compatible versions while you're still on Drupal 9.
 
+### The Upgrade Status Module
 - Install [Upgrade Status](https://www.drupal.org/project/upgrade_status) module to give you all the recommendations
 - Review the report at `https://tea2.ddev.site/admin/reports/upgrade-status`
+  - Make sure you are at the required version of Drupal 9. i.e. 9.4.x
   - Follow the recommendations to remove projects in the `remove` section
     - This includes modules like: Color, RDF, and themes like: Bartik, Seven and Stable.
   - Update code in modules under the `scan` section
   - Install updated versions of the modules in the `Collaborate with maintainers` section
-
-
-- Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail. 
-- You may have to remove Drush and reinstall after you finish upgrade
+  - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail. 
 
 ::: tip Note
 Using the --no-update flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
 :::
 
-- Update core
+
+::: tip Note
+You may have to remove Drush and reinstall after you finish the upgrade.
+:::
+
+Modules that need to be removed as they are not installed:
+
+![Uninstalled modules to be removed](/images/upgrade_status_remove_section.png)
+
+Deprecated or obsolete core extensions installed.  Upgrade these to Drupal 10 compatible versions.
+
+![Deprecated or obsolete core extensions](/images/upgrade_status_deprecated_core.png)
+
+Modules to update:
+![Modules to update](upgrade_status_update_section.png)
+
+Compatible section:
+![Compatible section](/images/upgrade_status_compatible_section.png)
+
+::: tip Note
+In the compatible section, you may notice that some items show unchecked in the Drupal.ord 10-ready column.  You don't have to worry about these items as they are submodules that are not installed.
+![unchecked items](/images/upgrade_status_uninstalled.png)
+:::
+
+
+
+As you finish each section you can confirm that everything is complete by clicking the `Check available updates` on the upgrade status module.  If you get WSOD, you may have to run `ddev drush updb` periodically and clear caches with `ddev drush cr`
+
+![Recheck available updates](/images/upgrade_status_recheck.png)
+
+
+
+
+
+### Update core
+
   - Update drupal/core-dev
 If you have the drupal/core-dev dependencies installed you'll need to update those with:
 ```
@@ -71,15 +106,16 @@ composer require drupal/core-recommended:^10.0 drupal/core-composer-scaffold:^10
 composer update
 ```
 
+### Finish up
 - clear caches and run database updates
   - `drush cr`
   - `drush updb -y`
 
-See also
+::: tip See also
 - [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)
 - [Drupal 9 to 10 Upgrade by Andrey Rudenko - October 2023](https://www.adcisolutions.com/knowledge/drupal-9-to-10-upgrade)
 - [Migration from Drupal 7 Simplified as Acquia’s Innovative Tool Goes FOSS - Sep 2023. Drupal 7 to 10 Acquia tool](https://www.thedroptimes.com/34727/migration-drupal-7-simplified-acquias-innovative-tool-goes-foss)
-
+:::
 
 ## Creating a local patch to a contrib module
 
