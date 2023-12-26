@@ -217,19 +217,32 @@ http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_
 http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_ActionListTest-4-51362070.html
 http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_ActionUninstallTest-1-80829434.html
 ```
+::: tip Note
+In the output: \....S.., periods mean success, S means skipped, I means incomplete, E means error.
+:::
 
-Note in the output: \....S.., periods mean success, S means skipped, I means ignored, E means error.
+You can choose to skip(S) or ignore incomplete (I) tests during development.  This is done to speed up test runs or if you are mid-development and want to only run specific tests.  Also these can be conditional such as when you only want a certain test to run if a condition is met e.g. a driver is present.
 
-You can choose to skip(S) or ignore(I) tests during development.  This is done to speed up test runs or if you are mid-development and want to only run specific tests.  Also these can be conditional such as when you only want a certain test to run if a condition is met e.g. a driver is present.
+You can use markTestIncomplete(string $message) or markTestSkipped( string $message) to cause certain tests not to run.  The `$message` will be displayed when the test is skipped.
 
-More details at https://phpunit.readthedocs.io/en/9.5/textui.html
+
+```php
+// Skip this test if $this->skip is TRUE.
+if ($this->skip) {
+  $this->markTestSkipped('Skip for now.' );
+}
+```
+
+Read more about [incomplete tests](https://docs.phpunit.de/en/10.5/writing-tests-for-phpunit.html#incomplete-tests) and [skipping tests](https://docs.phpunit.de/en/10.5/writing-tests-for-phpunit.html#skipping-tests)
+
+
 
 
 ## Run PHPUnit test in DDEV from the host
 
 You can also run the test in the containers from the host with:
 
-```
+```sh
 $ ddev exec ./vendor/bin/phpunit -c web/core web/core/modules/action
 ```
 
@@ -240,7 +253,7 @@ to run Phpunit tests there with:
 
 From the very top of the project:
 
-```
+```sh
 $ vendor/bin/phpunit -c web/core web/core/modules/action
 ```
 
