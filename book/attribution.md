@@ -34,7 +34,7 @@ Thanks to these rockstars for their contribution to the project. Please add your
 
 [Balint Csuthy](https://github.com/Pasqualle) - Help with editing.
 
-[Bhanu](https://gist.github.com/bhanu951) - Actions chapter and a bunch of other interesting issues.
+[Bhanu](https://github.com/bhanu951) - Actions chapter and a bunch of other interesting issues.
 
 [John Picozzi](https://github.com/johnpicozzi) - Bringing us more in line with Drupal standards.
 
