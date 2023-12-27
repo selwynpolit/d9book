@@ -37,23 +37,56 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
   - After you have updated all CKEditor text formats to CKEditor 5, on the Text formats administrative page, you should see CKEditor 5 listed next to each text format you updated.
   - Check that CKEditor 5 is working ok and uninstall CKEditor.
 
+### Contrib Modules
 - Update all your contributed modules and themes to Drupal 10 compatible versions while you're still on Drupal 9.
+- Finally use composer to make sure you have the latest of everything with `ddev composer update -W`
+- If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12.
+
+
 
 ### The Upgrade Status Module
 - Install the [Upgrade Status](https://www.drupal.org/project/upgrade_status) module to give you all the recommendations required for the upgrade.
 - Review the report at `https://tea2.ddev.site/admin/reports/upgrade-status`
   - Make sure you are at the required version of Drupal 9. i.e. 9.4.x
   - Follow the recommendations to remove projects in the `remove` section
-    - This includes modules like: Color, RDF, and themes like: Bartik, Seven and Stable.
+  - Be sure to uninstall Drupal 9 core modules like: Color, RDF, and themes like: Bartik, Seven and Stable.
+  - If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12. (sorry to repeat but it will bit you!)
   - Update code in modules under the `scan` section
   - Install updated versions of the modules in the `Collaborate with maintainers` section
   - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail. 
 
 ::: tip Note
 Using the --no-update flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
-
-Also you may have to remove Drush and reinstall after you finish the upgrade.
 :::
+
+
+Uninstall the modules listed in the `Drupal core and hosting environment section` via the Drupal user interface 
+![Drupal core and hosting environment section](/images/upgrade_status_drupal_core_and_hosting.png)
+
+If you don't remove them, you will see something like this when you try to run `drush updb`:
+
+```sh
+$ drush updb
+ [error]   (Currently using Removed core modules You must add the following contributed modules and reload this page.
+ * CKEditor [1]
+ * Color [2]
+ * Quick Edit [3]
+ * RDF [4]
+
+These modules are installed on your site but are no longer provided by Core.
+For more information read the documentation on deprecated modules. [5]
+
+[1] https://www.drupal.org/project/ckeditor
+[2] https://www.drupal.org/project/color
+[3] https://www.drupal.org/project/quickedit
+[4] https://www.drupal.org/project/rdf
+[5] https://www.drupal.org/node/3223395#s-recommendations-for-deprecated-modules
+)
+```
+
+this is what that section of Upgrade status looks like when it is completely ready to go:
+
+![Upgrade status core hosting section all green](/images/upgrade_status_core_hosting_all_green.png)
 
 
 Modules that need to be removed as they are not installed:
@@ -87,12 +120,8 @@ As you finish each section you can confirm that everything is complete by clicki
 
 ### Update core
 
-::: tip Note
-If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12.
-:::
-
   - Update drupal/core-dev
-If you have the drupal/core-dev dependencies installed you'll need to update those with:
+If you have the drupal/core-dev dependencies in your composer.json, update those with:
 ```
 composer require drupal/core-dev:^10.0 --dev --no-update --update-with-dependencies
 ```
@@ -105,13 +134,279 @@ composer require drupal/core-recommended:^10.0 drupal/core-composer-scaffold:^10
   - Then tell Composer to try and resolve and download all the new code:
 
 ```
-composer update
+composer update -W
 ```
+If composer fails to install, confirm that you removed drush previously.  Otherwise follow standard procedures for troubleshooting Composer problems.
+
+If all goes smoothly, you can now reinstall drush with `composer require drush/drush`.  
 
 ### Finish up
 - clear caches and run database updates
   - `drush cr`
   - `drush updb -y`
+
+The output from updating the database with `drush updb` will look something like this:
+
+```
+$ drush updb
+ --------------- ------------------ --------------- ---------------------------
+  Module          Update ID          Type            Description
+ --------------- ------------------ --------------- ---------------------------
+  system          10100              hook_update_n   10100 - Remove the year
+                                                     2038 date limitation.
+  system          10101              hook_update_n   10101 - Change the
+                                                     {batch} table [bid] field
+                                                     to serial.
+  system          10201              hook_update_n   10201 - Clear left over
+                                                     entries in the revision
+                                                     data table.
+  block_content   10100              hook_update_n   10100 - Update entity
+                                                     definition to handle
+                                                     revision routes.
+  block_content   10200              hook_update_n   10200 - Remove the unique
+                                                     values constraint from
+                                                     block content info
+                                                     fields.
+  comment         10100              hook_update_n   10100 - Remove the year
+                                                     2038 date limitation.
+  dblog           10100              hook_update_n   10100 - Remove the year
+                                                     2038 date limitation.
+  dblog           10101              hook_update_n   10101 - Converts the
+                                                     'wid' of the 'watchdog'
+                                                     table to a big integer.
+  help            10200              hook_update_n   10200 - Install search
+                                                     index table for help
+                                                     topics.
+  history         10100              hook_update_n   10100 - Remove the year
+                                                     2038 date limitation.
+  user            10000              hook_update_n   10000 - Remove
+                                                     non-existent permissions
+                                                     created by migrations.
+  big_pipe        html5_placeholde   post-update     Clear the render cache.
+                  rs
+  block_content   block_library_vi   post-update     Update block_content
+                  ew_permission                      'block library' view
+                                                     permission.
+  block_content   move_custom_bloc   post-update     Moves the custom block
+                  k_library                          library to Content.
+  block_content   sort_permissions   post-update     Update permissions for
+                                                     users with "administer
+                                                     blocks" permission.
+  ckeditor5       code_block         post-update     Updates Text Editors
+                                                     using CKEditor 5 Code
+                                                     Block.
+  ckeditor5       list_multiblock    post-update     Updates Text Editors
+                                                     using CKEditor 5.
+  ckeditor5       list_start_rever   post-update     Updates Text Editors
+                  sed                                using CKEditor 5 to
+                                                     native List "start"
+                                                     functionality.
+  ckeditor5       plugins_settings   post-update     Updates Text Editors
+                  _export_order                      using CKEditor 5 to sort
+                                                     plugin settings by plugin
+                                                     key.
+  editor          image_lazy_load    post-update     Enable
+                                                     filter_image_lazy_load if
+                                                     editor_file_reference is
+                                                     enabled.
+  file            add_default_file   post-update     Add default filename
+                  name_sanitizatio                   sanitization
+                  n_configuration                    configuration.
+  file            add_permissions_   post-update     Grant all non-anonymous
+                  to_roles                           roles the 'delete own
+                                                     files' permission.
+  filter          sort_filters       post-update     Sorts filter format
+                                                     filter configuration.
+  help            add_permissions_   post-update     Grant all admin roles the
+                  to_roles                           'access help pages'
+                                                     permission.
+  help            help_topics_sear   post-update     Install or update config
+                  ch                                 for help topics if the
+                                                     search module installed.
+  help            help_topics_unin   post-update     Uninstall the help_topics
+                  stall                              module if installed.
+  media           oembed_loading_a   post-update     Add the oEmbed loading
+                  ttribute                           attribute setting to
+                                                     field formatter
+                                                     instances.
+  media           set_blank_iframe   post-update     Updates
+                  _domain_to_null                    media.settings:iframe_dom
+                                                     ain config if it's still
+                                                     at the default.
+  olivero         add_olivero_prim   post-update     Sets the default
+                  ary_color                          `base_primary_color`
+                                                     value of Olivero's theme
+                                                     settings.
+  path_alias      drop_path_alias_   post-update     Remove the
+                  status_index                       path_alias__status index.
+  system          add_description_   post-update     Update description for
+                  to_entity_form_m                   form modes.
+                  ode
+  system          add_description_   post-update     Update description for
+                  to_entity_view_m                   view modes.
+                  ode
+  system          enable_password_   post-update     Enable the password
+                  compatibility                      compatibility module.
+  system          linkset_settings   post-update     Add new menu linkset
+                                                     endpoint setting.
+  system          mailer_dsn_setti   post-update     Add new default mail
+                  ngs                                transport dsn.
+  system          mailer_structure   post-update     Add new default mail
+                  d_dsn_settings                     transport dsn.
+  system          remove_asset_ent   post-update     Remove redundant asset
+                  ries                               state and config.
+  system          remove_asset_que   post-update     Remove redundant asset
+                  ry_string                          query string state.
+  system          set_blank_log_ur   post-update     Updates
+                  l_to_null                          system.theme.global:logo.
+                                                     url config if it's still
+                                                     at the default.
+  system          timestamp_format   post-update     Update timestamp
+                  ter                                formatter settings for
+                                                     entity view displays.
+  text            allowed_formats    post-update     Add allowed_formats
+                                                     setting to existing text
+                                                     fields.
+  update          set_blank_fetch_   post-update     Updates
+                  url_to_null                        update.settings:fetch.url
+                                                     config if it's still at
+                                                     the default.
+  views           add_missing_labe   post-update     Add labels to views which
+                  ls                                 don't have one.
+  views           boolean_custom_t   post-update     Update Views config
+                  itles                              schema to make boolean
+                                                     custom titles
+                                                     translatable.
+  views           fix_revision_id_   post-update     Fix '-revision_id'
+                  part                               replacement token syntax.
+  views           oembed_eager_loa   post-update     Add eager load option to
+                  d                                  all oembed type field
+                                                     configurations.
+  views           remove_default_a   post-update     Remove
+                  rgument_skip_url                   default_argument_skip_url
+                                                     setting.
+  views           remove_skip_cach   post-update     Remove the skip_cache
+                  e_setting                          settings.
+  views           responsive_image   post-update     Add lazy load options to
+                  _lazy_load                         all responsive image type
+                                                     field configurations.
+  views           taxonomy_filter_   post-update     Removes User context from
+                  user_context                       views with taxonomy
+                                                     filters.
+  views           timestamp_format   post-update     Update timestamp
+                  ter                                formatter settings for
+                                                     views.
+ --------------- ------------------ --------------- ---------------------------
+
+
+ Do you wish to run the specified pending updates? (yes/no) [yes]:
+>  [notice] Update started: system_update_10100
+>  [notice] Update completed: system_update_10100
+>  [notice] Update started: system_update_10101
+>  [notice] Update completed: system_update_10101
+>  [notice] Update started: block_content_update_10100
+>  [notice] Added revision routes to Content block entity type.
+>  [notice] Update completed: block_content_update_10100
+>  [notice] Update started: dblog_update_10100
+>  [notice] Update completed: dblog_update_10100
+>  [notice] Update started: system_update_10201
+>  [notice] Update completed: system_update_10201
+>  [notice] Update started: block_content_update_10200
+>  [notice] Update completed: block_content_update_10200
+>  [notice] Update started: comment_update_10100
+>  [notice] Update completed: comment_update_10100
+>  [notice] Update started: dblog_update_10101
+>  [notice] Update completed: dblog_update_10101
+>  [notice] Update started: help_update_10200
+>  [notice] Update completed: help_update_10200
+>  [notice] Update started: history_update_10100
+>  [notice] Update completed: history_update_10100
+>  [notice] Update started: user_update_10000
+>  [notice] Update completed: user_update_10000
+>  [notice] Update started: big_pipe_post_update_html5_placeholders
+>  [notice] Update completed: big_pipe_post_update_html5_placeholders
+>  [notice] Update started: block_content_post_update_block_library_view_permission
+>  [notice] Update completed: block_content_post_update_block_library_view_permission
+>  [notice] Update started: block_content_post_update_move_custom_block_library
+>  [notice] Update completed: block_content_post_update_move_custom_block_library
+>  [notice] Update started: block_content_post_update_sort_permissions
+>  [notice] Update completed: block_content_post_update_sort_permissions
+>  [notice] Update started: ckeditor5_post_update_code_block
+>  [notice] Update completed: ckeditor5_post_update_code_block
+>  [notice] Update started: ckeditor5_post_update_list_multiblock
+>  [notice] Update completed: ckeditor5_post_update_list_multiblock
+>  [notice] Update started: ckeditor5_post_update_list_start_reversed
+>  [notice] Update completed: ckeditor5_post_update_list_start_reversed
+>  [notice] Update started: ckeditor5_post_update_plugins_settings_export_order
+>  [notice] Update completed: ckeditor5_post_update_plugins_settings_export_order
+>  [notice] Update started: editor_post_update_image_lazy_load
+>  [notice] Update completed: editor_post_update_image_lazy_load
+>  [notice] Update started: file_post_update_add_default_filename_sanitization_configuration
+>  [notice] Update completed: file_post_update_add_default_filename_sanitization_configuration
+>  [notice] Update started: file_post_update_add_permissions_to_roles
+>  [notice] Update completed: file_post_update_add_permissions_to_roles
+>  [notice] Update started: filter_post_update_sort_filters
+>  [notice] Update completed: filter_post_update_sort_filters
+>  [notice] Update started: help_post_update_add_permissions_to_roles
+>  [notice] Update completed: help_post_update_add_permissions_to_roles
+>  [notice] Update started: help_post_update_help_topics_search
+>  [notice] Update completed: help_post_update_help_topics_search
+>  [notice] Update started: help_post_update_help_topics_uninstall
+>  [notice] Update completed: help_post_update_help_topics_uninstall
+>  [notice] Update started: media_post_update_oembed_loading_attribute
+>  [notice] Update completed: media_post_update_oembed_loading_attribute
+>  [notice] Update started: media_post_update_set_blank_iframe_domain_to_null
+>  [notice] Update completed: media_post_update_set_blank_iframe_domain_to_null
+>  [notice] Update started: olivero_post_update_add_olivero_primary_color
+>  [notice] Update completed: olivero_post_update_add_olivero_primary_color
+>  [notice] Update started: path_alias_post_update_drop_path_alias_status_index
+>  [notice] Update completed: path_alias_post_update_drop_path_alias_status_index
+>  [notice] Update started: system_post_update_add_description_to_entity_form_mode
+>  [notice] Update completed: system_post_update_add_description_to_entity_form_mode
+>  [notice] Update started: system_post_update_add_description_to_entity_view_mode
+>  [notice] Update completed: system_post_update_add_description_to_entity_view_mode
+>  [notice] Update started: system_post_update_enable_password_compatibility
+>  [notice] Update completed: system_post_update_enable_password_compatibility
+>  [notice] Update started: system_post_update_linkset_settings
+>  [notice] Update completed: system_post_update_linkset_settings
+>  [notice] Update started: system_post_update_mailer_dsn_settings
+>  [notice] Update completed: system_post_update_mailer_dsn_settings
+>  [notice] Update started: system_post_update_mailer_structured_dsn_settings
+>  [notice] Update completed: system_post_update_mailer_structured_dsn_settings
+>  [notice] Update started: system_post_update_remove_asset_entries
+>  [notice] Update completed: system_post_update_remove_asset_entries
+>  [notice] Update started: system_post_update_remove_asset_query_string
+>  [notice] Update completed: system_post_update_remove_asset_query_string
+>  [notice] Update started: system_post_update_set_blank_log_url_to_null
+>  [notice] Update completed: system_post_update_set_blank_log_url_to_null
+>  [notice] Update started: system_post_update_timestamp_formatter
+>  [notice] Update completed: system_post_update_timestamp_formatter
+>  [notice] Update started: text_post_update_allowed_formats
+>  [notice] Update completed: text_post_update_allowed_formats
+>  [notice] Update started: update_post_update_set_blank_fetch_url_to_null
+>  [notice] Update completed: update_post_update_set_blank_fetch_url_to_null
+>  [notice] Update started: views_post_update_add_missing_labels
+>  [notice] Update completed: views_post_update_add_missing_labels
+>  [notice] Update started: views_post_update_boolean_custom_titles
+>  [notice] Update completed: views_post_update_boolean_custom_titles
+>  [notice] Update started: views_post_update_fix_revision_id_part
+>  [notice] Update completed: views_post_update_fix_revision_id_part
+>  [notice] Update started: views_post_update_oembed_eager_load
+>  [notice] Update completed: views_post_update_oembed_eager_load
+>  [notice] Update started: views_post_update_remove_default_argument_skip_url
+>  [notice] Update completed: views_post_update_remove_default_argument_skip_url
+>  [notice] Update started: views_post_update_remove_skip_cache_setting
+>  [notice] Update completed: views_post_update_remove_skip_cache_setting
+>  [notice] Update started: views_post_update_responsive_image_lazy_load
+>  [notice] Update completed: views_post_update_responsive_image_lazy_load
+>  [notice] Update started: views_post_update_taxonomy_filter_user_context
+>  [notice] Update completed: views_post_update_taxonomy_filter_user_context
+>  [notice] Update started: views_post_update_timestamp_formatter
+>  [notice] Update completed: views_post_update_timestamp_formatter
+ [success] Finished performing updates.
+```
+
+
 
 ::: tip See also
 - [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)

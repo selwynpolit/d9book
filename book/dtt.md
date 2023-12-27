@@ -223,7 +223,7 @@ In the output: \....S.., periods mean success, S means skipped, I means incomple
 
 You can choose to skip(S) or ignore incomplete (I) tests during development.  This is done to speed up test runs or if you are mid-development and want to only run specific tests.  Also these can be conditional such as when you only want a certain test to run if a condition is met e.g. a driver is present.
 
-You can use markTestIncomplete(string $message) or markTestSkipped( string $message) to cause certain tests not to run.  The `$message` will be displayed when the test is skipped.
+You can use `markTestIncomplete(string $message)` or `markTestSkipped( string $message)` to cause certain tests not to run.  The `$message` will be displayed when the test is skipped.
 
 
 ```php
