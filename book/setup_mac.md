@@ -546,6 +546,14 @@ composer global require mglaman/drupal-check
 ## PhpStorm
 I find this to be a powerful tool in my Drupal development.  
 
+### Plugins
+
+I like the following plugins:
+- GitHub Copilot
+- Rainbow CSV
+- PHP Annotations
+
+
 ### Code Sniffing
 
 You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).  
