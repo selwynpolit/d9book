@@ -371,9 +371,12 @@ Add the following to the end of your `~/.zshrc` file:
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 ```
 
+To test if it installed correctly, use: 
+
+```sh
 nvm --version
 0.39.7
-
+```
 
 ### bat
 
