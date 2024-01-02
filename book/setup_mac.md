@@ -167,7 +167,7 @@ Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or 
 - [Docker](https://docs.docker.com/desktop/install/mac-install/)
 
 
-### DDEV
+## DDEV
 
 Install ddev
 
@@ -359,6 +359,21 @@ Session.vim
 ```
 
 
+### NVM (Node Version Manager)
+
+`brew install nvm`
+
+Add the following to the end of your `~/.zshrc` file:
+
+```
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+```
+
+nvm --version
+0.39.7
+
 
 ### bat
 
@@ -401,6 +416,19 @@ acli auth:login
 
 Follow prompts, setup API token etc
 
+::: tip Note
+You can make the bin directory if it doesn't exist with:
+
+```sh
+mkdir ~/bin
+```
+
+Then add it to your path with by adding the following to the end of your `~/.zshrc` file:
+
+```
+export PATH="$HOME/bin:$PATH"
+```
+:::
 
 
 ### jq
