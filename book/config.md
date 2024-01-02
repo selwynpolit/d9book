@@ -18,7 +18,7 @@ $settings['config_sync_directory'] = '../config/sync';
 
 [More about Defining and using your own configuration in Drupal](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
 
-## Load some config
+## Load some config values in code
 
 This example shows how to load a rest endpoint from config. This is very similar to Drupal 7 `variable_get()`.
 
@@ -108,7 +108,7 @@ $pbx_achievements_url = $pbx_path . "achievements?regid=".$reg_id;
 
 Once you grab the url, you can use it later in your code.
 
-## Import something you changed in your module
+## Import config changes in your module via drush
 
 During module development, you might find you want to add some configuration. This is very useful as part of that workflow.
 
@@ -221,7 +221,7 @@ To put this in `settings.php` or `settings.local.php`, add a line and set the va
 $config['google_tag.container.default']['status'] = false;
 ```
 
-## Setup a testing variable in config for a project
+## Using a testing variable in config for a project
 
 First create the yml file in your `module/config/install` e.g.
 `tea_teks_srp.testing.yml` with this as the contents:
@@ -473,13 +473,12 @@ Each of these methods, will return a loaded entity with a given active context.
 
 Drush will provide you with all the tools you need to fiddle with config from the command line. Check out the [drush docs](https://www.drush.org/latest/commands/all/)
 
-### View config
+### Viewing config with drush
 
-Note. when you view the value in config, drush cleverly will **ignore values** overidden in settings.php. More below.
+::: tip Note
+If you override config values in your settings.php, when you view them with drush cget, drush will **ignore values** overidden in settings.php. This can be confusing. More below.
+:::
 
-`cget` is short for `config:get`.
-
-From the [drush docs](https://www.drush.org/latest/commands/config_get/)
 
 - `drush config:get system.site` - displays the system.site config.
 
@@ -490,13 +489,19 @@ $ drush config:get system.site page.front
   'system.site:page.front': /node
 ```
 
+::: tip Note
+`cget` is short for `config:get`.
+:::
+
 ### Viewing overridden config values
 
-When you view the value in config, drush `cleverly` will **ignore values** overidden in settings.php.
+When you view the value in config, drush `confusingly` will **ignore values** overidden in settings.php.
 
-- drush cget narcs_infoconnect.imagepath basepath
+```sh
+drush cget narcs_infoconnect.imagepath basepath
+```
 
-This displays the basepath that is in the Drupal database. If you override the basepath in settings.php, you have to use the special flag to see the overridden value.
+This displays the basepath that is in the Drupal database. If you override the basepath in settings.php, you have to use the special flag `--include-overridden` to see the overridden value.
 
 ```sh
 drush cget narcs_infoconnect.imagepath basepath --include-overridden
@@ -541,8 +546,7 @@ cdel is short for config:delete.
   ...
 ```
 
-`Only in DB` means the config has not yet been exported. Best practice is to check the config info git for loading onto the production site.
-Usually you would use `drush cex` at this point to export the config and add it to git.
+`Only in DB` means the config has not yet been exported. Best practice is to check the config info git for loading onto the production site. Usually you would use `drush cex` at this point to export the config and add it to git.
 
 After exporting drush will report that everything has been exported and that there are no differences between the database and the sync folder.
 
