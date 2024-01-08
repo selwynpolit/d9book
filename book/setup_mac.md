@@ -18,6 +18,12 @@ Open finder and press Cmd-Shift-.
 This is a toggle, so if you press it twice, it will turn the `.` files off again.
 :::
 
+### Display path bar at bottom of finder window
+
+Open finder, in the top menu, select view and `Show Path Bar`. This will add a path bar at the bottom of the finder window.  This is useful for copying the path to a file or folder.  You can also navigate to a folder by clicking on the folder in the path bar.
+
+
+
 ### Set main display monitor
 
 In the System settings, displays, set your main display monitor to the monitor that you want.  Otherwise things pop up on the other monitors.  
@@ -167,7 +173,7 @@ Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or 
 - [Docker](https://docs.docker.com/desktop/install/mac-install/)
 
 
-### DDEV
+## DDEV
 
 Install ddev
 
@@ -223,7 +229,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 [From the zsh-autosuggestions repo:](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
 
 ```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions \${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 This will load the folder zsh-autosuggestions into the `~/oh-my-zsh/custom/plugins` folder
 
@@ -359,6 +365,24 @@ Session.vim
 ```
 
 
+### NVM (Node Version Manager)
+
+`brew install nvm`
+
+Add the following to the end of your `~/.zshrc` file:
+
+```
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+```
+
+To test if it installed correctly, use: 
+
+```sh
+nvm --version
+0.39.7
+```
 
 ### bat
 
@@ -401,6 +425,19 @@ acli auth:login
 
 Follow prompts, setup API token etc
 
+::: tip Note
+You can make the bin directory if it doesn't exist with:
+
+```sh
+mkdir ~/bin
+```
+
+Then add it to your path with by adding the following to the end of your `~/.zshrc` file:
+
+```
+export PATH="$HOME/bin:$PATH"
+```
+:::
 
 
 ### jq
@@ -514,6 +551,14 @@ composer global require mglaman/drupal-check
 
 ## PhpStorm
 I find this to be a powerful tool in my Drupal development.  
+
+### Plugins
+
+I like the following plugins:
+- GitHub Copilot
+- Rainbow CSV
+- PHP Annotations
+
 
 ### Code Sniffing
 
