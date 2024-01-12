@@ -363,6 +363,14 @@ public function summaryImport() {
 }
 ```
 
+::: tip Note
+If you want to execute a batch in a controller but return to the page you are already on, you can call `batch_process()` with the current URL as the argument.  Here is an easy way to do it:
+
+```php
+return batch_process(\Drupal::request()->getRequestUri());
+```
+:::
+
 ### Using the Batch API with hook_update
 
 If you want to update the default value of a field for all nodes using the Batch API and hook_update_N check out the following links:
