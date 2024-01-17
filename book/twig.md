@@ -81,7 +81,7 @@ And even more Twig fun at <https://twig.symfony.com/doc/3.x/functions/index.html
 
 ### Which template, which variables?
 
-There is usually one `page.tpl.php` and _multiple_ node templates. One node template per content type. Eg. `node-news-story.html.twig`, `node-event.html.twig`. There can also be field specific templates e.g. `web/themes/custom/txg/templates/field/field--field-3-column-links.html.twig`
+There is usually one `page.html.twig` and _multiple_ node templates. One node template per content type. Eg. `node-news-story.html.twig`, `node-event.html.twig`. There can also be field specific templates e.g. `web/themes/custom/txg/templates/field/field--field-3-column-links.html.twig`
 
 In the `page.html.twig`, you can refer to variables as `page.content` or `node.label`
 
