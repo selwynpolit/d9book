@@ -13,6 +13,20 @@ With over 50,000 modules, Drupal has the ability to do almost anything. This als
 If you want to check the usage for a module that isn't as popular as say [token](https://www.drupal.org/project/token) which clearly displays `636,845 sites report using this module` Check the url [https://www.drupal.org/project/usage/token](https://www.drupal.org/project/usage/token) Just replace `token` with the machine name for that module.
 :::
 
+## Accessibility
+
+### All in One Accessibility
+
+#### Quick Web Accessibility Implementation with Drupal All In One Accessibility module!
+
+The All In One Accessibility widget is developed to improve accessibility and usability of your website. It uses the accessibility interface which handles UI and design related adjustments.
+
+Enable a wide array of people with disabilities to use your Drupal website effectively with the All In One Accessibility widget. It will integrate basic accessibility features according to the **ADA, WCAG 2.1 & 2.2, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act (EA), Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, France RGAA, Brazilian Inclusion Law (LBI 13.146/2015), Spain UNE 139803:2012, JIS X 8341 (Japan), Italian Stanca Act and Switzerland DDA Standards**. These standards ensure that the site is accessible to people with hearing or vision impairments, cognitive impairments, and perception problems.
+
+[https://www.drupal.org/project/all_in_one_accessibility](https://www.drupal.org/project/all_in_one_accessibility)
+
+[Here's a comprehensive feature guide](https://www.dropbox.com/s/de41n4xm9zjwxix/All-in-One-Accessibility-PRO-App-Usage-and-Functionality.pdf?dl=0)
+
 ## Access/Permissions
 
 ### Access by Reference
