@@ -6,19 +6,20 @@ title: Config
 
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=config.md)
 
-Config is stored in yml files so it can be checked into git. It is
-loaded into the config table of the database for performance. Use `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more. You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
+## Overview
+Config is stored in yml files so it can be checked into git. It is loaded into the config table of the database for performance. Use `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more. You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
 
-Config files should be stored in a non-web accessible directory and
-specified in settings.php e.g.
+Config files should be stored in a non-web accessible directory and specified in `settings.php` or `settings.local.php` like:
 
 ```php
 $settings['config_sync_directory'] = '../config/sync';
 ```
+You can override config items in a `settings.php` or `settings.local.php` using the `$config` global variable.
 
-[More about Defining and using your own configuration in Drupal](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
+[More on configuration Management on Drupal.org.](https://www.drupal.org/docs/configuration-management)
 
-## Load some config values in code
+
+## Reading config values in code
 
 This example shows how to load a rest endpoint from config. This is very similar to Drupal 7 `variable_get()`.
 
@@ -44,8 +45,7 @@ You'll find this in a file in the config sync directory specified in
 config/sync/pizza_academy_core.pbx.rest.endpoint.yml
 ```
 
-The config sync directory location is specified in `settings.php` like
-this
+The config sync directory location is specified in `settings.php` or `settings.local.php` like this
 
 ```php
 $settings['config_sync_directory'] = '../config/sync';
@@ -53,13 +53,30 @@ $settings['config_sync_directory'] = '../config/sync';
 
 [More on creating custom modules: Using your own configuration](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
 
-[Drupal::config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
+For testing, you can override config items in a `settings.php` or `settings.local.php` using the `$config` global variable.
 
-You can override config items in a `settings.php` or `local.settings.php` using the `$config` global variable.
 
-## Views
+## Writing config values in code
 
-For views, the config filenames are be in the form `views.view.infofeeds` for a view called `infofeeds`.
+Here are some examples of writing config values in code. This is similar to Drupal 7 `variable_set()`.
+
+```php
+$config = \Drupal::configFactory()->getEditable('pizza_academy_core.pbx.rest.endpoint');
+$config->set('pizza_rest_endpoint', $pizza_service_url);
+$config->save();
+```
+
+```php
+// Disable auto refresh if it is enabled.
+$auto_refresh_enable = \Drupal::config('tea_teks_voting.settings')
+  ->get('conditional_refresh_refresh_enable');
+if ($auto_refresh_enable) {
+  \Drupal::configFactory()->getEditable('tea_teks_voting.settings')
+    ->set('conditional_refresh_refresh_enable', 0)
+    ->save();
+}
+```
+
 
 ## Add config to an existing module
 
@@ -110,13 +127,14 @@ Once you grab the url, you can use it later in your code.
 
 ## Import config changes in your module via drush
 
-During module development, you might find you want to add some configuration. This is very useful as part of that workflow.
+During module development, you might find you want to add some configuration. This is very useful as part of that workflow as you can repeat it as you continue making changes.
 
 ```
 drush @dev2 config-import --source=modules/migrate/test1/config/install/ --partial -y
 ```
 
 Note. the @dev2 is a site alias. See [Drush alias docs for more info](https://www.drush.org/latest/site-aliases/). These are sooo useful.
+
 
 ## Config Storage in the database
 
@@ -125,6 +143,7 @@ Config is also kept in the config table of the database.
 The name field stores the config id e.g. views.view.infofeeds (the definition of a view called infofeeds)
 
 The data field stores the stuff in the config serialized into a blob
+
 
 ## Add some config to site config form
 
@@ -172,11 +191,7 @@ This can be useful for local development environment (where you might
 put these changes into settings.local.php) or on each one of your servers where you might
 need some configuration to be slightly different. e.g. dev/test/prod.
 
-Drupal 9 allows global `$config` overrides (similar to drupal 7) The
-configuration system integrates these override values via the
-`Drupal\Core\Config\ConfigFactory::get()` implementation. When you
-retrieve a value from configuration, the global \$config variable gets a
-chance to change the returned value:
+Drupal allows global `$config` overrides (similar to drupal 7) The configuration system integrates these override values via the `Drupal\Core\Config\ConfigFactory::get()` implementation. When you retrieve a value from configuration, the global \$config variable gets a chance to change the returned value:
 
 ```php
 // Get system site maintenance message text. This value may be overriden by
@@ -184,8 +199,7 @@ chance to change the returned value:
 $message = \Drupal::config('system.maintenance')->get('message');
 ```
 
-To override configuration values in global `$config` in settings.php, use
-a line like this (which references the configuration keys:
+To override configuration values in global `$config` in settings.php, use a line like this (which references the configuration keys:
 
 ```php
 $config['system.maintenance']['message'] = 'Sorry, our site is down now.';
@@ -197,9 +211,7 @@ For nested values, use nested array keys
 $config['system.performance']['css']['preprocess'] = 0;
 ```
 
-If you have a configuration change, for example, you have enabled google
-tag manager. When you export the config `drush cex -y` and `git diff` to see what changed in config,
-you'll see (in the last 2 lines) that status is changed from true to false.
+If you have a configuration change, for example, you have enabled google tag manager. When you export the config `drush cex -y` and `git diff` to see what changed in config, you'll see (in the last 2 lines) that status is changed from true to false.
 
 ```diff
 $ git diff
@@ -223,8 +235,7 @@ $config['google_tag.container.default']['status'] = false;
 
 ## Using a testing variable in config for a project
 
-First create the yml file in your `module/config/install` e.g.
-`tea_teks_srp.testing.yml` with this as the contents:
+First create the yml file in your `module/config/install` e.g. `tea_teks_srp.testing.yml` with this as the  contents:
 
 ```yml
 test_mode: FALSE
@@ -291,7 +302,7 @@ Drilling down deeper, let's say we want to view the credentials section. Notice 
 $ drush cget shield.settings credentials
 'shield.settings:credentials':
   shield:
-    user: nisor
+    user: nistor
     pass: blahblah
 ```
 
@@ -300,7 +311,7 @@ Now to get down to the user name and password. And we are adding period back in.
 ```sh
 $ drush cget shield.settings credentials.shield
 'shield.settings:credentials.shield':
-    user: nisor
+    user: nistor
     pass: blahblah
 ```
 
@@ -346,22 +357,19 @@ and while we're here, we could always put these into the `$config` object
 via `settings.php` (or `settings.local.php` :
 
 ```php
-$config['shield.settings']['credentials']['shield']['user'] = "nisor";
+$config['shield.settings']['credentials']['shield']['user'] = "nistor";
 $config['shield.settings']['credentials']['shield']['pass'] = "blahblah";
 ```
 
 Similarly, for setting stage_file_proxy origin:
 
 ```sh
-drush config-set stage_file_proxy.settings
-origin https://www.mudslinger.com
+drush config-set stage_file_proxy.settings origin https://www.mudslinger.com
 ```
 
 ## Creating a module allowing users to edit/update some config
 
-When you want to add a form to allow the user to update the config,
-create a module with a form as you would anywhere else. The form will
-need the standard `buildForm()`, `submitForm()` and `getFormId()` methods.
+When you want to add a form to allow the user to update the config, create a module with a form as you would anywhere else. The form will need the standard `buildForm()`, `submitForm()` and `getFormId()` methods.
 
 e.g. in `docroot/modules/custom/danamod/src/Form/HeaderFooterForm.php`
 
@@ -473,7 +481,7 @@ Each of these methods, will return a loaded entity with a given active context.
 
 Drush will provide you with all the tools you need to fiddle with config from the command line. Check out the [drush docs](https://www.drush.org/latest/commands/all/)
 
-### Viewing config with drush
+### Viewing config
 
 ::: tip Note
 If you override config values in your settings.php, when you view them with drush cget, drush will **ignore values** overidden in settings.php. This can be confusing. More below.
@@ -523,9 +531,10 @@ drush ev "print \Drupal::config('narcs_inferconnect.imagepath')->get('basepath')
 
 cdel is short for config:delete.
 
-- `drush \@dev2 cdel migrate_plus.migration.test1`
+- `drush @dev2 cdel migrate_plus.migration.test1`
 
-- `drush \@dev2 cdel migrate_plus.migration_group.default`
+- `drush @dev2 cdel migrate_plus.migration_group.default`
+
 
 ### Check what has changed with config:status
 
@@ -604,6 +613,11 @@ $ drush cim -y
  [success] The configuration was imported successfully.
 ```
 
+## Views config.yml files
+
+For views, the config filenames are be in the form `views.view.infofeeds` for a view called `infofeeds`.
+
+
 ## Troubleshooting
 
 ### Config export
@@ -617,3 +631,11 @@ $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy', 'masquerade'
 For some reason, an edge condition is reached which confuses the configuration engine in Drupal. Commenting out the above line resolves the issue.
 
 I hope this one saves you countless hours of frustration. I know it has caused me plenty of frustration!
+
+
+## Resources
+
+- [Configuration Management on Drupal.org](https://www.drupal.org/docs/configuration-management)
+- [Defining and using your own configuration in Drupal](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
+- [Drupal Config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
+- 
