@@ -105,9 +105,8 @@ While searching for a way to merge two arrays with numeric keys, I found this [i
 
 
 ```php
-function array_merge_recursive_new(): array {
-  $arrays = func_get_args();
-  $base = array_shift($arrays);
+function array_merge_recursive_new(array $base, array $array1, array ...$arrays): array {
+  array_unshift($arrays, $array1);
 
   foreach ($arrays as $array) {
     foreach ($array as $key => $value) {
@@ -118,10 +117,38 @@ function array_merge_recursive_new(): array {
       }
     }
   }
-    return $base;
+  return $base;
 }
+
+// Define some test arrays
+$array1 = ['a' => 1, 'b' => 2, 'c' => ['d' => 3]];
+$array2 = ['a' => 2, 'c' => ['e' => 4]];
+$array3 = ['f' => 5, 'c' => ['g' => 6]];
+
+// Merge the arrays
+$result = array_merge_recursive_new($array1, $array2, $array3);
+
+// Print the result
+print_r($result);
+
 ```
 
+Here is the output:
+
+```
+Array
+(
+    [a] => 2
+    [b] => 2
+    [c] => Array
+        (
+            [d] => 3
+            [e] => 4
+            [g] => 6
+        )
+    [f] => 5
+)
+```
 
 
 ## Reference
