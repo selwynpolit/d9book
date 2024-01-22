@@ -99,6 +99,29 @@ unset($correlation); // Unset reference to avoid unexpected behavior
 This way, any changes made to `$correlation` inside the loop will be reflected in the original `$correlations` array. The `unset($correlation)` line is added after the loop to break the reference with the last element, as recommended in the PHP documentation to avoid unexpected behavior.
 
 
+## Deep merge arrays with numeric keys
+
+While searching for a way to merge two arrays with numeric keys, I found this [information on PHP.net](https://www.php.net/manual/en/function.array-merge-recursive.php).  Unfortunately `array_merge_recursive()` does not work with numeric keys.  The following code (from 12 years ago) is a solution to the problem.  I did have to get ChatGPT to modernize the code a bit so it would work with PHP 8.
+
+
+```php
+function array_merge_recursive_new(): array {
+  $arrays = func_get_args();
+  $base = array_shift($arrays);
+
+  foreach ($arrays as $array) {
+    foreach ($array as $key => $value) {
+      if (is_array($value) && isset($base[$key]) && is_array($base[$key])) {
+        $base[$key] = array_merge_recursive_new($base[$key], $value);
+      } else {
+        $base[$key] = $value;
+      }
+    }
+  }
+    return $base;
+}
+```
+
 
 
 ## Reference
