@@ -184,6 +184,11 @@ features:
     details: Setup your mac for Drupal development
     link: /setup_mac
 
+  - icon: 📑
+    title: PHP
+    details: Tips and tricks using PHP
+    link: /php
+
   - icon: 💡
     title: State
     details: State API, Tempstore and UserData (Interesting flavors of storage)

@@ -40,6 +40,7 @@ If you want to contribute to the expense of creating this book, I have added a [
 - [Modal dialogs](modals)
 - [Modules - a collection of useful and essential](modules)
 - [Nodes and Fields - Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets](nodes-and-fields)
+- [PHP - Tips and tricks](php)
 - [Queries - entityQueries, SQL queries, inserting and deleting content](queries)
 <!-- - [Reaching out of Drupal](reaching-out) -->
 - [Redirects](redirects)
