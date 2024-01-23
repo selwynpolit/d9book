@@ -638,4 +638,3 @@ I hope this one saves you countless hours of frustration. I know it has caused m
 - [Configuration Management on Drupal.org](https://www.drupal.org/docs/configuration-management)
 - [Defining and using your own configuration in Drupal](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
 - [Drupal Config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
-- 
