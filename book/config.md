@@ -82,17 +82,11 @@ if ($auto_refresh_enable) {
 
 You simply create a yml file in the module's `/config/install` directory.
 
-The config file should start with the module name then a period and the thing you want to store the config about. So `modulename.something.yml` e.g.
-`dir_salesforce.cron.yml` for cron information, `dir.funnelback.yml` for funnelback information or
-`tea_teks_spr.testing.yml` for testing information.
+The config file should start with the module name then a period and the thing you want to store the config about. So `modulename.something.yml` e.g.`dir_salesforce.cron.yml` for cron information, `dir.funnelback.yml` for funnelback information or `tea_teks_spr.testing.yml` for testing information.
 
-If the module name is pizza_academy_core and the thing I want to store
-config about is the pbxpath, I would create a file called
-`pizza_academy_core.pbxpath.yml`.
+If the module name is pizza_academy_core and the thing you want to store config about is the pbxpath, first create a file called: `pizza_academy_core.pbxpath.yml`.
 
-The yml filename is passed as a parameter into
-`\Drupal::config('...')` without the `.yml` extension. e.g. if the
-filename is `danamod.header_footer_settings.yml` then use:
+The yml filename is passed as a parameter into calls like `\Drupal::config('...')` without the `.yml` extension. e.g. if the filename is `danamod.header_footer_settings.yml` then use:
 
 ```php
 $config = \Drupal::config('danamod.header_footer_settings');
@@ -109,7 +103,12 @@ url: 'https://pbx.pizza.com/'
 langcode: 'en'
 ```
 
-You can copy it to the `config/sync` directory, manually paste the contents into the config Drupal u/i or import it into the db with drush. The drush way is the easiest in my opinion.
+To deploy your config, you can: 
+1. Copy it to the `config/sync` directory
+2. Paste the contents into the config Drupal u/i or
+3. Import it into the db with drush. 
+
+The drush way is the easiest in my opinion.
 
 ```
 drush config-import --source=modules/custom/pizza_academy_core/config/install/ --partial -y
@@ -125,6 +124,12 @@ $pbx_achievements_url = $pbx_path . "achievements?regid=".$reg_id;
 
 Once you grab the url, you can use it later in your code.
 
+## Add a config form to a custom module
+
+To create a config form, see the [config forms in the forms chapter](forms#config-forms).
+
+
+
 ## Import config changes in your module via drush
 
 During module development, you might find you want to add some configuration. This is very useful as part of that workflow as you can repeat it as you continue making changes.
@@ -134,6 +139,75 @@ drush @dev2 config-import --source=modules/migrate/test1/config/install/ --parti
 ```
 
 Note. the @dev2 is a site alias. See [Drush alias docs for more info](https://www.drush.org/latest/site-aliases/). These are sooo useful.
+
+
+## Config Read Only
+
+Many sites can benefit from the use of the [Config Read Only module.](https://www.drupal.org/project/config_readonly) This module allows you to set some config items to be read only. This is useful for things like the site name, email address, etc. which should not be changed by the user.  It is also useful for things like the site uuid which should not be changed on a production site.
+
+To set a site in read-only mode, add the following to your `settings.php` or `settings.local.php` file:
+
+```php
+$settings['config_readonly'] = TRUE;
+```
+
+When you try to change a config item, you will see a message indicating that: `This form will not be saved because the configuration active store is read-only.`
+
+![Config read only message](/images/config_readonly.png)
+
+You can permit changes to specific forms (and their config) by adding something like the following to your `settings.php` or `settings.local.php` file (more below):
+```php
+$settings['config_readonly_whitelist_patterns'] = [
+  'system.menu.main*',
+  'system.menu.utility*',
+  'system.menu.footer*',
+  'system.menu.learn-more*',
+  'system.menu.for-publishers*',
+  'system.file',
+  'webform.webform.*',
+  ...
+];
+```
+Once you clear caches and have configured the whitelist, you will no longer see the message and you can change the config items you specified above.
+
+To lock production and not other environments, your code in settings.php might be a conditional on an environment variable like (for [Acquia](https://www.acquia.com) hosted sites):
+
+```php
+if (isset($_ENV['AH_SITE_ENVIRONMENT']) && $_ENV['AH_SITE_ENVIRONMENT'] === 'prod') {
+  $settings['config_readonly'] = TRUE;
+}```
+
+The following approaches are somewhat discouraged since they may allow anyone with Drush or shell access to bypass or disable the protection and change configuration in production.
+
+To allow all changes via the command line and enable readonly mode for the UI only:
+
+```php
+if (PHP_SAPI !== 'cli') {
+  $settings['config_readonly'] = TRUE;
+}
+```
+You could similarly toggle read-only mode based on the presence or absence of a file on the webserver (e.g. in a location outside the docroot).
+
+```php
+if (!file_exists('/home/myuser/disable-readonly.txt')) {
+  $settings['config_readonly'] = TRUE;
+}
+```
+### Whitelist settings for custom modules
+
+In the following example, we use this code to load config for our custom module:
+
+```php
+$refresh_enabled = \Drupal::config('tea_teks_voting.settings')->get('conditional_refresh_refresh_enable');
+```
+This means the settings.php needs to have the following to allow site admins to change the value of `conditional_refresh_refresh_enable` in the UI:
+
+```php
+$settings['config_readonly_whitelist_patterns'] = [
+  'tea_teks_voting.*',
+];```
+
+[See the following documentation for more information on whitelisting.](https://git.drupalcode.org/project/config_readonly/-/blob/HEAD/README.md#configuration)
 
 
 ## Config Storage in the database

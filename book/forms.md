@@ -1842,7 +1842,7 @@ Create a `module.settings.yml` file in config/install directory for config objec
 
 Also create a `module.schema.yml` file in config/schema for schema info i.e.  definitions and mappings for config objects
 
-Implement the following methods: `buildForm()`, `getEditableConfigNames()`, `getFormId()`, `submitForm()`, `validateForm()`.
+Implement the following methods: `buildForm()`, `getEditableConfigNames()`, `getFormId()`, `submitForm()`, `validateForm()`.  `validateForm()` is optional.
 
 from `dev1/web/modules/custom/rsvp/src/Form/RSVPConfigurationForm.php` here is the `buildForm()` function.
 
