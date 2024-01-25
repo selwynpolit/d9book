@@ -205,7 +205,8 @@ This means the settings.php needs to have the following to allow site admins to 
 ```php
 $settings['config_readonly_whitelist_patterns'] = [
   'tea_teks_voting.*',
-];```
+];
+```
 
 [See the following documentation for more information on whitelisting.](https://git.drupalcode.org/project/config_readonly/-/blob/HEAD/README.md#configuration)
 
@@ -221,7 +222,7 @@ The data field stores the stuff in the config serialized into a blob
 
 ## Add some config to site config form
 
-Here we add a phone number to the site config. This is put in a `.module` file.
+Here we modify the site config form and add a phone number. This code is in a `.module` file.
 
 ```php
 use Drupal\Core\Form\FormStateInterface;
@@ -441,65 +442,8 @@ Similarly, for setting stage_file_proxy origin:
 drush config-set stage_file_proxy.settings origin https://www.mudslinger.com
 ```
 
-## Creating a module allowing users to edit/update some config
 
-When you want to add a form to allow the user to update the config, create a module with a form as you would anywhere else. The form will need the standard `buildForm()`, `submitForm()` and `getFormId()` methods.
-
-e.g. in `docroot/modules/custom/danamod/src/Form/HeaderFooterForm.php`
-
-In the buildform, you load the config object, then `get` each value from the object, load them into the form (in `#default_value` array items) so the user can see the current value.
-
-```php
-// Load the values from config.
-$config = \Drupal::config('danamod.header_footer_settings');
-
-$address1 = $config->get('footer_address1');
-$address2 = $config->get('footer_address2');
-$address3 = $config->get('footer_address3');
-$email = $config->get('footer_email');
-$logo_url = $config->get('logo_url');
-
-// And put them into the form render array.
-
-$form['footer']['footer_address1'] = [
-  '#type' => 'textfield',
-  '#title' => $this->t('Address line 1'),
-  '#default_value' => $address1,
-];
-$form['footer']['footer_address2'] = [
-  '#type' => 'textfield',
-  '#title' => $this->t('Address line 2'),
-  '#default_value' => $address2,
-];
-```
-
-In the `submitForm()` member, you extract the values from the `$form_state`, load an editable config object and `->set()` values and `->save()` them.
-
-```php
-$config = \Drupal::configFactory()->getEditable('danamod.header_footer_settings');
-$values = $form_state->getValues();
-$address1 = $values['footer_address1'];
-$address2 = $values['footer_address2'];
-$config->set('footer_address1', $address1);
-$config->set('footer_address2', $address2);
-
-$config->save();
-
-\Drupal::messenger()->addMessage('Values have been saved.');
-```
-
-And a little shorthand
-
-```php
-$config
-  ->set('display_stars', $display_stars)
-  ->set('display_summary_summative', $display_summary_summative)
-  ->save();
-
-\Drupal::messenger()->addMessage('Values have been saved.');
-```
-
-## Using the Config Pages module
+## Config Pages module
 
 [Config Pages](https://www.drupal.org/project/config_pages) is a really useful module which allows you to quickly create some `config` along with forms to control them.
 
