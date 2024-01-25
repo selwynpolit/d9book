@@ -2095,7 +2095,7 @@ foreach ($form_state->getValues() as $key => $value) {
 ```
 
 #### validateForm()
-see [Form Validation](#validateForm-examples)
+see [Form Validation](#validateform-examples)
 
 #### Form Elements
 
