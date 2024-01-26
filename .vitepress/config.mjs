@@ -11,8 +11,8 @@ export default defineConfig({
   outDir: './dist',
   cleanUrls: true,
   lastUpdated: true,
-  head: [['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }],
-    [
+  head: [
+    ['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }],
     [
       'script',
       { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-8V22RQEJ71' }
@@ -25,7 +25,7 @@ export default defineConfig({
       gtag('js', new Date());
       gtag('config', 'G-8V22RQEJ71');`
     ]
-  ]],
+  ],
   //rewrites: {
     //'nodes_n_fields.md': 'nodes-and-fields.md',
     //'off_the_island.md': 'off-island.md',
