@@ -16,6 +16,20 @@ export default defineConfig({
     //'nodes_n_fields.md': 'nodes-and-fields.md',
     //'off_the_island.md': 'off-island.md',
   //},
+  head: [
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-8V22RQEJ71' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8V22RQEJ71');`
+    ]
+  ],
   vite: {
     ssr: {
       noExternal: ['@nolebase/vitepress-plugin-enhanced-readabilities'],
