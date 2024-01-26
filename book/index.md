@@ -1,4 +1,5 @@
 ---
+<meta name="google-site-verification" content="ttgM8YbYcV13P1oR3YMzvtKbrjBwkAERNAzyKb7DTE0" />
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
