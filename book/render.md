@@ -20,7 +20,7 @@ Here is a simple render array that displays some text.
 
 ```php
 $my_render_array['some_item'] = [
-  '#type' => markup,
+  '#type' => 'markup',
   '#markup' => "This is a test",
 ];
 ```
@@ -76,8 +76,10 @@ Here\'s an example of what a #cache property might contain:
 At the response level, you\'ll see `X-Drupal-Cache-Contexts` and
 `X-Drupal-Cache-Tags` headers.
 
-Reproduced from the Render API overview at
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x>
+Reproduced from the [Render API overview on Drupal.org]
+(https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x)
+
+More on [caching](caching)
 
 ## Properties
 
