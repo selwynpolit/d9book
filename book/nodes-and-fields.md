@@ -277,25 +277,53 @@ You can call `$node->uid` but that returns an `EntityReferenceFieldItemList` wit
 $entity->get('field_name')->isEmpty()
 ```
 
-For an entity field use:
+To avoid the warning message `Attempt to read property "target_id" on null` you can use the following:
+
+For an entity reference field use:
 
 ```php
 $sf_contract_node = Node::load($sf_contract_nid);
-if ($sf_contract_node) {
-  if (!$sf_contract_node->get('field_vendor_url')->isEmpty()) {
-    $url = $sf_contract_node->field_vendor_url->first()->getUrl();
-    $url = $url->getUri();
-    $variables['vendor_url'] = $url;
-  }
+if (!$sf_contract_node->get('field_vendor_url')->isEmpty()) {
+  $url = $sf_contract_node->field_vendor_url->first()->getUrl();
+  $url = $url->getUri();
+  $variables['vendor_url'] = $url;
+}
 ```
 
-And more concisely, using a new feature of PHP 8 we can use the following:
-
+And more concisely:
 ```php
 $url = $sf_contract_node?->field_vendor_url?->first()?->getUrl();
 if (!is_null($url)) {
       $uri = $url->getUri();
 }
+```
+
+For a single value entity reference field:
+```php
+$nid = 0;
+if (!isset($node->get('field_my_entity_ref_field')->target_id)) {
+  $nid = $node->get('field_my_entity_ref_field')->target_id;
+}
+```
+
+
+## Test if a multivalue entity reference field is empty
+
+To avoid the warning message `Attempt to read property "target_id" on null` you can use the following:
+
+```php
+// If there is a value at the specified index, then return the target_id, otherwise return 0.
+$team_nid = 0;
+if (isset($program_node->get('field_srp_team_ref')[$vote_number]->target_id)) {
+  $team_nid = $program_node->get('field_srp_team_ref')[$vote_number]->target_id;
+}
+```
+
+And more concisely:
+
+```php
+// If there is a value at the specified index, then return the target_id, otherwise return 0.
+$team_nid = $program_node->get('field_srp_team_ref')[$vote_number]?->target_id ?? 0;
 ```
 
 ## Load a node and update a field
