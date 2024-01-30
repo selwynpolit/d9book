@@ -356,6 +356,40 @@ Smart Trim implements a new field formatter for textfields (text, text_long, and
 
 [https://www.drupal.org/project/smart_trim](https://www.drupal.org/project/smart_trim)
 
+## Paragraphs
+
+### Paragraphs
+Paragraphs is the new way of content creation!
+It allows you — Site Builders — to make things cleaner so that you can give more editing power to your end-users.
+
+Instead of putting all their content in one WYSIWYG body field including images and videos, end-users can now choose on-the-fly between pre-defined Paragraph Types independent from one another. Paragraph Types can be anything you want from a simple text block or image to a complex and configurable slideshow.
+
+[https://www.drupal.org/project/paragraphs](https://www.drupal.org/project/paragraphs)
+
+### Paragraphs Edit
+
+This module adds contextual links to paragraphs to edit, delete and clone paragaphs.
+
+[https://www.drupal.org/project/paragraphs_edit](https://www.drupal.org/project/paragraphs_edit)
+
+### Paragraphs Report
+
+The Paragraphs Report module will parse nodes of certain content types that you check on the settings page, and make a catalog of what paragraphs are used on which pages.
+
+The use case for this report is when you want to know which pages a specific paragraph type is used.
+
+[https://www.drupal.org/project/paragraphs_report](https://www.drupal.org/project/paragraphs_report)
+
+### Paragraphs Sets
+
+Paragraphs Sets allows to create different sets of paragraphs.
+
+These sets can be automatically added to a new entity or selected while creating/editing the entity.
+
+This allows editors to add content way faster because they do not need to add all required paragraphs manually and can focus on the content.
+
+[https://www.drupal.org/project/paragraphs_sets](https://www.drupal.org/project/paragraphs_sets)
+
 ## Permissions
 
 [How to restrict access to content by role in Drupal 8 - Aug 2018](https://www.optasy.com/blog/how-do-you-restrict-access-content-drupal-8-6-modules-will-do-job-you)
