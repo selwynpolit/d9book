@@ -18,6 +18,11 @@ Open finder and press Cmd-Shift-.
 This is a toggle, so if you press it twice, it will turn the `.` files off again.
 :::
 
+### Set fast keyboard repeat and short delay
+
+In keyboard settings, set key repeat rate to the maximum and delay until repeat to the minimum.
+
+
 ### Display path bar at bottom of finder window
 
 Open finder, in the top menu, select view and `Show Path Bar`. This will add a path bar at the bottom of the finder window.  This is useful for copying the path to a file or folder.  You can also navigate to a folder by clicking on the folder in the path bar.
