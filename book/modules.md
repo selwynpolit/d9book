@@ -430,6 +430,12 @@ Antibot is an extremely lightweight module designed to eliminate robotic form su
 
 [https://www.drupal.org/project/antibot](https://www.drupal.org/project/antibot)
 
+### Automated Logout
+
+This module provides a site administrator the ability to log users out after a specified time of inactivity. It is highly customisable and includes "site policies" by role to enforce logout.
+
+[https://www.drupal.org/project/autologout](https://www.drupal.org/project/autologout)
+
 ### Honeypot
 Honeypot uses both the honeypot and timestamp methods of deterring spam bots from completing forms on your site. These methods are effective against many spam bots, and are not as intrusive as CAPTCHAs or other methods which punish the user. The module currently supports enabling for all forms on the site, or particular forms like user registration or password reset forms, webforms, contact forms, node forms, and comment forms.
 
