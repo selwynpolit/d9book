@@ -386,8 +386,7 @@ Smart Trim implements a new field formatter for textfields (text, text_long, and
 ## Paragraphs
 
 ### Paragraphs
-Paragraphs is the new way of content creation!
-It allows you — Site Builders — to make things cleaner so that you can give more editing power to your end-users.
+Paragraphs allows grouping together fields to make a cohesive unit of content.
 
 Instead of putting all their content in one WYSIWYG body field including images and videos, end-users can now choose on-the-fly between pre-defined Paragraph Types independent from one another. Paragraph Types can be anything you want from a simple text block or image to a complex and configurable slideshow.
 
