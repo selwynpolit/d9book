@@ -430,6 +430,12 @@ Antibot is an extremely lightweight module designed to eliminate robotic form su
 
 [https://www.drupal.org/project/antibot](https://www.drupal.org/project/antibot)
 
+### Flood control
+
+Flood Control provides an interface for hidden flood control variables (e.g. login attempt limiters) and makes it possible for site administrators to remove IP addresses and user ID's from the flood table.
+
+[https://www.drupal.org/project/flood_control](https://www.drupal.org/project/flood_control)
+
 ### Honeypot
 Honeypot uses both the honeypot and timestamp methods of deterring spam bots from completing forms on your site. These methods are effective against many spam bots, and are not as intrusive as CAPTCHAs or other methods which punish the user. The module currently supports enabling for all forms on the site, or particular forms like user registration or password reset forms, webforms, contact forms, node forms, and comment forms.
 
