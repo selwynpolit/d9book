@@ -457,6 +457,13 @@ Antibot is an extremely lightweight module designed to eliminate robotic form su
 
 [https://www.drupal.org/project/antibot](https://www.drupal.org/project/antibot)
 
+
+### Automated Logout
+
+This module provides a site administrator the ability to log users out after a specified time of inactivity. It is highly customisable and includes "site policies" by role to enforce logout.
+
+[https://www.drupal.org/project/autologout](https://www.drupal.org/project/autologout)
+
 ### Flood control
 
 Flood Control provides an interface for hidden flood control variables (e.g. login attempt limiters) and makes it possible for site administrators to remove IP addresses and user ID's from the flood table.
