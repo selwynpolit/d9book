@@ -238,6 +238,33 @@ Examples:
 
 [https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
 
+## Development
+
+### Module Builder
+
+A module which auto-generates a skeleton or "scaffolding" for a module, along with hints on how to fill them in. Useful for newbie developers to learn how Drupal code works, and seasoned developers who are too lazy to look up what arguments a function has to take.
+
+Module Builder is unlike any other code generator in that it analyses your site's code to detect plugin types, hooks, services, and so on. It can then generate code for any of these, whether from core, contrib, or your custom code.
+
+But more than this, module builder can generate:
+
+- Content and config entity types
+- Plugins of just about any type, with injected services
+- Forms, with injected services
+- Routes and controllers, with injected services
+- Permissions
+- Services
+- Plugin types
+- PHPUnit test case classes, and test modules
+- An api.php file to document the module's hooks
+- An admin settings form
+- A README file
+- ... and more.
+
+You can [watch a demonstration](https://www.youtube.com/watch?v=jcKZwOgbE4w) of some of the components that can be generated.
+
+[https://www.drupal.org/project/module_builder](https://www.drupal.org/project/module_builder)
+
 ## Email
 
 ### SMTP Authentication Support
