@@ -238,6 +238,33 @@ Examples:
 
 [https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
 
+## Development
+
+### Module Builder
+
+A module which auto-generates a skeleton or "scaffolding" for a module, along with hints on how to fill them in. Useful for newbie developers to learn how Drupal code works, and seasoned developers who are too lazy to look up what arguments a function has to take.
+
+Module Builder is unlike any other code generator in that it analyses your site's code to detect plugin types, hooks, services, and so on. It can then generate code for any of these, whether from core, contrib, or your custom code.
+
+But more than this, module builder can generate:
+
+- Content and config entity types
+- Plugins of just about any type, with injected services
+- Forms, with injected services
+- Routes and controllers, with injected services
+- Permissions
+- Services
+- Plugin types
+- PHPUnit test case classes, and test modules
+- An api.php file to document the module's hooks
+- An admin settings form
+- A README file
+- ... and more.
+
+You can [watch a demonstration](https://www.youtube.com/watch?v=jcKZwOgbE4w) of some of the components that can be generated.
+
+[https://www.drupal.org/project/module_builder](https://www.drupal.org/project/module_builder)
+
 ## Email
 
 ### SMTP Authentication Support
@@ -430,11 +457,18 @@ Antibot is an extremely lightweight module designed to eliminate robotic form su
 
 [https://www.drupal.org/project/antibot](https://www.drupal.org/project/antibot)
 
+
 ### Automated Logout
 
 This module provides a site administrator the ability to log users out after a specified time of inactivity. It is highly customisable and includes "site policies" by role to enforce logout.
 
 [https://www.drupal.org/project/autologout](https://www.drupal.org/project/autologout)
+
+### Flood control
+
+Flood Control provides an interface for hidden flood control variables (e.g. login attempt limiters) and makes it possible for site administrators to remove IP addresses and user ID's from the flood table.
+
+[https://www.drupal.org/project/flood_control](https://www.drupal.org/project/flood_control)
 
 ### Honeypot
 Honeypot uses both the honeypot and timestamp methods of deterring spam bots from completing forms on your site. These methods are effective against many spam bots, and are not as intrusive as CAPTCHAs or other methods which punish the user. The module currently supports enabling for all forms on the site, or particular forms like user registration or password reset forms, webforms, contact forms, node forms, and comment forms.
