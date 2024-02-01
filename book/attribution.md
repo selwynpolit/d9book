@@ -48,5 +48,5 @@ Thanks to these rockstars for their contribution to the project. Please add your
 
 [Peter Elias](https://github.com/pheski) - Anti-spam modules.
 
-[Salman Haider](https://github.com/isalmanhaider) - Twig fixes.
+[Salman Haider](https://github.com/isalmanhaider) - Twig fixes & many useful modules.
 
