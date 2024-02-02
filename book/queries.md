@@ -537,7 +537,7 @@ If NULL, defaults to the `'='` operator.
 
 ## Static and dynamic Queries
 
-Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the entityQuery approach where you build the various parts of the query.
+Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the `entityQuery` approach where you build the various parts of the query using PHP.
 
 ### Static Queries
 
@@ -891,6 +891,20 @@ function nocs_connect_schema() {
   return $schema;
 }
 ````
+
+## Other Queries
+These are useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.)
+
+
+### List of top 10 biggest tables 
+
+```sql
+SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2) as SIZE_MB FROM information_schema.TABLES WHERE table_schema = DATABASE() ORDER BY SIZE_MB DESC LIMIT 10;
+```
+More on [Stack Overflow](https://stackoverflow.com/questions/9620198/how-to-get-the-sizes-of-the-tables-of-a-mysql-database/42262936#42262936)
+
+
+
 
 ## Reference
 
