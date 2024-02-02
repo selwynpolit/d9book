@@ -893,14 +893,48 @@ function nocs_connect_schema() {
 ````
 
 ## Other Queries
-These are useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.)
+These are useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.) or use directly in MySQL using the command line.:
 
+```sh
+ddev drush sqlc
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 134650
+Server version: 5.7.42-0ubuntu0.18.04.1-log (Ubuntu)
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [db]> SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2) as SIZE_MB FROM information_schema.TABLES WHERE table_schema = DATABASE() ORDER BY SIZE_MB DESC LIMIT 10;
+```
 
 ### List of top 10 biggest tables 
 
 ```sql
 SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2) as SIZE_MB FROM information_schema.TABLES WHERE table_schema = DATABASE() ORDER BY SIZE_MB DESC LIMIT 10;
 ```
+This outputs something like this:
+
+```
++----------------------------------+---------+
+| table_name                       | SIZE_MB |
++----------------------------------+---------+
+| node_field_data                  |  499.25 |
+| path_alias                       |  446.16 |
+| search_api_db_default_index_text |  424.98 |
+| node                             |  209.55 |
+| cache_entity                     |  187.59 |
+| search_api_db_default_index      |  186.80 |
+| node_field_revision              |  164.80 |
+| search_api_item                  |  152.67 |
+| node_access                      |  146.98 |
+| path_alias_revision              |  126.14 |
++----------------------------------+---------+
+10 rows in set (0.141 sec)
+```
+
+
 More on [Stack Overflow](https://stackoverflow.com/questions/9620198/how-to-get-the-sizes-of-the-tables-of-a-mysql-database/42262936#42262936)
 
 
