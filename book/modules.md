@@ -265,6 +265,14 @@ You can [watch a demonstration](https://www.youtube.com/watch?v=jcKZwOgbE4w) of 
 
 [https://www.drupal.org/project/module_builder](https://www.drupal.org/project/module_builder)
 
+### WebProfiler
+
+WebProfiler adds a toolbar at the bottom of every page and shows you all sorts of stats, such as the amount of database queries loaded on the page, which services are used, and much more.
+
+Webprofiler provides detailed insights into various aspects of a Drupal request, including execution time, memory usage, database queries, forms, service calls, and more. By presenting a comprehensive breakdown of the backend performance for each page request, it enables developers to identify bottlenecks, understand system behavior, and make informed decisions to enhance site performance. This tool is invaluable for performance analysis, helping to ensure that Drupal sites run as efficiently as possible.
+
+[https://www.drupal.org/project/webprofiler](https://www.drupal.org/project/webprofiler)
+
 ## Email
 
 ### SMTP Authentication Support
