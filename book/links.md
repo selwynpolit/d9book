@@ -397,6 +397,23 @@ $my_node_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create(
 $my_node_alias->save();
 ```
 
+## Delete a Node alias
+
+```php
+$path_alias_manager = \Drupal::entityTypeManager()->getStorage('path_alias');
+// Load path alias by path.
+$alias_objects = $path_alias_manager->loadByProperties([
+  'path' => '/node/' . $nid
+]);
+foreach ($alias_objects as $alias_object) {
+  // Delete the path alias
+  $alias_object->delete();
+} 
+```
+
+More on [Stack Exchange](https://drupal.stackexchange.com/questions/317693/how-can-i-delete-an-existing-path-alias/317694#317694)
+
+
 ## Get the current Path
 
 `\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
