@@ -7,6 +7,9 @@ title: Email
 
 ## Send email
 
+There are two parts required for sending an email in Drupal. The first is to create a hook_mail function in your module. The second is to call the mail function in your module. Here is an example of how to do this.
+
+```php
 Function to send an email in your module with a hook_mail() to set the parameters. Also don't forget the `hook_mail` function below that needs to be in your module file.
 
 ```php
@@ -28,7 +31,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
  * @return bool
  *   TRUE if the email was sent successfully, FALSE otherwise.
  */
-function send_my_email($to, $params, $subject, $body) {
+function sendMyEmail($to, $params, $subject, $body) {
   // Get the language manager service.
   $language_manager = \Drupal::service('language_manager');
 
@@ -64,7 +67,7 @@ function send_my_email($to, $params, $subject, $body) {
 ```
 
 ::: tip Note
-Don\`t forget to add this to your `.module` file or no email will ever be sent!
+Don\`t forget to add the `hook_email()` to your `.module` file or no email will ever be sent!
 :::
 
 ```php
@@ -84,6 +87,8 @@ function my_module_mail($key, &$message, $params) {
 
 
 ## General send email function with logging
+
+Here is an example of a general send email function with logging.  It is used to send an email and log the result.  It also checks to see if the email is valid before sending it.
 
 ```php
   /**
@@ -157,7 +162,7 @@ function my_module_mail($key, &$message, $params) {
 ```
 
 ::: tip Note
-Don\'t forget to add the hook_mail in your `.module` file.
+Don\'t forget to add the hook_mail in your `.module` file.  Here it is in the `tea_teks module` file.
 :::
 
 ```php
