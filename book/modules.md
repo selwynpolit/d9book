@@ -473,9 +473,7 @@ This module provides a site administrator the ability to log users out after a s
 
 ### Automatic IP ban (Autoban)
 
-The "Automatic IP Ban" module enhances Drupal's site security by providing administrators with sophisticated tools to prevent unwanted access. Compatible with Drupal versions 8, 9, and 10, it extends the core Ban module's functionality, allowing for more nuanced control over visitor bans based on IP addresses. Through the Autoban feature, IP banning becomes automated, leveraging rules defined against watchdog table entries. This feature necessitates the activation of the Database Logging module and can integrate with either the core Ban module or the Advanced Ban module for a comprehensive banning strategy.
-
-For Drupal 7, this module automates IP ban management using criteria logged in the watchdog table, with configuration options for cron-based or event-triggered IP banning. It supports single IP or IP range bans and integrates with the IP_ranges module for the latter. Temporary IP bans are possible through integration with the Blocked IPs Expire module. Rule creation is flexible, allowing for specifications based on watchdog type, message patterns, and user types or referrers, thereby providing a robust solution for maintaining website security. The module also includes drush support for efficient management of IP bans.
+The "Automatic IP Ban" module enhances Drupal's site security by providing administrators with sophisticated tools to prevent unwanted access. It extends the core Ban module's functionality, allowing for more nuanced control over visitor bans based on IP addresses. Through the Autoban feature, IP banning becomes automated, leveraging rules defined against watchdog table entries. This feature necessitates the activation of the Database Logging module and can integrate with either the core Ban module or the Advanced Ban module for a comprehensive banning strategy.
 
 [https://www.drupal.org/project/autoban](https://www.drupal.org/project/autoban)
 
