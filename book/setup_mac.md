@@ -457,7 +457,7 @@ brew install jq
 
 ### wget
 
-GNU Wget is a free software package for retrieving files using HTTP, HTTPS, FTP and FTPS, the most widely used Internet protocols.
+GNU Wget is a free software package for retrieving files using HTTP, HTTPS, FTP and FTPS, the most widely used Internet protocols. You can use wget for running Drupal cron.
 
 ```
 brew install wget
