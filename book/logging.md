@@ -74,7 +74,7 @@ Incidentally, calling `\Drupal::logger` like this
 actually does this under the covers:
 
 ```php
-\Drupal::service('logger.factory')->get('hello_world')->error('This is my error  message');
+\Drupal::service('logger.factory')->get('my_module')->error('This is my error message');
 ```
 
 ## Logging from a service using dependency injection
