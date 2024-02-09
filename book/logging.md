@@ -74,7 +74,7 @@ Incidentally, calling `\Drupal::logger` like this
 actually does this under the covers:
 
 ```php
-\Drupal::service('logger.factory')->get('hello_world')->error('This is my error  message');
+\Drupal::service('logger.factory')->get('my_module')->error('This is my error message');
 ```
 
 ## Logging from a service using dependency injection
@@ -103,7 +103,9 @@ Create a protected var to store the logger service:
 
 ```php
 /**
- * @var Drupal\Core\Logger\LoggerChannelFactory
+ * Logger factory.
+ *
+ * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
  */
 protected $logger;
 ```
@@ -121,6 +123,7 @@ Here is the constructor:
  */
 public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelFactoryInterface $channel_factory) {
   $this->websphereConfig = $config_factory->get('websphere_commerce.api_settings');
+  $this->logger = $channel_factory;
 }
 ```
 
