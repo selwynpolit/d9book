@@ -579,15 +579,18 @@ Use the following settings:
 - Check Show warning as: `Warning`
 - Check Show sniff name
 - If you installed the coder module in your project with `composer require drupal/coder` 
-  - Uncheck Installed standards path: and set it to: `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your project.)
+  - Uncheck Installed standards path: and set the path to: `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your project. And yes, if this seems counterintuitive to unchcheck the checkbox, I thought so too!)
 - If you have phpcs installed globally, use
-  - Check Installed standards path and set it to: `/Users/spolit/.composer/vendor/bin/phpcs` (Replace this with the path to your global composer directory.)
-- Coding standard: `Drupal`
+  - Check `Installed standards path` and set it to: `/Users/spolit/.composer/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your global composer directory.)
+  - Be sure to set Coding standard: `Drupal`.  If this option isn't shown, click ok and then open the settings dialog again.  Hopefully it will show up.
+  - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
 
 
 If you installed the coder module in your project: Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf`. 
 
 If you have installed phpcs and coder globally, Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/.composer/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/.composer/vendor/bin/phpcbf`. 
+
+![](/images/PHPStorm_PHP_Codesniffer_settings.png)
 
 
 ::: tip Note
@@ -595,6 +598,15 @@ If you have installed phpcs and coder globally, Under the ... button (on the rig
 :::
 
 More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
+
+For troubleshooting, see [this issue on Drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485) especially if you see this annoying issue:
+
+```
+phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist  
+Run "phpcs --help" for usage information 
+```
+
+![Error messages in PHPStorm](/images/PHPStorm_codesniffer_errors.png)
 
 
 To install phpcs & phpcf *globally* use: 
