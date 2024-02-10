@@ -7,10 +7,9 @@ title: Email
 
 ## Send email
 
-There are two parts required for sending an email in Drupal. The first is to create a hook_mail function in your module. The second is to call the mail function in your module. Here is an example of how to do this.
+It is relatively easy to send email from Drupal once you see the relationship between the calling function and `hook_mail()`, but it is a little counter-intuitive that you have to implement hook_mail() in the first place considering the call to `$mail_manager->mail()`.
 
-```php
-Function to send an email in your module with a hook_mail() to set the parameters. Also don't forget the `hook_mail` function below that needs to be in your module file.
+So first create a mail function in your module, then add the hook_mail() function. Here is an example of how to do this.
 
 ```php
 use Drupal\Core\Mail\MailManagerInterface;
