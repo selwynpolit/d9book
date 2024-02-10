@@ -579,7 +579,7 @@ Use the following settings:
 - Check Show warning as: `Warning`
 - Check Show sniff name
 
-- *If you installed the coder module in your project* (with `composer require drupal/coder`):
+- **If you installed the coder module in your project** (with `composer require drupal/coder`):
   - Check `Installed standards path` and set the path to: `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer` Replace this with the path to your project. Later you will need to  unchcheck the checkbox.. Really!
   - Be sure to set Coding standard to: `Drupal`.  If this option isn't shown, follow the steps below, click ok and then open the settings dialog again.  Hopefully it will show up then.
   - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
@@ -587,7 +587,7 @@ Use the following settings:
 ![](/images/PHPStorm_PHP_Codesniffer_settings.png)
 
 
-- *If you have phpcs installed globally* (with `composer global require drupal/coder`):
+- **If you have phpcs installed globally** (with `composer global require drupal/coder`):
   - Check `Installed standards path` and set it to: `/Users/spolit/.composer/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your global composer directory.)
   - Be sure to set Coding standard to: `Drupal`.  If this option isn't shown, follow the steps below, click ok and then open the settings dialog again.  Hopefully it will show up then.
   - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
