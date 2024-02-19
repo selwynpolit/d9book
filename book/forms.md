@@ -19,6 +19,16 @@ batch_examples.batch:
     _permission: 'access content'
 ```
 
+## Creating translatable string variables
+
+When creating strings, you can use the `$this->t()` function which allows them to be translated.  Here is an example from a form:
+
+```php
+$value = $this->t("Accept");
+// Or.
+$this->t('The value of x is @x', ['@x' => $x]);
+```
+
 ## Find a form id in the page source
 
 When you need to make changes to a form, it can take a little time to find the form.  You often need to find the form id as the first step.
