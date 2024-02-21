@@ -201,7 +201,7 @@ features:
 
   - icon: ♻️
     title: Tests
-    details: Creating automated tests with PHPUnit and Drupal Test Traits
+    details: Testing and creating automated tests with PHPUnit and Drupal Test Traits
     link: /dtt
 
   - icon: 🌿
