@@ -2359,3 +2359,6 @@ When Phpstorm pops up, specify that the vendor directory is at
 
 - [Drupal 8/9: Unit Test cases mocking the global Drupal object and Services by Vishwa Chikate - Talks about prophecy objecting mocking which is better than PHPunit's built in mocking.](https://medium.com/@vishwa.chikate/drupal-8-9-unit-test-cases-mocking-the-global-drupal-object-and-services-bc536477edff)
 
+### SAAS Visual Regression Testing
+- [Diffy visual refression testing for Drupal and Wordpress](https://diffy.website/)
+  
