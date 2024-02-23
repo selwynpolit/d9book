@@ -89,6 +89,19 @@ The above statement will return either TRUE or FALSE. TRUE means you are on the 
 $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 ```
 
+## Convert TranslatableMarkup to a string
+
+To convert a TranslatableMarkup object to a string, use either the `render()` or __toString() method. This example shows the values array with an element 'save' which is a TranslatableMarkup object.
+
+![TranslatableMarkup](/images/translatable-markup.png)
+
+```php
+$values['save']->render();
+// Or.
+$values['save']->__toString();
+```
+
+
 ## Get Node URL alias or Taxonomy Alias by Node id or Term ID
 
 Sometimes we need a relative path and sometimes we need an absolute path. There is an \$options parameter in the fromRoute() function where specify which you need.
