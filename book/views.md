@@ -353,7 +353,7 @@ function tea_preprocess_views_view_field(&$variables) {
 
 When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  
 
-![Views query options](images/views-query-options.png)
+![Views query options](/images/views-query-options.png)
 
 ::: tip Note
 The dialog will display this WARNING: Disabling SQL rewriting means that node access security is disabled. This may allow users to see data they should not be able to see if your view is misconfigured. Use this option only if you understand and accept this security risk.
