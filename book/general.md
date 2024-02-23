@@ -91,7 +91,7 @@ $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 
 ## Convert TranslatableMarkup to a string
 
-To convert a TranslatableMarkup object to a string, use either the `render()` or __toString() method. This example shows the values array with an element 'save' which is a TranslatableMarkup object.
+To convert a TranslatableMarkup object to a string, use either the `render()` or __toString() method. This example shows the values array with an element 'save' which is a TranslatableMarkup object.  These will return `Save Citation`.
 
 ![TranslatableMarkup](/images/translatable-markup.png)
 
