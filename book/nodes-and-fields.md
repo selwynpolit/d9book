@@ -420,6 +420,64 @@ if(!is_null($node->get('field_voting_status')[$vote_number])) {
 }
 ```
 
+### Utility function to read multivalue fields
+
+```php
+/**
+ * Returns array of data for multivalue node reference fields.
+ *
+ * @param \Drupal\Core\Field\FieldItemListInterface $ref_field
+ *   The entity reference field which we are building the links from.
+ * @param string $param_name
+ *   Parameter name to be passed as get value.
+ * @param string $value_type
+ *   Indicates which field to retrieve from database.
+ * @param string $field_ref_type
+ *   Variable to determine type of reference field.
+ *
+ * @return array
+ *   Array of data.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function getMultivalueReferenceData(FieldItemListInterface $ref_field, string $param_name, string $value_type, string $field_ref_type = 'node') {
+  $values = [];
+  $title = '';
+  if ($ref_field) {
+    foreach ($ref_field as $ref) {
+      if ($field_ref_type == 'taxonomy') {
+        $term = Drupal::entityTypeManager()
+          ->getStorage('taxonomy_term')
+          ->load($ref->$value_type);
+        if ($term) {
+          $title = $term->getName();
+        }
+      }
+      else {
+        if ($value_type == 'value') {
+          $title = $ref->$value_type;
+        }
+        else {
+          if (isset($ref->entity->title->value)) {
+            $title = $ref->entity->title->value;
+          }
+        }
+      }
+      $id = $ref->$value_type;
+      $values[] = [
+        'title' => $title,
+        'id' => str_replace(' ', '+', $id),
+        'param_name' => $param_name,
+      ];
+    }
+  }
+  return $values;
+}
+```
+
+
+
 ## Update a multivalue field
 
 This can be a little tricky especially if you want to preserve the existing values in the field.

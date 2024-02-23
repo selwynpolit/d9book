@@ -213,4 +213,9 @@ features:
     title: Update
     details: Upgrading and patching Drupal and contrib modules
     link: /upgrade
+
+  - icon: 📑
+    title: Views
+    details: Extracting data from Drupal using the core Views module
+    link: /views
 ---
