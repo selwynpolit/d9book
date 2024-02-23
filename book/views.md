@@ -349,6 +349,17 @@ function tea_preprocess_views_view_field(&$variables) {
 }
 ```
 
+## Views Query options
+
+When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  
+
+![Views query options](images/views-query-options.png)
+
+::: tip Note
+The dialog will display this WARNING: Disabling SQL rewriting means that node access security is disabled. This may allow users to see data they should not be able to see if your view is misconfigured. Use this option only if you understand and accept this security risk.
+:::
+
+
 
 ## Reference
 - [Drupal API Reference: Template Preprocess views view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)
