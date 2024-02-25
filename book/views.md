@@ -364,4 +364,6 @@ The dialog will display this WARNING: Disabling SQL rewriting means that node ac
 ## Reference
 - [Drupal API Reference: Template Preprocess views view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)
 - [Drupal API Reference: Template Preprocess Views View Field](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view_field/9.3.x )
+- [Building a Views display style plugin for Drupal - updated Nov 2023](https://www.drupal.org/docs/develop/creating-modules/building-a-views-display-style-plugin-for-drupal)
+
  
