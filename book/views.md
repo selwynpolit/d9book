@@ -349,6 +349,17 @@ function tea_preprocess_views_view_field(&$variables) {
 }
 ```
 
+## Either Or in views
+
+To show one field if it exists else show another is remarkably easy. Just add a field for field 1 and exclude from display.  Add a field for field 2 and exclude from display. 
+
+Add a third field for field 2 again and 
+    1. in rewrite results put the token for field 2.  Eg. [colorbox]
+    2. in No results behavior, put [field 1] token
+
+
+
+
 ## Views Query options
 
 When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  
