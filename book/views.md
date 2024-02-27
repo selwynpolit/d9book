@@ -373,10 +373,15 @@ The dialog will display this WARNING: Disabling SQL rewriting means that node ac
 ## Jump Menu
 Using the [Views Jump Menu module](https://www.drupal.org/project/views_jump_menu) you can easily create a node driven no-code drop-down select box.  The instructions are a bit confusing.
 
-After installing (`composer require 'drupal/views_jump_menu:^1.0@RC'`) and enabling the module, create a content type (e.g. `jump_items`) with a plain text field for a url.  Don't use a link field.  Create 3 `jump_items` nodes. e.g. 
+After installing (`composer require 'drupal/views_jump_menu:^1.0@RC'`) and enabling the module, create a content type (e.g. `jump_items`) with a plain text field for a url.  Don't use a link field.  Create some `jump_items` nodes. e.g. 
 1. Apple https://www.apple.com
 2. Microsoft https://www.microsoft.com
 3. Google https://www.google.com
+4. Node 10 /node/10
+
+::: tip Note
+You can use external or internal URL's as in the example above where we used a relative url `/node/10`
+:::
 
 Create a view `jump1`. Add a block with a format of `Jump Menu`.  
 
