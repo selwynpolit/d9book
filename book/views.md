@@ -362,13 +362,42 @@ Add a third field for field 2 again and
 
 ## Views Query options
 
-When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  
+When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  Sometimes it is useful to disable SQL rewriting as this bypasses security and returns the same data that you get as when you are logged in as user 1.
 
 ![Views query options](/images/views-query-options.png)
 
 ::: tip Note
 The dialog will display this WARNING: Disabling SQL rewriting means that node access security is disabled. This may allow users to see data they should not be able to see if your view is misconfigured. Use this option only if you understand and accept this security risk.
 :::
+
+## Jump Menu
+Using the [Views Jump Menu module](https://www.drupal.org/project/views_jump_menu) you can easily create a node driven no-code drop-down select box.  The instructions are a bit confusing.
+
+After installing (`composer require 'drupal/views_jump_menu:^1.0@RC'`) and enabling the module, create a content type (e.g. `jump_items`) with a plain text field for a url.  Don't use a link field.  Create 3 `jump_items` nodes. e.g. 
+1. Apple https://www.apple.com
+2. Microsoft https://www.microsoft.com
+3. Google https://www.google.com
+
+Create a view `jump1`. Add a block with a format of `Jump Menu`.  
+
+![block format selection](/images/jump-menu1.png)
+
+Add the fields that will be used for the jump menu.  I used `title` field and `link2` field.  
+![jump menu view fields](/images/jump-menu3.png)
+
+For the block format jump menu settings:
+![jump menu settings](/images/jump-menu4.png)
+
+
+specify the label field and url field.  Use the `title` and `link2` fields respectively.
+![jump menu settings](/images/jump-menu2.png)
+
+Now set the block to display where you want it and voila!  The drop-down select field will appear in it's block and you can select it and it will immediately load the associated page.
+![jump menu closed](/images/jump-menu5.png)
+
+and open:
+
+![jump menu open](/images/jump-menu6.png)
 
 
 
