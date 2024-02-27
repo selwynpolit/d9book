@@ -398,9 +398,6 @@ specify the label field and url field.  Use the `title` and `link2` fields respe
 ![jump menu settings](/images/jump-menu2.png)
 
 Now set the block to display where you want it and voila!  The drop-down select field will appear in it's block and you can select it and it will immediately load the associated page.
-![jump menu closed](/images/jump-menu5.png)
-
-and open:
 
 ![jump menu open](/images/jump-menu6.png)
 
