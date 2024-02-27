@@ -323,7 +323,9 @@ And more concisely:
 
 ```php
 // If there is a value at the specified index, then return the target_id, otherwise return 0.
-$team_nid = $program_node->get('field_srp_team_ref')[$vote_number]?->target_id ?? 0;
+$vote_number = 3;
+// These are zero-based.
+$team_nid = $program_node->get('field_srp_team_ref')[$vote_number]->target_id ?? 0;
 ```
 
 ## Load a node and update a field
