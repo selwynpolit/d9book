@@ -717,6 +717,99 @@ Why won\'t composer install Drupal version 8.9.1?
 composer why-not drupal/core:8.9.1
 ```
 
+## Composer won\'t install a module
+
+In this case I am trying to install the `csv_serialization` module.  I get the following error:
+
+```sh
+composer require 'drupal/csv_serialization:^4.0'
+./composer.json has been updated
+Running composer update drupal/csv_serialization
+Gathering patches for root package.
+Loading composer repositories with package information
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - drupal/views_data_export is locked to version 1.3.0 and an update of this package was not requested.
+    - drupal/views_data_export 1.3.0 requires drupal/csv_serialization ~1.4 || ~2.0 || ~3 -> found drupal/csv_serialization[dev-1.x, dev-2.x, dev-3.x, 1.4.0, 1.5.0, 1.x-dev (alias of dev-1.x), 2.0.0-beta1, ..., 2.x-dev (alias of dev-2.x), 3.0.0-beta1, ..., 3.x-dev (alias of dev-3.x)] but it conflicts with your root composer.json require (^4.0).
+
+Use the option --with-all-dependencies (-W) to allow upgrades, downgrades and removals for packages currently locked to specific versions.
+
+Installation failed, reverting ./composer.json and ./composer.lock to their original content.
+```
+
+So I can try the `why-not` command to see why it won't install:
+
+```sh
+composer why-not drupal/csv_serialization ^4.0
+drupal/recommended-project dev-master requires drupal/csv_serialization (^3.0)
+drupal/views_data_export   1.3.0      requires drupal/csv_serialization (~1.4 || ~2.0 || ~3)
+Not finding what you were looking for? Try calling `composer update "drupal/csv_serialization:^4.0" --dry-run` to get another view on the problem.
+```
+
+So it looks like the `drupal/recommended-project` requires `drupal/csv_serialization ^3.0` which should not be a problem. Also `drupal/views_data_export` requires `~1.4 || ~2.0 || ~3`.  
+
+I can try the `--dry-run` option to see what happens:
+
+```sh
+composer update drupal/csv_serialization:^4.0 --dry-run
+
+In UpdateCommand.php line 163:
+
+  The temporary constraint "^4.0" for "drupal/csv_serialization" must be a subset of the constraint in your composer.js
+  on (^3.0)
+``
+
+Well, that's not very helpful.  I try updating drupal/views_data_export which succeeds:
+
+```sh
+composer update drupal/views_data_export
+Gathering patches for root package.
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 1 update, 0 removals
+  - Upgrading drupal/views_data_export (1.3.0 => 1.4.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 1 update, 0 removals
+  - Downloading drupal/views_data_export (1.4.0)
+Gathering patches for root package.
+Gathering patches for dependencies. This might take a minute.
+  - Upgrading drupal/views_data_export (1.3.0 => 1.4.0): Extracting archive
+  - Applying patches for drupal/views_data_export
+    https://www.drupal.org/files/issues/2021-02-17/2887450-40.patch (Add drush command views-data-export)
+...
+```
+
+Now I try to install the module again:
+
+```sh
+composer require 'drupal/csv_serialization:^4.0'
+./composer.json has been updated
+Running composer update drupal/csv_serialization
+Gathering patches for root package.
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 1 update, 0 removals
+  - Upgrading drupal/csv_serialization (3.0.0 => 4.0.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 1 update, 0 removals
+  - Downloading drupal/csv_serialization (4.0.0)
+Gathering patches for root package.
+Gathering patches for dependencies. This might take a minute.
+  - Upgrading drupal/csv_serialization (3.0.0 => 4.0.0): Extracting archive
+Package webmozart/path-util is abandoned, you should avoid using it. Use symfony/filesystem instead.
+Generating autoload files
+99 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+phpstan/extension-installer: Extensions installed
+Found 1 security vulnerability advisory affecting 1 package.
+Run "composer audit" for a full list of advisories.
+```
+
+
 ### The big reset button
 
 If composer barfs with a bunch of errors, try removing vendor, /core,
