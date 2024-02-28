@@ -7,12 +7,7 @@ title: Composer
 
 ## Creating a local patch to a contrib module
 
-See Making a patch at <https://www.drupal.org/node/707484>
-
-In this case, I had the file_entity module installed and wanted to hide
-the tab "[files.]{.underline}" The tab item is provided by a task (read
-"menu tab") in the
-web/modules/contrib/file_entity/file_entity.links.task.yml
+In this case, I had the file_entity module installed and wanted to hide the `files` tab. That (menu) tab is provided by a task in `web/modules/contrib/file_entity/file_entity.links.task.yml`
 
 ```yaml
 entity.file.collection:
@@ -22,17 +17,15 @@ entity.file.collection:
   description: 'Manage files for your site.'
 ```
 
-For my patch, I want to remove this section of the `file_entity.links.task.yml` file.
+For my patch, I wanted to remove this section of the `file_entity.links.task.yml` file.
 
-First get the repo/git version of the module
+First I get the repo/git version of the module:
 
 ```sh
 $ composer update drupal/file_entity --prefer-source
 ```
 
-Change the file in the text editor
-
-Run git diff to see the changes:
+Then change the file in the text editor and run git diff to see the changes:
 
 ```sh
 $ git diff
@@ -60,7 +53,7 @@ index 3ea93fc..039f7f9 100644
    base_route: entity.file.add_form
 ```
 
-Create the patch
+Create the patch:
 
 ```sh
 git diff >file_entity_disable_file_menu_tab.patch
@@ -88,8 +81,7 @@ Add the patch to the patches section of composer.json. Notice below the line sta
 
 Revert the file in git and then try to apply the patch.
 
-Here is the patch command way to un-apply or revert a patch (-R means
-revert)
+Here is the patch command way to un-apply or revert a patch (-R means revert)
 
 ```
 patch -p1 -R < ./patches/fix_scary_module.patch
@@ -99,6 +91,9 @@ To apply the patch:
 ```
 patch -p1 < ./patches/fix_scary_module.patch
 ```
+
+For more, see [Making a patch](https://www.drupal.org/node/707484).
+
 
 ## Patch modules using patches on Drupal.org
 
@@ -179,7 +174,7 @@ composer update -vvv
 
 ## Patches from a Gitlab merge request
 
-Using the URL of the merge request, add .patch at the end of the URL and that will be the path to the latest patch.
+Using the URL of the merge request, add `.patch` at the end of the URL and that will be the path to the latest patch.
 
 e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
 
@@ -188,8 +183,7 @@ The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_
 
 ## composer.json patches in separate file
 
-To separate patches into a different file other than composer json add
-`"patches-file"` section under `"extra"`. See example below:
+To separate patches into a different file other than composer json add `"patches-file"` section under `"extra"`. See example below:
 
 ```json
 "extra": {
