@@ -579,6 +579,14 @@ You have full flexibility to add more services, modify the elements before rende
 
 [https://www.drupal.org/project/social_media](https://www.drupal.org/project/social_media)
 
+## Stability
+
+### Memory limit policy
+Memory limit policy allows you to override the default php memory_limit based on various constraints. e.g. you can set a different memory limit for all users depending on their roles. You can also set a different memory limit for different paths, HTTP methods, query parameters and routes.
+
+[https://www.drupal.org/project/memory_limit_policy](https://www.drupal.org/project/memory_limit_policy)
+
+
 ## Twig
 
 ### Bamboo Twig
