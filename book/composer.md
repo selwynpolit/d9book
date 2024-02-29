@@ -306,11 +306,13 @@ composer require drupal/core-recommended:10.2.3 drupal/core-composer-scaffold:10
 ::: tip Note
 I added the `drush/drush` part because the first attempt using
 `composer require drupal/core-recommended:10.2.3 drupal/core-composer-scaffold:10.2.3 drupal/core-project-message:10.2.3 --update-with-all-dependencies` failed with:
-  Problem 1
-    - Root composer.json requires drupal/core-recommended 10.2.3 -> satisfiable by drupal/core-recommended[10.2.3].
-    - drupal/core 10.2.3 conflicts with drush/drush <12.4.3.
-    - drupal/core-recommended 10.2.3 requires drupal/core 10.2.3 -> satisfiable by drupal/core[10.2.3].
-    - drush/drush is locked to version 12.3.0 and an update of this package was not requested.
+```sh
+Problem 1
+- Root composer.json requires drupal/core-recommended 10.2.3 -> satisfiable by drupal/core-recommended[10.2.3].
+- drupal/core 10.2.3 conflicts with drush/drush <12.4.3.
+- drupal/core-recommended 10.2.3 requires drupal/core 10.2.3 -> satisfiable by drupal/core[10.2.3].
+- drush/drush is locked to version 12.3.0 and an update of this package was not requested.
+```
 :::
 
 More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3) and [Updating Drupal core via composer updated Dec 2023. ](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
