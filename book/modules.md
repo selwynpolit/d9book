@@ -634,6 +634,19 @@ ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The 
 
 [https://www.drupal.org/project/eca](https://www.drupal.org/project/eca)
 
+## Views
+
+### Views Reference Field
+
+This module provides a field that can reference a view and show the results of the view as a field in the content type. This is useful when you want to show a list of related content in a field.
+
+In Modern Drupal, Views are entities and the core Entity Reference Module is able to reference Views, but not Views displays. This module leverages core entity reference module functionality to add the display ID so that a View can be rendered in a field formatter.
+
+[https://www.drupal.org/project/viewsreference](https://www.drupal.org/project/viewsreference)
+
+
+
+
 ## Wysiwyg
 
 ### Entity Embed
