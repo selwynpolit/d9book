@@ -313,7 +313,7 @@ I added the `drush/drush` part because the first attempt using
     - drush/drush is locked to version 12.3.0 and an update of this package was not requested.
 :::
 
-More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3)
+More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3) and [Updating Drupal core via composer updated Dec 2023. ](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
 
 
 ## What are the dependencies?
@@ -870,3 +870,5 @@ $ ddev composer install
 - [Utilizing incompatible Drupal 9 modules with Drupal 10 - Aug 2023 ](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
 - [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
 - [Using Drupal's Lenient Composer Endpoint - Sep 2023](https://www.drupal.org/docs/develop/using-composer/using-drupals-lenient-composer-endpoint)
+- [Updating Drupal core via composer updated Dec 2023](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
+- [Updating Drupal](https://www.drupal.org/docs/updating-drupal)
