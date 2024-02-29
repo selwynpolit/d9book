@@ -290,6 +290,32 @@ composer update drupal/core -W
 
 Note `composer update -W` is the same as `composer update --with-dependencies`
 
+
+Recently, when upgrading from Drupal 10.1.6 to 10.2.3, I used the following command:
+
+```sh
+composer update "drupal/core-*" --with-all-dependencies
+```
+While this updated the core to 10.1.8, it didn't upgrade to 10.2.3.  I then used the following command:
+
+
+```sh
+composer require drupal/core-recommended:10.2.3 drupal/core-composer-scaffold:10.2.3 drupal/core-project-message:10.2.3 drush/drush --update-with-all-dependencies
+```
+
+::: tip Note
+I added the `drush/drush` part because the first attempt using
+`composer require drupal/core-recommended:10.2.3 drupal/core-composer-scaffold:10.2.3 drupal/core-project-message:10.2.3 --update-with-all-dependencies` failed with:
+  Problem 1
+    - Root composer.json requires drupal/core-recommended 10.2.3 -> satisfiable by drupal/core-recommended[10.2.3].
+    - drupal/core 10.2.3 conflicts with drush/drush <12.4.3.
+    - drupal/core-recommended 10.2.3 requires drupal/core 10.2.3 -> satisfiable by drupal/core[10.2.3].
+    - drush/drush is locked to version 12.3.0 and an update of this package was not requested.
+:::
+
+More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3)
+
+
 ## What are the dependencies?
 
 To check why a project is included use `composer why` or `composer depends`.
