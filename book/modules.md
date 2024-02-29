@@ -157,6 +157,11 @@ Define dependencies between fields based on their states and values. It provides
 Provides an autocomplete widget for text fields that suggests all existing (previously entered) values for that field. This provides more flexibility than "allowed values" for the content editor to add new values. At that same time, it is simpler in many cases than creating a taxonomy vocabulary (no hierarchies, no separate system, no permissions headaches, no rendered pages per term).
 [https://www.drupal.org/project/existing_values_autocomplete_widget](https://www.drupal.org/project/existing_values_autocomplete_widget)
 
+### Inline Entity Form
+
+Provides a widget for inline management (creation, modification, removal) of referenced entities.The primary use case is the parent -> children one (product display -> products, order -> line items, etc.), where the child entities are never managed outside the parent form. Existing entities can also be referenced.  This module has it's origins in the [Drupal Commerce module.](https://www.drupal.org/project/commerce).
+
+
 ### Link Field Autocomplete Filter
 Currently the autocomplete in the Link Field widget always shows content suggestions from all content (node) types. This module adds a Link Field configuration for filtering the suggested content types in the autocomplete field.
 
@@ -203,6 +208,15 @@ See also: [Replicate (API only)](https://www.drupal.org/project/replicate)
 Entity Bulk Clone provides the clone features for nodes using views bulk operations.
 
 [https://www.drupal.org/project/entity_bulk_clone](https://www.drupal.org/project/entity_bulk_clone)
+
+### Entity Reference Revisions
+Adds an Entity Reference field type with revision support, allowing specific entity revisions to be references. This is useful for modules like Paragraphs and Inline Entity Form.
+
+A common use case is where an entity is actually part of a parent entity (with an embedded entity form). When the parent entity is updated, the referenced entity is also updated, thus the previous revision of the parent entity should still be pointing to the previous version of the entity to fully support revision diff and rollback.
+
+[https://www.drupal.org/project/entity_reference_revisions](https://www.drupal.org/project/entity_reference_revisions)
+
+
 
 ### File Download (includes download counter)
 Provides a formatter to use that allows users to download file and image entities directly.  Also includes a separate module to count downloads and display results in a View. Modelled off the statistics module which counts content views, this counts downloads using the File Download formatter.
@@ -579,12 +593,20 @@ You have full flexibility to add more services, modify the elements before rende
 
 [https://www.drupal.org/project/social_media](https://www.drupal.org/project/social_media)
 
-## Stability
+## Site Stability
 
 ### Memory limit policy
 Memory limit policy allows you to override the default php memory_limit based on various constraints. e.g. you can set a different memory limit for all users depending on their roles. You can also set a different memory limit for different paths, HTTP methods, query parameters and routes.
 
 [https://www.drupal.org/project/memory_limit_policy](https://www.drupal.org/project/memory_limit_policy)
+
+
+### Node Access Rebuild Progressive
+This module provides an alternative means of rebuilding the Content Access table.
+
+It solves the problem of the default core behaviour, which delete all entries first in the `content_access` table and then rebuild the grants for all nodes.  This means the whole site is basically unusable during the whole operation. For sites with a large number of nodes and/or lots of complex hook_node_grants implementations, it can be very lenghty and results in a lot of downtime. Although this means someone could potentially still access some content they should no longer have the rights to until the new rules are in place, it does mean that the site can continue to operate normally while the access rebuild takes place in the background. It works by processing nodes in chunks, from highest `node.nid` to lowest, until all nodes have been recomputed
+
+[https://www.drupal.org/project/node_access_rebuild_progressive](https://www.drupal.org/project/node_access_rebuild_progressive)
 
 
 ## Twig
