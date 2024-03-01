@@ -491,6 +491,12 @@ The "Automatic IP Ban" module enhances Drupal's site security by providing admin
 
 [https://www.drupal.org/project/autoban](https://www.drupal.org/project/autoban)
 
+### Drupal Perimeter Defence
+Basic perimeter defence for a Drupal site. This module bans the IPs who send suspicious requests to the site. Use this if you get a lot of requests to 'wp-admin' or to .aspx urls on a Linux server, or other similar requests. The URL patterns that result in a ban can be configured in the admin settings. The module is optimized for performance and designed to be activated when a Drupal site is targeted by hackers or bots.  There is a companion module [auto_unban](https://www.drupal.org/project/auto_unban) which augments core's ban module to automatic unban IP's after a period of time. This is best used with automatic ban modules such as perimeter.
+
+[https://www.drupal.org/project/perimeter](https://www.drupal.org/project/perimeter)
+
+
 ### Flood control
 
 Flood Control provides an interface for hidden flood control variables (e.g. login attempt limiters) and makes it possible for site administrators to remove IP addresses and user ID's from the flood table.
