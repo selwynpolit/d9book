@@ -18,13 +18,51 @@ $body = $node->body->value;
 $body = $node->body->processed;
 ```
 
-## Load a numeric field value
+## Retrieve a numeric field value
 When you load a numberic field, Drupal returns a number i.e. 0 even if that field was never initialized with a value.  
 
 ```php
 $accepted_votes = $feedback_error_node->get('field_accepted_votes')->value;
 // Returns 0 if no value was entered into the field.
 ```
+
+## Retrieve a list field value
+
+With a list field called `field_tks_audience` with the following values:
+```
+student|Student/Teacher
+teacher|Teacher Only
+```
+
+When you retrieve the field value you get the key (or machine name), not the human readable value.  So if the field value is `student` then the following code will return `student`.
+
+```php
+$audience = $node->get('field_tks_audience')->value;
+// Or.
+$audience = $citation_node->field_tks_audience->value;
+// Or.
+$audience = $node->get('field_tks_audience')->getString();
+```
+
+If you want the human readable value, you can use the combination of `getFieldDefinition()->getSetting('allowed_values') which returns an array of possible results indexed by the key:
+
+```php
+$audience_key = $citation_node->field_tks_audience->value;
+$audience_values = $citation_node->field_tks_audience->getFieldDefinition()->getSetting('allowed_values');
+$audience_human_readble_string = $audience_values[$audience_key];
+
+```
+
+![audience values](/images/audience_values.png)
+
+::: tip Note
+You can produce safe HTML using the `FieldFilteredMarkup` class.  This may be a good way to display user entered HTML without risking XSS attacks.  Be aware that this class is marked as @internal because it should only be used by the Field module and field-related plugins. Of course this is not necessary for a list field, but it is useful for text fields.
+
+```php
+// This filters the string using a very restrictive tag list when it is created.
+$audience_value = FieldFilteredMarkup::create($audience_values[$audience_key]);
+```
+:::
 
 ## Set field values
 
@@ -336,7 +374,7 @@ $url = $node->set('field_url', 'the-blahblah');
 $node->save();
 ```
 
-## Load values from a date range field
+## Retrieve values from a date range field
 
 Start date and then end date
 
@@ -345,7 +383,7 @@ $node->get('field_cn_start_end_dates')->value
 $node->get('field_cn_start_end_dates')->end_value
 ```
 
-## Load multivalue field
+## Retrieve a multivalue field
 
 Multivalue fields can be loaded with `get('fieldname')`  or using a magic field getter like `$node->field_my_field`. Adding `->getValue()` to the end of either of these calls returns a simple array. 
 
@@ -382,7 +420,7 @@ foreach ($items as $item) {
 }
 ```
 
-For entity reference fields, use `target_id` rather than `->value`.
+For entity reference fields, use `->target_id` rather than `->value`.
 
 And you can check if there is a particular item in the array like this:
 
@@ -941,7 +979,7 @@ $uri = $file->entity->getFileUri();
 
 Since `File` is an entity, we can also look in `EntityBase.php` to find more useful functions like `id()`, `label()`, `bundle()`.
 
-## Retrieve a link field
+## Retrieve values from a link field
 
 Here we have a link field: field_link which we load and get a valid uri
 from it using:
