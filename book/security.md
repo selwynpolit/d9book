@@ -10,7 +10,7 @@ title: Security
 Drupal is a highly secure platform mostly due to the tireless efforts of the [security team](https://www.drupal.org/drupal-security-team).  
 
 
-## Sanitizing on output to avoid Cross Site Scripting (XSS) attacks
+## Sanitizing output to avoid Cross Site Scripting (XSS) attacks
 
 The Twig theme engine now auto escapes everything by default. That means, every string printed from a Twig template (e.g. anything between <code v-pre>{{ }}</code>) gets automatically sanitized if no filters are used.
 
@@ -250,6 +250,52 @@ Strings sanitized by `t()`, `Html::escape()`, `Xss::filter()` or `Xss::filterAdm
 
 While it can also sanitize text, it's almost never correct to use [check_markup](https://api.drupal.org/api/drupal/core%21modules%21filter%21filter.module/function/check_markup/8) in a theme or module except in the context of something like a text area with an associated text format.
 
+## Sanitizing data from text fields
+
+Copilot suggested the following
+
+In Drupal, you can sanitize data coming from text fields using the following methods:
+
+1. **CheckPlain**: This function is used to sanitize a string that is meant to be output to an HTML page. It replaces special characters with their HTML entities.
+
+```php
+$sanitized_text = \Drupal\Component\Utility\Html::escape($text);
+```
+
+2. **Xss::filterAdmin**: This function is used to sanitize a string that is meant to be output to an HTML page as a part of the admin section. It allows some HTML tags that are generally used in the admin section.
+
+```php
+$sanitized_text = \Drupal\Component\Utility\Xss::filterAdmin($text);
+```
+
+3. **Xss::filter**: This function is used to sanitize a string that is meant to be output to an HTML page. It allows some basic HTML tags.
+
+```php
+$sanitized_text = \Drupal\Component\Utility\Xss::filter($text);
+```
+
+4. **Html::cleanCssIdentifier**: This function is used to sanitize a string that is meant to be used as a CSS identifier.
+
+```php
+$sanitized_text = \Drupal\Component\Utility\Html::cleanCssIdentifier($text);
+```
+
+5. **Html::getId**: This function is used to sanitize a string that is meant to be used as an HTML ID.
+
+```php
+$sanitized_text = \Drupal\Component\Utility\Html::getId($text);
+```
+
+Remember to always sanitize user input before outputting it to prevent Cross-Site Scripting (XSS) attacks.
+
+## Html::escape
+If you have html like this: 
+`<script>alert(2)</script>` which will be output as a mess with these sorts of characters: `&amp;, &lt;` etc. use Html::escape to avoid this.
+
+```php
+$rows_array[] = array_map('Drupal\Component\Utility\Html::escape', $row);
+```
+
 ## checkPlain
 
 This is from the file web/modules/custom/rsvp/src/Controller/ReportController.php
@@ -274,37 +320,13 @@ foreach ($rows as $row) {
 }
 ```
 
-Do not call check_plain() on data before saving data to the database. The idea behind check_plain, filter_xss and filter_xss_admin is to prevent XSS attacks, which are related to the front end.
 
-When you handle database queries, use parameters and the DB API to prevent SQL injection attacks. Whenever you output data to the browsers, use check_plain, and other security methods.
-Note that check_plain(), filter_xss() and such functions do change the data. When you save data into the database, you are only escaping specific characters, but you do not alter the original text. If you use check_plain() in database insert/updates, saving data a few times can mess up your data with a lot of `&amp;`, `&lt;`, etc. character replacements and some HTML tags stripped out.
-
-
+::: tip Note
+`check_plain()`, `filter_xss()` and such functions do change the data. When you save data into the database, you are only escaping specific characters, but you do not alter the original text. If you use `check_plain()` in database insert/updates, saving data a few times can mess up your data with a lot of `&amp;`, `&lt;`, etc. character replacements and some HTML tags stripped out.
+:::
 
 
-## Html::escape
-If you have html like this: 
-`<script>alert(2)</script>` which will be output as a mess with these sorts of characters: `&amp;, &lt;` etc. use Html::escape to avoid this.
 
-$rows_array[] = array_map('Drupal\Component\Utility\Html::escape', $row);
-
-## Drupal.checkPlain()
-It is best practice to use the server to sanitize text, but there may be situations where you need to lean on the client (browser) to provide additional or temporary sanitization, such as an HTML element that updates on the client side as the user enters text.
-
-These examples are for use cases of outputting text to the DOM. If you're sending text to the server, such as when making an API call, you should review Back End practices.
-
-You can use `Drupal.checkPlain()`` to escape basic characters and prevent malicious elements being introduced into the DOM, avoiding some basic Clickjacking techniques.
-
-Bad Practice:
-```js
-var rawInputText = $('#form-input').text();
-```
-Good Practice:
-
-```js
-var rawInputText     = $('#form-input').text();
-var escapedInputText = Drupal.checkPlain(rawInputText);
-```
 
 ## Use the database abstraction layer to avoid SQL injection attacks
 
@@ -312,6 +334,7 @@ Bad practice:
 Never concatenate data directly into SQL queries.
 
 ```php
+// Bad practice.
 \Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = '. $_GET['user']);
 ```
 
