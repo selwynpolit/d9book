@@ -224,9 +224,13 @@ alias l="ls -lhAp"
 
 Note. don't use `.homeadditions` - use the `homeadditions` with no period (or full stop) in front.
 
-### Upgrading ddev
+### Upgrading DDEV
 
-After you install a new version of ddev, run `ddev stop` and then `ddev config` to reconfigure things for your project. Just press enter for all the questions. It keeps things rolling smoothly. Run `ddev start` to start it all back up again
+After you install a new version of ddev, run `ddev stop` and then `ddev config` to reconfigure things for your project. Just press enter for all the questions. It keeps things rolling smoothly. Run `ddev start` to start it all back up again. 
+```sh
+brew upgrade ddev
+```
+
 
 ### Show others your ddev local site using ngrok
 

@@ -184,14 +184,24 @@ Install ddev
 
 [From the DDEV docs website](https://ddev.readthedocs.io/en/latest/users/install/ddev-installation/#macos)
 
+```sh
 brew install ddev/ddev/ddev
+```
+
+Also to keep ddev up to date, run:
+```sh
+brew upgrade ddev
+```
 
 ::: tip Note
 You might need to have your ssh certificate set up correctly before doing this step.
 :::
 
-Initialize mkcert
+To initialize mkcert for ddev, run:
+
+```sh
 mkcert -install
+```
 
 This is the output which in this case is prompting to install nss if you have FireFox installed.  Don't forget that step.
 
