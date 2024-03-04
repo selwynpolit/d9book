@@ -65,4 +65,4 @@ If you want to contribute to the expense of creating this book, I have added a [
 - Migration
 - Paragraphs
 - Single sign on
-- Views
+
