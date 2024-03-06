@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: 🗑 Delete deployment
-        uses: strumwolf/delete-deployment-environment@v2
+        uses: strumwolf/delete-deployment-environment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           environment: github-pages
@@ -55,7 +55,7 @@ jobs:
           fetch-depth: 0
 
       - name: ⚙️ Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
           version: latest
 
