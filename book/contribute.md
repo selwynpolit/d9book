@@ -1,5 +1,5 @@
 ---
-title: Contributing to Drupal at your fingertips
+title: Contribute to this book
 ---
 
 # Contributing to Drupal at your fingertips

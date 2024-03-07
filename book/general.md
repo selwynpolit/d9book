@@ -1172,6 +1172,7 @@ $mgpu2 = round(memory_get_peak_usage(TRUE) / 1024 / 1024, 2) . ' MB';
 ```
 
 Down the rabbit hole: 
+- [Changing PHP memory limits - May 2022](https://www.drupal.org/docs/7/managing-site-performance-and-scalability/changing-php-memory-limits)
 - [memory_get_usage()](https://www.php.net/manual/en/function.memory-get-usage.php)
 - [memory_get_peak_usage()](https://www.php.net/manual/en/function.memory-get-peak-usage.php)
 - [EntityMemoryCache](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityMemoryCache.php/class/EntityMemoryCache/8.9.x)
