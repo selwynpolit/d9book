@@ -1149,7 +1149,39 @@ During module development or upgrades, it can be really useful to quickly uninst
 
 ![Menu option to reinstall modules](/images/reinstall_modules.png)
 
+
+
+## Troubleshoot memory problems
+
+In some cases, where there are lots of `Node::load()`  or `Node::loadMultiple()` calls, you may run into `out of memory` errors. If increasing the memory limit in `php.ini` (e.g. `memory_limit = 1024M`) doesn't resolve this, you might try flushing the entity memory cache with:
+
+```php
+\Drupal::service('entity.memory_cache')->deleteAll();
+```
+
+There is also a [Memory limit Policy module](https://www.drupal.org/project/memory_limit_policy) that is worth checking out to override the default memory_limit for specific paths, roles etc.
+
+You can use the `memory_get_usage()` function to see how much memory is being used. You can also use the `memory_get_peak_usage()` function to see the maximum amount of memory used during the script's execution.
+
+```php
+$mgu1 = round(memory_get_usage() / 1024 / 1024, 2) . ' MB';
+$mgu2 = round(memory_get_usage(TRUE) / 1024 / 1024, 2) . ' MB';
+$mgpu1 = round(memory_get_peak_usage() / 1024 / 1024, 2) . ' MB';
+$mgpu2 = round(memory_get_peak_usage(TRUE) / 1024 / 1024, 2) . ' MB';
+\Drupal::logger('tea_teks_srp')->info('Memory usage: ' . $mgu1 . ' ' . $mgu2 . ' Peak: ' . $mgpu1 . ' ' . $mgpu2);
+```
+
+Down the rabbit hole: 
+- [Changing PHP memory limits - May 2022](https://www.drupal.org/docs/7/managing-site-performance-and-scalability/changing-php-memory-limits)
+- [memory_get_usage()](https://www.php.net/manual/en/function.memory-get-usage.php)
+- [memory_get_peak_usage()](https://www.php.net/manual/en/function.memory-get-peak-usage.php)
+- [EntityMemoryCache](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityMemoryCache.php/class/EntityMemoryCache/8.9.x)
+- [gc_collect_cycles - Forces collection of any existing garbage cycles](https://www.php.net/manual/en/function.gc-collect-cycles.php)
+- [Collecting Cycles - reference counting memory mechanisms](https://www.php.net/manual/en/features.gc.collecting-cycles.php)
+
+
+
 ## Resources
 
-- [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
-- [Drupal accessibility — a comprehensive Drupal self-help guide to creating accessible websites by John Cloys Sep 2023](https://salsa.digital/insights/drupal-accessibility-comprehensive-drupal-self-help-guide-creating-accessible-websites)
+- [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg - Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
+- [Drupal accessibility — a comprehensive Drupal self-help guide to creating accessible websites by John Cloys -  Sep 2023](https://salsa.digital/insights/drupal-accessibility-comprehensive-drupal-self-help-guide-creating-accessible-websites)
