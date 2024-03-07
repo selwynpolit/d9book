@@ -15,7 +15,10 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }],
     [
       'script',
-      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-8V22RQEJ71' }
+      {
+        async: '',
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-8V22RQEJ71',
+      },
     ],
     [
       'script',
@@ -23,12 +26,12 @@ export default defineConfig({
       `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-8V22RQEJ71');`
-    ]
+      gtag('config', 'G-8V22RQEJ71');`,
+    ],
   ],
   //rewrites: {
-    //'nodes_n_fields.md': 'nodes-and-fields.md',
-    //'off_the_island.md': 'off-island.md',
+  //'nodes_n_fields.md': 'nodes-and-fields.md',
+  //'off_the_island.md': 'off-island.md',
   //},
 
   vite: {
@@ -44,7 +47,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'About', link: '/about' },
       { text: 'Attribution', link: '/attribution' },
-      { text: 'Contributing', link: '/contributing'},
+      { text: 'Contributing', link: '/contributing' },
       { text: 'Fork me', link: 'https://github.com/selwynpolit/d9book/fork' },
     ],
 
@@ -66,7 +69,12 @@ export default defineConfig({
       useTitleFromFrontmatter: true,
       sortMenusByName: true,
       hyphenToSpace: true,
-      excludeFiles: ['about.md', 'attribution.md', 'mysteries.md'],
+      excludeFiles: [
+        'about.md',
+        'attribution.md',
+        'mysteries.md',
+        'contributing.md',
+      ],
     }),
 
     socialLinks: [
