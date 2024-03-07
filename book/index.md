@@ -184,7 +184,7 @@ features:
     details: Setup your mac for Drupal development
     link: /setup_mac
 
-  - icon: 📑
+  - icon: 🐘
     title: PHP
     details: Tips and tricks using PHP
     link: /php
@@ -214,7 +214,7 @@ features:
     details: Upgrading and patching Drupal and contrib modules
     link: /upgrade
 
-  - icon: 📑
+  - icon: 👀
     title: Views
     details: Extracting data from Drupal using the core Views module
     link: /views

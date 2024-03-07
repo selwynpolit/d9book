@@ -4,6 +4,15 @@ on:
   push:
     branches:
       - gh-pages
+    paths-ignore:
+      - README.md
+      - LICENSE.md
+  pull_request:
+    branches:
+      - gh-pages
+    paths-ignore:
+      - README.md
+      - LICENSE.md
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,18 +35,17 @@ jobs:
 
     steps:
       - name: 🗑 Delete deployment
-        uses: strumwolf/delete-deployment-environment@v2
+        uses: strumwolf/delete-deployment-environment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           environment: github-pages
           onlyRemoveDeployments: true
 
       - name: 🗑 Delete workflow runs
-        uses: dmvict/clean-workflow-runs@v1
+        uses: Mattraks/delete-workflow-runs@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          save_period: 30
-          save_min_runs_number: 0
+          retain_days: 30
+          keep_minimum_runs: 0
 
   build:
     name: 🏗️ Build (node - ${{ matrix.node }})
@@ -46,7 +54,7 @@ jobs:
 
     strategy:
       matrix:
-        node: [18.x, 20.x, 21.x]
+        node: [20.x, 21.x]
 
     steps:
       - name: 🛎️ Checkout
@@ -54,8 +62,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: ⚙️ Setup pnpm
-        uses: pnpm/action-setup@v2
+      - name: 🟧 Setup pnpm
+        uses: pnpm/action-setup@v3
         with:
           version: latest
 
@@ -65,9 +73,6 @@ jobs:
         with:
           cache: pnpm
           node-version: ${{ matrix.node }}
-
-      - name: ⚙️ Setup Pages
-        uses: actions/configure-pages@v4
 
       - name: 📦 Install dependencies
         env:
@@ -87,6 +92,7 @@ jobs:
     name: 🌐 Deploy
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
 
     environment:
       name: github-pages
@@ -97,4 +103,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: github-pages-dist-18.x
+          artifact_name: github-pages-dist-20.x

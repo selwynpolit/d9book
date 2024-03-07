@@ -438,21 +438,23 @@ Global $language = Drupal::languageManager()->getLanguage(Language:TYPE_INTERFAC
 
 This is part of the packt publishing Mastering Drupal 8 module development video series: https://www.packtpub.com/product/mastering-drupal-8-development-video/9781787124493
 
-Note. To test this in modules/custom/pseudo_client/get/
-
+> [!NOTE]
+> To test this in `modules/custom/pseudo_client/get/`
+> ```
 > php -S localhost:8888
->
+> ```
 > and put this in a browser:
->
+> ```
 > http://localhost:8888/get_item_from_drupal_core.php?domain=dev1&item=2716
->
+> ```
 > or
->
+> ```
 > http://localhost:8888/get_items_from_custom_code.php?domain=dev1
->
-> OR just put this in browser without running php -S:
->
+> ```
+> OR just put this in browser without running `php -S`:
+> ```
 > http://dev1/iai_wea/actions/2716?\_format=json
+> ```
 
 ## Add a variable to any page on the site
 
