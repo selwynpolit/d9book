@@ -92,6 +92,7 @@ jobs:
     name: 🌐 Deploy
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
 
     environment:
       name: github-pages
@@ -99,7 +100,6 @@ jobs:
 
     steps:
       - name: 🚀 Deploy to GitHub Pages
-        if: github.event_name != 'pull_request'
         id: deployment
         uses: actions/deploy-pages@v4
         with:

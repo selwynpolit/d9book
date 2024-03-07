@@ -47,7 +47,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'About', link: '/about' },
       { text: 'Attribution', link: '/attribution' },
-      { text: 'Contribute', link: '/contribute'},
+      { text: 'Contribute', link: '/contribute' },
       { text: 'Fork me', link: 'https://github.com/selwynpolit/d9book/fork' },
     ],
 
