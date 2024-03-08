@@ -459,7 +459,7 @@ This is part of the packt publishing Mastering Drupal 8 module development video
 ## Add a variable to any page on the site
 
 In the .theme file of the theme, add a `hook_preprocess_page` function
-like in themes/custom/dprime/dprime.theme:
+like in `themes/custom/dprime/dprime.theme`:
 
 ```php
 function dprime_preprocess_page(&$variables) {
@@ -476,7 +476,7 @@ function dprime_preprocess_page(&$variables) {
 ```
 
 Then in the template file e.g.
-themes/custom/dprime/templates/partials/footer.html.twig
+`themes/custom/dprime/templates/partials/footer.html.twig`
 
 ```twig
 <div class="cell xlarge-3 medium-4">
