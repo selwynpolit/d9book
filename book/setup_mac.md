@@ -397,7 +397,7 @@ To fix this permanently, run the following command:
 git config --global push.autoSetupRemote true
 ```
 
-[More at](https://adamj.eu/tech/2022/10/31/git-how-to-automatically-create-upstream-branches/)
+[Read more about automatically creating upstream branches](https://adamj.eu/tech/2022/10/31/git-how-to-automatically-create-upstream-branches/)
 
 
 ### NVM (Node Version Manager)
