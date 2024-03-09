@@ -153,5 +153,6 @@ Array
 ## Reference
 
 * [PHP Docs](https://www.php.net/docs.php)
+* [PHP: The Right Way - easy-to-read, quick reference for PHP popular coding standards, links to authoritative tutorials, and what the contributors consider to be best practices at present](https://phptherightway.com/)
 * [Change Record - Actions are now plugins, configured actions are configuration entities](https://www.drupal.org/node/2020549)
 * [ECA: Event-Condition-Action - no-code solution to orchestrate your Drupal site](https://www.drupal.org/project/eca)
