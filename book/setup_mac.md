@@ -375,9 +375,29 @@ Session.vim
 
 # Acquia CLI
 .acquia-cli.yml
+```
 
+### How to automatically create upstream branches
+
+When you create a new branch and try to push it with `git push`, you might see:
 
 ```
+fatal: The current branch feature/updates has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin feature/updates
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+```
+
+To fix this permanently, run the following command:
+
+```sh
+git config --global push.autoSetupRemote true
+```
+
+[More at](https://adamj.eu/tech/2022/10/31/git-how-to-automatically-create-upstream-branches/)
 
 
 ### NVM (Node Version Manager)
