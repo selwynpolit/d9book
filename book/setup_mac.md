@@ -284,7 +284,7 @@ Although the macOS comes with git, it is probably wise to install the latest wit
 brew install git
 ```
 
-#### .gitconfig 
+#### Setup .gitconfig 
 In your $HOME directory, create the .gitconfig file.  Replace my name and email address with yours.  I've added some useful aliases which allow nice shorthand commands like `git co branch_abc` `git hist` etc.
 
 ```
@@ -320,7 +320,7 @@ git config --global init.defaultBranch main
 ```
 
 
-#### .gitignore_global
+#### Setup .gitignore_global
 
 In your $HOME directory, create the .gitignore_global file.  
 
@@ -377,7 +377,7 @@ Session.vim
 .acquia-cli.yml
 ```
 
-### How to automatically create upstream branches
+#### Automatically create upstream branches
 
 When you create a new branch and try to push it with `git push`, you might see:
 
