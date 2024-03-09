@@ -78,8 +78,8 @@ Here are some high level overviews of Drupal concepts:
 
 
 ## Drupal Training
-* Mike Anello of Drupal Easy has excellent [training courses worth checking out](https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
-
+* Mike Anello of Drupal Easy has excellent [developer training courses] (https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
+* [Mastering Drupal: Content Managers Edition on Udemy by Bevin Wishart](https://www.udemy.com/course/mastering-drupal-content-managers-edition/?referralCode=DE305CE1D709017924BD)
 
 ## Keep up with Drupal news
 
