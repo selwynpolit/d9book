@@ -10,8 +10,16 @@ title: Learning
 - [Understanding Drupal and Planning your site from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam)
 - [Drupal Site Builder Certification Learning Plan from Acquia Academy](https://community.acquiaacademy.com/learn/public/learning_plan/view/85/drupal-site-builder-certification-learning-plan)
 
-## Drupal Reference Materials
-- [Top level link to Essential background concepts, OOP conventions etc at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
+## Drupal Training
+* Mike Anello of Drupal Easy has excellent [developer training courses] (https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
+* [Mastering Drupal: Content Managers Edition on Udemy by Bevin Wishart](https://www.udemy.com/course/mastering-drupal-content-managers-edition/?referralCode=DE305CE1D709017924BD)
+
+## Free videos
+* Saranya Ashokkumar is a prolific youtube content creator.  Check out some nice short form videos on how to use various modules, create modules etc. <https://www.youtube.com/@d4drupal324/featured>
+
+
+## Drupal.org Reference Materials
+- [Top level link to Essential background concepts, OOP conventions etc. at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
 
 
 ### Essential background concepts
@@ -59,31 +67,12 @@ Here are some high level overviews of Drupal concepts:
 - [Drupal API longer references with more details](https://www.drupal.org/docs/drupal-apis)
 
 
-## Free videos
-* Saranya Ashokkumar is a prolific youtube content creator.  Check out some nice short form videos on how to use various modules, create modules etc. <https://www.youtube.com/@d4drupal324/featured>
 
-
-## Blogs and articles
-* [Drupal Official Blog](https://www.drupal.org/blog) - News and stories to help you make something amazing, for anyone, with Drupal.
-* [Phil Norton of #!code writes some amazing articles](https://www.hashbangcode.com/) and [has useful code snippets](https://www.hashbangcode.com/snippets).
-* [Martin Anderson-Clutz's sandbox for a wide variety of fantastic Drupal, Acquia and module information at](https://www.mandclu.com/). He is also the author and maintainer of the [Smart Date Module](https://www.drupal.org/project/smart_date) and about 8 bazillion other modules.
-* Matt Glaman posts regularly about fascinating aspects of Drupal (and is the author of existing and upcoming Drupal books).  [Keep up with him here](https://mglaman.dev/).
-* Salsa Digital Agency has some [good articles](https://salsa.digital/insights) that are worth keeping up with.
-* [Dries Buytaert's blog](https://dri.es/) - Dries is the founder and project lead of Drupal and the CTO of Acquia.
-
-
-## Pay videos
-* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from [Lullabot](https://www.lullabot.com/) which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development or bring new people up to speed.
-* [Symfonycasts](https://symfonycasts.com/) is another incredibly good service that teaches all about the nuts and bolts of Symfony, PHPUnit and many other tools.  I think the Drupal course they have might be a little dated now.
-
-
-## Drupal Training
-* Mike Anello of Drupal Easy has excellent [developer training courses] (https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
-* [Mastering Drupal: Content Managers Edition on Udemy by Bevin Wishart](https://www.udemy.com/course/mastering-drupal-content-managers-edition/?referralCode=DE305CE1D709017924BD)
 
 ## Keep up with Drupal news
 
-Everything used to happen on IRC, but now most of that is now on [Slack](https://drupal.slack.com/).
+
+Check out the [Drupal Slack server](https://drupal.slack.com/) for all things Drupal.  There are dozens of very active channels. Historically, this communication all used to happen on IRC.
 
 Other great sources of news are:
 
@@ -98,6 +87,19 @@ Other great sources of news are:
 * [Mastodon](https://drupal.community/explore) is starting to show signs of Drupal life with a Mastodon instance focused on Drupal.
 
 * [Twitter](https://twitter.com/search?q=%23drupal&src=typed_query) is a complete cesspool of misinformation, but still has many useful Drupal posts from various sources.
+
+
+
+## Blogs and articles
+* [Drupal Official Blog](https://www.drupal.org/blog) - News and stories to help you make something amazing, for anyone, with Drupal.
+* [Phil Norton of #!code writes some amazing articles](https://www.hashbangcode.com/) and [has useful code snippets](https://www.hashbangcode.com/snippets).
+* [Martin Anderson-Clutz's sandbox for a wide variety of fantastic Drupal, Acquia and module information at](https://www.mandclu.com/). He is also the author and maintainer of the [Smart Date Module](https://www.drupal.org/project/smart_date) and about 8 bazillion other modules.
+* [Matt Glaman posts regularly about so many aspects of Drupal](https://mglaman.dev/) and is the author of excellent Drupal books.
+* [Salsa Digital Agency has some good articles](https://salsa.digital/insights) that are definitely worth keeping up with.
+* [Dries Buytaert's blog](https://dri.es/) - Dries is the founder and project lead of Drupal and the CTO of Acquia.
+* [Tag1 consulting blog](https://www.tag1consulting.com/blog) is another fantastic source of interesting and informative articles about Drupal.
+
+
 
 ## Drupal Podcasts
 
@@ -125,4 +127,11 @@ There are many books about Drupal that are worth checking out.
 ::: tip Please note
 Some of these are affiliate links so Amazon may send me some money if you purchase items using these links.
 :::
+
+
+## Video training courses
+These are paid training courses that are very detailed and informative.  They are kept up to date by excellent instructors and worth the expense.
+
+* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from [Lullabot](https://www.lullabot.com/) which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development or bring new people up to speed.
+* [Symfonycasts](https://symfonycasts.com/) is another incredibly good service that teaches all about the nuts and bolts of Symfony, PHPUnit and many other tools.  I think the Drupal course they have might be a little dated now.
 

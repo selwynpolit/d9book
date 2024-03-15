@@ -215,8 +215,9 @@ Warning: "certutil" is not available, so the CA can't be automatically installed
 Install "certutil" with "brew install nss" and re-run "mkcert -install"
 ```
 
+
 ## Sequel Ace
-This is a great GUI SQL tool.
+This is a great GUI SQL tool. It is actually a fork of the fantatic Sequel Pro which has not been updated in 4 years.
 
 `brew install --cask sequel-ace`
 
