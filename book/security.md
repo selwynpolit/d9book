@@ -436,6 +436,8 @@ Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeyp
 - [Antibot](https://www.drupal.org/project/antibot)
 - [Honeypot](https://www.drupal.org/project/honeypot)
 - [Anti-Spam by Clean Talk (paid SAAS service)](https://www.drupal.org/project/cleantalk)
+- [Perimeter Defence - bans the IPs if it detects suspicious requests to the site.](https://www.drupal.org/project/perimeter)
+
 
 ## Resources
 - [Security on Drupal.org](https://www.drupal.org/docs/develop/security)
