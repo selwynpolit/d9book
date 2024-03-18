@@ -431,16 +431,16 @@ Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeyp
 
 
 ## Modules
-- [Security Kit](https://www.drupal.org/project/seckit)
-- [Security Review](https://www.drupal.org/project/security_review)
-- [Antibot](https://www.drupal.org/project/antibot)
-- [Honeypot](https://www.drupal.org/project/honeypot)
-- [Anti-Spam by Clean Talk (paid SAAS service)](https://www.drupal.org/project/cleantalk)
+- [Security Kit provides Drupal with various security-hardening options](https://www.drupal.org/project/seckit)
+- [Security Review - automates testing for many of the easy-to-make mistakes that render your site insecure](https://www.drupal.org/project/security_review)
+- [Antibot - lightweight module designed to eliminate robotic form submissions](https://www.drupal.org/project/antibot)
+- [Honeypot uses both the honeypot and timestamp methods of deterring spam bots from completing forms on your Drupal site](https://www.drupal.org/project/honeypot)
+- [Anti-Spam by Clean Talk to protect your Drupal sites from spambot registration and spam comments publications thru comment and contact forms(paid SAAS service)](https://www.drupal.org/project/cleantalk)
 - [Perimeter Defence - bans the IPs if it detects suspicious requests to the site.](https://www.drupal.org/project/perimeter)
 
 
 ## Resources
-- [Security on Drupal.org](https://www.drupal.org/docs/develop/security)
+- [Security Advisories on Drupal.org](https://www.drupal.org/docs/develop/security)
 - [Blocking access using rewrites (Acquia.com)](https://acquia.my.site.com/s/article/360005210634-Blocking-access-using-rewrites)
 - [.htaccess documentation (Acquia.com)](https://docs.acquia.com/cloud-platform/manage/htaccess/)
 - [Ban module in Drupal core overview for blocking IP addresses (Acquia.com)](https://www.drupal.org/docs/8/core/modules/ban/overview)
