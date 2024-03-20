@@ -1148,6 +1148,57 @@ return AccessResult::allowed();
 return AccessResult::allowedIf(TRUE);
 ```
 
+## Using drush to list blocks
+
+To list blocks, use the following drush command
+```sh
+drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefinitions()));"
+```
+
+It will output something like:
+
+```sh
+Array
+(
+    [0] => block_content:63c57167-713f-4b45-a24b-dc8518271559
+    [1] => entity_view:block
+    [2] => entity_view:block_content
+    [3] => entity_view:comment
+    [4] => entity_view:contact_message
+    [5] => entity_view:feeds_subscription
+    [6] => entity_view:feeds_feed
+    [7] => entity_view:file
+    [8] => entity_view:linkcheckerlink
+    [9] => entity_view:media
+    [10] => entity_view:menu_link_content
+    [11] => entity_view:node
+    [12] => entity_view:path_alias
+...
+    [260] => node_syndicate_block
+    [261] => search_form_block
+    [262] => shortcuts
+    [263] => system_branding_block
+    [264] => system_breadcrumb_block
+    [265] => system_main_block
+    [266] => system_menu_block:account
+    [267] => system_menu_block:admin
+    [268] => system_menu_block:footer
+    [269] => system_menu_block:main
+    [270] => system_menu_block:tools
+    [271] => system_messages_block
+    [272] => system_powered_by_block
+    [273] => user_login_block
+    [274] => views_block:comments_recent-block_1
+    [275] => views_block:content_recent-block_1
+    [276] => views_block:who_s_new-block_1
+    [277] => views_block:who_s_online-who_s_online_block
+    [278] => local_actions_block
+    [279] => local_tasks_block
+    [280] => page_title_block
+    [281] => broken
+)
+```
+
 
 ## Resources
 
