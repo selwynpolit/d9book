@@ -402,6 +402,14 @@ Now set the block to display where you want it and voila!  The drop-down select 
 ![jump menu open](/images/jump-menu6.png)
 
 
+## The Combine fields filter Views filter
+
+This core functionality allows a view to have an exposed filter that searches multiple fields for a given search term. It essentially allows you to combine multiple exposed search filters into a single search box.
+
+To set it up include all the fields that you want to search in the Fields section, marking them with Exclude from display as necessary. Then, add and expose a `Combine fields` filter to the view, and configure it to use all the fields you want searchable in the Choose fields to combine for filtering section of the filter's configuration
+
+Thanks to [Mike Anello's blog post outlining this useful feature.](https://www.drupaleasy.com/quicktips/reintroducing-drupal-cores-views-combine-fields-filter)
+
 
 ## Reference
 - [Drupal API Reference: Template Preprocess views view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)
