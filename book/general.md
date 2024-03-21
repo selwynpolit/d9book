@@ -934,7 +934,7 @@ This hook alters the Basic page add and edit forms, setting my custom "Additiona
 
 ## Calculating, displaying and logging elapsed time
 
-To record how long something takes in Drupal, use the Timer utility class. In the example below, this info is also logged to the watchdog log.
+To record how long something takes in Drupal, use the `Timer` utility class. In the example below, this info is also logged to the `watchdog` log.
 
 In your config or `settings.local.php` (to temporarily override that value) you can enable or disable the timer with:
 
@@ -958,7 +958,7 @@ class SrpVoteOnCitationForm extends FormBase {
   }
 ```
 
-In the `submitForm()` we start the timer, do some work and then stop the timer and report the result like this:
+In `submitForm()` we start the timer, do some work and then stop the timer and report the result like this:
 
 ```php
 public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -977,17 +977,18 @@ public function submitForm(array &$form, FormStateInterface $form_state) {
   // do the work...
 
   $end_time_in_ms = Timer::read($timer_name);
-Timer::stop($timer_name);
-$end_time = number_format($end_time_in_ms / 1000, 4);
-$msg = ' Vote: ' . strtolower($voting_action) .' took ' . $end_time . 's' . ' Voter: ' . number_format($user_id) . ' Citation: ' . number_format($citation_nid);
-if ($this->displayElapsedTime) {
-  // Display elapsed time message.
-  \Drupal::messenger()->addMessage($msg);
-}
-if ($this->logElapsedTime) {
-  // Log the elapsed time message to watchdog.
-  \Drupal::logger('tea_teks_srp')->info($msg);
-}
+  Timer::stop($timer_name);
+  $end_time = number_format($end_time_in_ms / 1000, 4);
+  $msg = ' Vote: ' . strtolower($voting_action) .' took ' . $end_time . 's' . ' Voter: ' . number_format($user_id) . ' Citation: ' . number_format($citation_nid);
+  if ($this->displayElapsedTime) {
+    // Display elapsed time message.
+    \Drupal::messenger()->addMessage($msg);
+  }
+  if ($this->logElapsedTime) {
+    // Log the elapsed time message to watchdog.
+    \Drupal::logger('tea_teks_srp')->info($msg);
+  }
+  // ...
 ```
 
 ## Populate a select list with the options from a list field
