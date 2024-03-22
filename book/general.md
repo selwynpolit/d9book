@@ -83,7 +83,7 @@ $is_front = \Drupal::service('path.matcher')->isFrontPage();
 
 The above statement will return either TRUE or FALSE. TRUE means you are on the front page.
 
-## Check if site is in system maintenance mode
+## Check if the site is in system maintenance mode
 
 ```php
 $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
@@ -313,13 +313,7 @@ This will return true for the front page otherwise false.
 $is_front = \Drupal::service('path.matcher')->isFrontPage();
 ```
 
-## Check if site in system maintenance mode
 
-From web/core/modules/system/src/Access/CronAccessCheck.php
-
-```php
-if (\Drupal::state()->get('system.maintenance_mode')) {
-```
 
 ## Retrieve query and get or post parameters (\$\_POST and \$\_GET)
 
