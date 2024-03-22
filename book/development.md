@@ -916,7 +916,7 @@ If you need to find a deprecated function, you can search for it (in the `keywor
 It also suggests: 
 > TermStorageInterface::loadTree() now returns an array of all term objects in the tree. Each term object is extended to have "depth" and "parents" attributes in addition to its normal ones (aka the original return of taxonomy_get_tree()).
 
-More [on stackexchange at](https://drupal.stackexchange.com/questions/144147/get-taxonomy-terms)
+More [on stackexchange](https://drupal.stackexchange.com/questions/144147/get-taxonomy-terms)
 
 
 ## Missing module
