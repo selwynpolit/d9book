@@ -32,7 +32,7 @@ There are several ways to find events to subscribe to:
 
 - Search `web/core` for `@Event`
 
-![Results of searching for @Event](/images/search-for-events-in-drupal-core.png)
+![Results of searching for @Event](/images/search-for-events-in-web-core.png)
 
 - You can also see a listing at the bottom of [this page](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
 
