@@ -37,7 +37,7 @@ You can also see a listing at the bottom of [this page](https://api.drupal.org/a
 
 ## Subscribe to a core event
 
-Here is an example which subscribes to the Kernel::REQUEST event. On each request, it checks to see if the site is in maintenance mode and redirects the user to another site if the site is in maintenance mode.
+Here is an example which subscribes to the `Kernel::REQUEST` event. On each request, it checks to see if the site is in maintenance mode, and if it is, it logs the event and redirects the user to www.nytimes.com.
 
 ::: tip Note
 You can use drush to generate the code for working on this module using `drush generate service:event-subscriber`
@@ -132,5 +132,5 @@ final class RouteFinishedSubscriber implements EventSubscriberInterface {
 ## Resources
 
 - [Subscribe to and dispatch events on Drupal.org](https://www.drupal.org/docs/develop/creating-modules/subscribe-to-and-dispatch-events)
-- [Overview of event dispatch and subscribing](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
+- [Overview of event dispatch and subscribing in the Drupal API](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
 
