@@ -907,18 +907,54 @@ if(class_exists('Kint')){
 ```
 
 ## Replacing deprecated functions
+If you need to find a deprecated function, you can search for it (in the `keywords` field) at the [Change Records on drupal.org](https://www.drupal.org/list-changes/drupal) to find out how to replace it with a current function. For example, when searching for `taxonomy_get_tree` the site suggests:
 
-<https://drupal.stackexchange.com/questions/144147/get-taxonomy-terms>
+```php
+ // Procedural code - for OO code, inject the TermStorage object.
+  $tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid, $parent, $max_depth, $load_entities);
+```
+It also suggests: 
+> TermStorageInterface::loadTree() now returns an array of all term objects in the tree. Each term object is extended to have "depth" and "parents" attributes in addition to its normal ones (aka the original return of taxonomy_get_tree()).
+
+More [on stackexchange at](https://drupal.stackexchange.com/questions/144147/get-taxonomy-terms)
+
 
 ## Missing module
 
-from: <https://www.drupal.org/node/2487215>
+If you see a PHP warning such as `The following module is missing from the file system...` (or similar) on your site, Here are some ways to remove it:
 
-If you see a PHP warning such as `The following module is missing from the file system...` (or similar) on your site, You can remove it with: 
+A quick solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
+
+::: tip Note
+Run `drush cr` first to try to get things sane.
+This opens the config in vim so you can use `/tracer` to search for tracer, `dd` to delete a line, `:wq` to save
+Also if this fails, just try it again.  Sometimes, it fails with a message like:
+```
+  The command "${VISUAL-${EDITOR-vi}} /tmp/drush_tmp_1711122194_65fda712e42d6/core.extension.yml" failed.
+  Exit Code: 1(General error)
+  Working directory: /Users/selwyn/Sites/ddev101/web
+
+  Output:
+  ================
+  Error Output:
+  ================
+```
+:::
+
+Also check out [Manually removing a missing module](https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates#s-manually-removing-a-missing-module)
+
+
+If this doesn't work for you, try the following query:
 
 ```
 $ drush sql-query "DELETE FROM key_value WHERE name='module_name';"
 ```
+More at [How to fix "The following module is missing from the file system..." warning messages on Drupal.org](https://www.drupal.org/node/2487215) 
+
+
+
+
+
 
 ## You have requested a non-existent service
 

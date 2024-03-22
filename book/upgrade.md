@@ -658,7 +658,7 @@ More at <https://github.com/cweagans/composer-patches/issues/146>
 
 
 ## Solving problems with drush updb
-When `drush updb` reports errors like those shown below.  Try `drush cr` and repeat first. 
+When `drush updb` reports missing modules and errors like those shown below.  Try `drush cr` and repeat first. 
 
 ```sh
  [error]   (Currently using Missing or invalid modules The following modules are marked as installed in the core.extension configuration, but they are missing:
@@ -671,10 +671,10 @@ Review the  suggestions for resolving this incompatibility [1] to repair your in
 
 ```
 
-If you have access to Drush, the quickest solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
+The quickest solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
 
 ::: tip Note
-Run `drush cr` first to try to get things sort of sane.
+Run `drush cr` first to try to get things sane.
 This opens the config in vim so you can use `/tracer` to search for tracer, `dd` to delete a line, `:wq` to save
 Also if this fails, just try it again.  Sometimes, it fails with a message like:
 ```
