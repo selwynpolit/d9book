@@ -1,0 +1,136 @@
+---
+title: Events
+---
+
+# Event System
+
+![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=events.md)
+
+## Overview
+
+Events allow different components of the system to interact and communicate with each other. One system component dispatches the event at an appropriate time; many events are dispatched by Drupal core and the Symfony event system in every request. Other system components can register as event subscribers; when an event is dispatched, a method is called on each registered subscriber, allowing each one to react. For more on the general concept of events, see [The EventDispatcher Component in the Symfony docs](https://symfony.com/doc/current/components/event_dispatcher.html)
+
+
+Take an example from the [HttpKernel component](https://symfony.com/doc/current/components/http_kernel.html). Once a `Response` object has been created, it may be useful to allow other elements in the system to modify it (e.g. add some cache headers) before it's actually used. To make this possible, the Symfony kernel dispatches an event - `kernel.response`. Here's how it works:
+
+* A listener (PHP object) tells a central dispatcher object that it wants to listen to the `kernel.response` event;
+* At some point, the Symfony kernel tells the dispatcher object to dispatch the `kernel.response` event, passing with it an `Event` object that has access to the Response object;
+* The dispatcher notifies (i.e. calls a method on) all listeners of the `kernel.response` event, allowing each of them to make modifications to the `Response` object.
+
+
+Event systems are used in many complex applications as a way to allow extensions to modify how the system works. An event system can be implemented in a variety of ways, but generally, the concepts and components that make up the system are the same.
+
+**Event Subscribers** - Sometimes called "Listeners", are callable methods or functions that react to an event being propagated throughout the Event Registry.
+**Event Registry** - Where event subscribers are collected and sorted.
+**Event Dispatcher** - The mechanism in which an event is triggered, or "dispatched", throughout the system.
+**Event Context** - Many events require a specific set of data that is important to the subscribers to an event. This can be as simple as a value passed to the Event Subscriber, or as complex as a specially created class that contains the relevant data.
+
+
+## Finding Drupal events
+
+Search `web/core` for `@Event`
+
+~[Results of searching for @Event](/images/search-for-events-in-drupal-core.png)
+
+You can also see a listing at the bottom of [this page](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
+
+
+## Subscribe to a core event
+
+Here is an example which subscribes to the Kernel::REQUEST event. On each request, it checks to see if the site is in maintenance mode and redirects the user to another site if the site is in maintenance mode.
+
+::: tip Note
+You can use drush to generate the code for working on this module using `drush generate service:event-subscriber`
+:::
+
+In `web/modules/custom/mymodule/mymodule.info.yml`
+
+```yml
+name: 'Mymodule'
+type: module
+description: 'Exploring events'
+package: 'Custom'
+core_version_requirement: ^10
+```
+
+In `web/modules/custom/mymodule/mymodule.services.yml`
+
+```yml
+services:
+  mymodule.route_finished_subscriber:
+    class: Drupal\mymodule\EventSubscriber\RouteFinishedSubscriber
+    arguments:
+      - '@state'
+    tags:
+      - { name: event_subscriber }
+```
+
+And finally in `web/modules/custom/mymodule/src/EventSubscriber/RouteFinishedSubscriber.php`
+
+```php
+<?php declare(strict_types = 1);
+
+namespace Drupal\mymodule\EventSubscriber;
+
+use Drupal\Core\Routing\TrustedRedirectResponse;
+use Drupal\Core\State\StateInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+
+/**
+ * Redirects to a specific URL when the site is in maintenance mode.
+ */
+final class RouteFinishedSubscriber implements EventSubscriberInterface {
+
+  /**
+   * The state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
+   * Constructs a new RouteFinishedSubscriber.
+   *
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state service.
+   */
+  public function __construct(StateInterface $state) {
+    $this->state = $state;
+  }
+
+  /**
+   * Redirect to nytimes.com when the site is in maintenance mode and logs event.
+   *
+   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+   *   The event to respond to.
+   */
+  public function onKernelRequest(RequestEvent $event): void {
+    if ($this->state->get('system.maintenance_mode')) {
+      $response = new TrustedRedirectResponse('http://www.mytimes.com');
+      \Drupal::logger('mymodule')->info("System in maint mode - sent them to the times!");
+      $event->setResponse($response);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents(): array {
+    return [
+      KernelEvents::REQUEST => ['onKernelRequest'],
+    ];
+  }
+}
+
+```
+
+
+
+## Resources
+
+- [Subscribe to and dispatch events on Drupal.org](https://www.drupal.org/docs/develop/creating-modules/subscribe-to-and-dispatch-events)
+- [Overview of event dispatch and subscribing](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
+

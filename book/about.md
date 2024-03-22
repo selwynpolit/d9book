@@ -59,7 +59,6 @@ If you want to contribute to the expense of creating this book, I have added a [
 
 ### More coming on these topics
 
-- Events
 - Custom Plugins
 - Media image files
 - Migration
