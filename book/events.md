@@ -28,13 +28,15 @@ Event systems are used in many complex applications as a way to allow extensions
 
 ## Finding Drupal events
 
-Search `web/core` for `@Event`
+There are several ways to find events to subscribe to:
 
-~[Results of searching for @Event](/images/search-for-events-in-drupal-core.png)
+- Search `web/core` for `@Event`
 
-You can also see a listing at the bottom of [this page](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
+![Results of searching for @Event](/images/search-for-events-in-drupal-core.png)
 
-You can also use the [webprofiler module](https://www.drupal.org/project/webprofiler) to view events and the event subscribers. Enable it and check the checkbox in it's settings for events. When you view a page, you’ll see the toolbar at the bottom of the page.  Click any link and it will give you useful stats. Select `events` on the left. and you will see a long list of events and the event subscribers that are called.  e.g. in the first line below, the dispatched event is “kernel.request” which is listened to by 
+- You can also see a listing at the bottom of [this page](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
+
+- You can also use the [webprofiler module](https://www.drupal.org/project/webprofiler) to view events and the event subscribers. Enable it and check the checkbox in it's settings for events. When you view a page, you’ll see the toolbar at the bottom of the page.  Click any link and it will give you useful stats. Select `events` on the left. and you will see a long list of events and the event subscribers that are called.  e.g. in the first line below, the dispatched event is “kernel.request” which is listened to by 
 Drupal/Core/Routing/RoutePreloader.php::onRequest 
 
 ![Web Profiler Events listing](/images/events-listing.png)
