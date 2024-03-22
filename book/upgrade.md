@@ -657,6 +657,44 @@ Then composer install will apply the patch correctly
 More at <https://github.com/cweagans/composer-patches/issues/146>
 
 
+## Solving problems with drush updb
+When `drush updb` reports errors like those shown below.  Try `drush cr` and repeat first. 
+
+```sh
+ [error]   (Currently using Missing or invalid modules The following modules are marked as installed in the core.extension configuration, but they are missing:
+ * tracer
+ * webprofiler
+
+Review the  suggestions for resolving this incompatibility [1] to repair your installation, and then re-run update.php.
+
+[1] https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates
+
+```
+
+If you have access to Drush, the quickest solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
+
+::: tip Note
+Run `drush cr` first to try to get things sort of sane.
+This opens the config in vim so you can use `/tracer` to search for tracer, `dd` to delete a line, `:wq` to save
+Also if this fails, just try it again.  Sometimes, it fails with a message like:
+```
+  The command "${VISUAL-${EDITOR-vi}} /tmp/drush_tmp_1711122194_65fda712e42d6/core.extension.yml" failed.
+  Exit Code: 1(General error)
+  Working directory: /Users/selwyn/Sites/ddev101/web
+
+  Output:
+  ================
+  Error Output:
+  ================
+```
+:::
+
+
+[Troubleshooting Database Updates on Drupal.org](https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates)
+
+
+
+
 ## Stop files being overwritten during composer operations
 
 Depending on your composer.json, files like development.services.yml may be overwritten from during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
