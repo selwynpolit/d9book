@@ -6,5 +6,6 @@ dependencies:
     - contact
 id: contact_message.token
 label: Token
+description: ''
 targetEntityType: contact_message
 cache: true

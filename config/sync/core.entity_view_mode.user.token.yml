@@ -6,5 +6,6 @@ dependencies:
     - user
 id: user.token
 label: Token
+description: ''
 targetEntityType: user
 cache: true

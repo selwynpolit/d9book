@@ -6,5 +6,6 @@ dependencies:
     - tour
 id: tour.token
 label: Token
+description: ''
 targetEntityType: tour
 cache: true

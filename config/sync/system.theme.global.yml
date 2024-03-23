@@ -12,5 +12,5 @@ features:
   node_user_picture: true
 logo:
   path: ''
-  url: ''
+  url: null
   use_default: true
