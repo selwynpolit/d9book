@@ -737,13 +737,49 @@ Here is more of the config section of a composer.json for clarity:
 
 ### Composer won\'t update Drupal core
 
-The `prohibits` command tells you which packages are blocking a given package from being installed. Specify a version constraint to verify whether upgrades can be performed in your project, and if not why not.
+The `composer prohibits` (alias `why-not`) command tells you which packages are blocking a given package from being installed. Specify a version constraint to verify whether upgrades can be performed in your project, and if not why not.
 
-Why won\'t composer install Drupal version 8.9.1?
+Here we ask why won\'t composer install Drupal version 10.2.3?
 
 ```
-composer why-not drupal/core:8.9.1
+composer why-not drupal/core 10.2.3
 ```
+
+The output looks like:
+
+```sh
+drupal/core-recommended    10.1.8   requires         drupal/core (10.1.8)
+drupal/core                10.2.3   conflicts        drush/drush (<12.4.3)
+drupal/core                10.2.3   requires         symfony/console (^6.4)
+drupal/recommended-project dev-main does not require symfony/console (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/dependency-injection (^6.4)
+drupal/recommended-project dev-main does not require symfony/dependency-injection (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/event-dispatcher (^6.4)
+drupal/recommended-project dev-main does not require symfony/event-dispatcher (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/http-foundation (^6.4)
+drupal/recommended-project dev-main does not require symfony/http-foundation (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/http-kernel (^6.4)
+drupal/recommended-project dev-main does not require symfony/http-kernel (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/mime (^6.4)
+drupal/recommended-project dev-main does not require symfony/mime (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/routing (^6.4)
+drupal/recommended-project dev-main does not require symfony/routing (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/serializer (^6.4)
+drupal/recommended-project dev-main does not require symfony/serializer (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/validator (^6.4)
+drupal/recommended-project dev-main does not require symfony/validator (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/process (^6.4)
+drupal/recommended-project dev-main does not require symfony/process (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/yaml (^6.4)
+drupal/recommended-project dev-main does not require symfony/yaml (but v6.3.12 is installed)
+Not finding what you were looking for? Try calling `composer update "drupal/core:10.2.3" --dry-run` to get another view on the problem.
+```
+
+To solve this, I removed drush with `composer remove drush/drush` and then ran `composer update "drupal/core-*" -W`
+
+Then I reinstalled the correct version of drush with `composer require drush/drush` which installed version 12.5.1 of drush.
+
+
 
 ## Composer won\'t install a module
 

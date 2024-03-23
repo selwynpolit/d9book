@@ -10,8 +10,15 @@ title: Updates
 if there is `drupal/core-recommended` in your `composer.json` use:
 
 ```sh
-$ composer update drupal/core-recommended -W
+composer update "drupal/core-*" -W
 ```
+
+Or
+
+```sh
+$ composer update drupal/core-recommended --with-all-dependencies
+```
+
 
 if there is no `drupal/core-recommended` in your `composer.json` use:
 
@@ -19,7 +26,11 @@ if there is no `drupal/core-recommended` in your `composer.json` use:
 $ composer update drupal/core -W
 ```
 
-Note `composer update -W` is the same as `composer update --with-dependencies`
+`composer update -W` is the same as `composer update --with-dependencies`
+
+::: tip
+If you have problems with upgrading to the latest Drupal core, check out [troubleshooting in the composer chapter](composer#Troubleshooting) 
+:::
 
 
 ## Upgrading Drupal 9 to Drupal 10
