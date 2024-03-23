@@ -29,7 +29,7 @@ $ composer update drupal/core -W
 `composer update -W` is the same as `composer update --with-dependencies`
 
 ::: tip
-If you have problems with upgrading to the latest Drupal core, check out [troubleshooting in the composer chapter](composer#Troubleshooting) 
+If you have problems with upgrading to the latest Drupal core, check out [troubleshooting in the composer chapter](composer#troubleshooting) 
 :::
 
 
