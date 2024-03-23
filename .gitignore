@@ -52,3 +52,8 @@
 /web/.eslintignore
 /web/INSTALL.txt
 /web/robots.txt
+
+
+.ddev/traefik/
+.ddev/providers/platform.yaml
+.ddev/addon-metadata
