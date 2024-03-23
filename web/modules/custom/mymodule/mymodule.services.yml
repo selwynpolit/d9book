@@ -1,0 +1,7 @@
+services:
+  mymodule.route_finished_subscriber:
+    class: Drupal\mymodule\EventSubscriber\RouteFinishedSubscriber
+    arguments:
+      - '@state'
+    tags:
+      - { name: event_subscriber }

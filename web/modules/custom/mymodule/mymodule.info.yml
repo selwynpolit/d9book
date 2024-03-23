@@ -1,0 +1,5 @@
+name: 'Mymodule'
+type: module
+description: 'Exploring events'
+package: 'Custom'
+core_version_requirement: ^10
