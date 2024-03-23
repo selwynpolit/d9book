@@ -8,9 +8,9 @@ title: Drush
 ## Overview
 
 Drush is a command line shell and Unix scripting interface for Drupal. Your life will go much better if you use Drush! Drush core ships with
-lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
+lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
 Similarly, it runs update.php, executes SQL queries, runs content migrations, and miscellaneous utilities like cron or cache rebuild.
-Drush can be extended by [3rd party commandfiles](https://www.drupal.org/project/project_module?f%5b2%5d=im_vid_3%3A4654).
+Drush can be extended by [3rd party commandfiles](https://www.drupal.org/project/project_module?f%5b2%5d=im_vid_3%3A4654).
 
 From <https://www.drush.org/latest/>
 
@@ -20,7 +20,7 @@ Drush is extensible with the ability to create drush commands and drush scripts.
 
 These are new commands that you can add to your modules to allow drush to do useful things. Modules sometimes include drush commands e.g. search api (<https://www.drupal.org/project/search_api>) More about this below.
 
-Modules that have drush 9 commands need the following
+Modules that have drush commands need the following
 
 1.  drush.services.yml
 
@@ -733,9 +733,9 @@ cd $(drush dd files)
 ```
 
 
-### Global Drush
+### Global Drush - run drush on host
 
-I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded my Oh-my-Zsh.  Drush runs slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within /vendor/bin) and call it. Always install drush in each project using composer.
+I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded by [Oh-my-Zsh](https://ohmyz.sh/).  Drush runs slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within `/vendor/bin`) and call it. **Always** install drush in each project using composer.
 
 ::: warning
 You should be aware that you might get unpredictable results if you use differing versions of PHP on your local vs in the DDEV containers.  E.g. if your local mac has PHP 7 and your DDEV is using PHP 8.1, you are likely to have unpredictable results when you issue some drush commands.  Generally speaking I haven't seen things be too wacky, but you should be aware of this.
@@ -756,15 +756,13 @@ Then add Drush to your system path by placing the following in your ~/.zshrc ( o
 Test any of these path changes by running `source ~/.zshrc` to reload the environment variables.  You can also open a new iterm window if you prefer.
 :::
 
-By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands e.g. 
+By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands like `drush cr` or `drush cst`.
 
-`drush cr` or `drush cst` etc.
-
-As of November 2023 and v1.22.4+ to allow local drush on host you will need to install the following Ddev addon:
+As of November 2023 and v1.22.4+ to allow local drush on host you will need to install the following DDEV addon:
 
 `ddev get rfay/ddev-drushonhost`
 
-See <https://github.com/rfay/ddev-drushonhost> for documentation
+See [ddev-drushonhost repo](https://github.com/rfay/ddev-drushonhost) for documentation
 
 You will need: 
 `export IS_DDEV_PROJECT=true`
@@ -783,7 +781,6 @@ $ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
 if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
   require $ddev_settings;
 }
-
 ```
 
  Then add this to your `settings.local.php`:
@@ -793,11 +790,11 @@ Discussion: <https://github.com/ddev/ddev/pull/5328>
 
 Restart the project with `ddev restart`.
 
-Et voila!  You can now issue command such as `drush cr` as if you had first `ssh'ed` into the container.  
+Et voila!  You can now issue command such as `drush cr` as if you had first `drush ssh'ed` into the container.  
 
 
 **Troubleshooting**
-Failing looks like this:
+If you try to issue `drush dr` while in the project directory and it fails this is the error message to expect.
 
 ```sh
 $ drush cr
@@ -1330,33 +1327,6 @@ $ drush sqlq "select count(*) as redirects"
 ```
 
 
-## Run drush on the host
-
-If you prefer to type `drush cr` or `drush cim -y` (versus `ddev drush cr` or `ddev drush cim -y`), you can set things up to do that.
-
-Assuming you use PHP 8.1 for your Drupal project, you will need php 8.1 set up on your mac and drush installed globally.  See the [Global Drush Section](#global-drush) or [Setting up your Mac: Global Drush](/setup_mac#global-drush) for details.  It is advisable that the PHP installed on your local computer be the same as the PHP in the DDEV containers to avoid surprises.
-
-
-
-
-
-
-## Drush launcher
-
-install drush launcher from <https://github.com/drush-ops/drush-launcher>
-
-By installing the drush launcher globally on your local machine, you can simply type drush on the command line, and the launcher will find and
-execute the project specific version of drush located in your project\'s vendor directory.
-
-from <https://github.com/drush-ops/drush-launcher>: In order to avoid dependency issues, it is best to require Drush on a per-project basis
-via Composer (`$ composer require drush/drush`). This makes Drush available to your project by placing it at vendor/bin/drush.
-
-However, it is inconvenient to type `vendor/bin/drush` to execute Drush commands. By installing the drush launcher globally on your local
-machine, you can simply type drush on the command line, and the launcher will find and execute the project specific version of drush located in your project\'s vendor directory.
-
-::: tip Note
-This may not be required any more.
-:::
 
 
 ## Drupal 7 Drush scripts

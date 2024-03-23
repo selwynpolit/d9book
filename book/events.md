@@ -41,6 +41,12 @@ Drupal/Core/Routing/RoutePreloader.php::onRequest
 
 ![Web Profiler Events listing](/images/events-listing.png)
 
+## Generate event subscriber with Drush
+
+You can use drush to generate the code for working on this module using `drush generate service:event-subscriber`
+
+It will create the `module.info.yml` file, the `module.services.yml` file and also the `src/EventSubscriber/EventsExampleSubscriber.php` files for you.
+
 
 ## Subscribe to a core event
 
