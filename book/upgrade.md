@@ -29,7 +29,8 @@ $ composer update drupal/core -W
 `composer update -W` is the same as `composer update --with-dependencies`
 
 ::: tip
-If you have problems with upgrading to the latest Drupal core, check out [troubleshooting in the composer chapter](composer#troubleshooting) 
+If you have problems with upgrading to the latest Drupal core, check out [troubleshooting in the composer chapter](composer#troubleshooting).
+Also lots of useful info at [Updating Drupal core via Composer on drupal.org](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
 :::
 
 
@@ -969,6 +970,7 @@ composer require drupal/csv_serialization:^2.0 || ^3.0
 They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in EncoderInterface::encode() between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
 
 ## Reference
+- [Updating Drupal core via Composer on drupal.org - December 2023](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
 - [Drupalize.me: Upgrade to Drupal 10 - March 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
 - [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)
 - [Composer Documentation](https://getcomposer.org/doc/)
