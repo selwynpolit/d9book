@@ -84,7 +84,7 @@ features:
     details: The primary building blocks of Drupal
     link: /entities
 
-  - icon: 📅
+  - icon: 7️⃣
     title: Events
     details: Allowing different components of the system to interact and communicate with each other by subscribing and dispatching events.
     link: /events
