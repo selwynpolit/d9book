@@ -177,6 +177,9 @@ See [Examples module's events_example](https://git.drupalcode.org/project/exampl
 
 ## Define custom events
 
+In this excerpt from the [Examples module's events_example](https://git.drupalcode.org/project/examples/-/blob/4.0.x/modules/events_example/src/EventSubscriber/EventsExampleSubscriber.php?ref_type=heads) we define an event called `NEW_REPORT`. To subscribe to this custom event, we can refer to `IncidentEvents::NEW_REPORT`.
+
+
 ```php
 <?php
 
@@ -234,7 +237,7 @@ final class IncidentEvents {
 }
 ```
 
-To subscribe to this new custom event, you can refer to `IncidentEvents::NEW_REPORT` in the `getSubscribedEvents` method as shown below.
+In the code below we refer to `IncidentEvents::NEW_REPORT` in the `getSubscribedEvents` method and specify that when this event is fired, the `notifyManagers` method should be called.
 
 
 ```php
@@ -251,8 +254,7 @@ To subscribe to this new custom event, you can refer to `IncidentEvents::NEW_REP
 
 ## Dispatch a custom event
 
-To dispatch a custom event, you instantiate a new event object and call the `event_dispatcher->dispatch()` method.  In this example, the event is dispatched by the user filling out a form so the `submitForm` method is shown.
-
+To dispatch a custom event, instantiate a new event object and call the `event_dispatcher->dispatch()` method.  In the example below, the event is dispatched by the user filling out a form. Here is the `submitForm` method.
 
 
 ```php
