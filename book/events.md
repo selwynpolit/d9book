@@ -401,6 +401,24 @@ class EventsExampleForm extends FormBase {
 }
 ```
 
+# Stop propagation and access information about the event
+
+If you have multiple subscribers to an event and you want to skip them after a certain one is called, you can use `$event->stopPropagation`:
+
+```php
+public function notifyMario(IncidentReportEvent $event) {
+    // You can use the event object to access information about the event passed
+    // along by the event dispatcher.
+    if ($event->getType() == 'stolen_princess') {
+      $this->messenger()->addStatus($this->t('Mario has been alerted. Thank you. This message was set by an event subscriber. See @method()', ['@method' => __METHOD__]));
+      // Optionally use the event object to stop propagation.
+      // If there are other subscribers that have not been called yet this will
+      // cause them to be skipped.
+      $event->stopPropagation();
+    }
+  }
+```
+
 
 ## Resources
 
