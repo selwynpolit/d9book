@@ -140,6 +140,7 @@ final class RouteFinishedSubscriber implements EventSubscriberInterface {
 ```
 
 The `getSubscribedEvents()` method from `vendor/symfony/event-dispatcher/EventSubscriberInterface.php` returns an array of event names this subscriber wants to listen to.
+
 The array keys are event names and the value can be:
 - The method name to call (priority defaults to 0)
 - An array composed of the method name to call and the priority
@@ -152,7 +153,251 @@ For instance:
 The code must not depend on runtime state as it will only be called at compile time. All logic depending on runtime state must be put into the individual methods handling the events.
 Returns: array<string, string|array{0: string, 1: int}|list<array{0: string, 1?: int}>
 
+## Subscribe to custom events
 
+```php
+// For each event key define an array of arrays composed of the method names
+// to call and optional priorities. The method name here refers to a method
+// on this class to call whenever the event is triggered.
+$events[IncidentEvents::NEW_REPORT][] = ['notifyMario'];
+
+// Subscribers can optionally set a priority. If more than one subscriber is
+// listening to an event when it is triggered they will be executed in order
+// of priority. If no priority is set the default is 0.
+$events[IncidentEvents::NEW_REPORT][] = ['notifyBatman', -100];
+
+// We'll set an event listener with a very low priority to catch incident
+// types not yet defined. In practice, this will be the 'cat' incident.
+$events[IncidentEvents::NEW_REPORT][] = ['notifyDefault', -255];
+```
+
+See [Examples module's events_example](https://git.drupalcode.org/project/examples/-/blob/4.0.x/modules/events_example/src/EventSubscriber/EventsExampleSubscriber.php?ref_type=heads) for more
+
+
+
+## Define custom events
+
+```php
+<?php
+
+namespace Drupal\events_example\Event;
+
+/**
+ * Defines events for the events_example module.
+ *
+ * It is best practice to define the unique names for events as constants in a
+ * static class. This provides a place for documentation of the events, as well
+ * as allowing the event dispatcher to use the constants instead of hard coding
+ * a string.
+ *
+ * In this example we're defining one new event:
+ * 'events_example.new_incident_report'. This event will be dispatched by the
+ * form controller \Drupal\events_example\Form\EventsExampleForm whenever a new
+ * incident is reported. If your application dispatches more than one event
+ * you can use a single class to document multiple events -- just add a new
+ * constant for each. Group related events together with a single class;
+ * define another class for unrelated events.
+ *
+ * The docblock for each event name should contain a description of when, and
+ * under what conditions, the event is triggered. A module developer should be
+ * able to read this description in order to determine whether this is
+ * the event that they want to subscribe to.
+ *
+ * Additionally, the docblock for each event should contain an "@Event" tag.
+ * This is used to ensure documentation parsing tools can gather and list all
+ * events.
+ *
+ * Example: https://api.drupal.org/api/drupal/core%21core.api.php/group/events/
+ *
+ * In core \Drupal\Core\Config\ConfigCrudEvent is a good example of defining and
+ * documenting new events.
+ *
+ * @ingroup events_example
+ */
+final class IncidentEvents {
+
+  /**
+   * Name of the event fired when a new incident is reported.
+   *
+   * This event allows modules to perform an action whenever a new incident is
+   * reported via the incident report form. The event listener method receives a
+   * \Drupal\events_example\Event\IncidentReportEvent instance.
+   *
+   * @Event
+   *
+   * @see \Drupal\events_example\Event\IncidentReportEvent
+   *
+   * @var string
+   */
+  const NEW_REPORT = 'events_example.new_incident_report';
+
+}
+```
+
+To subscribe to this new custom event, you can refer to `IncidentEvents::NEW_REPORT` in the `getSubscribedEvents` method as shown below.
+
+
+```php
+ /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents() {
+    $events[IncidentEvents::NEW_REPORT][] = ['notifyManagers'];
+    return $events;
+  }
+```
+
+
+
+## Dispatch a custom event
+
+To dispatch a custom event, you instantiate a new event object and call the `event_dispatcher->dispatch()` method.  In this example, the event is dispatched by the user filling out a form so the `submitForm` method is shown.
+
+
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $type = $form_state->getValue('incident_type');
+    $report = $form_state->getValue('incident');
+
+    // When dispatching or triggering an event, start by constructing a new
+    // event object. Then use the event dispatcher service to notify any event
+    // subscribers.
+    $event = new IncidentReportEvent($type, $report);
+
+    // Dispatch an event by specifying which event, and providing an event
+    // object that will be passed along to any subscribers.
+    $this->event_dispatcher->dispatch($event, IncidentEvents::NEW_REPORT);
+```
+
+
+Here is the entire file for clarity:
+
+```php
+<?php
+
+namespace Drupal\events_example\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Drupal\events_example\Event\IncidentEvents;
+use Drupal\events_example\Event\IncidentReportEvent;
+
+/**
+ * Implements the EventsExampleForm form controller.
+ *
+ * The submitForm() method of this class demonstrates using the event dispatcher
+ * service to dispatch an event.
+ *
+ * @see \Drupal\events_example\Event\IncidentEvents
+ * @see \Drupal\events_example\Event\IncidentReportEvent
+ * @see \Symfony\Component\EventDispatcher\EventDispatcherInterface
+ * @see \Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher
+ *
+ * @ingroup events_example
+ */
+class EventsExampleForm extends FormBase {
+
+  /**
+   * The event dispatcher service.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $event_dispatcher;
+
+  /**
+   * Constructs a new UserLoginForm.
+   *
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   *   The event dispatcher service.
+   */
+  public function __construct(EventDispatcherInterface $event_dispatcher) {
+    // The event dispatcher service is an implementation of
+    // \Symfony\Component\EventDispatcher\EventDispatcherInterface. In Drupal
+    // this is generally an instance of the
+    // \Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher service.
+    // This dispatcher improves performance when dispatching events by compiling
+    // a list of subscribers into the service container so that they do not need
+    // to be looked up every time.
+    $this->event_dispatcher = $event_dispatcher;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('event_dispatcher')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['incident_type'] = [
+      '#type' => 'radios',
+      '#required' => TRUE,
+      '#title' => t('What type of incident do you want to report?'),
+      '#options' => [
+        'stolen_princess' => $this->t('Missing princess'),
+        'cat' => $this->t('Cat stuck in tree'),
+        'joker' => $this->t('Something involving the Joker'),
+      ],
+    ];
+
+    $form['incident'] = [
+      '#type' => 'textarea',
+      '#required' => FALSE,
+      '#title' => t('Incident report'),
+      '#description' => t('Describe the incident in detail. This information will be passed along to all crime fighters.'),
+      '#cols' => 60,
+      '#rows' => 5,
+    ];
+
+    $form['actions'] = [
+      '#type' => 'actions',
+    ];
+
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return 'events_example_form';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $type = $form_state->getValue('incident_type');
+    $report = $form_state->getValue('incident');
+
+    // When dispatching or triggering an event, start by constructing a new
+    // event object. Then use the event dispatcher service to notify any event
+    // subscribers.
+    $event = new IncidentReportEvent($type, $report);
+
+    // Dispatch an event by specifying which event, and providing an event
+    // object that will be passed along to any subscribers.
+    $this->event_dispatcher->dispatch($event, IncidentEvents::NEW_REPORT);
+  }
+
+}
+```
 
 
 ## Resources
