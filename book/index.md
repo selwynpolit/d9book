@@ -219,6 +219,11 @@ features:
     details: Upgrading and patching Drupal and contrib modules
     link: /upgrade
 
+  - icon: 🚙
+    title: Utility
+    details: Drupal utility classes and functions
+    link: /utility
+
   - icon: 👀
     title: Views
     details: Extracting data from Drupal using the core Views module
