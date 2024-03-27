@@ -50,6 +50,6 @@ This migration Process snippet example demonstrates how to populate the fields o
 * [Youtube Video from Twin Cities Drupal community where Mauricio Dinarte and Benjamin Melançon demonstrate how to implement migrations - June 2017](https://www.youtube.com/watch?v=eBP2vQIwx-o)
 * [Migrating to Drupal From Alternate Sources by Joshua Turton showing migrations from CSV, XML/RSS and Wordpress into Drupal 8 - November 2018](https://www.phase2technology.com/blog/migrating-drupal-alternate-sources)
 * [Nice introduction to Drupal 8 migration by Chris of Redfin Solutions - Nov 2017](https://redfinsolutions.com/blog/understanding-drupal-8s-migrate-api)
-* [Migrating files and images on Drupal.org updated Feb 2023](https://www.drupal.org/docs/drupal-apis/migrate-api/migrate-destination-plugins-examples/migrating-files-and-images)
+* [Migrating files and images on Drupal.org - updated February 2023](https://www.drupal.org/docs/drupal-apis/migrate-api/migrate-destination-plugins-examples/migrating-files-and-images)
 * [Drupal 8 content migrations from CSV or spreadsheet - August 2020](https://atendesigngroup.com/articles/drupal-8-content-migrations-csv-spreadsheet)
 
