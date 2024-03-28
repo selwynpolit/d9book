@@ -580,14 +580,17 @@ Use the following settings:
 - Configuration: System PHP
 - Coding standard: Drupal
 
-Under the ... button set the PHP_CodeSniffer path to : /Users/spolit/.composer/vendor/bin/phpcs
+Under the `...` button set the PHP_CodeSniffer path to : `/Users/spolit/.composer/vendor/bin/phpcs`
 If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
 
 ::: tip Note
 (replace `/Users/spolit` with your own path to your username) 
 :::
 
-More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
+More at
+- [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
+- [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
+
 
 ## Troubleshooting Xdebug with DDEV
 
@@ -848,22 +851,45 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 ```
 
 ## Kint
+[Kint](https://kint-php.github.io/kint/) for PHP is a tool designed to present your debugging data in the absolutely best way possible. In other words, it’s var_dump() and debug_backtrace() on steroids. Easy to use, but powerful and customizable. An essential addition to your development toolbox.
 
-From <https://www.webwash.net/how-to-print-variables-using-devel-and-kint-in-drupal/>
+Here is a [detailed tutorial on how to print variables using Devel and Kint in Drupal - February 2022](https://www.webwash.net/how-to-print-variables-using-devel-and-kint-in-drupal/).
 
 ### Setup
 
-We need both the Devel and Devel Kint Extras module. [Devel Kint Extras](https://www.drupal.org/project/devel_kint_extras) ships with the kint-php library so installing this via Composer will take care of it automatically.
+We need both the the [Devel](https://www.drupal.org/project/devel) and the [Devel Kint Extras](https://www.drupal.org/project/devel_kint_extras) modules.  Devel Kint Extras ships with the `kint-php` library which will be automatically installed if you install Devel Kint Extras using Composer:
 
-Install using Composer:
-
-`$ composer require drupal/devel drupal/devel_kint_extras`
+```sh
+$ composer require drupal/devel drupal/devel_kint_extras
+```
 
 Enable both with the following Drush command:
 
-`$ drush en devel_kint_extras -y`
+```sh
+$ drush en devel_kint_extras -y
+```
 
-Finally, enable Kint Extended as the Variables Dumper. To do this go to `admin/config/development/devel` and select Kint Extender and Save the configuration.
+Finally, enable Kint Extended as the Variables Dumper. To do this go to `admin/config/development/devel` and select `Kint Extender` and Save the configuration.
+
+::: tip Note
+These plugins can cause out-of-memory errors. So, to make sure you don't run into these when using this module, make sure to add the following snippet to your `settings.local.php`:
+
+```php
+if (class_exists('Kint')) {
+  // Change the maximum depth to prevent out-of-memory errors for Kint ver 5.
+  \Kint::$max_depth = 4;
+}
+```
+
+In Kint 4 this setting was renamed, so if you're using that version use the following snippet:
+
+```php
+if (class_exists('Kint')) {
+  // Change the maximum depth to prevent out-of-memory errors for Kint ver 4.
+  \Kint::$depth_limit= 4;
+}
+```
+:::
 
 ### Add kint to a custom module
 
@@ -892,17 +918,16 @@ kint_require();
 ```
 
 ### Set max levels to avoid running out of memory
+This keeps your system from slowing down and running out of memory when using Kint.
 
-Kint can run really slowly so you may have to set maxLevels this way:
-
-Add this to settings.local.php
+Add this to `settings.local.php`
 
 ```php
 // Change kint maxLevels setting:
-include_once(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php');
-if(class_exists('Kint')){
-  // Set the maxlevels to prevent out-of-memory. Currently there doesn't seem to be a cleaner way to set this:
-  Kint::$maxLevels = 4;
+//include_once(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php');
+if (class_exists('Kint')) {
+  // Change the maximum depth to prevent out-of-memory errors for Kint ver 5.
+  \Kint::$max_depth = 4;
 }
 ```
 
@@ -967,15 +992,15 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and then `trun
 
 ## Generating Test Content with Devel Generate
 
-From [Working with the devel module in Drupal 9 to generate dummy content August 2023 by Karishma Amin](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
+When building a Drupal website, it is useful to populate the site with enough content to check the overall displays when using layouts, views and design. It becomes important to test the website out with dummy content before adding live content. Instead of manually typing or importing data, the [Devel module](https://www.drupal.org/project/devel) allows you to create dummy content automatically.  The [Realistic Dummy content module](https://www.drupal.org/project/realistic_dummy_content) takes it a step further generating realistic demo content.
 
-When building a Drupal website, you want to have enough content to check the overall display such as layouts, views, design. Content comes in different forms and so it becomes important to test the website out with dummy content before adding live content. Instead of creating dummy content for Drupal sites manually, Devel generate allows you to create dummy content automatically.
-
-More at [Generating dummy Drupal content with Devel & more](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
+More at:
+- [Working with the devel module in Drupal 9 to generate dummy content by Karishma Amin - August 2023](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
+- [Generating dummy Drupal content with Devel & more](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
 
 ## Enable verbose display of warning and error messages
 
-In `settings.php`, `settings.local.php` or `settings.ddev.php` make sure there is the following:
+In `settings.local.php` ( or`settings.php` or `settings.ddev.php`) set the following config:
 
 ```php
 // Enable verbose logging for errors.
@@ -983,7 +1008,7 @@ In `settings.php`, `settings.local.php` or `settings.ddev.php` make sure there i
 $config['system.logging']['error_level'] = 'verbose';
 ```
 
-Also see [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+See [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
 
 
 ## Resources
@@ -992,3 +1017,4 @@ Also see [Enable verbose error logging for better backtracing and debugging - Ap
 - [Why DDEV by Randy Fay (Author of DDEV) - Dec 2022](https://opensource.com/article/22/12/ddev)
 - [How to setup Devel and Kint on Drupal 9 by Alex - Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
 - [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+- [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
