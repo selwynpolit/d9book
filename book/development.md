@@ -336,24 +336,22 @@ To do this install PHP as well [drush globally](setup_mac#global-drush). Then fo
 
 
 
-### Download the Drupal database from your site using drush 
+### Download a Drupal database and load it locally
 
-Using the [drush aliases](https://www.drush.org/latest/site-aliases/)
-assuming the site is called `abc` and you want the `prod` (production) database:
+You can download a Drupal database using `drush sql-dump` and then import it into the local site with the sequence of commands listed below. Using [drush aliases](https://www.drush.org/latest/site-aliases/) with a site called `abc` where you want to import the `prod` (production) database:
 
 ```
-$ drush @abc.prod sql-dump >dbprod.sql
-$ gzip dbprod.sql
-$ ddev import-db --src=dbprod.sql.gz
+drush @abc.prod sql-dump >dbprod.sql
+gzip dbprod.sql
+ddev import-db --src=dbprod.sql.gz
 ```
 This works with any site where you've set up your [drush aliases](https://www.drush.org/latest/site-aliases/) including Acquia.
 
 ::: tip Note
-If you see the following error: 
-`mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces`
-You can rather use:
+If you see the following error: `mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces` 
+you can rather use:
 
-drush @abc.prod sql-dump --extra-dump=--no-tablespaces > dbprod.sql
+`drush @abc.prod sql-dump --extra-dump=--no-tablespaces > dbprod.sql`
 
 [more at](https://support.acquia.com/hc/en-us/articles/1500002909602-Drush-throws-an-Access-denied-you-need-at-least-one-of-the-PROCESS-privilege-s-error-message)
 :::
@@ -495,7 +493,7 @@ Read all about [PHPStorm's support for Drupal](https://www.jetbrains.com/help/ph
 This covers:
 - [Associating Drupal-specific files with the PHP file type](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#configure_file_associations)
 - [Using Drupal hooks in PhpStorm](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#drupal_hooks)
-- [Setting up Drupal code style in a PhpStorm project](Setting up Drupal code style in a PhpStorm project)
+- [Setting up Drupal code style in a PhpStorm project](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#drupal_set_code_style)
 - [Checking code against the Drupal coding standards](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#checking_code_with_code_sniffer)
 - [Viewing the Drupal API documentation from PhpStorm](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#view_drupal_api_documentation)
 - [Using the Drush command line tool from PhpStorm](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#use_drush)
@@ -676,7 +674,9 @@ services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
-**NOTE:** Do not create development.services.yml, it exists under /sites
+::: tip
+ Do not create development.services.yml, it exists under /sites
+:::
 
 4\. In settings.local.php change the following to be TRUE if you want to
 work with enabled css- and js-aggregation:
@@ -718,7 +718,7 @@ parameters:
     cache: false
 ```
 
-::: tip Note
+::: tip
 If the parameters section is already present in the development.services.yml file, append the twig.config section to it.*
 :::
 
