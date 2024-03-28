@@ -996,7 +996,7 @@ When building a Drupal website, it is useful to populate the site with enough co
 
 More at:
 - [Working with the devel module in Drupal 9 to generate dummy content by Karishma Amin - August 2023](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
-- [Generating dummy Drupal content with Devel & more](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
+- [Generating dummy Drupal content with Devel & more - October 2021](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
 
 ## Enable verbose display of warning and error messages
 
