@@ -259,19 +259,16 @@ The contents of the file are:
 xdebug.remote_port=11011
 ```
 
-For phpstorm, if you start listening for a debug connection, it should automatically try to create a debug server config for you. If it doesn't manually create one
+For phpstorm, if you start listening for a debug connection, it should automatically try to create a debug server config for you. If it doesn't manually create one using the following values:
 
-e.g name: tea.ddev.site
+e.g 
+- name: tea.ddev.site
+- host tea.ddev.site
+- port: 80
+- debugger: xdebug
+- check use path mappings
+- for docroot specify: /var/www/html/docroot (i.e. wherever index.php is)
 
-host tea.ddev.site
-
-port: 80
-
-debugger: xdebug
-
-check use path mappings
-
-for docroot specify: /var/www/html/docroot (i.e. wherever index.php is)
 
 ### Command line or drush debugging
 
@@ -305,8 +302,7 @@ xdebug support => enabled
 
 Also you can confirm the port
 
-set a server in phpstorm that matches the name `d8git.ddev.site` or
-`inside-mathematics.ddev.site`.
+set a server in phpstorm that matches the name `d8git.ddev.site` or `inside-mathematics.ddev.site`.
 
 Configure the server to use path mappings
 
@@ -318,18 +314,17 @@ set breakpoint and run
 
 replace `d8git.ddev.site` with the name of your project
 
-NOTE!!!!. You must execute drush from the vendor dir or you will always
-be ignored:
-
+::: tip Note
+You must execute drush from the vendor dir or you will always be ignored like this:
 ```
 ../vendor/drush/drush/drush fixmat
 ```
+:::
 
-If it doesn't seem to work, try enable Break at first line in PHP
-scripts - something will always stop then.
+If it doesn't seem to work, try enable Break at first line in PHP scripts - it will usually stop there.
 
-more at
-https://stackoverflow.com/questions/50283253/how-can-i-step-debug-a-drush-command-with-ddev-and-phpstorm
+
+Read [more at stackoverflow](https://stackoverflow.com/questions/50283253/how-can-i-step-debug-a-drush-command-with-ddev-and-phpstorm)
 
 
 ### Use drush commands in your shell with DDEV
