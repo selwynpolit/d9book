@@ -180,7 +180,7 @@ spolit@tea-web:/var/www/html$ file ~/.profile
 /home/spolit/.profile: ASCII text
 ```
 
-::: tip
+::: tip Note
 You can also create a global .profile file to run in all containers at ~/.ddev/homeadditions.  This doesn't apply to loading fish in all containers as there is not currently a facility to handle global `webimage_extra_packages`.
 :::
 
@@ -718,7 +718,7 @@ parameters:
     cache: false
 ```
 
-:::
+::: tip Note
 If the parameters section is already present in the development.services.yml file, append the twig.config section to it.*
 :::
 
