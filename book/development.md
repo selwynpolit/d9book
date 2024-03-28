@@ -981,7 +981,7 @@ More at:
 
 ## Enable verbose display of warning and error messages
 
-In `settings.local.php` ( or`settings.php` or `settings.ddev.php`) set the following config:
+In `settings.local.php` (or`settings.php` or `settings.ddev.php`) set the following config:
 
 ```php
 // Enable verbose logging for errors.
