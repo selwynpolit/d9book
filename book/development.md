@@ -718,7 +718,7 @@ parameters:
     cache: false
 ```
 
-::: tip
+:::
 If the parameters section is already present in the development.services.yml file, append the twig.config section to it.*
 :::
 
