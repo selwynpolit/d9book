@@ -2,7 +2,7 @@
 title: Utility
 ---
 
-# Actions
+# Drupal Utility Functions
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=utility.md)
 
 ## Overview
