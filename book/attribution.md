@@ -51,3 +51,5 @@ Thanks to these rockstars for their contribution to the project. Please add your
 [Salman Haider](https://github.com/isalmanhaider) - Twig fixes & many useful modules.
 
 [Aaron Manire](https://github.com/amanire) - Delete aliases.
+
+[Chad Peppers](https://github.com/chadmandoo) - Drupal utility classes.
