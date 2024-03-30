@@ -29,3 +29,29 @@ general.multi_test:
     _controller: '\Drupal\general\Controller\GeneralController::multiTest'
   requirements:
     _permission: 'access content'
+
+general.json_example1:
+  path: '/general/json-example1/nid/{nid}'
+  defaults:
+    _title: 'JSON Play1'
+    _controller: '\Drupal\general\Controller\CachePlay1::jsonExample1'
+#  methods: [GET]
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      nid:
+        type: 'integer'
+
+general.cache_example1:
+  path: '/general/cache-example1/nid/{nid}'
+  defaults:
+    _controller: '\Drupal\general\Controller\CachePlay1::cacheExample1'
+    _title: 'Cache Play1'
+    _format: 'json'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      nid:
+        type: 'integer'
