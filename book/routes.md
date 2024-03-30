@@ -99,7 +99,7 @@ page_example_simple:
 
 ## Page with arguments
 
-From `web/modules/contrib/examples/page_example/page_example.routing.yml` {first}/{second} are the arguments.
+From `web/modules/contrib/examples/page_example/page_example.routing.yml` `{first}` and `{second}` are the arguments.
 
 ```yml
 # Since the parameters are passed to the function after the match, the
@@ -114,7 +114,7 @@ page_example_arguments:
   requirements:
     _permission: 'access arguments page'
 ```
-## Simple form
+## Display a form at a route
 
 From `web/modules/custom/rsvp/rsvp.routing.yml`. This route will cause Drupal to load the form: `RSVPForm.php` so the user can fill it out.
 
@@ -222,6 +222,72 @@ public function getTitle() {
   return  $boss_name . ' onions | ' . \Drupal::config('system.site')->get('name');
 }
 ```
+
+
+## Return JSON data from a route
+Using this `general-routing.yml` file:
+
+```yaml
+general.json_example1:
+  path: '/general/json-example1/nid/{nid}'
+  defaults:
+    _title: 'JSON Play1'
+    _controller: '\Drupal\general\Controller\CachePlay1::jsonExample1'
+#  methods: [GET]
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      nid:
+        type: 'integer'
+```
+
+You can cause Drupal to return JSON data.  
+
+```php
+  /**
+   * Example of a simple controller method that returns a JSON response.
+   *
+   * Note. You must enable the RESTful Web Services module to run this.
+   *
+   * @param int $nid
+   *  The node ID.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   */
+    public function jsonExample1(int $nid): JsonResponse {
+      if ($nid == 0) {
+//        $build['#cache']['tags'][] = 'node_list';
+        $data = [
+          'nid' => $nid,
+          'name' => 'Fred Bloggs.',
+          'age' => 45,
+          'occupation' => 'Builder',
+        ];
+      }
+      else {
+        $data = [
+          'nid' => $nid,
+          'name' => 'Mary Smith',
+          'age' => 35,
+          'occupation' => 'Rocket Scientist',
+          ];
+      }
+
+      return new JsonResponse($data, 200, [
+      'Cache-Control' => 'public, max-age=3601',
+    ]);
+  }
+```
+
+Note. This will return JSON data and in the headers, you will get `Cache-Control: max-age=3607, public`
+
+
+::: tip Note
+You do not need JSON:API module enabled to use this code
+:::
+
+
 
 
 ## Disable caching on a route

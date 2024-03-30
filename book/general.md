@@ -89,6 +89,31 @@ The above statement will return either TRUE or FALSE. TRUE means you are on the 
 $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 ```
 
+## Retrieve query, get or post parameters 
+
+For `get` variables use:
+```php
+$query = \Drupal::request()->query->get('name');
+```
+
+For `post` variables use:
+
+```php
+$name = \Drupal::request()->request->get('name');
+```
+
+For all items in a `get`:
+
+```php
+$query = \Drupal::request()->query->all();
+$search_term = $query['query'];
+$collection = $query['collection'];
+```
+
+::: tip Note
+Drupal will cache requests so render arrays need cache contexts specified correctly in order to successfully retrieve those parameters. See [Caching](caching#set-cache-context-correctly-when-retrieving-query-get-or-post-parameters)
+:::
+
 ## Convert TranslatableMarkup to a string
 
 To convert a TranslatableMarkup object to a string, use either the `render()` or __toString() method. This example shows the values array with an element 'save' which is a TranslatableMarkup object.  These will return `Save Citation`.
@@ -314,64 +339,6 @@ $is_front = \Drupal::service('path.matcher')->isFrontPage();
 ```
 
 
-
-## Retrieve query and get or post parameters (\$\_POST and \$\_GET)
-
-Old style was:
-
-```php
-$name = $_POST['name'];
-```
-
-Now use this for post vars:
-
-```php
-$name = \Drupal::request()->request->get('name');
-```
-
-And this for gets
-
-```php
-$query = \Drupal::request()->query->get('name');
-```
-
-For all items in get:
-
-```php
-$query = \Drupal::request()->query->all();
-$search_term = $query['query'];
-$collection = $query['collection'];
-```
-
-Be wary about caching. From <https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954> the code provided only works the first time so it is important to add a '#cache' context in the markup.
-
-```php
-namespace Drupal\newday\Controller;
-use Drupal\Core\Controller\ControllerBase;
-
-class NewdayController extends ControllerBase {
-    public function new() {
-      $day= [
-        "#markup" => \Drupal::request()->query->get('id'),
-       ];
-      return $day;
-    }
-}
-```
-
-The request is being cached, you need to tell the system to vary by the query arg:
-
-```php
-$day = [
-    '#markup' => \Drupal::request()->query->get('id'),
-    '#cache' => [
-        'contexts' => ['url.query_args:id'],
-    ],
-];
-```
-
-More about caching render arrays:
-<https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
 
 ## Retrieve URL argument parameters
 

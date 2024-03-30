@@ -36,7 +36,7 @@ features:
 
   - icon: 💽
     title: Caching
-    details: Cache tags, disabling caching, caching REST resources, development setup, various caching tips
+    details: Improving site performance with cache tags, caching REST resources, development setup, various caching tips
     link: /caching
 
   - icon: 📦
