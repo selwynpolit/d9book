@@ -572,6 +572,88 @@ More at
 - [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
 
 
+## PHPStan static code analysis
+
+### Installing PHPStan
+
+```sh
+composer require  --dev phpstan/phpstan phpstan/extension-installer mglaman/phpstan-drupal phpstan/phpstan-deprecation-rules
+```
+
+Create a phpstan.neon in the root of the project.  This one includes the editorUrl so you can click on links in the terminal to jump straight to your line of code in PhpStorm.  It also includes a line to exclude the `Unsafe usage message` that is common in Drupal code.  See Phil Norton\'s article [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules) for more
+```
+parameters:
+    level: 0
+    paths:
+        - web/modules/custom
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+    ignoreErrors:
+        - '#Unsafe usage of new static\(\)#'
+
+```
+PHPStan has a number of levels that dictate what sort of things it will look for. Level 0, being the lowest level, looks for some basic checks like variables not being assigned and unknown classes being used. You can find the [full description of the different levels on the PHPStan website](https://phpstan.org/user-guide/rule-levels).
+
+>0 - basic checks, unknown classes, unknown functions, unknown methods called on $this, wrong number of arguments passed to those methods and functions, always undefined variables
+>1 - possibly undefined variables, unknown magic methods and properties on classes with __call and __get
+>2 - unknown methods checked on all expressions (not just $this), validating PHPDocs
+>3 - return types, types assigned to properties
+>4 - basic dead code checking - always false instanceof and other type checks, dead else branches, unreachable code after return; etc.
+>5 - checking types of arguments passed to methods and functions
+>6 - report missing typehints
+>7 - report partially wrong union types - if you call a method that only exists on some types in a union type, level 7 starts to report that; other possibly incorrect situations
+>8 - report calling methods and accessing properties on nullable types
+>9 - be strict about the mixed type - the only allowed operation you can do with it is to pass it to another mixed
+
+
+### Running PHPStan
+
+`vendor/bin/phpstan analyze` will run against any files in the paths specified in the `phpstan.neon` file.
+
+You can override those with command line options like: `vendor/bin/phpstan analyze --level 2 web/modules/custom/general/src/controller`
+
+You can also run it against a specific file like: `vendor/bin/phpstan analyze --level 6 web/modules/custom/general/src/controller/GeneralController.php`
+
+
+Here is a sample of the output:
+
+```
+vendor/bin/phpstan analyze --level 6 web/modules/custom/general/src/controller/GeneralController.php
+Note: Using configuration file /Users/selwyn/Sites/d9book2/phpstan.neon.
+ 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ -----------------------------------------------------------------------------------------------------------
+  Line   GeneralController.php
+ ------ -----------------------------------------------------------------------------------------------------------
+  17     Method Drupal\general\Controller\GeneralController::build() has no return type specified.
+         ✏️  GeneralController.php
+  19     If condition is always false.
+         ✏️  GeneralController.php
+  25     Variable $path_alias in PHPDoc tag @var does not match assigned variable $my_node_alias.
+         ✏️  GeneralController.php
+  25     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+  40     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+  44     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+  47     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+```
+
+
+
+If you run out of memory, try using a higher memory limit as [documented at phpstan.org](https://phpstan.org/user-guide/command-line-usage#--memory-limit):
+
+`vendor/bin/phpstan.phar --memory-limit=256M` or even `vendor/bin/phpstan --memory-limit=1G`
+
+For more info:
+- See [Getting started with PHPStan on drupal.org updated October 2022](https://www.drupal.org/docs/develop/development-tools/phpstan/getting-started)
+- Phil Norton\'s article [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules)
+- [PHPStan documentation](https://phpstan.org/user-guide/getting-started)
+- Watch Matt Glaman [video from MidCamp 2024 - March 2024](https://www.youtube.com/watch?v=Q5Tku7MW25M) and view the [slides from the presentation](https://www.midcamp.org/sites/default/files/2024-03/Tighten%20up%20your%20Drupal%20code%20using%20PHPStan%20-%20MidCamp%202024.pdf)
+
+
+
 ## Troubleshooting Xdebug with DDEV
 
 - Use curl or a browser to create a web request. For example, curl https://d9.ddev.site
