@@ -2,7 +2,7 @@
 title: Caching
 ---
 
-# Caching and cache tags
+# Caching, cache tags and performance optimization
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=caching.md)
 
 
@@ -181,22 +181,6 @@ $day = [
 Read [more about Cacheability of render arrays on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
 
 
-## Debugging Cache tags
-
-In `development.services.yml` set the `http.response.debug_cacheability_headers` parameter:
-
-```yml
-parameters:
-  http.response.debug_cacheability_headers: true
-```
-
-Open the inspect pane in the browser, on the network tab, click on the doc (the first item at the top of the list) and scroll down to the response headers. You will see the following headers: `X-Drupal-Cache-Tags`, `X-Drupal-Cache-Contexts` and `X-Drupal-Cache-Max-Age` which show the cache tags, contexts and max age.
-
-e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
-
-![Debugging cache tags](/images/debug_cache_tags.png)
-
-More [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
 
 ## Using cache tags
@@ -235,7 +219,24 @@ function filters_invalidate_vocabulary_cache_tag($vocab_id) {
 
 If you want this to work for nodes, you may be able to  just change `$vocab_id` for `$node_type`.
 
-### Invalidate a specific node
+## Debugging Cache tags
+
+In `development.services.yml` set the `http.response.debug_cacheability_headers` parameter:
+
+```yml
+parameters:
+  http.response.debug_cacheability_headers: true
+```
+
+Open the inspect pane in the browser, on the network tab, click on the doc (the first item at the top of the list) and scroll down to the response headers. You will see the following headers: `X-Drupal-Cache-Tags`, `X-Drupal-Cache-Contexts` and `X-Drupal-Cache-Max-Age` which show the cache tags, contexts and max age.
+
+e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
+
+![Debugging cache tags](/images/debug_cache_tags.png)
+
+Read more [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
+
+### Invalidate the cache tag for a specific node
 
 In this function, we build a `$cache_tag` like \"node: 123\" and call `Cache:invalidateTags()` so Drupal will force a reload from the database for anything that depends on that node.
 
@@ -316,8 +317,7 @@ if (!empty($record)) {
 
 ## Caching in an API class wrapper
 
-From
-docroot/modules/custom/cm_api/src/CmAPIClient.php
+From `docroot/modules/custom/cm_api/src/CmAPIClient.php`
 
 Here a member is set up in the class
 
@@ -349,7 +349,7 @@ and retrieved with:
 $response_data = self::$cache['getPolicy'][$policy_number . $version];
 ```
 
-This relieves the back end load by rather getting the data from the cache if is in the cache. (If the cache is warm.)
+This relieves the back end load by rather getting the data from the cache if is in the cache (warm cache).
 
 The entire function is shown below. It is from `docroot/modules/custom/cm_api/src/CmAPIClient.php`:
 
@@ -390,12 +390,10 @@ In the hook_preprocess_node function, we are calling an api to get some data.
 function nzz_zzzzconnect_preprocess_node(&$variables) {
 ```
 
-Notice the references to `\Drupal::cache()`. First we check if this is our kind of node to process. Then we derive the `$cid`. We check the cache with a call to `->get($cid)` and if it fails we:
+Notice the references to `\Drupal::cache()`. First we check if this is our kind of node to process. Then we derive the `$cid` (cache id). We check the cache with a call to `->get($cid)` and if it fails we:
 
 1.  call the api with `$client->request('GET')`
-
 2.  pull out the body with `$response->getBody()`
-
 3.  set the whole body into the cache with:
 
 ```php
@@ -421,6 +419,7 @@ if ($node_type == 'zzzzfeed' && $published) {
       $contents = $cache->data;
     }
     else {
+      // Request the data from the slow API.
       $response = $client->request('GET', $uri, [
         'auth' => [$nzz_auth_settings['default']['username'], $nzz_auth_settings['default']['password']],
         'query' => [
@@ -449,31 +448,10 @@ if ($node_type == 'zzzzfeed' && $published) {
 }
 ```
 
-## Logic for caching render arrays
 
-From <https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
+## Caching data for better performance
 
-Whenever you are generating a render array, use the following 5 steps:
-
-1.  I'm rendering something. That means I must think of cacheability.
-
-2.  Is this something that\'s expensive to render, and therefore is worth caching? If the answer is yes, then what identifies this particular representation of the thing I'm rendering? Those are the cache keys.
-
-3.  Does the representation of the thing I'm rendering vary per combination of permissions, per URL, per interface language, per ... something? Those are the cache contexts. Note: cache contexts are completely analogous to HTTP's Vary header.
-
-4.  What causes the representation of the thing I'm rendering become outdated? I.e., which things does it depend upon, so that when those things change, so should my representation? Those are the cache tags.
-
-5.  When does the representation of the thing I'm rendering become outdated? I.e., is the data valid for a limited period of time only? That is the max-age (maximum age). It defaults to "permanently (forever) cacheable" (`Cache::PERMANENT`). When the representation is only valid for a limited time, set a `max-age`, expressed in seconds. Zero means that it's not cacheable at all.
-
-Cache contexts, tags and max-age must always be set, because they affect the cacheability of the entire response. Therefore they "bubble" and parents automatically receive them.
-
-Cache keys must only be set if the render array should be cached.
-
-There are more details at the link above
-
-## Caching your data for better performance
-
-For this use case, I need to store data gathered from multiple nodes in a cache so I can access it really quickly.  I load up an array of data in `$this->expectations` and store it in the cache.  This stores the array into a row of the `cache_default` table identified by a cache id.
+For this use case, I needed to store data gathered from multiple nodes in a cache so I can access it really quickly.  I load up an array of data in `$this->expectations` and store it in the cache.  This stores the array into a row of the `cache_default` table identified by a cache id.
 
 ::: tip
 To clear this data from cache, use `drush cr` or use the Drupal u/i (Configuration, Development, Performance and click clear all caches button). This will permanently erase each row of cached data from the `cache_default` table and the other `cache_*` tables.
@@ -522,7 +500,7 @@ Read more about the [Cache API](https://api.drupal.org/api/drupal/core!core.api.
 
 ## Invalidating caches
 
-Build an array of cache names (or cache_ids) and call `invalidateMultiple()`:
+When cache data becomes stale, quickly invalidate the cache bins by building an array of cache names (or cache_ids) and call `invalidateMultiple()`:
 
 ```php
   public function invalidateAllCaches() {
@@ -586,9 +564,12 @@ general.cache_example1:
   }
 ```
 
+Here is a screen shot where both `node_list` and `taxonomy_term_list` are specified for the current page.
+
+![Cache tags in Chrome](/images/cache-tags1.png)
 
 
-There are some circumstances where you might want to build a new `ResourceResponse` to control the response.  This may be appropriate if building an API.
+Sometimes you may want to build a new `ResourceResponse` to control the response.  This may be appropriate if building an API. See below:
 
 
 ```php
@@ -626,7 +607,7 @@ $cache_data = \Drupal::cache('voting')->get($cache_id);
 \Drupal::cache('voting')->set($cache_id, $this->expectations, Cache::PERMANENT);
 ```
 
-This does require an entry in your module.services.yml file.  e.g. in docroot/modules/custom/tea_teks/modules/tea_teks_voting/tea_teks_voting.services.yml:
+This does require an entry in your `module.services.yml` file.  e.g. like in `docroot/modules/custom/abc/modules/def/abc_voting.services.yml`:
 
 ```yml
 services:
@@ -646,24 +627,12 @@ To clear this data from cache, use `drush cr` or use the Drupal u/i (Configurati
 
 Read more about the [Drupal Cache API](https://api.drupal.org/api/drupal/core!core.api.php/group/cache):
 
-**Cache bins**
 
-Cache storage is separated into \"bins\", each containing various cache items. Each bin can be configured separately; see Configuration.
 
-When you request a cache object, you can specify the bin name in your call to \Drupal::cache(). Alternatively, you can request a bin by getting service \"cache.nameofbin\" from the container. The default bin is called \"default\", with service name \"cache.default\", it is used to store common and frequently used caches.
-
-Other common cache bins are the following:
-
-`bootstrap`: Data needed from the beginning to the end of most requests, that has a very strict limit on variations and is invalidated rarely.
-`render`: Contains cached HTML strings like cached pages and blocks, can grow to large size.
-`data`: Contains data that can vary by path or similar context.
-`discovery`: Contains cached discovery data for things such as plugins, views_data, or YAML discovered data such as library info.
-
-A module can define a cache bin by defining a service in its modulename.services.yml file as follows (substituting the desired name for \"nameofbin\"):
 
 ## Caching data so it doesn't get cleared by a cache rebuild
 
-Using the [Permanent Cache Bin module](https://www.drupal.org/project/pcb) you can put your cached data into a cache bin and have it survive cache clearing.  This can be really useful if you need some cached data to stay around while you are clearing Drupal's other caches.
+Using the [Permanent Cache Bin module](https://www.drupal.org/project/pcb) you can put your cached data into a cache bin and have it survive cache rebuilding.  This can be really useful if you need some cached data to stay around while you are clearing Drupal's caches.
 
 This requires an entry in your `module.services.yml` file.  e.g. in docroot/modules/custom/tea_teks/modules/tea_teks_voting/tea_teks_voting.services.yml.  Notice the `default_backend:` value which makes it permanent:
 
@@ -682,17 +651,13 @@ services:
 Executing invalidate in code does **not** clear any caches that are using `cache.backend.permanent_database`. 
 :::
 
-**F.A.Q**
-Now clearing caches leaves your cache_voting table intact.
+** Some items to be aware of **
 
-1. How to clear permanent cache through drush?
-To clear permanent cache drush pcbf [bin] (e.g. `drush pcbf voting`)
+1. To clear permanent cache, use `drush pcbf [bin]` e.g. `drush pcbf voting`.
 
-2. How to clear permanent cache programmatically?
-`\Drupal::service('cache.voting')->deleteAllPermanent();`
+2. To clear permanent cache programmatically use `\Drupal::service('cache.voting')->deleteAllPermanent();`
 
-3. How to clear permanent cache through admin?
-For each cache bin using pcb, there will be a button in Admin -> Development -> Performance page (admin/config/development/performance). Use them to clear cache for specific bins through Admin UI.
+3. To clear permanent cache through the admin UI. For each cache bin using pcb, use the clear cache button in Admin -> Development -> Performance page (`admin/config/development/performance`).
 
 
 ## Development Setup
@@ -925,19 +890,17 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-## How to specify the cache backend
+## How to specify the cache backend for Memcache, Redir or APCu
 
-This is relevant for using [Memcache](https://www.drupal.org/project/memcache), [Redis](https://www.drupal.org/project/redis) and also [APCu](https://www.php.net/manual/en/book.apcu.php).  By default, Drupal caches information in the database.  Tables includes cache_default, cache_render, cache_page, cache_config etc.  By using the configuration below, Drupal can instead store this info in memory to increase performance.
+This is relevant for using [Memcache](https://www.drupal.org/project/memcache), [Redis](https://www.drupal.org/project/redis) and also [APCu](https://www.php.net/manual/en/book.apcu.php).  By default, Drupal caches information in the database.  Tables includes `cache_default`, `cache_render`, `cache_page`, `cache_config` etc.  By using the configuration below, Drupal can instead store this info in memory to increase performance.
 
-**Summary**
-
-Drupal will no longer automatically use the custom global cache backend specified in `$settings['cache']['default']` in settings.php on certain specific cache bins that define their own default_backend in their service definition. In order to override the default backend, a line must be added explicitly to settings.php for each specific bin that provides a default_backend. This change has no effect for users that do not use a custom cache backend configuration like Redis or Memcache, and makes it possible to remove workarounds that were previously necessary to keep using the default fast chained backend for some cache bins defined in Drupal core.
+Drupal will no longer automatically use the custom global cache backend specified in `$settings['cache']['default']` in `settings.php` on certain specific cache bins that define their own `default_backend` in their service definition. In order to override the default backend, a line must be added explicitly to `settings.php` for each specific bin that provides a `default_backend`. This change has no effect for users that do not use a custom cache backend configuration like Redis or Memcache, and makes it possible to remove workarounds that were previously necessary to keep using the default fast chained backend for some cache bins defined in Drupal core.
 
 **Detailed description with examples**
 
-In modern Drupal there are several ways to specify which cache backend is used for a certain cache bin (e.g. the discovery cache bin or the render cache bin).
+In modern Drupal there are several ways to specify which cache backend is used for a certain cache bin (e.g. the `discovery` cache bin or the `render` cache bin).
 
-In Drupal, cache bins are defined as services and are tagged with name: cache.bin. Additionally, some cache bins specify a `default_backend` service within the tags. For example, the discovery cache bin from Drupal core defines a fast chained default backend:
+In Drupal, cache bins are defined as services and are tagged with name: `cache.bin`. Additionally, some cache bins specify a `default_backend` service within the tags. For example, the discovery cache bin from Drupal core defines a fast chained default backend:
 
 ```yml
   cache.discovery:
@@ -947,7 +910,7 @@ In Drupal, cache bins are defined as services and are tagged with name: cache.bi
     factory: cache_factory:get
     arguments: [discovery]
 ```
-Independent of this, the $settings array can be used in `settings.php` to assign cache backends to cache bins. For example:
+Independent of this, the `$settings` array can be used in `settings.php` to assign cache backends to cache bins. For example:
 
 ```php
 $settings['cache']['bins']['discovery'] = 'cache.backend.memory';
@@ -958,7 +921,7 @@ Before Drupal 8.2.0, the order of steps through which the backend was selected f
 
 * First look for a specific bin definition in settings. E.g., `$settings['cache']['bins']['discovery']`
 * If not found, then use the global default defined in settings. I.e., `$settings['cache']['default']`
-* If a global default is not defined in settings, then use the default_backend from the tag in the service definition.
+* If a global default is not defined in settings, then use the `default_backend` from the tag in the service definition.
 
 This was changed to:
 
@@ -1001,53 +964,11 @@ Fabian Franz in his article at <https://drupalsun.com/fabianx/2015/12/01/day-1-t
 Proceed with caution with the above as it seems that APCu may only suitable for single server setups. TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
 :::
 
-Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
-Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. This was from [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
-
-Drupal 8 has a so-called [fast-chained backend](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/9) as the default cache backend, which allows to store data directly on the web server while ensuring it is correctly synchronized across multiple servers. APCu is the user cache portion of APC (Advanced PHP Cache), which has served us well till PHP 5.5 got its own zend opcache. You can think of it as a key-value store that is stored in memory and the basic operations are apc_store($key, $data), apc_fetch($keys) and apc_delete($keys). For windows the equivalent on IIS would be WinCache (http://drupal.org/project/wincache).
-
-### class ChainedFastBackend
-
-Defines a backend with a fast and a consistent backend chain.
-
-In order to mitigate a network roundtrip for each cache get operation, this cache allows a fast backend to be put in front of a slow(er) backend. Typically the fast backend will be something like APCu, and be bound to a single web node, and will not require a network round trip to fetch a cache item. The fast backend will also typically be inconsistent (will only see changes from one web node). The slower backend will be something like Mysql, Memcached or Redis, and will be used by all web nodes, thus making it consistent, but also require a network round trip for each cache get.
-
-In addition to being useful for sites running on multiple web nodes, this backend can also be useful for sites running on a single web node where the fast backend (e.g., APCu) isn't shareable between the web and CLI processes. Single-node configurations that don't have that limitation can just use the fast cache backend directly.
-
-We always use the fast backend when reading (get()) entries from cache, but check whether they were created before the last write (set()) to this (chained) cache backend. Those cache entries that were created before the last write are discarded, but we use their cache IDs to then read them from the consistent (slower) cache backend instead; at the same time we update the fast cache backend so that the next read will hit the faster backend again. Hence we can guarantee that the cache entries we return are all up-to-date, and maximally exploit the faster cache backend. This cache backend uses and maintains a "last write timestamp" to determine which cache entries should be discarded.
-
-Because this backend will mark all the cache entries in a bin as out-dated for each write to a bin, it is best suited to bins with fewer changes.
-
-Note that this is designed specifically for combining a fast inconsistent cache backend with a slower consistent cache back-end. To still function correctly, it needs to do a consistency check (see the "last write timestamp" logic). This contrasts with \Drupal\Core\Cache\BackendChain, which assumes both chained cache backends are consistent, thus a consistency check being pointless.  This information is from <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/9>
+**Pantheon and Redis or APCu**
+Can APCu be used as a cache backend on Pantheon?
+Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. See more at [Pantheon docs](https://docs.pantheon.io/apcu)
 
 
-### APCu
-
-APCu is the official replacement for the outdated APC extension. APC provided both opcode caching (opcache) and object caching. As PHP versions 5.5 and above include their own opcache, APC was no longer compatible, and its opcache functionality became useless. The developers of APC then created APCu, which offers only the object caching (read "in memory data caching") functionality (they removed the outdated opcache). Read more at <https://www.php.net/manual/en/book.apcu.php>
-
-::: tip Note
-APCu is not the same as apc!
-:::
-
-APCu support is built into Drupal Core. From this [Change record Sep 2014](https://www.drupal.org/node/2327507): 
-
-In order to improve cache performance, Drupal 8 now has:
-
-A `cache.backend.apcu` service that site administrators can assign as the backend of a cache bin via `$settings['cache']` in settings.php for sites running on a single server, with a PHP installation that has APCu enabled, and that do not use Drush or other command line scripts.
-
-::: warning
-This references single-server sites not needing Drush.  This may not be suitable for multi-server setups.
-:::
-
-A `cache.backend.chainedfast` service that combines APCu availability detection, APCu front caching, and cross-server / cross-process consistency management via chaining to a secondary backend (either the database or whatever is configured for `$settings['cache']['default']`).
-
-A `default_backend` service tag (the value of which can be set to a backend service name, such as `cache.backend.chainedfast`) that module developers can assign to cache bin services to identify bins that are good candidates for specialized cache backends.
-
-The above tag assigned to the `cache.bootstrap`, `cache.config`, and `cache.discovery` bin services.
-
-This means that by default (on a site with nothing set for `$settings['cache']` in `settings.php`), the bootstrap, config, and discovery cache bins automatically benefit from APCu caching if APCu is available, and this is compatible with Drush usage (e.g., Drush can be used to clear caches and the web process receives that cache clear) and multi-server deployments.
-
-APCu will act as a very fast local cache for all requests. Other cache backends can act as bigger, more general cache backend that is consistent across processes or servers.
 
 
 **Creating custom cache bins**
@@ -1135,9 +1056,102 @@ You can see which cache contexts a certain page varies by and which cache tags i
 
 ![Cache contexts in Chrome](/images/cache-contexts1.png)
 
+Here is a screen shot of cache tags
+
 ![Cache tags in Chrome](/images/cache-tags1.png)
 
 Read more about [Cacheability of render arrays on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
+
+### Logic for caching render arrays
+
+Whenever you are generating a render array, use the following 5 steps:
+
+1.  I'm rendering something. That means I must think of cacheability.
+
+2.  Is this something that\'s expensive to render, and therefore is worth caching? If the answer is yes, then what identifies this particular representation of the thing I'm rendering? Those are the cache keys.
+
+3.  Does the representation of the thing I'm rendering vary per combination of permissions, per URL, per interface language, per ... something? Those are the cache contexts. Note: cache contexts are completely analogous to HTTP's Vary header.
+
+4.  What causes the representation of the thing I'm rendering become outdated? I.e., which things does it depend upon, so that when those things change, so should my representation? Those are the cache tags.
+
+5.  When does the representation of the thing I'm rendering become outdated? I.e., is the data valid for a limited period of time only? That is the max-age (maximum age). It defaults to "permanently (forever) cacheable" (`Cache::PERMANENT`). When the representation is only valid for a limited time, set a `max-age`, expressed in seconds. Zero means that it's not cacheable at all.
+
+Cache contexts, tags and max-age must always be set, because they affect the cacheability of the entire response. Therefore they "bubble" and parents automatically receive them.
+
+Cache keys must only be set if the render array should be cached.
+
+Read more at [ Cacheability of render arrays on drupal.org updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
+
+
+### Cache bins
+
+Cache storage is separated into \"bins\", each containing various cache items. Each bin can be configured separately; see [Configuration](https://api.drupal.org/api/drupal/core!core.api.php/group/cache#configuration).
+
+When you request a cache object, you can specify the bin name in your call to \Drupal::cache(). Alternatively, you can request a bin by getting service \"cache.nameofbin\" from the container. The default bin is called \"default\", with service name \"cache.default\", it is used to store common and frequently used caches.
+
+Other common cache bins are the following:
+
+`bootstrap`: Data needed from the beginning to the end of most requests, that has a very strict limit on variations and is invalidated rarely.
+`render`: Contains cached HTML strings like cached pages and blocks, can grow to large size.
+`data`: Contains data that can vary by path or similar context.
+`discovery`: Contains cached discovery data for things such as plugins, views_data, or YAML discovered data such as library info.
+
+A module can define a cache bin by defining a service in its `modulename.services.yml` file as follows (substituting the desired name for \"nameofbin\"):
+
+e.g.
+
+```yaml
+cache.favorite_skus:
+  class: Drupal\Core\Cache\CacheBackendInterface
+  tags:
+    - { name: cache.bin }
+  factory: ['@cache_factory', 'get']
+  arguments: [favorite_skus]
+```
+
+## class ChainedFastBackend
+
+Drupal has a [ChainedFastBackend](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/10) as the default cache backend, which allows to store data directly on the web server while ensuring it is correctly synchronized across multiple servers. APCu is the user cache portion of APC (Advanced PHP Cache), which has served us well till PHP 5.5 got its own zend opcache. You can think of it as a key-value store that is stored in memory and the basic operations are `apc_store($key, $data)`, `apc_fetch($keys)` and `apc_delete($keys)`. 
+
+ChainedFastBackend defines a backend with a fast and a consistent backend chain.
+
+In order to mitigate a network roundtrip for each cache get operation, this cache allows a fast backend to be put in front of a slow(er) backend. Typically the fast backend will be something like APCu, and be bound to a single web node, and will not require a network round trip to fetch a cache item. The fast backend will also typically be inconsistent (will only see changes from one web node). The slower backend will be something like Mysql, Memcached or Redis, and will be used by all web nodes, thus making it consistent, but also require a network round trip for each cache get.
+
+In addition to being useful for sites running on multiple web nodes, this backend can also be useful for sites running on a single web node where the fast backend (e.g., APCu) isn't shareable between the web and CLI processes. Single-node configurations that don't have that limitation can just use the fast cache backend directly.
+
+We always use the fast backend when reading (`get()`) entries from cache, but check whether they were created before the last write (`set()`) to this (chained) cache backend. Those cache entries that were created before the last write are discarded, but we use their cache IDs to then read them from the consistent (slower) cache backend instead; at the same time we update the fast cache backend so that the next read will hit the faster backend again. Hence we can guarantee that the cache entries we return are all up-to-date, and maximally exploit the faster cache backend. This cache backend uses and maintains a "last write timestamp" to determine which cache entries should be discarded.
+
+Because this backend will mark all the cache entries in a bin as out-dated for each write to a bin, it is best suited to bins with fewer changes.
+
+Note that this is designed specifically for combining a fast inconsistent cache backend with a slower consistent cache back-end. To still function correctly, it needs to do a consistency check (see the "last write timestamp" logic). This contrasts with \Drupal\Core\Cache\BackendChain, which assumes both chained cache backends are consistent, thus a consistency check being pointless.  See [class ChainedFastBackend API docs on drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/10)
+
+### APCu
+
+APCu is the official replacement for the outdated APC extension. APC provided both opcode caching and object caching. As PHP versions 5.5 and above include their own opcache, APC was no longer compatible, and its opcache functionality became useless. The developers of APC then created APCu, which offers only the object caching (read "in memory data caching") functionality (they removed the outdated opcache). Read [more on php.net](https://www.php.net/manual/en/book.apcu.php)
+
+::: tip Note
+APCu is not the same as apc!
+:::
+
+APCu support is built into Drupal Core. More at this [change record from Sep 2014](https://www.drupal.org/node/2327507): 
+
+In order to improve cache performance, Drupal 8 now has:
+
+A `cache.backend.apcu` service that site administrators can assign as the backend of a cache bin via `$settings['cache']` in `settings.php` for sites running on a single server, with a PHP installation that has APCu enabled, and that do not use Drush or other command line scripts.
+
+::: warning
+This references single-server sites not needing Drush.  This may not be suitable for multi-server setups.
+:::
+
+A `cache.backend.chainedfast` service that combines APCu availability detection, APCu front caching, and cross-server / cross-process consistency management via chaining to a secondary backend (either the database or whatever is configured for `$settings['cache']['default']`).
+
+A `default_backend` service tag (the value of which can be set to a backend service name, such as `cache.backend.chainedfast`) that module developers can assign to cache bin services to identify bins that are good candidates for specialized cache backends.
+
+The above tag assigned to the `cache.bootstrap`, `cache.config`, and `cache.discovery` bin services.
+
+This means that by default (on a site with nothing set for `$settings['cache']` in `settings.php`), the bootstrap, config, and discovery cache bins automatically benefit from APCu caching if APCu is available, and this is compatible with Drush usage (e.g., Drush can be used to clear caches and the web process receives that cache clear) and multi-server deployments.
+
+APCu will act as a very fast local cache for all requests. Other cache backends can act as bigger, more general cache backend that is consistent across processes or servers.
 
 
 

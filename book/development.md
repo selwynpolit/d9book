@@ -580,7 +580,7 @@ More at
 composer require  --dev phpstan/phpstan phpstan/extension-installer mglaman/phpstan-drupal phpstan/phpstan-deprecation-rules
 ```
 
-Create a phpstan.neon in the root of the project.  This one includes the editorUrl so you can click on links in the terminal to jump straight to your line of code in PhpStorm.  It also includes a line to exclude the `Unsafe usage message` that is common in Drupal code.  See Phil Norton\'s article [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules) for more
+Create a `phpstan.neon` in the root of the project.  This one includes the `editorUrl` so you can click on links in the terminal to open PHPStorm at your line of code.  It also includes a line to exclude the `Unsafe usage message` that is common in Drupal code.  See Phil Norton\'s article [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules) for more.
 ```
 parameters:
     level: 0
