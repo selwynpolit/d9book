@@ -408,6 +408,11 @@ or for selenium, use:
 
 ## DDEV Troubleshooting
 
+### Why is DDEV doing strange things?
+
+You can find out what it’s doing, use `DDEV_DEBUG=true ddev start` or even `DDEV_VERBOSE=true ddev start`. This will display all sorts of debug or verbose information which might give you more information on problems.
+
+
 ### Running out of docker disk space
 
 if ddev won't start and shows:
