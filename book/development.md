@@ -13,6 +13,7 @@ This section of the book is about your local development environment and the too
 
 Local development works really well using Docker containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process on any operating system. After installing `Docker` and `DDEV`, follow these steps:
 
+### Install Drupal
 
 ```
 mkdir my-drupal10-site
@@ -28,11 +29,35 @@ ddev drush uli
 ddev launch
 ```
 
+### Install Drupal developer tools
+
 You might want to install the Drupal dev tools using this:
 ```
 composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
+More at [DDEV CMS Quickstart guides](https://ddev.readthedocs.io/en/stable/users/quickstart/) to install [Drupal](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal), Wordpress, TYPO3, Backdrop, Magento, Laravel etc. 
+And the [Local development guide on drupal.org - updated October 2023](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
+
+### Install Devel module
+To generate dummy content and access a host of other useful tools, install the [Devel module](https://www.drupal.org/project/devel)
+```sh
+ddev composer require drupal/devel --dev
+ddev drush en devel devel_generate -y
+```
+Read [more about Devel generate](#generating-test-content-with-devel-generate)
+
+### Install Admin Toolbar Module & Module Filter
+
+Every site needs [Admin toolbar module](https://www.drupal.org/project/admin_toolbar) and [Module filter module](https://www.drupal.org/project/module_filter)
+
+```sh
+ddev composer require drupal/admin_toolbar drupal/module_filter
+ddev drush en admin_toolbar module_filter admin_toolbar_tools -y
+```
+
+
+### Install drushonhost
 I also like to immediately install the `drushonhost` addon:
 
 ```sh
@@ -40,8 +65,84 @@ ddev get rfay/ddev-drushonhost
 ```
 Read [more about global drush and drushonhost](drush#global-drush---run-drush-on-host)
 
-More at [DDEV CMS Quickstart guides](https://ddev.readthedocs.io/en/stable/users/quickstart/) to install [Drupal](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal), Wordpress, TYPO3, Backdrop, Magento, Laravel etc. 
-And the [Local development guide on drupal.org - updated October 2023](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
+
+Edit the `web/sites/default/settings.php` so `settings.local.php` loads before `settings.ddev.php` (the order is critical). You will need to uncomment the lines that load the `settings.local.php`:
+
+```php
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
+
+// Automatically generated include for settings managed by ddev.
+$ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
+if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
+  require $ddev_settings;
+}
+```
+
+
+### Setup settings.local.php
+
+Copy the `sites/example.settings.local.php` to `sites/default/settings.local.php` with 
+
+```sh
+cp web/sites/example.settings.local.php web/sites/default/settings.local.php
+```
+
+Add the `IS_DDEV_PROJECT` environment variable as the last line of your `settings.local.php`:
+
+```php
+putenv("IS_DDEV_PROJECT=true");
+```
+
+After a `ddev drush cr` and perhaps a `ddev reload` you should be able to run drush on the host. e.g. `drush cst`.
+
+
+### Set config sync directory
+Make the config sync dir with:
+```sh
+mkdir -p config/sync
+``` 
+
+And add it to your `sites/default/settings.php`
+```php
+$settings['config_sync_directory'] = '../config/sync';
+```
+
+### Some optional steps
+Export your Drupal database with:
+```sh
+ddev export-db -f dbdump1.sql.gz
+```
+
+Export your config with:
+```sh
+drush cex
+```
+
+Add a `.gitignore` file with:
+
+```
+vendor/
+web/sites/default/files/
+web/sites/default/settings.local.php
+```
+
+
+Create your repo on Github (or Gitlab) and add your site to git with:
+```sh
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+# obviously use your own repo here
+git remote add origin git@github.com:hotshotcoderdude/ddev102.git
+git push -u origin main
+```
+
+Rock n Roll!!!
+
+
 
 
 ## Checking Your Permissions
@@ -740,7 +841,7 @@ Connection to localhost port 9000 [tcp/cslistener] succeeded!
 
 
 
-## Create your settings.local.php and disable Cache
+## Create your settings.local.php
 
 
 1\. Copy, rename, and move the sites/example.settings.local.php to sites/default/settings.local.php:
@@ -775,7 +876,7 @@ services:
  Do not create development.services.yml, it exists under /sites
 :::
 
-4\. In settings.local.php change the following to be TRUE if you want to
+4\. In `settings.local.php` change the following to be TRUE if you want to
 work with enabled css- and js-aggregation:
 
 ```php
@@ -819,9 +920,9 @@ parameters:
 If the parameters section is already present in the development.services.yml file, append the twig.config section to it.*
 :::
 
-7\. Rebuild the Drupal cache (`drush cr`) otherwise your website will encounter an unexpected error on page reload.
+7\. Rebuild the Drupal cache (`ddev drush cr`) otherwise your website will encounter an unexpected error on page reload.
 
-Refer to this article: [Disable Drupal (>=8.0) caching during development on drupal.org updated May 2023](https://www.drupal.org/node/2598914)
+Refer to this article: [Disable Drupal (>=8.0) caching during development on drupal.org - updated May 2023](https://www.drupal.org/node/2598914)
 
 Also read [https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp](https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp)
 

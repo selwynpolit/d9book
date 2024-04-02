@@ -735,18 +735,18 @@ cd $(drush dd files)
 
 ### Global Drush - run drush on host
 
-I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded by [Oh-my-Zsh](https://ohmyz.sh/).  Drush runs slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within `/vendor/bin`) and call it. **Always** install drush in each project using composer.
+I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded by [Oh-my-Zsh](https://ohmyz.sh/).  Drush runs slightly slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within `/vendor/bin`) and call it. **Always** install drush in each project using composer.
 
 ::: warning
 You should be aware that you might get unpredictable results if you use differing versions of PHP on your local vs in the DDEV containers.  E.g. if your local mac has PHP 7 and your DDEV is using PHP 8.1, you are likely to have unpredictable results when you issue some drush commands.  Generally speaking I haven't seen things be too wacky, but you should be aware of this.
 :::
 
-Don't use homebrew to install drush. Rather use the composer version:
+Use Composer to install drush. Don't use homebrew.
 
-```
+```sh
 composer global require drush/drush ^8
 ```
-Then add Drush to your system path by placing the following in your ~/.zshrc ( or if using bash: `~/.bash_profile`:
+Then add Drush to your system path by placing the following in your ~/.zshrc (or if using bash: `~/.bash_profile`):
 
 ```
  export PATH="$HOME/.composer/vendor/bin:$PATH" 
@@ -758,9 +758,11 @@ Test any of these path changes by running `source ~/.zshrc` to reload the enviro
 
 By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands like `drush cr` or `drush cst`.
 
-As of November 2023 and v1.22.4+ to allow local drush on host you will need to install the following DDEV addon:
+Install drushonhost addon: 
 
-`ddev get rfay/ddev-drushonhost`
+```sh
+ddev get rfay/ddev-drushonhost
+```
 
 See [ddev-drushonhost repo](https://github.com/rfay/ddev-drushonhost) for documentation
 
@@ -769,7 +771,7 @@ You will need:
 
 OR
 
-In your project `settings.php` make sure the last part of the file looks like this (the order is critical):
+In your project\'s `settings.php` make sure the last part of the file looks like this (the order is critical):
 
 ```php
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
