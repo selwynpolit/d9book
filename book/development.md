@@ -626,17 +626,17 @@ PHPStorm has a series of instructions for [configuring PHPStorm with Xdebug](htt
 
 Some settings I use
 
-![Graphical user interface, text, application, email Description automatically generated](/images/image1-phpstorm.png)
+![PhpStorm settings](/images/image1-phpstorm.png)
 
 And for this project
 
-![Graphical user interface, text, application, email Description automatically generated](/images/image2-phpstorm.png)
+![PhpStorm settings](/images/image2-phpstorm.png)
 
 If phpstorm doesn't stop when you set a breakpoint on some code, try deleting the server from the config debug, php, servers.
 
 Make sure PHPStorm is listening by clicking the listen button
 
-![Graphical user interface, text, application, Word Description automatically generated](/images/image3-phpstorm.png)
+![PhpStorm settings](/images/image3-phpstorm.png)
 
 When you try again it will be recreated but you will probably need to specify the path (from the image above).
 
@@ -1171,7 +1171,7 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and then `trun
 
 ## Generating Test Content with Devel Generate
 
-When building a Drupal website, it is useful to populate the site with enough content to check the overall displays when using layouts, views and design. It becomes important to test the website out with dummy content before adding live content. Instead of manually typing or importing data, the [Devel module](https://www.drupal.org/project/devel) allows you to create dummy content automatically.  The [Realistic Dummy content module](https://www.drupal.org/project/realistic_dummy_content) takes it a step further generating realistic demo content.
+When building a Drupal website, it is useful to populate the site with enough content to check the overall displays when using layouts, views and design. It becomes important to test the website out with dummy content before adding live content. Instead of manually typing or importing data, the [Devel module](https://www.drupal.org/project/devel) allows you to create dummy content automatically.  
 
 More at:
 - [Working with the devel module in Drupal 9 to generate dummy content by Karishma Amin - August 2023](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
