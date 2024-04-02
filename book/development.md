@@ -16,7 +16,7 @@ Local development is best done using Docker containers and [DDEV](https://github
 Follow these steps after installing `Docker` and `DDEV`:
 
 
-Use the [DDEV CMS Quickstart guides](https://ddev.readthedocs.io/en/stable/users/quickstart/) to install [Drupal](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal), Wordpress, TYPO3, Backdrop, Magento, Laravel etc. 
+
 
 ```
 mkdir my-drupal10-site
@@ -28,10 +28,17 @@ ddev composer require drush/drush
 ddev drush site:install --account-name=admin --account-pass=admin -y
 # use the one-time link (CTRL/CMD + Click) from the command below to edit your admin account details.
 ddev drush uli
+## Or this will open a browser and you can login with username: `admin` and password: `admin`
 ddev launch
 ```
 
-You can also review the the [drupal.org local development guide - Updated October 2023](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
+You might want to install the Drupal dev tools using this:
+```
+composer require drupal/core-dev --dev --update-with-all-dependencies
+```
+
+More at [DDEV CMS Quickstart guides](https://ddev.readthedocs.io/en/stable/users/quickstart/) to install [Drupal](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal), Wordpress, TYPO3, Backdrop, Magento, Laravel etc. 
+And the [Local development guide on drupal.org - updated October 2023](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
 
 
 ## Checking Your Permissions
