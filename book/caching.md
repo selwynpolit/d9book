@@ -185,7 +185,7 @@ Read [more about Cacheability of render arrays on drupal.org - updated April 202
 
 ## Using cache tags
 
-If you are generating a list of cached node teasers and you want to make sure your list is always accurate, use cache tags. To refresh the list every time a node is added, deleted or edited you could use a render array like this:
+To generate a list of cached node teasers that is always accurate, use cache tags or [cache contexts](https://www.drupal.org/docs/drupal-apis/cache-api/cache-contexts). Here is a render array that will be updated time a node is added, deleted or edited:
 
 ```php
 $build = [
@@ -199,7 +199,7 @@ $build = [
 ];
 ```
 
-It is possible to change this so the cache is invalidated only when a content type of *book* or *magazine* is changed in two possible ways:
+It is possible to change this so the cache is invalidated only when a content type of `book` or `magazine` is changed in two possible ways:
 
 1. Include all node tags (node:{#id}), if doesn\'t matter if a new node of a particular type was added.
 
@@ -207,7 +207,7 @@ It is possible to change this so the cache is invalidated only when a content ty
 
 If you want a block to be rebuilt every time that a term from a particular vocab_id is added, changed, or deleted you can cache the term list.
 If you need to cache a term list per vocab_id - i.e.  every time that a term from a particular vocab_id is added, changed, or deleted the cache tag is invalided using
-`Cache::invalidateTags($tag_id)` then my block will be rebuild.
+`Cache::invalidateTags($tag_id)` then my block will be rebuilt.
 
 ```php
 use Drupal\Core\Cache\Cache;
@@ -1049,6 +1049,119 @@ More [at Drupalize.me](https://drupalize.me/tutorial/clear-drupals-cache)
 
 
 ## The Basics
+
+### Cache tags vs cache contexts
+
+Cache tags are strings that are passed around in sets (order doesn't matter) of strings, so they are typehinted to string[]. They're sets because a single cache item can depend on (be invalidated by) many cache tags.
+
+By convention, they are of the form `thing:identifier` — and when there's no concept of multiple instances of a thing, it is of the form thing. The only rule is that it cannot contain spaces. There is no strict syntax.
+
+**Some examples**
+- `node:5` — cache tag for Node id 5
+- `user:3` — cache tag for User id 3
+- `node_list` — list cache tag for Node entities (invalidated whenever any Node entity is updated, deleted or created, i.e., when a listing of nodes may need to change). Applicable to any entity type in following format: `{entity_type}_list`.
+- `node_list:article` — list cache tag for the article content type (or bundle). Applicable to any entity + bundle type in following format: `{entity_type}_list:{bundle}`.
+- `config:node_type_list` — list cache tag for Node type entities (invalidated whenever any **content types** are updated, deleted or created). Applicable to any entity type in the following format: config:`{entity_bundle_type}_list`.
+`config:system.performance` — cache tag for the `system.performance` configuration
+`library_info` — cache tag for asset libraries
+
+
+Cache contexts provide a declarative way to create context-dependent variations of something that needs to be cached. By making it declarative, code that creates caches becomes easier to read, and the same logic doesn't need to be repeated in every place where the same context variations are necessary. Cache contexts = (request) context dependencies and are analogous to HTTP's `vary` header.
+
+Typically, cache contexts are derived from the `request` context i.e., from the `Request` object. Most of the environment for a web application is derived from the `request` context. After all, HTTP responses are generated in large part depending on the properties of the HTTP requests that triggered them. But, this doesn't mean cache contexts have to originate from the request — they could also depend on deployed code, e.g., a deployment_id cache context.
+
+To distinguish hierarchy, periods separate parents from children.
+A plurally named cache context indicates a parameter may be specified; to use: append a colon, then specify the desired parameter (when no parameter is specified, all possible parameters are captured, e.g., all query arguments)
+
+
+::: tip Drupal core ships with the following hierarchy of cache contexts:
+cookies
+  :name
+headers
+  :name
+ip
+languages
+  :type
+protocol_version // Available in 8.9.x or higher.
+request_format
+route
+  .book_navigation
+  .menu_active_trails
+    :menu_name
+  .name
+session
+  .exists
+theme
+timezone
+url
+  .path
+    .is_front // Available in 8.3.x or higher.
+    .parent
+  .query_args
+    :key
+    .pagers
+      :pager_id
+  .site
+user
+  .is_super_user
+  .node_grants
+    :operation
+  .permissions
+  .roles
+    :role
+:::
+
+You can find them in core in `web/core/core.services.yml` where they are broken up into:
+- Simple cache contexts (which depend on the `request` context)
+- Complex cache contexts which depend on the routing system
+- Complex cache contexts that may be calculated from a combination of multiple aspects of the request context plus extra logic:
+
+**Simple:**
+```yaml
+  cache_context.ip:
+    class: Drupal\Core\Cache\Context\IpCacheContext
+    arguments: ['@request_stack']
+    tags:
+      - { name: cache.context }
+# And
+  cache_context.url.query_args:
+    class: Drupal\Core\Cache\Context\QueryArgsCacheContext
+    arguments: ['@request_stack']
+    tags:
+      - { name: cache.context }
+# And
+  cache_context.url.path:
+    class: Drupal\Core\Cache\Context\PathCacheContext
+    arguments: ['@request_stack']
+    tags:
+      - { name: cache.context } 
+```
+
+and **Complex based on request:**
+```yaml
+  cache_context.route:
+    class: Drupal\Core\Cache\Context\RouteCacheContext
+    arguments: ['@current_route_match']
+    tags:
+      - { name: cache.context }
+# and
+  cache_context.route.name:
+    class: Drupal\Core\Cache\Context\RouteNameCacheContext
+    arguments: ['@current_route_match']
+    tags:
+      - { name: cache.context }      
+```
+and **Complex based on `request` plus extra logic**
+
+```yaml
+  cache_context.user:
+    class: Drupal\Core\Cache\Context\UserCacheContext
+    arguments: ['@current_user']
+    tags:
+      - { name: cache.context}
+```
+
+
 
 ### Viewing cache contexts in a Response header
 
