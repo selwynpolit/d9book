@@ -1050,7 +1050,7 @@ More [at Drupalize.me](https://drupalize.me/tutorial/clear-drupals-cache)
 
 ## The Basics
 
-### Cache tags vs cache contexts
+### Cache tags
 
 Cache tags are strings that are passed around in sets (order doesn't matter) of strings, so they are typehinted to string[]. They're sets because a single cache item can depend on (be invalidated by) many cache tags.
 
@@ -1065,16 +1065,20 @@ By convention, they are of the form `thing:identifier` — and when there's no c
 `config:system.performance` — cache tag for the `system.performance` configuration
 `library_info` — cache tag for asset libraries
 
+###  Cache contexts
 
 Cache contexts provide a declarative way to create context-dependent variations of something that needs to be cached. By making it declarative, code that creates caches becomes easier to read, and the same logic doesn't need to be repeated in every place where the same context variations are necessary. Cache contexts = (request) context dependencies and are analogous to HTTP's `vary` header.
 
 Typically, cache contexts are derived from the `request` context i.e., from the `Request` object. Most of the environment for a web application is derived from the `request` context. After all, HTTP responses are generated in large part depending on the properties of the HTTP requests that triggered them. But, this doesn't mean cache contexts have to originate from the request — they could also depend on deployed code, e.g., a deployment_id cache context.
 
 To distinguish hierarchy, periods separate parents from children.
-A plurally named cache context indicates a parameter may be specified; to use: append a colon, then specify the desired parameter (when no parameter is specified, all possible parameters are captured, e.g., all query arguments)
+A plurally named cache context indicates a parameter may be specified; to use: append a colon, then specify the desired parameter. When no parameter is specified, all possible parameters are captured, e.g., all query arguments would look like: `url.query_args:` for all arguments vs `url.query_args: partid` for a specific query argument.
 
 
-::: tip Drupal core ships with the following hierarchy of cache contexts:
+
+** Drupal core ships with the following hierarchy of cache contexts:**
+
+```
 cookies
   :name
 headers
@@ -1109,12 +1113,14 @@ user
   .permissions
   .roles
     :role
-:::
+```
 
-You can find them in core in `web/core/core.services.yml` where they are broken up into:
+You can find them in core in `web/core/core.services.yml` where they are broken up into 3 groups:
 - Simple cache contexts (which depend on the `request` context)
 - Complex cache contexts which depend on the routing system
-- Complex cache contexts that may be calculated from a combination of multiple aspects of the request context plus extra logic:
+- Complex cache contexts that may be calculated from a combination of multiple aspects of the request context plus extra logic.
+
+Here is what they look like:
 
 **Simple:**
 ```yaml
@@ -1144,7 +1150,7 @@ and **Complex based on request:**
     arguments: ['@current_route_match']
     tags:
       - { name: cache.context }
-# and
+# And
   cache_context.route.name:
     class: Drupal\Core\Cache\Context\RouteNameCacheContext
     arguments: ['@current_route_match']
@@ -1159,8 +1165,32 @@ and **Complex based on `request` plus extra logic**
     arguments: ['@current_user']
     tags:
       - { name: cache.context}
+# And
+  cache_context.user.roles:
+    class: Drupal\Core\Cache\Context\UserRolesCacheContext
+    arguments: ['@current_user']
+    tags:
+      - { name: cache.context}
 ```
 
+Everywhere cache contexts are used, that entire hierarchy is listed, which has 3 benefits:
+
+1. No ambiguity: it's clear what parent cache context is based on wherever it is used.
+2. Comparing (and folding) cache contexts becomes simpler: if both `a.b.c` and `a.b` are present, it's obvious that `a.b` encompasses `a.b.c`, and thus it's clear why the `a.b.c` can be omitted, why it can be "folded" into the parent.
+3. No need to deal with ensuring each level in a tree is unique in the entire tree.
+
+Examples of declarative cache contexts from that hierarchy:
+
+theme (vary by negotiated theme)
+user.roles (vary by the combination of roles)
+user.roles:anonymous (vary by whether the current user has the 'anonymous' role or not, i.e., "is anonymous user")
+languages (vary by all language types: interface, content …)
+languages:language_interface (vary by interface language — LanguageInterface::TYPE_INTERFACE)
+languages:language_content (vary by content language — LanguageInterface::TYPE_CONTENT)
+url (vary by the entire URL)
+url.query_args (vary by the entire given query string)
+url.query_args:foo (vary by the ?foo query argument)
+protocol_version (vary by HTTP 1 vs 2)
 
 
 ### Viewing cache contexts in a Response header
