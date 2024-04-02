@@ -11,11 +11,7 @@ This section of the book is about your local development environment and the too
 
 ## Local Drupal site setup
 
-Local development is best done using Docker containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process on any operating system. 
-
-Follow these steps after installing `Docker` and `DDEV`:
-
-
+Local development works really well using Docker containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process on any operating system. After installing `Docker` and `DDEV`, follow these steps:
 
 
 ```
@@ -26,7 +22,7 @@ ddev start
 ddev composer create drupal/recommended-project
 ddev composer require drush/drush
 ddev drush site:install --account-name=admin --account-pass=admin -y
-# use the one-time link (CTRL/CMD + Click) from the command below to edit your admin account details.
+# Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
 ddev drush uli
 ## Or this will open a browser and you can login with username: `admin` and password: `admin`
 ddev launch
