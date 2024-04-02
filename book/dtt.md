@@ -120,29 +120,16 @@ To get started with phpunit, follow instructions at
 
 Another useful reference is the web/core/tests/README.md that comes with Drupal.
 
-If you installed using the drupal/recommended-project Composer template, development, you will need some dependencies which can be installed by requiring drupal/core-dev as a dependency in your project.
+If you installed using the `drupal/recommended-project` Composer template, you will need some dependencies which can be installed by requiring drupal/core-dev as a dependency in your project. This includes phpunit and prophecy and other dev tools.
+
 
 ```
-$ composer require drupal/core-dev --dev --update-with-all-dependencies
+composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
-Install phpunit using:
+You will need a `web/core/phpunit.xml` so copy the one at `web/core/phpunit.xml.dist`.
 
-```
-$ composer require phpunit/phpunit
-```
-
-Also you might need prophecy for mocking:
-
-```
-$ composer require --dev phpspec/prophecy-phpunit:^2
-```
-
-You need a `web/core/phpunit.xml` so copy the one at
-`web/core/phpunit.xml.dist`.
-
-Change the `SIMPLETEST_BASE_URL`, `SIMPLETEST_DB` AND
-`BROWSERTEST_OUTPUT_DIRECTORY` variables as shown below
+Change the `SIMPLETEST_BASE_URL`, `SIMPLETEST_DB` AND `BROWSERTEST_OUTPUT_DIRECTORY` variables as shown below
 
 ```xml
   <php>
@@ -159,11 +146,9 @@ Change the `SIMPLETEST_BASE_URL`, `SIMPLETEST_DB` AND
 Refer to
 <https://mglaman.dev/blog/running-drupals-phpunit-test-suites-ddev> for more info on using ddev describe to get suitable values for those variables
 
-From web/core/tests/README.md
+From `web/core/tests/README.md`: 
 
-Copy the core/phpunit.xml.dist file to phpunit.xml, and place it
-somewhere convenient (inside the core directory may not be the best
-spot, since that directory may be managed by Composer or Git). You can use the -c option on the command line to tell PHPUnit where this file is (use the full path).
+Copy the core/phpunit.xml.dist file to phpunit.xml, and place it somewhere convenient (inside the core directory may not be the best spot, since that directory may be managed by Composer or Git). You can use the -c option on the command line to tell PHPUnit where this file is (use the full path).
 
 Settings to change in this file:
 
@@ -176,6 +161,7 @@ Settings to change in this file:
 -   `BROWSERTEST_OUTPUT_DIRECTORY`: Set to
     sites/simpletest/browser_output; you will also want to uncomment the
     printerClass attribute of the top-level phpunit tag.
+
 
 ## Running PHPUnit tests in the DDEV container
 
