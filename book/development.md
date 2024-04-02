@@ -33,6 +33,13 @@ You might want to install the Drupal dev tools using this:
 composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
+I also like to immediately install the `drushonhost` addon:
+
+```sh
+ddev get rfay/ddev-drushonhost
+```
+Read [more about global drush and drushonhost](drush#global-drush---run-drush-on-host)
+
 More at [DDEV CMS Quickstart guides](https://ddev.readthedocs.io/en/stable/users/quickstart/) to install [Drupal](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal), Wordpress, TYPO3, Backdrop, Magento, Laravel etc. 
 And the [Local development guide on drupal.org - updated October 2023](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
 
