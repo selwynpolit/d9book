@@ -1133,6 +1133,62 @@ Read [more about the Internal Page Cache on drupal.org updated November 2023](ht
 Also for more on [Dynamic page cache on drupal.org](https://www.drupal.org/docs/8/core/modules/dynamic-page-cache/overview)
 
 
+### Cache tags
+
+Cache tags are for dependencies on data that are managed by Drupal, and are the easiest way to control cache. For example, if we have a news story content type and a block that shows a list of three nodes on the homepage. How would the homepage cache (or more specifically the news block cache) be cleared if we changed one of the news stories?  The answer is cache tags.
+
+Cache tags are strings that are passed around in sets (order doesn't matter), so they are typehinted to string[]. They're sets because a single cache item can depend on (or be invalidated by) many cache tags.
+
+By convention, they are of the form `thing:identifier` — and when there's no concept of multiple instances of a thing, it is of the form thing. The only rule is that it cannot contain spaces. There is no strict syntax.
+
+**Some examples:**
+- `node:5` — cache tag for Node id 5
+- `user:3` — cache tag for User id 3
+- `node_list` — list cache tag for Node entities (invalidated whenever any Node entity is updated, deleted or created, i.e., when a listing of nodes may need to change). Applicable to any entity type in following format: `{entity_type}_list`.
+- `node_list:article` — list cache tag for the article content type (or bundle). Applicable to any entity + bundle type in following format: `{entity_type}_list:{bundle}`.
+- `config:node_type_list` — list cache tag for Node type entities (invalidated whenever any **content types** are updated, deleted or created). Applicable to any entity type in the following format: config:`{entity_bundle_type}_list`.
+`config:system.performance` — cache tag for the `system.performance` configuration
+`library_info` — cache tag for asset libraries
+
+The data that Drupal manages fall in 3 categories:
+
+1. entities — these have cache tags of the form `<entity type ID>:<entity ID>` as well as `<entity type ID>_list` and `<entity type ID>_list:<bundle>` to invalidate lists of entities. Config entity types use the cache tag of the underlying configuration object.
+2. configuration — these have cache tags of the form config:<configuration name>
+3. custom (for example library_info)
+
+Drupal provides cache tags for `entities` & `configuration` — see the [EntityBase class](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityBase.php/class/EntityBase/10) and the [ConfigBase class](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21ConfigBase.php/class/ConfigBase/10). All specific entity types and configuration objects inherit from those.
+
+Although many entity types follow a predictable cache tag format of `<entity type ID>:<entity ID>`, third-party code shouldn't rely on this. Instead, it should retrieve cache tags to invalidate for a single entity using its `::getCacheTags()` method, e.g., `$node->getCacheTags()`, `$user->getCacheTags()`, `$view->getCacheTags()` etc.
+
+In addition, it may be necessary to invalidate listings-based caches that depend on data from the entity in question (e.g., refreshing the rendered HTML for a listing when a new entity for it is created): this can be done using `EntityTypeInterface::getListCacheTags()`, then invalidating any returned by that method along with the entity's own tag(s). Entities with bundles also automatically have a more specific cache tag that includes their bundle, to allow for more targeted invalidation of lists.
+
+It is also possible to define custom, more specific cache tags based on values that entities have, for example a term reference field for lists that show entities that have a certain term. Invalidation for such tags can be put in custom presave/delete entity hooks:
+
+```php
+function yourmodule_node_presave(NodeInterface $node) {
+  $tags = [];
+  if ($node->hasField('field_category')) {
+    foreach ($node->get('field_category') as $item) {
+      $tags[] = 'mysite:node:category:' . $item->target_id;
+    }
+  }
+  if ($tags) {
+    Cache::invalidateTags($tags);
+  }
+}
+```
+These tags can then be used in code and in views using the [Views Custom Cache Tag module](https://www.drupal.org/project/views_custom_cache_tag).
+
+::: tip Note
+There is currently no API to get per-bundle and more specific cache tags from an entity or other object. That is because it is not the entity that decided which list cache tags are relevant for a certain list/query, that depends on the query itself. Future Drupal core versions will likely improve out of the box support for per-bundle cache tags and for example integrate them into the entity query builder and views.
+:::
+
+
+**Invalidating**
+
+Tagged cache items are invalidated via their tags, using `cache_tags.invalidator:invalidateTags()` or, when you cannot inject the `cache_tags.invalidator` service: `Cache::invalidateTags()`, which accepts a set of cache tags in the form of an array of strings.
+
+Note: this invalidates items tagged with given tags, across all cache bins. This is because it doesn't make sense to invalidate cache tags on individual bins, because the data that has been modified, whose cache tags are being invalidated, can have dependencies on cache items in other cache bins.
 
 
 
