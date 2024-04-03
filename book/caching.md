@@ -1186,6 +1186,7 @@ There is currently no API to get per-bundle and more specific cache tags from an
 
 
 **Invalidating**
+
 Tagged cache items are invalidated via their tags, using `cache_tags.invalidator:invalidateTags()` or, when you cannot inject the `cache_tags.invalidator` service: `Cache::invalidateTags()`, which accepts a set of cache tags in the form of an array of strings.
 
 Note: this invalidates items tagged with given tags, across all cache bins. This is because it doesn't make sense to invalidate cache tags on individual bins, because the data that has been modified, whose cache tags are being invalidated, can have dependencies on cache items in other cache bins.
@@ -1193,7 +1194,7 @@ Note: this invalidates items tagged with given tags, across all cache bins. This
 
 ###  Cache contexts
 
-Cache contexts provide a declarative way to create context-dependent variations of something that needs to be cached. By making it declarative, code that creates caches becomes easier to read, and the same logic doesn't need to be repeated in every place where the same context variations are necessary. Cache contexts = (request) context dependencies and are analogous to HTTP's `vary` header.
+Cache contexts provide a declarative way to create context-dependent variations of something that needs to be cached. By making it declarative, code that creates caches becomes easier to read, and the same logic doesn't need to be repeated in every place where the same context variations are necessary. Cache contexts = (`request`) context dependencies and are analogous to HTTP's `vary` header.
 
 Typically, cache contexts are derived from the `request` context i.e., from the `Request` object. Most of the environment for a web application is derived from the `request` context. After all, HTTP responses are generated in large part depending on the properties of the HTTP requests that triggered them. But, this doesn't mean cache contexts have to originate from the request — they could also depend on deployed code, e.g., a deployment_id cache context.
 
@@ -1251,6 +1252,7 @@ You can find many of them in core in `web/core/core.services.yml` where they are
 Here is an example of what they look like:
 
 **Simple:**
+
 ```yaml
   cache_context.ip:
     class: Drupal\Core\Cache\Context\IpCacheContext
@@ -1325,18 +1327,18 @@ Everywhere cache contexts are used, that entire hierarchy is listed, which has 3
 
 Drupal automatically uses the hierarchy information to simplify cache contexts as much as possible. For example, when one part of the page is varied per user (user cache context) and another part of the page is varied per permissions (`user.permissions` cache context), then it doesn't make sense to vary the final `page` result per permissions, since varying per user is already more granular. In other words: `optimize([user, user.permissions])` = `[user]`.
 
-However, that is oversimplifying things a bit: even though user indeed implies `user.permissions` because it is more specific, if we optimize `user.permissions` away, any changes to permissions no longer cause the user.permissions cache context to be evaluated on every page load. Which means that if the permissions change, we still continue to use the same cached version, even though it should change whenever permissions change.
+However, that is oversimplifying things a bit: even though user indeed implies `user.permissions` because it is more specific, if we optimize `user.permissions` away, any changes to permissions no longer cause the `user.permissions` cache context to be evaluated on every page load. Which means that if the permissions change, we still continue to use the same cached version, even though it should change whenever permissions change.
 
-That is why cache contexts that depend on configuration that may change over time can associate cacheability metadata: `cache tags` and `max-age`. When such a cache context is optimized away, its cache tags are associated with the cache item. Hence whenever the assigned permissions change, the cache item is also invalidated.
+That is why cache contexts that depend on configuration that may change over time can associate cacheability metadata: `cache tags` and `max-age`. When such a cache context is optimized away, its cache tags are associated with the cache item. Hence, whenever the assigned permissions change, the cache item is also invalidated.
 
 
 Remember that caching is basically \"avoiding unnecessary computations\". Therefore, optimizing a context away can be thought of as caching the result of the context service's `getContext()` method. In this case, it's an implicit cache (the value is discarded rather than stored), but the effect is the same: on a cache hit, the `getContext()` method is not called, hence: computations avoided. And when we cache something, we associate the cacheability of that thing; so in the case of cache contexts, we associate `tags` and `max-age`.
 
-A similar, but more advanced example are node grants. Node grants apply to a specific user, so the node grants cache context is `user.node_grants` Except that node grants can be extremely dynamic (they could, e.g., be time-dependent, and change every few minutes). It depends on the node grant hook implementations present on the particular site. Therefore, to be safe, the node grants cache context specifies `max-age = 0`, meaning that it can not be cached (i.e., optimized away). Hence optimize([`user`, `user.node_grants`]) = [`user`, `user.node_grants`].
+A similar, but more advanced example are node grants. Node grants apply to a specific user, so the node grants cache context is `user.node_grants` Except that node grants can be extremely dynamic (they could, e.g., be time-dependent, and change every few minutes). It depends on the node grant hook implementations present on the particular site. Therefore, to be safe, the node grants cache context specifies `max-age = 0`, meaning that it can not be cached (i.e., optimized away). Hence, optimize([`user`, `user.node_grants`]) = [`user`, `user.node_grants`].
 
 Specific sites can override the default node grants cache context implementation and `specify max-age = 3600` instead, indicating that all their node grant hooks allow access results to be cached for at most an hour. On such sites, `optimize([user, user.node_grants])` = `[user]`.
 
-:::tip Note
+::: tip Note
 The node grants system plays a crucial role in controlling access to individual nodes. This includes permissions to view, update or delete nodes.  These can be extended by implementing `hook_node_grants()` and `hook_node_access_records()`. See `node.services.yml` for the definition of the `user.node_grants` cache context:
 
 ```yaml
@@ -1357,7 +1359,6 @@ $build = [
   ],
 ];
 ```
-
 :::
 
 ### Viewing cache contexts in a Response header
