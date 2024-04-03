@@ -185,7 +185,7 @@ Read [more about Cacheability of render arrays on drupal.org - updated April 202
 
 ## Using cache tags
 
-To generate a list of cached node teasers that is always accurate, use cache tags or [cache contexts](https://www.drupal.org/docs/drupal-apis/cache-api/cache-contexts). Here is a render array that will be updated time a node is added, deleted or edited:
+To generate a list of cached node teasers that is always accurate, use cache tags. Here is a render array that will be updated time a node is added, deleted or edited:
 
 ```php
 $build = [
@@ -201,13 +201,12 @@ $build = [
 
 It is possible to change this so the cache is invalidated only when a content type of `book` or `magazine` is changed in two possible ways:
 
-1. Include all node tags (node:{#id}), if doesn\'t matter if a new node of a particular type was added.
+1. Include all node tags (node:{#id}), it doesn\'t matter if a new node of a particular type was added.
 
 2. Create and control your own cache tag, and invalidate it when you want.
 
 If you want a block to be rebuilt every time that a term from a particular vocab_id is added, changed, or deleted you can cache the term list.
-If you need to cache a term list per vocab_id - i.e.  every time that a term from a particular vocab_id is added, changed, or deleted the cache tag is invalided using
-`Cache::invalidateTags($tag_id)` then my block will be rebuilt.
+If you need to cache a term list per vocab_id - i.e.  every time that a term from a particular vocab_id is added, changed, or deleted the cache tag is invalided using `Cache::invalidateTags($tag_id)`. When Drupal goes to render this array, it will not use the cached version.
 
 ```php
 use Drupal\Core\Cache\Cache;
@@ -221,7 +220,7 @@ If you want this to work for nodes, you may be able to  just change `$vocab_id`
 
 ## Debugging Cache tags
 
-In `development.services.yml` set the `http.response.debug_cacheability_headers` parameter:
+In `development.services.yml` set the `http.response debug_cacheability_headers` parameter:
 
 ```yml
 parameters:
@@ -259,7 +258,6 @@ public function vote(array $options): void {
 
 ::: tip Note
 According to <https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags> Although many entity types follow a predictable cache tag format of `<entity type ID>:<entity ID>`, third-party code shouldn't rely on this. Instead, it should retrieve cache tags to invalidate for a single entity using its`::getCacheTags()` method, e.g., `$node->getCacheTags()`, `$user->getCacheTags()`, `$view->getCacheTags()` etc.
-
 :::
 
 ## Setting cache keys in a block
@@ -272,30 +270,32 @@ public function getCacheContexts() {
 }
 ```
 
-and scrolling down a bit at this link shows some more info about getting cache tags and merging them. <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id>
+Read [more about getting cache tags and merging them on Stack Exchange](https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id)
+
 
 ## Getting Cache Tags and Contexts for a block
 
-In this file /modules/custom/dart_pagination/src/Plugin/Block/VideoPaginationBlock.php I have a block that renders a form. The form queries some data from the database and will need to be updated depending on the node that I am on.
+In this file `/modules/custom/dart_pagination/src/Plugin/Block/VideoPaginationBlock.php` there is a block that renders a form. The form queries some data from the database and will need to be updated depending on the node being viewed.
 
-I added the following two functions:
+These two functions do the work to get both the cache contexts (based on the route) and get the cache tags based on the current node.  If the node has been viewed previously, this block will be cached.  If the :
 
 ```php
 public function getCacheTags() {
-  //When my node changes my block will rebuild
+  // When my node is changed my block will rebuild.
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
-    //if there is node add its cachetag
+    // Add the cache tag if a node is specified in the url.
     return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
-  } else {
+  } 
+  else {
     //Return default tags instead.
     return parent::getCacheTags();
   }
 }
 
 public function getCacheContexts() {
-  //if you depend on \Drupal::routeMatch()
-  //you must set context of this block with 'route' context tag.
-  //Every new route this block will rebuild
+  // If you depend on \Drupal::routeMatch(),
+  // you must set context of this block with 'route' context tag.
+  // Every new route this block will rebuild.
   return Cache::mergeContexts(parent::getCacheContexts(), ['route']);
 }
 ```
