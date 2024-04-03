@@ -1072,7 +1072,7 @@ Cache contexts provide a declarative way to create context-dependent variations 
 Typically, cache contexts are derived from the `request` context i.e., from the `Request` object. Most of the environment for a web application is derived from the `request` context. After all, HTTP responses are generated in large part depending on the properties of the HTTP requests that triggered them. But, this doesn't mean cache contexts have to originate from the request — they could also depend on deployed code, e.g., a deployment_id cache context.
 
 To distinguish hierarchy, periods separate parents from children.
-A plurally named cache context indicates a parameter may be specified; to use: append a colon, then specify the desired parameter. When no parameter is specified, all possible parameters are captured, e.g., all query arguments would look like: `url.query_args:` for all arguments vs `url.query_args: partid` for a specific query argument.
+A plurally named cache context indicates a parameter may be specified; to use: append a colon, then specify the desired parameter. When no parameter is specified, all possible parameters are captured, e.g., all query arguments would look like: `url.query_args:` for all arguments vs `url.query_args:partid` for a specific query argument.
 
 
 
@@ -1120,7 +1120,7 @@ You can find them in core in `web/core/core.services.yml` where they are broken 
 - Complex cache contexts which depend on the routing system
 - Complex cache contexts that may be calculated from a combination of multiple aspects of the request context plus extra logic.
 
-Here is what they look like:
+Here is an example of what they look like:
 
 **Simple:**
 ```yaml
@@ -1179,19 +1179,43 @@ Everywhere cache contexts are used, that entire hierarchy is listed, which has 3
 2. Comparing (and folding) cache contexts becomes simpler: if both `a.b.c` and `a.b` are present, it's obvious that `a.b` encompasses `a.b.c`, and thus it's clear why the `a.b.c` can be omitted, why it can be "folded" into the parent.
 3. No need to deal with ensuring each level in a tree is unique in the entire tree.
 
-Examples of declarative cache contexts from that hierarchy:
+**Examples of declarative cache contexts from that hierarchy:**
+```
+`theme` (vary by negotiated theme)
+`user.roles` (vary by the combination of roles)
+`user.roles:anonymous` (vary by whether the current user has the 'anonymous' role or not, i.e., if they are an anonymous user)
+`languages` (vary by all language types: interface, content ...)
+`languages:language_interface` (vary by interface language — `LanguageInterface::TYPE_INTERFACE`)
+`languages:language_content` (vary by content language — `LanguageInterface::TYPE_CONTENT`)
+`url` (vary by the entire URL)
+`url.query_args` (vary by the entire given query string)
+`url.query_args:foo` (vary by the `?foo` query argument)
+`protocol_version` (vary by HTTP 1 vs 2)
+```
 
-theme (vary by negotiated theme)
-user.roles (vary by the combination of roles)
-user.roles:anonymous (vary by whether the current user has the 'anonymous' role or not, i.e., "is anonymous user")
-languages (vary by all language types: interface, content …)
-languages:language_interface (vary by interface language — LanguageInterface::TYPE_INTERFACE)
-languages:language_content (vary by content language — LanguageInterface::TYPE_CONTENT)
-url (vary by the entire URL)
-url.query_args (vary by the entire given query string)
-url.query_args:foo (vary by the ?foo query argument)
-protocol_version (vary by HTTP 1 vs 2)
+Drupal automatically uses the hierarchy information to simplify cache contexts as much as possible. For example, when one part of the page is varied per user (user cache context) and another part of the page is varied per permissions (`user.permissions` cache context), then it doesn't make sense to vary the final result (e.g.,: the page) per permissions, since varying per user is already more granular. In other words: optimize([user, user.permissions]) = [user].
 
+However, that is oversimplifying things a bit: even though user indeed implies `user.permissions` because it is more specific, if we optimize `user.permissions` away, any changes to permissions no longer cause the user.permissions cache context to be evaluated on every page load. Which means that if the permissions change, we still continue to use the same cached version, even though it should change whenever permissions change.
+
+That is why cache contexts that depend on configuration that may change over time can associate cacheability metadata: `cache tags` and `max-age`. When such a cache context is optimized away, its cache tags are associated with the cache item. Hence whenever the assigned permissions change, the cache item is also invalidated.
+
+
+Remember that "caching" is basically \"avoiding unnecessary computations\". Therefore, optimizing a context away can be thought of as caching the result of the context service's `getContext()` method. In this case, it's an implicit cache (the value is discarded rather than stored), but the effect is the same: on a cache hit, the `getContext()` method is not called, hence: computations avoided. And when we cache something, we associate the cacheability of that thing; so in the case of cache contexts, we associate `tags` and `max-age`.
+
+A similar, but more advanced example are node grants. Node grants apply to a specific user, so the node grants cache context is `user.node_grants` Except that node grants can be extremely dynamic (they could, e.g., be time-dependent, and change every few minutes). It depends on the node grant hook implementations present on the particular site. Therefore, to be safe, the node grants cache context specifies `max-age = 0`, meaning that it can not be cached (i.e., optimized away). Hence optimize([`user`, `user.node_grants`]) = [`user`, `user.node_grants`].
+
+Specific sites can override the default node grants cache context implementation and `specify max-age = 3600` instead, indicating that all their node grant hooks allow access results to be cached for at most an hour. On such sites, optimize([`user`, `user.node_grants`]) = [`user`].
+
+:::tip Note
+The node grants system plays a crucial role in controlling access to individual nodes. This includes view, update or delete.  These can be extended by implementing `hook_node_grants()` and `hook_node_access_records()`. see `node.services.yml` for the definition of the `user.node_grants` cache context:
+```yaml
+  cache_context.user.node_grants:
+    class: Drupal\node\Cache\NodeAccessGrantsCacheContext
+    arguments: ['@current_user']
+    tags:
+      - { name: cache.context }
+```
+:::
 
 ### Viewing cache contexts in a Response header
 
