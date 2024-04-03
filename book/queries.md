@@ -366,7 +366,7 @@ protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_fe
 }
 ```
 
-### Nodes that were modified recently
+### Find nodes that were modified recently
 
 To select for nodes that were modified within the last seven days, use the following:
 
@@ -534,14 +534,131 @@ If NULL, defaults to the `'='` operator.
   }
 ```
 
+### Paragraph entityQuery example
 
-## Static and dynamic Queries
+This code looks up related paragraphs of type `accordio_video_section`, grabs the first one (this should have used a sort to more reliably return the same value), then finds all `video_collection` nodes in that collection. In essence, this finds a list of other videos that are in the collection for the video you are viewing.
 
-Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the `entityQuery` approach where you build the various parts of the query using PHP.
+```php
+  public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
 
-### Static Queries
+...
 
-See <https://www.drupal.org/docs/drupal-apis/database-api/static-queries>
+    // Grab nid of the current video detail node.
+    $nid = 0;
+    $nodeTitle = '';
+    $default = '';
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof \Drupal\node\NodeInterface) {
+      $nid = $node->id();
+      $nodeType = $node->bundle();
+      $nodeTitle = $node->getTitle();
+      // Default value for select element.
+      $default = '/node/' . $nid;
+    }
+
+    $form['title'] = [
+      '#type' => 'markup',
+      '#markup' => $nodeTitle,
+    ];
+
+    // Find a paragraph that has the node I am currently viewing.
+    $paragraph_id = 0;
+    $storage = $this->entityTypeManager->getStorage('paragraph');
+    $query = \Drupal::entityQuery('paragraph')
+      ->condition('status', 1)
+      ->condition('type', 'accordio_video_section')
+      ->condition('field_content_relation', $nid);
+    $ids = $query->execute();
+    if (!$ids) {
+      return;
+    }
+    $paragraphs = $storage->loadMultiple($ids);
+    if ($paragraphs) {
+      // Grab the first one.
+      $paragraph_id = reset($paragraphs)->id();
+    }
+
+    // Find the video collection node that has this paragraph.
+    $nids = [];
+    $video_collection_title = '';
+    if ($paragraph_id) {
+      $storage = $this->entityTypeManager->getStorage('node');
+
+      $query = \Drupal::entityQuery('node')
+        ->condition('type', 'video_collection')
+        ->condition('status', 1)
+        ->condition('field_video_accordions', $paragraph_id);
+      $nids = $query->execute();
+    }
+    if ($nids) {
+      $video_collection_nid = reset($nids);
+      $video_collection_node = Node::load($video_collection_nid);
+      $video_collection_title = $video_collection_node->label();
+    }
+
+    $form['collection_title'] = [
+      '#type' => 'markup',
+      '#markup' => $video_collection_title,
+    ];
+
+
+    // Now go find all the video's in this video_collection.
+    $videos = [];
+    $storage = $this->entityTypeManager->getStorage('paragraph');
+    // Grab all the accordions and extract out the videos.
+    if (isset($video_collection_node)) {
+      $accordions = $video_collection_node->get('field_video_accordions');
+      foreach ($accordions as $accordion) {
+        if ($accordion->entity->getType() == 'accordio_video_section') {
+          $id = $accordion->target_id;
+          $accordion_paragraph = $storage->load($id);
+          $accordion_videos = reset($accordion_paragraph->field_content_relation);
+          $videos = array_merge($videos, $accordion_videos);
+        }
+      }
+    }
+```
+From ~Sites/inside-mathematics/modules/custom/dana_pagination/src/Form/VideoPaginationForm.php.
+
+
+## Static and Dynamic Queries
+
+Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the `entityQuery` approach where you build the various parts of the query using PHP methods.
+
+Dynamic queries let the Drupal database driver generate the sql string and therefore has more flexibility in the resulting sql string. Static queries are just a sql string which have no flexibility in making small adjustments for a specific database back-end. This means may not work for other databases. The core supported databases are MySQL, PostgreSQL and SQLite. When we use dynamic queries, they should work for more/all databases. Dynamic queries are however a little bit slower than static queries.
+
+An example static query is:
+
+```php
+$database = \Drupal::database();
+$query = $database->query("SELECT id, example FROM {mytable}");
+$result = $query->fetchAll();
+```
+
+Dynamic queries refer to queries that are built dynamically by Drupal rather than provided as an explicit query string. All Insert, Update, Delete, and Merge queries must be dynamic. Select queries may be either static or dynamic. Therefore, "dynamic query" generally refers to a dynamic Select query.
+
+For this static query:
+```php
+$result = $database->query("SELECT uid, name, status, created, access FROM {users_field_data} u WHERE uid <> 0 LIMIT 50 OFFSET 0");
+```
+
+The equivalent dynamic query is:
+
+```php
+// Create an object of type Select and directly add extra detail
+// to this query object: a condition, fields and a range.
+$query = $database->select('users_field_data', 'u')
+  ->condition('u.uid', 0, '<>')
+  ->fields('u', ['uid', 'name', 'status', 'created', 'access'])
+  ->range(0, 50);
+```
+
+
+
+For more info check out
+- [Static Queries on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/database-api/static-queries)
+- [Dynamic Queries on drupal.org](https://www.drupal.org/docs/8/api/database-api/dynamic-queries)
+
 
 ### Get a connection object
 
@@ -583,8 +700,7 @@ public function queryBuild1() {
 
 ### Find the biggest value in a field
 
-We make a quick query and retrieve the result. In this case we are
-finding the highest value for the id column.
+Here is a quick query and retrieve the result. In this case we are finding the highest value for the id column.
 
 ```php
 public function highestId() {
@@ -608,7 +724,7 @@ public function highestId() {
 
 ### SQL update query - example 1
 
-This shows how to update a status field to the new value \$status when the uuid matches, the event is either update or add and the status is new.
+This shows how to update a status field to the new value in `$status` when the uuid matches, the event is either update or add, and the status is new.
 
 ```php
 public function setUpdateStatus(string $uuid, string $status) {
@@ -674,11 +790,8 @@ public function updateQuery1() {
 }
 ```
 
-Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x>
+Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x> and <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>
 
-and
-
-<https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>
 
 ### SQL insert
 
@@ -792,10 +905,9 @@ public function deleteQuery2() {
 
 Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x> also <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>.
 
-### Paragraph query
+### Paragraph static query example
 
-In the txg.theme file this code digs into a table for a paragraph field
-and grabbing the delta field value.
+In the txg.theme file this code digs into a table for a paragraph field and grabs the delta field value using a static query.
 
 ```php
 function txg_preprocess_paragraph__simple_card(&$variables) {
@@ -819,9 +931,12 @@ function txg_preprocess_paragraph__simple_card(&$variables) {
 }
 ```
 
+
+
+
 ### Create a custom table for your module
 
-If you need a custom database table (or two) for use in a custom module, you can use hook_schema in your module.install file. This will cause the table(s) to be created at module install time and **removed** at module uninstall time.
+If you need a custom database table (or two) for use in a custom module, you can use `hook_schema` in your `module.install` file. This will cause the table(s) to be created at module install time and **removed** at module uninstall time.
 
 ````php
 function nocs_connect_schema() {
@@ -939,15 +1054,14 @@ More on [Stack Overflow](https://stackoverflow.com/questions/9620198/how-to-get-
 
 ## Use the database abstraction layer to avoid SQL injection attacks
 
-Bad practice:
-Never concatenate data directly into SQL queries.
+It is bad practice to concatenate data directly into SQL queries.
 
 ```php
-// Bad practice.
+// Bad practice - don't do it!.
 \Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = '. $_GET['user']);
 ```
 
-Good Practice:
+**Good Practice:**
 
 Use proper argument substitution. The database layer works on top of PHP PDO, and uses an array of named placeholders:
 
@@ -970,7 +1084,7 @@ $result = \Database::getConnection()->select('foo', 'f')
   ->execute();
 ```
 
-When forming a LIKE query, make sure that you escape condition values to ensure they don't contain wildcard characters like `"%"``:
+When forming a `LIKE` query, make sure that you escape condition values to ensure they don't contain wildcard characters like `"%"``:
 
 ```php
 db_select('table', 't')
