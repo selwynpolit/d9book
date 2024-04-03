@@ -1368,6 +1368,68 @@ $build = [
 
 
 
+### Viewing cache contexts in a Response header
+
+You can see which cache contexts a certain page varies by and which cache tags it is invalidated by. Look at the `X-Drupal-Cache-Contexts` and `X-Drupal-Cache-Tags` response headers in browser tools under the Network tab.
+
+![Cache contexts in Chrome](/images/cache-contexts1.png)
+
+Here is a screen shot of cache tags
+
+![Cache tags in Chrome](/images/cache-tags1.png)
+
+Read more about [Cacheability of render arrays on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
+
+### Logic for caching render arrays
+
+Whenever you are generating a render array, use the following 5 steps:
+
+1.  I'm rendering something. That means I must think of cacheability.
+
+2.  Is this something that\'s expensive to render, and therefore is worth caching? If the answer is yes, then what identifies this particular representation of the thing I'm rendering? Those are the cache keys.
+
+3.  Does the representation of the thing I'm rendering vary per combination of permissions, per URL, per interface language, per ... something? Those are the cache contexts. Note: cache contexts are completely analogous to HTTP's Vary header.
+
+4.  What causes the representation of the thing I'm rendering become outdated? I.e., which things does it depend upon, so that when those things change, so should my representation? Those are the cache tags.
+
+5.  When does the representation of the thing I'm rendering become outdated? I.e., is the data valid for a limited period of time only? That is the max-age (maximum age). It defaults to "permanently (forever) cacheable" (`Cache::PERMANENT`). When the representation is only valid for a limited time, set a `max-age`, expressed in seconds. Zero means that it's not cacheable at all.
+
+Cache contexts, tags and max-age must always be set, because they affect the cacheability of the entire response. Therefore they "bubble" and parents automatically receive them.
+
+Cache keys must only be set if the render array should be cached.
+
+Read more at [ Cacheability of render arrays on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
+
+
+### Cache bins
+
+Cache storage is separated into \"bins\", each containing various cache items. Each bin can be configured separately; see [Configuration](https://api.drupal.org/api/drupal/core!core.api.php/group/cache#configuration).
+
+When you request a cache object, you can specify the bin name in your call to \Drupal::cache(). Alternatively, you can request a bin by getting service \"cache.nameofbin\" from the container. The default bin is called \"default\", with service name \"cache.default\", it is used to store common and frequently used caches.
+
+Other common cache bins are the following:
+
+`bootstrap`: Data needed from the beginning to the end of most requests, that has a very strict limit on variations and is invalidated rarely.
+`render`: Contains cached HTML strings like cached pages and blocks, can grow to large size.
+`data`: Contains data that can vary by path or similar context.
+`discovery`: Contains cached discovery data for things such as plugins, views_data, or YAML discovered data such as library info.
+
+A module can define a cache bin by defining a service in its `modulename.services.yml` file as follows (substituting the desired name for \"nameofbin\"):
+
+e.g.
+
+```yaml
+cache.favorite_skus:
+  class: Drupal\Core\Cache\CacheBackendInterface
+  tags:
+    - { name: cache.bin }
+  factory: ['@cache_factory', 'get']
+  arguments: [favorite_skus]
+```
+
+
+
+
 
 ## Reference
 
