@@ -1122,3 +1122,13 @@ This means that by default (on a site with nothing set for `$settings['cache']` 
 
 `APCu` will act as a very fast local cache for all requests. Other cache backends can act as bigger, more general cache backend that is consistent across processes or servers.
 
+## The Basics
+
+### Internal page cache vs Dynamic page cache
+The Internal page cache caches up pages for use by anonymous users. Pages requested by anonymous users are stored the first time they are requested and then reused.  Depending on your site configuration, the performance improvement may be significant. The Internal page cache assumes that all pages served to anonymous users will be identical, regardless of the implementation of cache contexts. If you want to use cache contexts to vary the content served to anonymous users, this core module (machine name: `page_cache`) must be disabled, and the performance impact that entails incurred.
+
+The Dynamic page cache is used to cache pages minus the personalized parts, and is therefore useful for all users (both anonymous & authenticated). Dynamic page cache requires no configuration. The module uses the metadata (cache contexts) of all the components on a page to figure out if it can be cached. This core module\'s machine name is `dynamic_page_cache`. It was previously known as `Smart Cache`.
+
+Read [more about the Internal Page Cache on drupal.org updated November 2023](https://www.drupal.org/docs/administering-a-drupal-site/internal-page-cache)
+Also for more on [Dynamic page cache on drupal.org](https://www.drupal.org/docs/8/core/modules/dynamic-page-cache/overview)
+
