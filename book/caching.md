@@ -1186,6 +1186,152 @@ There is currently no API to get per-bundle and more specific cache tags from an
 :::
 
 
+
+**Invalidating**
+
+Tagged cache items are invalidated via their tags, using `cache_tags.invalidator:invalidateTags()` or, when you cannot inject the `cache_tags.invalidator` service: `Cache::invalidateTags()`, which accepts a set of cache tags in the form of an array of strings.
+
+Note: this invalidates items tagged with given tags, across all cache bins. This is because it doesn't make sense to invalidate cache tags on individual bins, because the data that has been modified, whose cache tags are being invalidated, can have dependencies on cache items in other cache bins.
+
+
+
+
+###  Cache contexts
+
+Cache contexts provide a declarative way to create context-dependent variations of something that needs to be cached. By making it declarative, code that creates caches becomes easier to read, and the same logic doesn't need to be repeated in every place where the same context variations are necessary. Cache contexts = (`request`) context dependencies and are analogous to HTTP's `vary` header.
+
+Typically, cache contexts are derived from the `request` context i.e., from the `Request` object. Most of the environment for a web application is derived from the `request` context. After all, HTTP responses are generated in large part depending on the properties of the HTTP requests that triggered them. But, this doesn't mean cache contexts have to originate from the request — they could also depend on deployed code, e.g., a deployment_id cache context.
+
+To distinguish hierarchy, periods separate parents from children.
+A plurally named cache context indicates a parameter may be specified; to use: append a colon, then specify the desired parameter. When no parameter is specified, all possible parameters are captured, e.g., all query arguments would look like: `url.query_args:` for all arguments vs `url.query_args:partid` for a specific query argument.
+
+Cache contexts are `cache.context`-tagged services. Any module can add more cache contexts. They implement `\Drupal\Core\Cache\Context\CacheContextInterface` or `\Drupal\Core\Cache\Context\CalculatedCacheContextInterface` (for cache contexts that accept parameters — i.e., cache contexts that accept a :parameter suffix).
+
+To find all cache contexts you have available for use, open the class files for `CacheContextInterface` and `CalculatedCacheContextInterface` and use your IDE to find all of its implementations. (In PHPStorm: With the cursor on the class name, click the Navigate menu, select `Type Hierarchy` to open the hierarchy window, then select the `Subtypes Hierarchy` icon if it isn't already selected.  You can also use `^H` to open the hierarchy window.)
+
+**Drupal core ships with the following hierarchy of cache contexts:**
+
+```
+cookies
+  :name
+headers
+  :name
+ip
+languages
+  :type
+protocol_version
+request_format
+route
+  .book_navigation
+  .menu_active_trails
+    :menu_name
+  .name
+session
+  .exists
+theme
+timezone
+url
+  .path
+    .is_front
+    .parent
+  .query_args
+    :key
+    .pagers
+      :pager_id
+  .site
+user
+  .is_super_user
+  .node_grants
+    :operation
+  .permissions
+  .roles
+    :role
+```
+
+You can find many of them in core in `web/core/core.services.yml` where they are broken up into 3 groups:
+- Simple cache contexts (which depend on the `request` context)
+- Complex cache contexts which depend on the routing system
+- Complex cache contexts that may be calculated from a combination of multiple aspects of the request context plus extra logic.
+
+Here is an example of what they look like:
+
+**Simple:**
+
+```yaml
+  cache_context.ip:
+    class: Drupal\Core\Cache\Context\IpCacheContext
+    arguments: ['@request_stack']
+    tags:
+      - { name: cache.context }
+# And
+  cache_context.url.query_args:
+    class: Drupal\Core\Cache\Context\QueryArgsCacheContext
+    arguments: ['@request_stack']
+    tags:
+      - { name: cache.context }
+# And
+  cache_context.url.path:
+    class: Drupal\Core\Cache\Context\PathCacheContext
+    arguments: ['@request_stack']
+    tags:
+      - { name: cache.context } 
+```
+
+and **Complex based on request:**
+```yaml
+  cache_context.route:
+    class: Drupal\Core\Cache\Context\RouteCacheContext
+    arguments: ['@current_route_match']
+    tags:
+      - { name: cache.context }
+# And
+  cache_context.route.name:
+    class: Drupal\Core\Cache\Context\RouteNameCacheContext
+    arguments: ['@current_route_match']
+    tags:
+      - { name: cache.context }      
+```
+and **Complex based on `request` plus extra logic**
+
+```yaml
+  cache_context.user:
+    class: Drupal\Core\Cache\Context\UserCacheContext
+    arguments: ['@current_user']
+    tags:
+      - { name: cache.context}
+# And
+  cache_context.user.roles:
+    class: Drupal\Core\Cache\Context\UserRolesCacheContext
+    arguments: ['@current_user']
+    tags:
+      - { name: cache.context}
+```
+
+To find all cache contexts you have available for use, open the class files for `CacheContextInterface` and `CalculatedCacheContextInterface` and use your IDE to find all of its implementations. In PHPStorm: with the cursor on the class name, click the Navigate menu, select `Type Hierarchy` to open the hierarchy window, then select the `Subtypes Hierarchy` icon if it isn't already selected.  You can also use `^H` to open the hierarchy window.
+
+Everywhere cache contexts are used, that entire hierarchy is listed, which has 3 benefits:
+
+1. No ambiguity: it's clear what parent cache context is based on wherever it is used.
+2. Comparing (and folding) cache contexts becomes simpler: if both `a.b.c` and `a.b` are present, it's obvious that `a.b` encompasses `a.b.c`, and thus it's clear why the `a.b.c` can be omitted, why it can be "folded" into the parent.
+3. No need to deal with ensuring each level in a tree is unique in the entire tree.
+
+**Examples of declarative cache contexts from that hierarchy:**
+
+- `theme` (vary by negotiated theme)
+- `user.roles` (vary by the combination of roles)
+- `user.roles:anonymous` (vary by whether the current user has the 'anonymous' role or not, i.e., if they are an anonymous user)
+- `languages` (vary by all language types: interface, content ...)
+- `languages:language_interface` (vary by interface language — `LanguageInterface::TYPE_INTERFACE`)
+- `languages:language_content` (vary by content language — `LanguageInterface::TYPE_CONTENT`)
+- `url` (vary by the entire URL)
+- `url.query_args` (vary by the entire given query string)
+- `url.query_args:foo` (vary by the `?foo` query argument)
+- `protocol_version` (vary by HTTP 1 vs 2)
+
+
+
+
+
 ## Reference
 
 * [Drupal: cache tags for all, regardles of your backend From Matt Glaman 22, August 2022](https://mglaman.dev/blog/drupal-cache-tags-all-regardless-your-backend)
