@@ -1074,7 +1074,9 @@ Typically, cache contexts are derived from the `request` context i.e., from the 
 To distinguish hierarchy, periods separate parents from children.
 A plurally named cache context indicates a parameter may be specified; to use: append a colon, then specify the desired parameter. When no parameter is specified, all possible parameters are captured, e.g., all query arguments would look like: `url.query_args:` for all arguments vs `url.query_args:partid` for a specific query argument.
 
+Cache contexts are `cache.context`-tagged services. Any module can add more cache contexts. They implement `\Drupal\Core\Cache\Context\CacheContextInterface` or `\Drupal\Core\Cache\Context\CalculatedCacheContextInterface` (for cache contexts that accept parameters — i.e., cache contexts that accept a :parameter suffix).
 
+To find all cache contexts you have available for use, open the class files for `CacheContextInterface` and `CalculatedCacheContextInterface` and use your IDE to find all of its implementations. (In PHPStorm: With the cursor on the class name, click the Navigate menu, select `Type Hierarchy` to open the hierarchy window, then select the `Subtypes Hierarchy` icon if it isn't already selected.  You can also use `^H` to open the hierarchy window.)
 
 ** Drupal core ships with the following hierarchy of cache contexts:**
 
