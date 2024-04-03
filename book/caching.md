@@ -1207,7 +1207,8 @@ A similar, but more advanced example are node grants. Node grants apply to a spe
 Specific sites can override the default node grants cache context implementation and `specify max-age = 3600` instead, indicating that all their node grant hooks allow access results to be cached for at most an hour. On such sites, optimize([`user`, `user.node_grants`]) = [`user`].
 
 :::tip Note
-The node grants system plays a crucial role in controlling access to individual nodes. This includes view, update or delete.  These can be extended by implementing `hook_node_grants()` and `hook_node_access_records()`. see `node.services.yml` for the definition of the `user.node_grants` cache context:
+The node grants system plays a crucial role in controlling access to individual nodes. This includes permissions to view, update or delete nodes.  These can be extended by implementing `hook_node_grants()` and `hook_node_access_records()`. See `node.services.yml` for the definition of the `user.node_grants` cache context:
+
 ```yaml
   cache_context.user.node_grants:
     class: Drupal\node\Cache\NodeAccessGrantsCacheContext
@@ -1215,6 +1216,18 @@ The node grants system plays a crucial role in controlling access to individual 
     tags:
       - { name: cache.context }
 ```
+You can use this cache context in your render array like this:
+```php
+$build = [
+  '#markup' => 'Your content here',
+  '#cache' => [
+    'contexts' => [
+      'user.node_grants',
+    ],
+  ],
+];
+```
+
 :::
 
 ### Viewing cache contexts in a Response header
