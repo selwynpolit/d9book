@@ -1152,7 +1152,11 @@ By convention, they are of the form `thing:identifier` — and when there's no c
 `config:system.performance` — cache tag for the `system.performance` configuration
 `library_info` — cache tag for asset libraries
 
+The data that Drupal manages fall in 3 categories:
 
+1. entities — these have cache tags of the form `<entity type ID>:<entity ID>` as well as `<entity type ID>_list` and `<entity type ID>_list:<bundle>` to invalidate lists of entities. Config entity types use the cache tag of the underlying configuration object.
+2. configuration — these have cache tags of the form config:<configuration name>
+3. custom (for example library_info)
 
 
 
