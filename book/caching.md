@@ -199,9 +199,9 @@ $build = [
 ];
 ```
 
-It is possible to change this so the cache is invalidated only when a content type of `book` or `magazine` is changed in two possible ways:
+You can cause the cache to be invalidated only when a content type of `book` or `magazine` is changed in two ways:
 
-1. Include all node tags (node:{#id}), it doesn\'t matter if a new node of a particular type was added.
+1. Include all node tags `(node:{#id})`, it doesn\'t matter if a new node of a particular type was added.
 
 2. Create and control your own cache tag, and invalidate it when you want.
 
@@ -216,7 +216,7 @@ function filters_invalidate_vocabulary_cache_tag($vocab_id) {
 }
 ```
 
-If you want this to work for nodes, you may be able to  just change `$vocab_id` for `$node_type`.
+If you want this to work for nodes, you may be able to  just change `$vocab_id` for `$node_type`.
 
 ## Debugging Cache tags
 
@@ -229,7 +229,7 @@ parameters:
 
 Open the inspect pane in the browser, on the network tab, click on the doc (the first item at the top of the list) and scroll down to the response headers. You will see the following headers: `X-Drupal-Cache-Tags`, `X-Drupal-Cache-Contexts` and `X-Drupal-Cache-Max-Age` which show the cache tags, contexts and max age.
 
-e.g at this URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
+e.g at URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_number/0`
 
 ![Debugging cache tags](/images/debug_cache_tags.png)
 
@@ -237,7 +237,7 @@ Read more [on debugging cache tags - CacheableResponseInterface](https://www.dru
 
 ### Invalidate the cache tag for a specific node
 
-In this function, we build a `$cache_tag` like \"node: 123\" and call `Cache:invalidateTags()` so Drupal will force a reload from the database for anything that depends on that node.
+In this function, we build a `$cache_tag` like `node: 123` and call `Cache:invalidateTags()` so Drupal will force a reload from the database for anything that depends on that node.
 
 
 ```php
@@ -318,7 +318,7 @@ Read more in this [interesting article about caching REST resources](http://blog
 
 From `docroot/modules/custom/cm_api/src/CmAPIClient.php`
 
-Here a member is set up in the class
+Here a member is set up in the class:
 
 ```php
 /**
@@ -336,7 +336,7 @@ class CmAPIClient implements CmAPIClientInterface {
 protected static $cache = [];
 ```
 
-The api call is made and the cache is checked. The index (or key) is built from the api call "getPolicy" and the next key is the policy number with the version number attached. So the `$response_data` is put in the cache with:
+The api call is made and the cache is checked. The index (or key) is built from the api call `getPolicy` and the next key is the policy number with the version number attached. So the `$response_data` is put in the cache with:
 
 ```php
 self::$cache['getPolicy'][$policy_number . $version] = $response_data;
@@ -597,7 +597,7 @@ function mymodule_preprocess_node(&$variables) {
 
 ## Specify custom cache bins
 
-To specify your own cache bin e.g. \"voting\", pass the name of your cache bin to the `\Drupal::cache()` calls like this:
+To specify your own cache bin e.g. `voting`, pass the name of your cache bin to the `\Drupal::cache()` calls like this:
 
 ```php
 $cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
@@ -803,7 +803,7 @@ services:
 ```
 
 ::: tip Note
-Dont create `development.services.yml`, it already exists under `/sites` so you can copy it from there.
+Don't create `development.services.yml`, it already exists under `/sites` so you can copy it from there.
 :::
 
 4. In `settings.local.php` change the following to be `TRUE` if you want to work with enabled css- and js-aggregation:
@@ -831,7 +831,9 @@ parameters:
     cache: false
 ```
 
-NOTE: If the `parameters` block is already present in `sites/development.services.yml`, append the twig.config block to it.
+::: tip Note 
+If the `parameters` block is already present in `sites/development.services.yml`, append the `twig.config` block to it.
+:::
 
 Rebuild the Drupal cache with `drush cr` otherwise your website will encounter an unexpected error on page reload.
 
@@ -928,8 +930,9 @@ Before Drupal 8.2.0, the order of steps through which the backend was selected f
 This was changed to:
 
 * First look for a specific bin definition in settings. E.g., `$settings['cache']['bins']['discovery']`
-* If not found, then use the the `default_backend` from the tag in the service definition.
+* If not found, then use the `default_backend` from the tag in the service definition.
 * If no `default_backend` for the specific bin was provided, then use the global default defined in settings. I.e., `$settings['cache']['default']`
+
 The old order resulted in unexpected behaviors, for example, the fast chained backend was no longer used when an alternative cache backend was set as default.
 
 The order has been changed, so that the cache bin services that explicitly set `default_backends` are always used unless explicitly overridden with a per-bin configuration. In core, this means, fast chained backend will be used for `bootstrap`, `config`, and `discovery` cache bins and `memory` backend will be used for the `static` cache bin, unless they are explicitly overridden in settings.
@@ -951,9 +954,9 @@ $settings['cache']['default'] = 'cache.backend.redis';
 
 Before proceeding to override the cache bins that define fast cached default backends blindly, please also read why they exist, particularly when using multiple webserver nodes. See [ChainedFastBackend on api.drupal.org](http://api.drupal.org/ChainedFastBackend).
 
-The above information is from <https://www.drupal.org/node/2754947>
+Read [more on New cache backend configuration order, per-bin default before default configuration on drupal.org](https://www.drupal.org/node/2754947)
 
-Fabian Franz in his article at <https://drupalsun.com/fabianx/2015/12/01/day-1-tweak-drupal-8-performance-use-apcu-24-days-performance-goodies> suggests that we can configure APCu to be used for caches with the following:
+Fabian Franz in [his article](https://drupalsun.com/fabianx/2015/12/01/day-1-tweak-drupal-8-performance-use-apcu-24-days-performance-goodies) suggests that we can configure `APCu` to be used for caches with the following:
 
 ```php
  $settings['cache']['default'] = 'cache.backend.apcu';
@@ -995,18 +998,17 @@ services:
     arguments: [example]
 ```
 
-**For site administrators customizing $settings['cache']**
-Any entry for $settings['cache']['default'] takes precedence over the default_backend service tag values, so you can disable all APCu caching by setting $settings['cache']['default'] = 'cache.backend.database'. If you have $settings['cache']['default'] set to some alternate backend (e.g., memcache), but would still like to benefit from APCu front caching of some bins, you can add those assignments, like so:
+**For site administrators customizing `$settings['cache']`**
+Any entry for `$settings['cache']['default']` takes precedence over the default_backend service tag values, so you can disable all `APCu` caching by setting `$settings['cache']['default'] = 'cache.backend.database'`. If you have `$settings['cache']['default']` set to some alternate backend (e.g., `memcache`), but would still like to benefit from `APCu` front caching of some bins, you can add those assignments, like so:
 
 ```php
 $settings['cache']['bins']['default'] = 'cache.backend.memcache';
 $settings['cache']['bins']['bootstrap'] = 'cache.backend.chainedfast';
 $settings['cache']['bins']['config'] = 'cache.backend.chainedfast';
 $settings['cache']['bins']['discovery'] = 'cache.backend.chainedfast';
-// ...
 ```
 
-The bins set to use cache.backend.chainedfast will use APCu as the front cache to the default backend (e.g., memcache in the above example).
+The bins set to use `cache.backend.chainedfast` will use `APCu` as the front cache to the default backend (e.g., `memcache` in the above example).
 
 **For site administrators of single-server sites that don't need Drush or other CLI access**
 
@@ -1014,8 +1016,8 @@ The bins set to use cache.backend.chainedfast will use APCu as the front cache t
 This references single-server sites not needing Drush.  TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
 :::
 
-Pantheon docs ask in their FAQ Can APCu be used as a cache backend on Pantheon?
-Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. This was from [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
+Pantheon docs ask in their FAQ: Can APCu be used as a cache backend on Pantheon?
+Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. See [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
 
 You can optimize further by using APCu exclusively for certain bins, like so:
 
@@ -1027,7 +1029,7 @@ $settings['cache']['bins']['discovery'] = 'cache.backend.apcu';
 
 **For site administrators wanting a different front cache than APCu** 
 
-You can copy the cache.backend.chainedfast service definition from core.services.yml to sites/default/services.yml and add arguments to it. For example:
+You can copy the `cache.backend.chainedfast` service definition from `core.services.yml` to `sites/default/services.yml` and add arguments to it. For example:
 
 ```yml
 #services.yml
@@ -1064,7 +1066,7 @@ As a rule of thumb, it's recommended that both your web server and your reverse 
 2. The number of cache tags varies widely by site and the specific response. If it's a response that depends on many other things, there will be many cache tags. More than 1000 cache tags on a response will be rare.
 3. But, of course, this guideline (~1000 tags/response is sufficient) may and will evolve over time, as we A) see more real-world applications use it, B) see systems specifically leverage/build on top of this capability.
 
-Finally, anything beyond 1000 cache tags probably indicates a deeper problem: that the response is overly complex, that it should be split up. Nothing prevents you going beyond that number in Drupal, but it may require manual fine tuning which is acceptable for such extremely complex use cases. Arguably, that's the case even for far less than 1000 cache tags.
+Finally, anything beyond 1000 cache tags probably indicates a deeper problem: that the response is overly complex, that it should be split up. Nothing prevents you going beyond that number in Drupal, but it may require manual fine-tuning which is acceptable for such extremely complex use cases. Arguably, that's the case even for far less than 1000 cache tags.
 
 Read [some details about using cache tags with Varnish on drupal.org - updated July 2023](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags-varnish)
 Also check out [Configuring Varnish for Drupal](https://www.varnish-software.com/developers/tutorials/configuring-varnish-drupal/)
@@ -1073,7 +1075,7 @@ Here are links to some CDN's implementations of tag-based invalidation:
 - [CloudFlare](https://developers.cloudflare.com/cache/how-to/purge-cache)
 - [Fastly](https://www.fastly.com/documentation/reference/api/#purge_077dfb4aa07f49792b13c87647415537)
 - [KeyCDN](https://www.keycdn.com/api#purge-zone-tag)
-- [Akamai](https://techdocs.akamai.com/purge-cache/reference/api#concepts).
+- [Akamai](https://techdocs.akamai.com/purge-cache/reference/api#concepts)
 
 
 ## class ChainedFastBackend
@@ -1082,7 +1084,7 @@ Drupal has a [ChainedFastBackend](https://api.drupal.org/api/drupal/core%21lib%2
 
 ChainedFastBackend defines a backend with a fast and a consistent backend chain.
 
-In order to mitigate a network roundtrip for each cache get operation, this cache allows a fast backend to be put in front of a slow(er) backend. Typically the fast backend will be something like APCu, and be bound to a single web node, and will not require a network round trip to fetch a cache item. The fast backend will also typically be inconsistent (will only see changes from one web node). The slower backend will be something like Mysql, Memcached or Redis, and will be used by all web nodes, thus making it consistent, but also require a network round trip for each cache get.
+In order to mitigate a network roundtrip for each cache get operation, this cache allows a fast backend to be put in front of a slow(er) backend. Typically, the fast backend will be something like `APCu`, and be bound to a single web node, and will not require a network round trip to fetch a cache item. The fast backend will also typically be inconsistent (will only see changes from one web node). The slower backend will be something like Mysql, Memcached or Redis, and will be used by all web nodes, thus making it consistent, but also require a network round trip for each cache get.
 
 In addition to being useful for sites running on multiple web nodes, this backend can also be useful for sites running on a single web node where the fast backend (e.g., APCu) isn't shareable between the web and CLI processes. Single-node configurations that don't have that limitation can just use the fast cache backend directly.
 
@@ -1094,7 +1096,7 @@ Note that this is designed specifically for combining a fast inconsistent cache 
 
 ### APCu
 
-APCu is the official replacement for the outdated APC extension. APC provided both opcode caching and object caching. As PHP versions 5.5 and above include their own opcache, APC was no longer compatible, and its opcache functionality became useless. The developers of APC then created APCu, which offers only the object caching (read "in memory data caching") functionality (they removed the outdated opcache). Read [more on php.net](https://www.php.net/manual/en/book.apcu.php)
+`APCu` is the official replacement for the outdated APC extension. `APC` provided both opcode caching and object caching. As PHP versions 5.5 and above include their own opcache, `APC` was no longer compatible, and its opcache functionality became useless. The developers of `APC` then created `APCu`, which offers only the object caching (read \"in memory data caching\") functionality (they removed the outdated opcache). Read [more on php.net](https://www.php.net/manual/en/book.apcu.php)
 
 ::: tip Note
 APCu is not the same as apc!
@@ -1116,9 +1118,9 @@ A `default_backend` service tag (the value of which can be set to a backend serv
 
 The above tag assigned to the `cache.bootstrap`, `cache.config`, and `cache.discovery` bin services.
 
-This means that by default (on a site with nothing set for `$settings['cache']` in `settings.php`), the bootstrap, config, and discovery cache bins automatically benefit from APCu caching if APCu is available, and this is compatible with Drush usage (e.g., Drush can be used to clear caches and the web process receives that cache clear) and multi-server deployments.
+This means that by default (on a site with nothing set for `$settings['cache']` in `settings.php`), the bootstrap, config, and discovery cache bins automatically benefit from `APCu` caching if `APCu` is available, and this is compatible with Drush usage (e.g., Drush can be used to clear caches and the web process receives that cache clear) and multi-server deployments.
 
-APCu will act as a very fast local cache for all requests. Other cache backends can act as bigger, more general cache backend that is consistent across processes or servers.
+`APCu` will act as a very fast local cache for all requests. Other cache backends can act as bigger, more general cache backend that is consistent across processes or servers.
 
 
 ## The Basics
