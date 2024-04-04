@@ -123,9 +123,32 @@ drush cex
 Add a `.gitignore` file with:
 
 ```
-vendor/
-web/sites/default/files/
-web/sites/default/settings.local.php
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+/web/sites/development.services.yml
+/web/sites/example.settings.local.php
+/web/sites/example.sites.php
+/web/sites/default/default.services.yml
+/web/sites/default/default.settings.php
+
+# Ignore default README files
+/web/README.txt
+/web/README.md
+/web/modules/README.txt
+/web/profiles/README.txt
+/web/sites/README.txt
+/web/themes/README.txt
+
+# Ignore paths that contain user-generated content.
+/web/sites/*/files
+/web/sites/*/private
+
+# local settings file
+/web/sites/*/settings.local.php
 ```
 
 
@@ -135,7 +158,7 @@ git init
 git add .
 git commit -m "first commit"
 git branch -M main
-# obviously use your own repo here
+# Use your own repo here
 git remote add origin git@github.com:hotshotcoderdude/ddev102.git
 git push -u origin main
 ```
