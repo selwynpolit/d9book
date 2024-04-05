@@ -507,10 +507,13 @@ which outputs something like:
 
 ### Generate code
 
-Drush can write modules (maybe not quite as well as ChatGPT), but they will save you tons of time. Use drush generate module and or drush
-generate controller to get a nice starting point for you to write your own controllers.
+Drush can scaffold (write your beginning code) modules, controllers, blocks, and much more (maybe not quite as well as ChatGPT 😉), which will save you tons of time. Use commands like `drush generate module`, `drush generate controller` or `drush generate plugin:block` to get a nice starting point for you to write your own controllers. 
 
-For more, on generating controllers see https://www.drush.org/latest/generators/controller/
+Check out 
+- [Drush Generators](https://www.drush.org/12.x/generators/all/)
+- [Generating controllers](https://www.drush.org/latest/generators/controller/)
+- [Generating block plugins](https://www.drush.org/12.x/generators/plugin_block/)
+
 
 This is what it looks like to generate a controller:
 
