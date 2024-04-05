@@ -117,7 +117,7 @@ $logo_url = $config->get('logo_url');
 Get the email address for the site using the `config.factory` service:
 
 ```php
-// returns website@d9book.com
+// Returns website@d9book.com.
 $to = \Drupal::configFactory()->getEditable('system.site')->get('mail');
 ```
 
@@ -159,7 +159,7 @@ $uid = $account->id();
 $message = "<br>Account info user id: " . $uid . " username: " . $username;
 ```
 
-## Injected/Dependency Injection 
+## Dependency Injection 
 
 Using dependency injection is the preferred way to use services as this allows for easier testing. See the [Dependency Injection section for more details.](#dependency-injection) 
 
@@ -190,18 +190,16 @@ $this->account = $account;
 ```
 
 
-More about services and dependency injection at
-<https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314>
+Read more about:
+- [Drupal 8: Properly Injecting Dependencies Using DI - May 2016](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
+- [Dependency Injection in Drupal 8 Plugins. (for blocks and other plugins) - Mar 2017](https://chromatichq.com/blog/dependency-injection-drupal-8-plugins)
 
-More about using dependency injection for blocks and other plugins <https://chromatichq.com/blog/dependency-injection-drupal-8-plugins>
 
-
-### Controller details
+### Using Dependency Injection in a controller
 
 Here are the steps for implementing an injected service in a controller.
 
-From:
-docroot/modules/custom/apitest/src/Controller/ApiTestController.php
+From: `docroot/modules/custom/apitest/src/Controller/ApiTestController.php`
 
 1\. Your controller must extend ControllerBase
 
@@ -267,7 +265,7 @@ $result = $this->cmAPIClient->catchAll('POST', $body);
 Rejoice! Note. No need to make any routing changes. Drupal handles all the parameters with the instructions provided. etc.
 
 
-### Controller Example 1
+### Controller Example using DI with the current_user service
 
 Here is a complete controller which uses the `current_user` service:
 
@@ -315,7 +313,7 @@ class DiExamplesController extends ControllerBase {
 ```
 
 
-### Controller Example 2
+### Controller Example using DI with 3 services
 
 This controller uses 3 different services:
 
@@ -403,9 +401,7 @@ class DiExamplesController extends ControllerBase {
 
 ## Finding services
 
-Here is the process to find a commonly used service, the entityTypeManager which is used for entityQueries.
-
-You can look at [the Services page of the Drupal API](https://api.drupal.org/api/drupal/services) and search for `entity_type`. This will result in:
+Here are suggested steps to find a service.  In order to find the details of a commonly used service, the `entityTypeManager` which is used for entityQueries, you can start by looking at [ervices and Dependency Injection in the Drupal API](https://api.drupal.org/api/drupal/services) and search for `entity_type`. This will result in:
 
 ![Finding Services on Drupal API](/images/find-services.png)
 
@@ -456,14 +452,15 @@ To do this using dependency injection you will need to inject `entity_type.manag
 
 To make a service, you will need two parts: a `module.services.yml` file and a controller.
 
-In the `module.services.yml` file. You need a machine name for the service and a class that implements it. E.g. in
-`kitchen_product.services.yml` you might have the following:
+In the `module.services.yml` file. You need a machine name for the service and a class that implements it. E.g. in `kitchen_product.services.yml` you might have the following:
 
 ```yaml
 services:
   kitchen_product.product_manager_service:
     class: Drupal\kitchen_product\ProductManagerService
 ```
+
+For [quick scaffolding with drush, check out](#generate-custom-service).
 
 ### Arguments
 
@@ -503,12 +500,14 @@ parameters:
   highway.road.use_key_value_cache: false
 ```
 
-Note you can also pass strings in the form \'blah\' surrounded by single quotes.
+::: tip Note
+You can also pass strings in the form \'blah\' surrounded by single quotes.
+:::
 
 
 ### Passing the config factory to our service
 
-As shown above, arguments use the \"arguments\" key, which can have an array of services, each preceeded by an @ symbol. Other values which are not services can also be passed. In the `module.services.yml` file below, we pass the `config.factory` service. You can find it in the `core.services.yml` file where you can see it maps to the `Drupal\Core\Config\ConfigFactory` class.
+As shown above, arguments use the `arguments` key, which can have an array of services, each preceeded by an `@` symbol. Other values which are not services can also be passed. In the `module.services.yml` file below, we pass the `config.factory` service. You can find it in the `core.services.yml` file where you can see it maps to the `Drupal\Core\Config\ConfigFactory` class.
 
 It looks like this in the `core.services.yml`:
 
@@ -530,9 +529,9 @@ services:
 ```
 
 
-### Taxonomy Tree Custom Service
+### Example custom service: Taxonomy Tree
 
-Here is an example where Daniel Sipos of <https://www.webomelette.com> creates a custom service to build a taxonomy tree. Read his article at <https://www.webomelette.com/loading-taxonomy-terms-tree-drupal-8> . The repo is at <https://github.com/upchuk/taxonomy_tree>. His code is
+Here is an example where Daniel Sipos creates a custom service to build a taxonomy tree. You can [read his entire article - May 2017](https://www.webomelette.com/loading-taxonomy-terms-tree-drupal-8) . The [repo is on github](https://github.com/upchuk/taxonomy_tree). His code is
 reproduced below:
 
 Here is the `taxonomy_tree.services.yml` file:
@@ -622,7 +621,7 @@ class TaxonomyTermTree {
 }
 ```
 
-## Using your custom service
+## Using your custom service in a controller
 
 This is identical to using a Drupal built in service. These are the steps:
 
@@ -642,25 +641,22 @@ Note. Follow the slightly different steps for injecting services into blocks whe
 
 ### Overview
 
-Dependency injection is the practice of \"injecting\" services. A
-service is any object managed by the Drupal [Service container](#service-container).
+Dependency injection is the practice of \"injecting\" services. A service is any object managed by the Drupal [Service container](#service-container).
 
-Drupal introduces the concept of services to decouple reusable
-functionality and makes these services pluggable and replaceable by registering them with a service container.
+Drupal introduces the concept of services to decouple reusable functionality and makes these services pluggable and replaceable by registering them with a service container.
 
 It is best practice to access any of the services provided by Drupal via the service container to ensure the decoupled nature of these systems is respected. 
 
 Services are used to perform operations like accessing the database or sending an e-mail. Rather than use PHP\'s native MySQL functions, we use the core-provided service via the service container to perform this operation so that our code can simply access the database without having to worry about whether the database is MySQL or SQLlite, or if the mechanism for sending e-mail is SMTP or something else.
 
-From
-<https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8>.
+From [Services and dependency injection in Drupal on drupal.org - updated Feb 2024](https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8).
+
 
 ### Service Container
 
 The Service container is the PHP object which handles the instantiation of all required services. When you want to use a service, you ask the service container for one and then you can call methods on the service. The Drupal Service container is built on top of the [Symfony Service container](https://symfony.com/doc/current/service_container.html).
 
-More at
-<https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8>.
+More at [Services and dependency injection in Drupal on drupal.org - updated Feb 2024](https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8).
 
 For example, in `core.services.yml`, you will find the `email.validator` service which references the `EmailValidator` class. This is what you will see in `core.services.yml`:
 
@@ -688,138 +684,8 @@ $this->currentRouteMatch->getRouteName()
 ```
 Dig deeper in `core.services.yml` file for many more services.
 
-### Controller Example 1
+Check out two examples of controllers using dependency injection:[Controller example using current_user service](#controller-example-using-di-with-the-current_user-service) and [controller example using 3 services](#controller-example-using-di-with-3-services)
 
-Here is a complete controller which uses the current_user service:
-
-```php
-<?php
-
-namespace Drupal\di_examples\Controller;
-
-use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Session\AccountProxyInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-class DiExamplesController extends ControllerBase {
-
-  protected AccountProxyInterface $account;
-
-  /**
-   * Builds the response.
-   */
-  public function build() {
-
-    $account = $this->account->getAccount();
-    $username = $account->getAccountName();
-    $uid = $account->id();
-
-    $message = "<br>Account info user id: " . $uid . " username: " . $username;
-
-    $build['content'] = [
-      '#type' => 'item',
-      '#markup' => $this->t($message),
-    ];
-
-    return $build;
-  }
-
-  public static function create(ContainerInterface $container) {
-    return new static($container->get('current_user'));
-  }
-
-  public function __construct(AccountProxyInterface $account) {
-    $this->account = $account;
-  }
-
-}
-```
-### Controller Example 2
-
-This controller uses 3 different services
-
-```php
-<?php
-
-namespace Drupal\di_examples\Controller;
-
-use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Path\CurrentPathStack;
-use Drupal\Core\Path\PathValidatorInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-/**
- * Returns responses for DI Examples routes.
- */
-class DiExamplesController extends ControllerBase {
-
-  protected AccountProxyInterface $account;
-  protected CurrentPathStack $pathStack;
-  protected PathValidatorInterface $pathValidator;
-
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('current_user'),
-      $container->get('path.current'),
-      $container->get('path.validator'),
-    );
-  }
-
-  public function __construct(AccountProxyInterface $account, CurrentPathStack $path_stack, PathValidatorInterface $path_validator) {
-    $this->account = $account;
-    $this->pathStack = $path_stack;
-    $this->pathValidator = $path_validator;
-  }
-
-
-  /**
-   * Builds the response.
-   */
-  public function build() {
-
-    // Use the injected account.
-    $account = $this->account->getAccount();
-
-    // Use the ControllerBase static version.
-    $account = $this->currentUser();
-
-    $username = $account->getAccountName();
-    $uid = $account->id();
-
-    $message = "<br>Account info user id: " . $uid . " username: " . $username;
-
-    $name = 'hello';
-
-    // Use the ControllerBase static version to create an entityQuery.
-    $storage = $this->entityTypeManager()->getStorage('node');
-    $query = $storage->getQuery();
-    $query
-      ->accessCheck(TRUE)
-      ->condition('type', 'article')
-      ->condition('title', $name)
-      ->count();
-    $count_nodes = $query->execute();
-    $message .= "<br>Retrieved " . $count_nodes . " nodes";
-
-    $path = $this->pathStack->getPath();
-    $message .= "<br> Path: " . $path;
-
-    $test_path = "/vote1";
-    $valid_path = $this->pathValidator->isValid($test_path);
-    $message .= "<br> Check for valid path: " . $test_path . " returned: " . $valid_path;
-
-
-    $build['content'] = [
-      '#type' => 'item',
-      '#markup' => $this->t($message),
-    ];
-
-    return $build;
-  }
-
-}
-```
 
 ### Blocks and other plugins
 
@@ -832,7 +698,7 @@ class TestBlock extends BlockBase implements
 ContainerFactoryPluginInterface {
 ```
 You must also add the extra parameters to the `create()` and
-`__construct()` function i.e. `$plugin_id` and `$plugin_definition` e.g.
+`__construct()` function i.e. `$plugin_id` and `$plugin_definition` like this:
 
 ```php
 public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
@@ -848,10 +714,10 @@ $this->account = $account;
 }
 ```
 
-See more about using dependency injection for blocks and other plugins at <https://chromatichq.com/blog/dependency-injection-drupal-8-plugins>
+See more about [Dependency injection in Drupal 8 plugins (or blocks) by Märt Matoo - March 2017](https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/)
 
 
-## Procedural to Class-based dependency injection
+## When and how to use Class-based dependency injection
 
 Here is the overview from the `Drupal.php` file for Drupal 9.5.0 of when and how to use dependency injection:
 
@@ -973,38 +839,28 @@ $ drush devel:services
 ### Generate custom service
 Drush provides a great starting point by generating some useful code that you can easily build on.  Consider using this facility as you write your code.
 
-From <https://www.drush.org/latest/generators/service_custom>
-
 `drush generate service:custom`. Generates a custom Drupal service
 
-Also there are these gems:
+**Also there are these gems:**
 
-`drush generate service:logger`. Generates a logger service
+- `drush generate service:logger`. Generates a logger service
+- `drush generate service:breadcrumb-builder`. Generates a breadcrumb builder service
+- `drush generate service:event-subscriber`. Generates an event subscriber
+- `drush generate service:middleware`. Generates a middleware
+- `drush generate service:param-converter`. Generates a param converter service
+- `drush generate service:path-processor`. Generates a path processor service
+- `drush generate service:request-policy`. Generates a request policy service
+- `drush generate service:response-policy`. Generates a response policy service
+- `drush generate service:route-subscriber`. Generates a route subscriber
 
-`drush generate service:breadcrumb-builder`. Generates a breadcrumb builder service
+For more, check out [generating custom services at drush docs](https://www.drush.org/latest/generators/service_custom)
 
-`drush generate service:event-subscriber`. Generates an event subscriber
 
-`drush generate service:middleware`. Generates a middleware
-
-`drush generate service:param-converter`. Generates a param converter service
-
-`drush generate service:path-processor`. Generates a path processor service
-
-`drush generate service:request-policy`. Generates a request policy service
-
-`drush generate service:response-policy`. Generates a response policy service
-
-`drush generate service:route-subscriber`. Generates a route subscriber
-
-etc.
 
 ## Resources
-
-- [Services and Dependency Injection in the Drupal.org API documentation](https://api.drupal.org/api/drupal/core%21core.api.php/group/container/10)
-- [Drupal 8: Properly injecting dependencies using DI by Danny Sipos
-    from May 2016](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
-- [Dependency injection in Drupal 8 plugins (or blocks) by Märt Matoo
-    from March 2017](https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/)
-- [Drupal 8: Properly Injecting Dependencies Using DI by Danny Sipos May 2016](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
+- [Services and Dependency Injection Container Drupal.org API documentation](https://api.drupal.org/api/drupal/core%21core.api.php/group/container/10)
+- [Services and dependency injection in Drupal on drupal.org - updated Feb 2024](https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8).
+- [Drupal 8: Properly injecting dependencies using DI by Danny Sipos - May 2016](https://code.tutsplus.com/tutorials/drupal-8-properly-injecting-dependencies-using-di--cms-26314)
+- [Dependency injection in Drupal 8 plugins (or blocks) by Märt Matoo - March 2017](https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/)
 - [Inject a service in Drupal 8 showing an example of injecting http_client (Guzzle) by J M Olivas July 2015](https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4)
+- [Symfony Service container](https://symfony.com/doc/current/service_container.html)
