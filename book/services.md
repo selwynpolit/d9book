@@ -66,8 +66,7 @@ and many more..
 
 Most of these examples show Drupal configuration.
 
-In this example we use the `config.factory` service (via the `::configFactory()` shortcut) to change the system email plugin to use our
-mail plugin:
+In this example we use the `config.factory` service (via the `::configFactory()` shortcut) to change the system email plugin to use our mail plugin:
 
 ```php
 /*
@@ -162,7 +161,7 @@ $message = "<br>Account info user id: " . $uid . " username: " . $username;
 
 ## Injected/Dependency Injection 
 
-Using dependency injection is the preferred way to use services although it involves more steps. See the [Dependency Injection](#dependency-injection) section below for more details.
+Using dependency injection is the preferred way to use services as this allows for easier testing. See the [Dependency Injection section for more details.](#dependency-injection) 
 
 Using dependency injection requires that you create a constructor and a `create()` function in your controller class.
 
@@ -404,12 +403,9 @@ class DiExamplesController extends ControllerBase {
 
 ## Finding services
 
-Here is the process to find a commonly used service, the
-entityTypeManager which is used for entityQueries.
+Here is the process to find a commonly used service, the entityTypeManager which is used for entityQueries.
 
-You can look at
-<https://api.drupal.org/api/drupal/services>
-and search for `entity_type`. This will result in:
+You can look at [the Services page of the Drupal API](https://api.drupal.org/api/drupal/services) and search for `entity_type`. This will result in:
 
 ![Finding Services on Drupal API](/images/find-services.png)
 
@@ -427,7 +423,7 @@ entity_type.manager:
     - { name: plugin_manager_cache_clear }
 ```
 
-Looking in Drupal.php, you will also find a shorthand method:
+Looking in Drupal.php, you will also find a [shorthand method](#static-shorthand-methods):
 
 ```php
 /**
@@ -452,7 +448,9 @@ $query = \Drupal::entityQuery('node')
 $nids = $query->execute();
 ```
 
-To do this using dependency injection you will need to inject `entity_type.manager`. Follow the procedure outlined above in Controller details.
+To do this using dependency injection you will need to inject `entity_type.manager`. Follow the procedure outlined above in [Controller details](#controller-details).
+
+
 
 ## Creating a custom service
 
@@ -970,7 +968,7 @@ $ drush devel:services
 - admin_toolbar_tools.helper
 - ajax_response.attachments_processor
 - ajax_response.subscriber
-…
+...
 ```
 ### Generate custom service
 Drush provides a great starting point by generating some useful code that you can easily build on.  Consider using this facility as you write your code.
