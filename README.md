@@ -1,6 +1,6 @@
 # Welcome to Drupal at your Fingertips
 
-## A recipe book for Drupal 9 and 10 for developers
+## A modern Drupal quick reference book for developers
 
 ### Read it at [selwynpolit.github.io/d9book](//selwynpolit.github.io/d9book)
 
@@ -16,3 +16,5 @@ Selwyn
 
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=README.md)
 [![CI/CD](https://github.com/selwynpolit/d9book/actions/workflows/ci-cd.yml/badge.svg?branch=gh-pages)](https://github.com/selwynpolit/d9book/actions/workflows/ci-cd.yml)
+
+Drupal is a registered trademark of Dries Buytaert.
