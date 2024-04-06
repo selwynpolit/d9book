@@ -825,31 +825,61 @@ Read more about:
 
 ### Using Dependency Injection in Blocks
 
-Using dependency injection is the preferred way to use services as this allows for easier testing. See the [Dependency Injection section for more details.](#dependency-injection)
+Using dependency injection is the preferred way to use services as this allows for easier testing. Using dependency injection requires that you create a `constructor` and a `create` function in your class.The `create` function gets the service container as a parameter and chooses the services it needs. The `create` function calls the `constructor`, passes the services as arguments, and stores them as properties.
 
-Using dependency injection requires that you create a `constructor` and a `create()` function in your controller class.
+The process for a block (or any plugin) is a little different from a controller:
 
-The create function gets the service container as a parameter and chooses the services it needs. The create function calls the constructor, passes the services as arguments, and stores them as properties.
+1. Add your private variables to store your services:
+```php
+ private $currentUser;
+ private $dateFormatter;
+```
 
-The process for a block (or plugin) is a little different:
-
-Your block must implement ContainerFactoryPluginInterface. *Plugins only get access to the service container if they implement the `ContainerFactoryPluginInterface`* e.g.
+2. Your block must implement `ContainerFactoryPluginInterface` to get access to the service container:
 
 ```php
 class TestBlock extends BlockBase implements ContainerFactoryPluginInterface {
 ```
 
-You must also add the extra parameters to the `create()` function and the constructor i.e. `$plugin_id` and `$plugin_definition` e.g.
+3. Add `$plugin_id` and `$plugin_definition` parameters to `create`:
+```php
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): self {
+    return new self(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('current_user'),
+      $container->get('date.formatter'),
+    );
+  }
+  ```
 
-`public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)`
 
+4. Add `$plugin_id` and `$plugin_definition` parameters to the `constructor`:
+
+
+```php
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    private readonly AccountProxyInterface $currentUser,
+    private readonly DateFormatterInterface $dateFormatter,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+  ```
+
+:::tip Note
+the code above uses the PHP 8.1 syntax to define the private readonly properties: $`currentUser` and $`dateFormatter` which means you wouldn't need to declare them in step 1 above.  If you didn't use this syntax, you'd have to use: `$this->currentUser = $currentUser;` and `$this->dateFormatter = $dateFormatter`.
+:::
 
 Here is an example of a block constructor with the `AccountProxyInterface` parameter added so we can inject that service:
 
 ```php
 public function __construct(array $configuration, $plugin_id, $plugin_definition, AccountProxyInterface $account) {
-parent::__construct($configuration, $plugin_id, $plugin_definition);
-$this->account = $account;
+  parent::__construct($configuration, $plugin_id, $plugin_definition);
+  $this->account = $account;
 }
 ```
 Read more about:
@@ -858,7 +888,7 @@ Read more about:
 - [Dependency Injection in Drupal 8 Plugins. (for blocks and other plugins) - Mar 2017](https://chromatichq.com/blog/dependency-injection-drupal-8-plugins)
 
 
-### When and how to use Class-based dependency injection
+### When and how to use class-based Dependency Injection
 
 Here is the overview from the `Drupal.php` file for Drupal 9.5.0 of when and how to use dependency injection:
 
