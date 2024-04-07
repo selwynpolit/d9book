@@ -641,7 +641,7 @@ Services are used to perform operations like accessing the database or sending a
 More at [Services and dependency injection in Drupal on drupal.org - updated Feb 2024](https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8).
 
 
-**Service Container**
+#### Service Container
 
 The Service container is simply a PHP object which handles the instantiation of all required services. When you want to use a service, you ask the service container for one by name. Once you have the service, you can then you can call methods on the service like `$this->currentRouteMatch->getRouteName()` to retrieve the route name. The Drupal Service container is built on top of the [Symfony Service container](https://symfony.com/doc/current/service_container.html).
 
@@ -662,6 +662,7 @@ $this->emailValidator->isValid()
 ```
 
 **Current route match service**
+
 Similarly, in `core.services.yml` there is a `current_route_match` service which references the class `CurrentRouteMatch`:
 
 ```yaml
