@@ -7,7 +7,7 @@ title: Services
 
 ## Overview
 
-Services provide a \"decoupled\" way to access classes and members. Services are pluggable and replaceable by registering them with a service container which makes them well suited to test with PHPUnit tests.
+Services provide a \"decoupled\" way to access classes and members. Services are pluggable and replaceable by registering them with a [service container](#service-container) which makes them well suited to test with PHPUnit tests.
 
 Services can be accessed using two possible methods: [static](#static-method-to-use-a-service) and [injected (using dependency injection)](#dependency-injection).
 
