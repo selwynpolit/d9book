@@ -549,7 +549,7 @@ For more, check out [generating custom services on the drush documentation page]
 
 Services provide a \"decoupled\" way to access classes and members. Services are pluggable and replaceable by registering them with a service container which makes them well suited to test with PHPUnit tests.
 
-Services can be accessed using two possible methods: static and injected (using dependency injection).
+Services can be accessed using two ways: static and injected (using dependency injection).
 
 
 ### Static method to use a service
@@ -647,6 +647,7 @@ The Service container is simply a PHP object which handles the instantiation of 
 
 
 **Email validator service**
+
 For example, in `core.services.yml`, you will find the `email.validator` service which references the `EmailValidator` class. This service is defined in `core.services.yml` thusly:
 
 ```yaml
