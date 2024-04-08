@@ -156,3 +156,7 @@ Array
 * [PHP: The Right Way - easy-to-read, quick reference for PHP popular coding standards, links to authoritative tutorials, and what the contributors consider to be best practices at present](https://phptherightway.com/)
 * [Change Record - Actions are now plugins, configured actions are configuration entities](https://www.drupal.org/node/2020549)
 * [ECA: Event-Condition-Action - no-code solution to orchestrate your Drupal site](https://www.drupal.org/project/eca)
+* [Learn Object Oriented PHP by Gary Clarke](https://www.garyclarke.tech/p/learn-object-oriented-php)
+* [PHP 8.1: What's New?](https://www.php.net/releases/8.1/en.php)
+* [PHP 8.2: What's New?](https://www.php.net/releases/8.2/en.php)
+* [PHP 8.3: What's New?](https://www.php.net/releases/8.3/en.php)
