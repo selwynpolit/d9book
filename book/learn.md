@@ -5,18 +5,6 @@ title: Learning
 # Learning and keeping up with Drupal
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=learn.md)
 
-## Drupal Basics
-- [Drupal User Guide for people with minimal knowledge of Drupal](https://www.drupal.org/docs/user_guide/en/index.html)
-- [Understanding Drupal and Planning your site from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam)
-- [Drupal Site Builder Certification Learning Plan from Acquia Academy](https://community.acquiaacademy.com/learn/public/learning_plan/view/85/drupal-site-builder-certification-learning-plan)
-
-## Drupal Training
-* Mike Anello of Drupal Easy has excellent [developer training courses] (https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
-* [Mastering Drupal: Content Managers Edition on Udemy by Bevin Wishart](https://www.udemy.com/course/mastering-drupal-content-managers-edition/?referralCode=DE305CE1D709017924BD)
-
-## Free videos
-* Saranya Ashokkumar is a prolific youtube content creator.  Check out some nice short form videos on how to use various modules, create modules etc. <https://www.youtube.com/@d4drupal324/featured>
-
 
 ## Drupal.org Reference Materials
 - [Top level link to Essential background concepts, OOP conventions etc. at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
@@ -67,25 +55,62 @@ Here are some high level overviews of Drupal concepts:
 - [Drupal API longer references with more details](https://www.drupal.org/docs/drupal-apis)
 
 
+## Books
+There are many books about Drupal that are worth checking out.
+- [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition published April 2023](https://amzn.to/478JGDk)
+- [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/483XEWV)
+- [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
+- [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9). For an interview with the author about this book [check out this episode of Talking Drupal ](https://www.talkingdrupal.com/425)
+- [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
+- [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
+- [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
+- [Decoupled Drupal in Practice by Preston So Jan 2019](https://amzn.to/3uDWW4v)
+- [Drupal 8 Explained: Your Step-by-Step Guide to Drupal 8 updated for 2019](https://amzn.to/47a8FpS)
+- [Drupal 8 module development. Learn how to write Drupal 8 modules by Lakshmi Narasimhan - last updated in 2017 ](https://leanpub.com/drupal8book)
+- [Check out some older Drupal books from Packt publishing](https://subscription.packtpub.com/search?query=Drupal)
+- [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
+- [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://amzn.to/3MzPrly)
+
+::: tip Please note
+Some of these are affiliate links so Amazon may send me some money if you purchase items using these links.
+:::
+
+
+
+## Learning Drupal Basics
+- [Drupal User Guide on drupal.org for people with minimal knowledge of Drupal - Updated Jan 2024](https://www.drupal.org/docs/user_guide/en/index.html) - This guide was written mainly for people with minimal knowledge of the Drupal content management system. The topics will help them become skilled at installing, administering, site building, and/or maintaining the content of a Drupal-based website. The guide is also aimed at people who already have some experience with a current or past version of Drupal, and want to expand the range of their skills and knowledge or update them to the current version. The guide is kept up-to-date with the current major version of the core software.
+- [Acquia Certified Drupal Site Builder Exam course from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam) - The Acquia Certified Drupal 10 Site Builder exam and the Acquia Certified Drupal 9 Site Builder exam are part of Acquia's Drupal certification program. The exams consist of 50 scenario-based questions that show your knowledge of site building topics including content and user management, content modeling, site display, community and contributed projects, module and theme management, and general site security and performance. We've gathered together a concise list of the Drupalize.Me tutorials, and other resources, that will help you prepare for both the Acquia's Certified Drupal 9 and 10 Site Builder exams. (Note some parts are behind a paywall.)
+- [Drupal Site Builder Certification Learning Plan from Acquia Academy](https://community.acquiaacademy.com/learn/public/learning_plan/view/85/drupal-site-builder-certification-learning-plan) - This learning plan provides those new to Drupal with the basic training and resources to prepare for the Acquia Certified Drupal Site Builder Certification Exam. It contains: Approximately 6 hours of video instruction and accompanying resources, a certification exam study guide, practice text questions and a link to register for the exam.
+
+
+
+## Free video training
+* Check out some nice [short form videos on how to use various modules, create modules, and even using Single Directory Components by Saranya Ashokkumar](https://www.youtube.com/@d4drupal324/featured)
+* Gary Clarke's [Learn Object Oriented PHP 3 hour programming course](https://www.youtube.com/watch?v=uUlLAfN3rJc) for Symfony, Laravel, and Drupal is a great series of videos that will help you understand the basics of Object Oriented PHP.  This is a great foundation for understanding Drupal development.
+
+## Paid video training courses
+These are paid training courses that are very detailed and informative.  They are kept up to date by excellent instructors and worth the expense.
+
+* [Mastering Drupal: Content Managers Edition on Udemy by Bevin Wishart](https://www.udemy.com/course/mastering-drupal-content-managers-edition/?referralCode=DE305CE1D709017924BD)
+* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from [Lullabot](https://www.lullabot.com/) which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development or bring new people up to speed.
+* [Symfonycasts](https://symfonycasts.com/) is another incredibly good service that teaches all about the nuts and bolts of Symfony, PHPUnit and many other tools.  I think the Drupal course they have might be a little dated now.
+* [Learn Object Oriented PHP by Gary Clarke](https://www.garyclarke.tech/p/learn-object-oriented-php)
+
+## Developer Training
+* Mike Anello of Drupal Easy has excellent [instructor led developer training courses](https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
 
 
 ## Keep up with Drupal news
-
 
 Check out the [Drupal Slack server](https://drupal.slack.com/) for all things Drupal.  There are dozens of very active channels. Historically, this communication all used to happen on IRC.
 
 Other great sources of news are:
 
 * [Planet drupal](https://www.drupal.org/planet)
-
-* The Weekly Drop, a Drupal newsletter The Drupal Association has partnered with TheWeeklyDrop to bring up to date News and Events to the Drupal community. You can [sign up for a free subscription](http://www.theweeklydrop.com/).
-
+* The Weekly Drop, a Drupal newsletter The Drupal Association has partnered with TheWeeklyDrop to bring up-to-date News and Events to the Drupal community. You can [sign up for a free subscription](http://www.theweeklydrop.com/).
 * [TheDropTimes is a news website](https://www.thedroptimes.com/) started with the vision of contributing to the growth of a vibrant community of users and contributors around Drupal through the process of covering and promoting everything happening around Drupal.
-
 * [DrupalSun Feed](https://drupalsun.com) of Drupal related articles from all over the web.
-
 * [Mastodon](https://drupal.community/explore) is starting to show signs of Drupal life with a Mastodon instance focused on Drupal.
-
 * [Twitter](https://twitter.com/search?q=%23drupal&src=typed_query) is a complete cesspool of misinformation, but still has many useful Drupal posts from various sources.
 
 
@@ -102,36 +127,11 @@ Other great sources of news are:
 
 
 ## Drupal Podcasts
-
 - [Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013 and is still going strong.](https://www.talkingdrupal.com) [This author was interviewed on Episode #398](https://www.talkingdrupal.com/398)
 - [Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot](https://www.lullabot.com/podcasts/lullabot-podcast)
 - [Mike Anello's Drupal Easy podcast](https://www.drupaleasy.com/podcast)
 
 
-## Books
-There are many books about Drupal that are worth checking out.
-- [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition published April 2023](https://amzn.to/478JGDk)
-- [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/483XEWV)
-- [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
-- [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9). For an interview with the author about this book [check out this episode of Talking Drupal ](https://www.talkingdrupal.com/425)
-- [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
-- [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
-- [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
-- [Decoupled Drupal in Practice by Preston So Jan 2019](https://amzn.to/3uDWW4v)
-- [Drupal 8 Explained: Your Step-by-Step Guide to Drupal 8 updated for 2019](https://amzn.to/47a8FpS)
-- [Drupal 8 module development. Learn how to write Drupal 8 modules by Lakshmi Narasimhan - last updated in 2017 ](https://leanpub.com/drupal8book)
-- [Check out more older Drupal books from Packt publishing](https://subscription.packtpub.com/search?query=Drupal)
-- [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
-- [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://amzn.to/3MzPrly)
-
-::: tip Please note
-Some of these are affiliate links so Amazon may send me some money if you purchase items using these links.
-:::
 
 
-## Video training courses
-These are paid training courses that are very detailed and informative.  They are kept up to date by excellent instructors and worth the expense.
-
-* [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from [Lullabot](https://www.lullabot.com/) which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development or bring new people up to speed.
-* [Symfonycasts](https://symfonycasts.com/) is another incredibly good service that teaches all about the nuts and bolts of Symfony, PHPUnit and many other tools.  I think the Drupal course they have might be a little dated now.
 
