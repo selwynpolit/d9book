@@ -2,18 +2,18 @@
 title: Getting off the Island
 ---
 
-# Getting off the Island (formerly Reaching out of Drupal)
+# Getting off the Island (or Reaching out of Drupal)
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=off_the_island.md)
 
 ## Overview
 
 To communicate with external websites or web services we can make web requests via the [Drupal::httpClient](https://api.drupal.org/Drupal::httpClient) class. This is a wrapper for the [Guzzle HTTP Client](https://github.com/guzzle/guzzle).
 
-From <https://www.php-fig.org/psr/psr-7/> HTTP messages are the foundation of web development. Web browsers and HTTP clients such as cURL create HTTP request messages that are sent to a web server, which provides an HTTP response message. Server-side code receives an HTTP request message, and returns an HTTP response message.
+From <https://www.php-fig.org/psr/psr-7/>: `HTTP` messages are the foundation of web development. Web browsers and `HTTP` clients such as `cURL` create `HTTP` request messages that are sent to a web server, which provides an `HTTP` response message. Server-side code receives an `HTTP` request message, and returns an `HTTP` response message.
 
-HTTP messages are typically abstracted from the end-user consumer, but as developers, we typically need to know how they are structured and how to access or manipulate them in order to perform our tasks, whether that might be making a request to an HTTP API, or handling an incoming request.
+`HTTP` messages are typically abstracted from the end-user consumer, but as developers, we typically need to know how they are structured and how to access or manipulate them in order to perform our tasks, whether that might be making a request to an `HTTP API`, or handling an incoming request.
 
-Guzzle utilizes [PSR-7](http://www.php-fig.org/psr/psr-7/) as the HTTP message interface. [PSR-7](http://www.php-fig.org/psr/psr-7/) describes common interfaces for representing HTTP messages. This allows Guzzle to work with any other library that utilizes PSR-7 message interfaces.
+Guzzle utilizes [PSR-7](http://www.php-fig.org/psr/psr-7/) as the HTTP message interface. [PSR-7](http://www.php-fig.org/psr/psr-7/) describes common interfaces for representing `HTTP` messages. This allows Guzzle to work with any other library that utilizes `PSR-7` message interfaces.
 
 ## Guzzle example
 
@@ -86,8 +86,7 @@ $response = $client->patch('http://httpbin.org/patch');
 $response = $client->post('http://httpbin.org/post');
 $response = $client->put('http://httpbin.org/put');
 ```
-From
-<https://docs.guzzlephp.org/en/latest/quickstart.html#sending-requests>
+[More at](https://docs.guzzlephp.org/en/latest/quickstart.html#sending-requests)
 
 
 ## HTTP basic authentication
@@ -128,7 +127,7 @@ public function example2() {
   return $build;
 }
 ```
-See <https://docs.guzzlephp.org/en/latest/request-options.html#auth> for more.
+[Read more](https://docs.guzzlephp.org/en/latest/request-options.html#auth)
 
 
 ## Exception handling
@@ -493,12 +492,9 @@ curl_close($ch);
 
 ## Resources
 
--   Guzzle docs <https://docs.guzzlephp.org/en/stable/overview.html>
-
--   Guzzle project <https://github.com/guzzle/guzzle>
-
--   Article at Drupalize.me by William Hetherington from December 2015 on using Drupal 8 to speak http (using guzzle): <https://drupalize.me/blog/201512/speak-http-drupal-httpclient>
-
--   Nice little code snippet from J M Olivas showing how to use dependency injection with Guzzle at <https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4>
-
--   PSR-7: HTTP message interfaces describes common interfaces for representing HTTP messages and URIs <https://www.php-fig.org/psr/psr-7/>
+- [REST and Application Integration](https://api.drupal.org/api/drupal/core%21core.api.php/group/third_party/10) in the Drupal API documentation.
+- [Guzzle documentation](https://docs.guzzlephp.org/en/stable/overview.html)
+- [Guzzle project](https://github.com/guzzle/guzzle)
+- [Speak HTTP with Drupal::httpClient by William Hetherington on using Drupal 8 to speak http using guzzle - Dec 2015](https://drupalize.me/blog/201512/speak-http-drupal-httpclient)
+- [Inject a Service in Drupal 8 code snippet from J M Olivas showing how to use dependency injection with Guzzle](https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4)
+- [PSR-7: HTTP message interfaces describes common interfaces for representing HTTP messages and URI\'s](https://www.php-fig.org/psr/psr-7/)
