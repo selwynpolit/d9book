@@ -88,7 +88,7 @@ export default defineConfig({
         '  <a property="dct:title" rel="cc:attributionURL" href="//selwynpolit.github.io/d9book">Drupal at your fingertips</a>\n' +
         '  by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="//drupal.org/u/selwynpolit">Selwyn Polit</a>\n' +
         '  is licensed under <a href="//creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener noreferrer">CC BY 4.0\n' +
-        '  </a></span>',
+        '  </a><br>Drupal is a registered trademark of Dries Buytaert</span>',
     },
   },
 });
