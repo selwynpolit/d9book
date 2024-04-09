@@ -820,11 +820,13 @@ $node->field_file->setValue(['target_id' => $file->id()]);
 $node->save();
 ```
 
-There was no documentation so I added some at <https://www.drupal.org/project/remote_stream_wrapper/issues/2875444#comment-12881516>
+There was no documentation so I [added some](https://www.drupal.org/project/remote_stream_wrapper/issues/2875444#comment-12881516).
 
 ## Deprecated functions like drupal_set_message
 
-Note. `drupal_set_message()` has been removed from the codebase so you should use `messenger()` but you can also use `dsm()` which is provided by the [devel](https://www.drupal.org/project/devel) contrib module. This is useful when working through a problem if you want to display a message on a site during debugging.
+:::tip Note
+`drupal_set_message()` has been removed from the codebase, so you should use `messenger()` but you can also use `dsm()` which is provided by the [devel](https://www.drupal.org/project/devel) contrib module. This is useful when working through a problem if you want to display a message on a site during debugging.
+:::
 
 From <https://github.com/mglaman/drupal-check/wiki/Deprecation-Error-Solutions>
 
@@ -842,11 +844,14 @@ After
 
 [Read more](https://www.drupal.org/node/2774931).
 
-## Block excessive crawling of Drupal Views or search results
+## Block excessive crawling of Drupal Views or search results with .htaccess
 
-[From Acquia.com](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
+[From Block excessive crawling of Drupal Views or search results on Acquia.com - Jan 2024](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
 
-Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
+PLACE THIS BLOCK directly after the "RewriteEngine on" line in your `docroot/.htaccess` or `web/.htaccess` file.
+
+
+Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc.) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
 
 Therefore, we suggest blocking or re-routing this traffic to reduce resource consumption at the Acquia platform, avoid overages to your Acquia entitlements (for Acquia Search, Views & Visits, etc.), and to generally help your site perform better.
 
@@ -857,7 +862,7 @@ Therefore, we suggest blocking or re-routing this traffic to reduce resource con
 #
 # INSTRUCTIONS:
 # PLACE THIS BLOCK directly after the "RewriteEngine on" line
-#   on your docroot/.htaccess file.
+#   in your docroot/.htaccess file.
 #
 # This will block some known robots/crawlers on URLs when query arguments are present.
 #   DOES allow basic URLs like /news/feed, /node/1 or /rss, etc.
@@ -873,12 +878,40 @@ RewriteCond %{HTTP_USER_AGENT} "11A465|AddThis.com|AdsBot-Google|Ahrefs|alexa si
 RewriteRule ^.* - [F,L]
 ```
 
+Alternatively, you can make these changes to your `docroot/robots.txt`  or `web/robots.txt` file:
+```
+# Do not index nor follow links that have a query string
+# (e.g. /search?page=123  or /search?size=small&color=red)
+User-agent: *
+Disallow: /*?
+
+# If your views or search pages use a module to convert facets/filters 
+# to clean URLs (e.g. /search/page/123  or /search/size/small)
+# you can try disallowing the search page's URL
+User-agent: *
+Disallow: /search*
+```
+
+
+## Using the file_system service to count files
+
+```php
+// In the create method get the file_system service.
+$form->fileSystem = $container->get('file_system');
+
+// Search filesystem recursively get all .PHP files from Drupal's core folder.
+$files_count = count($this->fileSystem->scanDirectory('core', '/.php/'));
+
+```
+See this in action in the [examples module](https://www.drupal.org/project/examples) in `CacheExampleForm.php`.
+
+
 ## Multiple authors on a node
 
 Thanks to Mike Anello of [DrupalEasy for this useful solution.](https://www.drupaleasy.com/blogs/ultimike/2023/02/method-utilizing-multiple-authors-single-drupal-node)
 
 **TL;DR**
-Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods. Mike prefers using a a reference field for this purpose. He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named multiauthor that implements a single Drupal hook:
+Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods. Mike prefers using a a reference field for this purpose. He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named `multiauthor` that implements a single Drupal hook:
 
 ```php
 /**

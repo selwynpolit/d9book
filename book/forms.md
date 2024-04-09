@@ -71,7 +71,7 @@ Notice that a node add form looks like `node_catastrophe_notice_form` while a no
 
 ## Add buttons to your custom forms
 
-Many forms need extra buttons.  Fortunately Drupal allows this to be done easily.  In the code below there is a submit button which will execute the `submitForm` function.  There are two additional buttons: `update_nodes` which (on click) calls the `updateNodes` function and `cache_warmer` which (one click) will execute the `warmCaches` function.
+In the code below there is a submit button which will execute the `submitForm` function.  There are two additional buttons: `update_nodes` which, when clicked will call the `updateNodes` function and `cache_warmer` which will execute the `warmCaches` function.
 
 ```php
     $form['sanity_fieldset']['actions'] = [

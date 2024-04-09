@@ -548,6 +548,19 @@ Drush provides a great starting point by generating some useful code that you ca
 
 For more, check out [generating custom services on the drush documentation page](https://www.drush.org/latest/generators/service_custom)
 
+## Services you will use often
+- `entity_type.manager` for entity queries
+- `keyvalue` for storing and retrieving data in a key-value store
+- `config.factory` for getting and setting configuration
+- `current_user` for getting info about the current user
+- `path.current` for getting the current path
+- `path.validator` for validating paths
+- `messenger` for displaying messages
+
+
+## Services you may use
+- `cache.default` for caching
+- `file_system` for file operations
 
 
 ## The basics of Services and Dependency Injection
