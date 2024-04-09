@@ -163,9 +163,7 @@ class ArchiveNode extends ActionBase implements ContainerFactoryPluginInterface 
 }
 ```
 
-In order to get Action Plugin Discoverable you need to add `system.action.<plugin_id>.yml` which is placed in `config/install`
-
-The structure of the `.yml` file is shown below:
+In order to get Action Plugin to be discoverable you need to add the config yaml file in the form `system.action.<plugin_id>.yml`  in `config/install`. Here is the `config/install/system.action.action_plugin_examples_archive_node.yml` file:
 
 ```yaml
 langcode: en
@@ -182,7 +180,7 @@ Created Action Plugin can be viewed on the `/admin/content` page.
 
 ## Update Node Title Custom Action Plugin with Configuration
 
-This example updates a node title. It gets the new title info from configuration.  [It is also here on Gitlab.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/UpdateNodeTitle.php)
+This [example by Bhanu951 on Gitlab](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/UpdateNodeTitle.php) updates a node title. It gets the new title info from configuration.  
 
 ```php
 <?php
@@ -333,7 +331,9 @@ configuration:
   title: 'Updated New Title'
 ```
 
-Note. You need to install the core module Actions first to be able to configure action plugins in UI.
+:::tip Note
+You need to install the core module Actions first to be able to configure action plugins in UI.
+:::
 
 Configuration Page `/admin/config/system/actions`
 

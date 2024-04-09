@@ -556,11 +556,17 @@ For more, check out [generating custom services on the drush documentation page]
 - `path.current` for getting the current path
 - `path.validator` for validating paths
 - `messenger` for displaying messages
+- `current_route_match` for getting the current route
 
 
 ## Services you may use
 - `cache.default` for caching
 - `file_system` for file operations
+- `path_alias.manager` for path alias operations
+- `state` for storing state
+- `language_manager` for language operations
+- `module_handler` for module operations
+- `form_builder` for building forms
 
 
 ## The basics of Services and Dependency Injection
