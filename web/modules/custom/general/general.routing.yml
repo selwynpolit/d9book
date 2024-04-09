@@ -43,6 +43,14 @@ general.json_example1:
       nid:
         type: 'integer'
 
+general.json_example2:
+  path: '/general/json-example2'
+  defaults:
+    _title: 'JSON Play2'
+    _controller: '\Drupal\general\Controller\CachePlay1::jsonExample2'
+  requirements:
+    _permission: 'access content'
+
 general.cache_example1:
   path: '/general/cache-example1/nid/{nid}'
   defaults:

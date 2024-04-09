@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\general\Controller;
 
+use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\rest\ResourceResponse;
@@ -45,6 +46,44 @@ final class CachePlay1 extends ControllerBase {
 
     ]);
   }
+
+  /**
+   * Returns a JSON response with site configuration data.
+   *
+   * This method retrieves the site's name, slogan, and email from the system.site configuration.
+   * It then creates a CacheableJsonResponse with this data and adds the configuration as a cacheable dependency.
+   * This means that the response will be invalidated whenever the system.site configuration changes.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON response containing the site's name, slogan, and email.
+   */
+  public function jsonExample2(): JsonResponse {
+    $config = $this->config('system.site');
+    $response = new CacheableJsonResponse([
+      'name' => $config->get('name'),
+      'slogan' => $config->get('slogan'),
+      'email' => $config->get('mail'),
+    ]);
+
+    // Add the system.site configuration as a cacheable dependency.
+    $response->addCacheableDependency($config);
+
+    // Set the Cache-Control header to make the response publicly cacheable for 3607 seconds.
+    // And add the 'url.query_args' cache context so Drupal will cache.
+    $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
+      '#cache' => [
+        'max-age' => 3607,
+        'contexts' => ['url.query_args'],
+      ],
+    ]));
+
+    // Set the Cache-Control header to make the response publicly cacheable for 3607 seconds.
+    //$response->headers->set('Cache-Control', 'public, max-age=3607');
+
+
+    return $response;
+  }
+
 
   public function cacheExample1(int $nid): array{
 

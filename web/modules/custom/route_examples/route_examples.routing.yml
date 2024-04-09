@@ -14,8 +14,8 @@ route_examples.settings_form:
   requirements:
     _permission: 'administer route_examples configuration'
 
-route_examples.example:
-  path: '/route-examples/example'
+route_examples.example_form:
+  path: '/route-examples/example-form'
   defaults:
     _title: 'Example'
     _form: 'Drupal\route_examples\Form\ExampleForm'
