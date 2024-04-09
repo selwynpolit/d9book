@@ -53,6 +53,7 @@ module:
   path_alias: 0
   phil: 0
   queries: 0
+  route_examples: 0
   search: 0
   shortcut: 0
   smart_date: 0
