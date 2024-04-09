@@ -414,7 +414,7 @@ This is part of the packt publishing Mastering Drupal 8 module development video
 > ```
 > OR just put this in browser without running `php -S`:
 > ```
-> http://dev1/iai_wea/actions/2716?\_format=json
+> http://dev1/iai_wea/actions/2716?_format=json
 > ```
 
 ## Add a variable to any page on the site
@@ -1113,6 +1113,9 @@ During module development or upgrades, it can be really useful to quickly uninst
 
 ![Menu option to reinstall modules](/images/reinstall_modules.png)
 
+## View a node in JSON format
+
+With the JSON:API and Serialization core modules enabled, simply navigate to any node and add `?_format=api_json` to the end of the URL. E.g. `https://d9book2.ddev.site/node/25?_format=api_json` 
 
 
 ## Troubleshoot memory problems
