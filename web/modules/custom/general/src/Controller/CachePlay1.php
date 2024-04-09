@@ -7,6 +7,7 @@ namespace Drupal\general\Controller;
 use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\node\Entity\Node;
 use Drupal\rest\ResourceResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,6 +77,19 @@ final class CachePlay1 extends ControllerBase {
         'contexts' => ['url.query_args'],
       ],
     ]));
+
+    // Add a cache tag for node 25.
+    $node = Node::load(25);
+    $cache_tag = $node->getCacheTags();
+    $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
+      '#cache' => [
+        'tags' => $cache_tag,
+      ],
+    ]));
+    // Response header shows: X-Drupal-Cache-Tags: config:system.site http_response node:25
+
+
+
 
     // Set the Cache-Control header to make the response publicly cacheable for 3607 seconds.
     //$response->headers->set('Cache-Control', 'public, max-age=3607');
