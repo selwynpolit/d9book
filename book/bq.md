@@ -9,7 +9,7 @@ title: Batch and Queue
 
 ### Overview
 
-The Batch API provides very useful functionality that lets you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's (using `array_chunk`)to be processed and use the batch API to process those arrays (chunks) of ids.  You can also provide code that will let it figure out how much work to do and stop itself.
+The [Batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10) provides very useful functionality that lets you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's (often using `array_chunk()`)to be processed and use the [batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10) to process those arrays (chunks) of ids.  You can also provide code that will let it figure out how much work to do and stop itself.
 
 In addition, you create a function to handle things once all the chunks are complete. You can also give the Batch API a bunch of work to do and have it figure out for itself when it is finished.
 
@@ -665,6 +665,8 @@ class CronEventProcessor extends EmailEventBase { }
 ## Resources
 
 Read more about batch processing at these sites:
+- [Batch API overview on drupal.org - updated April 2024](https://www.drupal.org/docs/drupal-apis/batch-api/batch-api-overview)
+- [Batch API on drupal.org](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10)
 - [Smack My Batch Up: Batch Processing In Drupal 8 by Phil Norton July 2016](https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8) 
 - [Well commented source code for batch operations for Drupal 10](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L561) (or search for 'batch operations')
 

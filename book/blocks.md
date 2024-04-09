@@ -999,21 +999,21 @@ From [Nedcamp video on caching by Kelly Lucas, November 2018](https://www.youtub
 In a twig template, if you just want to render one or more fields (instead of the entire node), Drupal may not be aware if the content has changed, and will sometimes show old cached content. To resolve this, define a view mode and call `content | render` and assign the result to a variable like this:
 
 ```twig
-set blah = content|render
+{% set blah = content|render %}
 ```
-Be sure to surround the above code with curly brace and percentage sign delimeters. Unfortunately these don't always render correctly in this document so I've had to remove them for now.
 
 Adding this render call will cause Drupal to render the content for that node, which will cause a check of the caches and make sure the most current content is rendered.
 
 Then add your fields:
 
 ```twig
-{content.field_one}  etc.
+{content.field_one}
+{content.field_two}  
 ```
 
 ## Block Permission (blockAccess)
 
-This code is taken from the Drupal core user_login_block (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being anonymous. If these are not passed, the access returned is forbidden and the block is not built.
+This code is taken from the Drupal core `user_login_block` (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being anonymous. If these are not passed, the access returned is forbidden and the block is not built.
 
 ```php
 use Drupal\Core\Access\AccessResult;
@@ -1033,7 +1033,7 @@ protected function blockAccess(AccountInterface $account) {
 }
 ```
 
-Another example from the Drupal core Copyright.php file:
+Another example from the Drupal core `Copyright.php` file:
 
 ```php
 // $account comes from
@@ -1075,8 +1075,7 @@ While it is possible for blocks to talk to the router, you can't always count th
  */
 ```
 
-This causes the block to be available only on various node pages (view, 
-edit etc.). This can be changed:
+This causes the block to be available only on various node pages (view, edit etc.). This can be changed:
 
 ```php
  *   context_definitions = {
@@ -1109,13 +1108,12 @@ Then in the block we check to make sure the user is viewing a node and that the 
 
 ```
 
-::: tip
-Read more https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id/314152#314152
-:::
+Read [more on Stack Exchange](https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id/314152#314152)
+
 
 
 ::: tip Note
-While this practice is not recommended, the RSVP module does have an example of a block talking to the router i.e. `\Drupal::routeMatch()` - see <https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php> where the `blockAccess()` function grabs the `node` parameter and acts on it.
+While this practice is not recommended, the [RSVP module](https://www.drupal.org/project/rsvp_module) does have an example of a block talking to the router i.e. `\Drupal::routeMatch()` - see [the source](https://git.drupalcode.org/project/rsvp_module/-/blob/1.0.x/src/Plugin/Block/RSVPBlock.php) where the `blockAccess()` function grabs the `node` parameter and acts on it.
 :::
 
 
@@ -1148,7 +1146,7 @@ return AccessResult::allowed();
 return AccessResult::allowedIf(TRUE);
 ```
 
-## Using drush to list blocks
+## Using Drush to list blocks
 
 To list blocks, use the following drush command
 ```sh
