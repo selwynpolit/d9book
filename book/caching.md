@@ -300,6 +300,55 @@ public function getCacheContexts() {
 }
 ```
 
+## Caching JSON responses
+
+```php
+  /**
+   * Returns a JSON response with site configuration data.
+   *
+   * This method retrieves the site's name, slogan, and email from the system.site configuration.
+   * It then creates a CacheableJsonResponse with this data and adds the configuration as a cacheable dependency.
+   * This means that the response will be invalidated whenever the system.site configuration changes.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON response containing the site's name, slogan, and email.
+   */
+  public function jsonExample2(): JsonResponse {
+    $config = $this->config('system.site');
+    $response = new CacheableJsonResponse([
+      'name' => $config->get('name'),
+      'slogan' => $config->get('slogan'),
+      'email' => $config->get('mail'),
+    ]);
+
+    // Add the system.site configuration as a cacheable dependency.
+    $response->addCacheableDependency($config);
+    
+    // Set the Cache-Control header to make the response publicly cacheable for 3607 seconds.
+    // And add the 'url.query_args' cache context so Drupal will cache.
+    $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
+      '#cache' => [
+        'max-age' => 3607,
+        'contexts' => ['url.query_args'],
+      ],
+    ]));
+
+    return $response;
+  }
+
+```
+The response looks like this:
+
+```json
+{"name":"d9book","slogan":"","email":"website@d9book.com"}
+```
+
+Look in the response headers for:
+- `X-Drupal-Cache-Tags: config:system.site http_response`
+- `X-Drupal-Cache-Contexts: url.query_args`
+- `X-Drupal-Dynamic-Cache: HIT`  (or MISS)
+
+
 ## Caching REST Resources
 
 Drupal can cache our rest resource e.g. in dev1

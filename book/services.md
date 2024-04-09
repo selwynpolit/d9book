@@ -15,7 +15,7 @@ Services can be accessed using two possible methods: [static](#static-method-to-
 
 ## ControllerBase shortcuts for your controllers
 
-`ControllerBase.php` comes prepackaged with functions to get the following services statically:
+`ControllerBase.php` comes prepackaged with some useful functions to get the following services statically:
 
 ```php
 protected function entityTypeManager() {
@@ -49,6 +49,14 @@ $account = $this->currentUser();
 $username = $account->getAccountName();
 $uid = $account->id();
 $message = "<br>Account info user id: " . $uid . " username: " . $username;
+
+// Or.
+
+// Get the site name, slogan and email from the system.site config.
+$config = $this->config('system.site');
+$site_name = $config->get('name');
+$slogan = $config->get('slogan');
+$email = $config->get('mail');
 ```
 
 

@@ -223,6 +223,53 @@ public function getTitle() {
 }
 ```
 
+## ControllerBase shortcuts for your controllers
+
+`ControllerBase.php` comes prepackaged with some useful functions to get the following services statically:
+
+```php
+protected function entityTypeManager() {
+protected function entityFormBuilder() {
+protected function cache($bin = 'default') {
+protected function config($name) {
+protected function keyValue($collection) {
+protected function state() {
+protected function moduleHandler() {
+protected function formBuilder() {
+protected function currentUser() {
+protected function languageManager() {
+```
+This allows quick access from within your controllers to these services if you need to do things like:
+
+```php
+// Make an entityQuery
+$storage = $this->entityTypeManager()->getStorage('node');
+$query = $storage->getQuery();
+$query
+  ->accessCheck(TRUE)
+  ->condition('type', 'article')
+  ->condition('title', $name)
+  ->count();
+$count_nodes = $query->execute();
+
+// Or.
+
+// Get info about the current user.
+$account = $this->currentUser();
+$username = $account->getAccountName();
+$uid = $account->id();
+$message = "<br>Account info user id: " . $uid . " username: " . $username;
+
+// Or.
+
+// Get the site name, slogan and email from the system.site config.
+$config = $this->config('system.site');
+$site_name = $config->get('name');
+$slogan = $config->get('slogan');
+$email = $config->get('mail');
+```
+
+
 
 ## Return JSON data from a route
 Using this `general-routing.yml` file:
@@ -275,12 +322,12 @@ You can cause Drupal to return JSON data.
       }
 
       return new JsonResponse($data, 200, [
-      'Cache-Control' => 'public, max-age=3601',
+      'Cache-Control' => 'public, max-age=3607',
     ]);
   }
 ```
 
-Note. This will return JSON data and in the headers, you will get `Cache-Control: max-age=3607, public`
+This will return JSON data like : `{"nid":0,"name":"Fred Bloggs.","age":45,"occupation":"Builder"}` and in the response headers, you will get `Cache-Control: max-age=3607, public`. If you want to make the response cacheable, see [caching json responses](caching#caching-json-responses)
 
 
 ::: tip Note
@@ -475,7 +522,7 @@ options:
 ```
 
 
-## Getting some help from Chat GPT
+## Generate a controller with ChatGPT
 
 At the time of this writing, [OpenAI](https://openai.com/) has a research release of its ChatGPT available.  You could always ask it to generate a controller for you as I did.  I was amazed by the result. I asked it to:
 
