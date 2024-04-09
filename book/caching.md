@@ -333,6 +333,17 @@ public function getCacheContexts() {
       ],
     ]));
 
+    // Add a cache tag for node 25.
+    $node = Node::load(25);
+    $cache_tag = $node->getCacheTags();
+    $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
+      '#cache' => [
+        'tags' => $cache_tag,
+      ],
+    ]));
+    // Response header shows: X-Drupal-Cache-Tags: config:system.site http_response node:25
+
+
     return $response;
   }
 
@@ -344,9 +355,12 @@ The response looks like this:
 ```
 
 Look in the response headers for:
-- `X-Drupal-Cache-Tags: config:system.site http_response`
+- `X-Drupal-Cache-Tags: config:system.site http_response node:25`
 - `X-Drupal-Cache-Contexts: url.query_args`
 - `X-Drupal-Dynamic-Cache: HIT`  (or MISS)
+
+If you edit node 25, the cache will be invalidated and refreshing this page will show a MISS in the `X-Drupal-Dynamic-Cache` header. Also if you add a query parameter to the URL (e.g. `?a=b`) , the cache will be invalidated and the `X-Drupal-Dynamic-Cache` will show a MISS. Finally, if you change the site name, slogan or email, the cache will be invalidated and the `X-Drupal-Dynamic-Cache` will show a MISS.
+
 
 
 ## Caching REST Resources

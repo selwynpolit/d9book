@@ -21,13 +21,31 @@ batch_examples.batch:
 
 ## Creating translatable string variables
 
-When creating strings, you can use the `$this->t()` function which allows them to be translated.  Here is an example from a form:
+When creating strings, use the `$this->t()` function which allows them to be translated.  Here is an example from a form:
 
 ```php
 $value = $this->t("Accept");
 // Or.
 $this->t('The value of x is @x', ['@x' => $x]);
 ```
+
+To build longer strings, concatenate the output of the `$this-t()` function.  For bonus this example adds a reload button.
+
+```php
+// Format intro message.
+$intro_message = '<p>' . $this->t("This example will search Drupal's core folder and display a count of the PHP files in it.") . ' ';
+$intro_message .= $this->t('This can take a while, since there are a lot of files to be searched.') . ' ';
+$intro_message .= $this->t('We will search filesystem just once and save output to the cache. We will use cached data for later requests.') . '</p>';
+$intro_message .= '<p>'
+  . $this->t(
+    '<a href="@url">Reload this page</a> to see cache in action.',
+    ['@url' => $this->getRequest()->getRequestUri()]
+  )
+  . ' ';
+$intro_message .= $this->t('You can use the button below to remove cached data.') . '</p>';
+```
+This code is from the [examples module](https://www.drupal.org/project/examples) and is in the `CacheExampleForm.php` file.
+
 
 ## Find a form id in the page source
 
