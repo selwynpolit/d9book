@@ -497,7 +497,7 @@ More at
 - [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
 
 
-### For Drupal 10:
+### For Drupal 10
 
 Install the composer lenient plugin
 `composer require mglaman/composer-drupal-lenient`
@@ -637,7 +637,7 @@ Install the module with:
 The module will be installed and the patch applied!
 
 More at
-- [HOW TO INCORPORATE DRUPAL 9-COMPATIBLE MODULES INTO YOUR DRUPAL 10 PROJECT - Aug 2023](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
+- [How to incorporate drupal 9-compatible modules into your drupal 10 project - Aug 2023](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
 - [https://github.com/mglaman/composer-drupal-lenient](https://github.com/mglaman/composer-drupal-lenient)
 - [Using Drupal's Lenient Composer Endpoint - Sep 2023](https://www.drupal.org/docs/develop/using-composer/using-drupals-lenient-composer-endpoint)
 - [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
@@ -677,13 +677,13 @@ Consider using the caret operator instead for safety.
 
 Examples:
 
-- \>=1.0
+- `>=1.0`
 
-- \>=1.0 \<2.0
+- `>=1.0 <2.0`
 
-- \>=1.0 \<1.1 \|\| \>=1.2
+- `>=1.0 <1.1 || >=1.2`
 
-More at <https://getcomposer.org/doc/articles/versions.md>
+[More in composer docs](https://getcomposer.org/doc/articles/versions.md)
 
 ## Allowing multiple versions
 
@@ -694,7 +694,7 @@ For the [CSV serialization](https://www.drupal.org/project/csv_serialization) mo
 composer require drupal/csv_serialization:^2.0 || ^3.0
 ```
 
-They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in EncoderInterface::encode() between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
+They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in `EncoderInterface::encode()` between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
 
 ::: tip Note
 TODO: I couldn't make this work.  Anyone want to weigh in on this?
@@ -702,7 +702,7 @@ TODO: I couldn't make this work.  Anyone want to weigh in on this?
 
 ## Specify a particular version of PHP
 
-You can specify the version of PHP in composer.json as shown below:
+You can specify the version of PHP in `composer.json` as shown below:
 
 ```json
 "config": {
@@ -823,7 +823,7 @@ In UpdateCommand.php line 163:
 
   The temporary constraint "^4.0" for "drupal/csv_serialization" must be a subset of the constraint in your composer.js
   on (^3.0)
-``
+```
 
 Well, that's not very helpful.  I try updating drupal/views_data_export which succeeds:
 
