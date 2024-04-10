@@ -1150,6 +1150,18 @@ During module development or upgrades, it can be really useful to quickly uninst
 
 With the JSON:API and Serialization core modules enabled, simply navigate to any node and add `?_format=api_json` to the end of the URL. E.g. `https://d9book2.ddev.site/node/25?_format=api_json` 
 
+## Drupal bootstrap process
+
+The Drupal bootstrap process is a series of steps that Drupal goes through on every page request to initialize the necessary resources and environment. Here are the steps:  
+
+1. Loading the autoloader: The first step in the bootstrap process is to load the Composer-generated autoloader. This allows Drupal to use any classes defined in the codebase without explicitly requiring the files they're defined in.  
+1. Reading settings: Next, Drupal reads the settings file (settings.php). This file contains configuration settings for the Drupal site, such as database connection information and various other settings.  
+1. Initializing the service container: Drupal then initializes the service container. The service container is a key part of Drupal's architecture, and it's responsible for managing the various services (classes) used by Drupal. The service definitions are stored in various .services.yml files throughout the codebase.  
+1. Handling the request: Drupal then creates a Request object from the global PHP variables and passes it to the HttpKernel to handle. The HttpKernel is responsible for handling the request and returning a Response.  
+1. Routing: The HttpKernel uses the Router service to match the request to a route. A route is a path that is defined for Drupal to return some sort of content on. The route defines a controller that should be used to generate the content for the page.  
+1. Controller execution: The controller specified by the route is then executed. The controller is a method on a class that generates the content for the page. It can return a render array (which Drupal will turn into HTML), a Response object, or some other type of content that Drupal knows how to handle.  
+1. Rendering: If the controller returns a render array, Drupal will then render it into HTML. This involves calling various hooks and alter functions to allow modules to modify the content.  
+1. Returning the response: Finally, the HttpKernel returns a Response object, which is then sent to the client.
 
 ## Troubleshoot memory problems
 

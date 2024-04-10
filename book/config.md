@@ -213,11 +213,14 @@ $settings['config_readonly_whitelist_patterns'] = [
 
 ## Config Storage in the database
 
-Config is also kept in the config table of the database.
+Config is kept in the config table of the database.
 
-The name field stores the config id e.g. views.view.infofeeds (the definition of a view called infofeeds)
+The `name` field stores the config id e.g. `views.view.infofeeds` (the definition of a view called `infofeeds`)
 
-The data field stores the stuff in the config serialized into a blob
+The `data` field (type LONGBLOB) stores the stuff in the config serialized into a blob.
+
+![Config table in the database](/images/view-in-db.png)
+
 
 
 ## Add some config to site config form
