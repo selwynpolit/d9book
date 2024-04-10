@@ -636,3 +636,5 @@ This would define a route at the path /temperature-table that displays the table
 - [Structure of Routes from Drupal documentation updated September 2022](https://www.drupal.org/docs/drupal-apis/routing-system/structure-of-routes)
 - [Symfonycasts.com excellent course in Drupal 8](https://symfonycasts.com/screencast/drupal8-under-the-hood)
 - [Controllers article from Drupalize.me updated December 2021](https://drupalize.me/topic/controllers)
+- [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
+- [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response)
