@@ -7,7 +7,7 @@ title: Modules
 
 ## Overview
 
-With over 50,000 modules, Drupal has the ability to do almost anything. This also means it can be a little tough to find what you need. Here is a list of modules that are important, useful and interesting.
+With over 50,000 modules, Drupal has the ability to do almost anything. This also means it can be a little tough to find what you need. Here is a list of modules that are important, useful and interesting. Search for [modules on drupal.org.](https://www.drupal.org/project/project_module)
 
 ::: tip
 If you want to check the usage for a module that isn't as popular as, for example, [token](https://www.drupal.org/project/token) which clearly displays `636,845 sites report using this module` Check the url [https://www.drupal.org/project/usage/token](https://www.drupal.org/project/usage/token) Just replace `token` with the machine name for that module.

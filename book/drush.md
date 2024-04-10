@@ -7,28 +7,27 @@ title: Drush
 
 ## Overview
 
-Drush is a command line shell and Unix scripting interface for Drupal. Your life will go much better if you use Drush! Drush core ships with
-lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
-Similarly, it runs update.php, executes SQL queries, runs content migrations, and miscellaneous utilities like cron or cache rebuild.
-Drush can be extended by [3rd party commandfiles](https://www.drupal.org/project/project_module?f%5b2%5d=im_vid_3%3A4654).
+Drush is a command line shell and Unix scripting interface for Drupal. Your life will go much better if you use Drush! Drush core ships with lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
 
-From <https://www.drush.org/latest/>
+Similarly, it runs `update.php`, executes SQL queries, runs content migrations, and miscellaneous utilities like `cron` or cache rebuild.
+
+Drush can be extended by [3rd party commandfiles](https://www.drupal.org/project/project_module?f%5B0%5D=&f%5B1%5D=&f%5B2%5D=&f%5B3%5D=&f%5B4%5D=sm_field_project_type%3Afull&f%5B5%5D=&f%5B6%5D=&text=drush&solrsort=score+desc&op=Search).
 
 Drush is extensible with the ability to create drush commands and drush scripts.
 
+More [at drush.org](https://www.drush.org/latest/)
+
+
 ## Drush commands
 
-These are new commands that you can add to your modules to allow drush to do useful things. Modules sometimes include drush commands e.g. search api (<https://www.drupal.org/project/search_api>) More about this below.
+These are new commands that you can add to your modules to allow drush to do useful things. Modules sometimes include drush commands e.g. [search api](https://www.drupal.org/project/search_api).
 
 Modules that have drush commands need the following
 
 1.  drush.services.yml
-
-2.  The implementation class which extends the DrushCommands class in module/src/Commands.
-
+1.  The implementation class which extends the DrushCommands class in module/src/Commands.
 1.  In the class, you annotate the function with the command
-
-2.  A section in the composer.json file referencing the extra, drush, services.
+1.  A section in the composer.json file referencing the extra, drush, services.
 
 See below for examples of each.
 
@@ -349,7 +348,7 @@ if (isset($extra[1])) {
 
 ### Hello world example
 
-Here is an example of a script from <https://raw.githubusercontent.com/drush-ops/drush/11.x/examples/helloworld.script>:
+Here is an [example of a script](https://raw.githubusercontent.com/drush-ops/drush/11.x/examples/helloworld.script):
 
 ```php
 <?php
@@ -490,7 +489,7 @@ and you can use the abbreviated form of the drush command: `drush sset` or `drus
 
 ## Drush does that?
 
-Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do aso many things. Here are a few that I like:
+Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do **so many things**. Here are a few that I like:
 
 
 ### List blocks
@@ -563,9 +562,9 @@ Sanitize the database by removing or obfuscating user data.
 
 Commandfiles may add custom operations by implementing:
 
--   \@hook on-event sql-sanitize-confirms. Display summary to user before confirmation.
+-   `@hook on-event sql-sanitize-confirms`. Display summary to user before confirmation.
 
--   \@hook post-command sql-sanitize. Run queries or call APIs to perform sanitizing
+-   `@hook post-command sql-sanitize`. Run queries or call APIs to perform sanitizing
 
 Several working commandfiles may be found at <https://github.com/drush-ops/drush/tree/11.x/src/Drupal/Commands/sql>
 
@@ -579,8 +578,7 @@ drush entity:delete node --chunks=5
 
 More from <https://www.drush.org/latest/commands/entity_delete/>
 
--   `drush entity:delete node --bundle=article`. Delete all article
-    entities.
+-   `drush entity:delete node --bundle=article`. Delete all article entities.
 
 -   `drush entity:delete shortcut`. Delete all shortcut entities.
 
