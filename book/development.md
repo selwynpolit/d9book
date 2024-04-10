@@ -938,9 +938,11 @@ parameters:
     auto_reload: true
     cache: false
 ```
+If the parameters section is already present in the development.services.yml file, append the twig.config section to it.
 
 ::: tip Note
-If the parameters section is already present in the development.services.yml file, append the twig.config section to it.*
+The new way to enable Twig debugging is via the user interface. In the menus select `Configuration`, `Development`, `Development Settings` (or navigate to `/admin/config/development/settings`) and check the `Twig development mode` box, then check the boxes for  `Twig debug mode` and `disable Twig cache`.  You can also check the `Do not cache markup` at this time.
+
 :::
 
 7\. Rebuild the Drupal cache (`ddev drush cr`) otherwise your website will encounter an unexpected error on page reload.
@@ -1017,6 +1019,10 @@ $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml'
 ```
 
 ## Enable twig debugging output in source
+
+:::tip Note
+The new way to enable Twig debugging is via the user interface. In the menus select `Configuration`, `Development`, `Development Settings` (or navigate to `/admin/config/development/settings`) and check the `Twig development mode` box, then check the boxes for  `Twig debug mode` and `disable Twig cache`.  You can also check the `Do not cache markup` at this time.
+:::
 
 In `sites/default/development.services.yml` set `twig.config debug:true`.
 See `core.services.yml` for lots of other items to change for development
