@@ -21,11 +21,9 @@ hello_world.hello:
      _permission: 'access content'
 ```
 ### Controller
+A controller is a PHP class that contains methods that generate a response to an `HTTP request`. In the example above, the controller is `HelloWorldController` and the method is `helloWorld()`. The controller is in a file called `HelloWorldController.php` in the `src/Controller` directory of the module.
 
-This is the PHP function that takes info from the HTTP request and
-constructs and returns an HTTP response (as a Symfony ResponseObject). The controller contains your logic to render the content of the page.
-
-The controller  will usually return a render array but they can return an HTML page, an XML document, a serialized JSON array, an image, a redirect, a 404 error or almost anything else.
+Controllers usually return a [render array](render#overview), but can return an HTML page, an XML document, a [serialized JSON array](#return-json-data-from-a-route), an image, a redirect, a 404 error or almost anything else.
 
 A simple render array looks like this:
 
@@ -34,6 +32,31 @@ return [
   '#markup' => 'blah',
 ]
 ```
+
+### Responses
+
+HTTP is all about `requests` and `responses`. Drupal represents the `responses` it sends as `Response objects`. Drupal’s responses are [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response). 
+
+Symfony's Response objects are fully supported, but are insufficient to fully support the rich Drupal ecosystem: we need more structured metadata than the very simple Symfony Response objects can provide.
+
+Unfortunately, Symfony Response objects do not have an interface so every specialized Response \"type\" needs to extend from Symfony's Response base class.
+
+Drupal core defines two `response interfaces` that any response can implement to indicate it supports these particular Drupal capabilities:
+1. `CacheableResponseInterface` - which can expose [cacheability metadata](https://www.drupal.org/docs/8/api/cache-api/cache-api#s-cacheability-metadata) such as cache contexts, tags and max-age. These can easily be implemented by using the corresponding [CacheableResponseTrait](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/lib/Drupal/Core/Cache/CacheableResponseTrait.php?ref_type=heads).
+1. `AttachmentsInterface` - which can expose #attached metadata. (Asset libraries, `<head>` elements, placeholders...)
+
+Drupal’s additional response classes include some specialized Response subclasses that are available to developers:
+1. `CacheableResponse` - A response that contains and can expose cacheability metadata. Supports Drupal's caching concepts: cache tags for invalidation and cache contexts for variations. This is simply `class CacheableResponse extends Response implements CacheableResponseInterface {}`.
+1. `HtmlResponse` - This is what a controller returning a render array will result in after going through the Render API and its render pipeline. This is simply `class HtmlResponse extends Response implements CacheableResponseInterface, AttachmentsInterface {}`.
+1. `CacheableJsonResponse` - A `JsonResponse` that contains and can expose cacheability metadata. This is simply `class CacheableJsonResponse extends JsonResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [JsonResponse](https://symfony.com/doc/current/components/http_foundation.html#creating-a-json-response).
+1. `CacheableRedirectResponse` - A `RedirectResponse` that contains and can expose cacheability metadata. This is simply `class CacheableRedirectResponse extends RedirectResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [RedirectResponse](https://symfony.com/doc/current/controller.html#redirecting).
+1. `LocalRedirectResponse` - A redirect response which cannot redirect to an external URL. (Extends `CacheableRedirectResponse`.)
+1. TrustedRedirectResponse - A redirect response which should only redirect to a trusted (potentially external) URL. (Also extends `CacheableRedirectResponse`.)
+
+
+See [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
+
+
 ### Connecting to a twig template
 
 Most often, you will have a twig template connected to your controller. You do this by a combination of a `#theme` element in the render array and a `hook_theme` function in a `.module` file.
