@@ -334,6 +334,10 @@ A collection of useful UI tools for working with fields.
 
 [https://www.drupal.org/project/field_tools](https://www.drupal.org/project/field_tools)
 
+### Dynamic Entity Reference
+This module provides a field type for entity references that can reference multiple entity types. It is based on the core Entity Reference module but allows you to reference **more than one** entity type. It also provides a widget for the entity reference field that allows you to select the entity type to reference on the fly.
+[https://www.drupal.org/project/dynamic_entity_reference](https://www.drupal.org/project/dynamic_entity_reference)
+
 ### Views Reference Field
 This lets you add a view (and a view's display) to a content type so it gets rendered when the node gets rendered.
 
