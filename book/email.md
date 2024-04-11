@@ -279,3 +279,4 @@ function tea_teks_mail($key, &$message, $params) {
 - [Sendgrid Integration Drupal module](https://www.drupal.org/project/sendgrid_integration)
 - [How to send a mail programmatically in Drupal 8 by Jimmy Sebastian - Mar 2022](https://www.zyxware.com/articles/5504/drupal-8-how-to-send-a-mail-programmatically-in-drupal-8)
 - [Sending Emails with Drupal Symfony Mailer - Oct 2023](https://jigarius.com/blog/drupal-symfony-mailer)
+- [How to Configure the SMTP Module in Drupal 10 with Gmail, Since Google Removed Less Secure Apps - Apr 2024](https://medium.com/drupal-atlanta/how-to-configure-the-smtp-module-in-drupal-10-with-gmail-since-google-removed-less-secure-apps-b4057eafc9e5)
