@@ -710,6 +710,6 @@ I hope this one saves you countless hours of frustration. I know it has caused m
 
 ## Resources
 
-- [Configuration Management on Drupal.org](https://www.drupal.org/docs/configuration-management)
-- [Defining and using your own configuration in Drupal](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
-- [Drupal Config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
+- [Configuration Management on drupal.org - updated May 2023](https://www.drupal.org/docs/configuration-management)
+- [Defining and using your own configuration in Drupal on drupal.org - updated Feb 2024](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
+- [Drupal::config - Config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
