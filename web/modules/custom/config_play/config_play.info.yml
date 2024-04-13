@@ -1,0 +1,5 @@
+name: 'Config Play'
+type: module
+description: 'Playing with config stuff'
+package: Custom
+core_version_requirement: ^10 || ^11

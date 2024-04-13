@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: { }
+id: contactus
+label: 'Contact Us'
+recipients:
+  - webmaster@example.com
+reply: ''
+weight: 0
+
