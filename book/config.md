@@ -141,6 +141,58 @@ drush @dev2 config-import --source=modules/migrate/test1/config/install/ --parti
 Note. the @dev2 is a site alias. See [Drush alias docs for more info](https://www.drush.org/latest/site-aliases/). These are sooo useful.
 
 
+## Add config for another module to your custom module
+
+You can add config for another module to your custom module. This is useful if you want to add some config to a module that you don't want to modify directly. For example, to add a contact form called \"Contact Us\" to the contact module, you can add the following yml file. In the module `config_play`  
+
+```php 
+
+In `modules/custom/config_play/config/install/contact.form.contactus.yml` this would define a new contact form called "Contact Us" with the email address `webmaster@example.com` as the recipient.  Enable the module to get this new contact form to show up in the UI at `/admin/structure/contact`:
+
+```yml
+langcode: en
+status: true
+dependencies: { }
+id: contactus
+label: 'Contact Us'
+recipients:
+  - webmaster@example.com
+reply: ''
+weight: 0
+
+```
+
+
+## Modify config in a post_update hook
+
+To modify a config item in a post_update hook, you can use the following code. This example changes the site name to "My New Site Name".  The filename would be `mymodule.post_update.php` in the `mymodule` module directory.
+
+```php
+/**
+ * Update the site name.
+ */
+function mymodule_post_update_change_site_name() {
+  $config = \Drupal::configFactory()->getEditable('system.site');
+  $config->set('name', 'My New Site Name');
+  $config->save();
+```
+
+This example updates the contact us form and sets a reply message. The filename would be `config_play.post_update.php` in the `config_play` module directory:
+
+```php
+/**
+ * Update the contact us form.
+ */
+function config_play_post_update_change_contactus_reply() {
+  $config = \Drupal::configFactory()->getEditable('contact.form.contactus');
+  $config->set('reply', 'Thanks for contacting us. We will get back to you soon.');
+  $config->save();
+```
+
+:::tip Note
+The function name must start with the module name and end with `_post_update` followed by a description of what the update does.  Although any unique name will work for the description.
+:::
+
 ## Config Read Only
 
 Many sites can benefit from the use of the [Config Read Only module.](https://www.drupal.org/project/config_readonly) This module allows you to set some config items to be read only. This is useful for things like the site name, email address, etc. which should not be changed by the user.  It is also useful for things like the site uuid which should not be changed on a production site.
