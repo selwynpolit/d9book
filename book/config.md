@@ -699,7 +699,9 @@ Sometimes when you try to export config, it seems to randomly decide to delete a
 
 I've found that the problem is related to this setting in the `settings.local.php` (or `settings.php`)
 
+```php
 $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy', 'masquerade'];
+```
 
 For some reason, an edge condition is reached which confuses the configuration engine in Drupal. Commenting out the above line resolves the issue.
 
