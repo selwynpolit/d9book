@@ -238,9 +238,9 @@ Here is a Drupal cron job on a prod server where it uses a `--resolve` param to 
 ## Resources
 
 - [Symfony http kernel component docs](//symfony.com/doc/current/components/http_kernel.html)
-- [Crontab.guru](//crontab.guru)
-- [Drupal hook_cron() API](//api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10)
-- [Cron automated tasks overview](//drupal.org/docs/administering-a-drupal-site/cron-automated-tasks/cron-automated-tasks-overview)
-- [Configuring cron jobs using the cron command](//drupal.org/node/23714)
-- [Crontab – Quick Reference Running](//adminschoice.com/crontab-quick-reference)
-- [Drupal cron tasks from Drush](//drush.org/12.x/cron)
+- [Crontab guru: The quick and simple editor for cron schedule expressions by Cronitor](//crontab.guru)
+- [Drupal hook_cron() API reference](//api.drupal.org/api/drupal/core%21core.api.php/function/hook_cron/10)
+- [Cron automated tasks overview on drupal.org - updated Aug 2023](//drupal.org/docs/administering-a-drupal-site/cron-automated-tasks/cron-automated-tasks-overview)
+- [Configuring cron jobs using the cron command on drupal.org - updated May 2021](//drupal.org/node/23714)
+- [Crontab – Quick Reference: Setting up cron jobs in Unix, Solaris & Linux - updated Aug 2023](//adminschoice.com/crontab-quick-reference)
+- [Running Drupal cron tasks from Drush](https://www.drush.org/12.x/cron/)
