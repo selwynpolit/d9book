@@ -1105,6 +1105,38 @@ Instead, set a list of allowed operators and only allow users to use those.
 
 
 
+## Viewing the MariaDB General Query Log
+
+```sh
+ddev mysql -u root -proot
+```
+
+```sh
+SET global general_log = 1;
+
+SET global log_output = 'file';
+
+SET global general_log_file = '/home/selwyn/queries.txt';
+```
+
+Log into the database container and tail the log file:
+```sh
+ddev ssh -s db
+tail -f queries.txt
+```
+
+To turn off the general query log:
+```sh
+SET global general_log = 0;
+```
+
+or use `ddev restart` to restart all the containers.
+
+The queries.txt file will automatically be deleted when the container is restarted.
+
+Thanks to [Dries Buytart\'s Effortless inspecting of Drupal database queries article for this useful tip.](https://dri.es/effortless-inspecting-of-drupal-database-queries)
+
+
 ## Reference
 
 - [API documentation for query Condition class](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x)
