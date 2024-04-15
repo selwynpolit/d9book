@@ -18,7 +18,7 @@ Drush is extensible with the ability to create drush commands and drush scripts.
 More [at drush.org](https://www.drush.org/latest/)
 
 
-## Drush commands
+## Custom Drush commands
 
 These are new commands that you can add to your modules to allow drush to do useful things. Modules sometimes include drush commands e.g. [search api](https://www.drupal.org/project/search_api).
 
@@ -199,6 +199,8 @@ Here is the composer.json from a project where I used (Search API module)[https:
   }
 }
 ```
+
+For another example, check out [Custom Drush commands with Drush Generate by Marc Berger of Four Kitchens - Mar 2024](https://www.fourkitchens.com/blog/development/custom-drush-commands-drush-generate/)
 
 
 ### Drush commands and  parameters
@@ -1409,21 +1411,13 @@ if ($arg) {
 
 ## Resources
 
--   Drush docs site <https://www.drush.org/latest/>
-
--   Drush repository <https://github.com/drush-ops/drush>
-
--   Drush code generators <https://www.drush.org/latest/generators/all/>
-
--   Stack Exchange Drush issues <https://drupal.stackexchange.com/questions/tagged/drush>
-
--   Drush issue queue on github <https://github.com/drush-ops/drush/issues>
-
--   Creating Drush 9 commands and porting legacy commands October 2017 by Pawel Ginalski https://gbyte.dev/blog/creating-drush-9-commands-and-porting-legacy-commands
-
--   Porting commands to Drush 9 from Moshe Weitzman September 2017 <https://weitzman.github.io/blog/port-to-drush9>
-
--   Drush alias usage on Acquia <https://docs.acquia.com/cloud-platform/manage/ssh/drush/aliases/>
-
--   Controlling multiple sites with Drush 9 from [Joachim Noreiko](https://www.drupal.org/user/107701) Mar 2019 <http://www.noreiko.com/blog/controlling-multiple-sites-drush-9>
+- [Drush documentation](https://www.drush.org/latest/)
+- [Drush repository on Github](https://github.com/drush-ops/drush)
+- [Drush code generators](https://www.drush.org/latest/generators/all/)
+- [Stack Exchange Drush issues](https://drupal.stackexchange.com/questions/tagged/drush)
+- [Drush issue queue on github](https://github.com/drush-ops/drush/issues)
+- [Creating Drush 9 commands and porting legacy commands by Pawel Ginalski - Oct 2017](https://gbyte.dev/blog/creating-drush-9-commands-and-porting-legacy-commands)
+- [Porting commands to Drush 9 from Moshe Weitzman - Sep 2017](https://weitzman.github.io/blog/port-to-drush9)
+- [Drush alias usage on Acquia](https://docs.acquia.com/cloud-platform/manage/ssh/drush/aliases/)
+- [Controlling multiple sites with Drush 9 by Joachim Noreiko - Mar 2019](http://www.noreiko.com/blog/controlling-multiple-sites-drush-9)
 
