@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@nolebase/vitepress-plugin-enhanced-readabilities':
-    specifier: 2.0.0-rc4
-    version: 2.0.0-rc4(vitepress@1.1.0)
+    specifier: '1.28'
+    version: 1.28.0(vitepress@1.1.0)
   prettier:
     specifier: ^3.2.5
     version: 3.2.5
@@ -494,8 +494,8 @@ packages:
       '@lit-labs/ssr-dom-shim': 1.2.0
     dev: true
 
-  /@nolebase/vitepress-plugin-enhanced-readabilities@2.0.0-rc4(vitepress@1.1.0):
-    resolution: {integrity: sha512-vyLCjhqJSRnu0p2KY6smCvIFx3X8S1pt2/rNlUHsa0DPM/6SCgBU28GJ1ZsUKxr+kzSHz5PLmrEIjJFM/kUzzg==}
+  /@nolebase/vitepress-plugin-enhanced-readabilities@1.28.0(vitepress@1.1.0):
+    resolution: {integrity: sha512-nDSobBB1pFacTTBuhh5Jf6vTpx9aBaslbU98eEr7unTNiDtil6V+TjwZIXRI5gCMbJADX4zruUUeID1p3pkL6A==}
     peerDependencies:
       vitepress: ^1.0.0
     dependencies:

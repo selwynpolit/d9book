@@ -11,7 +11,7 @@
     "book:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@nolebase/vitepress-plugin-enhanced-readabilities": "2.0.0-rc4",
+    "@nolebase/vitepress-plugin-enhanced-readabilities": "1.28",
     "prettier": "^3.2.5",
     "sass": "^1.75.0",
     "viewerjs": "^1.11.6",
