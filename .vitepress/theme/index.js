@@ -8,10 +8,10 @@ import DefaultTheme from 'vitepress/theme';
 import { h } from 'vue';
 import {
   NolebaseEnhancedReadabilitiesMenu,
-} from '@nolebase/vitepress-plugin-enhanced-readabilities';
+} from '@nolebase/vitepress-plugin-enhanced-readabilities/client';
 
 import 'viewerjs/dist/viewer.min.css';
-import '@nolebase/vitepress-plugin-enhanced-readabilities/dist/style.css';
+import '@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css';
 import './style.css';
 
 /** @type {import('vitepress').Theme} */
