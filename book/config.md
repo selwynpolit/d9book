@@ -130,6 +130,7 @@ You can add config into any of the 3 directories: `config/install`, `config/opti
 
 
 ## Config directories: install, optional, schema
+
 You can add config to any of the 3 directories for a custom module: `config/install`, `config/optional` or `config/schema`
 These can contain configs, like a view or any other config.
 
