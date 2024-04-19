@@ -792,6 +792,31 @@ For more info:
 - Watch Matt Glaman [video from MidCamp 2024 - March 2024](https://www.youtube.com/watch?v=Q5Tku7MW25M) and view the [slides from the presentation](https://www.midcamp.org/sites/default/files/2024-03/Tighten%20up%20your%20Drupal%20code%20using%20PHPStan%20-%20MidCamp%202024.pdf)
 
 
+## VS Code and Drupal
+
+Some folks like to use [Microsoft's Visual Studio Code](https://code.visualstudio.com/) as a free alternative to PHPStorm. 
+
+
+
+It has a number of plugins that can make it a powerful tool for Drupal development. Here are some of the plugins that you might find useful:
+
+- [PHP Intelephense](https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client) - a high performance PHP language server packed full of features.
+- [PHP Debug](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug) - a VS Code extension to enable debugging of PHP scripts.
+- [PHP CS Fixer](https://marketplace.visualstudio.com/items?itemName=junstyle.php-cs-fixer) - a PHP coding standards fixer for Visual Studio Code.
+- [PHP DocBlocker](https://marketplace.visualstudio.com/items?itemName=neilbrayfield.php-docblocker) - a simple, dependency free PHP specific DocBlocking package.
+
+Mike Anello of [Drupaleasy](https://www.drupaleasy.com/) has a Youtube video from Midcamp explaining how to set up [VS Code for Drupal Development - March 2024](https://youtu.be/p-nz369Savs?si=-7cc5IW96LlEw5e9). The session description is:
+
+>Attendees of this session will leave with the knowledge necessary to configure their copy of Visual Studio Code as will be demonstrated in the session. 
+>
+>Learning objectives
+>
+>Integrate phpcs, phpcbf, and PhpStan with Visual Studio Code
+>Integrate Xdebug with Visual Studio Code
+>Install and configure recommended Visual Studio Code extensions for Drupal development
+
+
+
 
 ## Troubleshooting Xdebug with DDEV
 
