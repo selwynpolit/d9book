@@ -125,7 +125,7 @@ $pbx_achievements_url = $pbx_path . "achievements?regid=".$reg_id;
 Once you grab the url, you can use it later in your code.
 
 :::tip Note
-You can add config into any of the 3 directories: `config/install`, `config/optional` or `config/schema`. Config that is added to the `config/install` directory has a special superpower. If config in that directory fails to import into Drupal, the module **is NOT installed**.
+You can add config into any of the 3 directories: `config/install`, `config/optional` or `config/schema`. Config that is added to the `config/install` directory has a special superpower: If config in that directory fails to import into Drupal, the module **is NOT installed**.
 :::
 
 
