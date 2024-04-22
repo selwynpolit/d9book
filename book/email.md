@@ -7,7 +7,9 @@ title: Email
 
 ## Send email
 
-Function to send an email in your module with a hook_mail() to set the parameters. Also don't forget the `hook_mail` function below that needs to be in your module file.
+It is relatively easy to send email from Drupal once you see the relationship between the calling function and `hook_mail()`, but it is a little counter-intuitive that you have to implement hook_mail() in the first place considering the call to `$mail_manager->mail()`.
+
+So first create a mail function in your module, then add the hook_mail() function. Here is an example of how to do this.
 
 ```php
 use Drupal\Core\Mail\MailManagerInterface;
@@ -28,7 +30,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
  * @return bool
  *   TRUE if the email was sent successfully, FALSE otherwise.
  */
-function send_my_email($to, $params, $subject, $body) {
+function sendMyEmail($to, $params, $subject, $body) {
   // Get the language manager service.
   $language_manager = \Drupal::service('language_manager');
 
@@ -64,7 +66,7 @@ function send_my_email($to, $params, $subject, $body) {
 ```
 
 ::: tip Note
-Don\`t forget to add this to your `.module` file or no email will ever be sent!
+Don\`t forget to add the `hook_email()` to your `.module` file or no email will ever be sent!
 :::
 
 ```php
@@ -84,6 +86,8 @@ function my_module_mail($key, &$message, $params) {
 
 
 ## General send email function with logging
+
+Here is an example of a general send email function with logging.  It is used to send an email and log the result.  It also checks to see if the email is valid before sending it.
 
 ```php
   /**
@@ -157,7 +161,7 @@ function my_module_mail($key, &$message, $params) {
 ```
 
 ::: tip Note
-Don\'t forget to add the hook_mail in your `.module` file.
+Don\'t forget to add the hook_mail in your `.module` file.  Here it is in the `tea_teks module` file.
 :::
 
 ```php
@@ -275,3 +279,4 @@ function tea_teks_mail($key, &$message, $params) {
 - [Sendgrid Integration Drupal module](https://www.drupal.org/project/sendgrid_integration)
 - [How to send a mail programmatically in Drupal 8 by Jimmy Sebastian - Mar 2022](https://www.zyxware.com/articles/5504/drupal-8-how-to-send-a-mail-programmatically-in-drupal-8)
 - [Sending Emails with Drupal Symfony Mailer - Oct 2023](https://jigarius.com/blog/drupal-symfony-mailer)
+- [How to Configure the SMTP Module in Drupal 10 with Gmail, Since Google Removed Less Secure Apps - Apr 2024](https://medium.com/drupal-atlanta/how-to-configure-the-smtp-module-in-drupal-10-with-gmail-since-google-removed-less-secure-apps-b4057eafc9e5)

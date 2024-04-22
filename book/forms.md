@@ -19,6 +19,34 @@ batch_examples.batch:
     _permission: 'access content'
 ```
 
+## Creating translatable string variables
+
+When creating strings, use the `$this->t()` function which allows them to be translated.  Here is an example from a form:
+
+```php
+$value = $this->t("Accept");
+// Or.
+$this->t('The value of x is @x', ['@x' => $x]);
+```
+
+To build longer strings, concatenate the output of the `$this-t()` function.  For bonus this example adds a reload button.
+
+```php
+// Format intro message.
+$intro_message = '<p>' . $this->t("This example will search Drupal's core folder and display a count of the PHP files in it.") . ' ';
+$intro_message .= $this->t('This can take a while, since there are a lot of files to be searched.') . ' ';
+$intro_message .= $this->t('We will search filesystem just once and save output to the cache. We will use cached data for later requests.') . '</p>';
+$intro_message .= '<p>'
+  . $this->t(
+    '<a href="@url">Reload this page</a> to see cache in action.',
+    ['@url' => $this->getRequest()->getRequestUri()]
+  )
+  . ' ';
+$intro_message .= $this->t('You can use the button below to remove cached data.') . '</p>';
+```
+This code is from the [examples module](https://www.drupal.org/project/examples) and is in the `CacheExampleForm.php` file.
+
+
 ## Find a form id in the page source
 
 When you need to make changes to a form, it can take a little time to find the form.  You often need to find the form id as the first step.
@@ -43,7 +71,7 @@ Notice that a node add form looks like `node_catastrophe_notice_form` while a no
 
 ## Add buttons to your custom forms
 
-Many forms need extra buttons.  Fortunately Drupal allows this to be done easily.  In the code below there is a submit button which will execute the `submitForm` function.  There are two additional buttons: `update_nodes` which (on click) calls the `updateNodes` function and `cache_warmer` which (one click) will execute the `warmCaches` function.
+In the code below there is a submit button which will execute the `submitForm` function.  There are two additional buttons: `update_nodes` which, when clicked will call the `updateNodes` function and `cache_warmer` which will execute the `warmCaches` function.
 
 ```php
     $form['sanity_fieldset']['actions'] = [
@@ -402,7 +430,7 @@ function dirt_form_user_pass_alter(&$form, \Drupal\Core\Form\FormStateInterface 
   $form['name']['#attributes']['autocomplete'] = 'off';
 ```
 
-## Validating input
+## ValidateForm Examples
 
 ### Validate string length
 
@@ -421,7 +449,12 @@ public function validateForm(array &$form, FormStateInterface $formState) {
 
 ### Validate an email
 
-From web/modules/custom/rsvp/src/Form/RSVPForm.php we call Drupal's `email.validator` service and if it fails, setErrorByName()
+From `web/modules/custom/rsvp/src/Form/RSVPForm.php` we call Drupal's `email.validator` service and if it fails, `setErrorByName()`
+
+::: tip Note
+[From the Drupal API](https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Form!FormState.php/function/FormState%3A%3AsetErrorByName/8.2.x) `setErrorByName`: When a validation error is detected, the validator calls this method to indicate which element needs to be changed and provide an error message. This causes the Form API to not execute the form submit handlers, and instead to re-display the form to the user with the corresponding elements rendered with an 'error' CSS class (shown as red by default).
+:::
+
 
 ```php
 public function validateForm(array &$form, FormStateInterface $form_state) {
@@ -434,7 +467,7 @@ public function validateForm(array &$form, FormStateInterface $form_state) {
 }
 ```
 
-### Validate date
+### Validate a date
 
 You can also add a custom validation in a .module file. Here we use setTime()to remove the time part of a datetime so we can make comparisons of just the date.
 
@@ -471,9 +504,9 @@ function cn_form_validate($form, FormStateInterface $form_state) {
 }
 ```
 
-### Validate a node add or edit
+### Dynamically add a validation function to a form
 
-In org_mods.module we implement a `hook_form_alter`, and add a validate callback function for anonymous users only.
+In `org_mods.module`, in a `hook_form_alter` we add a validate callback function for anonymous users only.  This dynamically adds a validation function to the form if the user is anonymous.  The function is called `cn_form_validate` and is defined in the same module file.
 
 ```php
 /**
@@ -1842,7 +1875,7 @@ Create a `module.settings.yml` file in config/install directory for config objec
 
 Also create a `module.schema.yml` file in config/schema for schema info i.e.  definitions and mappings for config objects
 
-Implement the following methods: `buildForm()`, `getEditableConfigNames()`, `getFormId()`, `submitForm()`, `validateForm()`.
+Implement the following methods: `buildForm()`, `getEditableConfigNames()`, `getFormId()`, `submitForm()`, `validateForm()`.  `validateForm()` is optional.
 
 from `dev1/web/modules/custom/rsvp/src/Form/RSVPConfigurationForm.php` here is the `buildForm()` function.
 
@@ -1914,8 +1947,55 @@ rsvp.admin_settings:
         label: 'Content type'
 ```
 
----
 
+
+### Retrieving field values
+
+When you go to grab a field value from a form, use getValue(). The values that come back from this are arrays so you have to extract them like this (from org_mods.module)
+
+```php
+function cn_form_validate($form, FormStateInterface $form_state) {
+  $extension = $form_state->getValue('field_cn_extension');
+  if (is_array($extension)) {
+    $extension = $extension['value'];
+  }
+```
+
+Alternatively, you can get all the fields at one time with getValues().
+And reference their value like this.
+
+```php
+  $values = $form_state->getValues();
+
+  if ($values['op'] == 'Goback') {
+    ...
+  }
+```
+
+If you define the form with fields like `$form['header']['blah'] = ...` then you can retrieve those with `$form_state->getValue('header','blah');`
+
+or 
+
+if you define a checkbox like this: 
+```php
+  $form['actions']['delete_extras'] = [
+  '#type' => 'checkbox',
+  '#title' => t('Also delete extra items'),
+  '#required' => FALSE,
+  '#default_value' => FALSE,
+  '#description' => $this->t('Checking this box will delete extra items also.'),
+```
+
+You can retrieve the value of the checkbox with:
+
+```php
+$delete_extras = $form_state->getValue('delete_extras');
+
+// And then use it.
+  if (!$delete_extras) {
+    $query->condition('field_extras', '', '<>');
+  }
+```
 
 ## The basics of implementing forms
 
@@ -1926,9 +2006,7 @@ Forms are stored in `modules/src/Form/MyClassForm.php` e.g. `/modules/custom/dmo
 ### Base Classes for forms
 
 -   FormBase -- for any old form
-
 -   ConfirmFormBase -- for generic confirmation form
-
 -   ConfigFormBase -- for config forms
 
 ### Create your form class by extending Formbase
@@ -1939,7 +2017,7 @@ class HeaderFooterForm extends FormBase {
 
 ### The main methods
 
-Forms typically need a `buildForm()`, `submitForm()` and `getFormId()` member function. Validation is handled with a `validateForm()` member function.  Each is explained with more detail below:
+Forms typically need a `buildForm()`, `submitForm()` and `getFormId()` member function. Validation is handled with an optional `validateForm()` member function.  Each is explained with more detail below:
 
 #### getFormId()
 
@@ -2044,84 +2122,51 @@ foreach ($form_state->getValues() as $key => $value) {
 }
 ```
 
-### Form validation example #1
+#### validateForm()
+see [Form Validation](#validateform-examples)
 
-Check a string length for the `company_name` field.
+#### Form Elements
 
-```php
-public function validateForm(array &$form, FormStateInterface $formState) {
-  if (!$formState->isValueEmpty('company_name')) {
-    if (strlen($formState->getValue('company_name')) <= 5) {
-      //Set validation error.
-      $formState->setErrorByName('company_name', t('Company name is less than 5 characters'));
-    }
-  }
-}
-```
+When building forms in `buildForm()` you specify all the details using field attributes. They always begin with `#`. You can find all the possible attributes at [Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)
 
-### Form Validation example #2
-
-From web/modules/custom/rsvp/src/Form/RSVPForm.php we call Drupal's `email.validator` service and if it fails, setErrorByName()
-
-```php
-public function validateForm(array &$form, FormStateInterface $form_state) {
-  $value = $form_state->getValue('email');
-  if (!\Drupal::service('email.validator')->isValid($value)) {
-    $form_state->setErrorByName('email', t('The email %mail is not valid.', ['%mail'=> $value]));
-  }
-
-  parent::validateForm($form, $form_state);
-}
-```
-
-
-### Field attributes 
-
-They always begin with `#`. You can find all the possible attributes at [Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)
-
-
-```php
-$form['email'] = [
-  '#title' => t('Email Address'),
-  '#type' => 'textfield',
-  '#size' => 25,
-  '#description' => t("We'll send updates to the email address"),
-  '#required' => TRUE,
-];
-$form['submit'] = [
-  '#type' => 'submit',
-  '#value' => t('RSVP'),
-];
-$form['nid'] = [
-  '#type' => 'hidden',
-  '#value' => $nid,
-];
-```
-
-### Form Elements
-
-[Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)
-
-You can add markup to a form e.g. at web/modules/custom/modal_form_example/src/Form/ExampleForm.php
+Here are some examples:
 
 ```php
 public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
 
-  $form['zzz'] = [
+  $form['info'] = [
     '#type' => 'markup',
     '#markup' => $this->t('this is a test'),
   ];
 
-  $form['name'] = [
+  $form['customer_name'] = [
     '#type' => 'textfield',
     '#title' => $this->t('Name'),
     '#size' => 20,
     '#default_value' => 'Joe Blow',
     '#required' => FALSE,
   ];
+
+  $form['email'] = [
+  '#title' => t('Email Address'),
+  '#type' => 'textfield',
+  '#size' => 25,
+  '#description' => t("We'll send updates to the email address"),
+  '#required' => TRUE,
+  ];
+  $form['submit'] = [
+    '#type' => 'submit',
+    '#value' => t('RSVP'),
+  ];
+  $form['nid'] = [
+    '#type' => 'hidden',
+    '#value' => $nid,
+  ];
+}
 ```
 
-and prefixes and suffices
+
+You can use prefixes and suffixes to wrap elements in divs. This is useful for styling or hiding elements.
 
 ```php
 public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
@@ -2130,7 +2175,7 @@ public function buildForm(array $form, FormStateInterface $form_state, $options 
   $form['#suffix'] = '</div>';
 ```
 
-Hidden or required via a custom class
+Hidden or required via a custom class using `#attributes`
 
 ```php
   '#maxlength' => 40,
@@ -2154,53 +2199,7 @@ Another example:
   '#field_prefix' => '<span class="error-msg">*</span>',
 ```
 
-### Retrieving field values
 
-When you go to grab a field value from a form, use getValue(). The values that come back from this are arrays so you have to extract them like this (from org_mods.module)
-
-```php
-function cn_form_validate($form, FormStateInterface $form_state) {
-  $extension = $form_state->getValue('field_cn_extension');
-  if (is_array($extension)) {
-    $extension = $extension['value'];
-  }
-```
-
-Alternatively, you can get all the fields at one time with getValues().
-And reference their value like this.
-
-```php
-  $values = $form_state->getValues();
-
-  if ($values['op'] == 'Goback') {
-    ...
-  }
-```
-
-If you define the form with fields like `$form['header']['blah'] = ...` then you can retrieve those with `$form_state->getValue('header','blah');`
-
-or 
-
-if you define a checkbox like this: 
-```php
-  $form['actions']['delete_extras'] = [
-  '#type' => 'checkbox',
-  '#title' => t('Also delete extra items'),
-  '#required' => FALSE,
-  '#default_value' => FALSE,
-  '#description' => $this->t('Checking this box will delete extra items also.'),
-```
-
-You can retrieve the value of the checkbox with:
-
-```php
-$delete_extras = $form_state->getValue('delete_extras');
-
-// And then use it.
-  if (!$delete_extras) {
-    $query->condition('field_extras', '', '<>');
-  }
-```
 
 ## Resources
 - [Drupal API Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)

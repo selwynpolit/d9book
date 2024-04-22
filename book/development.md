@@ -11,49 +11,162 @@ This section of the book is about your local development environment and the too
 
 ## Local Drupal site setup
 
-Local development is best done using containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process. 
+Local development works really well using Docker containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process on any operating system. After installing `Docker` and `DDEV`, follow these steps:
 
-Pick one of these options after installing Docker and Ddev:
-
-
-#### First Option
-
-Using the DDEV Quickstart guides to install Drupal, Wordpress, TYPO3, Backdrop, Magento, Laravel etc. at <https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal>
+### Install Drupal
 
 ```
 mkdir my-drupal10-site
 cd my-drupal10-site
 ddev config --project-type=drupal10 --docroot=web --create-docroot
 ddev start
-ddev composer create "drupal/recommended-project" --no-install
-ddev composer require drush/drush --no-install
-ddev composer install
-ddev drush site:install -y
+ddev composer create drupal/recommended-project
+ddev composer require drush/drush
+ddev drush site:install --account-name=admin --account-pass=admin -y
+# Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
 ddev drush uli
+## Or this will open a browser and you can login with username: `admin` and password: `admin`
 ddev launch
 ```
 
-OR 
+### Install Drupal developer tools
 
-#### Second Option
-
-From <https://www.drupal.org/docs/official_docs/en/_local_development_guide.html>
-
-Start by specifying your SITE_NAME using export:
+You might want to install the Drupal dev tools using this:
 ```
- export SITE_NAME=d9site 
- export SITE_NAME=clientsite
+composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
-Here are all the steps:
+More at [DDEV CMS Quickstart guides](https://ddev.readthedocs.io/en/stable/users/quickstart/) to install [Drupal](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal), Wordpress, TYPO3, Backdrop, Magento, Laravel etc. 
+And the [Local development guide on drupal.org - updated October 2023](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
+
+### Install Devel module
+To generate dummy content and access a host of other useful tools, install the [Devel module](https://www.drupal.org/project/devel)
+```sh
+ddev composer require drupal/devel --dev
+ddev drush en devel devel_generate -y
 ```
-export SITE_NAME=my-drupal-site
-composer create-project drupal/recommended-project $SITE_NAME
-cd $SITE_NAME
-ddev config --docroot=web --project-name=$SITE_NAME --project-type=drupal9
-ddev start
-ddev exec drush site-install --account-name=admin --account-pass=admin
+Read [more about Devel generate](#generating-test-content-with-devel-generate)
+
+### Install Admin Toolbar Module & Module Filter
+
+Every site needs [Admin toolbar module](https://www.drupal.org/project/admin_toolbar) and [Module filter module](https://www.drupal.org/project/module_filter)
+
+```sh
+ddev composer require drupal/admin_toolbar drupal/module_filter
+ddev drush en admin_toolbar module_filter admin_toolbar_tools -y
 ```
+
+
+### Install drushonhost
+I also like to immediately install the `drushonhost` addon:
+
+```sh
+ddev get rfay/ddev-drushonhost
+```
+Read [more about global drush and drushonhost](drush#global-drush---run-drush-on-host)
+
+
+Edit the `web/sites/default/settings.php` so `settings.local.php` loads before `settings.ddev.php` (the order is critical). You will need to uncomment the lines that load the `settings.local.php`:
+
+```php
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
+
+// Automatically generated include for settings managed by ddev.
+$ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
+if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
+  require $ddev_settings;
+}
+```
+
+
+### Setup settings.local.php
+
+Copy the `sites/example.settings.local.php` to `sites/default/settings.local.php` with 
+
+```sh
+cp web/sites/example.settings.local.php web/sites/default/settings.local.php
+```
+
+Add the `IS_DDEV_PROJECT` environment variable as the last line of your `settings.local.php`:
+
+```php
+putenv("IS_DDEV_PROJECT=true");
+```
+
+After a `ddev drush cr` and perhaps a `ddev reload` you should be able to run drush on the host. e.g. `drush cst`.
+
+
+### Set config sync directory
+Make the config sync dir with:
+```sh
+mkdir -p config/sync
+``` 
+
+And add it to your `sites/default/settings.php`
+```php
+$settings['config_sync_directory'] = '../config/sync';
+```
+
+### Some optional steps
+Export your Drupal database with:
+```sh
+ddev export-db -f dbdump1.sql.gz
+```
+
+Export your config with:
+```sh
+drush cex
+```
+
+Add a `.gitignore` file with:
+
+```
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+/web/sites/development.services.yml
+/web/sites/example.settings.local.php
+/web/sites/example.sites.php
+/web/sites/default/default.services.yml
+/web/sites/default/default.settings.php
+
+# Ignore default README files
+/web/README.txt
+/web/README.md
+/web/modules/README.txt
+/web/profiles/README.txt
+/web/sites/README.txt
+/web/themes/README.txt
+
+# Ignore paths that contain user-generated content.
+/web/sites/*/files
+/web/sites/*/private
+
+# local settings file
+/web/sites/*/settings.local.php
+```
+
+
+Create your repo on Github (or Gitlab) and add your site to git with:
+```sh
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+# Use your own repo here
+git remote add origin git@github.com:hotshotcoderdude/ddev102.git
+git push -u origin main
+```
+
+Rock n Roll!!!
+
+
+
 
 ## Checking Your Permissions
 
@@ -82,13 +195,13 @@ You are now ready to develop a Drupal website on your local machine.
 
 ## Converting existing site (non-composer based) to use composer
 
-[Composerize Drupal](https://github.com/grasmash/composerize-drupal)
+here are some resources if you find yourself in this unfortunate situation:
+Taking an existing Drupal application that is not managed with Composer and beginning to manage it with Composer can be a little tricky. Check out this tutorial on how to [use Composer with Your Drupal Project from Drupalize.me - Updated August 2023](https://drupalize.me/tutorial/use-composer-your-drupal-project?p=3233).
+Also this [Composerize Drupal github repo - June 2022](https://github.com/grasmash/composerize-drupal) may be useful.
 
-Also for [manual steps](https://drupalize.me/tutorial/use-composer-your-drupal-project?p=3233)
 
-## Composer best practices for Drupal 8
 
-<https://www.lullabot.com/articles/drupal-8-composer-best-practices>
+
 
 ## DDEV
 
@@ -201,7 +314,7 @@ spolit@tea-web:/var/www/html$ file ~/.profile
 /home/spolit/.profile: ASCII text
 ```
 
-::: tip
+::: tip Note
 You can also create a global .profile file to run in all containers at ~/.ddev/homeadditions.  This doesn't apply to loading fish in all containers as there is not currently a facility to handle global `webimage_extra_packages`.
 :::
 
@@ -224,9 +337,13 @@ alias l="ls -lhAp"
 
 Note. don't use `.homeadditions` - use the `homeadditions` with no period (or full stop) in front.
 
-### Upgrading ddev
+### Upgrading DDEV
 
-After you install a new version of ddev, run `ddev stop` and then `ddev config` to reconfigure things for your project. Just press enter for all the questions. It keeps things rolling smoothly. Run `ddev start` to start it all back up again
+After you install a new version of ddev, run `ddev stop` and then `ddev config` to reconfigure things for your project. Just press enter for all the questions. It keeps things rolling smoothly. Run `ddev start` to start it all back up again. 
+```sh
+brew upgrade ddev
+```
+
 
 ### Show others your ddev local site using ngrok
 
@@ -276,19 +393,16 @@ The contents of the file are:
 xdebug.remote_port=11011
 ```
 
-For phpstorm, if you start listening for a debug connection, it should automatically try to create a debug server config for you. If it doesn't manually create one
+For phpstorm, if you start listening for a debug connection, it should automatically try to create a debug server config for you. If it doesn't manually create one using the following values:
 
-e.g name: tea.ddev.site
+e.g 
+- name: tea.ddev.site
+- host tea.ddev.site
+- port: 80
+- debugger: xdebug
+- check use path mappings
+- for docroot specify: /var/www/html/docroot (i.e. wherever index.php is)
 
-host tea.ddev.site
-
-port: 80
-
-debugger: xdebug
-
-check use path mappings
-
-for docroot specify: /var/www/html/docroot (i.e. wherever index.php is)
 
 ### Command line or drush debugging
 
@@ -322,8 +436,7 @@ xdebug support => enabled
 
 Also you can confirm the port
 
-set a server in phpstorm that matches the name `d8git.ddev.site` or
-`inside-mathematics.ddev.site`.
+set a server in phpstorm that matches the name `d8git.ddev.site` or `inside-mathematics.ddev.site`.
 
 Configure the server to use path mappings
 
@@ -335,65 +448,67 @@ set breakpoint and run
 
 replace `d8git.ddev.site` with the name of your project
 
-NOTE!!!!. You must execute drush from the vendor dir or you will always
-be ignored:
-
+::: tip Note
+You must execute drush from the vendor dir or you will always be ignored like this:
 ```
 ../vendor/drush/drush/drush fixmat
 ```
+:::
 
-If it doesn't seem to work, try enable Break at first line in PHP
-scripts - something will always stop then.
+If it doesn't seem to work, try enable Break at first line in PHP scripts - it will usually stop there.
 
-more at
-https://stackoverflow.com/questions/50283253/how-can-i-step-debug-a-drush-command-with-ddev-and-phpstorm
+
+Read [more at stackoverflow](https://stackoverflow.com/questions/50283253/how-can-i-step-debug-a-drush-command-with-ddev-and-phpstorm)
+
 
 ### Use drush commands in your shell with DDEV
 
-If you do local development, you can use syntax like `ddev drush cst` to execute drush commands in the container. This is slower than running on your native system because they are executed in the container. I prefer using drush directly on the host computer. 
+If you do local development, you can use syntax like `ddev drush cst` to execute `drush` commands in the container. This is slower than running on your native system because they are executed in the container but I prefer using `drush` directly on the host computer as I get to the benefits of [Oh My Zsh](https://ohmyz.sh/).
 
-To do this install PHP as well drush launcher. Once these are working, you can `cd` into the project directory and issue commands like `drush cr`,  `drush cst` or `drush cim -y` etc. It is *so* very quick and smooth.  (Note. this is the case with MacOS and Linux but I don't really know how it works on Windows.)
+To do this install PHP as well [drush globally](setup_mac#global-drush). Then following the steps to [install drushonhost](drush#global-drush-run-drush-on-host). Once these are working, you can `cd` into the project directory and issue commands like `drush cr`,  `drush cst` or `drush cim -y` etc. It is *so* very quick and smooth.  (Note. this is the case with MacOS and Linux and I suspect it should work fine on WSL2 on Windows.)
 
-[Details for Drush Launcher](https://github.com/drush-ops/drush-launcher)
 
-From [Installation of Drush Launcher](https://www.drush.org/latest/install/)
 
-* To be able to call drush from anywhere, install the [Drush Launcher](https://github.com/drush-ops/drush-launcher). Launcher is a small program which listens on your $PATH and hands control to a site-local Drush that is in the /vendor directory of your Composer project.
 
-Luckily, DDEV enables this functionality by default (Thanks Randy!)
+### Download a Drupal database and load it locally
 
-### Load your data from an Acquia site
-
-Using the [drush aliases](https://www.drush.org/latest/site-aliases/)
-assuming the site is called `abc` and you want the `prod` (production) database:
+You can download a Drupal database using `drush sql-dump` and then import it into the local site with the sequence of commands listed below. Using [drush aliases](https://www.drush.org/latest/site-aliases/) with a site called `abc` where you want to import the `prod` (production) database:
 
 ```
-$ drush @abc.prod sql-dump >dbprod.sql
-$ gzip dbprod.sql
-$ ddev import-db --src=dbprod.sql.gz
+drush @abc.prod sql-dump >dbprod.sql
+gzip dbprod.sql
+ddev import-db --src=dbprod.sql.gz
 ```
+This works with any site where you've set up your [drush aliases](https://www.drush.org/latest/site-aliases/) including Acquia.
 
-Of course this works with any site where you've set up your [drush
-aliases](https://www.drush.org/latest/site-aliases/).
+::: tip Note
+If you see the following error: `mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces` 
+you can rather use:
+
+`drush @abc.prod sql-dump --extra-dump=--no-tablespaces > dbprod.sql`
+
+[more at](https://support.acquia.com/hc/en-us/articles/1500002909602-Drush-throws-an-Access-denied-you-need-at-least-one-of-the-PROCESS-privilege-s-error-message)
+:::
+
+
 
 ### Cleanup some disk space 
 
-Free up disk space used by previous docker image versions. This does no
-harm.
+Free up disk space used by previous docker image versions. This does no harm.
 
-```
+```sh
 ddev delete images
 ```
 
 also
 
-```
+```sh
 docker system prune
 ```
 
 and
 
-```
+```sh
 docker image prune -a
 ```
 
@@ -403,7 +518,7 @@ List all docker volumes
 docker volume ls
 ```
 
-[DDEV General cleanup](https://github.com/drud/ddev/issues/1465)
+Read more about [DDEV General cleanup](https://github.com/drud/ddev/issues/1465)
 
 ### Accessing specific containers
 
@@ -424,7 +539,13 @@ or for selenium, use:
 
 `ddev ssh -s selenium`
 
+
 ## DDEV Troubleshooting
+
+### Why is DDEV doing strange things?
+
+You can find out what it’s doing, use `DDEV_DEBUG=true ddev start` or even `DDEV_VERBOSE=true ddev start`. This will display all sorts of debug or verbose information which might give you more information on problems.
+
 
 ### Running out of docker disk space
 
@@ -457,28 +578,20 @@ docker rmi -f $(docker images -q)
 ```
 
 Q. Deleting the images: Does that mean it will delete the db snapshots?
-A. No, docker images are the versioned images that come from dockerhub,
-they\'re are always replaceable.
-
-Absolutely nothing you do with ddev will delete your snapshots - you
-have to remove them manually
-
-They\'re stored in .ddev/db_snapshots on the host (under each project)
+A. No, docker images are the versioned images that come from dockerhub, they\'re are always replaceable. Absolutely nothing you do with ddev will delete your snapshots - you have to remove them manually. They\'re stored in .ddev/db_snapshots on the host (under each project)
 
 also
 
-```
+```sh
 docker system prune
 ```
 
-and
+and this command prunes every single thing, destroys all ddev databases and your composer cache.
 
-```
+```sh
 docker system prune --volumes
 ```
 
-prunes every single thing, destroys all ddev databases and your composer
-cache.
 
 ### DDEV won't start
 
@@ -507,19 +620,26 @@ Failed to start inside-mathematics: db container failed: log=, err=health check 
 This is almost always caused by a corrupted database, most often in a larger database. Since v0.17.0, this is generally only caused by docker being shut down in an ungraceful way. Unfortunately, both Docker for Windows and Docker for Mac shut down without notifying the container during upgrade, with a manual Docker exit, or at system shutdown. It can be avoided by stopping or removing your projects before letting Docker
 exit.
 
-To fix, `ddev remove --remove-data`, then `ddev start`.
-This may fail and suggest this bazooka version:
+To fix, `ddev remove --remove-data`, then `ddev start`. This may fail and suggest this bazooka version:
 
-`ddev stop --remove-data --omit-snapshot`
+```sh
+ddev stop --remove-data --omit-snapshot
+```
 
-## PHPStorm
+## PHPStorm and Drupal
 
-All the PHPStorm Drupal magic is at
-<https://www.jetbrains.com/help/phpstorm/drupal-support.html#view_drupal_api_documentation>
+Read all about [PHPStorm's support for Drupal](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html).
+This covers:
+- [Associating Drupal-specific files with the PHP file type](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#configure_file_associations)
+- [Using Drupal hooks in PhpStorm](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#drupal_hooks)
+- [Setting up Drupal code style in a PhpStorm project](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#drupal_set_code_style)
+- [Checking code against the Drupal coding standards](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#checking_code_with_code_sniffer)
+- [Viewing the Drupal API documentation from PhpStorm](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#view_drupal_api_documentation)
+- [Using the Drush command line tool from PhpStorm](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#use_drush)
+- [Using Drupal 8 with Symfony](https://www.jetbrains.com/help/phpstorm/2024.1/drupal-support.html#integration_between_drupal_8_and_Symfony_2)
 
-### Setting up PHPStorm and Drupal
+[Read about setting up PHPStorm and Drupal on drupal.org - updated August 2023](https://www.drupal.org/docs/develop/development-tools/configuring-phpstorm)
 
-<https://www.drupal.org/docs/develop/development-tools/configuring-phpstorm>
 
 ### PHPStorm and Xdebug
 
@@ -529,29 +649,31 @@ PHPStorm has a series of instructions for [configuring PHPStorm with Xdebug](htt
 
 Some settings I use
 
-![Graphical user interface, text, application, email Description automatically generated](/images/image1-phpstorm.png)
+![PhpStorm settings](/images/image1-phpstorm.png)
 
 And for this project
 
-![Graphical user interface, text, application, email Description automatically generated](/images/image2-phpstorm.png)
+![PhpStorm settings](/images/image2-phpstorm.png)
 
 If phpstorm doesn't stop when you set a breakpoint on some code, try deleting the server from the config debug, php, servers.
 
 Make sure PHPStorm is listening by clicking the listen button
 
-![Graphical user interface, text, application, Word Description automatically generated](/images/image3-phpstorm.png)
+![PhpStorm settings](/images/image3-phpstorm.png)
 
 When you try again it will be recreated but you will probably need to specify the path (from the image above).
 
+
 #### add a breakpoint in code
 
-To add a breakpoint in code, use
+You can click on the line number or add the following in code: 
 
 ```php
 xdebug_break()
 ```
 
-more at <https://xdebug.org/docs/all_functions>
+[more at](https://xdebug.org/docs/all_functions)
+
 
 ### Collecting PhpStorm debugging logs
 
@@ -563,12 +685,13 @@ more at <https://xdebug.org/docs/all_functions>
 
 -   For Xdebug 3xdebug.log=\"path_to_log/xdebug.log\"The log file contains the raw communication between PhpStorm and Xdebug as well as any warnings or errors:
 
--   https://www.jetbrains.com/help/phpstorm/troubleshooting-php-debugging.html#collecting-logs
+[Read more on jetbrains.com](https://www.jetbrains.com/help/phpstorm/troubleshooting-php-debugging.html#collecting-logs)
+
 
 
 ### Code Sniffing
 
-You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).  
+You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards). This does require that you have installed the [coder module](https://www.drupal.org/project/coder). See [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards) for details on how to install and configure it.
 
 Go to: Settings, Php, Debug, Quality Tools, PHP_CodeSniffer
 
@@ -576,79 +699,161 @@ Use the following settings:
 - Configuration: System PHP
 - Coding standard: Drupal
 
-Under the ... button set the PHP_CodeSniffer path to : /Users/spolit/.composer/vendor/bin/phpcs
+Under the `...` button set the PHP_CodeSniffer path to : `/Users/spolit/.composer/vendor/bin/phpcs`
 If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
 
 ::: tip Note
 (replace `/Users/spolit` with your own path to your username) 
 :::
 
-More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
+More at
+- [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
+- [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
+
+
+## PHPStan static code analysis
+
+### Installing PHPStan
+
+```sh
+composer require  --dev phpstan/phpstan phpstan/extension-installer mglaman/phpstan-drupal phpstan/phpstan-deprecation-rules
+```
+
+Create a `phpstan.neon` in the root of the project.  This one includes the `editorUrl` so you can click on links in the terminal to open PHPStorm at your line of code.  It also includes a line to exclude the `Unsafe usage message` that is common in Drupal code.  See Phil Norton\'s article [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules) for more.
+```
+parameters:
+    level: 0
+    paths:
+        - web/modules/custom
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+    ignoreErrors:
+        - '#Unsafe usage of new static\(\)#'
+
+```
+PHPStan has a number of levels that dictate what sort of things it will look for. Level 0, being the lowest level, looks for some basic checks like variables not being assigned and unknown classes being used. You can find the [full description of the different levels on the PHPStan website](https://phpstan.org/user-guide/rule-levels).
+
+>0 - basic checks, unknown classes, unknown functions, unknown methods called on $this, wrong number of arguments passed to those methods and functions, always undefined variables
+>1 - possibly undefined variables, unknown magic methods and properties on classes with __call and __get
+>2 - unknown methods checked on all expressions (not just $this), validating PHPDocs
+>3 - return types, types assigned to properties
+>4 - basic dead code checking - always false instanceof and other type checks, dead else branches, unreachable code after return; etc.
+>5 - checking types of arguments passed to methods and functions
+>6 - report missing typehints
+>7 - report partially wrong union types - if you call a method that only exists on some types in a union type, level 7 starts to report that; other possibly incorrect situations
+>8 - report calling methods and accessing properties on nullable types
+>9 - be strict about the mixed type - the only allowed operation you can do with it is to pass it to another mixed
+
+
+### Running PHPStan
+
+`vendor/bin/phpstan analyze` will run against any files in the paths specified in the `phpstan.neon` file.
+
+You can override those with command line options like: `vendor/bin/phpstan analyze --level 2 web/modules/custom/general/src/controller`
+
+You can also run it against a specific file like: `vendor/bin/phpstan analyze --level 6 web/modules/custom/general/src/controller/GeneralController.php`
+
+
+Here is a sample of the output:
+
+```
+vendor/bin/phpstan analyze --level 6 web/modules/custom/general/src/controller/GeneralController.php
+Note: Using configuration file /Users/selwyn/Sites/d9book2/phpstan.neon.
+ 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ -----------------------------------------------------------------------------------------------------------
+  Line   GeneralController.php
+ ------ -----------------------------------------------------------------------------------------------------------
+  17     Method Drupal\general\Controller\GeneralController::build() has no return type specified.
+         ✏️  GeneralController.php
+  19     If condition is always false.
+         ✏️  GeneralController.php
+  25     Variable $path_alias in PHPDoc tag @var does not match assigned variable $my_node_alias.
+         ✏️  GeneralController.php
+  25     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+  40     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+  44     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+  47     \Drupal calls should be avoided in classes, use dependency injection instead
+         ✏️  GeneralController.php
+```
+
+
+
+If you run out of memory, try using a higher memory limit as [documented at phpstan.org](https://phpstan.org/user-guide/command-line-usage#--memory-limit):
+
+`vendor/bin/phpstan.phar --memory-limit=256M` or even `vendor/bin/phpstan --memory-limit=1G`
+
+For more info:
+- See [Getting started with PHPStan on drupal.org updated October 2022](https://www.drupal.org/docs/develop/development-tools/phpstan/getting-started)
+- Phil Norton\'s article [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules)
+- [PHPStan documentation](https://phpstan.org/user-guide/getting-started)
+- Watch Matt Glaman [video from MidCamp 2024 - March 2024](https://www.youtube.com/watch?v=Q5Tku7MW25M) and view the [slides from the presentation](https://www.midcamp.org/sites/default/files/2024-03/Tighten%20up%20your%20Drupal%20code%20using%20PHPStan%20-%20MidCamp%202024.pdf)
+
+
+## VS Code and Drupal
+
+Some folks like to use [Microsoft's Visual Studio Code](https://code.visualstudio.com/) as a free alternative to PHPStorm. 
+
+
+
+It has a number of plugins that can make it a powerful tool for Drupal development. Here are some of the plugins that you might find useful:
+
+- [PHP Intelephense](https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client) - a high performance PHP language server packed full of features.
+- [PHP Debug](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug) - a VS Code extension to enable debugging of PHP scripts.
+- [PHP CS Fixer](https://marketplace.visualstudio.com/items?itemName=junstyle.php-cs-fixer) - a PHP coding standards fixer for Visual Studio Code.
+- [PHP DocBlocker](https://marketplace.visualstudio.com/items?itemName=neilbrayfield.php-docblocker) - a simple, dependency free PHP specific DocBlocking package.
+
+Mike Anello of [Drupaleasy](https://www.drupaleasy.com/) has a Youtube video from Midcamp explaining how to set up [VS Code for Drupal Development - March 2024](https://youtu.be/p-nz369Savs?si=-7cc5IW96LlEw5e9). The session description is:
+
+>Attendees of this session will leave with the knowledge necessary to configure their copy of Visual Studio Code as will be demonstrated in the session. 
+>
+>Learning objectives
+>
+>Integrate phpcs, phpcbf, and PhpStan with Visual Studio Code
+>Integrate Xdebug with Visual Studio Code
+>Install and configure recommended Visual Studio Code extensions for Drupal development
+
+
+
 
 ## Troubleshooting Xdebug with DDEV
 
-• Use curl or a browser to create a web request. For example, curl https://d9.ddev.site
+- Use curl or a browser to create a web request. For example, curl https://d9.ddev.site
+- If the IDE doesn\'t respond, take a look at ddev logs (`ddev logs`). If you see a message like \"\"PHP message: Xdebug: \[Step Debug\] Could not connect to debugging client. Tried: host.docker.internal:9000 (through xdebug.client_host/xdebug.client_port)\" then php/xdebug (inside the container) is not able to make a connection to port 9000.
+- In PhpStorm, disable the \"listen for connections\" button so it won't listen. Or just exit PhpStorm. 
+- `ddev ssh` into the web container. Can you run telnet host.docker.internal 9000 and have it connect? If not, follow the instructions above about disabling firewall and adding an exception for port 9000.
+- In PhpStorm, disable the “listen for connections” button so it won’t listen. Or exit PhpStorm. With another IDE like VS Code, stop the debugger from listening.
+- `ddev ssh` into the web container. Can you run `telnet host.docker.internal 9000` and have it connect? If so, you have something else running on port 9000. On the host, use `sudo lsof -i :9000 -sTCP:LISTEN` to find out what’s there and stop it. Don’t continue debugging until your telnet command does not connect. (On Windows WSL2 you may have to look for listeners both inside WSL2 and on the Windows side.)
+- Now click the “listen” button on PhpStorm to start listening for connections.
+- `ddev ssh` and try the `telnet host.docker.internal 9000` again. It should connect. If not, maybe PhpStorm is not listening, or not configured to listen on port 9000?
+- Check to make sure that Xdebug is enabled. You can use `php -i | grep -i xdebug` inside the container, or use any other technique you want that gives the output of `phpinfo()`, including Drupal’s `admin/reports/status/php`. You should see with `Xdebug v3` and `php -i | grep xdebug.mode` should give you `xdebug.mode => debug,develop => debug,develop`.
+- Set a breakpoint in the first relevant line of your index.php and then visit the site in a browser. It should stop at that first line.
+- If you’re using a flavor of IDE that connects directly into the web container like VS Code Language Server, you may want to use the global `xdebug_ide_location` setting to explain to DDEV the situation. For example, `ddev config global --xdebug-ide-location=container`, which tells the PHP/Xdebug to connect directly to the listener inside the container.
+- To find out what DDEV is using for the value of `host.docker.internal` you can run `DDEV_DEBUG=true ddev start` and it will explain how it’s getting that value, which help troubleshoot some problems. You’ll see something like `host.docker.internal=192.168.5.2` when running on Colima which can explain the usage.
 
-• If the IDE doesn\'t respond, take a look at ddev logs (`ddev logs`). If you see a message like \"\"PHP message: Xdebug: \[Step Debug\] Could not connect to debugging client. Tried: host.docker.internal:9000 (through xdebug.client_host/xdebug.client_port)\" then php/xdebug (inside the container) is not able to make a connection to port 9000.
+For more, [check out Troubleshooting Xdebug on DDEV docs](https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#troubleshooting-xdebug)
 
-• In PhpStorm, disable the \"listen for connections\" button so it won't listen. Or just exit PhpStorm. With another IDE like vscode, stop the debugger from listening.
-
-• ddev ssh: Can telnet host.docker.internal 9000 connect? If it does, you have something else running on port 9000, probably php-fpm. On the host, use sudo lsof -i :9000 -sTCP:LISTEN to find out what is there and stop it, or change the xdebug port and configure PhpStorm to use the new one . Don't continue debugging until your telnet command does not connect.
-
-• Check to make sure that Xdebug is enabled. You can use php -i \| grep Xdebug inside the container, or use any other technique you want that gives the output of phpinfo(), including Drupal's admin/reports/status/php. You should see with Xdebug v2.9.6, Copyright (c) 2002-2020 and php -i \| grep \"xdebug.remote_enable\" should give you xdebug.remote_enable: On.
-
-https://ddev.readthedocs.io/en/stable/users/step-debugging/
 
 ## What is listening on port 9000?
 
-To check if something is listening on port 9000 (the default port for xdebug) it's best to use
+To check if something is listening on port 9000 (the default port for xdebug) it's best to use `lsof` although there are a few other options:
 
-```
-$ lsof -i TCP:9000
-```
-
-it will actually list the name of the process listening
-
-i.e.
-
-```
-COMMAND    PID   USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
-phpstorm 13361 selwyn   81u  IPv6 0x5d4d30caf0be07d      0t0  TCP *:cslistener (LISTEN)
+```sh
+lsof -i TCP:9000
 ```
 
-Another option is 
-```
-nc -z localhost 9000
-```
+Here is the output from `lsof -i TCP:9000` where it reports that PhpStorm is listening:
 
-If it says:
-
-Connection to localhost port 9000 \[tcp/cslistener\] succeeded!
-
-this means something is listening. If you get nothing, then nothing is listening.
-
-You can also run network utility, scan port 9000 to 9003 on 127.0.0.1
-(localhost)
-
-What could be listening on port 9000?
-
-```
-$ netstat -an | grep 9000
+```sh
+COMMAND    PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+phpstorm 24380 selwyn  525u  IPv6 0xb7fc31a42f1fb36d      0t0  TCP *:cslistener (LISTEN)
 ```
 
-```
-tcp4 0 0 127.0.0.1.9000 \*.\* LISTEN
-```
+Here `lsof -i TCP:9000` reports that `php-fpm` is listening.
 
-Other options include:
-
-```
-$ lsof -i TCP:9000
-```
-
-Which reports that `php-fpm` is listening.
-
-```
+```sh
 COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
 
 php-fpm 732 selwyn 7u IPv4 0x4120ed57a07e871f 0t0 TCP
@@ -661,9 +866,31 @@ php-fpm 765 selwyn 8u IPv4 0x4120ed57a07e871f 0t0 TCP
 localhost:cslistener (LISTEN)
 ```
 
-## Setup settings.local.php and disable Cache
 
-From [Disabling cache during development](https://www.drupal.org/node/2598914)
+
+
+You can also try `netstat` or `nc` both of which are slightly less informative:
+
+Here is the output from `netstat -an | grep 9000` indicating something is listening on port 9000:
+```sh
+tcp46      0      0  *.9000                 *.*                    LISTEN
+```
+
+And from the `nc -z localhost 9000` command showing something is listening on port 9000: 
+```sh
+Connection to localhost port 9000 [tcp/cslistener] succeeded!
+```
+
+
+
+
+
+
+
+
+
+## Create your settings.local.php
+
 
 1\. Copy, rename, and move the sites/example.settings.local.php to sites/default/settings.local.php:
 
@@ -693,9 +920,11 @@ services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
-**NOTE:** Do not create development.services.yml, it exists under /sites
+::: tip
+ Do not create development.services.yml, it exists under /sites
+:::
 
-4\. In settings.local.php change the following to be TRUE if you want to
+4\. In `settings.local.php` change the following to be TRUE if you want to
 work with enabled css- and js-aggregation:
 
 ```php
@@ -734,16 +963,23 @@ parameters:
     auto_reload: true
     cache: false
 ```
+If the parameters section is already present in the development.services.yml file, append the twig.config section to it.
 
-*NOTE: If the parameters section is already present in the
-development.services.yml file, append the twig.config section to it.*
+::: tip Note
+The new way to enable Twig debugging is via the user interface. In the menus select `Configuration`, `Development`, `Development Settings` (or navigate to `/admin/config/development/settings`) and check the `Twig development mode` box, then check the boxes for  `Twig debug mode` and `disable Twig cache`.  You can also check the `Do not cache markup` at this time.
 
-7\. Rebuild the Drupal cache (`drush cr`) otherwise your website will
-encounter an unexpected error on page reload.
+:::
+
+7\. Rebuild the Drupal cache (`ddev drush cr`) otherwise your website will encounter an unexpected error on page reload.
+
+Refer to this article: [Disable Drupal (>=8.0) caching during development on drupal.org - updated May 2023](https://www.drupal.org/node/2598914)
+
+Also read [https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp](https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp)
+
 
 ## Development.services.yml
 
-I usually develop with this in sites/default/development.services.yml
+Recommended setup for development is to have this file in `sites/default/development.services.yml`.
 
 ```yml
 # Local development services.
@@ -798,7 +1034,7 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-Make sure the following is in docroot/sites/default/settings.local.php
+Make sure the following is in `docroot/sites/default/settings.local.php`.
 
 ```php
 /**
@@ -808,6 +1044,10 @@ $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml'
 ```
 
 ## Enable twig debugging output in source
+
+:::tip Note
+The new way to enable Twig debugging is via the user interface. In the menus select `Configuration`, `Development`, `Development Settings` (or navigate to `/admin/config/development/settings`) and check the `Twig development mode` box, then check the boxes for  `Twig debug mode` and `disable Twig cache`.  You can also check the `Do not cache markup` at this time.
+:::
 
 In `sites/default/development.services.yml` set `twig.config debug:true`.
 See `core.services.yml` for lots of other items to change for development
@@ -844,22 +1084,45 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 ```
 
 ## Kint
+[Kint](https://kint-php.github.io/kint/) for PHP is a tool designed to present your debugging data in the absolutely best way possible. In other words, it’s var_dump() and debug_backtrace() on steroids. Easy to use, but powerful and customizable. An essential addition to your development toolbox.
 
-From <https://www.webwash.net/how-to-print-variables-using-devel-and-kint-in-drupal/>
+Here is a [detailed tutorial on how to print variables using Devel and Kint in Drupal - February 2022](https://www.webwash.net/how-to-print-variables-using-devel-and-kint-in-drupal/).
 
 ### Setup
 
-We need both the Devel and Devel Kint Extras module. [Devel Kint Extras](https://www.drupal.org/project/devel_kint_extras) ships with the kint-php library so installing this via Composer will take care of it automatically.
+We need both the the [Devel](https://www.drupal.org/project/devel) and the [Devel Kint Extras](https://www.drupal.org/project/devel_kint_extras) modules.  Devel Kint Extras ships with the `kint-php` library which will be automatically installed if you install Devel Kint Extras using Composer:
 
-Install using Composer:
-
-`$ composer require drupal/devel drupal/devel_kint_extras`
+```sh
+$ composer require drupal/devel drupal/devel_kint_extras
+```
 
 Enable both with the following Drush command:
 
-`$ drush en devel_kint_extras -y`
+```sh
+$ drush en devel_kint_extras -y
+```
 
-Finally, enable Kint Extended as the Variables Dumper. To do this go to `admin/config/development/devel` and select Kint Extender and Save the configuration.
+Finally, enable Kint Extended as the Variables Dumper. To do this go to `admin/config/development/devel` and select `Kint Extender` and Save the configuration.
+
+::: tip Note
+These plugins can cause out-of-memory errors. So, to make sure you don't run into these when using this module, make sure to add the following snippet to your `settings.local.php`:
+
+```php
+if (class_exists('Kint')) {
+  // Change the maximum depth to prevent out-of-memory errors for Kint ver 5.
+  \Kint::$max_depth = 4;
+}
+```
+
+In Kint 4 this setting was renamed, so if you're using that version use the following snippet:
+
+```php
+if (class_exists('Kint')) {
+  // Change the maximum depth to prevent out-of-memory errors for Kint ver 4.
+  \Kint::$depth_limit= 4;
+}
+```
+:::
 
 ### Add kint to a custom module
 
@@ -888,33 +1151,68 @@ kint_require();
 ```
 
 ### Set max levels to avoid running out of memory
+This keeps your system from slowing down and running out of memory when using Kint.
 
-Kint can run really slowly so you may have to set maxLevels this way:
-
-Add this to settings.local.php
+Add this to `settings.local.php`
 
 ```php
 // Change kint maxLevels setting:
-include_once(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php');
-if(class_exists('Kint')){
-  // Set the maxlevels to prevent out-of-memory. Currently there doesn't seem to be a cleaner way to set this:
-  Kint::$maxLevels = 4;
+//include_once(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php');
+if (class_exists('Kint')) {
+  // Change the maximum depth to prevent out-of-memory errors for Kint ver 5.
+  \Kint::$max_depth = 4;
 }
 ```
 
 ## Replacing deprecated functions
+If you need to find a deprecated function, you can search for it (in the `keywords` field) at the [Change Records on drupal.org](https://www.drupal.org/list-changes/drupal) to find out how to replace it with a current function. For example, when searching for `taxonomy_get_tree` the site suggests:
 
-<https://drupal.stackexchange.com/questions/144147/get-taxonomy-terms>
+```php
+ // Procedural code - for OO code, inject the TermStorage object.
+  $tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid, $parent, $max_depth, $load_entities);
+```
+It also suggests: 
+> TermStorageInterface::loadTree() now returns an array of all term objects in the tree. Each term object is extended to have "depth" and "parents" attributes in addition to its normal ones (aka the original return of taxonomy_get_tree()).
+
+More [on stackexchange](https://drupal.stackexchange.com/questions/144147/get-taxonomy-terms)
+
 
 ## Missing module
 
-from: <https://www.drupal.org/node/2487215>
+If you see a PHP warning such as `The following module is missing from the file system...` (or similar) on your site, Here are some ways to remove it:
 
-If you see a PHP warning such as `The following module is missing from the file system...` (or similar) on your site, You can remove it with: 
+A quick solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
+
+::: tip Note
+Run `drush cr` first to try to get things sane.
+This opens the config in vim so you can use `/tracer` to search for tracer, `dd` to delete a line, `:wq` to save
+Also if this fails, just try it again.  Sometimes, it fails with a message like:
+```
+  The command "${VISUAL-${EDITOR-vi}} /tmp/drush_tmp_1711122194_65fda712e42d6/core.extension.yml" failed.
+  Exit Code: 1(General error)
+  Working directory: /Users/selwyn/Sites/ddev101/web
+
+  Output:
+  ================
+  Error Output:
+  ================
+```
+:::
+
+Also check out [Manually removing a missing module](https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates#s-manually-removing-a-missing-module)
+
+
+If this doesn't work for you, try the following query:
 
 ```
 $ drush sql-query "DELETE FROM key_value WHERE name='module_name';"
 ```
+More at [How to fix "The following module is missing from the file system..." warning messages on Drupal.org](https://www.drupal.org/node/2487215) 
+
+
+
+
+
 
 ## You have requested a non-existent service
 
@@ -927,15 +1225,15 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and then `trun
 
 ## Generating Test Content with Devel Generate
 
-From [Working with the devel module in Drupal 9 to generate dummy content August 2023 by Karishma Amin](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
+When building a Drupal website, it is useful to populate the site with enough content to check the overall displays when using layouts, views and design. It becomes important to test the website out with dummy content before adding live content. Instead of manually typing or importing data, the [Devel module](https://www.drupal.org/project/devel) allows you to create dummy content automatically.  
 
-When building a Drupal website, you want to have enough content to check the overall display such as layouts, views, design. Content comes in different forms and so it becomes important to test the website out with dummy content before adding live content. Instead of creating dummy content for Drupal sites manually, Devel generate allows you to create dummy content automatically.
-
-More at [Generating dummy Drupal content with Devel & more](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
+More at:
+- [Working with the devel module in Drupal 9 to generate dummy content by Karishma Amin - August 2023](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
+- [Generating dummy Drupal content with Devel & more - October 2021](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
 
 ## Enable verbose display of warning and error messages
 
-In `settings.php`, `settings.local.php` or `settings.ddev.php` make sure there is the following:
+In `settings.local.php` (or`settings.php` or `settings.ddev.php`) set the following config:
 
 ```php
 // Enable verbose logging for errors.
@@ -943,7 +1241,7 @@ In `settings.php`, `settings.local.php` or `settings.ddev.php` make sure there i
 $config['system.logging']['error_level'] = 'verbose';
 ```
 
-Also see [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+See [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
 
 
 ## Resources
@@ -952,3 +1250,12 @@ Also see [Enable verbose error logging for better backtracing and debugging - Ap
 - [Why DDEV by Randy Fay (Author of DDEV) - Dec 2022](https://opensource.com/article/22/12/ddev)
 - [How to setup Devel and Kint on Drupal 9 by Alex - Aug 2021](https://www.altagrade.com/blog/how-install-devel-and-kint-drupal-9)
 - [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+- [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
+- [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules)
+- [The Ultimate Guide to drupal/core-* packages - May 2022](https://gorannikolovski.com/blog/ultimate-guide-drupal-core-packages#drupal-core-dev)
+- [DDEV performance especially around Mutagen on MacOS - Mar 2024](https://ddev.readthedocs.io/en/latest/users/install/performance/)
+- [DDEV CMS Quickstart guides - January 2024](https://ddev.readthedocs.io/en/stable/users/quickstart/)
+- [Why you should care about using settings.local.php - February 2024](https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp)
+- [Troubleshooting Xdebug on DDEV docs](https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#troubleshooting-xdebug)
+- [Step debugging with Xdebug on DDEV docs](https://ddev.readthedocs.io/en/stable/users/step-debugging/)
+- [Mix module for development](https://www.drupal.org/project/mix)

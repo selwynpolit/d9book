@@ -397,6 +397,23 @@ $my_node_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create(
 $my_node_alias->save();
 ```
 
+## Delete a Node alias
+
+```php
+$path_alias_manager = \Drupal::entityTypeManager()->getStorage('path_alias');
+// Load path alias by path.
+$alias_objects = $path_alias_manager->loadByProperties([
+  'path' => '/node/' . $nid
+]);
+foreach ($alias_objects as $alias_object) {
+  // Delete the path alias
+  $alias_object->delete();
+} 
+```
+
+More on [Stack Exchange](https://drupal.stackexchange.com/questions/317693/how-can-i-delete-an-existing-path-alias/317694#317694)
+
+
 ## Get the current Path
 
 `\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
@@ -642,11 +659,11 @@ function dirt_pathauto_alias_alter(&$alias, array &$context) {
 }
 ```
 
-Also see an example at <https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field>
+Also see [an example on makedrupaleasy.com from Dec 2017](https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field)
 
-## Drupal l() is deprecated <Badge type="danger" text="Deprecated" />
+## Drupal l() is deprecated
 
-The l() method (lower case letter L) was a convenience wrapper for the link generator service's generate() method.
+The `l()`<Badge type="danger" text="Deprecated" /> method was a convenience wrapper for the link generator service's `generate()` method.
 So do this instead:
 
 ```php

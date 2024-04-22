@@ -7,28 +7,27 @@ title: Drush
 
 ## Overview
 
-Drush is a command line shell and Unix scripting interface for Drupal. Your life will go much better if you use Drush! Drush core ships with
-lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
-Similarly, it runs update.php, executes SQL queries, runs content migrations, and miscellaneous utilities like cron or cache rebuild.
-Drush can be extended by [3rd party commandfiles](https://www.drupal.org/project/project_module?f%5b2%5d=im_vid_3%3A4654).
+Drush is a command line shell and Unix scripting interface for Drupal. Your life will go much better if you use Drush! Drush core ships with lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
 
-From <https://www.drush.org/latest/>
+Similarly, it runs `update.php`, executes SQL queries, runs content migrations, and miscellaneous utilities like `cron` or cache rebuild.
+
+Drush can be extended by [3rd party commandfiles](https://www.drupal.org/project/project_module?f%5B0%5D=&f%5B1%5D=&f%5B2%5D=&f%5B3%5D=&f%5B4%5D=sm_field_project_type%3Afull&f%5B5%5D=&f%5B6%5D=&text=drush&solrsort=score+desc&op=Search).
 
 Drush is extensible with the ability to create drush commands and drush scripts.
 
-## Drush commands
+More [at drush.org](https://www.drush.org/latest/)
 
-These are new commands that you can add to your modules to allow drush to do useful things. Modules sometimes include drush commands e.g. search api (<https://www.drupal.org/project/search_api>) More about this below.
 
-Modules that have drush 9 commands need the following
+## Custom Drush commands
+
+These are new commands that you can add to your modules to allow drush to do useful things. Modules sometimes include drush commands e.g. [search api](https://www.drupal.org/project/search_api).
+
+Modules that have drush commands need the following
 
 1.  drush.services.yml
-
-2.  The implementation class which extends the DrushCommands class in module/src/Commands.
-
+1.  The implementation class which extends the DrushCommands class in module/src/Commands.
 1.  In the class, you annotate the function with the command
-
-2.  A section in the composer.json file referencing the extra, drush, services.
+1.  A section in the composer.json file referencing the extra, drush, services.
 
 See below for examples of each.
 
@@ -201,6 +200,8 @@ Here is the composer.json from a project where I used (Search API module)[https:
 }
 ```
 
+For another example, check out [Custom Drush commands with Drush Generate by Marc Berger of Four Kitchens - Mar 2024](https://www.fourkitchens.com/blog/development/custom-drush-commands-drush-generate/)
+
 
 ### Drush commands and  parameters
 
@@ -349,7 +350,7 @@ if (isset($extra[1])) {
 
 ### Hello world example
 
-Here is an example of a script from <https://raw.githubusercontent.com/drush-ops/drush/11.x/examples/helloworld.script>:
+Here is an [example of a script](https://raw.githubusercontent.com/drush-ops/drush/11.x/examples/helloworld.script):
 
 ```php
 <?php
@@ -490,7 +491,7 @@ and you can use the abbreviated form of the drush command: `drush sset` or `drus
 
 ## Drush does that?
 
-Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do aso many things. Here are a few that I like:
+Who isn\'t impressed by the things Drush does? It really shows off the incredible talent of Moshe Weitzman and the team that keep Drush moving. Drush can do **so many things**. Here are a few that I like:
 
 
 ### List blocks
@@ -507,10 +508,13 @@ which outputs something like:
 
 ### Generate code
 
-Drush can write modules (maybe not quite as well as ChatGPT), but they will save you tons of time. Use drush generate module and or drush
-generate controller to get a nice starting point for you to write your own controllers.
+Drush can scaffold (write your beginning code) modules, controllers, blocks, and much more (maybe not quite as well as ChatGPT 😉), which will save you tons of time. Use commands like `drush generate module`, `drush generate controller` or `drush generate plugin:block` to get a nice starting point for you to write your own controllers. 
 
-For more, on generating controllers see https://www.drush.org/latest/generators/controller/
+Check out 
+- [Drush Generators](https://www.drush.org/12.x/generators/all/)
+- [Generating controllers](https://www.drush.org/latest/generators/controller/)
+- [Generating block plugins](https://www.drush.org/12.x/generators/plugin_block/)
+
 
 This is what it looks like to generate a controller:
 
@@ -560,9 +564,9 @@ Sanitize the database by removing or obfuscating user data.
 
 Commandfiles may add custom operations by implementing:
 
--   \@hook on-event sql-sanitize-confirms. Display summary to user before confirmation.
+-   `@hook on-event sql-sanitize-confirms`. Display summary to user before confirmation.
 
--   \@hook post-command sql-sanitize. Run queries or call APIs to perform sanitizing
+-   `@hook post-command sql-sanitize`. Run queries or call APIs to perform sanitizing
 
 Several working commandfiles may be found at <https://github.com/drush-ops/drush/tree/11.x/src/Drupal/Commands/sql>
 
@@ -576,8 +580,7 @@ drush entity:delete node --chunks=5
 
 More from <https://www.drush.org/latest/commands/entity_delete/>
 
--   `drush entity:delete node --bundle=article`. Delete all article
-    entities.
+-   `drush entity:delete node --bundle=article`. Delete all article entities.
 
 -   `drush entity:delete shortcut`. Delete all shortcut entities.
 
@@ -733,20 +736,20 @@ cd $(drush dd files)
 ```
 
 
-### Global Drush
+### Global Drush - run drush on host
 
-I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded my Oh-my-Zsh.  Drush runs slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within /vendor/bin) and call it. Always install drush in each project using composer.
+I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded by [Oh-my-Zsh](https://ohmyz.sh/).  Drush runs slightly slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within `/vendor/bin`) and call it. **Always** install drush in each project using composer.
 
 ::: warning
 You should be aware that you might get unpredictable results if you use differing versions of PHP on your local vs in the DDEV containers.  E.g. if your local mac has PHP 7 and your DDEV is using PHP 8.1, you are likely to have unpredictable results when you issue some drush commands.  Generally speaking I haven't seen things be too wacky, but you should be aware of this.
 :::
 
-Don't use homebrew to install drush. Rather use the composer version:
+Use Composer to install drush. Don't use homebrew.
 
-```
+```sh
 composer global require drush/drush ^8
 ```
-Then add Drush to your system path by placing the following in your ~/.zshrc ( or if using bash: `~/.bash_profile`:
+Then add Drush to your system path by placing the following in your ~/.zshrc (or if using bash: `~/.bash_profile`):
 
 ```
  export PATH="$HOME/.composer/vendor/bin:$PATH" 
@@ -756,22 +759,22 @@ Then add Drush to your system path by placing the following in your ~/.zshrc ( o
 Test any of these path changes by running `source ~/.zshrc` to reload the environment variables.  You can also open a new iterm window if you prefer.
 :::
 
-By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands e.g. 
+By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands like `drush cr` or `drush cst`.
 
-`drush cr` or `drush cst` etc.
+Install drushonhost addon: 
 
-As of November 2023 and v1.22.4+ to allow local drush on host you will need to install the following Ddev addon:
+```sh
+ddev get rfay/ddev-drushonhost
+```
 
-`ddev get rfay/ddev-drushonhost`
-
-See <https://github.com/rfay/ddev-drushonhost> for documentation
+See [ddev-drushonhost repo](https://github.com/rfay/ddev-drushonhost) for documentation
 
 You will need: 
 `export IS_DDEV_PROJECT=true`
 
 OR
 
-In your project `settings.php` make sure the last part of the file looks like this (the order is critical):
+In your project\'s `settings.php` make sure the last part of the file looks like this (the order is critical):
 
 ```php
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
@@ -783,7 +786,6 @@ $ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
 if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
   require $ddev_settings;
 }
-
 ```
 
  Then add this to your `settings.local.php`:
@@ -793,11 +795,11 @@ Discussion: <https://github.com/ddev/ddev/pull/5328>
 
 Restart the project with `ddev restart`.
 
-Et voila!  You can now issue command such as `drush cr` as if you had first `ssh'ed` into the container.  
+Et voila!  You can now issue command such as `drush cr` as if you had first `drush ssh'ed` into the container.  
 
 
 **Troubleshooting**
-Failing looks like this:
+If you try to issue `drush dr` while in the project directory and it fails this is the error message to expect.
 
 ```sh
 $ drush cr
@@ -1330,33 +1332,6 @@ $ drush sqlq "select count(*) as redirects"
 ```
 
 
-## Run drush on the host
-
-If you prefer to type `drush cr` or `drush cim -y` (versus `ddev drush cr` or `ddev drush cim -y`), you can set things up to do that.
-
-Assuming you use PHP 8.1 for your Drupal project, you will need php 8.1 set up on your mac and drush installed globally.  See the [Global Drush Section](#global-drush) or [Setting up your Mac: Global Drush](/setup_mac#global-drush) for details.  It is advisable that the PHP installed on your local computer be the same as the PHP in the DDEV containers to avoid surprises.
-
-
-
-
-
-
-## Drush launcher
-
-install drush launcher from <https://github.com/drush-ops/drush-launcher>
-
-By installing the drush launcher globally on your local machine, you can simply type drush on the command line, and the launcher will find and
-execute the project specific version of drush located in your project\'s vendor directory.
-
-from <https://github.com/drush-ops/drush-launcher>: In order to avoid dependency issues, it is best to require Drush on a per-project basis
-via Composer (`$ composer require drush/drush`). This makes Drush available to your project by placing it at vendor/bin/drush.
-
-However, it is inconvenient to type `vendor/bin/drush` to execute Drush commands. By installing the drush launcher globally on your local
-machine, you can simply type drush on the command line, and the launcher will find and execute the project specific version of drush located in your project\'s vendor directory.
-
-::: tip Note
-This may not be required any more.
-:::
 
 
 ## Drupal 7 Drush scripts
@@ -1436,21 +1411,13 @@ if ($arg) {
 
 ## Resources
 
--   Drush docs site <https://www.drush.org/latest/>
-
--   Drush repository <https://github.com/drush-ops/drush>
-
--   Drush code generators <https://www.drush.org/latest/generators/all/>
-
--   Stack Exchange Drush issues <https://drupal.stackexchange.com/questions/tagged/drush>
-
--   Drush issue queue on github <https://github.com/drush-ops/drush/issues>
-
--   Creating Drush 9 commands and porting legacy commands October 2017 by Pawel Ginalski https://gbyte.dev/blog/creating-drush-9-commands-and-porting-legacy-commands
-
--   Porting commands to Drush 9 from Moshe Weitzman September 2017 <https://weitzman.github.io/blog/port-to-drush9>
-
--   Drush alias usage on Acquia <https://docs.acquia.com/cloud-platform/manage/ssh/drush/aliases/>
-
--   Controlling multiple sites with Drush 9 from [Joachim Noreiko](https://www.drupal.org/user/107701) Mar 2019 <http://www.noreiko.com/blog/controlling-multiple-sites-drush-9>
+- [Drush documentation](https://www.drush.org/latest/)
+- [Drush repository on Github](https://github.com/drush-ops/drush)
+- [Drush code generators](https://www.drush.org/latest/generators/all/)
+- [Stack Exchange Drush issues](https://drupal.stackexchange.com/questions/tagged/drush)
+- [Drush issue queue on github](https://github.com/drush-ops/drush/issues)
+- [Creating Drush 9 commands and porting legacy commands by Pawel Ginalski - Oct 2017](https://gbyte.dev/blog/creating-drush-9-commands-and-porting-legacy-commands)
+- [Porting commands to Drush 9 from Moshe Weitzman - Sep 2017](https://weitzman.github.io/blog/port-to-drush9)
+- [Drush alias usage on Acquia](https://docs.acquia.com/cloud-platform/manage/ssh/drush/aliases/)
+- [Controlling multiple sites with Drush 9 by Joachim Noreiko - Mar 2019](http://www.noreiko.com/blog/controlling-multiple-sites-drush-9)
 

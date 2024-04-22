@@ -7,7 +7,7 @@ title: Actions
 
 ## Overview
 
-The Actions module is a core module in Drupal 9 that allows site builders and developers to create automated workflows by defining actions and triggers. In Drupal, actions refer to a set of tasks or operations that can be performed on a site. For example, an action can be sending an email, publishing content, or updating a database record. 
+The Actions module is a core module in Modern Drupal that allows site builders and developers to create automated workflows by defining actions and triggers. In Drupal, actions refer to a set of tasks or operations that can be performed on a site. For example, an action can be sending an email, publishing content, or updating a database record. 
 
 With the Actions module, you can create a customized workflow that can be triggered by a specific event. For example, when a user submits a form on your website, you can trigger an action to send an email notification to the site administrator. You can also chain multiple actions together to create complex workflows.
 
@@ -163,9 +163,7 @@ class ArchiveNode extends ActionBase implements ContainerFactoryPluginInterface 
 }
 ```
 
-In order to get Action Plugin Discoverable you need to add `system.action.<plugin_id>.yml` which is placed in `config/install`
-
-The structure of the `.yml` file is shown below:
+In order to get Action Plugin to be discoverable you need to add the config yaml file in the form `system.action.<plugin_id>.yml`  in `config/install`. Here is the `config/install/system.action.action_plugin_examples_archive_node.yml` file:
 
 ```yaml
 langcode: en
@@ -182,7 +180,7 @@ Created Action Plugin can be viewed on the `/admin/content` page.
 
 ## Update Node Title Custom Action Plugin with Configuration
 
-This example updates a node title. It gets the new title info from configuration.  [It is also here on Gitlab.](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/UpdateNodeTitle.php)
+This [example by Bhanu951 on Gitlab](https://git.drupalcode.org/sandbox/Bhanu951-3103712/-/blob/8.x-dev/action_plugin_examples/src/Plugin/Action/UpdateNodeTitle.php) updates a node title. It gets the new title info from configuration.  
 
 ```php
 <?php
@@ -333,7 +331,9 @@ configuration:
   title: 'Updated New Title'
 ```
 
-Note. You need to install the core module Actions first to be able to configure action plugins in UI.
+:::tip Note
+You need to install the core module Actions first to be able to configure action plugins in UI.
+:::
 
 Configuration Page `/admin/config/system/actions`
 

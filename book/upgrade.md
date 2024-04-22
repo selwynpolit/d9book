@@ -10,8 +10,15 @@ title: Updates
 if there is `drupal/core-recommended` in your `composer.json` use:
 
 ```sh
-$ composer update drupal/core-recommended -W
+composer update "drupal/core-*" -W
 ```
+
+Or
+
+```sh
+$ composer update drupal/core-recommended --with-all-dependencies
+```
+
 
 if there is no `drupal/core-recommended` in your `composer.json` use:
 
@@ -19,7 +26,12 @@ if there is no `drupal/core-recommended` in your `composer.json` use:
 $ composer update drupal/core -W
 ```
 
-Note `composer update -W` is the same as `composer update --with-dependencies`
+`composer update -W` is the same as `composer update --with-dependencies`
+
+::: tip
+If you have problems with upgrading to the latest Drupal core, check out [troubleshooting in the composer chapter](composer#troubleshooting).
+Also lots of useful info at [Updating Drupal core via Composer on drupal.org](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
+:::
 
 
 ## Upgrading Drupal 9 to Drupal 10
@@ -657,6 +669,44 @@ Then composer install will apply the patch correctly
 More at <https://github.com/cweagans/composer-patches/issues/146>
 
 
+## Solving problems with drush updb
+When `drush updb` reports missing modules and errors like those shown below.  Try `drush cr` and repeat first. 
+
+```sh
+ [error]   (Currently using Missing or invalid modules The following modules are marked as installed in the core.extension configuration, but they are missing:
+ * tracer
+ * webprofiler
+
+Review the  suggestions for resolving this incompatibility [1] to repair your installation, and then re-run update.php.
+
+[1] https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates
+
+```
+
+The quickest solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
+
+::: tip Note
+Run `drush cr` first to try to get things sane.
+This opens the config in vim so you can use `/tracer` to search for tracer, `dd` to delete a line, `:wq` to save
+Also if this fails, just try it again.  Sometimes, it fails with a message like:
+```
+  The command "${VISUAL-${EDITOR-vi}} /tmp/drush_tmp_1711122194_65fda712e42d6/core.extension.yml" failed.
+  Exit Code: 1(General error)
+  Working directory: /Users/selwyn/Sites/ddev101/web
+
+  Output:
+  ================
+  Error Output:
+  ================
+```
+:::
+
+
+[Troubleshooting Database Updates on Drupal.org](https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates)
+
+
+
+
 ## Stop files being overwritten during composer operations
 
 Depending on your composer.json, files like development.services.yml may be overwritten from during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
@@ -920,6 +970,7 @@ composer require drupal/csv_serialization:^2.0 || ^3.0
 They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in EncoderInterface::encode() between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
 
 ## Reference
+- [Updating Drupal core via Composer on drupal.org - December 2023](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
 - [Drupalize.me: Upgrade to Drupal 10 - March 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
 - [Drupal 9 to Drupal 10 Upgrades: Complete Technical Guide and Upgrade Steps - Jan 2023](https://www.easternstandard.com/blog/drupal-9-to-drupal-10-upgrades-complete-technical-guide-and-upgrade-steps/)
 - [Composer Documentation](https://getcomposer.org/doc/)

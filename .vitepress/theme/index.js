@@ -8,11 +8,10 @@ import DefaultTheme from 'vitepress/theme';
 import { h } from 'vue';
 import {
   NolebaseEnhancedReadabilitiesMenu,
-  NolebaseEnhancedReadabilitiesScreenMenu,
-} from '@nolebase/vitepress-plugin-enhanced-readabilities';
+} from '@nolebase/vitepress-plugin-enhanced-readabilities/client';
 
 import 'viewerjs/dist/viewer.min.css';
-import '@nolebase/vitepress-plugin-enhanced-readabilities/dist/style.css';
+import '@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css';
 import './style.css';
 
 /** @type {import('vitepress').Theme} */
@@ -23,9 +22,6 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       // A enhanced readabilities menu for wider screens
       'nav-bar-content-after': () => h(NolebaseEnhancedReadabilitiesMenu),
-      // A enhanced readabilities menu for narrower screens (usually smaller than iPad Mini)
-      'nav-screen-content-after': () =>
-        h(NolebaseEnhancedReadabilitiesScreenMenu),
     });
   },
   enhanceApp({ app, router, siteData }) {

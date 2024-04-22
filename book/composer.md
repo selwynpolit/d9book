@@ -7,12 +7,7 @@ title: Composer
 
 ## Creating a local patch to a contrib module
 
-See Making a patch at <https://www.drupal.org/node/707484>
-
-In this case, I had the file_entity module installed and wanted to hide
-the tab "[files.]{.underline}" The tab item is provided by a task (read
-"menu tab") in the
-web/modules/contrib/file_entity/file_entity.links.task.yml
+In this case, I had the file_entity module installed and wanted to hide the `files` tab. That (menu) tab is provided by a task in `web/modules/contrib/file_entity/file_entity.links.task.yml`
 
 ```yaml
 entity.file.collection:
@@ -22,17 +17,15 @@ entity.file.collection:
   description: 'Manage files for your site.'
 ```
 
-For my patch, I want to remove this section of the `file_entity.links.task.yml` file.
+For my patch, I wanted to remove this section of the `file_entity.links.task.yml` file.
 
-First get the repo/git version of the module
+First I get the repo/git version of the module:
 
 ```sh
 $ composer update drupal/file_entity --prefer-source
 ```
 
-Change the file in the text editor
-
-Run git diff to see the changes:
+Then change the file in the text editor and run git diff to see the changes:
 
 ```sh
 $ git diff
@@ -60,7 +53,7 @@ index 3ea93fc..039f7f9 100644
    base_route: entity.file.add_form
 ```
 
-Create the patch
+Create the patch:
 
 ```sh
 git diff >file_entity_disable_file_menu_tab.patch
@@ -88,8 +81,7 @@ Add the patch to the patches section of composer.json. Notice below the line sta
 
 Revert the file in git and then try to apply the patch.
 
-Here is the patch command way to un-apply or revert a patch (-R means
-revert)
+Here is the patch command way to un-apply or revert a patch (-R means revert)
 
 ```
 patch -p1 -R < ./patches/fix_scary_module.patch
@@ -99,6 +91,9 @@ To apply the patch:
 ```
 patch -p1 < ./patches/fix_scary_module.patch
 ```
+
+For more, see [Making a patch](https://www.drupal.org/node/707484).
+
 
 ## Patch modules using patches on Drupal.org
 
@@ -179,7 +174,7 @@ composer update -vvv
 
 ## Patches from a Gitlab merge request
 
-Using the URL of the merge request, add .patch at the end of the URL and that will be the path to the latest patch.
+Using the URL of the merge request, add `.patch` at the end of the URL and that will be the path to the latest patch.
 
 e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
 
@@ -188,8 +183,7 @@ The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_
 
 ## composer.json patches in separate file
 
-To separate patches into a different file other than composer json add
-`"patches-file"` section under `"extra"`. See example below:
+To separate patches into a different file other than composer json add `"patches-file"` section under `"extra"`. See example below:
 
 ```json
 "extra": {
@@ -295,6 +289,34 @@ composer update drupal/core -W
 ```
 
 Note `composer update -W` is the same as `composer update --with-dependencies`
+
+
+Recently, when upgrading from Drupal 10.1.6 to 10.2.3, I used the following command:
+
+```sh
+composer update "drupal/core-*" --with-all-dependencies
+```
+While this updated the core to 10.1.8, it didn't upgrade to 10.2.3.  I then used the following command:
+
+
+```sh
+composer require drupal/core-recommended:10.2.3 drupal/core-composer-scaffold:10.2.3 drupal/core-project-message:10.2.3 drush/drush --update-with-all-dependencies
+```
+
+::: tip Note
+I added the `drush/drush` part because the first attempt using
+`composer require drupal/core-recommended:10.2.3 drupal/core-composer-scaffold:10.2.3 drupal/core-project-message:10.2.3 --update-with-all-dependencies` failed with:
+```sh
+Problem 1
+- Root composer.json requires drupal/core-recommended 10.2.3 -> satisfiable by drupal/core-recommended[10.2.3].
+- drupal/core 10.2.3 conflicts with drush/drush <12.4.3.
+- drupal/core-recommended 10.2.3 requires drupal/core 10.2.3 -> satisfiable by drupal/core[10.2.3].
+- drush/drush is locked to version 12.3.0 and an update of this package was not requested.
+```
+:::
+
+More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3) and [Updating Drupal core via composer updated Dec 2023. ](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
+
 
 ## What are the dependencies?
 
@@ -475,7 +497,7 @@ More at
 - [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
 
 
-### For Drupal 10:
+### For Drupal 10
 
 Install the composer lenient plugin
 `composer require mglaman/composer-drupal-lenient`
@@ -615,7 +637,7 @@ Install the module with:
 The module will be installed and the patch applied!
 
 More at
-- [HOW TO INCORPORATE DRUPAL 9-COMPATIBLE MODULES INTO YOUR DRUPAL 10 PROJECT - Aug 2023](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
+- [How to incorporate drupal 9-compatible modules into your drupal 10 project - Aug 2023](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
 - [https://github.com/mglaman/composer-drupal-lenient](https://github.com/mglaman/composer-drupal-lenient)
 - [Using Drupal's Lenient Composer Endpoint - Sep 2023](https://www.drupal.org/docs/develop/using-composer/using-drupals-lenient-composer-endpoint)
 - [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
@@ -655,13 +677,13 @@ Consider using the caret operator instead for safety.
 
 Examples:
 
-- \>=1.0
+- `>=1.0`
 
-- \>=1.0 \<2.0
+- `>=1.0 <2.0`
 
-- \>=1.0 \<1.1 \|\| \>=1.2
+- `>=1.0 <1.1 || >=1.2`
 
-More at <https://getcomposer.org/doc/articles/versions.md>
+[More in composer docs](https://getcomposer.org/doc/articles/versions.md)
 
 ## Allowing multiple versions
 
@@ -672,7 +694,7 @@ For the [CSV serialization](https://www.drupal.org/project/csv_serialization) mo
 composer require drupal/csv_serialization:^2.0 || ^3.0
 ```
 
-They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in EncoderInterface::encode() between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
+They say: \"It is not possible to support both Drupal 9.x and 10.x in a single release of this module due to a breaking change in `EncoderInterface::encode()` between Symfony 4.4 (D9) and Symfony 6.2 (D10). When preparing for an upgrade to Drupal 10 we recommend that you widen your Composer version constraints to allow either 2.x or 3.x: `composer require drupal/csv_serialization:^2.0 || ^3.0.` This will allow the module to be automatically upgraded when you upgrade Drupal core.\"
 
 ::: tip Note
 TODO: I couldn't make this work.  Anyone want to weigh in on this?
@@ -680,7 +702,7 @@ TODO: I couldn't make this work.  Anyone want to weigh in on this?
 
 ## Specify a particular version of PHP
 
-You can specify the version of PHP in composer.json as shown below:
+You can specify the version of PHP in `composer.json` as shown below:
 
 ```json
 "config": {
@@ -715,13 +737,142 @@ Here is more of the config section of a composer.json for clarity:
 
 ### Composer won\'t update Drupal core
 
-The `prohibits` command tells you which packages are blocking a given package from being installed. Specify a version constraint to verify whether upgrades can be performed in your project, and if not why not.
+The `composer prohibits` (alias `why-not`) command tells you which packages are blocking a given package from being installed. Specify a version constraint to verify whether upgrades can be performed in your project, and if not why not.
 
-Why won\'t composer install Drupal version 8.9.1?
+Here we ask why won\'t composer install Drupal version 10.2.3?
 
 ```
-composer why-not drupal/core:8.9.1
+composer why-not drupal/core 10.2.3
 ```
+
+The output looks like:
+
+```sh
+drupal/core-recommended    10.1.8   requires         drupal/core (10.1.8)
+drupal/core                10.2.3   conflicts        drush/drush (<12.4.3)
+drupal/core                10.2.3   requires         symfony/console (^6.4)
+drupal/recommended-project dev-main does not require symfony/console (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/dependency-injection (^6.4)
+drupal/recommended-project dev-main does not require symfony/dependency-injection (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/event-dispatcher (^6.4)
+drupal/recommended-project dev-main does not require symfony/event-dispatcher (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/http-foundation (^6.4)
+drupal/recommended-project dev-main does not require symfony/http-foundation (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/http-kernel (^6.4)
+drupal/recommended-project dev-main does not require symfony/http-kernel (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/mime (^6.4)
+drupal/recommended-project dev-main does not require symfony/mime (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/routing (^6.4)
+drupal/recommended-project dev-main does not require symfony/routing (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/serializer (^6.4)
+drupal/recommended-project dev-main does not require symfony/serializer (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/validator (^6.4)
+drupal/recommended-project dev-main does not require symfony/validator (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/process (^6.4)
+drupal/recommended-project dev-main does not require symfony/process (but v6.3.12 is installed)
+drupal/core                10.2.3   requires         symfony/yaml (^6.4)
+drupal/recommended-project dev-main does not require symfony/yaml (but v6.3.12 is installed)
+Not finding what you were looking for? Try calling `composer update "drupal/core:10.2.3" --dry-run` to get another view on the problem.
+```
+
+To solve this, I removed drush with `composer remove drush/drush` and then ran `composer update "drupal/core-*" -W`
+
+Then I reinstalled the correct version of drush with `composer require drush/drush` which installed version 12.5.1 of drush.
+
+
+
+## Composer won\'t install a module
+
+In this case I am trying to install the `csv_serialization` module.  I get the following error:
+
+```sh
+composer require 'drupal/csv_serialization:^4.0'
+./composer.json has been updated
+Running composer update drupal/csv_serialization
+Gathering patches for root package.
+Loading composer repositories with package information
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - drupal/views_data_export is locked to version 1.3.0 and an update of this package was not requested.
+    - drupal/views_data_export 1.3.0 requires drupal/csv_serialization ~1.4 || ~2.0 || ~3 -> found drupal/csv_serialization[dev-1.x, dev-2.x, dev-3.x, 1.4.0, 1.5.0, 1.x-dev (alias of dev-1.x), 2.0.0-beta1, ..., 2.x-dev (alias of dev-2.x), 3.0.0-beta1, ..., 3.x-dev (alias of dev-3.x)] but it conflicts with your root composer.json require (^4.0).
+
+Use the option --with-all-dependencies (-W) to allow upgrades, downgrades and removals for packages currently locked to specific versions.
+
+Installation failed, reverting ./composer.json and ./composer.lock to their original content.
+```
+
+So I can try the `why-not` command to see why it won't install:
+
+```sh
+composer why-not drupal/csv_serialization ^4.0
+drupal/recommended-project dev-master requires drupal/csv_serialization (^3.0)
+drupal/views_data_export   1.3.0      requires drupal/csv_serialization (~1.4 || ~2.0 || ~3)
+Not finding what you were looking for? Try calling `composer update "drupal/csv_serialization:^4.0" --dry-run` to get another view on the problem.
+```
+
+So it looks like the `drupal/recommended-project` requires `drupal/csv_serialization ^3.0` which should not be a problem. Also `drupal/views_data_export` requires `~1.4 || ~2.0 || ~3`.  
+
+I can try the `--dry-run` option to see what happens:
+
+```sh
+composer update drupal/csv_serialization:^4.0 --dry-run
+
+In UpdateCommand.php line 163:
+
+  The temporary constraint "^4.0" for "drupal/csv_serialization" must be a subset of the constraint in your composer.js
+  on (^3.0)
+```
+
+Well, that's not very helpful.  I try updating drupal/views_data_export which succeeds:
+
+```sh
+composer update drupal/views_data_export
+Gathering patches for root package.
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 1 update, 0 removals
+  - Upgrading drupal/views_data_export (1.3.0 => 1.4.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 1 update, 0 removals
+  - Downloading drupal/views_data_export (1.4.0)
+Gathering patches for root package.
+Gathering patches for dependencies. This might take a minute.
+  - Upgrading drupal/views_data_export (1.3.0 => 1.4.0): Extracting archive
+  - Applying patches for drupal/views_data_export
+    https://www.drupal.org/files/issues/2021-02-17/2887450-40.patch (Add drush command views-data-export)
+...
+```
+
+Now I try to install the module again:
+
+```sh
+composer require 'drupal/csv_serialization:^4.0'
+./composer.json has been updated
+Running composer update drupal/csv_serialization
+Gathering patches for root package.
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 1 update, 0 removals
+  - Upgrading drupal/csv_serialization (3.0.0 => 4.0.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 1 update, 0 removals
+  - Downloading drupal/csv_serialization (4.0.0)
+Gathering patches for root package.
+Gathering patches for dependencies. This might take a minute.
+  - Upgrading drupal/csv_serialization (3.0.0 => 4.0.0): Extracting archive
+Package webmozart/path-util is abandoned, you should avoid using it. Use symfony/filesystem instead.
+Generating autoload files
+99 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+phpstan/extension-installer: Extensions installed
+Found 1 security vulnerability advisory affecting 1 package.
+Run "composer audit" for a full list of advisories.
+```
+
 
 ### The big reset button
 
@@ -757,3 +908,5 @@ $ ddev composer install
 - [Utilizing incompatible Drupal 9 modules with Drupal 10 - Aug 2023 ](https://www.specbee.com/blogs/how-incorporate-drupal-9-compatible-modules-your-drupal-10-project)
 - [Install a Contributed Module with No Drupal 9 Release - Feb 2023](https://drupalize.me/tutorial/install-contributed-module-no-drupal-9-release)
 - [Using Drupal's Lenient Composer Endpoint - Sep 2023](https://www.drupal.org/docs/develop/using-composer/using-drupals-lenient-composer-endpoint)
+- [Updating Drupal core via composer updated Dec 2023](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
+- [Updating Drupal](https://www.drupal.org/docs/updating-drupal)

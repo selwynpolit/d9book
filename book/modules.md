@@ -7,11 +7,25 @@ title: Modules
 
 ## Overview
 
-With over 50,000 modules, Drupal has the ability to do almost anything. This also means it can be a little tough to find what you need. Here is a list of modules that are important, useful and interesting.
+With over 50,000 modules, Drupal has the ability to do almost anything. This also means it can be a little tough to find what you need. Here is a list of modules that are important, useful and interesting. Search for [modules on drupal.org.](https://www.drupal.org/project/project_module)
 
 ::: tip
-If you want to check the usage for a module that isn't as popular as say [token](https://www.drupal.org/project/token) which clearly displays `636,845 sites report using this module` Check the url [https://www.drupal.org/project/usage/token](https://www.drupal.org/project/usage/token) Just replace `token` with the machine name for that module.
+If you want to check the usage for a module that isn't as popular as, for example, [token](https://www.drupal.org/project/token) which clearly displays `636,845 sites report using this module` Check the url [https://www.drupal.org/project/usage/token](https://www.drupal.org/project/usage/token) Just replace `token` with the machine name for that module.
 :::
+
+## Accessibility
+
+### All in One Accessibility
+
+#### Quick Web Accessibility Implementation with Drupal All In One Accessibility module!
+
+The All In One Accessibility widget is developed to improve accessibility and usability of your website. It uses the accessibility interface which handles UI and design related adjustments.
+
+Enable a wide array of people with disabilities to use your Drupal website effectively with the All In One Accessibility widget. It will integrate basic accessibility features according to the **ADA, WCAG 2.1 & 2.2, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act (EA), Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, France RGAA, Brazilian Inclusion Law (LBI 13.146/2015), Spain UNE 139803:2012, JIS X 8341 (Japan), Italian Stanca Act and Switzerland DDA Standards**. These standards ensure that the site is accessible to people with hearing or vision impairments, cognitive impairments, and perception problems.
+
+[https://www.drupal.org/project/all_in_one_accessibility](https://www.drupal.org/project/all_in_one_accessibility)
+
+[Here's a comprehensive feature guide](https://www.dropbox.com/s/de41n4xm9zjwxix/All-in-One-Accessibility-PRO-App-Usage-and-Functionality.pdf?dl=0)
 
 ## Access/Permissions
 
@@ -143,6 +157,11 @@ Define dependencies between fields based on their states and values. It provides
 Provides an autocomplete widget for text fields that suggests all existing (previously entered) values for that field. This provides more flexibility than "allowed values" for the content editor to add new values. At that same time, it is simpler in many cases than creating a taxonomy vocabulary (no hierarchies, no separate system, no permissions headaches, no rendered pages per term).
 [https://www.drupal.org/project/existing_values_autocomplete_widget](https://www.drupal.org/project/existing_values_autocomplete_widget)
 
+### Inline Entity Form
+
+Provides a widget for inline management (creation, modification, removal) of referenced entities.The primary use case is the parent -> children one (product display -> products, order -> line items, etc.), where the child entities are never managed outside the parent form. Existing entities can also be referenced.  This module has it's origins in the [Drupal Commerce module.](https://www.drupal.org/project/commerce).
+
+
 ### Link Field Autocomplete Filter
 Currently the autocomplete in the Link Field widget always shows content suggestions from all content (node) types. This module adds a Link Field configuration for filtering the suggested content types in the autocomplete field.
 
@@ -190,6 +209,15 @@ Entity Bulk Clone provides the clone features for nodes using views bulk operati
 
 [https://www.drupal.org/project/entity_bulk_clone](https://www.drupal.org/project/entity_bulk_clone)
 
+### Entity Reference Revisions
+Adds an Entity Reference field type with revision support, allowing specific entity revisions to be references. This is useful for modules like Paragraphs and Inline Entity Form.
+
+A common use case is where an entity is actually part of a parent entity (with an embedded entity form). When the parent entity is updated, the referenced entity is also updated, thus the previous revision of the parent entity should still be pointing to the previous version of the entity to fully support revision diff and rollback.
+
+[https://www.drupal.org/project/entity_reference_revisions](https://www.drupal.org/project/entity_reference_revisions)
+
+
+
 ### File Download (includes download counter)
 Provides a formatter to use that allows users to download file and image entities directly.  Also includes a separate module to count downloads and display results in a View. Modelled off the statistics module which counts content views, this counts downloads using the File Download formatter.
 
@@ -223,6 +251,41 @@ Examples:
 - Incredibly simple plugin architecture allowing you to do almost anything to Feeds' data. This comes with simple configuration and exportability(i.e. Features.)
 
 [https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
+
+## Development
+
+### Module Builder
+
+A module which auto-generates a skeleton or "scaffolding" for a module, along with hints on how to fill them in. Useful for newbie developers to learn how Drupal code works, and seasoned developers who are too lazy to look up what arguments a function has to take.
+
+Module Builder is unlike any other code generator in that it analyses your site's code to detect plugin types, hooks, services, and so on. It can then generate code for any of these, whether from core, contrib, or your custom code.
+
+But more than this, module builder can generate:
+
+- Content and config entity types
+- Plugins of just about any type, with injected services
+- Forms, with injected services
+- Routes and controllers, with injected services
+- Permissions
+- Services
+- Plugin types
+- PHPUnit test case classes, and test modules
+- An api.php file to document the module's hooks
+- An admin settings form
+- A README file
+- ... and more.
+
+You can [watch a demonstration](https://www.youtube.com/watch?v=jcKZwOgbE4w) of some of the components that can be generated.
+
+[https://www.drupal.org/project/module_builder](https://www.drupal.org/project/module_builder)
+
+### WebProfiler
+
+WebProfiler adds a toolbar at the bottom of every page and shows you all sorts of stats, such as the amount of database queries loaded on the page, which services are used, and much more.
+
+Webprofiler provides detailed insights into various aspects of a Drupal request, including execution time, memory usage, database queries, forms, service calls, and more. By presenting a comprehensive breakdown of the backend performance for each page request, it enables developers to identify bottlenecks, understand system behavior, and make informed decisions to enhance site performance. This tool is invaluable for performance analysis, helping to ensure that Drupal sites run as efficiently as possible.
+
+[https://www.drupal.org/project/webprofiler](https://www.drupal.org/project/webprofiler)
 
 ## Email
 
@@ -270,6 +333,10 @@ A collection of useful UI tools for working with fields.
 - Clone form and view displays to other bundles, with support for Field Groups
 
 [https://www.drupal.org/project/field_tools](https://www.drupal.org/project/field_tools)
+
+### Dynamic Entity Reference
+This module provides a field type for entity references that can reference multiple entity types. It is based on the core Entity Reference module but allows you to reference **more than one** entity type. It also provides a widget for the entity reference field that allows you to select the entity type to reference on the fly.
+[https://www.drupal.org/project/dynamic_entity_reference](https://www.drupal.org/project/dynamic_entity_reference)
 
 ### Views Reference Field
 This lets you add a view (and a view's display) to a content type so it gets rendered when the node gets rendered.
@@ -342,6 +409,39 @@ Smart Trim implements a new field formatter for textfields (text, text_long, and
 
 [https://www.drupal.org/project/smart_trim](https://www.drupal.org/project/smart_trim)
 
+## Paragraphs
+
+### Paragraphs
+Paragraphs allows grouping together fields to make a cohesive unit of content.
+
+Instead of putting all their content in one WYSIWYG body field including images and videos, end-users can now choose on-the-fly between pre-defined Paragraph Types independent from one another. Paragraph Types can be anything you want from a simple text block or image to a complex and configurable slideshow.
+
+[https://www.drupal.org/project/paragraphs](https://www.drupal.org/project/paragraphs)
+
+### Paragraphs Edit
+
+This module adds contextual links to paragraphs to edit, delete and clone paragaphs.
+
+[https://www.drupal.org/project/paragraphs_edit](https://www.drupal.org/project/paragraphs_edit)
+
+### Paragraphs Report
+
+The Paragraphs Report module will parse nodes of certain content types that you check on the settings page, and make a catalog of what paragraphs are used on which pages.
+
+The use case for this report is when you want to know which pages a specific paragraph type is used.
+
+[https://www.drupal.org/project/paragraphs_report](https://www.drupal.org/project/paragraphs_report)
+
+### Paragraphs Sets
+
+Paragraphs Sets allows to create different sets of paragraphs.
+
+These sets can be automatically added to a new entity or selected while creating/editing the entity.
+
+This allows editors to add content way faster because they do not need to add all required paragraphs manually and can focus on the content.
+
+[https://www.drupal.org/project/paragraphs_sets](https://www.drupal.org/project/paragraphs_sets)
+
 ## Permissions
 
 [How to restrict access to content by role in Drupal 8 - Aug 2018](https://www.optasy.com/blog/how-do-you-restrict-access-content-drupal-8-6-modules-will-do-job-you)
@@ -381,6 +481,31 @@ A module built to resolve and avoid the error: \"Unable to install already exist
 Antibot is an extremely lightweight module designed to eliminate robotic form submissions on your website in an innovative-fashion. The module works completely behind the scenes and doesn't require any interaction from the end-users (no annoying CAPTCHAs!). The only requirement to the end user is that they must have JavaScript enabled. If they do not, the protected forms will be hidden and a message will appear, telling the user that the form requires JavaScript be enabled in order to use it.
 
 [https://www.drupal.org/project/antibot](https://www.drupal.org/project/antibot)
+
+
+### Automated Logout
+
+This module provides a site administrator the ability to log users out after a specified time of inactivity. It is highly customisable and includes "site policies" by role to enforce logout.
+
+[https://www.drupal.org/project/autologout](https://www.drupal.org/project/autologout)
+
+### Automatic IP ban (Autoban)
+
+The "Automatic IP Ban" module enhances Drupal's site security by providing administrators with sophisticated tools to prevent unwanted access. It extends the core Ban module's functionality, allowing for more nuanced control over visitor bans based on IP addresses. Through the Autoban feature, IP banning becomes automated, leveraging rules defined against watchdog table entries. This feature necessitates the activation of the Database Logging module and can integrate with either the core Ban module or the Advanced Ban module for a comprehensive banning strategy.
+
+[https://www.drupal.org/project/autoban](https://www.drupal.org/project/autoban)
+
+### Drupal Perimeter Defence
+Basic perimeter defence for a Drupal site. This module bans the IPs who send suspicious requests to the site. Use this if you get a lot of requests to 'wp-admin' or to .aspx urls on a Linux server, or other similar requests. The URL patterns that result in a ban can be configured in the admin settings. The module is optimized for performance and designed to be activated when a Drupal site is targeted by hackers or bots.  There is a companion module [auto_unban](https://www.drupal.org/project/auto_unban) which augments core's ban module to automatic unban IP's after a period of time. This is best used with automatic ban modules such as perimeter.
+
+[https://www.drupal.org/project/perimeter](https://www.drupal.org/project/perimeter)
+
+
+### Flood control
+
+Flood Control provides an interface for hidden flood control variables (e.g. login attempt limiters) and makes it possible for site administrators to remove IP addresses and user ID's from the flood table.
+
+[https://www.drupal.org/project/flood_control](https://www.drupal.org/project/flood_control)
 
 ### Honeypot
 Honeypot uses both the honeypot and timestamp methods of deterring spam bots from completing forms on your site. These methods are effective against many spam bots, and are not as intrusive as CAPTCHAs or other methods which punish the user. The module currently supports enabling for all forms on the site, or particular forms like user registration or password reset forms, webforms, contact forms, node forms, and comment forms.
@@ -478,6 +603,22 @@ You have full flexibility to add more services, modify the elements before rende
 
 [https://www.drupal.org/project/social_media](https://www.drupal.org/project/social_media)
 
+## Site Stability
+
+### Memory limit policy
+Memory limit policy allows you to override the default php memory_limit based on various constraints. e.g. you can set a different memory limit for all users depending on their roles. You can also set a different memory limit for different paths, HTTP methods, query parameters and routes.
+
+[https://www.drupal.org/project/memory_limit_policy](https://www.drupal.org/project/memory_limit_policy)
+
+
+### Node Access Rebuild Progressive
+This module provides an alternative means of rebuilding the Content Access table.
+
+It solves the problem of the default core behaviour, which delete all entries first in the `content_access` table and then rebuild the grants for all nodes.  This means the whole site is basically unusable during the whole operation. For sites with a large number of nodes and/or lots of complex hook_node_grants implementations, it can be very lenghty and results in a lot of downtime. Although this means someone could potentially still access some content they should no longer have the rights to until the new rules are in place, it does mean that the site can continue to operate normally while the access rebuild takes place in the background. It works by processing nodes in chunks, from highest `node.nid` to lowest, until all nodes have been recomputed
+
+[https://www.drupal.org/project/node_access_rebuild_progressive](https://www.drupal.org/project/node_access_rebuild_progressive)
+
+
 ## Twig
 
 ### Bamboo Twig
@@ -524,6 +665,19 @@ Other JS select modules and libraries include:
 ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The core module is a processor that validates and executes event-condition-action plugins. Integrated with graphical user interfaces like BPMN.iO, Camunda or other possible future modellers, ECA is a robust system for building conditionally triggered action sets.
 
 [https://www.drupal.org/project/eca](https://www.drupal.org/project/eca)
+
+## Views
+
+### Views Reference Field
+
+This module provides a field that can reference a view and show the results of the view as a field in the content type. This is useful when you want to show a list of related content in a field.
+
+In Modern Drupal, Views are entities and the core Entity Reference Module is able to reference Views, but not Views displays. This module leverages core entity reference module functionality to add the display ID so that a View can be rendered in a field formatter.
+
+[https://www.drupal.org/project/viewsreference](https://www.drupal.org/project/viewsreference)
+
+
+
 
 ## Wysiwyg
 

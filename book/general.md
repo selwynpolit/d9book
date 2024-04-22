@@ -83,11 +83,49 @@ $is_front = \Drupal::service('path.matcher')->isFrontPage();
 
 The above statement will return either TRUE or FALSE. TRUE means you are on the front page.
 
-## Check if site is in system maintenance mode
+## Check if the site is in system maintenance mode
 
 ```php
 $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 ```
+
+## Retrieve query, get or post parameters 
+
+For `get` variables use:
+```php
+$query = \Drupal::request()->query->get('name');
+```
+
+For `post` variables use:
+
+```php
+$name = \Drupal::request()->request->get('name');
+```
+
+For all items in a `get`:
+
+```php
+$query = \Drupal::request()->query->all();
+$search_term = $query['query'];
+$collection = $query['collection'];
+```
+
+::: tip Note
+Drupal will cache requests so render arrays need cache contexts specified correctly in order to successfully retrieve those parameters. See [Caching](caching#set-cache-context-correctly-when-retrieving-query-get-or-post-parameters)
+:::
+
+## Convert TranslatableMarkup to a string
+
+To convert a TranslatableMarkup object to a string, use either the `render()` or __toString() method. This example shows the values array with an element 'save' which is a TranslatableMarkup object.  These will return `Save Citation`.
+
+![TranslatableMarkup](/images/translatable-markup.png)
+
+```php
+$values['save']->render();
+// Or.
+$values['save']->__toString();
+```
+
 
 ## Get Node URL alias or Taxonomy Alias by Node id or Term ID
 
@@ -300,71 +338,7 @@ This will return true for the front page otherwise false.
 $is_front = \Drupal::service('path.matcher')->isFrontPage();
 ```
 
-## Check if site in system maintenance mode
 
-From web/core/modules/system/src/Access/CronAccessCheck.php
-
-```php
-if (\Drupal::state()->get('system.maintenance_mode')) {
-```
-
-## Retrieve query and get or post parameters (\$\_POST and \$\_GET)
-
-Old style was:
-
-```php
-$name = $_POST['name'];
-```
-
-Now use this for post vars:
-
-```php
-$name = \Drupal::request()->request->get('name');
-```
-
-And this for gets
-
-```php
-$query = \Drupal::request()->query->get('name');
-```
-
-For all items in get:
-
-```php
-$query = \Drupal::request()->query->all();
-$search_term = $query['query'];
-$collection = $query['collection'];
-```
-
-Be wary about caching. From <https://drupal.stackexchange.com/questions/231953/get-in-drupal-8/231954#231954> the code provided only works the first time so it is important to add a '#cache' context in the markup.
-
-```php
-namespace Drupal\newday\Controller;
-use Drupal\Core\Controller\ControllerBase;
-
-class NewdayController extends ControllerBase {
-    public function new() {
-      $day= [
-        "#markup" => \Drupal::request()->query->get('id'),
-       ];
-      return $day;
-    }
-}
-```
-
-The request is being cached, you need to tell the system to vary by the query arg:
-
-```php
-$day = [
-    '#markup' => \Drupal::request()->query->get('id'),
-    '#cache' => [
-        'contexts' => ['url.query_args:id'],
-    ],
-];
-```
-
-More about caching render arrays:
-<https://www.drupal.org/docs/8/api/render-api/cacheability-of-render-arrays>
 
 ## Retrieve URL argument parameters
 
@@ -425,26 +399,28 @@ Global $language = Drupal::languageManager()->getLanguage(Language:TYPE_INTERFAC
 
 This is part of the packt publishing Mastering Drupal 8 module development video series: https://www.packtpub.com/product/mastering-drupal-8-development-video/9781787124493
 
-Note. To test this in modules/custom/pseudo_client/get/
-
+> [!NOTE]
+> To test this in `modules/custom/pseudo_client/get/`
+> ```
 > php -S localhost:8888
->
+> ```
 > and put this in a browser:
->
+> ```
 > http://localhost:8888/get_item_from_drupal_core.php?domain=dev1&item=2716
->
+> ```
 > or
->
+> ```
 > http://localhost:8888/get_items_from_custom_code.php?domain=dev1
->
-> OR just put this in browser without running php -S:
->
-> http://dev1/iai_wea/actions/2716?\_format=json
+> ```
+> OR just put this in browser without running `php -S`:
+> ```
+> http://dev1/iai_wea/actions/2716?_format=json
+> ```
 
 ## Add a variable to any page on the site
 
 In the .theme file of the theme, add a `hook_preprocess_page` function
-like in themes/custom/dprime/dprime.theme:
+like in `themes/custom/dprime/dprime.theme`:
 
 ```php
 function dprime_preprocess_page(&$variables) {
@@ -461,7 +437,7 @@ function dprime_preprocess_page(&$variables) {
 ```
 
 Then in the template file e.g.
-themes/custom/dprime/templates/partials/footer.html.twig
+`themes/custom/dprime/templates/partials/footer.html.twig`
 
 ```twig
 <div class="cell xlarge-3 medium-4">
@@ -844,11 +820,13 @@ $node->field_file->setValue(['target_id' => $file->id()]);
 $node->save();
 ```
 
-There was no documentation so I added some at <https://www.drupal.org/project/remote_stream_wrapper/issues/2875444#comment-12881516>
+There was no documentation so I [added some](https://www.drupal.org/project/remote_stream_wrapper/issues/2875444#comment-12881516).
 
 ## Deprecated functions like drupal_set_message
 
-Note. `drupal_set_message()` has been removed from the codebase so you should use `messenger()` but you can also use `dsm()` which is provided by the [devel](https://www.drupal.org/project/devel) contrib module. This is useful when working through a problem if you want to display a message on a site during debugging.
+:::tip Note
+`drupal_set_message()` has been removed from the codebase, so you should use `messenger()` but you can also use `dsm()` which is provided by the [devel](https://www.drupal.org/project/devel) contrib module. This is useful when working through a problem if you want to display a message on a site during debugging.
+:::
 
 From <https://github.com/mglaman/drupal-check/wiki/Deprecation-Error-Solutions>
 
@@ -866,11 +844,14 @@ After
 
 [Read more](https://www.drupal.org/node/2774931).
 
-## Block excessive crawling of Drupal Views or search results
+## Block excessive crawling of Drupal Views or search results with .htaccess
 
-[From Acquia.com](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
+[From Block excessive crawling of Drupal Views or search results on Acquia.com - Jan 2024](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
 
-Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
+PLACE THIS BLOCK directly after the "RewriteEngine on" line in your `docroot/.htaccess` or `web/.htaccess` file.
+
+
+Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc.) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
 
 Therefore, we suggest blocking or re-routing this traffic to reduce resource consumption at the Acquia platform, avoid overages to your Acquia entitlements (for Acquia Search, Views & Visits, etc.), and to generally help your site perform better.
 
@@ -881,7 +862,7 @@ Therefore, we suggest blocking or re-routing this traffic to reduce resource con
 #
 # INSTRUCTIONS:
 # PLACE THIS BLOCK directly after the "RewriteEngine on" line
-#   on your docroot/.htaccess file.
+#   in your docroot/.htaccess file.
 #
 # This will block some known robots/crawlers on URLs when query arguments are present.
 #   DOES allow basic URLs like /news/feed, /node/1 or /rss, etc.
@@ -897,12 +878,40 @@ RewriteCond %{HTTP_USER_AGENT} "11A465|AddThis.com|AdsBot-Google|Ahrefs|alexa si
 RewriteRule ^.* - [F,L]
 ```
 
+Alternatively, you can make these changes to your `docroot/robots.txt`  or `web/robots.txt` file:
+```
+# Do not index nor follow links that have a query string
+# (e.g. /search?page=123  or /search?size=small&color=red)
+User-agent: *
+Disallow: /*?
+
+# If your views or search pages use a module to convert facets/filters 
+# to clean URLs (e.g. /search/page/123  or /search/size/small)
+# you can try disallowing the search page's URL
+User-agent: *
+Disallow: /search*
+```
+
+
+## Using the file_system service to count files
+
+```php
+// In the create method get the file_system service.
+$form->fileSystem = $container->get('file_system');
+
+// Search filesystem recursively get all .PHP files from Drupal's core folder.
+$files_count = count($this->fileSystem->scanDirectory('core', '/.php/'));
+
+```
+See this in action in the [examples module](https://www.drupal.org/project/examples) in `CacheExampleForm.php`.
+
+
 ## Multiple authors on a node
 
 Thanks to Mike Anello of [DrupalEasy for this useful solution.](https://www.drupaleasy.com/blogs/ultimike/2023/02/method-utilizing-multiple-authors-single-drupal-node)
 
 **TL;DR**
-Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods. Mike prefers using a a reference field for this purpose. He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named multiauthor that implements a single Drupal hook:
+Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods. Mike prefers using a a reference field for this purpose. He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named `multiauthor` that implements a single Drupal hook:
 
 ```php
 /**
@@ -919,7 +928,7 @@ This hook alters the Basic page add and edit forms, setting my custom "Additiona
 
 ## Calculating, displaying and logging elapsed time
 
-To record how long something takes in Drupal, use the Timer utility class. In the example below, this info is also logged to the watchdog log.
+To record how long something takes in Drupal, use the `Timer` utility class. In the example below, this info is also logged to the `watchdog` log.
 
 In your config or `settings.local.php` (to temporarily override that value) you can enable or disable the timer with:
 
@@ -943,7 +952,7 @@ class SrpVoteOnCitationForm extends FormBase {
   }
 ```
 
-In the `submitForm()` we start the timer, do some work and then stop the timer and report the result like this:
+In `submitForm()` we start the timer, do some work and then stop the timer and report the result like this:
 
 ```php
 public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -962,17 +971,18 @@ public function submitForm(array &$form, FormStateInterface $form_state) {
   // do the work...
 
   $end_time_in_ms = Timer::read($timer_name);
-Timer::stop($timer_name);
-$end_time = number_format($end_time_in_ms / 1000, 4);
-$msg = ' Vote: ' . strtolower($voting_action) .' took ' . $end_time . 's' . ' Voter: ' . number_format($user_id) . ' Citation: ' . number_format($citation_nid);
-if ($this->displayElapsedTime) {
-  // Display elapsed time message.
-  \Drupal::messenger()->addMessage($msg);
-}
-if ($this->logElapsedTime) {
-  // Log the elapsed time message to watchdog.
-  \Drupal::logger('tea_teks_srp')->info($msg);
-}
+  Timer::stop($timer_name);
+  $end_time = number_format($end_time_in_ms / 1000, 4);
+  $msg = ' Vote: ' . strtolower($voting_action) .' took ' . $end_time . 's' . ' Voter: ' . number_format($user_id) . ' Citation: ' . number_format($citation_nid);
+  if ($this->displayElapsedTime) {
+    // Display elapsed time message.
+    \Drupal::messenger()->addMessage($msg);
+  }
+  if ($this->logElapsedTime) {
+    // Log the elapsed time message to watchdog.
+    \Drupal::logger('tea_teks_srp')->info($msg);
+  }
+  // ...
 ```
 
 ## Populate a select list with the options from a list field
@@ -1136,7 +1146,54 @@ During module development or upgrades, it can be really useful to quickly uninst
 
 ![Menu option to reinstall modules](/images/reinstall_modules.png)
 
+## View a node in JSON format
+
+With the JSON:API and Serialization core modules enabled, simply navigate to any node and add `?_format=api_json` to the end of the URL. E.g. `https://d9book2.ddev.site/node/25?_format=api_json` 
+
+## Drupal bootstrap process
+
+The Drupal bootstrap process is a series of steps that Drupal goes through on every page request to initialize the necessary resources and environment. Here are the steps:  
+
+1. **Loading the autoloader:** The first step in the bootstrap process is to load the Composer-generated `autoloader`. This allows Drupal to use any classes defined in the codebase without explicitly requiring the files they're defined in.  
+1. **Reading settings:** Drupal reads the settings.php file which has configuration settings for the site, such as database connection information and various other settings.
+1. **Initializing the service container:** Drupal initializes the [service container](services#service-container) which is responsible for managing Drupal services. The service definitions are stored in various `.services.yml` files throughout the codebase. Drupal's service container is built on top of the Symfony service container. Documentation on the structure of this file, special characters, optional dependencies, etc. can all be found in the [Symfony service container documentation](https://symfony.com/doc/6.3/service_container.html).
+1. **Handling the request:** Drupal creates a [Request object](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Arequest/8.4.x) from the global PHP variables and passes it to the HttpKernel to handle. The HttpKernel is responsible for handling the request and returning a Response.  
+1. **Routing:** The HttpKernel uses the [Router service](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/lib/Drupal/Core/Routing/RouteProvider.php?ref_type=heads) to match the request to a [route](routes#route). A route is a path that is defined for Drupal to return some sort of content on. The route defines a [controller](routes#controller) that should be used to generate the content for the page.  
+1. **Controller execution:** A method in the controller is then executed. This method generates the content for the page. It can return a [render array](render#overview) (which Drupal will turn into HTML), a [Response object](https://www.drupal.org/docs/drupal-apis/responses/responses-overview), or some other type of content that Drupal knows how to handle.  
+1. **Rendering:** If the controller returns a render array, Drupal will then render it into HTML. This involves calling various hooks and alter functions to allow modules to modify the content.  
+1. **Returning the response:** Finally, the `HttpKernel` returns a [Response object](https://www.drupal.org/docs/drupal-apis/responses/responses-overview), which is then sent to the client.
+
+## Troubleshoot memory problems
+
+In some cases, where there are lots of `Node::load()`  or `Node::loadMultiple()` calls, you may run into `out of memory` errors. If increasing the memory limit in `php.ini` (e.g. `memory_limit = 1024M`) doesn't resolve this, you might try flushing the entity memory cache with:
+
+```php
+\Drupal::service('entity.memory_cache')->deleteAll();
+```
+
+There is also a [Memory limit Policy module](https://www.drupal.org/project/memory_limit_policy) that is worth checking out to override the default memory_limit for specific paths, roles etc.
+
+You can use the `memory_get_usage()` function to see how much memory is being used. You can also use the `memory_get_peak_usage()` function to see the maximum amount of memory used during the script's execution.
+
+```php
+$mgu1 = round(memory_get_usage() / 1024 / 1024, 2) . ' MB';
+$mgu2 = round(memory_get_usage(TRUE) / 1024 / 1024, 2) . ' MB';
+$mgpu1 = round(memory_get_peak_usage() / 1024 / 1024, 2) . ' MB';
+$mgpu2 = round(memory_get_peak_usage(TRUE) / 1024 / 1024, 2) . ' MB';
+\Drupal::logger('tea_teks_srp')->info('Memory usage: ' . $mgu1 . ' ' . $mgu2 . ' Peak: ' . $mgpu1 . ' ' . $mgpu2);
+```
+
+Down the rabbit hole: 
+- [Changing PHP memory limits - May 2022](https://www.drupal.org/docs/7/managing-site-performance-and-scalability/changing-php-memory-limits)
+- [memory_get_usage()](https://www.php.net/manual/en/function.memory-get-usage.php)
+- [memory_get_peak_usage()](https://www.php.net/manual/en/function.memory-get-peak-usage.php)
+- [EntityMemoryCache](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityMemoryCache.php/class/EntityMemoryCache/8.9.x)
+- [gc_collect_cycles - Forces collection of any existing garbage cycles](https://www.php.net/manual/en/function.gc-collect-cycles.php)
+- [Collecting Cycles - reference counting memory mechanisms](https://www.php.net/manual/en/features.gc.collecting-cycles.php)
+
+
+
 ## Resources
 
-- [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
-- [Drupal accessibility — a comprehensive Drupal self-help guide to creating accessible websites by John Cloys Sep 2023](https://salsa.digital/insights/drupal-accessibility-comprehensive-drupal-self-help-guide-creating-accessible-websites)
+- [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg - Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
+- [Drupal accessibility — a comprehensive Drupal self-help guide to creating accessible websites by John Cloys -  Sep 2023](https://salsa.digital/insights/drupal-accessibility-comprehensive-drupal-self-help-guide-creating-accessible-websites)

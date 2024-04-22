@@ -18,13 +18,51 @@ $body = $node->body->value;
 $body = $node->body->processed;
 ```
 
-## Load a numeric field value
+## Retrieve a numeric field value
 When you load a numberic field, Drupal returns a number i.e. 0 even if that field was never initialized with a value.  
 
 ```php
 $accepted_votes = $feedback_error_node->get('field_accepted_votes')->value;
 // Returns 0 if no value was entered into the field.
 ```
+
+## Retrieve a list field value
+
+With a list field called `field_tks_audience` with the following values:
+```
+student|Student/Teacher
+teacher|Teacher Only
+```
+
+When you retrieve the field value you get the key (or machine name), not the human readable value.  So if the field value is `student` then the following code will return `student`.
+
+```php
+$audience = $node->get('field_tks_audience')->value;
+// Or.
+$audience = $citation_node->field_tks_audience->value;
+// Or.
+$audience = $node->get('field_tks_audience')->getString();
+```
+
+If you want the human readable value, you can use the combination of `getFieldDefinition()->getSetting('allowed_values') which returns an array of possible results indexed by the key:
+
+```php
+$audience_key = $citation_node->field_tks_audience->value;
+$audience_values = $citation_node->field_tks_audience->getFieldDefinition()->getSetting('allowed_values');
+$audience_human_readble_string = $audience_values[$audience_key];
+
+```
+
+![audience values](/images/audience_values.png)
+
+::: tip Note
+You can produce safe HTML using the `FieldFilteredMarkup` class.  This may be a good way to display user entered HTML without risking XSS attacks.  Be aware that this class is marked as @internal because it should only be used by the Field module and field-related plugins. Of course this is not necessary for a list field, but it is useful for text fields.
+
+```php
+// This filters the string using a very restrictive tag list when it is created.
+$audience_value = FieldFilteredMarkup::create($audience_values[$audience_key]);
+```
+:::
 
 ## Set field values
 
@@ -277,25 +315,55 @@ You can call `$node->uid` but that returns an `EntityReferenceFieldItemList` wit
 $entity->get('field_name')->isEmpty()
 ```
 
-For an entity field use:
+To avoid the warning message `Attempt to read property "target_id" on null` you can use the following:
+
+For an entity reference field use:
 
 ```php
 $sf_contract_node = Node::load($sf_contract_nid);
-if ($sf_contract_node) {
-  if (!$sf_contract_node->get('field_vendor_url')->isEmpty()) {
-    $url = $sf_contract_node->field_vendor_url->first()->getUrl();
-    $url = $url->getUri();
-    $variables['vendor_url'] = $url;
-  }
+if (!$sf_contract_node->get('field_vendor_url')->isEmpty()) {
+  $url = $sf_contract_node->field_vendor_url->first()->getUrl();
+  $url = $url->getUri();
+  $variables['vendor_url'] = $url;
+}
 ```
 
-And more concisely, using a new feature of PHP 8 we can use the following:
-
+And more concisely:
 ```php
 $url = $sf_contract_node?->field_vendor_url?->first()?->getUrl();
 if (!is_null($url)) {
       $uri = $url->getUri();
 }
+```
+
+For a single value entity reference field:
+```php
+$nid = 0;
+if (!isset($node->get('field_my_entity_ref_field')->target_id)) {
+  $nid = $node->get('field_my_entity_ref_field')->target_id;
+}
+```
+
+
+## Test if a multivalue entity reference field is empty
+
+To avoid the warning message `Attempt to read property "target_id" on null` you can use the following:
+
+```php
+// If there is a value at the specified index, then return the target_id, otherwise return 0.
+$team_nid = 0;
+if (isset($program_node->get('field_srp_team_ref')[$vote_number]->target_id)) {
+  $team_nid = $program_node->get('field_srp_team_ref')[$vote_number]->target_id;
+}
+```
+
+And more concisely:
+
+```php
+// If there is a value at the specified index, then return the target_id, otherwise return 0.
+$vote_number = 3;
+// These are zero-based.
+$team_nid = $program_node->get('field_srp_team_ref')[$vote_number]->target_id ?? 0;
 ```
 
 ## Load a node and update a field
@@ -306,7 +374,7 @@ $url = $node->set('field_url', 'the-blahblah');
 $node->save();
 ```
 
-## Load values from a date range field
+## Retrieve values from a date range field
 
 Start date and then end date
 
@@ -315,7 +383,7 @@ $node->get('field_cn_start_end_dates')->value
 $node->get('field_cn_start_end_dates')->end_value
 ```
 
-## Load multivalue field
+## Retrieve a multivalue field
 
 Multivalue fields can be loaded with `get('fieldname')`  or using a magic field getter like `$node->field_my_field`. Adding `->getValue()` to the end of either of these calls returns a simple array. 
 
@@ -352,7 +420,7 @@ foreach ($items as $item) {
 }
 ```
 
-For entity reference fields, use `target_id` rather than `->value`.
+For entity reference fields, use `->target_id` rather than `->value`.
 
 And you can check if there is a particular item in the array like this:
 
@@ -391,6 +459,64 @@ if(!is_null($node->get('field_voting_status')[$vote_number])) {
   $voting_status = $correlation_node->field_voting_status[$vote_number]->value;
 }
 ```
+
+### Utility function to read multivalue fields
+
+```php
+/**
+ * Returns array of data for multivalue node reference fields.
+ *
+ * @param \Drupal\Core\Field\FieldItemListInterface $ref_field
+ *   The entity reference field which we are building the links from.
+ * @param string $param_name
+ *   Parameter name to be passed as get value.
+ * @param string $value_type
+ *   Indicates which field to retrieve from database.
+ * @param string $field_ref_type
+ *   Variable to determine type of reference field.
+ *
+ * @return array
+ *   Array of data.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function getMultivalueReferenceData(FieldItemListInterface $ref_field, string $param_name, string $value_type, string $field_ref_type = 'node') {
+  $values = [];
+  $title = '';
+  if ($ref_field) {
+    foreach ($ref_field as $ref) {
+      if ($field_ref_type == 'taxonomy') {
+        $term = Drupal::entityTypeManager()
+          ->getStorage('taxonomy_term')
+          ->load($ref->$value_type);
+        if ($term) {
+          $title = $term->getName();
+        }
+      }
+      else {
+        if ($value_type == 'value') {
+          $title = $ref->$value_type;
+        }
+        else {
+          if (isset($ref->entity->title->value)) {
+            $title = $ref->entity->title->value;
+          }
+        }
+      }
+      $id = $ref->$value_type;
+      $values[] = [
+        'title' => $title,
+        'id' => str_replace(' ', '+', $id),
+        'param_name' => $param_name,
+      ];
+    }
+  }
+  return $values;
+}
+```
+
+
 
 ## Update a multivalue field
 
@@ -853,7 +979,7 @@ $uri = $file->entity->getFileUri();
 
 Since `File` is an entity, we can also look in `EntityBase.php` to find more useful functions like `id()`, `label()`, `bundle()`.
 
-## Retrieve a link field
+## Retrieve values from a link field
 
 Here we have a link field: field_link which we load and get a valid uri
 from it using:

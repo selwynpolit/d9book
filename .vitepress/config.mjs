@@ -11,11 +11,29 @@ export default defineConfig({
   outDir: './dist',
   cleanUrls: true,
   lastUpdated: true,
-  head: [['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }],
+    [
+      'script',
+      {
+        async: '',
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-8V22RQEJ71',
+      },
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8V22RQEJ71');`,
+    ],
+  ],
   //rewrites: {
-    //'nodes_n_fields.md': 'nodes-and-fields.md',
-    //'off_the_island.md': 'off-island.md',
+  //'nodes_n_fields.md': 'nodes-and-fields.md',
+  //'off_the_island.md': 'off-island.md',
   //},
+
   vite: {
     ssr: {
       noExternal: ['@nolebase/vitepress-plugin-enhanced-readabilities'],
@@ -29,6 +47,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'About', link: '/about' },
       { text: 'Attribution', link: '/attribution' },
+      { text: 'Contribute', link: '/contribute' },
       { text: 'Fork me', link: 'https://github.com/selwynpolit/d9book/fork' },
     ],
 
@@ -50,7 +69,12 @@ export default defineConfig({
       useTitleFromFrontmatter: true,
       sortMenusByName: true,
       hyphenToSpace: true,
-      excludeFiles: ['about.md', 'attribution.md', 'mysteries.md'],
+      excludeFiles: [
+        'about.md',
+        'attribution.md',
+        'mysteries.md',
+        'contribute.md',
+      ],
     }),
 
     socialLinks: [
@@ -64,7 +88,7 @@ export default defineConfig({
         '  <a property="dct:title" rel="cc:attributionURL" href="//selwynpolit.github.io/d9book">Drupal at your fingertips</a>\n' +
         '  by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="//drupal.org/u/selwynpolit">Selwyn Polit</a>\n' +
         '  is licensed under <a href="//creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener noreferrer">CC BY 4.0\n' +
-        '  </a></span>',
+        '  </a><br>Drupal is a registered trademark of Dries Buytaert</span>',
     },
   },
 });

@@ -10,19 +10,13 @@ title: Debugging
 Using a combination of PhpStorm, DDEV and Xdebug makes debugging a pleasure. PhpStorm is not essential. Xdebug works fine with other IDE\'s also. In my experience, many Drupal developers have not experienced using a true debugger, but once they do, they wonder how they ever delivered any code without it.
 
 ## Enable error reporting
-If you experience a WSOD (White Screen Of Death), enabling verbose error messages can often give you some useful clue:
+If you experience a WSOD (White Screen Of Death), enabling verbose error messages in your `sites\default\settings.local.php` can often give you some useful clue:
 
 ```php
-/**
- * Show all error messages, with backtrace information.
- *
- * In case the error level could not be fetched from the database, as for
- * example the database connection failed, we rely only on this value.
- */
 $config['system.logging']['error_level'] = 'verbose';
 ```
-For more, check out <https://drupal.stackexchange.com/questions/127182/how-do-i-enable-developer-debug-mode#:~:text=%24config%5B'system.,can%20always%20comment%20them%20out>.
-Also in <https://github.com/drupal/drupal/blob/10.1.x/core/includes/bootstrap.inc> Error reporting levels are defined:
+For more, check out [this question on Stack Exchange](https://drupal.stackexchange.com/questions/127182/how-do-i-enable-developer-debug-mode#:~:text=%24config%5B'system.,can%20always%20comment%20them%20out).
+Also error reporting levels are defined in [bootstrap.inc](https://github.com/drupal/drupal/blob/10.3.x/core/includes/bootstrap.inc) as follows:
 
 ```php
 /**
@@ -49,6 +43,10 @@ const ERROR_REPORTING_DISPLAY_VERBOSE = 'verbose';
 ## Disable caching and enable TWIG debugging
 
 Generally I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
+
+::: tip Note
+The new way to enable Twig debugging is via the user interface. In the menus select `Configuration`, `Development`, `Development Settings` (or navigate to `/admin/config/development/settings`) and check the `Twig development mode` box, then check the boxes for  `Twig debug mode` and `disable Twig cache`.  You can also check the `Do not cache markup` at this time.
+:::
 
 To enable TWIG debugging output in source, in `sites/default/development.services.yml` set `twig.config debug:true`.  See `core.services.yml` for lots of other items to change for development.
 

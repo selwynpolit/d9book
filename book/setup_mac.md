@@ -18,6 +18,11 @@ Open finder and press Cmd-Shift-.
 This is a toggle, so if you press it twice, it will turn the `.` files off again.
 :::
 
+### Set fast keyboard repeat and short delay
+
+In keyboard settings, set key repeat rate to the maximum and delay until repeat to the minimum.
+
+
 ### Display path bar at bottom of finder window
 
 Open finder, in the top menu, select view and `Show Path Bar`. This will add a path bar at the bottom of the finder window.  This is useful for copying the path to a file or folder.  You can also navigate to a folder by clicking on the folder in the path bar.
@@ -179,14 +184,24 @@ Install ddev
 
 [From the DDEV docs website](https://ddev.readthedocs.io/en/latest/users/install/ddev-installation/#macos)
 
+```sh
 brew install ddev/ddev/ddev
+```
+
+Also to keep ddev up to date, run:
+```sh
+brew upgrade ddev
+```
 
 ::: tip Note
 You might need to have your ssh certificate set up correctly before doing this step.
 :::
 
-Initialize mkcert
+To initialize mkcert for ddev, run:
+
+```sh
 mkcert -install
+```
 
 This is the output which in this case is prompting to install nss if you have FireFox installed.  Don't forget that step.
 
@@ -200,8 +215,9 @@ Warning: "certutil" is not available, so the CA can't be automatically installed
 Install "certutil" with "brew install nss" and re-run "mkcert -install"
 ```
 
+
 ## Sequel Ace
-This is a great GUI SQL tool.
+This is a great GUI SQL tool. It is actually a fork of the fantatic Sequel Pro which has not been updated in 4 years.
 
 `brew install --cask sequel-ace`
 
@@ -269,7 +285,7 @@ Although the macOS comes with git, it is probably wise to install the latest wit
 brew install git
 ```
 
-#### .gitconfig 
+#### Setup .gitconfig 
 In your $HOME directory, create the .gitconfig file.  Replace my name and email address with yours.  I've added some useful aliases which allow nice shorthand commands like `git co branch_abc` `git hist` etc.
 
 ```
@@ -305,7 +321,7 @@ git config --global init.defaultBranch main
 ```
 
 
-#### .gitignore_global
+#### Setup .gitignore_global
 
 In your $HOME directory, create the .gitignore_global file.  
 
@@ -360,9 +376,29 @@ Session.vim
 
 # Acquia CLI
 .acquia-cli.yml
+```
 
+#### Automatically create upstream branches
+
+When you create a new branch and try to push it with `git push`, you might see:
 
 ```
+fatal: The current branch feature/updates has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin feature/updates
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+```
+
+To fix this permanently, run the following command:
+
+```sh
+git config --global push.autoSetupRemote true
+```
+
+[Read more about automatically creating upstream branches](https://adamj.eu/tech/2022/10/31/git-how-to-automatically-create-upstream-branches/)
 
 
 ### NVM (Node Version Manager)
@@ -452,7 +488,7 @@ brew install jq
 
 ### wget
 
-GNU Wget is a free software package for retrieving files using HTTP, HTTPS, FTP and FTPS, the most widely used Internet protocols.
+GNU Wget is a free software package for retrieving files using HTTP, HTTPS, FTP and FTPS, the most widely used Internet protocols. You can use wget for running Drupal cron.
 
 ```
 brew install wget
@@ -573,16 +609,22 @@ Use the following settings:
 - Check files with extensions: `php,js,css,inc, module`
 - Check Show warning as: `Warning`
 - Check Show sniff name
-- If you installed the coder module in your project with `composer require drupal/coder` 
-  - Uncheck Installed standards path: and set it to: `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your project.)
-- If you have phpcs installed globally, use
-  - Check Installed standards path and set it to: `/Users/spolit/.composer/vendor/bin/phpcs` (Replace this with the path to your global composer directory.)
-- Coding standard: `Drupal`
+
+- **If you installed the coder module in your project** (with `composer require drupal/coder`):
+  - Check `Installed standards path` and set the path to: `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer` Replace this with the path to your project. Later you will need to  unchcheck the checkbox.. Really!
+  - Be sure to set Coding standard to: `Drupal`.  If this option isn't shown, follow the steps below, click ok and then open the settings dialog again.  Hopefully it will show up then.
+  - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
+  If you installed the coder module in your project: Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf`. 
+![](/images/PHPStorm_PHP_Codesniffer_settings.png)
 
 
-If you installed the coder module in your project: Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf`. 
+- **If you have phpcs installed globally** (with `composer global require drupal/coder`):
+  - Check `Installed standards path` and set it to: `/Users/spolit/.composer/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your global composer directory.)
+  - Be sure to set Coding standard to: `Drupal`.  If this option isn't shown, follow the steps below, click ok and then open the settings dialog again.  Hopefully it will show up then.
+  - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
+  - If you have installed phpcs and coder globally, Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/.composer/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/.composer/vendor/bin/phpcbf`. 
 
-If you have installed phpcs and coder globally, Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/.composer/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/.composer/vendor/bin/phpcbf`. 
+![](/images/PHPStorm_PHP_Codesniffer_settings.png)
 
 
 ::: tip Note
@@ -591,14 +633,15 @@ If you have installed phpcs and coder globally, Under the ... button (on the rig
 
 More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
 
+For troubleshooting, see [this issue on Drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485) especially if you see this annoying issue:
 
-To install phpcs & phpcf *globally* use: 
-`composer global require squizlabs/php_codesniffer`
-To install coder module *globally* so you can codesniff using Drupal standards, use `composer global require drupal/coder`
+```
+phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist  
+Run "phpcs --help" for usage information 
+```
 
-To use phpcs on the command line with a global installation of codesniffer, use:
+![Error messages in PHPStorm](/images/PHPStorm_codesniffer_errors.png)
 
-`phpcs web/sites/default/settings.php`
 
 
 

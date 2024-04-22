@@ -54,15 +54,15 @@ If you want to contribute to the expense of creating this book, I have added a [
 - [Testing with PHPUnit and Drupal Test Traits](dtt)
 - [Twig - Formatting and controlling your output](twig)
 - [Upgrading and patching Drupal and contrib modules](upgrade)
+- [Utility classes and functions](utility)
 
 ---
 
 ### More coming on these topics
 
-- Events
 - Custom Plugins
 - Media image files
 - Migration
 - Paragraphs
 - Single sign on
-- Views
+

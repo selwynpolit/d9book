@@ -36,7 +36,7 @@ features:
 
   - icon: 💽
     title: Caching
-    details: Cache tags, disabling caching, caching REST resources, development setup, various caching tips
+    details: Improving site performance with cache tags, caching REST resources, development setup, various caching tips
     link: /caching
 
   - icon: 📦
@@ -81,8 +81,13 @@ features:
 
   - icon: 📚
     title: Entities
-    details: More entities - the primary building blocks of Drupal
+    details: The primary building blocks of Drupal
     link: /entities
+
+  - icon: 7️⃣
+    title: Events
+    details: Allowing different components of the system to interact and communicate with each other by subscribing and dispatching events.
+    link: /events
 
   - icon: ☑️
     title: Forms
@@ -184,7 +189,7 @@ features:
     details: Setup your mac for Drupal development
     link: /setup_mac
 
-  - icon: 📑
+  - icon: 🐘
     title: PHP
     details: Tips and tricks using PHP
     link: /php
@@ -201,7 +206,7 @@ features:
 
   - icon: ♻️
     title: Tests
-    details: Creating automated tests with PHPUnit and Drupal Test Traits
+    details: Testing and creating automated tests with PHPUnit and Drupal Test Traits
     link: /dtt
 
   - icon: 🌿
@@ -213,4 +218,14 @@ features:
     title: Update
     details: Upgrading and patching Drupal and contrib modules
     link: /upgrade
+
+  - icon: 🚙
+    title: Utility
+    details: Drupal utility classes and functions
+    link: /utility
+
+  - icon: 👀
+    title: Views
+    details: Extracting data from Drupal using the core Views module
+    link: /views
 ---

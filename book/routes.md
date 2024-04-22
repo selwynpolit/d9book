@@ -21,11 +21,9 @@ hello_world.hello:
      _permission: 'access content'
 ```
 ### Controller
+A controller is a PHP class that contains methods that generate a response to an `HTTP request`. In the example above, the controller is `HelloWorldController` and the method is `helloWorld()`. The controller is in a file called `HelloWorldController.php` in the `src/Controller` directory of the module.
 
-This is the PHP function that takes info from the HTTP request and
-constructs and returns an HTTP response (as a Symfony ResponseObject). The controller contains your logic to render the content of the page.
-
-The controller  will usually return a render array but they can return an HTML page, an XML document, a serialized JSON array, an image, a redirect, a 404 error or almost anything else.
+Controllers usually return a [render array](render#overview), but can return an HTML page, an XML document, a [serialized JSON array](#return-json-data-from-a-route), an image, a redirect, a 404 error or almost anything else.
 
 A simple render array looks like this:
 
@@ -34,6 +32,31 @@ return [
   '#markup' => 'blah',
 ]
 ```
+
+### Responses
+
+HTTP is all about `requests` and `responses`. Drupal represents the `responses` it sends as `Response objects`. Drupal’s responses are [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response). 
+
+Symfony's Response objects are fully supported, but are insufficient to fully support the rich Drupal ecosystem: we need more structured metadata than the very simple Symfony Response objects can provide.
+
+Unfortunately, Symfony Response objects do not have an interface so every specialized Response \"type\" needs to extend from Symfony's Response base class.
+
+Drupal core defines two `response interfaces` that any response can implement to indicate it supports these particular Drupal capabilities:
+1. `CacheableResponseInterface` - which can expose [cacheability metadata](https://www.drupal.org/docs/8/api/cache-api/cache-api#s-cacheability-metadata) such as cache contexts, tags and max-age. These can easily be implemented by using the corresponding [CacheableResponseTrait](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/lib/Drupal/Core/Cache/CacheableResponseTrait.php?ref_type=heads).
+1. `AttachmentsInterface` - which can expose #attached metadata. (Asset libraries, `<head>` elements, placeholders...)
+
+Drupal’s additional response classes include some specialized Response subclasses that are available to developers:
+1. `CacheableResponse` - A response that contains and can expose cacheability metadata. Supports Drupal's caching concepts: cache tags for invalidation and cache contexts for variations. This is simply `class CacheableResponse extends Response implements CacheableResponseInterface {}`.
+1. `HtmlResponse` - This is what a controller returning a render array will result in after going through the Render API and its render pipeline. This is simply `class HtmlResponse extends Response implements CacheableResponseInterface, AttachmentsInterface {}`.
+1. `CacheableJsonResponse` - A `JsonResponse` that contains and can expose cacheability metadata. This is simply `class CacheableJsonResponse extends JsonResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [JsonResponse](https://symfony.com/doc/current/components/http_foundation.html#creating-a-json-response).
+1. `CacheableRedirectResponse` - A `RedirectResponse` that contains and can expose cacheability metadata. This is simply `class CacheableRedirectResponse extends RedirectResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [RedirectResponse](https://symfony.com/doc/current/controller.html#redirecting).
+1. `LocalRedirectResponse` - A redirect response which cannot redirect to an external URL. (Extends `CacheableRedirectResponse`.)
+1. TrustedRedirectResponse - A redirect response which should only redirect to a trusted (potentially external) URL. (Also extends `CacheableRedirectResponse`.)
+
+
+See [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
+
+
 ### Connecting to a twig template
 
 Most often, you will have a twig template connected to your controller. You do this by a combination of a `#theme` element in the render array and a `hook_theme` function in a `.module` file.
@@ -99,7 +122,7 @@ page_example_simple:
 
 ## Page with arguments
 
-From `web/modules/contrib/examples/page_example/page_example.routing.yml` {first}/{second} are the arguments.
+From `web/modules/contrib/examples/page_example/page_example.routing.yml` `{first}` and `{second}` are the arguments.
 
 ```yml
 # Since the parameters are passed to the function after the match, the
@@ -114,7 +137,7 @@ page_example_arguments:
   requirements:
     _permission: 'access arguments page'
 ```
-## Simple form
+## Display a form at a route
 
 From `web/modules/custom/rsvp/rsvp.routing.yml`. This route will cause Drupal to load the form: `RSVPForm.php` so the user can fill it out.
 
@@ -222,6 +245,119 @@ public function getTitle() {
   return  $boss_name . ' onions | ' . \Drupal::config('system.site')->get('name');
 }
 ```
+
+## ControllerBase shortcuts for your controllers
+
+`ControllerBase.php` comes prepackaged with some useful functions to get the following services statically:
+
+```php
+protected function entityTypeManager() {
+protected function entityFormBuilder() {
+protected function cache($bin = 'default') {
+protected function config($name) {
+protected function keyValue($collection) {
+protected function state() {
+protected function moduleHandler() {
+protected function formBuilder() {
+protected function currentUser() {
+protected function languageManager() {
+```
+This allows quick access from within your controllers to these services if you need to do things like:
+
+```php
+// Make an entityQuery
+$storage = $this->entityTypeManager()->getStorage('node');
+$query = $storage->getQuery();
+$query
+  ->accessCheck(TRUE)
+  ->condition('type', 'article')
+  ->condition('title', $name)
+  ->count();
+$count_nodes = $query->execute();
+
+// Or.
+
+// Get info about the current user.
+$account = $this->currentUser();
+$username = $account->getAccountName();
+$uid = $account->id();
+$message = "<br>Account info user id: " . $uid . " username: " . $username;
+
+// Or.
+
+// Get the site name, slogan and email from the system.site config.
+$config = $this->config('system.site');
+$site_name = $config->get('name');
+$slogan = $config->get('slogan');
+$email = $config->get('mail');
+```
+
+
+
+## Return JSON data from a route
+Using this `general-routing.yml` file:
+
+```yaml
+general.json_example1:
+  path: '/general/json-example1/nid/{nid}'
+  defaults:
+    _title: 'JSON Play1'
+    _controller: '\Drupal\general\Controller\CachePlay1::jsonExample1'
+#  methods: [GET]
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      nid:
+        type: 'integer'
+```
+
+You can cause Drupal to return JSON data.  
+
+```php
+  /**
+   * Example of a simple controller method that returns a JSON response.
+   *
+   * Note. You must enable the RESTful Web Services module to run this.
+   *
+   * @param int $nid
+   *  The node ID.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   */
+    public function jsonExample1(int $nid): JsonResponse {
+      if ($nid == 0) {
+//        $build['#cache']['tags'][] = 'node_list';
+        $data = [
+          'nid' => $nid,
+          'name' => 'Fred Bloggs.',
+          'age' => 45,
+          'occupation' => 'Builder',
+        ];
+      }
+      else {
+        $data = [
+          'nid' => $nid,
+          'name' => 'Mary Smith',
+          'age' => 35,
+          'occupation' => 'Rocket Scientist',
+          ];
+      }
+
+      return new JsonResponse($data, 200, [
+      'Cache-Control' => 'public, max-age=3607',
+    ]);
+  }
+```
+
+This will return JSON data like : `{"nid":0,"name":"Fred Bloggs.","age":45,"occupation":"Builder"}` and in the response headers, you will get `Cache-Control: max-age=3607, public`. If you want to make the response cacheable, see [caching json responses](caching#caching-json-responses)
+
+
+::: tip Note
+You do not need JSON:API module enabled to use this code
+:::
+
+
 
 
 ## Disable caching on a route
@@ -409,7 +545,7 @@ options:
 ```
 
 
-## Getting some help from Chat GPT
+## Generate a controller with ChatGPT
 
 At the time of this writing, [OpenAI](https://openai.com/) has a research release of its ChatGPT available.  You could always ask it to generate a controller for you as I did.  I was amazed by the result. I asked it to:
 
@@ -500,3 +636,5 @@ This would define a route at the path /temperature-table that displays the table
 - [Structure of Routes from Drupal documentation updated September 2022](https://www.drupal.org/docs/drupal-apis/routing-system/structure-of-routes)
 - [Symfonycasts.com excellent course in Drupal 8](https://symfonycasts.com/screencast/drupal8-under-the-hood)
 - [Controllers article from Drupalize.me updated December 2021](https://drupalize.me/topic/controllers)
+- [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
+- [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response)
