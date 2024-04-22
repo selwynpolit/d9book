@@ -428,14 +428,40 @@ final class ExampleCommands extends DrushCommands {
   #[CLI\Command(name: 'example:batch-import', aliases: ['ebi'])]
   #[CLI\Usage(name: 'example:batch-import', description: 'Import data from provider with batch.')]
   public function runBatchImportData() {
+    // Here, instead of $provider_data array, create your own data structure to import into nodes.
     $provider_data = [
       [
-        'id' => 1,
-        'body' => 'Lorem Ipsum',
+        'type' => 'article',
+        'title' => 'Article 1'
+        'body' => [
+          'value' => 'Lorem Ipsum',
+          'format' => 'full_html'
+        ],
+        'field_author' => [
+          'target_id' => 3
+        ],
       ],
       [
-        'id' => 2,
-        'body' => 'Lorem Ipsum 2',
+        'type' => 'article',
+        'title' => 'Article 2'
+        'body' => [
+          'value' => 'Lorem Ipsum',
+          'format' => 'full_html'
+        ],
+        'field_author' => [
+          'target_id' => 5
+        ],
+      ],
+      [
+        'type' => 'article',
+        'title' => 'Article 3'
+        'body' => [
+          'value' => 'Lorem Ipsum',
+          'format' => 'full_html'
+        ],
+        'field_author' => [
+          'target_id' => 2
+        ],
       ],
     ];
     $batch = new BatchBuilder();
@@ -504,15 +530,15 @@ In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/inclu
 ```php
  * Example:
  * @code
- * $batch = array(
+ * $batch = [
  *   'title' => t('Exporting'),
- *   'operations' => array(
- *     array('my_function_1', array($account->id(), 'story')),
- *     array('my_function_2', array()),
- *   ),
+ *   'operations' => [
+ *     ['my_function_1', [$account->id(), 'story']],
+ *     ['my_function_2', []],
+ *   ],
  *   'finished' => 'my_finished_callback',
  *   'file' => 'path_to_file_containing_my_functions',
- * );
+ * ];
  * batch_set($batch);
  * // Only needed if not inside a form _submit handler.
  * // Setting redirect in batch_process.
