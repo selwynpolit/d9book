@@ -746,6 +746,8 @@ namespace Drupal\my_module\Plugin\QueueWorker;
 class CronEventProcessor extends EmailEventBase { }
 ```
 
+There is [another example of using the Queue API from Karim Boudjema - August 2018](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8) <Badge type="danger" text="not secure" />
+
 ## Resources
 
 Read more about batch processing at these sites:

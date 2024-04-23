@@ -1225,9 +1225,9 @@ Drupal provides cache tags for `entities` & `configuration` — see the [EntityB
 
 Although many entity types follow a predictable cache tag format of `<entity type ID>:<entity ID>`, your code shouldn't rely on this. Instead, it should retrieve cache tags to invalidate for a single entity using its `::getCacheTags()` method, e.g., `$node->getCacheTags()`, `$user->getCacheTags()`, `$view->getCacheTags()` etc.
 
-In addition, it may be necessary to invalidate listings-based caches that depend on data from the entity in question e.g., refreshing the rendered HTML for a listing when a new entity for it is created. This can be done using `EntityTypeInterface::getListCacheTags()`, then invalidating any returned by that method along with the entity's own tag(s). Entities with bundles also automatically have a more specific cache tag that includes their bundle, to allow for more targeted invalidation of lists.
+In addition, it may be necessary to invalidate listings-based caches that depend on data from the entity in question e.g., refreshing the rendered HTML for a listing when a new entity for it is created. This can be done using `EntityTypeInterface::getListCacheTags()`, then invalidating anything returned by that method along with the entity's own tag(s). Entities with bundles also automatically have a more specific cache tag that includes their bundle, to allow for more targeted invalidation of lists.
 
-It is also possible to define custom, more specific cache tags based on values that entities have, for example a term reference field for lists that show entities that have a certain term. Invalidation for such tags can be put in custom presave/delete entity hooks:
+You can define more specific custom cache tags based on values that entities have, for example a term reference field for lists that show entities that have a certain term. Invalidation for such tags can be put in custom presave/delete entity hooks:
 
 ```php
 function yourmodule_node_presave(NodeInterface $node) {
@@ -1242,7 +1242,7 @@ function yourmodule_node_presave(NodeInterface $node) {
   }
 }
 ```
-These tags can then be used in code and in views using the [Views Custom Cache Tag module](https://www.drupal.org/project/views_custom_cache_tag).
+These tags can then be used in code and in views using the [Views Custom Cache Tag module](https://www.drupal.org/project/views_custom_cache_tag).  Also check out the [Handy cache tags module](https://www.drupal.org/project/handy_cache_tags) which provides some handy extra cache tags, so you can, for example, tag a block that deals with a certain node type, with the cache tag of that node type.
 
 ::: tip Note
 There is currently no API to get per-bundle and more specific cache tags from an entity or other object. That is because it is not the entity that decided which list cache tags are relevant for a certain list/query, that depends on the query itself. Future Drupal core versions will likely improve out of the box support for per-bundle cache tags and for example integrate them into the entity query builder and views.
@@ -1510,4 +1510,5 @@ cache.favorite_skus:
 * [Drupal performance — a complete Drupal self-help guide to ensuring your website’s performance by Kristen Pol Sep 2023](https://salsa.digital/insights/drupal-performance-a-complete-drupal-self-help-guide-to-ensuring-your-websites-performance)
 * [Cache tags on Drupal.org updated March 2023](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 * [Cacheability of render arrays on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
+* [Handy cache tags module](https://www.drupal.org/project/handy_cache_tags)
 
