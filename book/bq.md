@@ -33,7 +33,7 @@ has been used.
 
 There is [BatchBuilder class](https://www.drupal.org/node/2875389) for batch API which provides a more streamlined object-oriented approach to creating batches.
 
-### Using the Batch API with a form
+### Batch API in forms
 
 This example replaces a multivalue field with some new values processing 10 nodes at a time. The decision to process 10 at a time is arbitrary, but be aware that the more nodes you process at a time, the higher the possibility that the process will time out causing the batch will fail.
 
@@ -234,7 +234,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 }
 ```
 
-### Using the Batch API from a controller
+### Batch API in controllers
 
 The Batch API is often used in connection with forms. If you\'re using a page callback, you will need to set up all the items, submit them to the batch API, and then call `batch_process()` with a url as the argument.
 
@@ -371,15 +371,15 @@ return batch_process(\Drupal::request()->getRequestUri());
 ```
 :::
 
-### Using the Batch API with hook_update
+### Batch API and hook_update
 
-If you want to update the default value of a field for all nodes using the Batch API and hook_update_N check out the following links:
+If you want to update the default value of a field for all nodes using the Batch API and `hook_update_N` check out the following links:
 
 - [Using the Batch API and hook_update_N in Drupal 8](https://www.thirdandgrove.com/insights/using-batch-api-and-hookupdaten-drupal-8/)
 - [Drupal API \| batch_example_update_8001 \| batch_example.install](https://api.drupal.org/api/examples/batch_example%21batch_example.install/function/batch_example_update_8001/8.x-1.x)
 
 
-### Using the Batch API in a drush command
+### Batch API in a drush command
 
 You follow all the same procedures as shown in the form or controller style above, but to execute the batch, you need to use:
 
@@ -388,7 +388,10 @@ You follow all the same procedures as shown in the form or controller style abov
   drush_backend_batch_process();
 ```
 
-From <https://drupal.stackexchange.com/questions/225273/how-can-execute-batch-api-over-cron-jobs>:
+[More details at Stack Exchange](https://drupal.stackexchange.com/questions/225273/how-can-execute-batch-api-over-cron-jobs)
+
+
+Here is a complete drush command example:
 
 ```php
 <?php
@@ -495,8 +498,10 @@ final class ExampleCommands extends DrushCommands {
     }
   }
 }
-
 ```
+
+[Here is another example at karimboudjema.com from 2018](http://karimboudjema.com/en/node/25) <Badge type="danger" text="not secure" />
+
 
 
 ### Important rules about functions when using Batch API
