@@ -659,11 +659,11 @@ function dirt_pathauto_alias_alter(&$alias, array &$context) {
 }
 ```
 
-Also see an example at <https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field>
+Also see [an example on makedrupaleasy.com from Dec 2017](https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field)
 
-## Drupal l() is deprecated <Badge type="danger" text="Deprecated" />
+## Drupal l() is deprecated
 
-The l() method (lower case letter L) was a convenience wrapper for the link generator service's generate() method.
+The `l()`<Badge type="danger" text="Deprecated" /> method was a convenience wrapper for the link generator service's `generate()` method.
 So do this instead:
 
 ```php

@@ -125,7 +125,7 @@ $pbx_achievements_url = $pbx_path . "achievements?regid=".$reg_id;
 Once you grab the url, you can use it later in your code.
 
 :::tip Note
-You can add config into any of the 3 directories: `config/install`, `config/optional` or `config/schema`. Config that is added to the `config/install` directory has a special superpower. If config in that directory fails to import into Drupal, the module **is NOT installed**.
+You can add config into any of the 3 directories: `config/install`, `config/optional` or `config/schema`. Config that is added to the `config/install` directory has a special superpower: If config in that directory fails to import into Drupal, the module **is NOT installed**.
 :::
 
 
@@ -134,9 +134,9 @@ You can add config into any of the 3 directories: `config/install`, `config/opti
 You can add config to any of the 3 directories for a custom module: `config/install`, `config/optional` or `config/schema`
 These can contain configs, like a view or any other config.
 
-`schema`: This folder is used for schema related config. This is most often used to tell Drupal how custom configurations and configuration entities will be saved.
-`install`: All configurations will be installed. If any configuration fails, **the module won't be installed**.
-`optional`: All configurations will be installed if possible. If a configuration has missing dependencies, it won't be installed but the module **will** be installed.
+- `schema`: This folder is used for schema related config. This is most often used to tell Drupal how custom configurations and configuration entities will be saved.
+- `install`: All configurations will be installed. If any configuration fails, **the module won't be installed**.
+- `optional`: All configurations will be installed if possible. If a configuration has missing dependencies, it won't be installed but the module **will** be installed.
 
 
 See also [Include default configuration in your Drupal 8 module - Updated Jan 2024](https://www.drupal.org/docs/develop/creating-modules/include-default-configuration-in-your-drupal-module)

@@ -61,6 +61,18 @@ public function buildForm(array $form, FormStateInterface $form_state): array {
 }
 ```
 
+The route is:
+
+```yml
+batch_examples.batch:
+  path: '/batch-examples/batchform'
+  defaults:
+    _title: 'Batch Form'
+    _form: 'Drupal\batch_examples\Form\BatchForm'
+  requirements:
+    _permission: 'access content'
+```
+
 The `submitForm()` method calls `updateEventPresenters()`.
 
 ```php
@@ -72,18 +84,6 @@ public function submitForm(array &$form, FormStateInterface $form_state): void {
   $this->messenger()->addStatus($this->t('The message has been sent.'));
   $form_state->setRedirect('<front>');
 }
-```
-
-The route is:
-
-```yml
-batch_examples.batch:
-  path: '/batch-examples/batchform'
-  defaults:
-    _title: 'Batch Form'
-    _form: 'Drupal\batch_examples\Form\BatchForm'
-  requirements:
-    _permission: 'access content'
 ```
 
 Here is the `updateEventPresenters()` method. Notice the `$operations` array, which contains the function to call to do the work of each batch as well as the list of nids to process.
@@ -124,7 +124,7 @@ function updateEventPresenters(): void {
 }
 ```
 
-Here is the method that actually does the work. Most of the code is for information reporting. The actual work is in the `foreach $nids as $nid` loop:
+Here is the method that actually does the work. Most of the code is for information reporting. The actual work is in the `foreach ($nids as $nid)` loop:
 
 ```php
 public static function exampleProcessBatch(int $batch_id, array $nids, array &$context): void {
@@ -168,7 +168,7 @@ The Form API will take care of getting the batches executed. If you aren't using
 
 ```php
 // node/1 should be a valid node.
-return batch_process('node/1'); 
+return batch_process('node/1');
 ```
 
 ::: tip Note
@@ -236,7 +236,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 ### Using the Batch API from a controller
 
-The Batch API is often used in connection with forms. If you\'re using a page callback, you will need to set up all the items, submit them to the batch API, and then call `batch_process()` with a url as the argument. 
+The Batch API is often used in connection with forms. If you\'re using a page callback, you will need to set up all the items, submit them to the batch API, and then call `batch_process()` with a url as the argument.
 
 ```php
 return batch_process('node/1');
@@ -388,39 +388,115 @@ You follow all the same procedures as shown in the form or controller style abov
   drush_backend_batch_process();
 ```
 
-From <https://drupal.stackexchange.com/questions/225273/how-can-execute-batch-api-over-cron-jobs>: 
+From <https://drupal.stackexchange.com/questions/225273/how-can-execute-batch-api-over-cron-jobs>:
 
 ```php
-function module_name_drush_command() {
-  $items = array();
-  $items['migrate-batch-list'] = array(
-    'description' => 'Migrate import match',
-    'examples' => array(
-      'drush migrate-batch-list' => 'Migrate import match',
-    ),
-  );
-return $items;
+<?php
+namespace Drupal\example\Drush\Commands;
+use Drupal\Core\Batch\BatchBuilder;
+use Drupal\Core\Database\Connection;
+use Drush\Attributes as CLI;
+use Drush\Commands\DrushCommands;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+/**
+ * A Drush commandfile.
+ *
+ * In addition to this file, you need a drush.services.yml
+ * in root of your module, and a composer.json file that provides the name
+ * of the services file to use.
+ */
+final class ExampleCommands extends DrushCommands {
+  /**
+   * Constructs an ExampleCommands object.
+   */
+  public function __construct(
+    private readonly Connection $connection,
+  ) {
+    parent::__construct();
+  }
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('database'),
+    );
+  }
+  /**
+   * Command description here.
+   */
+  #[CLI\Command(name: 'example:batch-import', aliases: ['ebi'])]
+  #[CLI\Usage(name: 'example:batch-import', description: 'Import data from provider with batch.')]
+  public function runBatchImportData() {
+    // Here, instead of $provider_data array, create your own data structure to import into nodes.
+    $provider_data = [
+      [
+        'type' => 'article',
+        'title' => 'Article 1'
+        'body' => [
+          'value' => 'Lorem Ipsum',
+          'format' => 'full_html'
+        ],
+        'field_author' => [
+          'target_id' => 3
+        ],
+      ],
+      [
+        'type' => 'article',
+        'title' => 'Article 2'
+        'body' => [
+          'value' => 'Lorem Ipsum',
+          'format' => 'full_html'
+        ],
+        'field_author' => [
+          'target_id' => 5
+        ],
+      ],
+      [
+        'type' => 'article',
+        'title' => 'Article 3'
+        'body' => [
+          'value' => 'Lorem Ipsum',
+          'format' => 'full_html'
+        ],
+        'field_author' => [
+          'target_id' => 2
+        ],
+      ],
+    ];
+    $batch = new BatchBuilder();
+    foreach ($provider_data as $provider_datum) {
+      //You can use $this->connection to run a DB query to check if $provider_datum['id'] exists already in the database.
+      $batch->addOperation([ExampleCommands::class, 'batchImportData'], [$provider_datum]);
+    }
+    // We have set all operations in the batch.
+    // Now we have to add more info for batch.
+    $batch->setTitle('Import data from provider');
+    $batch->setFinishCallback([ExampleCommands::class, 'batchFinishImportData']);
+    batch_set($batch->toArray());
+    $this->logger()->notice("Batch is set.");
+    $this->logger()->notice("Start the batch process.");
+    drush_backend_batch_process();
+    return DrushCommands::EXIT_SUCCESS;
+  }
+  public static function batchImportData($data) {
+    // The structure of $data is not valid for $node_manager->create($data), it's only for showcase.
+    $node_manager = \Drupal::entityTypeManager()->getStorage('node');
+    $node = $node_manager->create($data);
+    $node->save();
+  }
+  public static function batchFinishImportData($success, array $results, array $operations, $elapsed) {
+    $messenger = \Drupal::messenger();
+    if ($success) {
+      $messenger->addMessage(t('Processed @count nodes in @elapsed.', [
+        '@count' => count($results),
+        '@elapsed' => $elapsed,
+      ]));
+    }
+  }
 }
 
-function drush_module_name_migrate_batch_list() {
-  drush_print('Migrate import match list.');
-
-  $operations = array(...something here you want.);
-  $batch = array(
-    'operations' => $operations,
-    'finished' => 'importingmatch_finishedBatch',
-    'title' => t('Import match'),
-    'init_message' => t('Starting import match.....'),
-    'progress_message' => t('Completed @current step of @total.'),
-    'error_message' => t('Import match deletion has encountered an error.'),
-  );
-
-  // Initialize the batch.
-  batch_set($batch);
-
-  // Start the batch process.
-  drush_backend_batch_process();
-}```
+```
 
 
 ### Important rules about functions when using Batch API
@@ -454,15 +530,15 @@ In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/inclu
 ```php
  * Example:
  * @code
- * $batch = array(
+ * $batch = [
  *   'title' => t('Exporting'),
- *   'operations' => array(
- *     array('my_function_1', array($account->id(), 'story')),
- *     array('my_function_2', array()),
- *   ),
+ *   'operations' => [
+ *     ['my_function_1', [$account->id(), 'story']],
+ *     ['my_function_2', []],
+ *   ],
  *   'finished' => 'my_finished_callback',
  *   'file' => 'path_to_file_containing_my_functions',
- * );
+ * ];
  * batch_set($batch);
  * // Only needed if not inside a form _submit handler.
  * // Setting redirect in batch_process.
@@ -650,7 +726,7 @@ Then you'll need a `cronEventProcessor` which in annotation tells cron how often
 
 ```php
 namespace Drupal\my_module\Plugin\QueueWorker;
- 
+
 /**
  *
  * @QueueWorker(
@@ -665,12 +741,13 @@ class CronEventProcessor extends EmailEventBase { }
 ## Resources
 
 Read more about batch processing at these sites:
+=======
 - [Batch API overview on drupal.org - updated April 2024](https://www.drupal.org/docs/drupal-apis/batch-api/batch-api-overview)
 - [Batch API on drupal.org](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10)
-- [Smack My Batch Up: Batch Processing In Drupal 8 by Phil Norton July 2016](https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8) 
+- [Smack My Batch Up: Batch Processing In Drupal 8 by Phil Norton July 2016](https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8)
 - [Well commented source code for batch operations for Drupal 10](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L561) (or search for 'batch operations')
 
 Read more about the Queue API at these sites:
 - [Karim Boudjema from August 2018 has some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
 - [Sarthak TTN from Feb 2017 shows some sample code on implementing cron and the queue API](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8)
-- [There is a somewhat incomplete example from Alan Saunders article on December 2021](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9) 
+- [There is a somewhat incomplete example from Alan Saunders article on December 2021](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9)
