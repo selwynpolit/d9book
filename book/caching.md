@@ -957,7 +957,7 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-## How to specify the cache backend for Memcache, Redir or APCu
+## How to specify the cache backend for Memcache, Redis or APCu
 
 This is relevant for using [Memcache](https://www.drupal.org/project/memcache), [Redis](https://www.drupal.org/project/redis) and also [APCu](https://www.php.net/manual/en/book.apcu.php).  By default, Drupal caches information in the database.  Tables includes `cache_default`, `cache_render`, `cache_page`, `cache_config` etc.  By using the configuration below, Drupal can instead store this info in memory to increase performance.
 
