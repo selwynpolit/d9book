@@ -53,3 +53,6 @@ Thanks to these rockstars for their contribution to the project. Please add your
 [Aaron Manire](https://github.com/amanire) - Delete aliases.
 
 [Chad Peppers](https://github.com/chadmandoo) - Drupal utility classes.
+
+[Dimitri Kritsotakis](https://github.com/dimitriskr) - Batch API magic.
+

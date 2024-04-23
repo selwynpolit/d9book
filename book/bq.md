@@ -528,6 +528,7 @@ The [source code for the Batch API](https://git.drupalcode.org/project/drupal/-/
 In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L562-678>, there is an example batch that defines two operations that call `my_function_1` and `my_function_2`. Notice how parameters can be passed to my_function_1 separated by commas. From <https://git.drupalcode.org/project/drupal/blob/8.7.8/core/includes/form.inc#L570>:
 
 ```php
+/**
  * Example:
  * @code
  * $batch = [
@@ -543,6 +544,8 @@ In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/inclu
  * // Only needed if not inside a form _submit handler.
  * // Setting redirect in batch_process.
  * batch_process('node/1');
+ * @endcode
+ */
 ```
 
 ::: tip Note
