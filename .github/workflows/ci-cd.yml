@@ -51,6 +51,8 @@ jobs:
     name: 🏗️ Build (node - ${{ matrix.node }})
     needs: cleanup
     runs-on: ubuntu-latest
+    env:
+      COREPACK_ENABLE_STRICT: 0
 
     strategy:
       matrix:
