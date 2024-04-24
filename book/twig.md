@@ -14,17 +14,14 @@ Drupal 10 uses **Twig 3**. Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
 Drupal\'s theme system allows a theme to have nearly complete control
 over the appearance of the site, which includes both the markup and the
 CSS used to style the markup. For this system to work, instead of
-writing HTML markup directly, modules return \"render arrays\", which
+writing HTML markup directly, modules return `render arrays`, which
 are structured hierarchical arrays that include the data to be rendered
 into HTML, and options that affect the markup. Render arrays are
 ultimately rendered into HTML or other output formats by recursive calls
 to [\\Drupal\\Core\\Render\\RendererInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10)(),
 traversing the depth of the render array hierarchy. At each level, the
-theme system is invoked to do the actual rendering. See the
-documentation
-of [\\Drupal\\Core\\Render\\RendererInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10)()
-and the [Theme system and Render API
-topic](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for
+theme system is invoked to do the actual rendering. See the Drupal API documentation
+for [\\Drupal\\Core\\Render\\RendererInterface::render()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10) and the [Drupal Render API Overview](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for
 more information about render arrays and rendering.
 
 ### Twig Templating Engine
