@@ -1,0 +1,55 @@
+name: 🏗️ CI
+
+on:
+  push:
+    branches:
+      - gh-pages
+    paths-ignore:
+      - README.md
+      - LICENSE.md
+  pull_request:
+    branches:
+      - gh-pages
+    paths-ignore:
+      - README.md
+      - LICENSE.md
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 🏗️ Build (node - ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    env:
+      COREPACK_ENABLE_STRICT: 0
+
+    strategy:
+      matrix:
+        node: [20.x, 21.x]
+
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🟧 Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
+      - name: ❇️ Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        timeout-minutes: 5
+        with:
+          cache: pnpm
+          node-version: ${{ matrix.node }}
+
+      - name: 📦 Install dependencies
+        env:
+          PNPM_FLAGS: --frozen-lockfile --color=always
+        run: pnpm i ${{ env.PNPM_FLAGS }}
+
+      - name: ⚡️ Build site with VitePress
+        run: pnpm book:build
