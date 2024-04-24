@@ -21,7 +21,7 @@ ultimately rendered into HTML or other output formats by recursive calls
 to [\\Drupal\\Core\\Render\\RendererInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10)(),
 traversing the depth of the render array hierarchy. At each level, the
 theme system is invoked to do the actual rendering. See the Drupal API documentation
-for [\\Drupal\\Core\\Render\\RendererInterface::render()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10) and the [Drupal Render API Overview](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for
+for [\\Drupal\\Core\\Render\\RendererInterface::render()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10) and the [Drupal API Theme system overview](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10) for
 more information about render arrays and rendering.
 
 ### Twig Templating Engine
@@ -38,8 +38,10 @@ For further Twig documentation
 see [https://twig.symfony.com/doc/2.x](https://twig.symfony.com/doc/2.x%20/)
 and <https://twig.symfony.com/doc/3.x>
 
-Note. Drupal 10 uses **Twig 3**, Drupal 9 uses Twig 2 and Drupal 8 used
-Twig 1.
+:::tip Note
+Drupal 10 uses **Twig 3**, Drupal 9 uses Twig 2 and Drupal 8 used Twig 1.
+::
+
 
 ## Displaying Data
 
@@ -106,8 +108,7 @@ e.g. from txg/web/themes/contrib/zurb_foundation/templates/page.html.twig
 </section>
 ```
 
-And from `txg/web/themes/custom/txg/templates/content/page--node--event.html.twig` I accidentally started implementing this in the page template. See below
-for the node template.
+And from `txg/web/themes/custom/txg/templates/content/page--node--event.html.twig` I accidentally started implementing this in the page template. See below for the node template.
 
 ```twig
 {{ drupal_field('field_image', 'node') }}
