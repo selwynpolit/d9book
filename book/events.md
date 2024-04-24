@@ -124,7 +124,7 @@ final class RouteFinishedSubscriber implements EventSubscriberInterface {
    */
   public function onKernelRequest(RequestEvent $event): void {
     if ($this->state->get('system.maintenance_mode')) {
-      $response = new TrustedRedirectResponse('http://www.mytimes.com');
+      $response = new TrustedRedirectResponse('https://www.nytimes.com');
       \Drupal::logger('mymodule')->info("System in maint mode - sent them to the times!");
       $event->setResponse($response);
     }
