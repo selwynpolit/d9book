@@ -28,7 +28,7 @@ function dirt_preprocess_views_view(&$variables) {
 ```
 
 ### Example 2
-This is a barbones example of how to modify a view using the template_preprocess_views_view() function.  This would be stored in a custom module or `.theme` file.  It modifies the view `events` by looping through the results and modifying each row as needed.
+This is a barebones example of how to modify a view using the `template_preprocess_views_view()` function.  This would be stored in a custom module or `.theme` file.  It modifies the view `events` by looping through the results and modifying each row as needed.
 
 ```php
 function dirt_preprocess_views_view(array &$variables) {
@@ -122,7 +122,7 @@ function txglobal_preprocess_views_view_field(&$variables) {
   }
 }
 ```
-Also of note here is to output the new variable {{related_items}} I can jam it in a `views-view-field--news-events-search--page-nid.html.twig` (as in `/Users/selwyn/Sites/txglobal/web/themes/custom/txglobal/templates/views/views-view--news-events-search--page-events.html.twig`). Here is the partial code:
+Also of note here: To output the new variable `{{related_items}}` put that in the twig file e.g. `views-view-field--news-events-search--page-nid.html.twig` (as in `/Users/selwyn/Sites/txglobal/web/themes/custom/txglobal/templates/views/views-view--news-events-search--page-events.html.twig`). The variable is output like this:
 
 ```twig
 {{ related_items }}
@@ -186,7 +186,7 @@ function _txglobal_multival_ref_data(FieldItemListInterface $ref_field, $param_n
 
 ### Example 2
 
-Another version of `/Users/spolit/Sites/txglobal/web/themes/custom/txglobal/txglobal.theme` which builds a UL of links based on the nid field in the view.  It also uses a helper function to build the links.  The helper function is in the same file and is called `build_related_items_links()`.
+Another version of `~/Sites/txglobal/web/themes/custom/txglobal/txglobal.theme` which builds a `UL` of links based on the nid field in the view.  It also uses a helper function to build the links.  The helper function is in the same file and is called `build_related_items_links()`.
 
 ```php
 /**
@@ -324,7 +324,7 @@ And the template
 
 ### Example 3
 
-This example has a view called `selwyntest3` and a display called `page_1`.  It modifies the `nid` field to output a specific value.  In this case, there were two nid fields and views calls the first one `nid` and the second one `nid_1`.  This shows how to find the correct field and modify the output. It is from `/Users/spolit/Sites/tea/docroot/themes/custom/tea/tea.theme`.
+This example has a view called `selwyntest3` and a display called `page_1`.  It modifies the `nid` field to output a specific value.  In this case, there were two nid fields. Views refers to them as  `nid` and `nid_1`.  This shows how to find the correct field and modify the output. It is from `~/Sites/tea/docroot/themes/custom/tea/tea.theme`.
 
 ```php{6-17}
 function tea_preprocess_views_view_field(&$variables) {
@@ -351,11 +351,13 @@ function tea_preprocess_views_view_field(&$variables) {
 
 ## Either Or in views
 
-To show one field if it exists else show another is remarkably easy. Just add a field for field 1 and exclude from display.  Add a field for field 2 and exclude from display. 
+To show one field if it exists otherwise show another field is remarkably easy.
 
-Add a third field for field 2 again and 
-    1. in rewrite results put the token for field 2.  Eg. [colorbox]
-    2. in No results behavior, put [field 1] token
+1. Add a field for `field1` and exclude from display.
+1. Add a field for `field2` and exclude from display. 
+1. Add a third field for `field2` again
+1. In the rewrite results put the token for `field2`.  Eg. `[colorbox]`
+1. In the `No results behavior`, put the token for `field1` e.g. `[field 1]`.
 
 
 
