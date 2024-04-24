@@ -353,18 +353,18 @@ function tea_preprocess_views_view_field(&$variables) {
 
 To show one field if it exists otherwise show another field is remarkably easy.
 
-1. Add a field for `field1` and exclude from display.
-1. Add a field for `field2` and exclude from display. 
+1. Add a field for `field1` and exclude it from display.
+1. Add a field for `field2` and exclude it from display. 
 1. Add a third field for `field2` again
 1. In the rewrite results put the token for `field2`.  Eg. `[colorbox]`
-1. In the `No results behavior`, put the token for `field1` e.g. `[field 1]`.
+1. In the `No results behavior`, put the token for `field1` e.g. `[field1]`.
 
 
 
 
 ## Views Query options
 
-When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  Sometimes it is useful to disable SQL rewriting as this bypasses security and returns the same data that you get as when you are logged in as user 1.
+When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  Sometimes it is useful to **disable SQL rewriting** as this bypasses security and returns the same data that you get as when you are logged in as user 1.
 
 ![Views query options](/images/views-query-options.png)
 
@@ -404,7 +404,7 @@ Now set the block to display where you want it and voila!  The drop-down select 
 ![jump menu open](/images/jump-menu6.png)
 
 
-## The Combine fields filter Views filter
+## Search multiple fields with a single search box
 
 This core functionality allows a view to have an exposed filter that searches multiple fields for a given search term. It essentially allows you to combine multiple exposed search filters into a single search box.
 
