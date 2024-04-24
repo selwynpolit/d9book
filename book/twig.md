@@ -248,7 +248,7 @@ To dump a taxonomy reference field for debugging purposes use the code below. Th
 </pre>
 ```
 
-### Loop thru paragraph reference fields
+### Loop through paragraph reference fields
 
 Here we go looping thru all the values in a multi-value reference field.
 
@@ -268,7 +268,7 @@ termid1: {{ paragraph.field_ref_tax.1.target_id }}
 and to make this more useful, here we build a string of them to pass to a view.
 
 From:
-`~/Site/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
+`~/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
 
 ```twig
 {# Figure out parameters to pass to view for news items #}
@@ -1213,7 +1213,7 @@ Check if View has Results
 
 ### If view results empty, show a different view
 
-In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` we show units (the first view) but if there aren't any, show `aofs` (the second view.)
+In `~/Sites/txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` we show units (the first view) but if there aren't any, show `aofs` (the second view.)
 
 ```twig
 {% if drupal_view_result('related_news_for_news_story', 'block_unit', node.id, unit_ids) %}
@@ -1229,12 +1229,12 @@ In the view, you can allow multiple terms for a `contextual filter`
 
 From: <https://drupal.stackexchange.com/questions/78701/views-multiple-contextual-filters-taxonomy>:
 
-Instead of Content: The name of Taxonomy (taxonomy\_vocabulary\_#) you need to select Content: Has taxonomy term ID _Contextual filter_ and enable _Allow multiple values_ to able to use multiple values in the form of 1+2+3 (for OR) or 1,2,3 (for AND).
+Instead of Content: The name of Taxonomy (`taxonomy_vocabulary_#`) you need to select `Content: Has taxonomy term ID _Contextual filter_` and enable `_Allow multiple values_` to able to use multiple values in the form of `1+2+3` (for `OR`) or `1,2,3` (for `AND`).
 
-Then in the template, check if there is a second value and build the arguments in the form id+id (e.g. "13+16") In this example, I have to assume the setup allows only 2 taxonomy terms to be entered. See below for an unlimited amount of terms.
+Then in the template, check if there is a second value and build the arguments in the form `id+id` (e.g. `13+16`) In this example, I have to assume the setup allows only 2 taxonomy terms to be entered. See below for an unlimited amount of terms.
 
 From
-`/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--upcoming-events.html.twig`:
+`~/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--upcoming-events.html.twig`:
 
 ```twig
 {# if there is a second category, pass it separated by + #}
@@ -1250,7 +1250,7 @@ From
 Or even nicer, we could loop thru an unlimited number of terms, build a string of them to pass to a view.
 
 From:
-`/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
+`~/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
 
 ```twig
 {# Figure out parameters to pass to view for news items #}
@@ -1279,7 +1279,7 @@ Using machine names for the view, you can copy the base view templates (just lik
 From
 <https://www.drupal.org/docs/theming-drupal/twig-in-drupal/twig-template-naming-conventions>:
 
-Using a View named foobar with its style: unformatted and row style: Fields, and using display:Page.
+Using a View named `foobar` with its style: `unformatted` and row style: `Fields`, and using display:`Page`.
 
 ```
 views-view--foobar--page.html.twig
@@ -1300,11 +1300,11 @@ views-view-fields.html.twig
 
 or for `views-view-list.html.twig`, you could use `views-view-list---foobar.html.twig`
 
-e.g. `/Users/selwyn/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/views/views-view-list--resource-library.html.twig`
+e.g. `~/Sites/dirt/web/themes/custom/dirt_bootstrap/templates/views/views-view-list--resource-library.html.twig`
 
 ### Inject variables
 
-You can inject variables into a view using `hook_preprocess_views_view`() eg. from `txg/web/themes/custom/txg/txg.theme`. The code below used to was load up various items to populate the select dropdown controls in the view:
+You can inject variables into a view using `hook_preprocess_views_view`() eg. from `~/Sites/txg/web/themes/custom/txg/txg.theme`. The code below used to was load up various items to populate the select dropdown controls in the view:
 
 ```php
 function txg_preprocess_views_view(&$variables) {
@@ -1510,7 +1510,7 @@ function mytheme_preprocess_views_view_field(&$variables) {
 
 #### Same field used twice
 
-Note. If you use the same field twice in a view i.e. if you need to display different parts of the same field in different places, views names them something like this: field_library_media and field_library_media_1. In that circumstance, you have to refer to them in the function like this:
+Note. If you use the same field twice in a view i.e. if you need to display different parts of the same field in different places, views names them something like this: `field_library_media` and `field_library_media_1`. In that circumstance, you have to refer to them in the function like this:
 
 // if($variables['field']->field == 'field_library_media') {
   if($variables['field']->options['id'] == 'field_library_media_1') {
@@ -1559,18 +1559,17 @@ function dirt_bootstrap_preprocess_views_view_field(&$variables) {
 
 ### Concatenate values into a string with join
 
-This would typically be used when passing a series of node id\'s to a
-view to filter its output.
+This would typically be used when passing a series of node id\'s to a view to filter its output.
 
 ```twig
 {% set blah = [node.field_ref_unit.0.target_id,node.field_ref_unit.1.target_id,node.field_ref_unit.2.target_id,node.field_ref_unit.3.target_id]|join('+') %}
 ```
 
-This produces 1+2+3+4
+This produces: `1+2+3+4`
 
 ### Loop through entity reference items
 
-In `txg/web/themes/custom/txg/templates/content/node--news-story.html.twig`
+In `~/Sites/txg/web/themes/custom/txg/templates/content/node--news-story.html.twig`
 I need to loop through a bunch of entity reference values and build a string
 of id+id+id... (with an undefined number) so:
 
@@ -1592,9 +1591,7 @@ of id+id+id... (with an undefined number) so:
 
 Use these to do almost anything with variables in your twig templates.
 
-See cheat sheet at
-<https://www.drupal.org/docs/contributed-modules/twig-tweak/cheat-sheet#s-view-filter>
-also <https://twig.symfony.com/doc/3.x/> for filters and functions
+See [Twig tweak cheat sheet](https://www.drupal.org/docs/contributed-modules/twig-tweak/cheat-sheet#s-view-filter) and [Twig documentation](https://twig.symfony.com/doc/3.x/) for filters and functions.
 
 Here are some examples. A complete list is included below:
 
@@ -1694,14 +1691,13 @@ Functions
 
 ## Twig Tweak
 
-This is an **essential** module to add to all projects.
+[Twig Tweak](https://www.drupal.org/project/twig_tweak) is an **essential** module to add to all projects. (Approximately 154,000 sites currently use it as of this writing.) It is a small module which provides a Twig extension with some useful functions and filters that can improve development experience.
 
-### Documentation
+Check out [Drupal.org documentation on it](https://www.drupal.org/docs/contributed-modules/twig-tweak/rendering-blocks-with-twig-tweak) and a [cheat sheet](https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/docs/cheat-sheet.md).
 
-There are some docs at
-<https://www.drupal.org/docs/contributed-modules/twig-tweak/rendering-blocks-with-twig-tweak>
+It looks like the best source of information is really in the [source file](https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/src/TwigTweakExtension.php) or at: `web/modules/contrib/twig_tweak/src/TwigExtension.php`.
 
-and a cheat sheet at <https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/docs/cheat-sheet.md>
+
 
 ### Display a block with twig_tweak
 
@@ -1711,22 +1707,22 @@ Here is a simple example:
 {{ drupal_block('plugin_id') }}
 ```
 
-It looks like the best source of information is really in the [source file](https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/src/TwigTweakExtension.php) or at: web/modules/contrib/twig_tweak/src/TwigExtension.php
 
-All the variations are listed there including the instructions to get
-drush to list all the blocks on your site.
+You can get drush to list all the blocks on your site with:
 
 ```bash
 drush ev "print_r(array_keys(\Drupal::service('plugin.manager.block')->getDefinitions()));"
 ```
 
-It outputs something like:
+to get:
 
 ![Block listing](/images/block_listing.png)
 
+
+
 ### Display filter form block
 
-You can then use this to display your ajax exposed filter form block
+You can use this to display your ajax exposed filter form block:
 
 ```twig
     {{ drupal_block('views_exposed_filter_block:news_listing_for_news_landing-page_1') }}
@@ -1734,7 +1730,7 @@ You can then use this to display your ajax exposed filter form block
 
 ### Embed view in twig template
 
-In `inside-marthe/themes/custom/dprime/templates/content/node-overview.html.twig` there is a view rendered in the twig template. This requires the [twig tweak](https://www.drupal.org/project/twig_tweak) module:
+In `~/Sites/inside-marthe/themes/custom/dprime/templates/content/node-overview.html.twig` there is a view rendered in the twig template. This requires the [twig tweak](https://www.drupal.org/project/twig_tweak) module:
 
 ```twig
 <div class="l-sidebar-content">
@@ -1753,7 +1749,7 @@ filters you have configured in your view.
 
 ### Some tricky quotes magic
 
-Here I am trying to create a string `type="aof"` so I had to escape at least one of the quotes like this \\\" (backslash and double quote)
+Here I am trying to create a string `type="aof"` so I had to escape at least one of the quotes like this `\"` (backslash and double quote)
 
 ```twig
 {% set office_type = 'type=\"' ~ item.type ~ '"' %}
@@ -1780,7 +1776,7 @@ The entire piece of debug code is reproduced below:
 
 The real implementation is shown below:
 
-From `txg/web/themes/custom/txg/templates/partials/searchfilterform.html.twig`
+From `~/Sites/txg/web/themes/custom/txg/templates/partials/searchfilterform.html.twig`
 
 See the line below that sets office_type = ...
 
@@ -1832,6 +1828,11 @@ and
    * page.html.twig
 -->
 ```
+
+::: tip Note
+The new way to enable Twig debugging is via the user interface. In the menus select `Configuration`, `Development`, `Development Settings` (or navigate to `/admin/config/development/settings`) and check the `Twig development mode` box, then check the boxes for  `Twig debug mode` and `disable Twig cache`.  You can also check the `Do not cache markup` at this time.
+:::
+
 
 In `sites/default/development.services.yml` in the `parameters`, `twig.config`, set `debug:true`. See `core.services.yml` for lots of other items to change for development.
 
@@ -2006,7 +2007,7 @@ If you ever see a 502 bad gateway error when embedding a drupal_view, delete the
 
 ### Striptags (when twig debug info causes if to fail)
 
-When you care about the output being affected by twig debugging, you need to use `striptags`. In this case, because I enabled twig debugging, the content.field_landing_opinion_page_type was not ever `'ORD`'
+When you care about the output being affected by twig debugging, you need to use `striptags`. In this case, because I enabled twig debugging, the `content.field_landing_opinion_page_type` was not ever `'ORD`'
 
 So here I compare a field value so I have to use striptags to remove all html. I ended up using the combination of `render|striptags|trim`:
 
@@ -2019,21 +2020,12 @@ So here I compare a field value so I have to use striptags to remove all html. I
 ## Reference
 
 - Drupal 10 uses **Twig 3**. Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
-
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
-
 - [Twig 3 documentation](https://twig.symfony.com/doc/3.x/)
-
 - [Drupal.org Theming documentation](https://www.drupal.org/docs/theming-drupal)
-
 - [Handy Twig functions you can use directly in templates - Updated Jan 2023](https://www.drupal.org/docs/theming-drupal/twig-in-drupal/functions-in-twig-templates)
-
 - [Twig Tweak 3 cheat sheet Updated October 2022](https://git.drupalcode.org/project/twig_tweak/-/blob/3.x/docs/cheat-sheet.md)
-
 - [Twig Tweak 2 cheat sheet Updated May 2022](https://www.drupal.org/docs/contributed-modules/twig-tweak-2x/cheat-sheet#s-view-filter)
-
 - [Using attributes in templates updated March 2023](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates)
-
 - [Twig tweaks and Views has some useful notes on using twig tweak with views - Updated November 2020](https://www.drupal.org/docs/8/modules/twig-tweak/twig-tweak-and-views)
-
 - [Getting Drupal 8/9 Field Values in Twig by Sarah Carney July 2018](https://sarahcodes.medium.com/getting-drupal-8-field-values-in-twig-22b80cb609bd)
