@@ -36,7 +36,7 @@ Also lots of useful info at [Updating Drupal core via Composer on drupal.org](ht
 
 ## Upgrading Drupal 9 to Drupal 10
 
-Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
+Much of this is from [Drupalize.me - updated Oct 2023](https://drupalize.me/tutorial/upgrade-drupal-10)
 
 ### CKEditor
 - Install the latest and greatest Drupal 9.x version
@@ -68,7 +68,7 @@ Much of this is from [Drupalize.me - March 2023](https://drupalize.me/tutorial/u
   - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail. 
 
 ::: tip Note
-Using the --no-update flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
+Using the `--no-update` flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
 :::
 
 
@@ -950,13 +950,14 @@ Consider using the caret operator instead for safety.
 
 Examples:
 
-- \>=1.0
+- `>=1.0`
 
-- \>=1.0 \<2.0
+- `>=1.0 <2.0`
 
-- \>=1.0 \<1.1 \|\| \>=1.2
+- `>=1.0 <1.1 || >=1.2`
 
-More at <https://getcomposer.org/doc/articles/versions.md>
+More at [getcomposer.org](https://getcomposer.org/doc/articles/versions.md)
+
 
 ## Allowing multiple versions
 
