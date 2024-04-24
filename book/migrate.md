@@ -52,4 +52,5 @@ This migration Process snippet example demonstrates how to populate the fields o
 * [Nice introduction to Drupal 8 migration by Chris of Redfin Solutions - Nov 2017](https://redfinsolutions.com/blog/understanding-drupal-8s-migrate-api)
 * [Migrating files and images on Drupal.org - updated February 2023](https://www.drupal.org/docs/drupal-apis/migrate-api/migrate-destination-plugins-examples/migrating-files-and-images)
 * [Drupal 8 content migrations from CSV or spreadsheet - August 2020](https://atendesigngroup.com/articles/drupal-8-content-migrations-csv-spreadsheet)
+* [Drupal Migrations: Getting Started - Nov 2023](https://www.tag1consulting.com/blog/drupal-migrations-getting-started) - with video. The hosts, Michael Meyers and Janez Urevc, are joined by a panel of additional experts, Benji Fisher, Lucas Hedding, Mauricio Dinarte, and Mike Ryan, who delve deep into the world of Drupal migrations.
 

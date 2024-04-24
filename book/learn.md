@@ -81,11 +81,15 @@ Some of these are affiliate links so Amazon may send me some money if you purcha
 - [Acquia Certified Drupal Site Builder Exam course from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam) - The Acquia Certified Drupal 10 Site Builder exam and the Acquia Certified Drupal 9 Site Builder exam are part of Acquia's Drupal certification program. The exams consist of 50 scenario-based questions that show your knowledge of site building topics including content and user management, content modeling, site display, community and contributed projects, module and theme management, and general site security and performance. We've gathered together a concise list of the Drupalize.Me tutorials, and other resources, that will help you prepare for both the Acquia's Certified Drupal 9 and 10 Site Builder exams. (Note some parts are behind a paywall.)
 - [Drupal Site Builder Certification Learning Plan from Acquia Academy](https://community.acquiaacademy.com/learn/public/learning_plan/view/85/drupal-site-builder-certification-learning-plan) - This learning plan provides those new to Drupal with the basic training and resources to prepare for the Acquia Certified Drupal Site Builder Certification Exam. It contains: Approximately 6 hours of video instruction and accompanying resources, a certification exam study guide, practice text questions and a link to register for the exam. Acquia provides free Drupal training, practice certification exams, and other valuable resources.
 
+## Learning PHP
+- [PHP: The Right Way](https://phptherightway.com/) is a great resource for learning PHP.  It is a living document that is updated regularly.
 
 
 ## Free video training
 * Check out some nice [short form videos on how to use various modules, create modules, and even using Single Directory Components by Saranya Ashokkumar](https://www.youtube.com/@d4drupal324/featured)
 * Gary Clarke's [Learn Object Oriented PHP 3 hour programming course](https://www.youtube.com/watch?v=uUlLAfN3rJc) for Symfony, Laravel, and Drupal is a great series of videos that will help you understand the basics of Object Oriented PHP.  This is a great foundation for understanding Drupal development.
+* [Webwash Expert Drupal Training](https://www.webwash.net/courses/) - Webwash offers a variety of free video courses on Drupal 8 and 9.
+
 
 ## Paid video training courses
 These are paid training courses that are very detailed and informative.  They are kept up to date by excellent instructors and worth the expense.
@@ -94,27 +98,38 @@ These are paid training courses that are very detailed and informative.  They ar
 * [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from [Lullabot](https://www.lullabot.com/) which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development or bring new people up to speed.
 * [Symfonycasts](https://symfonycasts.com/) is another incredibly good service that teaches all about the nuts and bolts of Symfony, PHPUnit and many other tools.  I think the Drupal course they have might be a little dated now.
 * [Learn Object Oriented PHP by Gary Clarke](https://www.garyclarke.tech/p/learn-object-oriented-php)
+* [OSTraining](https://www.ostraining.com/) is another excellent source of training for Drupal and many other web technologies.
 
-## Developer Training
+
+
+## Instructor led Training
 * Mike Anello of Drupal Easy has excellent [instructor led developer training courses](https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
 
+## Artificial Intelligence
+* [The Drupal Droid](https://chat.openai.com/g/g-rNIZzTk3G-the-drupal-droid) is a chatbot that can help you with Drupal questions.  It is powered by OpenAI's ChatGPT and reqiures a subscription to ChatGPT Plus. For a 5 minute video [check out](https://youtu.be/Ajb3wGnK62E?si=h4EnvmIj3hffB4M7)
+ 
 
-## Keep up with Drupal news
+## Drupal news
 
-Check out the [Drupal Slack server](https://drupal.slack.com/) for all things Drupal.  There are dozens of very active channels. Historically, this communication all used to happen on IRC.
-
-Other great sources of news are:
-
-* [Planet drupal](https://www.drupal.org/planet)
-* The Weekly Drop, a Drupal newsletter The Drupal Association has partnered with TheWeeklyDrop to bring up-to-date News and Events to the Drupal community. You can [sign up for a free subscription](http://www.theweeklydrop.com/).
-* [TheDropTimes is a news website](https://www.thedroptimes.com/) started with the vision of contributing to the growth of a vibrant community of users and contributors around Drupal through the process of covering and promoting everything happening around Drupal.
-* [DrupalSun Feed](https://drupalsun.com) of Drupal related articles from all over the web.
+### Social Media
+* [Drupal Slack server](https://drupal.slack.com/) - There are dozens of very active channels. Historically, this communication all used to happen on IRC.
 * [Mastodon](https://drupal.community/explore) is starting to show signs of Drupal life with a Mastodon instance focused on Drupal.
 * [Twitter](https://twitter.com/search?q=%23drupal&src=typed_query) is a complete cesspool of misinformation, but still has many useful Drupal posts from various sources.
 
+### Newsletters
+* [Drupal Association newsletter](https://www.drupal.org/association/newsletter)
+* [Drupal.org Newsletters](https://www.drupal.org/newsletter) - Weekly Drupal newsletter, Monthly Drupal Association Newsletter, Educational Opportunities & occasional ad hoc emails.
+* [The Weekly Drop, a Drupal newsletter](http://www.theweeklydrop.com/) The Drupal Association has partnered with The Weekly Drop to bring up-to-date News and Events to the Drupal community.
+* [The Drop Times Editor\'s pick](https://www.thedroptimes.com/newsletter/editors-pick) - A weekly guide to the best Drupal news and articles from our editors.
+* [Talking Drupal Newsletter](https://talkingdrupal.substack.com/about) - A weekly newsletter about Drupal and Open Source from the team at Talking Drupal.
 
 
-## Blogs and articles
+### Blogs and articles
+* [Planet drupal](https://www.drupal.org/planet)
+* [TheDropTimes is a news website](https://www.thedroptimes.com/) started with the vision of contributing to the growth of a vibrant community of users and contributors around Drupal through the process of covering and promoting everything happening around Drupal.
+* [DrupalSun Feed: Drupal related articles from all over the web.](https://drupalsun.com)
+* [The weekly Drop archives](https://www.theweeklydrop.com/archive)
+* [Drupal association previous newsletters](https://www.drupal.org/association/newsletter)
 * [Drupal Official Blog](https://www.drupal.org/blog) - News and stories to help you make something amazing, for anyone, with Drupal.
 * [Phil Norton of #!code writes some amazing articles](https://www.hashbangcode.com/) and [has useful code snippets](https://www.hashbangcode.com/snippets).
 * [Martin Anderson-Clutz's sandbox for a wide variety of fantastic Drupal, Acquia and module information at](https://www.mandclu.com/). He is also the author and maintainer of the [Smart Date Module](https://www.drupal.org/project/smart_date) and about 8 bazillion other modules.
@@ -123,14 +138,17 @@ Other great sources of news are:
 * [Dries Buytaert's blog](https://dri.es/) - Dries is the founder and project lead of Drupal and the CTO of Acquia.
 * [Tag1 consulting blog](https://www.tag1consulting.com/blog) is another fantastic source of interesting and informative articles about Drupal.
 
-
-
-## Drupal Podcasts
+### Podcasts and Vlogs
 - [Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013 and is still going strong.](https://www.talkingdrupal.com) [This author was interviewed on Episode #398](https://www.talkingdrupal.com/398)
 - [Lullabot Podcast: News, interviews, and tips about Drupal and Open Source from the team at Lullabot](https://www.lullabot.com/podcasts/lullabot-podcast)
 - [Mike Anello's Drupal Easy podcast](https://www.drupaleasy.com/podcast)
+- [The Beyond Blocks Podcast by Oliver Davies](https://www.oliverdavies.uk/podcast) - A weekly podcast about Drupal, open-source, and related software development topics.
+- [Tag1 Team Talks](https://www.tag1consulting.com/tagteamtalks) - Tag1 Consulting's vlog and podcast about Drupal and web development.
 
 
-
+## Getting Help
+- [Drupal Slack server](https://drupal.slack.com/) - There are dozens of very active channels. Historically, this communication all used to happen on IRC.
+- [Drupal Stack Exchange](https://drupal.stackexchange.com/) - A question and answer site for Drupal developers and administrators.
+- [Drupal.org Forums](https://www.drupal.org/forum) - The official Drupal forums.
 
 
