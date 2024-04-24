@@ -301,6 +301,16 @@ This module intercepts all outgoing emails from a Drupal site and reroutes them 
 
 [Reroute Email Module](https://www.drupal.org/project/reroute_email)
 
+## Entities
+
+###Storage Entities
+
+A new entity type for managing data that should be stored in the database, but only displayed within or associated with other content. If you're using a solution like Rabbit Hole to prevent direct access to an entire content type, that content might be better stored as storage entities.
+Lightweight by design, but fieldable just like content types. This module is similar to Basic Data but where that module requires a "data" blob in addition to a name, this module only requires a name, and any other fields can be completely custom to suit your specific needs. Also, this module is designed to be revisionable and translatable.
+
+[Storage Entities](https://www.drupal.org/project/storage)
+
+
 ## Essential Utility Modules for Every Site
 
 Well maybe not every site, but certainly for most sites, your life and your content editor's lives will go better with these modules.
@@ -315,6 +325,21 @@ The module works on the top of the default toolbar core module and is therefore 
 The modules list page can become quite big when dealing with a fairly large site or even just a dev site meant for testing new and various modules being considered. What this module aims to accomplish is the ability to quickly find the module you are looking for without having to rely on the browsers search feature which more times than not shows you the module name in the 'Required by' or 'Depends on' sections of the various modules or even some other location on the page like a menu item.
 
 [https://www.drupal.org/project/module_filter](https://www.drupal.org/project/module_filter)
+
+
+### Pathauto
+
+The Pathauto module automatically generates URL/path aliases for various kinds of content (nodes, taxonomy terms, users) without requiring the user to manually specify the path alias. This allows you to have URL aliases like /category/my-node-title instead of /node/123. The aliases are based upon a "pattern" system that uses tokens which the administrator can change.
+
+[https://www.drupal.org/project/pathauto](https://www.drupal.org/project/pathauto)
+
+
+### Redirect
+
+Provides the ability to create manual redirects and maintain a canonical URL for all content, redirecting all other requests to that path.
+
+[Redirect](https://www.drupal.org/project/redirect)
+
 
 ## Fields
 
@@ -442,6 +467,16 @@ This allows editors to add content way faster because they do not need to add al
 
 [https://www.drupal.org/project/paragraphs_sets](https://www.drupal.org/project/paragraphs_sets)
 
+### Layout Paragraphs
+
+Layout Paragraphs provides an intuitive drag-and-drop experience for building flexible layouts with paragraphs. The module was designed from the ground up with paragraphs in mind, and works seamlessly with existing paragraph reference fields.
+
+**Key Features**
+- Intuitive drag-and-drop interface.
+- Works with existing paragraph reference fields.
+- Flexible configuration – site admins choose which paragraphs to use as `layout sections`, and which layouts should be available for each.
+
+
 ## Permissions
 
 [How to restrict access to content by role in Drupal 8 - Aug 2018](https://www.optasy.com/blog/how-do-you-restrict-access-content-drupal-8-6-modules-will-do-job-you)
@@ -474,6 +509,15 @@ Taxonomy term permissions can be coupled to specific user accounts and/or user r
 A module built to resolve and avoid the error: \"Unable to install already exists active configuration\" when reinstalling/uninstalling Drupal modules. It works even if the module's configs are not in `.yml` files or in their config folder. It has an option to purge configuration object for  uninstalled modules and helps to remove configuration objects while uninstalling a module without requiring the use of Drush or Devel.
 
 [https://www.drupal.org/project/easy_install](https://www.drupal.org/project/easy_install)
+
+
+### Module Missing message Fixer
+
+Displays a list of missing modules and lets you fix the entries. Also deletes leftover config from missing modules. Make sure you run drush cex or export the config from the UI after using this. It is also Drush 9 compatible.
+
+
+[Module Missing message Fixer](https://www.drupal.org/project/module_missing_message_fixer)
+
 
 ## Security/Spam Protection
 
@@ -638,6 +682,7 @@ Snippets are pieces of Twig code that can be used to build site layouts. The mod
 Twig Tweak is a small module which provides a Twig extension with some useful functions and filters that can improve development experience.
 
 [https://www.drupal.org/project/twig_tweak](https://www.drupal.org/project/twig_tweak)
+
 
 ## User Interface
 
