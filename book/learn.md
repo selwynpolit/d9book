@@ -152,3 +152,6 @@ These are paid training courses that are very detailed and informative.  They ar
 - [Drupal.org Forums](https://www.drupal.org/forum) - The official Drupal forums.
 
 
+## Resources
+- [Drupal Training](https://www.drupal.org/training) - organizations that indicate they provide Drupal training services.
+
