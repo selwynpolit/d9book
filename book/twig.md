@@ -40,7 +40,7 @@ and <https://twig.symfony.com/doc/3.x>
 
 :::tip Note
 Drupal 10 uses **Twig 3**, Drupal 9 uses Twig 2 and Drupal 8 used Twig 1.
-::
+:::
 
 
 ## Displaying Data
@@ -224,7 +224,7 @@ In a node template, you can display specific node fields by prefacing them with 
 {{ node.field_date.end_value }}
 ```
 
-### Paragraph field
+### Paragraph fields
 
 These still work fine: `content.field_abc` or `node.field_ref_topic` but instead of `node`, you preface fields with `paragraph` like this:
 
@@ -268,7 +268,7 @@ termid1: {{ paragraph.field_ref_tax.1.target_id }}
 and to make this more useful, here we build a string of them to pass to a view.
 
 From:
-dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph\--news-preview.html.twig
+`~/Site/dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph--news-preview.html.twig`
 
 ```twig
 {# Figure out parameters to pass to view for news items #}
@@ -282,7 +282,7 @@ dirt/web/themes/custom/dirt_bootstrap/templates/paragraphs/paragraph\--news-prev
 params: {{ params }}
 ```
 
-This will output something like: 5+6+19
+This will output something like: `5+6+19`
 
 ### Body
 
@@ -321,13 +321,13 @@ filters:
 <div>How to order: {{ how_to_order|raw }}</div>
 ```
 
-And maybe you want to only allow \<b\> tags
+And maybe you want to only allow `<b>` tags
 
 ```twig
 {{ word|striptags('<b>')|raw }}
 ```
 
-Or several tags. In this case \<b\>\<a\>\<pre\>
+Or several tags. In this case `<b>`, `<a>` and `<pre>`:
 
 ```twig
 {{ word|striptags('<b>,<a>,<pre>')|raw }}
@@ -335,8 +335,8 @@ Or several tags. In this case \<b\>\<a\>\<pre\>
 
 ### The date/time a node is published, updated or created
 
-Each of these calls return a datetime value in string form which can be
-massaged by the twig date() function for formatting.
+Each of these calls return a `datetime` value in string form which can be
+massaged by the twig `date()` function for formatting.
 
 ```twig
 <pre>
@@ -353,7 +353,7 @@ Published: {{ node.published_at.value|date('Y-m-d') }}
 </pre>
 ```
 
-Here is the output you might see. Note. The first published is apparently blank because I didn't use the drupal scheduling to publish the node (maybe?) and the second one seems to have defaulted to today's date.
+Here is the output you might see. The first published is apparently blank because I didn't use the drupal scheduling to publish the node (maybe?) and the second one seems to have defaulted to today's date.
 
 ```
 Created: 1604034000
@@ -428,7 +428,7 @@ Use Twig date filter
 
 ### Smart date field formatting
 
-When using the [smart date](https://www.drupal.org/project/smart_date) module, dates are stored as timestamps so you have to use the twig date function to format them. If you just put this in your template:
+When using the **fantastic** [smart date](https://www.drupal.org/project/smart_date) module, dates are stored as timestamps so you have to use the twig date function to format them. If you just put this in your template:
 
 ```twig
 {{ content.field_when }}
@@ -436,7 +436,7 @@ When using the [smart date](https://www.drupal.org/project/smart_date) module, d
 
 The output will include whichever formatting you specify in Drupal. While I assume there is a way to pass a [smart date](https://www.drupal.org/project/smart_date) formatting string to twig, I haven\'t discovered it yet. Here are ways to format a [smart date](https://www.drupal.org/project/smart_date).
 
-Specify the index (the 0 indicating the first value, or 1 for the second) e.g. node.field.0.value and pipe the twig [date](https://twig.symfony.com/doc/3.x/filters/date.html) function for formatting:
+Specify the index (the 0 indicating the first value, or 1 for the second) e.g. `node.field.0.value` and pipe the twig [date](https://twig.symfony.com/doc/3.x/filters/date.html) function for formatting:
 
 Date as in July 18, 2023
 
@@ -481,13 +481,15 @@ Hide the end date if it is the same as the start date
 
 ### Entity Reference field
 
-If you have an entity reference field such as field_ref_topic (entity reference to topic content) you have to specify the target_id like this. If you have only 1 reference, use the `.0`, for the second one use `.1` and so on.
+If you have an entity reference field such as `field_ref_topic` (entity reference to topic content) you have to specify the target_id. If you have only 1 reference, use the `.0`. If you have multiple and you want to specify the second one use `.1` and so on.
 
 ```twig
 {{ node.field_ref_topic.0.target_id }}
+{{ node.field_ref_topic.1.target_id }}
 ```
 
 Note. This will show the node id of the entity reference field. See below to see the content that the entity reference field points to.
+
 
 ### Entity reference destination content
 
@@ -505,7 +507,7 @@ Or
 {{ content.field_sf_contract_ref.entity.field_contract_overview }}
 ```
 
-The field in the contract node is called `field_sf_contract_ref`. The field in the referenced entity is called field_contract_overview. Notice how with the `node.` style, you must specify `.value` at the end.
+The field in the contract node is called `field_sf_contract_ref`. The field in the referenced entity is called `field_contract_overview`. Notice how with the `node.` style, you must specify `.value` at the end.
 
 Here is an example of a taxonomy term where the title of the term will be displayed.
 
@@ -547,11 +549,10 @@ Example block with a machine name of `block---system-powered-by-block.html.twig`
   {% block content %}
     {{ content }}
   {% endblock %}
-  also powered by <a href="http://austinprogressivecalendar.com">Austin Progressive Calendar</a>
 </div>
 ```
 
-### Render a list created in the template_preprocess_node()
+### Render an array as an OL list created in the template_preprocess_node()
 
 Here we create a list in the function:
 
@@ -579,11 +580,11 @@ and render it in the `node--article--full.html.twig`
 
 ### Links
 
-There are a bajillion kertrillion or more ways to render a link
+There are a bajillion kertrillion or more ways to render a link.
 
-Link field (URL)
+For a Link field (URL)
 
-This is the simplest way. Just set the display mode to link
+This is the simplest way. Just set the display mode in the U/I to link
 
 ![Suggest Button](/images/suggest_button.png)
 
@@ -681,26 +682,22 @@ From
 `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-product-card.html.twig` we wrap some stuff in a link:
 
 ```twig
-
 <a href="{{content.field_link.0['#url']}}" {% if content.field_link.0['#options']['attributes']['target'] %} target="{{content.field_link.0['#options']['attributes']['target']}}" {% endif %} class="button">{{content.field_link.0['#title']}}
   {{ content.field_image }}
   <h2 class="module-header">{{content.field_text}}</h2>
   {{content.field_text2}}
 </a>
-
 ```
 
 And from
-`txg/web/themes/custom/txg/templates/content/node--event--card.html.twig` if there is a url, display the link with the url, otherwise just display the title for the link. I'm not 100% sure this is really valid. Can you put in a title and no link?
+`~/Sites/txg/web/themes/custom/txg/templates/content/node--event--card.html.twig` if there is a url, display the link with the url, otherwise just display the title for the link. I'm not 100% sure this is really valid. Can you put in a title and no link?
 
 ```twig
-
 {% if node.field_event_location_link.0.url %}
     <a href="{{ node.field_event_location_link.0.url }}">{{ node.field_event_location.0.value }}</a>
 {% else %}
   {{ node.field_event_location.0.value }}
 {% endif %}
-
 ```
 
 ### Render an internal link programatically
@@ -737,12 +734,10 @@ From `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-reso
 Here we use sidebar_standard image style
 
 ```twig
-
 <aside class="module module--featured" data-interchange="[{{ content.field_image.0['#item'].entity.uri.value | image_style('sidebar_standard') }}, small]">
-
 ```
 
-Or for a media field, set the image style on the display mode and use this:
+Or for a `media` field, set the image style on the display mode and use this:
 
 ```twig
 {{ content.field_banner_image.0 }}
@@ -750,8 +745,7 @@ Or for a media field, set the image style on the display mode and use this:
 
 ### Hide if there is no content in a field or image
 
-From
-inside-marthe/themes/custom/dp/templates/content/node\--video-detail.html.twig I check to see if there are any values in this array `related_lessons_nid`s and display the view.
+From `~/Sites/inside-marthe/themes/custom/dp/templates/content/node--video-detail.html.twig` I check to see if there are any values in the `related_lessons_nids` array and display the view (using twig_tweak).
 
 ```twig
 {% if related_lessons_nids|length %}
@@ -786,12 +780,11 @@ If there is an image (and it is renderable) display the image
 
 ### Attributes
 
-From <https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes>:
+[From MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes):
 
 Elements in HTML have **attributes**; these are additional values that configure the elements or adjust their behavior in various ways to meet the criteria the users want.
 
-Read more about using attributes in templates
-[https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates)
+Read more about using attributes in templates on Drupal.org - updated Mar 2023](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates)
 
 To add a data attribute use:
 
@@ -820,8 +813,7 @@ Produces:
 ></article>
 ```
 
-More useful examples at <https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates>
-such as:
+For more examples see [Using attributes in templates on drupal.org - updated Mar 2023](https://www.drupal.org/docs/8/theming-drupal-8/using-attributes-in-templates) such as:
 
 ```twig
 {% set classes = ['red', 'green', 'blue'] %}
@@ -862,7 +854,7 @@ Convert attributes to array
 ### Output the content but leave off the field_image
 
 From
-`very/web/themes/very/templates/node--teaser.html.twig`:
+`~/Sites/very/web/themes/very/templates/node--teaser.html.twig`:
 
 ```twig
 <div{{ content_attributes.addClass('content') }}>
@@ -878,9 +870,9 @@ From
 
 ### Add a class conditionally
 
-From `very/web/themes/very/templates/node--teaser.html.twig`
+From `~/Sites/very/web/themes/very/templates/node--teaser.html.twig`
 
-For an unpublished node, wrap this class around the word unpublished
+For an unpublished node, wrap this class around the word unpublished:
 
 ```twig
 {% if not node.published %}
@@ -913,7 +905,7 @@ Could also link to users using
 From:
 `web/themes/custom/dprime/templates/field/field--paragraph--field-links--sidebar-cta.html.twig`
 
-Notice the use of `loop.index` to only output this for the first item
+Notice the use of `loop.index` to only output this for the first item (and skip it for subsequent items.)
 
 ```twig
 {% for item in items %}
@@ -948,7 +940,7 @@ This loads all the authors and adds `and` between them except for the last one:
 This version inserts commas:
 
 From
-`org/docroot/themes/custom/org/templates/field/field--node--field-categories--opinion.html.twig`
+`~/Sites/oag/docroot/themes/custom/org/templates/field/field--node--field-categories--opinion.html.twig`
 
 ```twig
 {% if label_hidden %}
@@ -1010,8 +1002,7 @@ This produces `1+2+3+4`
 
 ### Loop through entity reference items
 
-In
-`txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I need to loop through a bunch of entity reference values and build a string of id+id+id... (with an undefined number) so
+In `~/Sites/txg/web/themes/custom/txg/templates/content/node--news-story.html.twig` I need to loop through a bunch of entity reference values and build a string of `id+id+id...` (with an undefined number):
 
 ```twig
 {% set blah = '' %}
@@ -1043,7 +1034,7 @@ If there is a value in `field_event_date` or `field_display_date`, then display 
 
 ### Test if a formatted text field is empty
 
-To check a body field or other formatted text field, use \|render to render it first.
+To check a body field or other formatted text field, use `|render` to render it first.
 
 ```twig
 {% if content.body|render  %}
@@ -1053,8 +1044,7 @@ To check a body field or other formatted text field, use \|render to render it f
 
 ### Test empty variable
 
-This code checks if a variable is empty using [empty](https://twig.symfony.com/doc/3.x/tests/empty.html) test if the attributes variable is not set. From
-<https://www.drupal.org/project/drupal/issues/2558079>:
+This code checks if a variable is empty using [empty](https://twig.symfony.com/doc/3.x/tests/empty.html) test if the attributes variable is not set. From <https://www.drupal.org/project/drupal/issues/2558079>:
 
 ```twig
 {% if attributes is empty %}
@@ -1090,7 +1080,7 @@ You can also use:
 {% endif %}
 ```
 
-e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlight-card.html.twig`
+e.g. from `~/Sites/inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlight-card.html.twig`
 
 ```twig
 {% set showCat = TRUE %}
@@ -1117,7 +1107,7 @@ e.g. from `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--highlig
 
 ### Test if a paragraph is empty using striptags
 
-From `/inside-marthe/themes/custom/dp/templates/content/node--video-collection.html.twig`:
+From `~/Sites/inside-marthe/themes/custom/dp/templates/content/node--video-collection.html.twig`:
 
 Normally you wouldn't need the striptags, but when twig debugging is enabled, the render information includes debug tags. See https://www.drupal.org/project/drupal/issues/2547559#comment-12103048
 
@@ -1151,7 +1141,7 @@ For complicated strings, you have to use the Twig [same as](https://twig.symfony
 
 ### Include other templates as partials
 
-In `very/web/themes/very/templates/node--featured.html.twig`
+In `~/Sites/very/web/themes/very/templates/node--featured.html.twig`
 
 You can re-use templates. Just put them in the partials directory (you don't have to but it is a good convention) and include them.
 
