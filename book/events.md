@@ -347,7 +347,7 @@ class EventsExampleForm extends FormBase {
     $form['incident_type'] = [
       '#type' => 'radios',
       '#required' => TRUE,
-      '#title' => t('What type of incident do you want to report?'),
+      '#title' => $this->t('What type of incident do you want to report?'),
       '#options' => [
         'stolen_princess' => $this->t('Missing princess'),
         'cat' => $this->t('Cat stuck in tree'),
@@ -358,8 +358,8 @@ class EventsExampleForm extends FormBase {
     $form['incident'] = [
       '#type' => 'textarea',
       '#required' => FALSE,
-      '#title' => t('Incident report'),
-      '#description' => t('Describe the incident in detail. This information will be passed along to all crime fighters.'),
+      '#title' => $this->t('Incident report'),
+      '#description' => $this->t('Describe the incident in detail. This information will be passed along to all crime fighters.'),
       '#cols' => 60,
       '#rows' => 5,
     ];
