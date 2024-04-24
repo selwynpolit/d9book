@@ -164,6 +164,10 @@ Note. Drupal is ok with files existing (for example  in sites/default/files)  wi
 Once the file already exists, I write the file entity. I do need a mime type
 
 ```php
+
+// Initialize $mimetype to a default value or a safe fallback
+$mimetype = 'application/octet-stream'; // a general binary mimetype as a fallback
+
 switch (strtoupper($type)){
   case 'PDF':
     $mimetype = 'application/pdf';
