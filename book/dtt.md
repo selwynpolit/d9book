@@ -141,7 +141,7 @@ Refer to [Matt Glaman's blog post](https://mglaman.dev/blog/running-drupals-phpu
 
 From `web/core/tests/README.md`: 
 
-Copy the `core/phpunit.xml.dist` file to `phpunit.xml`, and place it somewhere convenient (inside the core directory may not be the best spot, since that directory may be managed by Composer or Git). You can use the -c option on the command line to tell PHPUnit where this file is (use the full path).
+Copy the `core/phpunit.xml.dist` file to `phpunit.xml`, and place it somewhere convenient (inside the core directory may not be the best spot, since that directory may be managed by Composer or Git). You can use the `-c` option on the command line to tell PHPUnit where this file is (use the full path).
 
 Settings to change in this file:
 
@@ -373,16 +373,16 @@ From [https://gitlab.com/weitzman/drupal-test-traits](https://gitlab.com/weitzma
 
 [Behat](http://behat.org) is great for facilitating conversations between business managers and developers. Those are useful conversations, but many organizations simply can\'t or won\'t converse via Gherkin. When you are on the hook for product quality and not conversations, this is a testing approach for you.
 
-Before Drupal Test Traits, this framework was impossible to use without wiping the site's database after each test. DTT lets you keep your database and still test using the features of Drupal's BrowserTestBase and friends.
+Before Drupal Test Traits, this framework was impossible to use without wiping the site's database after each test. DTT lets you keep your database and still test using the features of Drupal's `BrowserTestBase` and friends.
 
 Further interesting reading:
 - [Repo for Drupal Test Traits](https://git.drupalcode.org/project/dtt/).
-- [Bootstrapping Drupal using DrupalTrait::setUp()](https://git.drupalcode.org/project/dtt/-/blob/2.x/src/DrupalTrait.php?ref_type=heads#L57-111) for details (the bootstrap is inspired by [Drush](https://www.drush.org/)).
+- [Bootstrapping Drupal using DrupalTrait::setUp()](https://git.drupalcode.org/project/dtt/-/blob/2.x/src/DrupalTrait.php?ref_type=heads#L57-111) for details (the bootstrap is inspired by [Drush](https://www.drush.org/)).
 - [Introducing Drupal Test Traits blog post by Moshe Weitzman - Feb 2019](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c)
 - [Introducing Drupal Test Traits: Drupal extension for testing existing sites - Dec 2018](https://www.previousnext.com.au/blog/introducing-drupal-testing-traits-drupal-extension-testing-existing-sites)
 - [Drupalcon presentation article and video of Moshe Weitzman by Lynette Miles - Introducing Drupal Test Traits - Sep 2020](https://www.tag1consulting.com/blog/introducing-drupal-test-traits).
 - Like Drupal core, [DTT can save HTML snapshots for each URL that it navigates to](https://gitlab.com/weitzman/drupal-test-traits#debugging-tests). These files are very useful when debugging test failures.
-- DTT also supports [testing through a real browser using headless Chrome](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php) or Selenium. So, testing client-side interactions like autocomplete, #states, viewports, and drag/drop is easy.
+- DTT also supports [testing through a real browser using headless Chrome](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php) or Selenium. So, testing client-side interactions like autocomplete, #states, viewports, and drag/drop is easy.
 
 ## Install/setup Drupal Test Traits
 
@@ -608,66 +608,38 @@ class RequirementsCreationTest extends ExistingSiteBase {
 Run it with:
 
 ```
-$ ddev ssh
-
-$ vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./web/modules/custom/tea_teks_requirements/tests/src/ExistingSite/RequirementsCreationTest.php
+ddev ssh
+vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./web/modules/custom/tea_teks_requirements/tests/src/ExistingSite/RequirementsCreationTest.php
 ```
 
 The output looks something like this:
 
-> PHPUnit 9.5.23 #StandWithUkraine
->
-> .. 2 / 2 (100%)
->
-> Time: 00:01.338, Memory: 16.00 MB
->
-> OK (2 tests, 2 assertions)
-
+```
+PHPUnit 9.5.23 #StandWithUkraine
+.. 2 / 2 (100%)
+Time: 00:01.338, Memory: 16.00 MB
+ OK (2 tests, 2 assertions)
+```
 Along with a boatload of deprecation notices. (Note. we can hide these with `<env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>` in the `<php>` section of the `phpunit.xml` file): 
 
-> Remaining direct deprecation notices (3)
->
-> 1x: The
-> \"Symfony\\Component\\HttpFoundation\\File\\MimeType\\MimeTypeGuesser\"
-> class is deprecated since Symfony 4.3, use
-> \"Symfony\\Component\\Mime\\MimeTypes\" instead.
->
-> 1x in RequirementsCreationTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> 1x: The
-> \"Symfony\\Component\\HttpFoundation\\File\\MimeType\\FileBinaryMimeTypeGuesser\"
-> class is deprecated since Symfony 4.3, use
-> \"Symfony\\Component\\Mime\\FileBinaryMimeTypeGuesser\" instead.
->
-> 1x in RequirementsCreationTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> 1x: The
-> \"Symfony\\Component\\HttpFoundation\\File\\MimeType\\FileinfoMimeTypeGuesser\"
-> class is deprecated since Symfony 4.3, use
-> \"Symfony\\Component\\Mime\\FileinfoMimeTypeGuesser\" instead.
->
-> 1x in RequirementsCreationTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> Remaining indirect deprecation notices (2)
->
-> 1x: Return type of GuzzleHttp\\Cookie\\CookieJar::count() should
-> either be compatible with Countable::count(): int, or the
-> #\[\\ReturnTypeWillChange\] attribute should be used to temporarily
-> suppress the notice
->
-> 1x in RequirementsCreationTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> 1x: Return type of GuzzleHttp\\Cookie\\CookieJar::getIterator() should
-> either be compatible with IteratorAggregate::getIterator():
-> Traversable, or the #\[\\ReturnTypeWillChange\] attribute should be
-> used to temporarily suppress the notice
->
-> 1x in RequirementsCreationTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
+```
+Remaining direct deprecation notices (3)
+1x: The "Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser"
+class is deprecated since Symfony 4.3, use "Symfony\Component\Mime\MimeTypes" instead.
+1x in RequirementsCreationTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+1x: The "Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser" class is deprecated since Symfony 4.3, use "Symfony\Component\Mime\FileBinaryMimeTypeGuesser" instead.
+1x in RequirementsCreationTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+1x: The "Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser" class is deprecated since Symfony 4.3, use
+"Symfony\Component\Mime\FileinfoMimeTypeGuesser" instead.
+1x in RequirementsCreationTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+
+Remaining indirect deprecation notices (2)
+1x: Return type of GuzzleHttp\Cookie\CookieJar::count() should either be compatible with Countable::count(): int, or the #[ReturnTypeWillChange] attribute should be used to temporarily suppress the notice
+1x in RequirementsCreationTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+1x: Return type of GuzzleHttp\Cookie\CookieJar::getIterator() should either be compatible with IteratorAggregate::getIterator():
+Traversable, or the #\[\ReturnTypeWillChange\] attribute should be used to temporarily suppress the notice
+1x in RequirementsCreationTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+```
 
 ## Running DTT tests
 
@@ -675,74 +647,57 @@ To run all the tests in the `modules/custom/tea_teks_requirements`
 directory, use the following:
 
 ```
-$ ddev ssh
-
-$ vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php modules/custom/tea_teks_requirements
+ddev ssh
+vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php modules/custom/tea_teks_requirements
 ```
 
 The output for a successful run looks like this:
 
-> PHPUnit 9.5.23 #StandWithUkraine
->
-> . 1 / 1 (100%)
->
-> Time: 00:07.798, Memory: 20.00 MB
->
-> OK (1 test, 7 assertions)
+```
+PHPUnit 9.5.23 #StandWithUkraine
+. 1 / 1 (100%)
+Time: 00:07.798, Memory: 20.00 MB
+OK (1 test, 7 assertions)
+```
 
 Along with a boatload of deprecation notices. (Note. we can hide these with `<env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>` in the `<php>` section of the `phpunit.xml` file)
 
-> Remaining direct deprecation notices (3)
->
-> 1x: The
-> \"Symfony\\Component\\HttpFoundation\\File\\MimeType\\MimeTypeGuesser\"
-> class is deprecated since Symfony 4.3, use
-> \"Symfony\\Component\\Mime\\MimeTypes\" instead.
->
-> 1x in ExampleTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> 1x: The
-> \"Symfony\\Component\\HttpFoundation\\File\\MimeType\\FileBinaryMimeTypeGuesser\"
-> class is deprecated since Symfony 4.3, use
-> \"Symfony\\Component\\Mime\\FileBinaryMimeTypeGuesser\" instead.
->
-> 1x in ExampleTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> 1x: The
-> \"Symfony\\Component\\HttpFoundation\\File\\MimeType\\FileinfoMimeTypeGuesser\"
-> class is deprecated since Symfony 4.3, use
-> \"Symfony\\Component\\Mime\\FileinfoMimeTypeGuesser\" instead.
->
-> 1x in ExampleTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> Remaining indirect deprecation notices (3)
->
-> 1x: Return type of GuzzleHttp\\Cookie\\CookieJar::count() should
-> either be compatible with Countable::count(): int, or the
-> #\[\\ReturnTypeWillChange\] attribute should be used to temporarily
-> suppress the notice
->
-> 1x in ExampleTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> 1x: Return type of GuzzleHttp\\Cookie\\CookieJar::getIterator() should
-> either be compatible with IteratorAggregate::getIterator():
-> Traversable, or the #\[\\ReturnTypeWillChange\] attribute should be
-> used to temporarily suppress the notice
->
-> 1x in ExampleTest::setUp from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
->
-> 1x: \"Symfony\\Component\\DomCrawler\\Crawler::text()\" will normalize
-> whitespaces by default in Symfony 5.0, set the second
-> \"\$normalizeWhitespace\" argument to false to retrieve the
-> non-normalized version of the text.
->
-> 1x in ExampleTest::testLlama from
-> Drupal\\Tests\\tea_teks_requirements\\ExistingSite
+```
+Remaining direct deprecation notices (3)
+
+1x: The
+"Symfony\Component\HttpFoundationFile\MimeType\MimeTypeGuesser"
+class is deprecated since Symfony 4.3, use
+"Symfony\Component\Mime\MimeTypes" instead.
+
+1x in ExampleTest::setUp from
+Drupal\Tests\tea_teks_requirements\ExistingSite
+
+1x: The
+"Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser"
+class is deprecated since Symfony 4.3, use "Symfony\Component\Mime\FileBinaryMimeTypeGuesser" instead.
+
+1x in ExampleTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+
+1x: The "Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser" class is deprecated since Symfony 4.3, use "Symfony\Component\Mime\FileinfoMimeTypeGuesser" instead.
+
+1x in ExampleTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+
+Remaining indirect deprecation notices (3)
+
+1x: Return type of GuzzleHttp\Cookie\CookieJar::count() should either be compatible with Countable::count(): int, or the
+#\[\ReturnTypeWillChange\] attribute should be used to temporarily suppress the notice
+
+1x in ExampleTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+
+1x: Return type of GuzzleHttp\Cookie\CookieJar::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice
+
+1x in ExampleTest::setUp from Drupal\Tests\tea_teks_requirements\ExistingSite
+
+1x: "Symfony\Component\DomCrawler\Crawler::text()" will normalize whitespaces by default in Symfony 5.0, set the second "$normalizeWhitespace" argument to false to retrieve the non-normalized version of the text.
+
+1x in ExampleTest::testLlama from Drupal\Tests\tea_teks_requirements\ExistingSite
+```
 
 Once you've set up your `bootstrap-fast.php` file in `/scripts`, you can specify it in the `phpunit.xml` as
 
@@ -776,15 +731,13 @@ Also note you can specify the `phpunit.xml` file with -c parameter.
 
 ## Run tests on the host
 
-You can use the same commands that you run in the DDEV containers if you have php 8.1 installed and running. They will run faster on the host. e.g.:
+You can use the same commands that you run in the DDEV containers if you have php 8.1 installed and running. They may run faster on the host. e.g.:
 
 ```
-$ vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/TeamTest.php
+vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/TeamTest.php
 ```
 
-Note. You can specify the location of `bootstrap-fast.php` in your
-`/phpunit.xml`. This file is found at `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`. Here a copy
-of `bootstrap-fast.php` is in the `/scripts` directory:
+Note. You can specify the location of `bootstrap-fast.php` in your `/phpunit.xml`. This file is found at `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`. Here a copy of `bootstrap-fast.php` is in the `/scripts` directory:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -798,7 +751,7 @@ of `bootstrap-fast.php` is in the `/scripts` directory:
         >
 ```
 
-The source for bootstrap-fast.php is:
+The source for `bootstrap-fast.php` is:
 
 ```php
 <?php
@@ -838,42 +791,39 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 You can be specific and only run all tests in a particular test file e.g.
 
 ```
-$ vendor/bin/phpunit web/modules/custom/tea_teks_requirements/tests/src/ExistingSite/ExampleTest.php
+vendor/bin/phpunit web/modules/custom/tea_teks_requirements/tests/src/ExistingSite/ExampleTest.php
 ```
 
-Here is an example where the location of the bootstrap file is specified with \--bootstrap:
+Here is an example where the location of the bootstrap file is specified with `--bootstrap`:
 
 ```
-$ ./vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./web/modules/custom/tea_teks_requirements/tests/src/ExistingSite/ExampleTest.php
+./vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./web/modules/custom/tea_teks_requirements/tests/src/ExistingSite/ExampleTest.php
 ```
 
 ## Run a specific test in a file
 
-You can run a test that is called 'testVoter1Vote' in the
-VotingPageTest.php file with the following command. Note. If you have another test that starts with testVoter1Vote e.g. testVoter1VoteBlah, that test will be run also.
+You can run a test that is called `testVoter1Vote` in the `VotingPageTest.php` file with the following command. Note. If you have another test that starts with `testVoter1Vote` e.g. `testVoter1VoteBlah`, that test will be run also.
 
 ```
-$ vendor/bin/phpunit --filter testVoter1Vote docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/VotingPageTest.php
+vendor/bin/phpunit --filter testVoter1Vote docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/VotingPageTest.php
 ```
 
 ## Logging Test Output
 
 PhpUnit can do all sorts of logging.
 
-## Capture every page loaded
+### Capture every page loaded
 
 For debugging, capturing all HTML requests can be useful.
 
-At <https://gitlab.com/weitzman/drupal-test-traits#debugging-tests>
-Moshe suggests:
+On the [topic of debugging tests](https://git.drupalcode.org/project/dtt/#debugging-tests) Moshe suggests:
 
-• All HTML requests can be logged. To do so, add
-BROWSERTEST_OUTPUT_DIRECTORY=/tmp and \--printer
-\'\\\\Drupal\\\\Tests\\\\Listeners\\\\HtmlOutputPrinter\' to the phpunit call. To disable deprecation notices, include
-SYMFONY_DEPRECATIONS_HELPER=disabled. Alternatively, you can specify these in your phpunit.xml ([example
-phpunit.xml](file:////weitzman/drupal-test-traits/-/blob/2.x/docs/phpunit.xml)).
+All HTML requests can be logged. To do so, add `BROWSERTEST_OUTPUT_DIRECTORY=/tmp` and `--printer '\\Drupal\\Tests\\Listeners\\HtmlOutputPrinter'` to the `phpunit` call. To disable deprecation notices, include `SYMFONY_DEPRECATIONS_HELPER=disabled`. Alternatively, you can specify these in your `phpunit.xml` ([example phpunit.xml](https://git.drupalcode.org/project/dtt/-/blob/2.x/docs/phpunit.xml)).
 
-To add the printerclass to the phpunit.html see the printerClass line below:
+
+
+
+To add the `printerclass` to the `phpunit`.html see the `printerClass` line below:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -888,13 +838,13 @@ To add the printerclass to the phpunit.html see the printerClass line below:
   <php>
 ```
 
-Putting this in the `<php>` section of the file causes all html requests to be output to `/sites/simpletest/browser_output`. I tried specifying a different directory with but it had no effect. Use this with caution (or only for debugging if you don\'t want to fill up hard drives.)
+Putting this in the `<php>` section of the file causes all html requests to be output to `/sites/simpletest/browser_output`. I tried specifying a different directory, but it had no effect. Use this with caution (or only for debugging if you don\'t want to fill up hard drives.)
 
  ```xml
  <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/> 
  ```
 
-See the entire \<php\> section below:
+Here is the entire `<php>` section:
 
 ```xml
 <php>
@@ -920,10 +870,11 @@ See the entire \<php\> section below:
 
 ## Capture an HTML page
 
-From <https://gitlab.com/weitzman/drupal-test-traits#debugging-tests>:
+From <https://git.drupalcode.org/project/dtt/#debugging-tests>:
 
-• To write the current HTML of the page to a file, use
-\$this-\>capturePageContent(). If using HtmlOutputPrinter this will be saved to the browser_output directory. Alternatively you can specify DTT_HTML_OUTPUT_DIRECTORY=/path/to/output_directory which is required when using a different printer, such as Teamcity, which is enforced by PHPStorm.
+
+To write the current HTML of the page to a file, use `$this->capturePageContent()`. If using `HtmlOutputPrinter` this will be saved to the `browser_output` directory. Alternatively you can specify `DTT_HTML_OUTPUT_DIRECTORY=/path/to/output_directory` which is required when using a different printer, such as Teamcity, which is enforced by PHPStorm.
+```
 
 ### Example of capturing a page
 
@@ -942,11 +893,11 @@ $this->capturePageContent();
 Use the following setting to specify the output directory in the
 `phpunit.xml` file
 
-```
-<env name="DTT_HTML_OUTPUT_DIRECTORY" value="sites/simpletest/browser_output"/>
+
+`<env name="DTT_HTML_OUTPUT_DIRECTORY" value="sites/simpletest/browser_output"/>`
 ```
 
-Here is the whole \<php\> section:
+Here is the whole `<php>` section:
 
 ```xml
 <php>
@@ -972,12 +923,11 @@ Here is the whole \<php\> section:
 
 ### Screenshot using ExistingSiteSelenium2DriverTest
 
-From <https://gitlab.com/weitzman/drupal-test-traits#debugging-tests>:
+From <https://git.drupalcode.org/project/dtt/#debugging-tests>:
 
-• To take a screenshot of the current page under
-ExistingSiteSelenium2DriverTest, use
-\\weitzman\\DrupalTestTraits\\ScreenShotTrait::captureScreenshot. Be careful when using this to debug tests that are \"randomly\" failing. Most likely, these tests are failing due to missing
-[[waitForElementVisible]{.underline}](https://api.drupal.org/api/drupal/core%21tests%21Drupal%21FunctionalJavascriptTests%21JSWebAssert.php/function/JSWebAssert%3A%3AwaitForElementVisible/9.3.x)
+To take a screenshot of the current page under `ExistingSiteSelenium2DriverTest`, use
+`\weitzman\DrupalTestTraits\ScreenShotTrait::captureScreenshot`. Be careful when using this to debug tests that are \"randomly\" failing. Most likely, these tests are failing due to missing
+[`[waitForElementVisible]{.underline}`](https://api.drupal.org/api/drupal/core%21modules%21system%21tests%21modules%21js_webassert_test%21src%21Form%21JsWebAssertTestForm.php/function/JsWebAssertTestForm%3A%3AaddWaitForElementVisible/10)
 checks, as the act of taking a screenshot gives the browser additional time to finish rendering the page.
 
 This trait doesn\'t need to be installed separately, it is included with DTT. Just add a use statement to your class e.g.
@@ -1051,9 +1001,9 @@ That whole \<php\> section looks like:
 
 ### Test locations
 
-Tests that require no Ajax or Javascript are put in the `ExistingSite` directory. These will run quite quickly especially if you run them on the host (instead of in the DDEV/Docker containers). These tests are derived from ExistingSiteBase.
+Tests that require no Ajax or Javascript are put in the `ExistingSite` directory. These will run quite quickly especially if you run them on the host (instead of in the DDEV/Docker containers). These tests are derived from `ExistingSiteBase`.
 
-Putting tests in the ExistingSiteJavascript directory (and deriving them from ExistingSiteSelenium2DriverTestBase) will cause the test to be run against the Chromedriver which can handle Javascript and Ajax.
+Putting tests in the `ExistingSiteJavascript` directory (and deriving them from `ExistingSiteSelenium2DriverTestBase`) will cause the test to be run against the `Chromedriver` which can handle Javascript and Ajax.
 
 ### Generate DTT tests with drush
 
@@ -1069,7 +1019,7 @@ And
 $ drush generate test:existing-js
 ```
 
-More at <https://www.drush.org/latest/generators/>
+Read [more about generating code with drush](https://www.drush.org/latest/generators/all)
 
 ### Example tests
 
@@ -1199,7 +1149,7 @@ class VotingPageTest extends ExistingSiteBase {
 }
 ```
 
-Here is the setupTestProgram1ForVoting
+Here is the `setupTestProgram1ForVoting`
 
 This checks some data in nodes, logs in as an admin user and fills out a form that executes a batch api process. I wasn't able to make a batch api process run directly from a test. Not sure why. Moshe Weitzman says it should work but that the batch API is ancient.
 
@@ -1231,7 +1181,7 @@ protected function setupTestProgram1ForVotingRound0() {
 }
 ```
 
-Other supporting functions
+Other supporting functions:
 
 ```php
 protected function setupVoter1() {
@@ -1366,7 +1316,7 @@ There are some contributed packages with useful features. The [login trait repo]
 Install via Composer with:
 
 ```
-$ composer require weitzman/logintrait
+composer require weitzman/logintrait
 ```
 
 #### Create a new user and login as that user:
@@ -1492,7 +1442,7 @@ $form['sanity_fieldset']['actions']['submit'] = [
 
 #### Parameter gotcha
 
-And my effort to fill out a form with a dropdown. This route required a node id to be passed as a parameter to the form -- hence the \['node'=\> 852071\] and my submit button is called "Change Status"
+Be cautious about parameters. In my effort to fill out a form with a dropdown, this route required a node id to be passed as a parameter to the form -- hence the `['node'=> 852071]` and my submit button is called "Change Status"
 
 ```php
 $this->drupalGet(Url::fromRoute('tea_teks_publisher.change_input_collection_status', ['node' => 852071,]) );
@@ -1519,7 +1469,7 @@ tea_teks_srp.reset_program_votes:
     no_cache: 'TRUE'
 ```
 
-In the form, the parameter can be something different. i.e. the `$node` parameter here represents the program parameter above. If you change them to match i.e. change the parameter in the buildForm function below, it should work fine.
+In the form, the parameter can be something different. i.e. the `$node` parameter here represents the program parameter above. If you change them to match i.e. change the parameter in the `buildForm` function below, it should work fine.
 
 ```php
 public function buildForm(array $form, FormStateInterface $form_state, EntityInterface $node = NULL) {
@@ -1548,7 +1498,7 @@ public function buildForm(array $form, FormStateInterface $form_state, EntityInt
 }
 ```
 
-So if you try in the test to execute this form and pass it a parameter called "program" it will fail to load the form. You will see errors like:
+So if you try in the test to execute this form and pass it a parameter called `program` it will fail to load the form. You will see errors like:
 
 > There was 1 error:
 >
@@ -1558,7 +1508,7 @@ So if you try in the test to execute this form and pass it a parameter called "p
 > id\|name\|label\|value \"TESTING ONLY: Reset Program Votes/Data\" not
 > found.
 
-Note. This code will do the same thing if you put it in the ExistingSite or the ExistingSiteJavascript directory however, putting it in the ExistingSiteJavascript directory (and deriving the test from ExistingSiteSelenium2DriverTestBase) will cause the test to be run against the Chromedriver which can handle Javascript and Ajax.
+Note. This code will do the same thing if you put it in the `ExistingSite` or the `ExistingSiteJavascript` directory however, putting it in the `ExistingSiteJavascript` directory (and deriving the test from `ExistingSiteSelenium2DriverTestBase`) will cause the test to be run against the `Chromedriver` which can handle Javascript and Ajax.
 
 ## Data Provider
 
@@ -1615,10 +1565,11 @@ public function test1(int $citation_nid, string $vote) {
 
 From Moshe Weitzman 9-27-22
 
-I have seen tests that fill a queue and then run the queue with
-<https://github.com/drupaltest/queue-runner-trait/>
+I have seen tests that [fill a queue and then run the queue](https://github.com/drupaltest/queue-runner-trait/)
 
-//@TODO: Explore this
+:::tip Todo
+Explore this
+:::
 
 ## Mink
 
@@ -1631,7 +1582,7 @@ $session = $this->getSession();
 $status_code = $session->getStatusCode();
 print "\n Current Status code: $status_code";
 ```
-In the ExampleTest.php there was this example:
+In the `ExampleTest.php` there was this example:
 
 ```php
 // We can browse pages.
@@ -1700,36 +1651,36 @@ private function readCsv2(): array {
 Here is the CSV file:
 
 ```
-**Num**,**Program**,**Expectation**,**Correlation**,**SKIP**,**Romanette**,**KSS-SE**,**xofy**,**Citations**,**BrkStatus**,**ExpecStatus\
-1**,**852061**,**852076**,**852081**,**N**,**i**,**1.A**,**\"1, 1, 1,
-1\"**,**\"SN, SA\"**,**met**,**unmet\
-2**,**852061**,**852076**,**852086**,**N**,**ii**,**1.A**,**\"1, 1, 1,
-1\"**,**\"SN, SA, TN, TA\"**,**met**,**unmet\
-3**,**852061**,**852076**,**852091**,**N**,**iii**,**1.A**,**\"0, 1, 0,
-1\"**,**SA**,**unmet**,**unmet\
-4**,**852061**,**852076**,**852096**,**N**,**iv**,**1.A**,**\"0, 1, 0,
-1\"**,**SA**,**unmet**,**unmet\
-5**,**852061**,**852161**,**852166**,**N**,**i**,**1.B**,**\"0, 0 ,1,
-1\"**,**\"TN, TA\"**,**unmet**,**unmet\
-6**,**852061**,**852161**,**852171**,**N**,**ii**,**1.B**,**\"0, 1, 1,
-1\"**,**\"SA, SA, SA, SA, TN, TA\"**,**unmet**,**unmet\
-7**,**852061**,**852101**,**852106**,**N**,**i**,**2.A**,,**\"TN, TN,
-TN, TN, TA\"**,**unmet**,**unmet\
-8**,**852061**,**852101**,**852111**,**N**,**ii**,**2.A**,,**\"SN, SA,
-SA, TN, TN, TA, TA\"**,**met**,**unmet\
-9**,**852061**,**852116**,**852121**,**N**,**i**,**2.B**,,**\"SN,
-TA\"**,**unmet**,**unmet\
-10**,**852061**,**852116**,**852126**,**N**,**ii**,**2.B**,,**\"SN,
-SA\"**,**unmet**,**unmet\
-11**,**852061**,**852131**,**852136**,**N**,**i**,**3.A**,,**\"SN, SN,
-SN, SN, SA, SA, SA, SA\"**,**met**,**met\
-12**,**852061**,**852131**,**852141**,**N**,**ii**,**3.A**,,**TN**,**met**,**met\
-13**,**852061**,**852146**,**852151**,**N**,**i**,**3.B**,,**TA**,**met**,**met\
-14**,**852061**,**852146**,**852156**,**N**,**ii**,**3.B**,,**\"TN,
-TA\"**,**met**,**met**
+Num,Program,Expectation,Correlation,SKIP,Romanette,KSS-SE,xofy,Citations,BrkStatus,ExpecStatus\
+1,852061,852076,852081,N,i,1.A,\"1, 1, 1,
+1\",\"SN, SA\",met,unmet\
+2,852061,852076,852086,N,ii,1.A,\"1, 1, 1,
+1\",\"SN, SA, TN, TA\",met,unmet\
+3,852061,852076,852091,N,iii,1.A,\"0, 1, 0,
+1\",SA,unmet,unmet\
+4,852061,852076,852096,N,iv,1.A,\"0, 1, 0,
+1\",SA,unmet,unmet\
+5,852061,852161,852166,N,i,1.B,\"0, 0 ,1,
+1\",\"TN, TA\",unmet,unmet\
+6,852061,852161,852171,N,ii,1.B,\"0, 1, 1,
+1\",\"SA, SA, SA, SA, TN, TA\",unmet,unmet\
+7,852061,852101,852106,N,i,2.A,,\"TN, TN,
+TN, TN, TA\",unmet,unmet\
+8,852061,852101,852111,N,ii,2.A,,\"SN, SA,
+SA, TN, TN, TA, TA\",met,unmet\
+9,852061,852116,852121,N,i,2.B,,\"SN,
+TA\",unmet,unmet\
+10,852061,852116,852126,N,ii,2.B,,\"SN,
+SA\",unmet,unmet\
+11,852061,852131,852136,N,i,3.A,,\"SN, SN,
+SN, SN, SA, SA, SA, SA\",met,met\
+12,852061,852131,852141,N,ii,3.A,,TN,met,met\
+13,852061,852146,852151,N,i,3.B,,TA,met,met\
+14,852061,852146,852156,N,ii,3.B,,\"TN,
+TA\",met,met
 ```
 
-Picture of CSV file with color formatting:
+Check out the color formatting:
 
 ![CSV in color](/images/csv-in-color.png)
 
@@ -1740,12 +1691,11 @@ Picture of CSV file with color formatting:
 Follow these steps to quickly get DTT running on your project.
 
 ```
-$ composer require weitzman/drupal-test-traits --dev
-
-$ composer require drupal/core-dev --dev --update-with-all-dependencies
+composer require weitzman/drupal-test-traits --dev
+composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
-Setup `phpunit.xml` in the root of the project (not docroot or web). There will usually be a `phpunit.xml.dist` file there. Use that file and add your tweaks to it using
+Setup `phpunit.xml` in the root of the project (not `docroot` or `web`). There will usually be a `phpunit.xml.dist` file there. Use that file and add your tweaks to it using
 <https://gitlab.com/weitzman/drupal-test-traits/-/blob/master/docs/phpunit.xml> as the basis.
 
 ### Create phpunit.xml file
@@ -1863,12 +1813,13 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 // Register more namespaces, as needed.
 # $class_loader->addPsr4('Drupal\Tests\my_module\\', "$root/modules/custom/my_module/tests/src");
 ```
-### Add .phpunit.result.cache file to .gitignore
+
+### Update the .gitignore file
 
 To stop result cache getting checked into the repo, add the
 `.phpunit.result.cache` to the `.gitignore file`.
 
-You could also change this file location by editing phpunit.xml:
+You could also change this file location by editing phpunit.xml:
 
 ```xml
 <phpunit 
@@ -1887,15 +1838,14 @@ Or completely disable it by:
 ```
 ## Remove DTT and core-dev
 
-For production deployment, you can remove DTT and core-dev with:
+For production deployment, you can remove `DTT` and `core-dev` with:
 
 ```
-$ composer remove drupal/core-dev --dev
-
-$ composer remove weitzman/drupal-test-traits --dev
+composer remove drupal/core-dev --dev
+composer remove weitzman/drupal-test-traits --dev
 ```
 
-Alternatively, just run
+Alternatively, just run:
 
 ```
 $ composer update --no-dev
@@ -1917,7 +1867,7 @@ error_reporting = E_ALL & ~E_DEPRECATED
 
 Now tests should look like this:
 
-> \$ vendor/bin/phpunit
+> $ vendor/bin/phpunit
 > docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/VotingPageTest.php
 >
 > PHPUnit 9.5.24 #StandWithUkraine
@@ -1931,6 +1881,7 @@ Now tests should look like this:
 > Time: 00:00.830, Memory: 46.50 MB
 >
 > OK (1 test, 3 assertions)
+
 
 ## Troubleshooting DTT Tests
 
@@ -2037,29 +1988,28 @@ After installing DTT you see errors when you try to run the tests like this:
 You will need to install the dev requirements with:
 
 ```
-$ composer require drupal/core-dev --dev
---update-with-all-dependencies
+composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
 ### Class not found errors
 
-If you see something like this on your brand new class you created:
+If you see something like this on your brand-new class you created:
 
 ```
 1) Drupal\Tests\tea_teks_voting\ExistingSite\ProgramTest::testIsVotingPermitted
 Error: Class "Drupal\tea_teks_voting\Program" not found
 ```
-This is a real forehead slapper! Be sure to enable your custom module under Drupal's extend menu option.
+This is a real forehead slapper! Be sure to **enable your custom module** under Drupal's extend menu option.
 
 Also
 
-When running the tests, if they start throwing "class not found" errors,
+When running the tests, if they start throwing `class not found` errors,
 this may indicate some outdated code in your codebase.
 
 > \$ vendor/bin/phpunit
 > docroot/modules/custom/tea_teks/modules/tea_teks_voting/Tests/src/ExistingSite/RequirementsCreationTest.php
 >
-> PHP Fatal error: Uncaught Error: Class \"PHPUnit\\TextUI\\Command\"
+> PHP Fatal error: Uncaught Error: Class \"PHPUnit\TextUI\Command\"
 > not found in /var/www/html/vendor/phpunit/phpunit/phpunit:98
 >
 > Stack trace:
@@ -2083,14 +2033,14 @@ this may indicate some outdated code in your codebase.
 
 The fix in this case was a composer update.
 
-Also If you use another test as a starting point (ie. Copy the file) and forget to change the class name, that would cause a similar error:
+Also, If you use another test as a starting point (ie. Copy the file) and forget to change the class name, that would cause a similar error:
 
 ```
 $ vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/PersonaTest.php
 
 Class 'PersonaTest' could not be found in '/Users/selwyn/Sites/tea/docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/PersonaTest.php'.
 ```
-In this example, the filename was PersonaTest.php but the class name is accidentally called TeamTest so the interpreter could not find a PersonaTest. Oops.  Here is the errant `PersonaTest.php` file:
+In this example, the filename was `PersonaTest.php` but the class name is accidentally called `TeamTest` so the interpreter could not find a `PersonaTest`. Oops.  Here is the errant `PersonaTest.php` file:
 
 ```php
 <?php
@@ -2116,7 +2066,7 @@ class TeamTest extends ExistingSiteBase {
 
 This means you forgot to install the dev requirements with : `composer require drupal/core-dev --dev --update-with-all-dependencies`
 
-If you try running a test like: 
+E.g. If you try running a test like: 
 
 ```sh
 ./vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./docroot/modules/custom/tea_teks/modules/tea_teks_requirements/tests/src/ExistingSite/RequirementsCreationTest.php
@@ -2132,10 +2082,10 @@ Fatal error: Trait \"Symfony\\Bridge\\PhpUnit\\Legacy\\PolyfillAssertTrait\" not
 
 ## var_dump, echo, print
 
-For quick variable dumps, it is quite valid to use var_dump in your
-tests. Here is a test with a var_dump() call.
+For quick variable dumps, it is quite valid to use `var_dump` in your
+tests. Here is a test with a `var_dump()` call.
 
-You can also print or echo variables e.g.
+You can also `print` or `echo` variables e.g.
 
 ```php
 // \n will put this output on a new line.
@@ -2173,56 +2123,58 @@ class TeamTest extends ExistingSiteBase {
 Here is the output. Note. I removed the deprecated messages for clarity. First the command to run the test:
 
 ```
-$ vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/TeamTest.php
+vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/TeamTest.php
 ```
 
 and the output:
 
-> PHPUnit 9.5.24 #StandWithUkraine
->
-> Runtime: PHP 8.1.9
->
-> Configuration: /Users/selwyn/Sites/tea/phpunit.xml
->
-> .
->
-> 1 / 1 (100%)
->
-> array(11) {
->
-> \[\"uid\"\]=\> string(4) \"5101\"
->
-> \[\"fullname\"\]=\> string(12) \"Voter 1 Test\"
->
-> \[\"name\"\]=\> string(7) \"Voter 1\"
->
-> \[\"mail\"\]=\> string(24) \"voter1@mightycitizen.com\"
->
-> \[\"status\"\]=\> string(1) \"1\"
->
-> \[\"firstname\"\]=\> string(7) \"Voter 1\"
->
-> \[\"lastname\"\]=\> string(4) \"Test\"
->
-> \[\"title\"\]=\> NULL
->
-> \[\"phone\"\]=\> NULL
->
-> \[\"roles\"\]=\> array(2) {
->
-> \[0\]=\> string(13) \"authenticated\"
->
-> \[1\]=\> string(9) \"srp_voter\"
->
-> }
->
-> \[\"voter_role\"\]=\> string(8) \"educator\"
->
-> }
->
-> Time: 00:00.773, Memory: 44.50 MB
->
-> OK (1 test, 5 assertions)
+```
+ PHPUnit 9.5.24 #StandWithUkraine
+
+ Runtime: PHP 8.1.9
+
+ Configuration: /Users/selwyn/Sites/tea/phpunit.xml
+
+ .
+
+ 1 / 1 (100%)
+
+ array(11) {
+
+ uid = string(4) 5101
+
+ fullname = string(12) Voter 1 Test
+
+ name = string(7) Voter 1
+
+ mail = string(24) voter1@mightycitizen.com
+
+ status = string(1) 1
+
+ firstname = string(7) Voter 1
+
+ lastname = string(4) Test
+
+ title = NULL
+
+ phone = NULL
+
+ roles = array(2) {
+
+ 0 = string(13) authenticated
+
+ 1 = string(9) srp_voter
+
+ }
+
+ voter_role = string(8) educator
+
+ }
+
+ Time: 00:00.773, Memory: 44.50 MB
+
+ OK (1 test, 5 assertions)
+```
 
 ## Using Xdebug and PHPStorm to debug DTT scripts
 
@@ -2231,30 +2183,31 @@ It is easiest to make sure you have PHPStorm Xdebug working first, then make sur
 ![Path mappings](/images/path-mappings.png)
 
 ```
-$ ddev exec enable_xdebug
-
-$ ddev ssh
+ddev exec enable_xdebug
+ddev ssh
 ```
 
 Note. Servername has to match the servername in your phpstorm setup on a per project -- see screenshot below.
 
-Sometimes this step doesn't seem to be required. Not sure why.
+:::tip
+Sometimes this step doesn't seem to be required. Not sure why. Try skipping it.
+:::
 
 ```
 $ export PHP_IDE_CONFIG=\"serverName=tea.ddev.site\"
 ```
 
-(the tea part above needs to match your ddev project name. e.g.
-drupal.ddev.site or selwyn.ddev.site etc.)
+(the `tea` part above needs to match your ddev project name. e.g.
+`drupal.ddev.site` or `selwyn.ddev.site` etc.)
 
-click listen in PHPStorm
+click `listen` in PHPStorm
 
-click on the line number in PHPStorm to set a breakpoint
+click on the `line number` in PHPStorm to set a breakpoint
 
-Issue the phpunit command in the vendor directory:
+Issue the `phpunit` command in the vendor directory:
 
 ```
-$ vendor/bin/phpunit
+vendor/bin/phpunit
 docroot/modules/custom/tea_teks/modules/tea_teks_requirements/Tests/src/ExistingSite/RequirementsCreationTest.php
 ```
 
@@ -2271,7 +2224,7 @@ When Phpstorm pops up, specify that the vendor directory is at
 - [How to unit test your code in Drupal 8 video by Daniel Nitsche for DrupalSouth 2017 1-10-2017 (Loft??). Australian chap (very hands-on) going through live demo on PHPStorm running phpunit on Drupal 8. Using mockery.](https://www.youtube.com/watch?v=7FjjZ3OoD6Y)
 - [Running and debugging PHPUnit tests in PHPStorm with ddev and xdebug video by Australian Michael Strelan on 8-18-21. The audio is very soft. He walks through details of setting up PHPStorm for DDEV etc.](https://www.youtube.com/watch?v=OdoEyY8Kl9w). [Companion article from Michael Strelan](https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug) [and a repo] (https://github.com/mstrelan/ddev-phpunit-demo). It is useful to mention that since this video was created there is a [DDEV integration plugin](https://plugins.jetbrains.com/plugin/18813-ddev-integration) for PHPStorm which automatically configures things like path mappings, cli interpreters and phpunit configuration.  This makes some of what he describes a lot easier.
 - [From a discord chat with Randy Fey and \@shaal. This may be useful to explore phpunit tests on tugboat when we get that all set up. Here\'s a good PR where we added phpunit into DrupalPod](https://github.com/shaal/DrupalPod/pull/41/files)
-- [Benji Fisher Drupal Testing repo from February 2022.](https://github.com/benjifisher/drupal-testing) Benji set up this repository to help with testing Drupal modules for coding standards and Drupal 10 compatibility.It is based on drupal/recommended-project with some parts borrowed from Matt Glaman\'s [Drupal & Nightwatch.js training.](https://github.com/bluehorndigital/drupal-testing-workshop).  Main features: DDev configuration (mostly standard), upgrade Status module, custom DDev commands phpunit, phpcs, phpcbf, Docker config to support PHPUnit testing.
+- [Benji Fisher Drupal Testing repo from February 2022.](https://github.com/benjifisher/drupal-testing) Benji set up this repository to help with testing Drupal modules for coding standards and Drupal 10 compatibility.It is based on drupal/recommended-project with some parts borrowed from Matt Glaman\'s [Drupal & Nightwatch.js training.](https://github.com/bluehorndigital/drupal-testing-workshop).  Main features: DDev configuration (mostly standard), upgrade Status module, custom DDev commands phpunit, phpcs, phpcbf, Docker config to support PHPUnit testing.
 - [The abovementioned Matt Glaman's repo from March 2021 on Drupal & Nightwatch.js training. This repository is based on a Composer build and not meant for core contributions, it is fine for contrib.](https://github.com/bluehorndigital/drupal-testing-workshop)
 - [And its companion website with some details on how to get tests running](https://bluehorndigital.github.io/drupal-testing-workshop/getting-tests-running/ddev.html)
 - [Generating tests with drush](https://www.drush.org/latest/generators/)
@@ -2290,21 +2243,16 @@ When Phpstorm pops up, specify that the vendor directory is at
 
 - Matt Glaman's Guide to Test-Driven Development with DDEV and Drupal by Heather McNamee 1-30-2019. She runs through the series of 2018 articles that Matt published
 
-    -   **Part 1. [Running Drupal's PHPUnit test suites on
-        DDEV](https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev).** How
+    -   **Part 1. [Running Drupal's PHPUnit test suites on
+        DDEV](https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev).** How
         to execute PHPUnit from within the web container in DDEV for
         Unit, Kernel, and Functional tests.
 
-    -   **Part 2. [Running Drupal's FunctionalJavascript tests on
-        DDEV](https://glamanate.com/blog/running-drupals-functionaljavascript-tests-ddev).** How
-        to Chromedriver running to execute the FunctionalJavascript test
-        suite.
+    -   **Part 2.[Running Drupal's FunctionalJavascript tests on
+        DDEV](https://glamanate.com/blog/running-drupals-functionaljavascript-tests-ddev).** How to get Chromedriver running to execute the FunctionalJavascript test suite.
 
-    -   **Part 3. [Running Drupal's Nightwatch test suite on
-        DDEV](https://glamanate.com/blog/running-drupals-nightwatch-test-suite-ddev).** How
-        to run Drupal's newest testing framework: Nightwatch.js, for
-        end-to-end tests in Node.js run against a Selenium/WebDriver
-        server.
+    -   **Part 3. [Running Drupal's Nightwatch test suite on
+        DDEV](https://glamanate.com/blog/running-drupals-nightwatch-test-suite-ddev).** How to run Drupal's newest testing framework: Nightwatch.js, for end-to-end tests in Node.js run against a Selenium/WebDriver server.
 
 - [Running Drupal's PHPUnit test suites on DDEV by Matt Glaman from October 2018. The first in his series referenced above](https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev)
 - [DDEV Contrib Repo](https://github.com/drud/ddev-contrib)
