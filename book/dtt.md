@@ -45,7 +45,7 @@ In a Drupal context, there are 4 types of tests. From
 <https://www.drupal.org/docs/automated-testing/types-of-tests> :
 
 - `Unit`: PHPUnit-based tests with minimal dependencies. Base class:
-    `Drupal\\Tests\\UnitTestCase class`. They must be clean plain PHP.
+    `Drupal\Tests\UnitTestCase` class. They must be clean plain PHP.
 
 - `Kernel`: PHPUnit-based tests with a bootstrapped kernel, and a
     minimal number of extensions enabled. Base class:
@@ -110,13 +110,11 @@ While tests are running, I noticed that files appear in the `/simpletest/browser
 
 Using Drupal version 9.4.5 let's get PHPunit tests running inside the ddev containers (not on the host machine).
 
-To get started with phpunit, follow instructions at
-<https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/running-phpunit-tests>
-(I updated this for ddev on 8-29-22)
+To get started with phpunit, follow [instructions on drupal.org](https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/running-phpunit-tests)
 
 Another useful reference is the web/core/tests/README.md that comes with Drupal.
 
-If you installed using the `drupal/recommended-project` Composer template, you will need some dependencies which can be installed by requiring drupal/core-dev as a dependency in your project. This includes phpunit and prophecy and other dev tools.
+If you installed using the `drupal/recommended-project` Composer template, you will need some dependencies which can be installed by requiring` drupal/core-dev` as a dependency in your project. This includes phpunit and prophecy and other dev tools.
 
 
 ```
@@ -139,29 +137,26 @@ Change the `SIMPLETEST_BASE_URL`, `SIMPLETEST_DB` AND `BROWSERTEST_OUTPUT_DIRECT
     <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/simpletest/browser_output"/>
 ```
 
-Refer to
-<https://mglaman.dev/blog/running-drupals-phpunit-test-suites-ddev> for more info on using ddev describe to get suitable values for those variables
+Refer to [Matt Glaman's blog post](https://mglaman.dev/blog/running-drupals-phpunit-test-suites-ddev) for more info on using `ddev describe` to get suitable values for those variables.
 
 From `web/core/tests/README.md`: 
 
-Copy the core/phpunit.xml.dist file to phpunit.xml, and place it somewhere convenient (inside the core directory may not be the best spot, since that directory may be managed by Composer or Git). You can use the -c option on the command line to tell PHPUnit where this file is (use the full path).
+Copy the `core/phpunit.xml.dist` file to `phpunit.xml`, and place it somewhere convenient (inside the core directory may not be the best spot, since that directory may be managed by Composer or Git). You can use the -c option on the command line to tell PHPUnit where this file is (use the full path).
 
 Settings to change in this file:
 
--   `SIMPLETEST_BASE_URL`: The URL of your site
+- `SIMPLETEST_BASE_URL`: The URL of your site
 
--   `SIMPLETEST_DB`: The URL of your Drupal database
+- `SIMPLETEST_DB`: The URL of your Drupal database
 
--   The` bootstrap attribute` of the top-level phpunit tag, to take into account the location of the file
+- The` bootstrap attribute` of the top-level phpunit tag, to take into account the location of the file
 
--   `BROWSERTEST_OUTPUT_DIRECTORY`: Set to
-    sites/simpletest/browser_output; you will also want to uncomment the
-    printerClass attribute of the top-level phpunit tag.
+- `BROWSERTEST_OUTPUT_DIRECTORY`: Set to `sites/simpletest/browser_output;` you will also want to uncomment the `printerClass` attribute of the top-level phpunit tag.
 
 
 ## Running PHPUnit tests in the DDEV container
 
-This will run the unit tests included with the action module
+To run the unit tests included with the action module use:
 
 ```
 $ ddev ssh
