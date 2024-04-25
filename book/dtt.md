@@ -44,20 +44,20 @@ final class StackTest extends TestCase
 In a Drupal context, there are 4 types of tests. From
 <https://www.drupal.org/docs/automated-testing/types-of-tests> :
 
--   Unit: PHPUnit-based tests with minimal dependencies. Base class:
-    Drupal\\Tests\\UnitTestCase class. They must be clean plain PHP.
+- `Unit`: PHPUnit-based tests with minimal dependencies. Base class:
+    `Drupal\\Tests\\UnitTestCase class`. They must be clean plain PHP.
 
--   Kernel: PHPUnit-based tests with a bootstrapped kernel, and a
+- `Kernel`: PHPUnit-based tests with a bootstrapped kernel, and a
     minimal number of extensions enabled. Base class:
-    Drupal\\KernelTests\\KernelTestBase class. More at
+    `Drupal\KernelTests\KernelTestBase` class. More at
     <https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/kerneltestbase>
 
--   Functional: PHPUnit-based tests with a full booted Drupal instance.
+- `Functional`: PHPUnit-based tests with a full booted Drupal instance.
     Base class: Drupal\\Tests\\BrowserTestBase.
 
--   FunctionalJavascript: PHPUnit-based tests that use Webdriver to
+- `FunctionalJavascript`: PHPUnit-based tests that use Webdriver to
     perform tests of Javascript and Ajax functionality in the browser.
-    Base class: Drupal\\FunctionalJavascriptTests\\WebDriverTestBase.
+    Base class: `Drupal\\FunctionalJavascriptTests\\WebDriverTestBase`.
 
 In addition, the Drupal project has some tests for JavaScript, written in JavaScript, that use the [Nightwatch framework](https://www.drupal.org/docs/testing/javascript-testing-using-nightwatch).
 
