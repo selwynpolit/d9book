@@ -236,11 +236,11 @@ $ vendor/bin/phpunit -c web/core web/core/modules/action
 
 ## Generate a unit test with drush
 
-You can use drush to generate a module e.g. drush gen module. (Just
-follow the prompts). Once you have a module, use drush gen test:unit for
-your module. Note. You need drush 11 for this.
+You can use drush to generate a module e.g. `drush gen module`. (Just
+follow the prompts). Once you have a module, use `drush gen test:unit` for
+your module. Note. You need a minumum of drush version 11 for this.
 
-Here is a generated file at modules/custom/tea_teks_voting/tests/src/Unit/ExampleTest.php with the following contents. It does not contain a real test; just a shell of a test which can run.
+Here is a generated file at `modules/custom/tea_teks_voting/tests/src/Unit/ExampleTest.php` with the following contents. It does not contain a real test; just a shell of a test which can run.
 
 ```php
 <?php
@@ -281,10 +281,8 @@ Drush wrote the test file in `modules/custom/tea_teks_voting/tests/src/Unit/Exam
 To run this test use
 
 ```
-$ drush ssh
-
-selwyn@ddev92-web:/var/www/html \$ vendor/bin/phpunit -c web/core/
-web/modules/custom/tea_teks_voting/
+drush ssh
+vendor/bin/phpunit -c web/core/web/modules/custom/tea_teks_voting/
 ```
 
 You should see the following output:
@@ -303,12 +301,12 @@ Time: 00:00.058, Memory: 4.00 MB
 OK (1 test, 1 assertion)
 ```
 
-Note. It does expect the file web/core/phpunit.xml to exist and be
+Note. It does expect the file `web/core/phpunit.xml` to exist and be
 configured correctly. See setup above for details.
 
 ## My first PHPUnit test
 
-This is my test of a class I wrote called Requirements. It does require some Drupal to be bootstrapped, so it can't be a unit test. It must be a functional test and therefor in the `modules/custom/tea_teks_requirements/tests/src/Functional` directory.
+This is my test of a class I wrote called Requirements. It does require some Drupal to be bootstrapped, so it can't be a unit test. It must be a functional test and therefore in the `modules/custom/tea_teks_requirements/tests/src/Functional` directory.
 
 ```php
 <?php
@@ -331,7 +329,7 @@ class RequirementsTest extends UnitTestCase {
 
 The module must be enabled.
 
-Copy web/core/phpunit.xml.dist to web/core/phpunit.xml
+Copy `web/core/phpunit.xml.dist` to `web/core/phpunit.xml`.
 
 Edit the following lines of the file to look something like this:
 
@@ -340,14 +338,12 @@ Edit the following lines of the file to look something like this:
 <env name="SIMPLETEST_DB" value="mysql://db:db@db/db"/>
 <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/simpletest/browser_output"/>
 ```
-Run the test with
+Run the test with:
 
 ```
-$ ddev ssh
-
-$ cd web
-
-$ ../vendor/bin/phpunit -c core modules/custom/tea_teks_voting
+ddev ssh
+cd web
+../vendor/bin/phpunit -c core modules/custom/tea_teks_voting
 ```
 
 You will see this output:
@@ -371,7 +367,7 @@ Note. The OK means it worked.
 
 ## Drupal Test Traits Overview
 
-Drupal Test Traits is for testing Drupal sites that have content (versus Phpunit tests which start Drupal up, create an empty database and are consequently slower).
+Drupal Test Traits is for testing Drupal sites** that have content** (versus Phpunit tests which start Drupal up, create an empty database and are consequently slower).
 
 From [https://gitlab.com/weitzman/drupal-test-traits](https://gitlab.com/weitzman/drupal-test-traits):
 
@@ -379,20 +375,18 @@ From [https://gitlab.com/weitzman/drupal-test-traits](https://gitlab.com/weitzma
 
 Before Drupal Test Traits, this framework was impossible to use without wiping the site's database after each test. DTT lets you keep your database and still test using the features of Drupal's BrowserTestBase and friends.
 
-See [DrupalTrait::setUp()](https://gitlab.com/weitzman/drupal-test-traits/blob/1.0.0-beta.1/src/DrupalTrait.php#L44-83) for details (the bootstrap is inspired by [Drush](https://www.drush.org/)).
-
-- Blog: [Introducing Drupal Test Traits](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c)
-- Blog: [Introducing Drupal Test Traits: Drupal extension for testing existing sites](https://www.previousnext.com.au/blog/introducing-drupal-testing-traits-drupal-extension-testing-existing-sites)
-- Video: [Drupalcon presentation - Introducing Drupal Test Traits](https://www.tag1consulting.com/blog/introducing-drupal-test-traits).
-- [Drupal Test Traits Repo](https://gitlab.com/weitzman/drupal-test-traits)
-
-DTT also supports [testing through a real browser using headless Chrome](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php) or Selenium. So, testing client-side interactions like autocomplete, #states, viewports, and drag/drop is easy.
-
-Like Drupal core, [DTT can save HTML snapshots for each URL that it navigates to](https://gitlab.com/weitzman/drupal-test-traits#debugging-tests). These files are very useful when debugging test failures.
+Further interesting reading:
+- [Repo for Drupal Test Traits](https://git.drupalcode.org/project/dtt/).
+- [Bootstrapping Drupal using DrupalTrait::setUp()](https://git.drupalcode.org/project/dtt/-/blob/2.x/src/DrupalTrait.php?ref_type=heads#L57-111) for details (the bootstrap is inspired by [Drush](https://www.drush.org/)).
+- [Introducing Drupal Test Traits blog post by Moshe Weitzman - Feb 2019](https://medium.com/massgovdigital/introducing-drupal-test-traits-9fe09e84384c)
+- [Introducing Drupal Test Traits: Drupal extension for testing existing sites - Dec 2018](https://www.previousnext.com.au/blog/introducing-drupal-testing-traits-drupal-extension-testing-existing-sites)
+- [Drupalcon presentation article and video of Moshe Weitzman by Lynette Miles - Introducing Drupal Test Traits - Sep 2020](https://www.tag1consulting.com/blog/introducing-drupal-test-traits).
+- Like Drupal core, [DTT can save HTML snapshots for each URL that it navigates to](https://gitlab.com/weitzman/drupal-test-traits#debugging-tests). These files are very useful when debugging test failures.
+- DTT also supports [testing through a real browser using headless Chrome](https://gitlab.com/weitzman/drupal-test-traits/blob/master/tests/ExampleSelenium2DriverTest.php) or Selenium. So, testing client-side interactions like autocomplete, #states, viewports, and drag/drop is easy.
 
 ## Install/setup Drupal Test Traits
 
-TLDR; You will need Drupal test traits installed with composer, `drupal/core-dev` (also a composer install), a `/phpunit.xml` file, and a `/scripts/bootstrap-fast.php`. Add `weitzman/logintrait` with composer for adding users and logging in to your site. Finally for AJAX testing add a `docker-compose.testing.yaml` and using composer add `behat/mink-selenium2-driver`.
+TLDR; You will need Drupal test traits installed with composer, `drupal/core-dev`, a `/phpunit.xml` file, and a `/scripts/bootstrap-fast.php`. Add `weitzman/logintrait` with composer for adding users and logging in to your site. Finally for AJAX testing add a `docker-compose.testing.yaml` and using composer add `behat/mink-selenium2-driver`.
 
 The details are as follows:
 
@@ -492,8 +486,7 @@ Here are the `/phpunit.xml` file contents. Note the location of the
 
 ### boostrap-fast.php
 
-Here are the /scripts/bootstrap-fast.php contents from
-vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php:
+Here are the `/scripts/bootstrap-fast.php` contents from `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`:
 
 ```php
 <?php
@@ -575,20 +568,6 @@ Error: Class "DMore\ChromeDriver\ChromeDriver\" not found
 ```
 
 Using `behat/mink-selenium2-driver`, you can run DTT against Chrome, Firefox or Edge (in WebDriver mode.) This setup also allows us to run Drupal core JS testing using Nightwatch. Although DTT supports browser testing using headless Chrome or Selenium. This facility is deprecated.
-
-From <https://gitlab.com/weitzman/drupal-test-traits>:
-
-> (deprecated) **ExistingSiteWebDriverTest**. See
-> [ExampleWebDriverTest.php](file:////weitzman/drupal-test-traits/-/blob/master/tests/ExampleWebDriverTest.php).
-> These tests make use of a headless Chrome browser but using [Chrome\'s
-> Debugger
-> Protocol](https://packagist.org/packages/dmore/chrome-mink-driver).
-> They are suited to testing Ajax and similar client side interactions.
-> These tests run slower than ExistingSite. To use this test type you
-> need to composer require \'dmore/chrome-mink-driver\' \--dev. Tests of
-> this type should be placed in tests/src/ExistingSiteJavascript.
-> Contrary to its name, this test type does not use the WebDriver
-> protocol at all.
 
 ## My first DTT tests
 
