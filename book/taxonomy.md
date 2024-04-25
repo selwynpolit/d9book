@@ -262,7 +262,7 @@ public function loadTerms() {
 
 ## Create taxonomy term programatically
 
-Vid is the vocabulary id e.g. event_category or type
+Vid is the vocabulary id machine name e.g. event_category or type
 
 ```php
 $term = Term::create([
@@ -273,7 +273,7 @@ $term = Term::create([
 
 ## Find all nodes with a matching term
 
-See the queries chapter for other ways to do this.
+See the [queries chapter](queries#find-nodes-that-match-a-taxonomy-term) for other ways to do this.
 
 ```php
 public function getMatchingNodes() {
