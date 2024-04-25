@@ -167,6 +167,11 @@ Currently the autocomplete in the Link Field widget always shows content suggest
 
 [https://www.drupal.org/project/link_field_autocomplete_filter](https://www.drupal.org/project/link_field_autocomplete_filter)
 
+### Single Directory Components: Block
+This module lets you put Single Directory Components in the page using blocks. This includes the regular block layout, layout builder, and any other tool that renders blocks in a page.
+
+[https://www.drupal.org/project/sdc_block](https://www.drupal.org/project/sdc_block)
+
 ## Cleanup
 
 ### Node Revision Delete
