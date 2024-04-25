@@ -87,10 +87,10 @@ else {
 ```
 ## Lookup term using its uuid
 
-Each taxonomy term has a UUID. See the taxonomy_term_data table uuid
-field. We can load a taxonomy term by it's uuid as shown below:
+Each taxonomy term has a `UUID`. See the `taxonomy_term_data` table `uuid`
+field. We can load a taxonomy term by its `uuid` as shown below:
 
-Here we load a taxonomy term, get it's name and it's tid.
+Here we load a taxonomy term, get its name and it's tid.
 
 ```php
 public function loadByUUID() {
@@ -119,7 +119,7 @@ public function loadByUUID() {
 
 ## Load terms from a term reference field
 
-Retrieve the values in the field_event_category and display their term name, term id and their uuid. The call to referencedEntities() returns an array of term objects, so no need to call load() on them separately.
+Retrieve the values in the `field_event_category` and display their `term name`, `term id` and their `uuid`. The call to `referencedEntities()` returns an array of term objects, so no need to call `load()` on them separately.
 
 ```php
 public function loadTermRef() {
@@ -151,12 +151,12 @@ public function loadTermRef() {
 
 ## Find terms referenced in a paragraph in a term reference field
 
-Loop thru all the instances of a paragraph reference and grab the term
+Loop through all the instances of a paragraph reference and grab the term
 in the paragraph.
 
+```php
 use Drupal\taxonomy\Entity\Term;
 
-```php
 foreach ($node->get('field_my_para')->referencedEntities() as $ent){
   $term = Term::load($ent->$field_in_paragraph->target_id);
   $name = $term->getName();
@@ -195,10 +195,10 @@ public function getTaxonomyAlias() {
 ## Load all terms for a vocabulary
 
 This code loads the terms into an array and displays them on screen.
-Note that you can't use id() or getName() on the objects returned from
-loadTree() as they are standard objects. If you load the actual term
-entities using Term::load(), then you can use entity functions like id()
-and getName(). It returns this:
+Note that you can't use `id()` or `getName()` on the objects returned from
+`loadTree()` as they are standard objects. If you load the actual term
+entities using `Term::load()`, then you can use `entity` functions like `id()`
+and `getName()`. It returns this:
 
 Found 5 terms in vocabulary event_category\
 Term: Hunger strike term_id: 5\
