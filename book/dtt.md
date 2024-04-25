@@ -53,25 +53,22 @@ In a Drupal context, there are 4 types of tests. From
     <https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/kerneltestbase>
 
 - `Functional`: PHPUnit-based tests with a full booted Drupal instance.
-    Base class: Drupal\\Tests\\BrowserTestBase.
+    Base class: `Drupal\Tests\BrowserTestBase`.
 
 - `FunctionalJavascript`: PHPUnit-based tests that use Webdriver to
     perform tests of Javascript and Ajax functionality in the browser.
-    Base class: `Drupal\\FunctionalJavascriptTests\\WebDriverTestBase`.
+    Base class: `Drupal\FunctionalJavascriptTests\WebDriverTestBase`.
 
 In addition, the Drupal project has some tests for JavaScript, written in JavaScript, that use the [Nightwatch framework](https://www.drupal.org/docs/testing/javascript-testing-using-nightwatch).
 
-Drupal Test Traits (DTT) adds 2 more types of tests:
+**Drupal Test Traits** (DTT) adds 2 more types of tests:
 
--   ExistingSite which use the Drupal API and existing site. Base class: weitzman\\DrupalTestTraits\\ExistingSiteBase
+-  `ExistingSite` which use the Drupal API and existing site. Base class: `weitzman\DrupalTestTraits\ExistingSiteBase`
 
--   ExistingSiteJavascript for testing Javacript or AJAX using Selenium and Chromedriver. Base class: weitzman\\DrupalTestTraits\\ExistingSiteSelenium2DriverTestBase
+-  `ExistingSiteJavascript` for testing Javacript or AJAX using Selenium and Chromedriver. Base class: `weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase`.
 
-There are many examples of tests in core and contributed modules.
-
-e.g. in docroot/modules/contrib/admin_toolbar/tests/src/Functional/
-there are 3 functional tests: AdminToolbarAdminMenuTest.php,
-AdminToolbarAlterTest.php and AdminToolbarToolsSortTest.php
+There are many examples of tests in core and contributed modules. e.g. in `docroot/modules/contrib/admin_toolbar/tests/src/Functional/` there are 3 functional tests: `AdminToolbarAdminMenuTest.php`,
+`AdminToolbarAlterTest.php` and `AdminToolbarToolsSortTest.php`.
 
 Every time a PHPUnit test is run, a fresh Drupal database and files are created. This guarantees that any existing data won\'t taint your test\'s outcomes. DTT bypasses this process and uses the existing site although it can clean up anything that is created in the test.
 
@@ -81,14 +78,15 @@ Tests are always in the tests folder of modules. They are often in
 different folders e.g. tests/src/Unit, tests/src/Functional,
 tests/src/FunctionalJavascript
 
-For core they are in web/core/modules (or docroot/core/modules) e.g. in the action module, the directory structure looks like this:
+For core they are in `web/core/modules` (or `docroot/core/modules`) e.g. in the action module, the directory structure looks like this:
 
 ![Phpunit Test Location](/images/phpunit-test-location.png)
+
 
 ## Output files from running phpunit
 
 Depending on where you specified the output for your files in the
-phpunit.xml file e.g. in web/core/phpunit.xml I specified this path.
+phpunit.xml file e.g. in `web/core/phpunit.xml` I specified this path.
 Below you will see a bunch of directories (probably one for each run of the tests) in sites/simpletest/nnnnn
 
 ```xml
@@ -100,13 +98,11 @@ Below you will see a bunch of directories (probably one for each run of the test
 
 If you don't need to view the reports from your tests, you can safely delete these directories as well as the html files shown below.
 
-At the same level is a browser_output directory which has some html
-files which reference the directories above:
+At the same level is a browser_output directory which has some html files which reference the directories above:
 
 ![Browser Ouput1](/images/browser-output1.png)
 
-While tests are running, I noticed that files appear in the
-/simpletest/browser_output folder at the topmost level of the project. They go away when the tests complete..
+While tests are running, I noticed that files appear in the `/simpletest/browser_output` folder at the topmost level of the project. They go away when the tests complete..
 
 ![Browser Output2](/images/browser-output2.png)
 
