@@ -1155,7 +1155,7 @@ We always use the fast backend when reading (`get()`) entries from cache, but ch
 
 Because this backend will mark all the cache entries in a bin as out-dated for each write to a bin, it is best suited to bins with fewer changes.
 
-Note that this is designed specifically for combining a fast inconsistent cache backend with a slower consistent cache back-end. To still function correctly, it needs to do a consistency check (see the "last write timestamp" logic). This contrasts with \Drupal\Core\Cache\BackendChain, which assumes both chained cache backends are consistent, thus a consistency check being pointless.  See [class ChainedFastBackend API docs on drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/10)
+Note that this is designed specifically for combining a fast inconsistent cache backend with a slower consistent cache back-end. To still function correctly, it needs to do a consistency check (see the \"last write timestamp\" logic). This contrasts with `\Drupal\Core\Cache\BackendChain`, which assumes both chained cache backends are consistent, thus a consistency check being pointless.  See [class ChainedFastBackend API docs on drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/10)
 
 ## APCu
 
@@ -1184,6 +1184,169 @@ The above tag assigned to the `cache.bootstrap`, `cache.config`, and `cache.disc
 This means that by default (on a site with nothing set for `$settings['cache']` in `settings.php`), the bootstrap, config, and discovery cache bins automatically benefit from `APCu` caching if `APCu` is available, and this is compatible with Drush usage (e.g., Drush can be used to clear caches and the web process receives that cache clear) and multi-server deployments.
 
 `APCu` will act as a very fast local cache for all requests. Other cache backends can act as bigger, more general cache backend that is consistent across processes or servers.
+
+## Cache friendly progress meter
+
+As part of this [article by Dustin LeBlanc on performance optimization - April 2024](https://capellic.com/blog/frontend-performance-optimization-drupal-websites-part-1) by Capellic, Dustin suggests refactoring the progress meter to allow cacheability of the page.
+
+```twig
+{% progress-meter.twig %}
+{{ attach_library('ce_quick_action/progress_meter') }}
+<div class="action-meter__progress-meter" data-progressMeter data-eac-id="{{ eac_id }}" data-goal="{{ goal }}">
+  <p class="action-meter__progress-bar">
+    <span class="action-meter__submissions js-progress-bar"></span>
+  </p>
+</div>
+```
+
+
+In this Javascript, you can see we’re making a request to a custom API endpoint, and then modifying the count in the dom after the page load. This means the page itself can be served from the cache, regardless of what is happening with form submissions. If we take a look at the controller behind that api endpoint, we can see that it also caches the responses, but on its own schedule which is controllable from an admin configuration form to tune the feedback cycle for immediacy or performance:
+
+The Javascript code:
+```js
+(function (once) {
+  Drupal.behaviors.quickActionProgressMeter = {
+    attach(context, settings) {
+      const elements = once('quick-action-progress-meter', '[data-progressMeter]', context);
+      elements
+        .forEach(function (element) {
+          const eacId = element.getAttribute('data-eac-id');
+          const goal = element.getAttribute('data-goal');
+          fetch(`/conversion_engine/api/eac/count/${eacId}`)
+            .then(response => response.json())
+            .then(data => {
+              const count = data.count;
+              const progress = Math.round((count / goal) * 100);
+              element.querySelector('.action-meter__progress-bar').style.width = `${progress}%`;
+              element.querySelector('.action-meter__submissions').dataset.count = count;
+              // set the inner html to a comma formatted number using Intl.NumberFormat e.g 1,000,000
+              element.querySelector('.action-meter__submissions').innerHTML = new Intl.NumberFormat().format(count);
+            });
+        });
+    }
+  };
+}(once));
+```
+
+
+The controller code:
+```php
+<?php
+
+namespace Drupal\ce_email_acquisition\Controller;
+
+use Drupal\ce_email_acquisition\EmailAcquisitionInterface;
+use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\Cache\CacheableJsonResponse;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\ce_email_acquisition\EmailAcquisitionCounterInterface;
+
+/**
+ * Controller for the eac submission counter.
+ */
+final class EmailAcquisitionCounterController extends ControllerBase {
+
+  /**
+   * The eac counter service.
+   *
+   * @var \Drupal\ce_email_acquisition\EmailAcquisitionCounterInterface
+   */
+  private EmailAcquisitionCounterInterface $eacCounter;
+
+  /**
+   * The time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $time;
+
+  /**
+   * A controller to fetch the quick action submission count of a challenge.
+   *
+   * @param \Drupal\ce_email_acquisition\EmailAcquisitionCounterInterface $eacCounter
+   *   The signature_counter service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory.
+   * @param \Drupal\Component\Datetime\TimeInterface $time
+   *   The time stuff.
+   */
+  public function __construct(
+    EmailAcquisitionCounterInterface $eacCounter,
+    ConfigFactoryInterface $configFactory,
+    TimeInterface $time
+  ) {
+    $this->eacCounter = $eacCounter;
+    $this->configFactory = $configFactory;
+    $this->time = $time;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new self(
+      $container->get('ce_email_acquisition.eac_counter'),
+      $container->get('config.factory'),
+      $container->get('datetime.time')
+    );
+  }
+
+  /**
+   * Callback for the quick action submission counter.
+   *
+   * @param \Drupal\ce_email_acquisition\EmailAcquisitionInterface $challenge
+   *   The challenge entity.
+   */
+  public function __invoke(EmailAcquisitionInterface $challenge) {
+    $count = $this->eacCounter
+                  ->getCountForChallenge(
+                    $challenge->field_email_acquisition_id->value
+                  );
+    $data = [
+      'count' => $count,
+    ];
+    $response = new CacheableJsonResponse($data);
+    $response->setMaxAge($this->getCachedMaxAge());
+
+    // Do this because
+    // https://drupal.stackexchange.com/questions/255579/unable-to-set-cache-max-age-on-resourceresponse
+    $cache_meta_data = new CacheableMetadata();
+    $cache_meta_data->setCacheMaxAge($this->getCachedMaxAge());
+    $response->addCacheableDependency($cache_meta_data);
+
+    // Set expires header for Drupal's cache.
+    $date = new \DateTime($this->getCachedMaxAge() . 'sec');
+    $response->setExpires($date);
+
+    // Allow downstream proxies to cache (e.g. Varnish).
+    $response->setPublic();
+    // If the challenge changes, we want to invalidate the cache.
+    $response->addCacheableDependency(CacheableMetadata::createFromObject($challenge));
+    return $response;
+  }
+
+  /**
+   * Get the cache max age.
+   *
+   * @return int
+   *   The cache max age in seconds, defaulting to 300 (5 minutes).
+   */
+  private function getCachedMaxAge() : int {
+    return $this->configFactory
+                ->getEditable('ce_cp.controlpanel')
+                ->get('eac_count_cache_max_age') ?? 300;
+  }
+
+}
+```
+
+This approach allows us to fine-tune the cache behavior of this highly trafficked page to find the sweet spot between performance and engagement so that the client can serve the largest possible campaigns while also boosting engagement by helping visitors see their impact more immediately.
+
+This is an example of balancing a custom site feature whose initial specification was cache-resistant, but with careful use of the available technology, we can provide most of the same benefits with a dramatic improvement in scalability and performance.
+
 
 ## The Basics
 
