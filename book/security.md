@@ -271,7 +271,7 @@ When specific resource types (entity types + bundles) don't need to be exposed, 
 
 If for your particular needs you only need to be able to read data, you can choose to enable `JSON:API`'s read-only mode at `/admin/config/services/jsonapi`. This mitigates risks from hypothetical, as-yet-unknown bugs in preexisting validation constraints and write logic. Because most modern decoupled Drupal setups only need to be able to read data, the update and delete operations are disabled by default. 
 
-1. Security through obscurity: secret base path
+5. Security through obscurity: secret base path
 
 The base path for `JSON:API` is `/jsonapi` by default. This can be changed to something like `/hidden/b69dhj027ooae/jsonapi`, which is one way to reduce the effectiveness of automated attacks. 
 
