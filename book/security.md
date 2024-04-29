@@ -250,6 +250,129 @@ Strings sanitized by `t()`, `Html::escape()`, `Xss::filter()` or `Xss::filterAdm
 
 While it can also sanitize text, it's almost never correct to use [check_markup](https://api.drupal.org/api/drupal/core%21modules%21filter%21filter.module/function/check_markup/8) in a theme or module except in the context of something like a text area with an associated text format.
 
+
+## Security Considerations when using JSON:API
+
+From https://www.drupal.org/docs/core-modules-and-themes/core-modules/jsonapi-module/security-considerations
+
+1. Use stable contributed modules
+Security vulnerabilities caused by entity types, field types and data types are resolved as quickly as possible only for stable modules published on Drupal.org that are covered by the security advisory policy. Custom modules and non-stable contributed modules are not covered. If you are using some of those, please exercise extra care.
+
+2. Auditing Entity & Field Access
+Regardless of whether you are using `JSON:API` or any other API-like module, it is always recommended to audit Entity Access & Field Access on Drupal sites. This is especially important if `JSON:API`'s writing capabilities are enabled.
+
+3. Exposing only what you use
+When specific resource types (entity types + bundles) don't need to be exposed, after ensuring access to them is denied, you can choose to go even further and disable them. To disable a resource type or field, there is a PHP API that you can implement in a custom module, or you can use the [JSON:API Extras contrib module](https://www.drupal.org/project/jsonapi_extras), which provides a UI for disabled resource types and fields. This is not always possible, but in a case where the site owner also owns all API clients, you can do this to make the API surface as small as possible.
+
+4. Read-only mode
+If for your particular needs you only need to be able to read data, you can choose to enable `JSON:API`'s read-only mode at `/admin/config/services/jsonapi`. This mitigates risks from hypothetical, as-yet-unknown bugs in preexisting validation constraints and write logic. Because most modern decoupled Drupal setups only need to be able to read data, the update and delete operations are disabled by default. 
+
+1. Security through obscurity: secret base path
+The base path for `JSON:API` is `/jsonapi` by default. This can be changed to something like `/hidden/b69dhj027ooae/jsonapi`, which is one way to reduce the effectiveness of automated attacks. 
+
+To do this you can use the [JSON:API Extras contrib module](https://www.drupal.org/project/jsonapi_extras) or 
+
+Create `sites/example.com/services.yml` if it doesn't exist already and add this:
+
+```yaml
+parameters:
+  jsonapi.base_path: /hidden/b69dhj027ooae/jsonapi
+```
+
+6. Limit which entity bundles may be created or edited by removing some routes
+If you only need to be able to create or update some entity bundles via `JSON:API` you can implement an event subscriber to remove all but a whitelist of `POST` and `PATCH` routes in a custom module.  This will have an effect after disabling read-only mode and may require router rebuild.
+
+Add a service to your module's services.yml file:
+
+```yaml
+services:
+  mymodule.route_subscriber:
+    class: Drupal\mymodule\Routing\JsonapiLimitingRouteSubscriber
+    tags:
+      - { name: event_subscriber }
+```
+
+Create the event subscriber. This example also makes it impossible to delete any content via `JSON:API`:
+
+```php
+<?php
+
+namespace Drupal\mymodule\Routing;
+
+use Drupal\Core\Routing\RouteSubscriberBase;
+use Symfony\Component\Routing\RouteCollection;
+
+/**
+ * Class JsonapiLimitingRouteSubscriber.
+ *
+ * Remove all DELETE routes from jsonapi resources to protect content.
+ *
+ * Remove POST and PATCH routes from jsonapi resources except for those
+ * we want end users to create and update via the decoupled API.
+ */
+class JsonapiLimitingRouteSubscriber extends RouteSubscriberBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function alterRoutes(RouteCollection $collection) {
+    $mutable_types = $this->mutableResourceTypes();
+    foreach ($collection as $name => $route) {
+      $defaults = $route->getDefaults();
+      if (!empty($defaults['_is_jsonapi']) && !empty($defaults['resource_type'])) {
+        $methods = $route->getMethods();
+        if (in_array('DELETE', $methods)) {
+          // We never want to delete data, only unpublish.
+          $collection->remove($name);
+        }
+        else {
+          $resource_type = $defaults['resource_type'];
+          if (empty($mutable_types[$resource_type])) {
+            if (in_array('POST', $methods) || in_array('PATCH', $methods)) {
+              $collection->remove($name);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Get mutable resource types, exposed to user changes via API.
+   *
+   * @return array
+   *   List of mutable jsonapi resource types as keys.
+   */
+  public function mutableResourceTypes(): array {
+    return [
+      'node--article' => TRUE,
+      'node--document' => TRUE,
+      'custom_entity--custom_entity' => TRUE,
+    ];
+  }
+
+}
+```
+
+1. Limit access to all JSON:API routes with an extra permission
+
+When using `JSON:API` for backend integrations. limited API clients or other non-public use cases, it may be desirable to limit all `JSON:API` to users with a specific permission. Instead/additionally, add the following snippet to the mentioned route subscriber:
+
+```php
+    // Limit access to all jsonapi routes with an extra permission.
+    foreach ($collection as $route) {
+      $defaults = $route->getDefaults();
+      if (!empty($defaults['_is_jsonapi'])) {
+        $route->setRequirement('_permission', 'FOO custom access jsonapi');
+      }
+    }
+```
+Then define that permission in `FOO.permissions.yml` and grant it to the desired user roles.
+
+More at [Security Considerations on drupal.org - updated Dec 2022](https://www.drupal.org/docs/core-modules-and-themes/core-modules/jsonapi-module/security-considerations)
+
+
+
 ## Sanitizing data from text fields
 
 Copilot suggested the following
