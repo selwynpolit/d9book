@@ -180,6 +180,10 @@ e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrapp
 
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
 
+::: danger 
+You should only use this method after testing locally and applying after careful review.
+:::
+
 
 ## composer.json patches in separate file
 
