@@ -27,7 +27,7 @@ Enable a wide array of people with disabilities to use your Drupal website effec
 
 [Here's a comprehensive feature guide](https://www.dropbox.com/s/de41n4xm9zjwxix/All-in-One-Accessibility-PRO-App-Usage-and-Functionality.pdf?dl=0)
 
-## Access/Permissions
+## Access/Permissions/Authentication
 
 ### Access by Reference
 
@@ -41,6 +41,13 @@ Lightweight module that extends read, update or delete permissions to a user in 
 In each case, the rule only applies to logged-in users with general permission to access nodes by reference, and only on the node types and field names set in the configuration page.
 
 [https://www.drupal.org/project/access_by_ref](https://www.drupal.org/project/access_by_ref)
+
+
+### Simple OAuth
+Simple OAuth is an implementation of the OAuth 2.0 Authorization Framework RFC and is based on League\OAuth2. The module is extremely simple and flexible, allowing you to configure your OAuth 2.0 server to suit your needs. It supports the following grant types:
+
+[https://www.drupal.org/project/simple_oauth](https://www.drupal.org/project/simple_oauth)
+
 
 ## AI (Artifical Intelligence)
 
@@ -528,6 +535,16 @@ Displays a list of missing modules and lets you fix the entries. Also deletes le
 
 
 [Module Missing message Fixer](https://www.drupal.org/project/module_missing_message_fixer)
+
+
+
+## Rest
+
+### REST UI
+This module provides a user interface to make it easier to configure the core REST modules provided by Drupal. It provides a new settings page for each REST resource where you can configure the allowed methods (GET, POST, etc), formats (json, xml, etc), authentication, serialization, and validation. It also provides a new configuration form to configure the serialization format for each entity type.  Adding the [Simple OAuth](https://www.drupal.org/project/simple_oauth) module will allow you to configure OAuth2 authentication for your REST resources.
+
+[https://www.drupal.org/project/restui](https://www.drupal.org/project/restui)
+
 
 
 ## Security/Spam Protection
