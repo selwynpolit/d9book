@@ -270,6 +270,28 @@ Examples:
 
 [https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
 
+
+## Date/Time
+
+### Smart Date
+
+Provides a more user-friendly date field, by upgrading the functionality of core with:
+
+- **Easy Admin UI:** Includes the concept of duration, so that a field can have a configurable default duration (e.g. 1 hour) and the end time will be auto-populated based on the start. The overall goal is to provide a smart interface for time range/event data entry, more inline with calendar applications which editors will be familiar with.
+- **All Day Events:** Most calendar applications provide a one-click option to make a an event, appointment, or other time-related content span a full day. This module brings that same capability to Drupal.
+- **Zero Duration Events:** Show only a single time for events that don't need a duration.
+- **Formatting:** More sophisticated output formatting, for example to show the times as a range but with a single output of the date. In the settings a site builder can control how date the ranges will be output, at a very granular level.
+- **Performance:** Dates are stored as timestamps to improve performance, especially when filtering or sorting. Concerns with the performance of core's date range have been documented in #3048072: Date Range field creates very slow queries in Views.
+
+Overall, the approach in this module is to leverage core's existing `Datetime` functionality, using the timestamp storage capability also in core, with some custom Javascript to add intelligence to the admin interface, and a suite of options to ensure dates can be formatted to suit any site's needs.
+
+- [Getting Smart Date Dialed Up to 11 by Martin Anderson-clutz - Apr 2024](https://www.mandclu.com/blog/getting-smart-date-dialed-11)
+- [A Major Step Forward for Smart Date Blog post by Martin Anderson-clutz - May 2023](https://www.mandclu.com/blog/major-step-forward-smart-date)
+
+
+[https://www.drupal.org/project/smart_date](https://www.drupal.org/project/smart_date)
+
+
 ## Development
 
 ### Module Builder
