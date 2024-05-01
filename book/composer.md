@@ -174,6 +174,10 @@ composer update -vvv
 
 ## Patches from a Gitlab merge request
 
+Use this technique **at your peril!** 
+
+A better process is to download the Merge request patch, and after reviewing carefully, apply it with cweagans/composer-patches with a local reference like: patches/core-1234567-33.patch.
+
 Using the URL of the merge request, add `.patch` at the end of the URL and that will be the path to the latest patch.
 
 e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
@@ -181,7 +185,10 @@ e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrapp
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
 
 ::: danger 
-You should only use this method after testing locally and applying after careful review.
+You should **not use this method** for several reasons. 
+1. When the new drupal.org is released, issues will be moved to gitlab. These file urls will stop working at some point, and if they do your project won't build. Be future proof, use local patches.
+2. New patches may be added to the merge request, and you won't know about them. They could be flawed or malicious which could break your site.
+3. Your composer install (or deployment) now depends on drupal.org. If you are building your site and drupal.org has a temporary outage, your deployment will fail.
 :::
 
 

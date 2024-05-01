@@ -144,7 +144,7 @@ These are paid training courses that are very detailed and informative.  They ar
 - [Mike Anello's Drupal Easy podcast](https://www.drupaleasy.com/podcast)
 - [The Beyond Blocks Podcast by Oliver Davies](https://www.oliverdavies.uk/podcast) - A weekly podcast about Drupal, open-source, and related software development topics.
 - [Tag1 Team Talks](https://www.tag1consulting.com/tagteamtalks) - Tag1 Consulting's vlog and podcast about Drupal and web development.
-
+- [Drupal Pupils youtube channel](https://www.youtube.com/@DrupalPupils/videos) - Highlighting individuals in the Drupal community and sharing knowledge for the betterment of the community. More on [LinkedIn](https://www.linkedin.com/company/drupal-pupils/)
 
 ## Getting Help
 - [Drupal Slack server](https://drupal.slack.com/) - There are dozens of very active channels. Historically, this communication all used to happen on IRC.
