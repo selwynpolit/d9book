@@ -2129,7 +2129,7 @@ function ogg_mods_cn_form_validate($form, FormStateInterface $form_state) {
 
 Load the smart date field and use the drupal date formatting service.
 Smart date fields are always stored as unix timestamp values e.g.
-1608566400 which need conversion for human consumption.
+`1608566400` which need conversion for human consumption.
 
 ```php
 $start = $node->field_when->value;
@@ -2365,8 +2365,7 @@ foreach ($node->get('field_my_para')->referencedEntities() as $ent){
 Custom field formatters can be used in display modes or in views. These
 are very powerful.
 
-Some basic info is available at
-<https://www.drupal.org/docs/8/creating-custom-modules/create-a-custom-field-formatter>
+Some basic info is available at [Create a custom field formatter on drupal.org updated Aug 2023](https://www.drupal.org/docs/8/creating-custom-modules/create-a-custom-field-formatter)
 
 This example is a custom formatter that takes a value from a field (in
 this case a uuid) and builds a url which essentially retrieves an image
@@ -2374,22 +2373,22 @@ this case a uuid) and builds a url which essentially retrieves an image
 mode for the node, or in the views setup for the usage in a view.).
 
 For the node called infofeed, the config data is stored in an entity
-called core.entity_view_display.node.infofeed.default
+called `core.entity_view_display.node.infofeed.default`
 
-For a view called infofeeds, the config data is stored in a config
-entity called views.view.infofeeds.
+For a view called `infofeeds`, the config data is stored in a config
+entity called `views.view.infofeeds`.
 
-(You can find them by browsing thru the config table and looking for
-your info in the data field i.e. in sequel pro, look for data like
-%image_width% )
+(You can find them by browsing thru the `config` table and looking for
+your info in the data field i.e. in Sequel Ace, look for data like
+`%image_width%` )
 
 It is pretty reasonable that the custom field formatter will require
 some configuration, so this means we will need a
-module/config/schema/module.schema.yml file
+`module/config/schema/module.schema.yml` file
 
 So at
-/Users/selwyn/Sites/ncs/docroot/modules/custom/ncs_infoconnect/config/schema/ncs_infoconnect.schema.yml
-we have the following file which defines a config_entity called NCS
+`~/Sites/ncs/docroot/modules/custom/ncs_infoconnect/config/schema/ncs_infoconnect.schema.yml`
+we have the following file which defines a `config_entity` called NCS
 Thumbnail settings and specifically two integer values for image_width
 and image height. I use these to specify the size of the thumbnail I
 generate:
@@ -2410,7 +2409,7 @@ field.formatter.settings.ncs_thumbnail:
 ```
 
 I create the `fieldformatter` as a fairly unexciting plugin at
-/Users/selwyn/Sites/ncs/docroot/modules/custom/ncs_infoconnect/src/Plugin/Field/FieldFormatter/NcsThumbnailFormatter.php
+`~/Sites/ncs/docroot/modules/custom/ncs_infoconnect/src/Plugin/Field/FieldFormatter/NcsThumbnailFormatter.php`
 
 The annotation shows what will be seen in Drupal when configuring the
 formatter.
@@ -2477,15 +2476,16 @@ I override the `settingsSummary()` which is mostly informative, and
   }
 ```
 
-Note. Retrieving the config settings for a particular situation happens
-with a call to `getSetting()` as in:
+:::tip Note. 
+Retrieving the config settings for a particular situation happens with a call to `getSetting()` as in:
 
 ```php
 $width = $this->getSetting('image_width');
 $height = $this->getSetting('image_height');
 ```
+:::
 
-To use this we need to edit the display for the `infofeed` content type, make sure we have the image_uuid field displayed (i.e. not disabled) for Format, select NCS Thumbnail, click the gear to the right to specify the thumbnail size and save. Displaying nodes will then include the thumbnails.
+To use this we need to edit the display for the `infofeed` content type, make sure we have the `image_uuid` field displayed (i.e. not disabled) for Format, select NCS Thumbnail, click the gear to the right to specify the thumbnail size and save. Displaying nodes will then include the thumbnails.
 
 You can do the same with a view: Add the field, specify the formatter (and dimensions) and the thumbnail will appear.
 
@@ -2493,7 +2493,7 @@ You can do the same with a view: Add the field, specify the formatter (and dimen
 
 ### What can I do with a call to first() on an entity reference field?
 
-After loading a node, I want to see the value in an entity reference field. I can call referencedEntities to pull out it's values and loop thru them -- I get Nodes in that instance.
+After loading a node, I want to see the value in an entity reference field. I can call `referencedEntities` to pull out it's values and loop thru them -- I get Nodes in that instance.
 
 ```php
 $refs = $node_to_update->get('field_sf_account_ref')->referencedEntities();
