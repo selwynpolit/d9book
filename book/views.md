@@ -413,6 +413,36 @@ To set it up include all the fields that you want to search in the Fields sectio
 Thanks to [Mike Anello's blog post outlining this useful feature.](https://www.drupaleasy.com/quicktips/reintroducing-drupal-cores-views-combine-fields-filter)
 
 
+## See Views Query
+
+To see the query that views generates, use the following code:
+
+```php
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function MY_MODULE_views_post_execute(ViewExecutable $view) {
+  $channel = 'view_query:' . $view->id();
+  $message = $view->query->query();
+  \Drupal::logger($channel)->debug($message);
+}
+```
+
+From Goran Nikolovski blog post [How to see your Drupal Views query - Mar 2024](https://gorannikolovski.com/snippet/how-to-see-your-drupal-views-query)
+
+Alternatively, you could add this code to your theme's `THEME.theme` file.  This will output the query to the screen.  
+
+```php
+function THEME_views_pre_execute(\Drupal\views\ViewExecutable $view) {
+  $query = $view->query;
+  $query_string = (string) $query;
+  \Drupal::logger('THEME')->notice($query_string);
+}
+```
+
+
 ## Reference
 - [Drupal API Reference: Template Preprocess views view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)
 - [Drupal API Reference: Template Preprocess Views View Field](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view_field/9.3.x )
