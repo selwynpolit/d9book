@@ -2508,16 +2508,9 @@ However, if I call `->first()`, I get an `EntityReferenceItem`. I'm curious how 
 $refs = $node->get('field_sf_dir_contact_ref')->first();  //returns an EntityReferenceItem.
 ```
 
-## Great Cheat sheets
+## Reference
 
-Various ways of updating field values in Drupal 8 and 9
-
-<https://gorannikolovski.com/blog/various-ways-updating-field-values-drupal-8-and-9>
-
-Entity query cheat sheet:
-
-<https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet>
-
-Drupal entity API cheat sheet
-
-<https://drupalsun.com/zhilevan/2018/07/21/drupal-entity-api-cheat-sheet>
+### Great Cheat sheets
+- [Various ways of updating field values in Drupal 8 and 9 - Nov 2020](https://gorannikolovski.com/blog/various-ways-updating-field-values-drupal-8-and-9)
+- [Entity query cheat sheet from Metal Toad - Nov 2017](https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet)
+- [Drupalsun: Drupal entity API cheat sheet - Jul 2018](https://drupalsun.com/zhilevan/2018/07/21/drupal-entity-api-cheat-sheet)
