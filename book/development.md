@@ -712,12 +712,15 @@ More at
 - [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
 - [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
 
+#### SlevoMat Coding Standards Error
 
 If PhpStorm displays boxes complaining about:
 ```
 phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist
 Run "phpcs --help" for usage information
 ```
+![Error messages in PHPStorm](/images/PHPStorm_codesniffer_errors.png)
+
 The solution is to edit the `.idea/phpcs.xml` file in the root of your project and remove the option line: 
 
 ```xml

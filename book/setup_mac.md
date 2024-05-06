@@ -634,14 +634,9 @@ Use the following settings:
 
 More at [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
 
-For troubleshooting, see [this issue on Drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485) especially if you see this annoying issue:
-
-```
-phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist  
-Run "phpcs --help" for usage information 
+For troubleshooting SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator does not exist issue, see [SlevomaticCodingStandard fix](development#slevomat-coding-standards-error) or [this issue on Drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485)
 ```
 
-![Error messages in PHPStorm](/images/PHPStorm_codesniffer_errors.png)
 
 
 
