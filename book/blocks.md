@@ -157,7 +157,7 @@ You can safely remove the block via the block layout page, choose "remove" from 
 
 You often need to query some data from Drupal and display it in a block.
 
-Here is a simple block that loads all published content of type "page" and renders the titles. You could sort them by creation date by adding this to the `$query` variable: `->sort('created' , 'DESC');`
+Here is a simple block that loads all published content of type 'page' and renders the titles. You could sort them by creation date by adding this to the `$query` variable: `->sort('created' , 'DESC');`
 
 ```php
 namespace Drupal\opinions_module\Plugin\Block;
