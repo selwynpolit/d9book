@@ -691,7 +691,9 @@ xdebug_break()
 
 ### Code Sniffing
 
-You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards). This does require that you have installed the [coder module](https://www.drupal.org/project/coder). See [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards) for details on how to install and configure it.
+You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards). 
+
+This does require that you have installed the Drupal dev tools (with `composer require --dev drupal/core-dev`) wich include the [coder module](https://www.drupal.org/project/coder). See [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards) for details on how to install and configure it.
 
 Go to: Settings, Php, Debug, Quality Tools, PHP_CodeSniffer
 
@@ -719,7 +721,7 @@ Run "phpcs --help" for usage information
 The solution is to edit the `.idea/phpcs.xml` file in the root of your project and remove the option line: 
 
 ```xml
-    <option name="installedPaths" value="$PROJECT_DIR$/vendor/drupal/coder/coder_sniffer" />
+<option name="installedPaths" value="$PROJECT_DIR$/vendor/drupal/coder/coder_sniffer" />
 ```
 
 Here is the top section of the file with line 12 highlighted for clarity.

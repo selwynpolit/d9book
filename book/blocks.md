@@ -7,7 +7,7 @@ title: Blocks
 
 ## Overview
 
-Blocks are plugins, which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
+Blocks are [plugins](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview), which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 
 ![Location of block source files](/images/image-block-location.png)
 
@@ -23,68 +23,37 @@ Use Drush's code generation ability to quickly generate the code you need to cre
 First generate a module if you don't have one. Here we generate a module called Block Module with a machine name: block_module.
 
 ```sh
-$ drush generate module
+drush generate module
 
-Welcome to module generator!
+ Welcome to module generator!
+––––––––––––––––––––––––––––––
 
-------------------------------------------------------------
+ Module name:
+ ➤ Block Module
 
-Module name \[Web\]:
+ Module machine name [block_module]:
+ ➤
 
-➤ Block Module
+ Module description:
+ ➤ Custom module to explore Drupal blocks
 
-Module machine name \[block_module\]:
+ Package [Custom]:
+ ➤
 
-➤
+ Dependencies (comma separated):
+ ➤
 
-Module description \[Provides additional functionality for the site.\]:
+ Would you like to create module file? [No]:
+ ➤ y
 
-➤ Custom module to explore Drupal blocks
+ Would you like to create install file? [No]:
+ ➤
 
-Package \[Custom\]:
+ Would you like to create README.md file? [No]:
+ ➤
 
-➤
-
-Dependencies (comma separated):
-
-➤
-
-Would you like to create module file? \[No\]:
-
-➤ yes
-
-Would you like to create install file? \[No\]:
-
-➤
-
-Would you like to create libraries.yml file? \[No\]:
-
-➤
-
-Would you like to create permissions.yml file? \[No\]:
-
-➤
-
-Would you like to create event subscriber? \[No\]:
-
-➤
-
-Would you like to create block plugin? \[No\]:
-
-➤
-
-Would you like to create a controller? \[No\]:
-
-➤
-
-Would you like to create settings form? \[No\]:
-
-➤
-
-The following directories and files have been created or updated:
-
-----------------------------------------------------------
-
+ The following directories and files have been created or updated:
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 • /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.info.yml
 • /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.module
 ```
@@ -92,48 +61,38 @@ The following directories and files have been created or updated:
 Use `drush generate` to create the code for a block. Specify the module name (e.g. block_module) so Drush knows where to put the block code. We also must give the block an admin label, plugin ID, and class.
 
 ```sh
-$ drush generate block
+drush generate block
 
 Welcome to block generator!
-
 ----------------------------------------------------------
 
-Module machine name \[web\]:
-
+Module machine name [web]:
 ➤ block_module
 
-Block admin label \[Example\]:
-
+Block admin label [Example]:
 ➤ Block Module Example
 
-Plugin ID \[block_module_block_module_example\]:
-
+Plugin ID [block_module_block_module_example]:
 ➤
 
-Plugin class \[BlockModuleExampleBlock\]:
-
+Plugin class [BlockModuleExampleBlock]:
 ➤
 
-Block category \[Custom\]:
-
+Block category [Custom]:
 ➤
 
-Make the block configurable? \[No\]:
-
+Make the block configurable? [No]:
 ➤
 
-Would you like to inject dependencies? \[No\]:
-
+Would you like to inject dependencies? [No]:
 ➤
 
 Create access callback? \[No\]:
-
 ➤
 
 The following directories and files have been created or updated:
 
 ----------------------------------------------------------
-
 • /Users/selwyn/Sites/ddev93/web/modules/block_module/src/Plugin/Block/BlockModuleExampleBlock.php
 ```
 
@@ -141,6 +100,8 @@ This generates a file at `web/modules/custom/block_module/src/Plugin/Block/Block
 
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace Drupal\block_module\Plugin\Block;
 
@@ -155,7 +116,7 @@ use Drupal\Core\Block\BlockBase;
  *   category = @Translation("Custom")
  * )
  */
-class BlockModuleExampleBlock extends BlockBase {
+final class BlockModuleExampleBlock extends BlockBase {
 
   /**
    * {@inheritdoc}
@@ -170,167 +131,29 @@ class BlockModuleExampleBlock extends BlockBase {
 }
 ```
 
-Enable the module with:
+* Enable the module with: `ddev drush en block_module`
+* Clear the cache with:`ddev drush cr`
+* In Drupal, navigate to `/admin/structure/block` and place the block (`block module example`) in the content area. See the diagram below on how to place the block in the content area.
 
-`ddev drush en block_module`
+![place block 2](/images/image2.png)
 
-clear the cache with:
+![place block 3](/images/image3.png)
 
-`ddev drush cr`
+You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking `Place block,` a `Configure block` screen appears. You can safely just click `Save block.`
 
-In Drupal, navigate to `/admin/structure/block` and place the block (`block module example`) in the content area. See the diagram below on how to place the block in the content area.
-
-![Graphical user interface, table Description automatically generated](/images/image2.png)
-
-![Graphical user interface Description automatically generated](/images/image3.png)
-
-You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking "Place block," a "Configure block" screen appears. You can safely just click "Save block."
-
-![Graphical user interface, application Description automatically generated](/images/image4.png)
+![place block 4](/images/image4.png)
 
 Navigate back to the home page of the site and you'll see your block appearing. Screenshot below:
 
-![Graphical user interface, text, application, email Description automatically generated](/images/image5.png)
+![place block 5](/images/image5.png)
 
 You can safely remove the block via the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
 
 ![Remove block](/images/image6.png)
 
-## Anatomy of a custom block with dependency injection
 
-The block class PHP file is usually in `\<Drupal web root\>/modules/custom/mymodule/src/Plugin/Block`.
 
-e.g.
-`dev1/web/modules/custom/image_gallery/src/Plugin/Block/ImageGalleryBlock.php`
-
-or
-
-`dev1/web/modules/contrib/examples/block_example/src/Plugin/Block/ExampleConfigurableTextBlock.php`
-
-Specify namespace:
-
-`namespace Drupal\abc_wea\Plugin\Block;`
-
-Blocks always extend BlockBase but can also implement other interfaces... see below.
-
-`Class ImageGalleryBlock extends BlockBase`
-
-If you want to use Dependency Injection, implement: `ContainerFactoryPluginInterface`
-
-e.g.
-
-```php
-class ImageGalleryBlock extends BlockBase implements ContainerFactoryPluginInterface {
-```
-Be sure to include:
-
-```php
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-```
-And for annotation translation:
-
-```php
-use Drupal\Core\Annotation\Translation;
-```
-
-You can annotate like this:
-
-```php
-/**
- * Hello World Salutation block.
- *
- * @Block(
- *   id = "hello_world_salutation_block",
- *   admin_label = @Translation("Hello world salutation"),
- *   category = @Translation("Custom")
- * )
- */
-```
-
-Or like this:
-
-```php
-/**
- * Provides an image gallery block.
- *
- * @Block(
- *   id = "ig_product_image_gallery",
- *   admin_label = @Translation("Product Image Gallery"),
- *   category = @Translation("Image Display"),
- *   context = {
- *     "node" = @ContextDefinition(
- *       "entity:node",
- *       label = @Translation("Current Node")
- *     )
- *   }
- * )
- */
-```
-
-In most cases you will implement `ContainerFactoryPluginInterface`.
-Plugins require this for dependency injection. So don't forget:
-
-```php
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-
-class HelloWorldSalutationBlock extends BlockBase implements ContainerFactoryPluginInterface {
-```
-
-If you want dependency injection, you will need a `create()` function.
-
-This will call the constructor (to do lazy loading) and call the
-container to `->get()` the service you need. In the example below
-`$container->get('hello_world.salutation')` does the trick. `return new static()` calls your class constructor.
-
-Be sure to add your service to the list of parameters in the
-constructor: `$container->get('hello_world.salutation')`.
-
-```php
-/**
- * {@inheritdoc}
- */
-public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-  return new static(
-    $configuration,
-    $plugin_id,
-    $plugin_definition,
-    $container->get('hello_world.salutation')
-  ); 
-}
-```
-
-Here are your `__constructor()` and a `build()` functions. See the 4th param -- `HelloWorldSalutationService $salutation` -- that's the injected service.
-
-```php
-/**
- * Construct.
- *
- * @param array $configuration
- *   A configuration array containing information about the plugin instance.
- * @param string $plugin_id
- *   The plugin_id for the plugin instance.
- * @param string $plugin_definition
- *   The plugin implementation definition.
- * @param \Drupal\hello_world\HelloWorldSalutation $salutation
- */
-public function __construct(array $configuration, $plugin_id, $plugin_definition, HelloWorldSalutationService $salutation) {
-  parent::__construct($configuration, $plugin_id, $plugin_definition);
-  $this->salutation = $salutation;
-}
-```
-
-```php
-/**
- * {@inheritdoc}
- */
-public function build() {
-  return [
-    '#markup' => $this->salutation->getSalutation(),
-  ];
-}
-```
-
-## Create a block with an entityQuery
+## Using entityQuery in a block
 
 You often need to query some data from Drupal and display it in a block.
 
@@ -1196,6 +1019,144 @@ Array
     [281] => broken
 )
 ```
+
+
+## The basics
+
+### Anatomy of a custom block with dependency injection
+
+The block class PHP file is usually in `<Drupal web root>/modules/custom/mymodule/src/Plugin/Block`.
+
+e.g.
+`dev1/web/modules/custom/image_gallery/src/Plugin/Block/ImageGalleryBlock.php`
+
+or
+
+`dev1/web/modules/contrib/examples/block_example/src/Plugin/Block/ExampleConfigurableTextBlock.php`
+
+Specify namespace:
+
+`namespace Drupal\abc_wea\Plugin\Block;`
+
+Blocks always extend BlockBase but can also implement other interfaces... see below.
+
+`Class ImageGalleryBlock extends BlockBase`
+
+If you want to use Dependency Injection, implement: `ContainerFactoryPluginInterface`
+
+e.g.
+
+```php
+class ImageGalleryBlock extends BlockBase implements ContainerFactoryPluginInterface {
+```
+Be sure to include:
+
+```php
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+```
+And for annotation translation:
+
+```php
+use Drupal\Core\Annotation\Translation;
+```
+
+You can annotate like this:
+
+```php
+/**
+ * Hello World Salutation block.
+ *
+ * @Block(
+ *   id = "hello_world_salutation_block",
+ *   admin_label = @Translation("Hello world salutation"),
+ *   category = @Translation("Custom")
+ * )
+ */
+```
+
+Or like this:
+
+```php
+/**
+ * Provides an image gallery block.
+ *
+ * @Block(
+ *   id = "ig_product_image_gallery",
+ *   admin_label = @Translation("Product Image Gallery"),
+ *   category = @Translation("Image Display"),
+ *   context = {
+ *     "node" = @ContextDefinition(
+ *       "entity:node",
+ *       label = @Translation("Current Node")
+ *     )
+ *   }
+ * )
+ */
+```
+
+In most cases you will implement `ContainerFactoryPluginInterface`.
+Plugins require this for dependency injection. So don't forget:
+
+```php
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+
+class HelloWorldSalutationBlock extends BlockBase implements ContainerFactoryPluginInterface {
+```
+
+If you want dependency injection, you will need a `create()` function.
+
+This will call the constructor (to do lazy loading) and call the
+container to `->get()` the service you need. In the example below
+`$container->get('hello_world.salutation')` does the trick. `return new static()` calls your class constructor.
+
+Be sure to add your service to the list of parameters in the
+constructor: `$container->get('hello_world.salutation')`.
+
+```php
+/**
+ * {@inheritdoc}
+ */
+public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  return new static(
+    $configuration,
+    $plugin_id,
+    $plugin_definition,
+    $container->get('hello_world.salutation')
+  ); 
+}
+```
+
+Here are your `__constructor()` and `build()` functions. See the 4th param -- `HelloWorldSalutationService $salutation` -- that's the injected service.
+
+```php
+/**
+ * Construct.
+ *
+ * @param array $configuration
+ *   A configuration array containing information about the plugin instance.
+ * @param string $plugin_id
+ *   The plugin_id for the plugin instance.
+ * @param string $plugin_definition
+ *   The plugin implementation definition.
+ * @param \Drupal\hello_world\HelloWorldSalutation $salutation
+ */
+public function __construct(array $configuration, $plugin_id, $plugin_definition, HelloWorldSalutationService $salutation) {
+  parent::__construct($configuration, $plugin_id, $plugin_definition);
+  $this->salutation = $salutation;
+}
+```
+
+```php
+/**
+ * {@inheritdoc}
+ */
+public function build() {
+  return [
+    '#markup' => $this->salutation->getSalutation(),
+  ];
+}
+```
+
 
 
 ## Resources

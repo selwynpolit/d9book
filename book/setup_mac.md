@@ -598,9 +598,10 @@ I like the following plugins:
 
 ### Code Sniffing
 
-You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).  
+Best practice is to install PHP Codesniffer as part of the Drupal dev tools in your project with `composer require --dev drupal/core-dev`.  This will install the coder module and the PHP Codesniffer.  You can also install PHP Codesniffer globally with `composer global require drupal/coder`.
 
-Go to: Settings, Php, Quality Tools, PHP_CodeSniffer
+
+PhpStorm can automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).  This is a great way to keep your code clean and consistent.  To set this up in PhpStorm, go to: Settings, Php, Quality Tools, PHP_CodeSniffer
 
 ![Image of PHP Codesniffer settings](/images/phpstorm_codesniffer.png)
 
@@ -610,7 +611,7 @@ Use the following settings:
 - Check Show warning as: `Warning`
 - Check Show sniff name
 
-- **If you installed the coder module in your project** (with `composer require drupal/coder`):
+- **If you installed the coder module in your project** (with `composer require --dev drupal/coder`) or installed the Drupal dev tools (with `composer require --dev drupal/core-dev`):
   - Check `Installed standards path` and set the path to: `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer` Replace this with the path to your project. Later you will need to  unchcheck the checkbox.. Really!
   - Be sure to set Coding standard to: `Drupal`.  If this option isn't shown, follow the steps below, click ok and then open the settings dialog again.  Hopefully it will show up then.
   - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
