@@ -711,6 +711,42 @@ More at
 - [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
 
 
+If PhpStorm displays boxes complaining about:
+```
+phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist
+Run "phpcs --help" for usage information
+```
+The solution is to edit the `.idea/phpcs.xml` file in the root of your project and remove the option line: 
+
+```xml
+    <option name="installedPaths" value="$PROJECT_DIR$/vendor/drupal/coder/coder_sniffer" />
+```
+
+Here is the top section of the file with line 12 highlighted for clarity.
+
+```xml(12)
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="codingStandard" value="Drupal" />
+    <option name="highlightLevel" value="WARNING" />
+    <option name="installedPaths" value="$PROJECT_DIR$/vendor/drupal/coder/coder_sniffer" />
+    <option name="useInstalledPaths" value="true" />
+    <option name="transferred" value="true" />
+  </component>
+```
+
+See [this issue on drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485)
+
+
+
+
 ## PHPStan static code analysis
 
 ### Installing PHPStan
