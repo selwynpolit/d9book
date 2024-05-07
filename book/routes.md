@@ -472,7 +472,7 @@ Drupal’s additional response classes include some specialized Response subclas
 1. `CacheableJsonResponse` - A `JsonResponse` that contains and can expose cacheability metadata. This is simply `class CacheableJsonResponse extends JsonResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [JsonResponse](https://symfony.com/doc/current/components/http_foundation.html#creating-a-json-response).
 1. `CacheableRedirectResponse` - A `RedirectResponse` that contains and can expose cacheability metadata. This is simply `class CacheableRedirectResponse extends RedirectResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [RedirectResponse](https://symfony.com/doc/current/controller.html#redirecting).
 1. `LocalRedirectResponse` - A redirect response which cannot redirect to an external URL. (Extends `CacheableRedirectResponse`.)
-1. TrustedRedirectResponse - A redirect response which should only redirect to a trusted (potentially external) URL. (Also extends `CacheableRedirectResponse`.)
+1. `TrustedRedirectResponse` - A redirect response which should only redirect to a trusted (potentially external) URL. (Also extends `CacheableRedirectResponse`.)
 
 
 See [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
@@ -493,7 +493,7 @@ return [
   '#citations' => $citations,
 ];
 ```
-In a module file, there is a hook_theme function which corresponds to the `abc_teks_srp_theme` and identifies the template name as `abc-teks-srp-correlation-voting`. Here is the significant part of the `hook_theme()` function
+In a module file, there is a hook_theme function which corresponds to the `abc_teks_srp_theme` and identifies the template name as `abc-teks-srp-correlation-voting`. The key `abc_teks_srp__correlation_voting` is used as an index in the array to return variables as well as the actual template name. Here is the significant part of the `hook_theme()` function
 
 ```php
 /**
@@ -515,7 +515,7 @@ function abc_teks_srp_theme() {
       'template' => 'abc-teks-srp--correlation-voting',
     ],
 ```
-The template will therefore be `abc-teks-srp--correlation.voting.yml`
+The template will therefore be `abc-teks-srp--correlation.voting.html.twig` and will be in the `templates` directory of the module. e.g. `docroot/modules/custom/abc_teks/modules/abc_teks_srp/templates/abc-teks-srp--correlation-voting.html.twig`
 
 
 ### Simple page without arguments
