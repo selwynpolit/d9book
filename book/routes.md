@@ -645,16 +645,22 @@ rsvp.admin_settings:
 
 ### Routing permissions
 
-These are defined in your `module.permissions.yml` e.g. `rsvp.permissions.yml`. If you add this file to a module, a cache clear will cause the new permissions to appear on the permissions page.
-
-This requires the user to be logged in to access this route:
-
+Permissions for routes are specified in the `.routing.yml` file. under `requirements` e.g. 
 ```yml
-requirements:
-  _user_is_logged_in: 'TRUE'
+rsvp.admin_settings:
+  path: '/admin/config/content/rsvp'
+  defaults:
+    _form: 'Drupal\rsvp\Form\RSVPConfigurationForm'
+    _title: 'RSVP Configuration Settings'
+  requirements:
+    _permission: 'administer rsvplist'
+  options:
+    _admin_route: TRUE
 ```
 
-To skip permissions, set `_access` to TRUE like this:
+Note. the case of the _permission is critical.
+
+To skip permissions (e.g. during development), set `_access` to TRUE like this:
 
 ```yml
 requirements:
@@ -662,13 +668,26 @@ requirements:
 ```
 
 
-#### A specific permission
-
-To specify a particular permission, use the following. Note. Case is critical!
+You can define new permissions in your `.permissions.yml` e.g. `abc_teks_srp.permissions.yml`. Once you add these, a cache clear will cause the new permissions to appear on the permissions page.
 
 ```yml
-requirements:
-  _permission: 'administer rsvplist'
+manage tkks process:
+  title: 'Manage TKKS Process'
+  description: 'Manage TKKS Process'
+  restrict access: TRUE
+vote on own srp item:
+  title: 'Vote on Own TKKS Item'
+  description: 'Vote on Own TKKS Item'
+  restrict access: TRUE  
+```
+
+You can specify these permissions in your `.routing.yml` file or check for these permissions in your controller as you would any other with something like:
+
+```php
+$current_user = \Drupal::currentUser();
+if ($current_user->hasPermission('manage tkks process')) {
+  $access = TRUE;
+}
 ```
 
 
