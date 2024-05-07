@@ -5,206 +5,6 @@ title: Routes
 # Routes and Controllers
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=routes.md)
 
-## Overview
-
-### Route
-
-A route connects a URL path to a controller. In `hello_world.routing.yml` ( e.g. in `modules/custom/hello_world/hello_world.routing.yml`) The path `/hello` maps to the controller `HelloWorldController` and the member function: `helloWorld()`. When a user visits `/hello`, Drupal checks to see that the user has `access content` permission and the `helloWorld()` function is executed.
-
-```yaml
-hello_world.hello:
-   path: '/hello'
-   defaults:
-     _controller: '\Drupal\hello_world\Controller\HelloWorldController::helloWorld'
-     _title: 'Our first route'
-   requirements:
-     _permission: 'access content'
-```
-### Controller
-A controller is a PHP class that contains methods that generate a response to an `HTTP request`. In the example above, the controller is `HelloWorldController` and the method is `helloWorld()`. The controller is in a file called `HelloWorldController.php` in the `src/Controller` directory of the module.
-
-Controllers usually return a [render array](render#overview), but can return an HTML page, an XML document, a [serialized JSON array](#return-json-data-from-a-route), an image, a redirect, a 404 error or almost anything else.
-
-A simple render array looks like this:
-
-```php
-return [
-  '#markup' => 'blah',
-]
-```
-
-### Responses
-
-HTTP is all about `requests` and `responses`. Drupal represents the `responses` it sends as `Response objects`. Drupal’s responses are [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response). 
-
-Symfony's Response objects are fully supported, but are insufficient to fully support the rich Drupal ecosystem: we need more structured metadata than the very simple Symfony Response objects can provide.
-
-Unfortunately, Symfony Response objects do not have an interface so every specialized Response \"type\" needs to extend from Symfony's Response base class.
-
-Drupal core defines two `response interfaces` that any response can implement to indicate it supports these particular Drupal capabilities:
-1. `CacheableResponseInterface` - which can expose [cacheability metadata](https://www.drupal.org/docs/8/api/cache-api/cache-api#s-cacheability-metadata) such as cache contexts, tags and max-age. These can easily be implemented by using the corresponding [CacheableResponseTrait](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/lib/Drupal/Core/Cache/CacheableResponseTrait.php?ref_type=heads).
-1. `AttachmentsInterface` - which can expose #attached metadata. (Asset libraries, `<head>` elements, placeholders...)
-
-Drupal’s additional response classes include some specialized Response subclasses that are available to developers:
-1. `CacheableResponse` - A response that contains and can expose cacheability metadata. Supports Drupal's caching concepts: cache tags for invalidation and cache contexts for variations. This is simply `class CacheableResponse extends Response implements CacheableResponseInterface {}`.
-1. `HtmlResponse` - This is what a controller returning a render array will result in after going through the Render API and its render pipeline. This is simply `class HtmlResponse extends Response implements CacheableResponseInterface, AttachmentsInterface {}`.
-1. `CacheableJsonResponse` - A `JsonResponse` that contains and can expose cacheability metadata. This is simply `class CacheableJsonResponse extends JsonResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [JsonResponse](https://symfony.com/doc/current/components/http_foundation.html#creating-a-json-response).
-1. `CacheableRedirectResponse` - A `RedirectResponse` that contains and can expose cacheability metadata. This is simply `class CacheableRedirectResponse extends RedirectResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [RedirectResponse](https://symfony.com/doc/current/controller.html#redirecting).
-1. `LocalRedirectResponse` - A redirect response which cannot redirect to an external URL. (Extends `CacheableRedirectResponse`.)
-1. TrustedRedirectResponse - A redirect response which should only redirect to a trusted (potentially external) URL. (Also extends `CacheableRedirectResponse`.)
-
-
-See [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
-
-
-### Connecting to a twig template
-
-Most often, you will have a twig template connected to your controller. You do this by a combination of a `#theme` element in the render array and a `hook_theme` function in a `.module` file.
-
-In the example below, the controller returns a large render array and the theme is identified as `abc_teks_srp__correlation_voting`.
-
-```php
-return [
-  '#theme' => 'abc_teks_srp__correlation_voting',
-  '#content' => $content,
-  '#breadcrumbs' => $breadcrumbs,
-  '#management_links' => $management_links,
-  '#correlation' => $correlation_info,
-  '#citations' => $citations,
-];
-```
-In a module file, there is a hook_theme function which corresponds to the `abc_teks_srp_theme` and identifies the template name as `abc-teks-srp-correlation-voting`. Here is the significant part of the `hook_theme()` function
-
-```php
-/**
- * Implements hook_theme().
- */
-function abc_teks_srp_theme() {
-  $variables = [
-    'abc_teks_srp' => [
-      'render element' => 'children',
-    ],
-    'abc_teks_srp__correlation_voting' => [
-      'variables' => [
-        'content' => NULL,
-        'breadcrumbs' => NULL,
-        'management_links' => NULL,
-        'correlation' => NULL,
-        'citations' => NULL,
-      ],
-      'template' => 'abc-teks-srp--correlation-voting',
-    ],
-```
-The template will therefore be `abc-teks-srp--correlation.voting.yml`
-
-
-## Simple page without arguments
-
-This route is for a page with no arguments/parameters.
-
-In the file page_example.routing.yml (e.g. `web/modules/contrib/examples/page_example/page_example.routing.yml` and the controller is at `web/modules/contrib/examples/page_example/src/Controller/PageExampleController.php`
-
-```yml
-# If the user accesses https://example.com/?q=examples/page-example/simple,
-# or https://example.com/examples/page-example/simple,
-# the routing system will look for a route with that path. 
-# In this case it will find a match, and execute the _controller callback. 
-# Access to this path requires "access simple page" permission.
-page_example_simple:
-  path: 'examples/page-example/simple'
-  defaults:
-    _controller: '\Drupal\page_example\Controller\PageExampleController::simple'
-    _title: 'Simple - no arguments'
-  requirements:
-    _permission: 'access simple page'
-```
-
-
-## Page with arguments
-
-From `web/modules/contrib/examples/page_example/page_example.routing.yml` `{first}` and `{second}` are the arguments.
-
-```yml
-# Since the parameters are passed to the function after the match, the
-# function can do additional checking or make use of them before executing
-# the callback function. The placeholder names "first" and "second" are
-# arbitrary but must match the variable names in the callback method, e.g.
-# "$first" and "$second".
-page_example_arguments:
-  path: 'examples/page-example/arguments/{first}/{second}'
-  defaults:
-    _controller: '\Drupal\page_example\Controller\PageExampleController::arguments'
-  requirements:
-    _permission: 'access arguments page'
-```
-## Display a form at a route
-
-From `web/modules/custom/rsvp/rsvp.routing.yml`. This route will cause Drupal to load the form: `RSVPForm.php` so the user can fill it out.
-
-```yml
-rsvp.form:
-  path: '/rsvplist'
-  defaults:
-    _form: 'Drupal\rsvp\Form\RSVPForm'
-    _title: 'RSVP to this Event'
-  requirements:
-    _permission: 'view rsvplist'
-```
-
-## Admin form (or settings form)
-
-From `web/modules/custom/rsvp/rsvp.routing.yml` this route loads the admin or settings form `RSVPConfigurationForm`.
-
-```yml
-rsvp.admin_settings:
-  path: '/admin/config/content/rsvp'
-  defaults:
-    _form: 'Drupal\rsvp\Form\RSVPConfigurationForm'
-    _title: 'RSVP Configuration Settings'
-  requirements:
-    _permission: 'administer rsvplist'
-  options:
-    _admin_route: TRUE
-```
-
-
-## Routing permissions
-
-These are defined in your `module.permissions.yml` e.g. `rsvp.permissions.yml`. If you add this file to a module, a cache clear will cause the new permissions to appear on the permissions page.
-
-This requires the user to be logged in to access this route:
-
-```yml
-requirements:
-  _user_is_logged_in: 'TRUE'
-```
-
-To skip permissions, set `_access` to TRUE like this:
-
-```yml
-requirements:
-  _access: 'TRUE'
-```
-
-
-### A specific permission
-
-To specify a particular permission, use the following. Note. Case is critical!
-
-```yml
-requirements:
-  _permission: 'administer rsvplist'
-```
-
-
-### Multiple permissions
-
-Drupal allows stacking permissions with the plus(`+`) sign. Note the `+` sign means OR. e.g.
-
-```yaml
-  requirements:
-    _permission: 'vote on own squishy item+manage squishy process'
-```
 
 
 ## Set the page title dynamically
@@ -358,8 +158,6 @@ You do not need JSON:API module enabled to use this code
 :::
 
 
-
-
 ## Disable caching on a route
 
 This will cause Drupal to rebuild the page internally on each page load but won't stop browsers or CDN's from caching. The line: `no_cache: TRUE` is all you need to disable caching for this route.
@@ -371,7 +169,7 @@ options:
   no_cache: TRUE
 ```
 
-## Generate route and controller with Drush
+## Generate route and controller with drush generate
 
 Drush has the ability to generate code to start you off.  Use `drush generate module` and or `drush generate controller` to get a nice starting point for you to write your own controllers.
 
@@ -475,11 +273,9 @@ more at <https://www.drush.org/latest/commands/core_route/>
 
 ### All routes
 
-Output from drush route. It lists the routes by name and the path they apply to.
+Output from `drush route`. It lists the routes by name and the path they apply to.
 
 ```
-$ drush route
-
 '<button>': /
 '<current>': /<current>
 '<front>': /
@@ -504,11 +300,11 @@ batch_examples.batch: /batch-examples/batchform
 
 ### Specific path
 
-Output when checking a specific path
+Output when checking a specific path with `drush route --path /admin/flush`
+
+
 
 ```
-$ drush route --path /admin/flush
-
 name: admin_toolbar_tools.flush
 path: /admin/flush
 defaults:
@@ -628,6 +424,207 @@ It concluded with:
 This would define a route at the path /temperature-table that displays the table of temperatures when accessed.
 ```
 
+
+
+## The Basics
+
+### Route
+
+A route connects a URL path to a controller. In `hello_world.routing.yml` ( e.g. in `modules/custom/hello_world/hello_world.routing.yml`) The path `/hello` maps to the controller `HelloWorldController` and the member function: `helloWorld()`. When a user visits `/hello`, Drupal checks to see that the user has `access content` permission and the `\Drupal\hello_world\Controller\HelloWorldController::helloWorld` function is executed.
+
+```yaml
+hello_world.hello:
+   path: '/hello'
+   defaults:
+     _controller: '\Drupal\hello_world\Controller\HelloWorldController::helloWorld'
+     _title: 'Our first route'
+   requirements:
+     _permission: 'access content'
+```
+
+### Controller
+A controller is a PHP class that contains methods that generate a response to an `HTTP request`. In the example above, the controller is `HelloWorldController` and the method is `helloWorld()`. The controller is in a file called `HelloWorldController.php` in the `src/Controller` directory of the module.
+
+Controllers usually return a [render array](render#overview), but can return an HTML page, an XML document, a [serialized JSON array](#return-json-data-from-a-route), an image, a redirect, a 404 error or almost anything else.
+
+A simple render array looks like this:
+
+```php
+return [
+  '#markup' => 'blah',
+]
+```
+### Responses
+
+HTTP is all about `requests` and `responses`. Drupal represents the `responses` it sends as `Response objects`. Drupal’s responses are [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response). 
+
+Symfony's Response objects are fully supported, but are insufficient to fully support the rich Drupal ecosystem: we need more structured metadata than the very simple Symfony Response objects can provide.
+
+Unfortunately, Symfony Response objects do not have an interface so every specialized Response \"type\" needs to extend from Symfony's Response base class.
+
+Drupal core defines two `response interfaces` that any response can implement to indicate it supports these particular Drupal capabilities:
+1. `CacheableResponseInterface` - which can expose [cacheability metadata](https://www.drupal.org/docs/8/api/cache-api/cache-api#s-cacheability-metadata) such as cache contexts, tags and max-age. These can easily be implemented by using the corresponding [CacheableResponseTrait](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/lib/Drupal/Core/Cache/CacheableResponseTrait.php?ref_type=heads).
+1. `AttachmentsInterface` - which can expose #attached metadata. (Asset libraries, `<head>` elements, placeholders...)
+
+Drupal’s additional response classes include some specialized Response subclasses that are available to developers:
+1. `CacheableResponse` - A response that contains and can expose cacheability metadata. Supports Drupal's caching concepts: cache tags for invalidation and cache contexts for variations. This is simply `class CacheableResponse extends Response implements CacheableResponseInterface {}`.
+1. `HtmlResponse` - This is what a controller returning a render array will result in after going through the Render API and its render pipeline. This is simply `class HtmlResponse extends Response implements CacheableResponseInterface, AttachmentsInterface {}`.
+1. `CacheableJsonResponse` - A `JsonResponse` that contains and can expose cacheability metadata. This is simply `class CacheableJsonResponse extends JsonResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [JsonResponse](https://symfony.com/doc/current/components/http_foundation.html#creating-a-json-response).
+1. `CacheableRedirectResponse` - A `RedirectResponse` that contains and can expose cacheability metadata. This is simply `class CacheableRedirectResponse extends RedirectResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [RedirectResponse](https://symfony.com/doc/current/controller.html#redirecting).
+1. `LocalRedirectResponse` - A redirect response which cannot redirect to an external URL. (Extends `CacheableRedirectResponse`.)
+1. TrustedRedirectResponse - A redirect response which should only redirect to a trusted (potentially external) URL. (Also extends `CacheableRedirectResponse`.)
+
+
+See [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
+
+### Connecting to a twig template
+
+Most often, you will have a twig template connected to your controller. You do this by a combination of a `#theme` element in the render array and a `hook_theme` function in a `.module` file.
+
+In the example below, the controller returns a large render array and the theme is identified as `abc_teks_srp__correlation_voting`.
+
+```php
+return [
+  '#theme' => 'abc_teks_srp__correlation_voting',
+  '#content' => $content,
+  '#breadcrumbs' => $breadcrumbs,
+  '#management_links' => $management_links,
+  '#correlation' => $correlation_info,
+  '#citations' => $citations,
+];
+```
+In a module file, there is a hook_theme function which corresponds to the `abc_teks_srp_theme` and identifies the template name as `abc-teks-srp-correlation-voting`. Here is the significant part of the `hook_theme()` function
+
+```php
+/**
+ * Implements hook_theme().
+ */
+function abc_teks_srp_theme() {
+  $variables = [
+    'abc_teks_srp' => [
+      'render element' => 'children',
+    ],
+    'abc_teks_srp__correlation_voting' => [
+      'variables' => [
+        'content' => NULL,
+        'breadcrumbs' => NULL,
+        'management_links' => NULL,
+        'correlation' => NULL,
+        'citations' => NULL,
+      ],
+      'template' => 'abc-teks-srp--correlation-voting',
+    ],
+```
+The template will therefore be `abc-teks-srp--correlation.voting.yml`
+
+
+## Simple page without arguments
+
+This route is for a page with no arguments/parameters.
+
+In the file page_example.routing.yml (e.g. `web/modules/contrib/examples/page_example/page_example.routing.yml` and the controller is at `web/modules/contrib/examples/page_example/src/Controller/PageExampleController.php`
+
+```yml
+# If the user accesses https://example.com/?q=examples/page-example/simple,
+# or https://example.com/examples/page-example/simple,
+# the routing system will look for a route with that path. 
+# In this case it will find a match, and execute the _controller callback. 
+# Access to this path requires "access simple page" permission.
+page_example_simple:
+  path: 'examples/page-example/simple'
+  defaults:
+    _controller: '\Drupal\page_example\Controller\PageExampleController::simple'
+    _title: 'Simple - no arguments'
+  requirements:
+    _permission: 'access simple page'
+```
+
+
+## Page with arguments
+
+From `web/modules/contrib/examples/page_example/page_example.routing.yml` `{first}` and `{second}` are the arguments.
+
+```yml
+# Since the parameters are passed to the function after the match, the
+# function can do additional checking or make use of them before executing
+# the callback function. The placeholder names "first" and "second" are
+# arbitrary but must match the variable names in the callback method, e.g.
+# "$first" and "$second".
+page_example_arguments:
+  path: 'examples/page-example/arguments/{first}/{second}'
+  defaults:
+    _controller: '\Drupal\page_example\Controller\PageExampleController::arguments'
+  requirements:
+    _permission: 'access arguments page'
+```
+## Display a form at a route
+
+From `web/modules/custom/rsvp/rsvp.routing.yml`. This route will cause Drupal to load the form: `RSVPForm.php` so the user can fill it out.
+
+```yml
+rsvp.form:
+  path: '/rsvplist'
+  defaults:
+    _form: 'Drupal\rsvp\Form\RSVPForm'
+    _title: 'RSVP to this Event'
+  requirements:
+    _permission: 'view rsvplist'
+```
+
+## Admin form (or settings form)
+
+From `web/modules/custom/rsvp/rsvp.routing.yml` this route loads the admin or settings form `RSVPConfigurationForm`.
+
+```yml
+rsvp.admin_settings:
+  path: '/admin/config/content/rsvp'
+  defaults:
+    _form: 'Drupal\rsvp\Form\RSVPConfigurationForm'
+    _title: 'RSVP Configuration Settings'
+  requirements:
+    _permission: 'administer rsvplist'
+  options:
+    _admin_route: TRUE
+```
+
+
+## Routing permissions
+
+These are defined in your `module.permissions.yml` e.g. `rsvp.permissions.yml`. If you add this file to a module, a cache clear will cause the new permissions to appear on the permissions page.
+
+This requires the user to be logged in to access this route:
+
+```yml
+requirements:
+  _user_is_logged_in: 'TRUE'
+```
+
+To skip permissions, set `_access` to TRUE like this:
+
+```yml
+requirements:
+  _access: 'TRUE'
+```
+
+
+### A specific permission
+
+To specify a particular permission, use the following. Note. Case is critical!
+
+```yml
+requirements:
+  _permission: 'administer rsvplist'
+```
+
+
+### Multiple permissions
+
+Drupal allows stacking permissions with the plus(`+`) sign. Note the `+` sign means OR. e.g.
+
+```yaml
+  requirements:
+    _permission: 'vote on own squishy item+manage squishy process'
+```
 
 
 ## Resources
