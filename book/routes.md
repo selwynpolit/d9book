@@ -518,7 +518,7 @@ function abc_teks_srp_theme() {
 The template will therefore be `abc-teks-srp--correlation.voting.yml`
 
 
-## Simple page without arguments
+### Simple page without arguments
 
 This route is for a page with no arguments/parameters.
 
@@ -540,7 +540,7 @@ page_example_simple:
 ```
 
 
-## Page with arguments
+### Page with arguments
 
 From `web/modules/contrib/examples/page_example/page_example.routing.yml` `{first}` and `{second}` are the arguments.
 
@@ -557,7 +557,7 @@ page_example_arguments:
   requirements:
     _permission: 'access arguments page'
 ```
-## Display a form at a route
+### Display a form at a route
 
 From `web/modules/custom/rsvp/rsvp.routing.yml`. This route will cause Drupal to load the form: `RSVPForm.php` so the user can fill it out.
 
@@ -571,7 +571,7 @@ rsvp.form:
     _permission: 'view rsvplist'
 ```
 
-## Admin form (or settings form)
+### Admin form (or settings form)
 
 From `web/modules/custom/rsvp/rsvp.routing.yml` this route loads the admin or settings form `RSVPConfigurationForm`.
 
@@ -588,7 +588,7 @@ rsvp.admin_settings:
 ```
 
 
-## Routing permissions
+### Routing permissions
 
 These are defined in your `module.permissions.yml` e.g. `rsvp.permissions.yml`. If you add this file to a module, a cache clear will cause the new permissions to appear on the permissions page.
 
@@ -607,7 +607,7 @@ requirements:
 ```
 
 
-### A specific permission
+#### A specific permission
 
 To specify a particular permission, use the following. Note. Case is critical!
 
@@ -617,7 +617,7 @@ requirements:
 ```
 
 
-### Multiple permissions
+#### Multiple permissions
 
 Drupal allows stacking permissions with the plus(`+`) sign. Note the `+` sign means OR. e.g.
 
