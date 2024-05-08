@@ -445,6 +445,39 @@ hello_world.hello:
 ### Controller
 A controller is a PHP class that contains methods that generate a response to an `HTTP request`. In the example above, the controller is `HelloWorldController` and the method is `helloWorld()`. The controller is in a file called `HelloWorldController.php` in the `src/Controller` directory of the module.
 
+Here is a simple controller that prints: It works!:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\test\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+
+/**
+ * Returns responses for Test routes.
+ */
+final class TestController extends ControllerBase {
+
+  /**
+   * Builds the response.
+   */
+  public function __invoke(): array {
+
+    $build['content'] = [
+      '#type' => 'item',
+      '#markup' => $this->t('It works!'),
+    ];
+
+    return $build;
+  }
+
+}
+```
+
+
 Controllers usually return a [render array](render#overview), but can return an HTML page, an XML document, a [serialized JSON array](#return-json-data-from-a-route), an image, a redirect, a 404 error or almost anything else.
 
 A simple render array looks like this:
@@ -481,7 +514,7 @@ See [Responses overview on drupal.org - updated May 2020](https://www.drupal.org
 
 Most often, you will have a twig template connected to your controller. You do this by a combination of a `#theme` element in the render array and a `hook_theme` function in a `.module` file.
 
-In the example below, the controller returns a large render array and the theme is identified as `abc_teks_srp__correlation_voting`.
+In the example below, the controller returns a large render array and the `#theme` key is identified as `abc_teks_srp__correlation_voting`.
 
 ```php
 return [
