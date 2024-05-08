@@ -836,7 +836,7 @@ Then add your fields:
 
 ## Block Permission (blockAccess)
 
-This code is taken from the Drupal core `user_login_block` (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being anonymous. If these are not passed, the access returned is forbidden and the block is not built.
+This code is taken from the Drupal core `user_login_block` (UserLoginBlock.php). It allows access to the block if the user is logged out and is not on the login or logout page. The access is cached based on the current route name and the user's current role being `anonymous`. If these are not passed, the access returned is forbidden and the block is not built.
 
 ```php
 use Drupal\Core\Access\AccessResult;
@@ -879,6 +879,22 @@ if ($account->isAnonymous()) {
   return AccessResult::forbidden();
 }
 ```
+
+And from [function hook_block_access](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/function/hook_block_access/10)
+
+```php
+function hook_block_access(\Drupal\block\Entity\Block $block, $operation, \Drupal\Core\Session\AccountInterface $account) {
+    // Example code that would prevent displaying the 'Powered by Drupal' block in
+    // a region different than the footer.
+    if ($operation == 'view' && $block->getPluginId() == 'system_powered_by_block') {
+        return AccessResult::forbiddenIf($block->getRegion() != 'footer')
+            ->addCacheableDependency($block);
+    }
+    // No opinion.
+    return AccessResult::neutral();
+}
+```
+
 
 ### Blocks shouldn't talk to the router, NodeRouteContext and friends should
 
