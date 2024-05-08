@@ -1020,6 +1020,17 @@ Array
 )
 ```
 
+## Hooks provided by the block module
+
+The block module provides the following hooks:
+- `hook_block_access()` - To control access to a block.
+- `hook_block_alter()` - To alter the block definition.
+- `hook_block_build_BASE_BLOCK_IDalter()` - To alter the renderable array of a specific block.
+- `hook_block_view_alter()` - To alter the renderable array of a block before it is rendered.
+- `hook_block_view_BASE_BLOCK_ID_alter()` - To alter the renderable array of a specific block before it is rendered.
+
+More at [block api documentation on drupal.org](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/10)
+
 
 ## The basics
 
