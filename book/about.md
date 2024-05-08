@@ -14,6 +14,8 @@ If you are inspired, please be a part of this project by contributing your own t
 
 If you want to contribute to the expense of creating this book, I have added a [leanpub version](https://leanpub.com/drupal10) which you can purchase. It contains the same data as this site although this site will be more up to date due to my process of putting the data here first. Thanks!
 
+![Drupal logo](/images/drupal-logo-horizontal-blue.png)
+
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=about.md)
 
 - [Batch and Queue - Batch API](bq)
