@@ -882,10 +882,11 @@ if ($account->isAnonymous()) {
 
 And from [function hook_block_access](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/function/hook_block_access/10)
 
+Example code that would prevent displaying the 'Powered by Drupal' block in a region other than the footer.
+
 ```php
 function hook_block_access(\Drupal\block\Entity\Block $block, $operation, \Drupal\Core\Session\AccountInterface $account) {
-    // Example code that would prevent displaying the 'Powered by Drupal' block in
-    // a region different than the footer.
+
     if ($operation == 'view' && $block->getPluginId() == 'system_powered_by_block') {
         return AccessResult::forbiddenIf($block->getRegion() != 'footer')
             ->addCacheableDependency($block);
