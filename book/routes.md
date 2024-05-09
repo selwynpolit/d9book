@@ -691,7 +691,7 @@ rsvp.admin_settings:
     _admin_route: TRUE
 ```
 
-Note. the case of the _permission is critical.
+Note. the case of the `_permission` is critical so be sure to use the same case as defined in the `.permissions.yml` file.
 
 To skip permissions (e.g. during development), set `_access` to TRUE like this:
 
@@ -700,6 +700,7 @@ requirements:
   _access: 'TRUE'
 ```
 
+#### Defining custom permissions
 
 You can define new permissions in your `.permissions.yml` e.g. `abc_teks_srp.permissions.yml`. Once you add these, a cache clear will cause the new permissions to appear on the permissions page.
 
@@ -722,6 +723,8 @@ if ($current_user->hasPermission('manage tkks process')) {
   $access = TRUE;
 }
 ```
+
+There is also a [custom permissions module](https://www.drupal.org/project/config_perms) that allows you to define permissions in the UI.
 
 
 #### Multiple permissions
