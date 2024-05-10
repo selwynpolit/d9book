@@ -8,10 +8,10 @@ hero:
   tagline: "Modern Drupal developer's quick code reference for versions 9 and 10"
   image:
     src: /images/d9book.svg
-    alt: Drupal Book
+    alt: Drupal at your Fingertips
   actions:
     - theme: alt
-      text: About book
+      text: About
       link: /about
 
     - theme: alt
