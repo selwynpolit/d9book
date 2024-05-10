@@ -238,3 +238,4 @@ provides an Entity Validation API to assist in validating the values of fields i
 - [Drupal entity API cheat sheet Updated July 2018](https://drupalsun.com/zhilevan/2018/07/21/drupal-entity-api-cheat-sheet)
 - [Drupal 8 Entity query API cheat sheet by Keith Dechant , Software Architect - updated February 2021](https://www.metaltoad.com/blog/drupal-8-entity-api-cheat-sheet)
 - [Entity Validation API tutorial from <https://drupalize.me> (requires paid membership to read the whole tutorial) updated February 2022 at](https://drupalize.me/tutorial/entity-validation-api?p=2792)
+- [Dynamic Entity Reference Module which allows you to create a single field to hold references to Users and Nodes, Or Terms and Nodes, or all three.](https://www.drupal.org/project/dynamic_entity_reference)

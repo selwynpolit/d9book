@@ -213,6 +213,13 @@ The idea is to emulate the grid view provided in popular database administration
 
 [https://www.drupal.org/project/autogrid](https://www.drupal.org/project/autogrid)
 
+### Dynamic Entity Reference
+
+Dynamic Entity Reference provides a field type/widget/formatter combination for Drupal 8 that allows an entity-reference field to reference more than one entity type. This allows you to create a single field to hold references to `users` and `nodes`, Or `taxonomy terms` and `nodes`, or all three.
+
+[https://www.drupal.org/project/dynamic_entity_reference]](https://www.drupal.org/project/dynamic_entity_reference)
+
+
 ### Entity Clone
 
 Allows you to clone nodes
