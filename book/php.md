@@ -149,6 +149,29 @@ Array
 )
 ```
 
+## Match
+
+PHP 8.0 introduced the `match` expression, which is similar to a `switch` statement but with a more concise syntax. Here's an example of how you can use `match`:
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function isEmpty(): bool {
+   return match ($this->get('value')->getValue()) {
+     NULL, '' => TRUE,
+     default => FALSE,
+   };
+  }
+```
+
+It allows you to match a value against multiple conditions and return a result based on the matched condition. In this example, the `isEmpty` method checks if the value of the field is `NULL` or an empty string and returns `TRUE` if it matches, otherwise it returns `FALSE`.
+
+More at [php.net](https://www.php.net/manual/en/control-structures.match.php).
+
+
+
+
 
 ## Reference
 
