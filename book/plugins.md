@@ -27,7 +27,7 @@ Examples of custom fields are visible below.
 - [From the Drupal Examples module field_example](https://git.drupalcode.org/project/examples/-/tree/4.0.x/modules/field_example?ref_type=heads)
 
 
-Please consider supporting these authors by purchasing their excellent books.  Links to [these books are available here](learn/#books).:
+Please consider supporting these authors by purchasing their excellent books.  Links to [these books are available here](learn#books).:
 
 - [From the book: Drupal 10 Development Cookbook - recipe3](https://github.com/PacktPublishing/Drupal-10-Development-Cookbook/tree/main/chp08/recipe4/mymodule)
 - [From the book: Drupal 9 Module Development - license plate example](https://github.com/PacktPublishing/Drupal-9-Module-Development-Third-Edition/tree/master/packt/chapter9/license_plate)
