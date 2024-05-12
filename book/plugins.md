@@ -8,9 +8,9 @@ title: Plugins
 
 ## Custom field type
 
-A custom field type is a new type of field that can be added to an entity. For example, a field that stores both first and last name.  
+A custom field type is a new type of field that can be added to an entity. For example, a field that stores both first and last name or a license plate field with both a state and a number.  
 
-### Which to use: custom field type or custom entity?
+### Custom field type or custom entity?
 
 So which should you use? A custom field type or a custom entity?  If you were considering storing recipes where each ingredient has a name, quantity, and unit (of measurement i.e. ounce, cup, pinch etc.), you could use a custom field type to store the ingredient data. 
 
@@ -18,6 +18,7 @@ If the ingredient data is always going to be a simple part of a recipe and won't
 
 A custom entity type (or maybe even a node) makes sense if you want to reference the ingredients from multiple places, have a lot of associated data or behaviors.
 
+Still another approach is to use the [paragraphs module](https://www.drupal.org/project/paragraphs) to store the ingredient data.  This is a good choice if you want to store the ingredient data in a structured way, but don't need to reference the ingredient data from multiple places.  Finally you could also use the [field group module](https://www.drupal.org/project/field_group) to group the fields together.
 
 
 ### Source code examples you can peruse
@@ -26,7 +27,7 @@ Examples of custom fields are visible below.
 - [From the Drupal Examples module field_example](https://git.drupalcode.org/project/examples/-/tree/4.0.x/modules/field_example?ref_type=heads)
 
 
-Please consider supporting these authors by purchasing their excellent books.  Links to [these books are available here](learn.md/#books).:
+Please consider supporting these authors by purchasing their excellent books.  Links to [these books are available here](learn/#books).:
 
 - [From the book: Drupal 10 Development Cookbook - recipe3](https://github.com/PacktPublishing/Drupal-10-Development-Cookbook/tree/main/chp08/recipe4/mymodule)
 - [From the book: Drupal 9 Module Development - license plate example](https://github.com/PacktPublishing/Drupal-9-Module-Development-Third-Edition/tree/master/packt/chapter9/license_plate)
@@ -337,7 +338,7 @@ Here is a fixed version of that function:
     return $element;
   }
   ```
-  
+
 
 
 ### Custom Field Formatter

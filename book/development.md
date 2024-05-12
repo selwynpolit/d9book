@@ -729,7 +729,7 @@ The solution is to edit the `.idea/phpcs.xml` file in the root of your project a
 
 Here is the top section of the file with line 12 highlighted for clarity.
 
-```xml(12)
+```xml{12}
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="MessDetectorOptionsConfiguration">
