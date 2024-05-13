@@ -106,11 +106,9 @@ or another example from the [examples module](https://www.drupal.org/project/exa
  */
 ```
 
-### Base class
+### Base class and Required methods
 
 The class should extend `FieldItemBase` (which implements the `FieldItemInterface` interface.). 
-
-### Required methods
 
 The class should implement the following methods:
 - `schema()` - Defines the database API schema so Drupal knows how to store the field type in the database. You can define indexes here as well.
@@ -121,7 +119,7 @@ The class should implement the following methods:
 
 - `isEmpty()` - Checks if any of the fields are empty which stops the value from being saved to the database if the required info isn't entered.
 
-- `getConstraints()` - Allows you to define constraints for the field type. This is optional.
+- `getConstraints()` - This is optional.  It allows you to define constraints for the field type.
 
 - `generateSampleValue()` - This is optional, but can be useful for testing. It generates a random value for the field type.
 
@@ -332,7 +330,7 @@ drush generate plugin:field:widget
 
 #### Base class & Required methods
 
-Widgets extend `WidgetBase` and need the `formElement()` method to define the form element that will be used to edit the field.  Here is the code from the `RealnameWidget.php` file:
+Widgets should extend `WidgetBase` and need the `formElement()` method to define the form element that will be used to edit the field.  Here is the code from the `RealnameWidget.php` file:
 
 ```php
 final class RealnameWidget extends WidgetBase {
@@ -400,7 +398,7 @@ Here is a fixed version of that function:
 Field formatters are used to display your custom fields in display modes or in views. 
 
 
-### Scaffolding code with Drush
+#### Scaffolding code with Drush
 
 ```bash
 drush generate plugin:field:formatter
@@ -433,11 +431,9 @@ drush generate plugin:field:formatter
 
 
 
-### Field Formatter example
+## Field Formatter example
 
 Field formatters are used to display your custom fields in display modes or in views. 
-
-Some basic info is available at [Create a custom field formatter on drupal.org updated Aug 2023](https://www.drupal.org/docs/8/creating-custom-modules/create-a-custom-field-formatter)
 
 This example is a custom formatter that takes a value from a field (in
 this case a uuid) and builds a url which essentially retrieves an image
@@ -447,7 +443,7 @@ mode for the node, or in the views setup for the usage in a view.).
 For the node called `infofeed`, the config data is stored in an entity
 called `core.entity_view_display.node.infofeed.default`
 
-For a view called `infofeeds`, the config data is stored in a config
+For the view called `infofeeds`, the config data is stored in a config
 entity called `views.view.infofeeds`.
 
 (You can find them by browsing thru the `config` table and looking for
@@ -557,6 +553,68 @@ $height = $this->getSetting('image_height');
 To use this we need to edit the display for the `infofeed` content type, make sure we have the `image_uuid` field displayed (i.e. not disabled) for Format, select NCS Thumbnail, click the gear to the right to specify the thumbnail size and save. Displaying nodes will then include the thumbnails.
 
 You can do the same with a view: Add the field, specify the formatter (and dimensions) and the thumbnail will appear.
+
+
+## Creating new Plugin types
+
+You should define new plugin types if you need multiple configurable features and you expect others to provide new functionality without changing your module. 
+
+You will also need to create a plugin manager which is the centralized controlling class that defines how the plugins of each type will be discovered and instantiated. This class is called directly in any module wishing to invoke your new plugin type. 
+
+In other words, when you create a new plugin manager, you also create a new plugin type.
+
+The Base Class is the class that all plugins of a particular type extend. Usually `PluginBase` or a subclass of `PluginBase`.
+The Plugin Manager is responsible for discovering, instantiating, and managing plugins of a particular type.
+The Services Definition identifies the plugin id (name) and the class for the plugin manager service.
+
+
+Use `drush generate plugin:plugin_manager` to generate a new plugin type.
+
+```bash
+drush generate plugin:manager
+
+ Welcome to plugin-manager generator!
+––––––––––––––––––––––––––––––––––––––
+
+ Module machine name:
+ ➤ test
+
+ Module name [Test]:
+ ➤
+
+ Plugin type [test]:
+ ➤ sandwich
+
+ Discovery type [Annotation]:
+  [1] Annotation
+  [2] Attribute
+  [3] YAML
+  [4] Hook
+ ➤ 1
+
+ The following directories and files have been created or updated:
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+ • /Users/selwyn/Sites/ddev102/web/modules/custom/test/test.services.yml
+ • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/SandwichInterface.php
+ • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/SandwichPluginBase.php
+ • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/SandwichPluginManager.php
+ • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/Annotation/Sandwich.php
+ • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/Plugin/Sandwich/Foo.php
+ ```
+
+### Example
+For an example of a plugin type, look in the [examples module](https://www.drupal.org/project/examples) at the `web/modules/contrib/examples/modules/plugin_type_example` directory. This module defines a new plugin type called 'Sandwich' and provides 2 example plugins of that type: `ExampleHamSandwich.php` and `ExampleMeatballSandwich.php`.
+
+The various parts of a plugin type are:
+- An interface for the plugin type e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichInterface.php`
+- A service definition for the plugin manager in the module's `services.yml` file e.g. `web/modules/contrib/examples/modules/plugin_type_example/plugin_type_example.services.yml`
+- A [plugin manager](https://api.drupal.org/api/drupal/core%21modules%21system%21tests%21modules%21lazy_route_provider_install_test%21src%21PluginManager.php/class/PluginManager/11.x) file e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichPluginManager.php`
+- The annotation class for the plugin e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/Annotation/Sandwich.php`
+- One or more example plugins to show how to use the plugin type e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/Plugin/Sandwich/ExampleHamSandwich.php`
+- a base class (so others can extend it) e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichBase.php`
+
+
+
 
 
 ## List site plugins with drush
@@ -856,9 +914,9 @@ Each of the following can be used to generate a plugin of the specified type. e.
 
 Plugins are small swappable pieces of functionality. Plugins of the same plugin type, perform similar functionality.
 
-Drupal contains many different plugins, of different types. For example, `Field widget` is a plugin type. You can select from the list of field widget plugins to set the widget that a field uses.
+Drupal contains many plugins of different types. For example, Field widget or Field Formatter are both plugin types.
 
-The Drupal plugin system provides a set of guidelines and reusable code components to allow developers to expose pluggable components within their code and support managing these components through the user interface (as needed).
+The Drupal plugin system provides a set of guidelines and reusable code components to allow developers to expose pluggable components within their code and support managing these components through the user interface.
 
 Plugins are defined in modules: a module may provide plugins of different types, and different modules may provide their own plugins of a particular type.
 
@@ -867,74 +925,11 @@ Plugins are defined in modules: a module may provide plugins of different types,
 
 Some of the plugin types provided by Core are:
 
-- Blocks (see */src/Plugin/Block/* for many examples)
-- Field formatters, Field widgets (see */src/Plugin/Field/* for many examples)
-- All Views plugins (see */src/Plugin/views/* for many examples)
-- Conditions (used for Block visibility in the core)
-- Migrate source, process & destination plugins
+- Blocks (in src/Plugin/Block/*)
+- Field formatters, Field widgets (in src/Plugin/Field/*)
+- Views plugins (in src/Plugin/views/*)
+- Migrate source, process & destination plugins (in src/Plugin/migrate/source/*, src/Plugin/migrate/process/*, src/Plugin/migrate/destination/* respectively)
 
-
-
-### Additional plugin types
-- Render element type
-- Field Types
-- Custom Content Entities
-- Configuration Entities
-
-
-
-### Creating new Plugin types
-
-You should define new plugin types if you need multiple configurable features and you expect others to provide new functionality without changing your module. A plugin manager is the centralized controlling class that defines how the plugins of each type will be discovered and instantiated. This class is called directly in any module wishing to invoke a plugin type. When you create a new plugin manager, you also create a new plugin type.
-
-Use `drush generate plugin:plugin_manager` to generate a new plugin type.
-
-```bash
-drush generate plugin:manager
-
- Welcome to plugin-manager generator!
-––––––––––––––––––––––––––––––––––––––
-
- Module machine name:
- ➤ test
-
- Module name [Test]:
- ➤
-
- Plugin type [test]:
- ➤ sandwich
-
- Discovery type [Annotation]:
-  [1] Annotation
-  [2] Attribute
-  [3] YAML
-  [4] Hook
- ➤ 1
-
- The following directories and files have been created or updated:
-–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
- • /Users/selwyn/Sites/ddev102/web/modules/custom/test/test.services.yml
- • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/SandwichInterface.php
- • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/SandwichPluginBase.php
- • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/SandwichPluginManager.php
- • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/Annotation/Sandwich.php
- • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/Plugin/Sandwich/Foo.php
- ```
-
-For an example of a plugin type, look in the [examples module](https://www.drupal.org/project/examples) at the `web/modules/contrib/examples/modules/plugin_type_example` directory. This module defines a new plugin type called 'Sandwich' and provides 2 example plugins of that type: `ExampleHamSandwich.php` and `ExampleMeatballSandwich.php`.
-
-These consist of:
-- An interface for the plugin type e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichInterface.php`
-- A service definition for the plugin manager in the module's `services.yml` file e.g. `web/modules/contrib/examples/modules/plugin_type_example/plugin_type_example.services.yml`
-- A [plugin manager](https://api.drupal.org/api/drupal/core%21modules%21system%21tests%21modules%21lazy_route_provider_install_test%21src%21PluginManager.php/class/PluginManager/11.x) file e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichPluginManager.php`
-- The annotation class for the plugin e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/Annotation/Sandwich.php`
-- One or more example plugins to show how to use the plugin type e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/Plugin/Sandwich/ExampleHamSandwich.php`
-- a base class (so others can extend it) e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichBase.php`
-
-
-- The Base Class is the class that all plugins of a particular type extend. Usually `PluginBase` or a subclass of `PluginBase`.
-- The Plugin Manager is responsible for discovering, instantiating, and managing plugins of a particular type.
-- The Services Definition identifies the plugin id (name) and the class for the plugin manager service.
 
 
 #### Common plugin types include:
@@ -959,3 +954,4 @@ These consist of:
 - [Programatically creating a block in Drupal 9 - Dec 2021](https://www.specbee.com/blogs/programmatically-creating-block-in-drupal-9)
 - [How to Create a Custom Block in Drupal 8/9/10 Oct 2022](https://www.agiledrop.com/blog/how-create-custom-block-drupal-8-9-10)
 - [Drupal 8 Plugins Explained by Joe Schindlar of Drupalize.me - Jul 2014](https://drupalize.me/blog/drupal-8-plugins-explained)
+- [Create a custom field formatter on drupal.org updated Aug 2023](https://www.drupal.org/docs/8/creating-custom-modules/create-a-custom-field-formatter)
