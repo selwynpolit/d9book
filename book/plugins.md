@@ -10,19 +10,9 @@ title: Plugins
 
 A custom field type is a new type of field that can be added to an entity. For example, a field that stores both first and last name or a license plate field with both a state and a number.  
 
-### Custom field type or custom entity?
-
-So which should you use? A custom field type or a custom entity?  If you were considering storing recipes where each ingredient has a name, quantity, and unit (of measurement i.e. ounce, cup, pinch etc.), you could use a custom field type to store the ingredient data. 
-
-If the ingredient data is always going to be a simple part of a recipe and won't be used outside that context, a custom field might be simpler and more efficient.
-
-A custom entity type (or maybe even a node) makes sense if you want to reference the ingredients from multiple places, have a lot of associated data or behaviors.
-
-Still another approach is to use the [paragraphs module](https://www.drupal.org/project/paragraphs) to store the ingredient data.  This is a good choice if you want to store the ingredient data in a structured way, but don't need to reference the ingredient data from multiple places.  Finally you could also use the [field group module](https://www.drupal.org/project/field_group) to group the fields together.
-
 
 ### Source code examples you can peruse
-Examples of custom fields are visible below. 
+You can browse these fairly complete examples of custom field types to get an idea of what is involved in creating a custom field type.
 
 - [From the Drupal Examples module field_example](https://git.drupalcode.org/project/examples/-/tree/4.0.x/modules/field_example?ref_type=heads)
 
@@ -81,7 +71,7 @@ drush generate plugin:field:type
  • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/Plugin/Field/FieldType/Realname.php
 ```
 
-#### Annotation
+### Annotation
 
 In the `~/Sites/ddev102/web/modules/custom/test/src/Plugin/Field/FieldType/Realname.php` the required annotation can look like this:
 
@@ -116,11 +106,100 @@ or another example from the [examples module](https://www.drupal.org/project/exa
  */
 ```
 
-#### Base class
+### Base class
 
 The class should extend `FieldItemBase` (which implements the `FieldItemInterface` interface.). 
 
-#### Complete example
+### Required methods
+
+The class should implement the following methods:
+- `schema()` - Defines the database API schema so Drupal knows how to store the field type in the database. You can define indexes here as well.
+  
+- `propertyDefinitions()` - Returns the data definition of the field type. This method should return an array of properties that the field type has. Each property should be an instance of `DataDefinition`. The key of the array should be the name of the property and the value should be the `DataDefinition` object.
+
+- `mainPropertyName()` - Returns the name of the main property of the field type. So if your field type has a property called `value`, this method should return `value`. If there are multiple properties, you can return the name of the first property.
+
+- `isEmpty()` - Checks if any of the fields are empty which stops the value from being saved to the database if the required info isn't entered.
+
+- `getConstraints()` - Allows you to define constraints for the field type. This is optional.
+
+- `generateSampleValue()` - This is optional, but can be useful for testing. It generates a random value for the field type.
+
+
+:::tip Note
+For more info on what goes in the `schema()` method, check out [Schema API on drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21database.api.php/group/schemaapi).
+:::
+
+Check out a complete field type plugin at [Drupal 10 development cookbook repo](https://github.com/PacktPublishing/Drupal-10-Development-Cookbook/blob/main/chp08/recipe4/mymodule/src/Plugin/Field/FieldType/RealName.php). Consider buying [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j) to support the authors.
+
+Some of the functionality in this example requires that you implement a couple more methods so I implemented the `isEmpty()` method in the `Realname.php` file. Here is the code:
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function isEmpty(): bool {
+    $first_name = $this->get('first_name')->getValue();
+    $last_name = $this->get('last_name')->getValue();
+    if (empty($first_name) && empty($last_name)) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+```
+
+I also implemented the `getConstraints()` method:
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function getConstraints(): array {
+    $constraints = parent::getConstraints();
+
+    $constraint_manager = $this->getTypedDataManager()->getValidationConstraintManager();
+
+    // @DCG Suppose our value must not be longer than 10 characters.
+    $options['first_name']['Length']['max'] = 10;
+
+    // @DCG
+    // See /core/lib/Drupal/Core/Validation/Plugin/Validation/Constraint
+    // directory for available constraints.
+    $constraints[] = $constraint_manager->create('ComplexData', $options);
+    return $constraints;
+  }
+```
+
+Copilot suggested this version, but I haven't tried it yet, but it seems reasonable.  It uses the `Length` constraint to limit the length of the first and last names to 255 characters:
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function getConstraints() {
+    $constraints = parent::getConstraints();
+    $constraint_manager = \Drupal::typedDataManager()->getValidationConstraintManager();
+    $constraints[] = $constraint_manager->create('ComplexData', [
+      'first_name' => [
+        'Length' => [
+          'max' => 255,
+          'maxMessage' => t('The first name may not be longer than @max characters.', ['@max' => 255]),
+        ],
+      ],
+      'last_name' => [
+        'Length' => [
+          'max' => 255,
+          'maxMessage' => t('The last name may not be longer than @max characters.', ['@max' => 255]),
+        ],
+      ],
+    ]);
+    return $constraints;
+  }
+```
+
+
+
+### Complete example
 
 Here is `web/modules/contrib/examples/modules/field_example/RgbItem.php` file from the [examples module](https://www.drupal.org/project/examples). It defines a new field type called 'Example Color RGB' and provides a widget and formatter for that field type.
 
@@ -187,99 +266,26 @@ class RgbItem extends FieldItemBase {
 }
 ```
 
-#### Required methods
-
-The class should implement the following methods:
-- `schema()` - Defines the database API schema so Drupal knows how to store the field type in the database. You can define indexes here as well.
-  
-- `propertyDefinitions()` - Returns the data definition of the field type. This method should return an array of properties that the field type has. Each property should be an instance of `DataDefinition`. The key of the array should be the name of the property and the value should be the `DataDefinition` object.
-
-- `mainPropertyName()` - Returns the name of the main property of the field type. So if your field type has a property called `value`, this method should return `value`. If there are multiple properties, you can return the name of the first property.
-
-- `isEmpty()` - Checks if any of the fields are empty which stops the value from being saved to the database if the required info isn't entered.
-
-- `getConstraints()` - Allows you to define constraints for the field type. This is optional.
-
-- `generateSampleValue()` - This is optional, but can be useful for testing. It generates a random value for the field type.
-
-Check out a complete field type plugin at [Drupal 10 development cookbook repo](https://github.com/PacktPublishing/Drupal-10-Development-Cookbook/blob/main/chp08/recipe4/mymodule/src/Plugin/Field/FieldType/RealName.php). Consider buying [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j) to support the authors.
-
-I implemented the isEmpty() method in the Realname.php file. Here is the code:
-```php
-  /**
-   * {@inheritdoc}
-   */
-  public function isEmpty(): bool {
-    $first_name = $this->get('first_name')->getValue();
-    $last_name = $this->get('last_name')->getValue();
-    if (empty($first_name) && empty($last_name)) {
-      return TRUE;
-    }
-    return FALSE;
-  }
-```
-
-I also implemented the `getConstraints()` method:
-
-```php
-  /**
-   * {@inheritdoc}
-   */
-  public function getConstraints(): array {
-    $constraints = parent::getConstraints();
-
-    $constraint_manager = $this->getTypedDataManager()->getValidationConstraintManager();
-
-    // @DCG Suppose our value must not be longer than 10 characters.
-    $options['first_name']['Length']['max'] = 10;
-
-    // @DCG
-    // See /core/lib/Drupal/Core/Validation/Plugin/Validation/Constraint
-    // directory for available constraints.
-    $constraints[] = $constraint_manager->create('ComplexData', $options);
-    return $constraints;
-  }
-```
-
-Copilot suggested this version, but I haven't tried it yet:
-
-```php
-  /**
-   * {@inheritdoc}
-   */
-  public function getConstraints() {
-    $constraints = parent::getConstraints();
-    $constraint_manager = \Drupal::typedDataManager()->getValidationConstraintManager();
-    $constraints[] = $constraint_manager->create('ComplexData', [
-      'first_name' => [
-        'Length' => [
-          'max' => 255,
-          'maxMessage' => t('The first name may not be longer than @max characters.', ['@max' => 255]),
-        ],
-      ],
-      'last_name' => [
-        'Length' => [
-          'max' => 255,
-          'maxMessage' => t('The last name may not be longer than @max characters.', ['@max' => 255]),
-        ],
-      ],
-    ]);
-    return $constraints;
-  }
-```
 
 
+### Custom field type or custom entity?
 
-:::tip Note
-For more info on what goes in the `schema()` method, check out [Schema API on drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21database.api.php/group/schemaapi).
-:::
+So which should you use? A custom field type or a custom entity?  If you were considering storing recipes where each ingredient has a name, quantity, and unit (of measurement i.e. ounce, cup, pinch etc.), you could use a custom field type to store the ingredient data. 
+
+If the ingredient data is always going to be a simple part of a recipe and won't be used outside that context, a custom field might be simpler and more efficient.
+
+A custom entity type (or maybe even a node) makes sense if you want to reference the ingredients from multiple places, have a lot of associated data or behaviors.
+
+Still another approach is to use the [paragraphs module](https://www.drupal.org/project/paragraphs) to store the ingredient data.  This is a good choice if you want to store the ingredient data in a structured way, but don't need to reference the ingredient data from multiple places.  Finally you could also use the [field group module](https://www.drupal.org/project/field_group) to group the fields together.
+
+
 
  
 ### Custom field widget
 The widget is the form element that is used to edit the field. The widget is responsible for converting the field value to a form element and back again. The widget is defined in a plugin class that extends `WidgetBase` and is annotated with `@FieldWidget`.
 
 
-### Scaffolding code with Drush
+#### Scaffolding code with Drush
 
 ```bash
 drush generate plugin:field:widget
@@ -310,9 +316,58 @@ drush generate plugin:field:widget
  • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/Plugin/Field/FieldWidget/RealnameWidget.php
 ```
 
+#### Annotation
+
+```php
+/**
+ * Defines the 'realname' field widget.
+ *
+ * @FieldWidget(
+ *   id = "realname_default",
+ *   label = @Translation("Real name"),
+ *   field_types = {"realname"},
+ * )
+ */
+```
+
+#### Base class & Required methods
+
+Widgets extend `WidgetBase` and need the `formElement()` method to define the form element that will be used to edit the field.  Here is the code from the `RealnameWidget.php` file:
+
+```php
+final class RealnameWidget extends WidgetBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state): array {
+    $element['first_name'] = [
+      '#type' => 'textfield',
+      '#title' => t('First name'),
+      '#default_value' => $items[$delta]->first_name ?? '',
+      '#size' => 25,
+      '#required' => $element['#required'],
+    ];
+    $element['last_name'] = [
+      '#type' => 'textfield',
+      '#title' => t('Last name'),
+      '#default_value' => $items[$delta]->last_name ?? '',
+      '#size' => 25,
+      '#required' => $element['#required'],
+    ];
+    return $element;
+  }
+
+}
+```
+
+
+
+
+#### Complete example
 Check out a complete field widget plugin at [Drupal 10 development cookbook repo](https://github.com/PacktPublishing/Drupal-10-Development-Cookbook/blob/main/chp08/recipe3/mymodule/src/Plugin/Field/FieldWidget/RealNameDefaultWidget.php)
 
-Note the widget in that example has one small problem.  After you enter the first and last name and save the node, when you go to edit, it doesn't load it back up.  This is a small problem with the formElement function in `RealnameWidget.php`.  The problem is the default value is set to `''` which means instead of loading the data from the custom field, it will always show blank.
+Note the widget in that example has one small problem.  After you enter the first and last name and save the node, when you go to edit, it doesn't load it back up.  In the `formElement()` method in `RealnameWidget.php`, the default value is set to `''` which means instead of loading the data from the custom field, it will always show blank.
 
 Here is a fixed version of that function:
 
