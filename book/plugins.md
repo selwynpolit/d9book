@@ -555,7 +555,7 @@ To use this we need to edit the display for the `infofeed` content type, make su
 You can do the same with a view: Add the field, specify the formatter (and dimensions) and the thumbnail will appear.
 
 
-## Creating new Plugin types
+## Custom Plugin types
 
 You should define new plugin types if you need multiple configurable features and you expect others to provide new functionality without changing your module. 
 
@@ -602,7 +602,7 @@ drush generate plugin:manager
  • /Users/selwyn/Sites/ddev102/web/modules/custom/test/src/Plugin/Sandwich/Foo.php
  ```
 
-### Example
+### Examples
 For an example of a plugin type, look in the [examples module](https://www.drupal.org/project/examples) at the `web/modules/contrib/examples/modules/plugin_type_example` directory. This module defines a new plugin type called 'Sandwich' and provides 2 example plugins of that type: `ExampleHamSandwich.php` and `ExampleMeatballSandwich.php`.
 
 The various parts of a plugin type are:
@@ -614,6 +614,7 @@ The various parts of a plugin type are:
 - a base class (so others can extend it) e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichBase.php`
 
 
+For another example, check out 
 
 
 
