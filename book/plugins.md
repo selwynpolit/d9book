@@ -917,12 +917,12 @@ From [Plugin API Overview on drupal.org updated Mar 2021](https://www.drupal.org
 >
 >For example, if menus are placed on screen using a plugin, then when the site administrator creates a new menu, that menu must be available for placement without needing a new plugin to do so. 
 >
->Plugin Derivatives also support the user interface by allowing it to display multiple plugins in place of one, allowing for help text specific to the use case to be rendered and utilized. The primary purpose of plugin derivatives is to provide partially configured plugins as `"first class"` plugins that are indistinguishable in the UI from other plugins, thus reducing the burden on administrators using these plugins.
+>Plugin Derivatives also support the user interface by allowing it to display multiple plugins in place of one, allowing for help text specific to the use case to be rendered and utilized. The primary purpose of plugin derivatives is to provide partially configured plugins as \"first class\" plugins that are indistinguishable in the UI from other plugins, thus reducing the burden on administrators using these plugins.
 
 
 The menu system uses derivatives to provide a new block for each menu for Drupal core or is later created through the UI.
 
-From [Tutorial on Using Drupal 8 Plygin derivatives effectively:](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
+From [Tutorial on Using Drupal 8 Plugin derivatives effectively:](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
 
 > Q. What are Drupal Plugin Derivatives and why are they important?
 > A. Drupal Plugin Derivatives are a powerful feature that allow developers to dynamically generate multiple instances of a single plugin. 
@@ -930,7 +930,7 @@ From [Tutorial on Using Drupal 8 Plygin derivatives effectively:](https://www.si
 > This is particularly useful when you have a large number of similar tasks to perform, but each task requires slightly different configuration. By using plugin derivatives, you can create a single base plugin and then generate as many variations of that plugin as you need, each with its own unique configuration. This can greatly simplify your code and make your Drupal site more efficient and easier to manage.
 
 
-For example, if you had a website for an outdoor camping store and you wanted a block with an image and short description appearing in a sidebar for each of the different content types such as `Cooking Gear`, `Packs`, `Sleeping bags` etc. you could use a derivative plugin.  Instead of defining a block for each content type, you could define a derivative plugin which would create a block for each content type automatically.  Then when you look in the blocks layout at `/admin/structure/block you would see a block for each content type.  Each block could be placed independently in a region or with Layout Builder.
+For example, if you had a website for an outdoor camping store and you wanted a block with an image and short description appearing in a sidebar for each of the different content types such as `Cooking Gear`, `Packs`, `Sleeping bags` etc. you could use a derivative plugin.  Instead of defining a block for each content type, you could define a derivative plugin which would create a block for each content type automatically.  Then when you look in the blocks layout at `/admin/structure/block` you would see a block for each content type.  Each block could be placed independently in a region or with Layout Builder.
 
 In the image below, you can several derivative blocks including: `Derivative example Block for Product Type: Cooking Gear` and `Derivative example Block for Product Type: Camping Gear`. 
 ![Derivative block layout](/images/derivative-block-layout.png)
@@ -979,7 +979,6 @@ class DerivativeExamplesBlockDerivative extends DeriverBase {
       }
     }
     return $this->derivatives;
-
   }
 
 }
@@ -1022,9 +1021,13 @@ final class DerivativeExamplesBlock extends BlockBase {
 ```
 
 
->Plugin derivatives are the way a plugin of a certain type can be represented in the system as *multiple instances* of itself. In other words, a plugin can reference a deriver class which is responsible for providing a list of plugin definitions that are based on the initial plugin (start from the same base definition) but have **slightly different configuration or definition data**. The SystemMenuBlock we referred to above is a great example. It’s a single plugin which has as many derivatives as there are menus on the site.
->
->To go a bit deeper, when a list of all the plugins of a certain type is requested, the plugin manager uses its discovery mechanism to load all the plugins of this type. If that mechanism is decorated with the `DerivativeDiscoveryDecorator`, the manager will be able to also retrieve derivatives. In order to do this, the derivative discovery looks for a deriver class on each plugin and, if it finds one, asks it for this list.
+Plugin derivatives are the way a plugin of a certain type can be represented in the system as *multiple instances* of itself. In other words, a plugin can reference a deriver class which is responsible for providing a list of plugin definitions that are based on the initial plugin (start from the same base definition) but have **slightly different configuration or definition data**. 
+
+Drupal's `SystemMenuBlock` is a great example. It’s a single plugin which has as many derivatives as there are menus on the site. See the Drupal core source code for [SystemMenuBlock.php block](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Block/SystemMenuBlock.php) and the [SystemMenuBlock derivative](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Derivative/SystemMenuBlock.php)
+
+
+
+To go a bit deeper, when a list of all the plugins of a certain type is requested, the plugin manager uses its discovery mechanism to load all the plugins of this type. If that mechanism is decorated with the `DerivativeDiscoveryDecorator`, the manager will be able to also retrieve derivatives. In order to do this, the derivative discovery looks for a deriver class on each plugin and, if it finds one, asks it for this list.
 >
 >Plugin type managers that extend the `DefaultPluginManager` base class should normally have the derivative discovery mechanism decorating the default discovery (annotations). This is the most common pattern in the Drupal core plugin system: annotated discovery wrapped by derivatives.
 
@@ -1103,6 +1106,7 @@ class ProductTypeMenuLinks extends MenuLinkDefault {
 
 There is also an example route subscriber. This allows you to navigate to `https://d9book2.ddev.site/derivative-examples/product-details/tents` or `https://d9book2.ddev.site/derivative-examples/product-details/rope` and see the output of the controller.
 
+![tents controller](/images/tents-controller.png)
 
 First there is an `EventSubscriber` class which builds all the dynamic routes at  `web/modules/custom/derivative_examples/src/EventSubscriber/DerivativeExamplesRouteSubscriber.php`:
 ```php
