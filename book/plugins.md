@@ -913,12 +913,11 @@ Each of the following can be used to generate a plugin of the specified type. e.
 
 From [Plugin API Overview on drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview)
 
->Plugin Derivatives allow a single plugin to act in place of many. This is useful for situations where user entered data might have an impact on available plugins. 
->
->For example, if menus are placed on screen using a plugin, then when the site administrator creates a new menu, that menu must be available for placement without needing a new plugin to do so. 
->
->Plugin Derivatives also support the user interface by allowing it to display multiple plugins in place of one, allowing for help text specific to the use case to be rendered and utilized. The primary purpose of plugin derivatives is to provide partially configured plugins as \"first class\" plugins that are indistinguishable in the UI from other plugins, thus reducing the burden on administrators using these plugins.
+Plugin Derivatives allow a single plugin to act in place of many. This is useful for situations where user entered data might have an impact on available plugins. 
 
+For example, if menus are placed on screen using a plugin, then when the site administrator creates a new menu, that menu must be available for placement without needing a new plugin to do so. 
+
+Plugin Derivatives also support the user interface by allowing it to display multiple plugins in place of one, allowing for help text specific to the use case to be rendered and utilized. The primary purpose of plugin derivatives is to provide partially configured plugins as \"first class\" plugins that are indistinguishable in the UI from other plugins, thus reducing the burden on administrators using these plugins.
 
 The menu system uses derivatives to provide a new block for each menu for Drupal core or is later created through the UI.
 
