@@ -1163,6 +1163,53 @@ The Drupal bootstrap process is a series of steps that Drupal goes through on ev
 1. **Rendering:** If the controller returns a render array, Drupal will then render it into HTML. This involves calling various hooks and alter functions to allow modules to modify the content.  
 1. **Returning the response:** Finally, the `HttpKernel` returns a [Response object](https://www.drupal.org/docs/drupal-apis/responses/responses-overview), which is then sent to the client.
 
+## Using hook_help
+
+Modules can have a hook_help to display help info from the `extend` page. This is a simple example from the [examples module](https://www.drupal.org/project/examples) that shows how to use `hook_help`:
+
+```php
+/**
+ * Implements hook_help().
+ *
+ * When implementing a hook you should use the standard text "Implements
+ * HOOK_NAME." as the docblock for the function. This is an indicator that
+ * further documentation for the function parameters can be found in the
+ * docblock for hook being implemented and reduces duplication.
+ *
+ * This function is an implementation of hook_help(). Following the naming
+ * convention for hooks, the "hook_" in hook_help() has been replaced with the
+ * short name of our module, "hooks_example_" resulting in a final function name
+ * of hooks_example_help().
+ */
+function hooks_example_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // For help overview pages we use the route help.page.$moduleName.
+    case 'help.page.hooks_example':
+      return '<p>' . t('This text is provided by the function <code>hooks_example_help()</code>, which is an implementation of <code>hook hook_help()</code>. To learn more about how this works checkout the code in <code>hooks_example.module</code>.') . '</p>';
+  }
+}
+```
+
+This version loads the help text from a file:
+
+```php
+/**
+ * implement hook_help
+ **/
+function route_play_help($route, $help) {
+  switch ($route) {
+    case 'help.page.route_play':
+      $file_contents = file_get_contents( dirname(__FILE__) . "/README.md");
+      $cleaned_contents =  Drupal\Component\Utility\Html::escape($file_contents);
+      // Add breaks so the text is not all on one line.
+      $cleaned_contents = str_replace("\n", "<br>", $cleaned_contents);
+      return $cleaned_contents;
+}
+
+```
+
+
+
 ## Troubleshoot memory problems
 
 In some cases, where there are lots of `Node::load()`  or `Node::loadMultiple()` calls, you may run into `out of memory` errors. If increasing the memory limit in `php.ini` (e.g. `memory_limit = 1024M`) doesn't resolve this, you might try flushing the entity memory cache with:
