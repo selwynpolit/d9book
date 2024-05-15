@@ -9,7 +9,7 @@ For most work, I use entityQueries. There are a few circumstances where I've nee
 
 ## entityQuery
 
-### Find matching nodes - example 1
+### Find matching nodes entityQuery
 
 In this EntityQuery example we search for nodes of content type (bundle) ws_product and match field_product_sku with the \$sku variable.
 
@@ -20,7 +20,8 @@ function getProductId($sku) {
   $productId = false;
   $query = \Drupal::entityQuery('node')
     ->condition('type', 'ws_product')
-    ->condition('field_product_sku', $sku);
+    ->condition('field_product_sku', $sku)
+    ->accessCheck(FALSE);
 
   $nids = $query->execute();
   if ($nids) {
@@ -32,7 +33,7 @@ function getProductId($sku) {
 }
 ```
 
-### Find matching nodes - example 2
+### Find matching nodes entityQuery
 
 In this entityQuery we search for published nodes of type contract with field_contract_status having the value "Active". This puts the resulting nids and node titles in a render array for display.
 
@@ -45,7 +46,8 @@ public function loadRawSalesforceData() {
     ->condition('type', 'contract')
     ->condition('status', 1)
     ->condition('field_contract_status', 'Active')
-    ->sort('title', 'DESC');
+    ->sort('title', 'DESC')
+    ->accessCheck(FALSE);
 
   $nids = $query->execute();
   if ($nids) {
@@ -65,9 +67,9 @@ public function loadRawSalesforceData() {
 }
 ```
 
-### Find matching article nodes -- example 3
+### Find matching article nodes entityQuery
 
-This example looks for an entity of type 'article' with the name \$name
+This example looks for an entity of type `article` with the name `$name`
 
 ```php
 public function entityExists() {
@@ -77,7 +79,8 @@ public function entityExists() {
   $query = \Drupal::entityQuery('node')
     ->condition('type', 'article')
     ->condition('title', $name)
-    ->count();
+    ->count()
+    ->accessCheck(FALSE);
 
   $count_nodes = $query->execute();
 
@@ -96,7 +99,7 @@ public function entityExists() {
 }
 ```
 
-### Find nodes that match a taxonomy term
+### Find nodes that match a taxonomy term entityQuery
 
 Find all nodes that match a term_id and retrieve the first 5 nodes sorted by title. This code also puts them into a render array for display.
 
@@ -108,7 +111,8 @@ protected function loadFirstOpinion($term_id) {
     ->condition('type', 'opinion')
     ->condition('field_category', $term_id, '=')
     ->sort('title', 'ASC') //or DESC
-    ->range(0, 5);
+    ->range(0, 5)
+    ->accessCheck(FALSE);
   $nids = $query->execute();
   $nodes = $storage->loadMultiple($nids);
 
@@ -122,7 +126,7 @@ protected function loadFirstOpinion($term_id) {
   return $render_array;
 ```
 
-### Find 5 nodes that have a matching taxonomy term
+### Find 5 nodes that have a matching taxonomy term entityQuery
 
 We look for published nodes of node type `opinion` that have a term in the category field, sorted by title ascending, starting with the first result and giving us 5 results. The resulting titles are put into a render array.
 
@@ -134,7 +138,8 @@ protected function loadFirstOpinion($term_id) {
     ->condition('type', 'opinion')
     ->condition('field_category', $term_id, '=')
     ->sort('title', 'ASC') //or DESC
-    ->range(0, 5);
+    ->range(0, 5)
+    ->accessCheck(FALSE);
   $nids = $query->execute();
   $nodes = $storage->loadMultiple($nids);
 
@@ -148,13 +153,14 @@ protected function loadFirstOpinion($term_id) {
   return $render_array;
 ```
 
-### Find matching nodes and delete them
+### Find matching nodes and delete them entityQuery
 
 ```php
 public function deleteQuery1() {
   $results = \Drupal::entityQuery('node')
     ->condition('type', 'event')
     ->range(0, 10)
+    ->accessCheck(FALSE)
     ->execute();
 
   if ($results) {
@@ -191,7 +197,8 @@ This is often used for batch API operations.
 $query = \Drupal::entityQuery('node')
   ->condition('type', 'contract')
   ->condition('status', 1)
-  ->sort('title', 'ASC');
+  ->sort('title', 'ASC')
+  ->accessCheck(FALSE);
 $nids = $query->execute();
 $nid_count = count($nids);
 
@@ -204,9 +211,9 @@ for ($i=0;$i<=$nid_count;$i+=100) {
 
 ### Query the creation date (among other things) using entityQuery
 
-Note. The created (and changed) field uses a unix timestamp. This is an int 11 field in the db with a value like 1525302749 If you add a Drupal date field, its data looks like 2019-05-15T21:32:00 (varchar 20)
+Note. The created (and changed) field uses a unix timestamp. This is an `int` 11 field in the db with a value like `1525302749` If you add a Drupal `datefield`, its data looks like `2019-05-15T21:32:00` (varchar 20)
 
-If you want to query a date field in a content type, you will have to fiddle around with the setTimezone stuff that is commented out below. The date field referenced below (field_date) is a standard Drupal date field.
+If you want to query a date field in a content type, you will have to fiddle around with the setTimezone stuff that is commented out below. The date field referenced below (`field_date`) is a standard Drupal date field.
 
 More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update> and <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
 
@@ -239,7 +246,8 @@ More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query
       ->condition('field_category', $term_id, '=')
       ->condition('created', $start_date, '>=')
       ->condition('created', $end_date, '<=')
-      ->sort('title', 'DESC');
+      ->sort('title', 'DESC')
+      ->accessCheck(FALSE);
     $nids = $query->execute();
     $titles = [];
     if ($nids) {
@@ -279,6 +287,7 @@ function park_academy_update_8002() {
 
   $mids = \Drupal::entityQuery('menu_link_content')
     ->condition('menu_name', 'park-wide-utility')
+    ->accessCheck(FALSE)
     ->execute();
 
   foreach($mids as $mid) {
@@ -313,7 +322,8 @@ When querying multivalue fields, you need to use `%delta` to specify the positio
         'accepted',
         'rejected',
         'incomplete'
-      ], 'IN');
+      ], 'IN')
+      ->accessCheck(FALSE);
     $correlation_nids = $query->execute();
     $correlation_nids = array_values($correlation_nids);
     return $correlation_nids;
@@ -338,7 +348,7 @@ if ($vote_type == 'feedback_error'){
 
 ```
 
-### Query entity reference fields
+### Entity reference fields entityQuery
 
 In the following query, we check for a value in the entity that is referenced in the entity reference field?  For example, if you have an entity reference field which references node (entity) 27.  This query can look in node 27 and check a field value in that node.  Here we check in field_first_name for the the value `Fred`:
 
@@ -442,7 +452,7 @@ from - [API documentation for QueryInterface::condition](https://api.drupal.org/
 
 **Language specific query**
 
-This example shows searching for entities with both the Turkish 'merhaba' (notice 'tr' as the last parameter) and the Polish 'siema' (notice 'pl as the last parameter) within a 'greetings' text field:
+This example shows searching for entities with both the Turkish \'merhaba\' (notice \'tr\' as the last parameter) and the Polish \'siema\' (notice \'pl\' as the last parameter) within a \'greetings\' text field:
 
 ```php
 $entity_ids = \Drupal::entityQuery($entity_type)
@@ -454,7 +464,7 @@ $entity_ids = \Drupal::entityQuery($entity_type)
 
 **Parameters** 
 
-Notice that the first parameter can be a string or a ConditionInterface:
+Notice that the first parameter can be a `string` or a `ConditionInterface`:
 
 `string|\Drupal\Core\Entity\Query\ConditionInterface $field`: Name of the field being queried or an instance of ConditionInterface. In the case of the name, it must contain a field name, optionally followed by a column name. The column can be the reference property, usually "entity", for reference fields and that can be followed similarly by a field name and so on. Additionally, the target entity type can be specified by appending the ":target_entity_type_id" to "entity". Some examples:
 
@@ -519,6 +529,7 @@ If NULL, defaults to the `'='` operator.
       ->condition('roles', ['publisher_edit', 'publisher'], 'IN')
       ->condition('status', 1)
       ->sort('created', 'ASC')
+      ->accessCheck(FALSE)
       ->execute();
 
     $publisher_editors = [];
@@ -567,7 +578,8 @@ This code looks up related paragraphs of type `accordio_video_section`, grabs th
     $query = \Drupal::entityQuery('paragraph')
       ->condition('status', 1)
       ->condition('type', 'accordio_video_section')
-      ->condition('field_content_relation', $nid);
+      ->condition('field_content_relation', $nid)
+      ->accessCheck(FALSE);
     $ids = $query->execute();
     if (!$ids) {
       return;
@@ -587,7 +599,8 @@ This code looks up related paragraphs of type `accordio_video_section`, grabs th
       $query = \Drupal::entityQuery('node')
         ->condition('type', 'video_collection')
         ->condition('status', 1)
-        ->condition('field_video_accordions', $paragraph_id);
+        ->condition('field_video_accordions', $paragraph_id)
+        ->accessCheck(FALSE);
       $nids = $query->execute();
     }
     if ($nids) {
@@ -798,27 +811,25 @@ Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drup
 From
 <https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
 
-Which to use? \$connection-\>insert() or \$connection-\>query() or what
-are the difference between insert() and query()?
+Which to use\? `$connection-\>insert()` or `$connection->query()` or what are the difference between `insert()` and `query()`\?
 
--   insert() has each column specified as a separate entry in the fields
+- `insert()` has each column specified as a separate entry in the fields
     array and the code can clean each column value. query() has an SQL
     string with no way of checking individual columns.
 
--   If you use query() with placeholders, the code can check the column
+- If you use `query()` with placeholders, the code can check the column
     values but placeholders are just an option, there is no way to
     ensure your SQL does not contain values not passed through
     placeholders.
 
--   insert() passes the request through a set of hooks to let other
+- `insert()` passes the request through a set of hooks to let other
     modules check and modify your requests. This is the right way to
     work with other modules.
 
--   query() is slightly faster because query() does not pass the request
-    through the hooks. You might save processing time but your code will
-    not let other modules help your code.
+- `query()` is slightly faster because it does not pass the request
+    through the hooks. You might save processing time but your code will not let other modules help your code.
 
--   insert() is more likely to work with other databases and future
+- `insert()` is more likely to work with other databases and future
     versions of Drupal.
 
 ### SQL Insert Query
@@ -855,11 +866,11 @@ public function insert() {
 
   // Multi-insert2.
   $values = [
-    ['name' => 'Multiton2', 'amount' => 111,],
+    ['name' => 'Multiton1', 'amount' => 111,],
     ['name' => 'Multiton2', 'amount' => 222,],
-    ['name' => 'Multiton2', 'amount' => 333,],
-    ['name' => 'Multiton2', 'amount' => 444,],
-    ['name' => 'Multiton2', 'amount' => 555,],
+    ['name' => 'Multiton3', 'amount' => 333,],
+    ['name' => 'Multiton4', 'amount' => 444,],
+    ['name' => 'Multiton5', 'amount' => 555,],
   ];
   $query = $connection->insert('donors')
     ->fields(['name', 'amount',]);
@@ -878,7 +889,7 @@ public function insert() {
 }
 ```
 
-More at <https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
+More at [Insert Queries on drupal.org - updated Nov 2023](https://www.drupal.org/docs/drupal-apis/database-api/insert-queries)
 
 ### SQL Delete query
 
@@ -907,7 +918,7 @@ Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drup
 
 ### Paragraph static query example
 
-In the txg.theme file this code digs into a table for a paragraph field and grabs the delta field value using a static query.
+In the `txg.theme` file this code digs into a table for a paragraph field and grabs the delta field value using a static query.
 
 ```php
 function txg_preprocess_paragraph__simple_card(&$variables) {
