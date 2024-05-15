@@ -523,7 +523,7 @@ This example may be a little confusing as it loops through an array of links.
 
 ## Simple unordered list
 
-From: <https://drupal.stackexchange.com/questions/214928/create-unordered-list-in-render-array>
+This is a simple unordered list. The `#list_type` is `ul` for unordered list. The `#items` is an array of items. The `#title` is the title of the list. The `#attributes` causes the list to have the class `mylist`.
 
 ```php
 $content = [
@@ -532,9 +532,89 @@ $content = [
   '#title' => 'My List',
   '#items' => ['item 1', 'item 2'],
   '#attributes' => ['class' => 'mylist'],
-  '#wrapper_attributes' => ['class' => 'container'],
 ];
 ```
+More at <https://drupal.stackexchange.com/questions/214928/create-unordered-list-in-render-array>
+
+
+
+Here is a complete function as used in a controller. This function returns an unordered list of recipe nodes. The list is sorted by the date created and the title of the node is displayed along with the node id. The list has the class `recipe-list`:
+  
+```php
+public function test1(): array {
+  $node_storage = $this->entityTypeManager->getStorage('node');
+  // Build a query to load all recipe nodes.
+  $query = $node_storage->getQuery()
+    ->condition('type', 'recipe')
+    ->condition('status', 1)
+    ->sort('created', 'DESC')
+    ->accessCheck(FALSE);
+
+  // Get the NIDs of the nodes.
+  $nids = $query->execute();
+  // Load the nodes.
+  $nodes = $node_storage->loadMultiple($nids);
+  $items = [];
+  foreach ($nodes as $node) {
+    $items[] = $node->getTitle() . ' (' . $node->id() . ')';
+  }
+  // Unordered list
+  $build['content'] = [
+    '#theme' => 'item_list',
+    '#list_type' => 'ul',
+    '#items' => $items,
+    '#attributes' => [
+      'class' => 'recipe-list',
+    ],
+  ];
+
+  return $build;
+}
+```
+
+Here is `web/core/themes/olivero/templates/dataset/item-list.html.twig` which is the default template for an item list. This is the template that is used to render the list. You can override this template in your theme to change the appearance of the list. The available variables show all the various items that can be used in the template.
+
+```twig
+{#
+/**
+ * @file
+ * Theme override for an item list.
+ *
+ * Available variables:
+ * - items: A list of items. Each item contains:
+ *   - attributes: HTML attributes to be applied to each list item.
+ *   - value: The content of the list element.
+ * - title: The title of the list.
+ * - list_type: The tag for list element ("ul" or "ol").
+ * - wrapper_attributes: HTML attributes to be applied to the list wrapper.
+ * - attributes: HTML attributes to be applied to the list.
+ * - empty: A message to display when there are no items. Allowed value is a
+ *   string or render array.
+ * - context: A list of contextual data associated with the list. May contain:
+ *   - list_style: The custom list style.
+ *
+ * @see template_preprocess_item_list()
+ */
+#}
+{% if context.list_style %}
+  {%- set attributes = attributes.addClass('item-list__' ~ context.list_style) %}
+{% endif %}
+{% if items or empty %}
+  {%- if title is not empty -%}
+    <h3>{{ title }}</h3>
+  {%- endif -%}
+  {%- if items -%}
+    <{{ list_type }}{{ attributes }}>
+    {%- for item in items -%}
+      <li{{ item.attributes.addClass(listClasses) }}>{{ item.value }}</li>
+    {%- endfor -%}
+    </{{ list_type }}>
+  {%- else -%}
+    {{- empty -}}
+  {%- endif -%}
+{%- endif %}
+```
+
 
 ## Unordered list of links for a menu
 
