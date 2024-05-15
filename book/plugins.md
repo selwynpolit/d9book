@@ -909,6 +909,349 @@ Each of the following can be used to generate a plugin of the specified type. e.
 - [plugin:views:field - Generates views field plugin](https://www.drush.org/latest/generators/plugin_views_field/)
 - [plugin:views:style - Generates views style plugin](https://www.drush.org/latest/generators/plugin_views_style/)
 
+## Derivatives
+
+From [Plugin API Overview on drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview)
+
+>Plugin Derivatives allow a single plugin to act in place of many. This is useful for situations where user entered data might have an impact on available plugins. 
+>
+>For example, if menus are placed on screen using a plugin, then when the site administrator creates a new menu, that menu must be available for placement without needing a new plugin to do so. 
+>
+>Plugin Derivatives also support the user interface by allowing it to display multiple plugins in place of one, allowing for help text specific to the use case to be rendered and utilized. The primary purpose of plugin derivatives is to provide partially configured plugins as `"first class"` plugins that are indistinguishable in the UI from other plugins, thus reducing the burden on administrators using these plugins.
+
+
+The menu system uses derivatives to provide a new block for each menu for Drupal core or is later created through the UI.
+
+From [Tutorial on Using Drupal 8 Plygin derivatives effectively:](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
+
+> Q. What are Drupal Plugin Derivatives and why are they important?
+> A. Drupal Plugin Derivatives are a powerful feature that allow developers to dynamically generate multiple instances of a single plugin. 
+> 
+> This is particularly useful when you have a large number of similar tasks to perform, but each task requires slightly different configuration. By using plugin derivatives, you can create a single base plugin and then generate as many variations of that plugin as you need, each with its own unique configuration. This can greatly simplify your code and make your Drupal site more efficient and easier to manage.
+
+
+For example, if you had a website for an outdoor camping store and you wanted a block with an image and short description appearing in a sidebar for each of the different content types such as `Cooking Gear`, `Packs`, `Sleeping bags` etc. you could use a derivative plugin.  Instead of defining a block for each content type, you could define a derivative plugin which would create a block for each content type automatically.  Then when you look in the blocks layout at `/admin/structure/block you would see a block for each content type.  Each block could be placed independently in a region or with Layout Builder.
+
+In the image below, you can several derivative blocks including: `Derivative example Block for Product Type: Cooking Gear` and `Derivative example Block for Product Type: Camping Gear`. 
+![Derivative block layout](/images/derivative-block-layout.png)
+
+
+The derivative class extends `Drupal\Component\Plugin\Derivative\DeriverBase` and implements the `getDerivativeDefinitions()` method.  This method returns an array of derivative definitions.  
+
+Here is an example of a derivative class that creates a block for each of a set of products in `web/modules/custom/derivative_examples/src/Plugin/Derivative/DerivativeExamplesBlockDerivative.php`: 
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\derivative_examples\Plugin\Derivative;
+
+use Drupal\Component\Plugin\Derivative\DeriverBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
+/**
+ * Derivative class that provides the data for Block plugins.
+ */
+class DerivativeExamplesBlockDerivative extends DeriverBase {
+  use StringTranslationTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDerivativeDefinitions($base_plugin_definition): array {
+
+    // Products can be anything with key, value pair.
+    // Here we are defining sample array.
+    $products = [
+      'cooking_gear' => 'Cooking Gear',
+      'tents' => 'Tents',
+      'sleeping_bags' => 'Sleeping Bags',
+      'rope' => 'Rope',
+      'safety' => 'Safety',
+      'packs' => 'Packs',
+    ];
+
+    if (!empty($products)) {
+      foreach ($products as $key => $product) {
+        $this->derivatives[$key] = $base_plugin_definition;
+        $this->derivatives[$key]['admin_label'] = $this->t('Derivative Example Block for Product Type : @type', ['@type' => $product]);
+      }
+    }
+    return $this->derivatives;
+
+  }
+
+}
+```
+and the `web/modules/custom/derivative_examples/src/Plugin/Block/DerivativeExamplesBlock.php` file that defines the block:
+
+```php
+<?php
+
+declare(strict_types = 1);
+
+namespace Drupal\derivative_examples\Plugin\Block;
+
+use Drupal\Core\Block\BlockBase;
+
+/**
+ * Provides a Derivative Examples Block.
+ *
+ * @Block(
+ *   id = "derivative_examples_block",
+ *   admin_label = @Translation("Derivative Examples Block"),
+ *   category = @Translation("Derivative Examples"),
+ *   module = "derivative_examples",
+ *   deriver = "Drupal\derivative_examples\Plugin\Derivative\DerivativeExamplesBlockDerivative"
+ * )
+ */
+final class DerivativeExamplesBlock extends BlockBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build(): array {
+    $build['content'] = [
+      '#markup' => $this->t('Derivative Examples Block!...'),
+    ];
+    return $build;
+  }
+
+}
+```
+
+
+>Plugin derivatives are the way a plugin of a certain type can be represented in the system as *multiple instances* of itself. In other words, a plugin can reference a deriver class which is responsible for providing a list of plugin definitions that are based on the initial plugin (start from the same base definition) but have **slightly different configuration or definition data**. The SystemMenuBlock we referred to above is a great example. It’s a single plugin which has as many derivatives as there are menus on the site.
+>
+>To go a bit deeper, when a list of all the plugins of a certain type is requested, the plugin manager uses its discovery mechanism to load all the plugins of this type. If that mechanism is decorated with the `DerivativeDiscoveryDecorator`, the manager will be able to also retrieve derivatives. In order to do this, the derivative discovery looks for a deriver class on each plugin and, if it finds one, asks it for this list.
+>
+>Plugin type managers that extend the `DefaultPluginManager` base class should normally have the derivative discovery mechanism decorating the default discovery (annotations). This is the most common pattern in the Drupal core plugin system: annotated discovery wrapped by derivatives.
+
+from - [Tutorial on Using Drupal 8 Plygin derivatives effectively](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
+
+### Example of a derivative
+
+Browse the [code example provided by bhanu951](https://github.com/selwynpolit/d9book/tree/main/web/modules/custom/derivative_examples) for more including block, menu and route subscriber derivatives.
+
+The menu derivatives in the example appear on the site as shown in the image below:
+![Menu derivatives](/images/menu-derivatives.png)
+
+Here is the code for the derivative from `web/modules/custom/derivative_examples/src/Plugin/Derivative/DerivativeExamplesMenuDerivative.php`:
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\derivative_examples\Plugin\Derivative;
+
+use Drupal\Component\Plugin\Derivative\DeriverBase;
+
+/**
+ * Derivative class that provides the data for Menu plugins.
+ */
+class DerivativeExamplesMenuDerivative extends DeriverBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDerivativeDefinitions($base_plugin_definition): array {
+
+    $links = [];
+
+    $products = [
+      'cooking_gear' => 'Cooking Gear',
+      'tents' => 'Tents',
+      'sleeping_bags' => 'Sleeping Bags',
+      'rope' => 'Rope',
+      'safety' => 'Safety',
+      'packs' => 'Packs',
+    ];
+
+    foreach ($products as $key => $value) {
+      $links['derivative_examples_products_menu_' . $key] = [
+        'title' => $value . ' Controller',
+        'parent' => 'derivative_examples.base',
+        'route_name' => 'derivative_examples.dynamic_routes' . $key,
+      ] + $base_plugin_definition;
+    }
+
+    return $links;
+
+  }
+
+}
+```
+
+and the menu plugin in `web/modules/custom/derivative_examples/src/Plugin/Menu/ProductTypeMenuLinks.php`:
+
+```php
+<?php
+
+namespace Drupal\derivative_examples\Plugin\Menu;
+
+use Drupal\Core\Menu\MenuLinkDefault;
+
+/**
+ * Represents a menu link for a Product Types.
+ */
+class ProductTypeMenuLinks extends MenuLinkDefault {
+
+}
+```
+
+
+There is also an example route subscriber. This allows you to navigate to `https://d9book2.ddev.site/derivative-examples/product-details/tents` or `https://d9book2.ddev.site/derivative-examples/product-details/rope` and see the output of the controller.
+
+
+First there is an `EventSubscriber` class which builds all the dynamic routes at  `web/modules/custom/derivative_examples/src/EventSubscriber/DerivativeExamplesRouteSubscriber.php`:
+```php
+<?php
+
+declare(strict_types = 1);
+
+namespace Drupal\derivative_examples\EventSubscriber;
+
+use Drupal\Core\Routing\RouteSubscriberBase;
+use Drupal\Core\Routing\RoutingEvents;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+
+/**
+ * Dynamic Route Subscriber Examples route subscriber.
+ */
+final class DerivativeExamplesRouteSubscriber extends RouteSubscriberBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function alterRoutes(RouteCollection $collection) {
+
+    $products = [
+      'cooking_gear' => 'Cooking Gear',
+      'tents' => 'Tents',
+      'sleeping_bags' => 'Sleeping Bags',
+      'rope' => 'Rope',
+      'safety' => 'Safety',
+      'packs' => 'Packs',
+    ];
+
+    foreach ($products as $key => $value) {
+
+      $url = preg_replace('/_/', '-', $key);
+
+      $route = new Route(
+        // The url path to match.
+        'derivative-examples/product-details/' . $url,
+        [
+          '_title' => $value . ' Controller',
+          '_controller' => '\Drupal\derivative_examples\Controller\DerivativeExamplesController::build',
+          'type' => $value,
+        ],
+        // The requirements.
+        [
+          '_permission' => 'administer site configuration',
+        ]
+      );
+
+      // Add our route to the collection with a unique key.
+      $collection->add('derivative_examples.dynamic_routes' . $key, $route);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents(): array {
+
+    // Use a lower priority than \Drupal\views\EventSubscriber\RouteSubscriber
+    // to ensure the requirement will be added to its routes.
+    return [
+      RoutingEvents::ALTER => ['onAlterRoutes', -300],
+    ];
+  }
+
+}
+```
+
+Here is the controller at `web/modules/custom/derivative_examples/src/Controller/DerivativeExamplesController.php` that builds the output for the dynamic routes:
+
+```php
+<?php
+
+declare(strict_types = 1);
+
+namespace Drupal\derivative_examples\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+
+/**
+ * Returns responses for Derivative Examples routes.
+ */
+final class DerivativeExamplesController extends ControllerBase {
+
+  /**
+   * Builds the response.
+   */
+  public function build(): array {
+
+    $build['content'] = [
+      '#type' => 'item',
+      '#markup' => $this->t('Products List Controller!'),
+    ];
+
+    return $build;
+  }
+
+}
+```
+And finally here is the router file at `web/modules/custom/derivative_examples/derivative_examples.routing.yml`. The route `derivative_examples.dynamic_routes` is the relevant one for this example:
+
+```yml
+derivative_examples.base:
+  path: '/derivative-examples/base'
+  defaults:
+    _title: 'Derivative Examples Base'
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+  requirements:
+    _permission: 'access content'
+
+derivative_examples.dynamic_routes:
+  path: '/derivative-examples/dynamic-routes'
+  defaults:
+    _title: 'Derivative Examples Dynamic Routes Controller'
+    _controller: '\Drupal\derivative_examples\Controller\DerivativeExamplesController::build'
+  requirements:
+    _permission: 'access content'
+```
+
+
+### Drupal 7 equivalent of Derivatives
+
+```php
+function mymodule_hook_block_info() {
+  $number_blocks = variable_get('my_module_number_of_blocks', 0);
+  $x=0
+  while ($x < $number_of_blocks) {
+    $blocks['myblock-' . $x] = array(
+      'info' => t('Block ' . $x), 
+      'cache' => DRUPAL_NO_CACHE,
+    );
+  }
+  return $blocks
+}
+```
+
+
+
+
+### Derivative references
+- [Tutorial on Using Drupal 8 Plygin derivatives effectively](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
+- [Plugin Derivatives on drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-derivatives)
+- 
+
+
+
 
 
 ## The Basics
