@@ -9,7 +9,7 @@ title: Learning
 ## Drupal.org Reference Materials
 - [Top level link to Essential background concepts, OOP conventions etc. at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
 - [Drupal APIs](https://www.drupal.org/docs/drupal-apis)
-- {Change records for Drupal core](https://www.drupal.org/list-changes/drupal)
+- [Change records for Drupal core](https://www.drupal.org/list-changes/drupal)
 
 ### Essential background concepts
 Here are some high level overviews of Drupal concepts:
