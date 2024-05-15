@@ -12,7 +12,7 @@ You are invited to contribute (in the open source way) by making edits and pull 
 
 If you are inspired, please be a part of this project by contributing your own thoughts, code snippets, tutorials, links etc. ([Imposters](https://events.drupal.org/drupalcon2021/news/youve-got-notes-about-impostor-syndrome) are welcomed!) Add your name on the [attribution page](attribution). Either add a note in the comment form at the bottom of each page or click the `Edit this page on GitHub` also at the very bottom of any page and start editing. You don't need to know Git.
 
-If you want to contribute to the expense of creating this book, I have added a [leanpub version](https://leanpub.com/drupal10) which you can purchase. It contains the same data as this site although this site will be more up to date due to my process of putting the data here first. Thanks!
+If you want to contribute to the expense of creating this book, you can contribute via [Github Sponsorship](https://github.com/sponsors/selwynpolit), [Paypal](https://www.paypal.com/paypalme/selwynpolit), or you can purchase [leanpub version](https://leanpub.com/drupal10). It contains the same data as this site although this site will be more up to date due to my process of posting here first. Thanks!
 
 ![Drupal logo](/images/drupal-logo-horizontal-blue.png)
 
