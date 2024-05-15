@@ -1,0 +1,5 @@
+services:
+  derivative_examples.routes_event_subscriber:
+    class: Drupal\derivative_examples\EventSubscriber\DerivativeExamplesRouteSubscriber
+    tags:
+      - { name: event_subscriber }

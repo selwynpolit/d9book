@@ -1,0 +1,15 @@
+derivative_examples.base:
+  path: '/derivative-examples/base'
+  defaults:
+    _title: 'Derivative Examples Base'
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+  requirements:
+    _permission: 'access content'
+
+derivative_examples.dynamic_routes:
+  path: '/derivative-examples/dynamic-routes'
+  defaults:
+    _title: 'Derivative Examples Dynamic Routes Controller'
+    _controller: '\Drupal\derivative_examples\Controller\DerivativeExamplesController::build'
+  requirements:
+    _permission: 'access content'

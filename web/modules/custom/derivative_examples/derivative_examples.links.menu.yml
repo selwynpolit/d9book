@@ -1,0 +1,14 @@
+# Base Menu
+derivative_examples.base:
+  title: 'Derivative Examples Base'
+  parent: system.admin
+  description: 'Base for Derivative Examples Module.'
+  route_name: derivative_examples.dynamic_routes
+  weight: 0
+
+# Menu Derivative Example.
+derivative_examples.product_type_menu_links:
+  parent: derivative_examples.base
+  class: Drupal\derivative_examples\Plugin\Menu\ProductTypeMenuLinks
+  deriver: Drupal\derivative_examples\Plugin\Derivative\DerivativeExamplesMenuDerivative
+
