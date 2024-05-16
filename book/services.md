@@ -871,6 +871,13 @@ Here are the steps for implementing an injected service in a controller.
 
 From: `docroot/modules/custom/apitest/src/Controller/ApiTestController.php`
 
+0\. Don\'t forget the use statements at the top of the file. One for the service and one for the container interface. E.g.:
+
+```php
+use Drupal\cm_api\CmAPIClient;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+```
+
 1\. Your controller must extend ControllerBase
 
 ```php
