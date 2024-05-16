@@ -197,14 +197,14 @@ class DiExamplesController extends ControllerBase {
 
 ## Finding services
 
-Here are suggested steps to find a service.  In order to find the details of a commonly used service, the `entityTypeManager` which is used for entityQueries, you can start by looking at [ervices and Dependency Injection in the Drupal API](https://api.drupal.org/api/drupal/services) and search for `entity_type`. This will result in:
+Here are suggested steps to find a service.  In order to find the details of a commonly used service, e.g. the `entityTypeManager` which is used for `entityQueries`, you can start by looking at [Services and Dependency Injection in the Drupal API](https://api.drupal.org/api/drupal/services) and search for `entity_type` in the \"Name contains\" field. This will display several services including `entity_type.manager`
 
 ![Finding Services on Drupal API](/images/find-services.png)
 
 
-This tells you to that the service is in `core.services.yml` and that it is implemented in the `EntityTypeManager` class.
+This tells you to that the service is in file: `core.services.yml` and that it is implemented in the `Drupal\Core\Entity\EntityTypeManager` class.
 
-So in Drupal core\'s `core.services.yml` file you will find:
+So in Drupal core\'s `core.services.yml` file, search for `entity_type.manager` you will find several instances, but you specifically want the definition of the service. It looks like this:
 
 ```yaml
 entity_type.manager:
@@ -215,7 +215,7 @@ entity_type.manager:
     - { name: plugin_manager_cache_clear }
 ```
 
-Looking in Drupal.php, you will also find a [shorthand method](#static-shorthand-methods):
+Looking in Drupal.php, you will also find a [shorthand method](#static-shorthand-methods) which is used to retrieve the service without using Dependency injection. It looks like this:
 
 ```php
 /**
@@ -228,9 +228,10 @@ public static function entityTypeManager() {
   return static::getContainer()->get('entity_type.manager');
 }
 ```
-So to use this statically, you can use the following:
+So to use this statically:
 
 ```php
+$entity_type = 'node';
 $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
 $query = $storage->getQuery();
 $query = \Drupal::entityQuery('node')
@@ -240,7 +241,7 @@ $query = \Drupal::entityQuery('node')
 $nids = $query->execute();
 ```
 
-To do this using dependency injection you will need to inject `entity_type.manager`. Follow the procedure outlined above in [Controller details](#controller-details).
+To do this using dependency injection you will need to inject `entity_type.manager`. Follow the procedure outlined in [Using Dependency Injection in controllers](#using-dependency-injection-in-controllers).
 
 
 
