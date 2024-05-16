@@ -241,7 +241,96 @@ $query = \Drupal::entityQuery('node')
 $nids = $query->execute();
 ```
 
-To do this using dependency injection you will need to inject `entity_type.manager`. Follow the procedure outlined in [Using Dependency Injection in controllers](#using-dependency-injection-in-controllers).
+:::tip Note
+`ControllerBase` provides several [shorthand methods](#controllerbase-shortcuts-for-your-controllers) for accessing services.  There is a tiny performance hit when using these methods rather than using dependency injection because there is some overhead in the `ControllerBase` method calls.
+:::
+
+
+To use this service using dependency injection you will need to inject `entity_type.manager` e.g. This code injects the `pathValidator`, `pathCurrent` and `entityTypeManager` services:
+  
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\route_play\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Path\PathValidatorInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Returns responses for Route play routes.
+ */
+final class RoutePlayController extends ControllerBase {
+
+  /** @var \Drupal\Core\Path\PathValidatorInterface */
+  private PathValidatorInterface $pathValidator;
+  /** @var \Drupal\Core\Path\CurrentPathStack  */
+  private  CurrentPathStack $pathCurrent;
+  /** @var \Drupal\Core\Entity\EntityTypeManagerInterface */
+  protected $entityTypeManager;
+
+  /**
+   * The controller constructor.
+   */
+  public function __construct(
+    PathValidatorInterface $pathValidator,
+    CurrentPathStack $pathCurrent,
+    EntityTypeManagerInterface $entityTypeManager,
+  ) {
+    $this->pathValidator = $pathValidator;
+    $this->pathCurrent = $pathCurrent;
+    $this->entityTypeManager = $entityTypeManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container): self {
+    return new self(
+      $container->get('path.validator'),
+      $container->get('path.current'),
+      $container->get('entity_type.manager'),
+    );
+  }
+
+  public function test1(): array {
+    $node_storage = $this->entityTypeManager->getStorage('node');
+    // Build a query to load all recipe nodes.
+    $query = $node_storage->getQuery()
+      ->condition('type', 'recipe')
+      ->condition('status', 1)
+      ->sort('created', 'DESC')
+      ->accessCheck(FALSE);
+
+    // Get the NIDs of the nodes.
+    $nids = $query->execute();
+    // Load the nodes.
+    $nodes = $node_storage->loadMultiple($nids);
+    $items = [];
+    foreach ($nodes as $node) {
+      $items[] = $node->getTitle() . ' (' . $node->id() . ')';
+    }
+    // Unordered list
+    $build['content'] = [
+      '#theme' => 'item_list',
+      '#list_type' => 'ul',
+      '#items' => $items,
+      '#attributes' => [
+        'class' => 'recipe-list',
+      ],
+    ];
+
+    return $build;
+  }
+}
+```
+
+
+See more of this procedure in [Using Dependency Injection in controllers](#using-dependency-injection-in-controllers).
 
 
 
