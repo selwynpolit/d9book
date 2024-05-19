@@ -5,57 +5,16 @@ title: Learning
 # Learning and keeping up with Drupal
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=learn.md)
 
+## Learning Drupal Basics
+- [Drupal User Guide on drupal.org for people with minimal knowledge of Drupal - Updated Jan 2024](https://www.drupal.org/docs/user_guide/en/index.html) - This guide was written mainly for people with minimal knowledge of the Drupal content management system. The topics will help them become skilled at installing, administering, site building, and/or maintaining the content of a Drupal-based website. The guide is also aimed at people who already have some experience with a current or past version of Drupal, and want to expand the range of their skills and knowledge or update them to the current version. The guide is kept up-to-date with the current major version of the core software.
+- [Acquia Certified Drupal Site Builder Exam course from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam) - The Acquia Certified Drupal 10 Site Builder exam and the Acquia Certified Drupal 9 Site Builder exam are part of Acquia's Drupal certification program. The exams consist of 50 scenario-based questions that show your knowledge of site building topics including content and user management, content modeling, site display, community and contributed projects, module and theme management, and general site security and performance. We've gathered together a concise list of the Drupalize.Me tutorials, and other resources, that will help you prepare for both the Acquia's Certified Drupal 9 and 10 Site Builder exams. (Note some parts are behind a paywall.)
+- [Drupal Site Builder Certification Learning Plan from Acquia Academy](https://community.acquiaacademy.com/learn/public/learning_plan/view/85/drupal-site-builder-certification-learning-plan) - This learning plan provides those new to Drupal with the basic training and resources to prepare for the Acquia Certified Drupal Site Builder Certification Exam. It contains: Approximately 6 hours of video instruction and accompanying resources, a certification exam study guide, practice text questions and a link to register for the exam. Acquia provides free Drupal training, practice certification exams, and other valuable resources.
+* [Debug Academy](https://www.debugacademy.com/) offers a variety of paid courses to learn Drupal usage and development. Check out their [free Drupal Course Training Preview](https://debugacademy.com/course/free-drupal-course-training-preview/).
 
-## Drupal.org Reference Materials
-- [Top level link to Essential background concepts, OOP conventions etc. at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
-- [Drupal APIs](https://www.drupal.org/docs/drupal-apis)
-- [Change records for Drupal core](https://www.drupal.org/list-changes/drupal)
-
-### Essential background concepts
-Here are some high level overviews of Drupal concepts:
-- [Object-oriented conventions used in Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/oo_conventions/10)
-- [Extending and altering Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/extending/10)
-- [Security and best practices](https://api.drupal.org/api/drupal/core%21core.api.php/group/best_practices/10)
-- [Types of information in Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/info_types/10)
-
-### High level User Interface concepts
-- [Menu entries, local tasks, and other links](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Menu%21menu.api.php/group/menu/10)
-- [Routing API and page controllers](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Routing%21routing.api.php/group/routing/10)
-- [Forms](https://api.drupal.org/api/drupal/core%21core.api.php/group/form_api/10)
-- [Blocks](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/group/block_api/10)
-- [Ajax](https://api.drupal.org/api/drupal/core%21core.api.php/group/ajax/10)
-
-### Storing and retrieving data
-- [Entity API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_api/10)
-- [Field API](https://api.drupal.org/api/drupal/core%21modules%21field%21field.module/group/field/10)
-- [Configuration API](https://api.drupal.org/api/drupal/core%21core.api.php/group/config_api/10)
-- [State API](https://api.drupal.org/api/drupal/core%21core.api.php/group/state_api/10)
-- [Views overview](https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/group/views_overview/10)
-- [Database abstraction layer](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21database.api.php/group/database/10)
-
-### Other Essential APIs
-- [Plugin API](https://api.drupal.org/api/drupal/core%21core.api.php/group/plugin_api/10)
-- [Services and the Dependency Injection Container](https://api.drupal.org/api/drupal/core%21core.api.php/group/container/10)
-- [Events](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/10)
-- [Internationalization](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Language%21language.api.php/group/i18n/10)
-- [Cache API](https://api.drupal.org/api/drupal/core%21core.api.php/group/cache/10)
-- [Utility classes and functions](https://api.drupal.org/api/drupal/core%21core.api.php/group/utility/10)
-- [User accounts, permissions, and roles](https://api.drupal.org/api/drupal/core%21core.api.php/group/user_api/10)
-- [Render API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10)
-- [Theme system](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
-- [Update API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Extension%21module.api.php/group/update_api/10)
-- [Migration](https://api.drupal.org/api/drupal/core%21modules%21migrate%21migrate.api.php/group/migration/10)
-
-### Additional topics
-- [Batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10)
-- [Queue API](https://api.drupal.org/api/drupal/core%21core.api.php/group/queue/10)
-- [Typed Data](https://api.drupal.org/api/drupal/core%21core.api.php/group/typed_data/10)
-- [Automated tests - PHPUnit and Nightwatch](https://api.drupal.org/api/drupal/core%21core.api.php/group/testing/10)
-- [Integrating third-party applications](https://api.drupal.org/api/drupal/core%21core.api.php/group/third_party/10)
 
 
 ## Books
-There are many books about Drupal that are worth checking out.
+There are many books about Drupal that are worth reading.
 - [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition published April 2023](https://amzn.to/478JGDk)
 - [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/483XEWV)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
@@ -76,26 +35,19 @@ Some of these are affiliate links so Amazon may send me some money if you purcha
 :::
 
 
-## Training and Certification
 
-### Learning Drupal Basics
-- [Drupal User Guide on drupal.org for people with minimal knowledge of Drupal - Updated Jan 2024](https://www.drupal.org/docs/user_guide/en/index.html) - This guide was written mainly for people with minimal knowledge of the Drupal content management system. The topics will help them become skilled at installing, administering, site building, and/or maintaining the content of a Drupal-based website. The guide is also aimed at people who already have some experience with a current or past version of Drupal, and want to expand the range of their skills and knowledge or update them to the current version. The guide is kept up-to-date with the current major version of the core software.
-- [Acquia Certified Drupal Site Builder Exam course from the folks at drupalize.me](https://drupalize.me/guide/acquia-certified-drupal-site-builder-exam) - The Acquia Certified Drupal 10 Site Builder exam and the Acquia Certified Drupal 9 Site Builder exam are part of Acquia's Drupal certification program. The exams consist of 50 scenario-based questions that show your knowledge of site building topics including content and user management, content modeling, site display, community and contributed projects, module and theme management, and general site security and performance. We've gathered together a concise list of the Drupalize.Me tutorials, and other resources, that will help you prepare for both the Acquia's Certified Drupal 9 and 10 Site Builder exams. (Note some parts are behind a paywall.)
-- [Drupal Site Builder Certification Learning Plan from Acquia Academy](https://community.acquiaacademy.com/learn/public/learning_plan/view/85/drupal-site-builder-certification-learning-plan) - This learning plan provides those new to Drupal with the basic training and resources to prepare for the Acquia Certified Drupal Site Builder Certification Exam. It contains: Approximately 6 hours of video instruction and accompanying resources, a certification exam study guide, practice text questions and a link to register for the exam. Acquia provides free Drupal training, practice certification exams, and other valuable resources.
-* [Debug Academy](https://www.debugacademy.com/) offers a variety of paid courses to learn Drupal usage and development. Check out their [free Drupal Course Training Preview](https://debugacademy.com/course/free-drupal-course-training-preview/).
-
-
-### Learning PHP
+## Learning PHP
 - [PHP: The Right Way](https://phptherightway.com/) is a great resource for learning PHP.  It is a living document that is updated regularly.
+- Gary Clarke's [Learn Object Oriented PHP 3 hour programming course](https://www.youtube.com/watch?v=uUlLAfN3rJc) for Symfony, Laravel, and Drupal is a great series of videos that will help you understand the basics of Object Oriented PHP.  This is a great foundation for understanding Drupal development.
 
 
-### Free Drupal video training
+## Free Drupal video training
 * Check out some nice [short form videos on how to use various modules, create modules, and even using Single Directory Components by Saranya Ashokkumar](https://www.youtube.com/@d4drupal324/featured)
 * Gary Clarke's [Learn Object Oriented PHP 3 hour programming course](https://www.youtube.com/watch?v=uUlLAfN3rJc) for Symfony, Laravel, and Drupal is a great series of videos that will help you understand the basics of Object Oriented PHP.  This is a great foundation for understanding Drupal development.
 * [Webwash Expert Drupal Training](https://www.webwash.net/courses/) - Webwash offers a variety of free video courses on Drupal 8 and 9.
 
 
-### Paid Drupal video training courses
+## Paid Drupal video training courses
 These are paid training courses that are very detailed and informative.  They are kept up to date by excellent instructors and worth the expense.
 
 * [Mastering Drupal: Content Managers Edition on Udemy by Bevin Wishart](https://www.udemy.com/course/mastering-drupal-content-managers-edition/?referralCode=DE305CE1D709017924BD)
@@ -108,15 +60,14 @@ These are paid training courses that are very detailed and informative.  They ar
 
 
 
-### Instructor led Drupal Training
+## Instructor led Drupal Training
 * Mike Anello of Drupal Easy has excellent [instructor led developer training courses](https://www.drupaleasy.com/academy). These include: Drupal Career Online and Professional Module Development.  Mike also offers project coaching and consulting.
 * [Debug Academy](https://www.debugacademy.com/) offers a variety of courses including Acquia certification prep, Drupal 10 module development, and Drupal 8/9/10 theme development. Check out their [free Drupal Course Training Preview](https://debugacademy.com/course/free-drupal-course-training-preview/).
 
-### Drupal Certification Preparation
+## Drupal Certification Preparation
 - [Acquia certification study guides](https://docs.acquia.com/acquia-academy/study-guides/) - Acquia provides free study guides for their certification exams.  These are a great resource for preparing for the exams.
 - [WidgetsBurritos D8 Study Guide](https://github.com/WidgetsBurritos/d8-studyguide/tree/master). Although this is not up to date with Drupal 10, it is a valuable resource and may be useful while preparing for the exam.
 - [Drupalize.me Acquia Certification Exam Prep](https://drupalize.me/guide/acquia-certification-exam-preparation).
-
 
 
 
@@ -166,6 +117,55 @@ These are paid training courses that are very detailed and informative.  They ar
 - [Drupal Slack server](https://drupal.slack.com/) - There are dozens of very active channels. Historically, this communication all used to happen on IRC.
 - [Drupal Stack Exchange](https://drupal.stackexchange.com/) - A question and answer site for Drupal developers and administrators.
 - [Drupal.org Forums](https://www.drupal.org/forum) - The official Drupal forums.
+
+
+## Drupal API Reference Materials on drupal.org
+- [Top level api.drupalorg: Essential background concepts, OOP conventions etc. at the Drupal API Reference on drupal.org](https://api.drupal.org/api/drupal/10)
+- [Drupal APIs](https://www.drupal.org/docs/drupal-apis)
+- [Change records for Drupal core](https://www.drupal.org/list-changes/drupal)
+
+### Essential background concepts
+Here are some high level overviews of Drupal concepts:
+- [Object-oriented conventions used in Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/oo_conventions/10)
+- [Extending and altering Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/extending/10)
+- [Security and best practices](https://api.drupal.org/api/drupal/core%21core.api.php/group/best_practices/10)
+- [Types of information in Drupal](https://api.drupal.org/api/drupal/core%21core.api.php/group/info_types/10)
+
+### High level User Interface concepts
+- [Menu entries, local tasks, and other links](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Menu%21menu.api.php/group/menu/10)
+- [Routing API and page controllers](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Routing%21routing.api.php/group/routing/10)
+- [Forms](https://api.drupal.org/api/drupal/core%21core.api.php/group/form_api/10)
+- [Blocks](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/group/block_api/10)
+- [Ajax](https://api.drupal.org/api/drupal/core%21core.api.php/group/ajax/10)
+
+### Storing and retrieving data
+- [Entity API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_api/10)
+- [Field API](https://api.drupal.org/api/drupal/core%21modules%21field%21field.module/group/field/10)
+- [Configuration API](https://api.drupal.org/api/drupal/core%21core.api.php/group/config_api/10)
+- [State API](https://api.drupal.org/api/drupal/core%21core.api.php/group/state_api/10)
+- [Views overview](https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/group/views_overview/10)
+- [Database abstraction layer](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21database.api.php/group/database/10)
+
+### Other Essential APIs
+- [Plugin API](https://api.drupal.org/api/drupal/core%21core.api.php/group/plugin_api/10)
+- [Services and the Dependency Injection Container](https://api.drupal.org/api/drupal/core%21core.api.php/group/container/10)
+- [Events](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/10)
+- [Internationalization](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Language%21language.api.php/group/i18n/10)
+- [Cache API](https://api.drupal.org/api/drupal/core%21core.api.php/group/cache/10)
+- [Utility classes and functions](https://api.drupal.org/api/drupal/core%21core.api.php/group/utility/10)
+- [User accounts, permissions, and roles](https://api.drupal.org/api/drupal/core%21core.api.php/group/user_api/10)
+- [Render API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10)
+- [Theme system](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
+- [Update API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Extension%21module.api.php/group/update_api/10)
+- [Migration](https://api.drupal.org/api/drupal/core%21modules%21migrate%21migrate.api.php/group/migration/10)
+
+### Additional topics
+- [Batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10)
+- [Queue API](https://api.drupal.org/api/drupal/core%21core.api.php/group/queue/10)
+- [Typed Data](https://api.drupal.org/api/drupal/core%21core.api.php/group/typed_data/10)
+- [Automated tests - PHPUnit and Nightwatch](https://api.drupal.org/api/drupal/core%21core.api.php/group/testing/10)
+- [Integrating third-party applications](https://api.drupal.org/api/drupal/core%21core.api.php/group/third_party/10)
+
 
 
 ## Resources
