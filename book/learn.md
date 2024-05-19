@@ -60,6 +60,7 @@ There are many books about Drupal that are worth checking out.
 - [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/483XEWV)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
 - [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9). For an interview with the author about this book [check out this episode of Talking Drupal ](https://www.talkingdrupal.com/425)
+- [Learning Drupal 9 as a framework by Stef Van Looveren. Full code included.](https://www.amazon.com/Learning-Drupal-framework-custom-included/dp/B0B6XJ6F4Q) The code in the [repo](https://github.com/stef-van-looveren/learning-drupal-as-a-framework/tree/main) was updated to Drupal 10 in Feb 2024. This is also available in [pdf or epub format on leanpub](https://leanpub.com/drupal-9)
 - [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
 - [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
 - [Fran Gil's Expert in Drupal 9 Back-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-back-end-development)
@@ -97,6 +98,8 @@ These are paid training courses that are very detailed and informative.  They ar
 * [Mastering Drupal: Content Managers Edition on Udemy by Bevin Wishart](https://www.udemy.com/course/mastering-drupal-content-managers-edition/?referralCode=DE305CE1D709017924BD)
 * [drupalize.me](https://drupalize.me/) is an amazing training facility spun off from [Lullabot](https://www.lullabot.com/) which provides on-demand training and articles on all things Drupal.  This is definitely worth a subscription if you want to fully grasp Drupal development or bring new people up to speed.
 * [Symfonycasts](https://symfonycasts.com/) is another incredibly good service that teaches all about the nuts and bolts of Symfony, PHPUnit and many other tools.  I think the Drupal course they have might be a little dated now.
+* [Learning drupal 9 as a framework by Stef Van Looveren](https://stefvanlooveren.me/courses/drupal-9-framework)
+* [Drupal developer Essentials by Stef Van Looveren: Configuration management, Composer, Drush commands and Debugging in Drupal 8, 9 & 10 explained](https://www.udemy.com/course/drupal-developer-essentials)
 * [Learn Object Oriented PHP by Gary Clarke](https://www.garyclarke.tech/p/learn-object-oriented-php)
 * [OSTraining](https://www.ostraining.com/) is another excellent source of training for Drupal and many other web technologies.
 
