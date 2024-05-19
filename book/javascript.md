@@ -5,7 +5,19 @@ title: Javascript
 # Using Javascript in Drupal
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=javascript.md)
 
-## is this legit? TODO
+## Closures
+
+Since Drupal's implementation of jQuery uses [jQuery.noConflict()](https://api.jquery.com/jquery.noconflict/), it is also considered good practice to wrap your custom Drupal javascript inside of a closure like this:
+
+```js
+(function ($, Drupal) {
+  Drupal.behaviors.myModuleBehavior = {
+    ...
+  };
+})(jQuery, Drupal);
+```
+More info [here](https://github.com/WidgetsBurritos/d8-studyguide/blob/master/1-fundamentals/1.2-javascript-jquery.md#closures)
+E.g.:
 
 ```js
 (function ($, Drupal) {
@@ -404,6 +416,20 @@ and make a `css` folder in the theme folder with a file called custom.css:
 ```
 
 Don't forget to flush caches.
+
+
+## Attaching a library to specific nodes
+
+To only load on nodes (skipping other entities), add the following function to your `.theme` file.
+
+```php
+function mytheme_preprocess_node(&$variables) {
+  $variables['#attached']['library'][] = 'mytheme/fancy-tables';
+}
+```
+
+
+
 
 ## Add Javascript to a project using asset libraries
 

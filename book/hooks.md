@@ -816,9 +816,9 @@ Several functions are called before the template file is invoked to modify the v
 
 In some cases, instead of calling the base theme hook implementation (either the default provided by the module that defined the hook, or the override provided by the theme), the theme system will instead look for \"suggestions\" of other hook names to look for. Suggestions can be specified in several ways:
 
-- In a render array, the \'#theme\' property (which gives the name of the hook to use) can be an array of theme hook names instead of a single hook name. In this case, the render system will look first for the highest-priority hook name, and if no implementation is found, look for the second, and so on. Note that the highest-priority suggestion is at the end of the array.
+- In a render array, the `'#theme'` property (which gives the name of the hook to use) can be an array of theme hook names instead of a single hook name. In this case, the render system will look first for the highest-priority hook name, and if no implementation is found, look for the second, and so on. Note that the highest-priority suggestion is at the end of the array.
 
-- In a render array, the \'#theme\' property can be set to the name of a hook with a \'\_\_SUGGESTION\' suffix. For example, in search results theming, the hook \'item_list\_\_search_results\' is given. In this case, the render system will look for theme templates called [item-list\--search-results.html.twig](https://api.drupal.org/api/drupal/10/search/item-list--search-results.html.twig), which would only be used for rendering item lists containing search results, and if this template is not found, it will fall back to using the base [item-list.html.twig](https://api.drupal.org/api/drupal/10/search/item-list.html.twig) template. This type of suggestion can also be combined with providing an array of theme hook names as described above.
+- In a render array, the `'#theme'` property can be set to the name of a hook with a `'__SUGGESTION'` suffix. For example, in search results theming, the hook `'item_list__search_results'` is given. In this case, the render system will look for theme templates called [item-list--search-results.html.twig](https://api.drupal.org/api/drupal/10/search/item-list--search-results.html.twig), which would only be used for rendering item lists containing search results, and if this template is not found, it will fall back to using the base [item-list.html.twig](https://api.drupal.org/api/drupal/10/search/item-list.html.twig) template. This type of suggestion can also be combined with providing an array of theme hook names as described above.
 
 - A module can implement [hook_theme_suggestions_HOOK()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_theme_suggestions_HOOK/10). This allows the module that defines the theme template to dynamically return an array containing specific theme hook names (presumably with `__` suffixes as defined above) to use as suggestions. For example, the Search module does this in [search_theme_suggestions_search_result()](https://api.drupal.org/api/drupal/core%21modules%21search%21search.module/function/search_theme_suggestions_search_result/10) to suggest `search_result__PLUGIN` as the theme hook for search result items, where PLUGIN is the machine name of the particular search plugin type that was used for the search (such as node_search or user_search).
 
@@ -827,12 +827,12 @@ For further information on overriding theme hooks see [https://www.drupal.org/no
 ### Altering theme hook suggestions
 
 Modules can also alter the theme suggestions provided using the
-mechanisms of the previous section. There are two hooks for this: the theme-hook-specific hook_theme_suggestions_HOOK_alter() and the generic hook_theme_suggestions_alter(). These hooks get the current list of suggestions as input, and can change this array (adding suggestions and removing them).
+mechanisms of the previous section. There are two hooks for this: the theme-hook-specific `hook_theme_suggestions_HOOK_alter()` and the generic `hook_theme_suggestions_alter()`. These hooks get the current list of suggestions as input, and can change this array (adding suggestions and removing them).
 
 
 
 ## Reference
-
+- [Hooks on api.drupal.org](https://api.drupal.org/api/drupal/core%21core.api.php/group/hooks/10)
 - [What are hooks? from Drupalize.me - March 2022](https://drupalize.me/tutorial/what-are-hooks?p=2766)
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
 - [How to organize your hooks the object oriented way by Azz-eddine BERRAMOU - Mar 2020](https://www.berramou.com/blog/drupal-8-how-organise-your-hooks-code-classes-object-oriented-way)
