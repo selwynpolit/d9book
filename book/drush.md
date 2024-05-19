@@ -735,8 +735,128 @@ Navigate to the files directory.
 cd $(drush dd files)
 ```
 
+### Open a CLI with Drupal bootstrapped
 
-### Global Drush - run drush on host
+Use `drush php:cli` to open a PHP CLI with Drupal bootstrapped. This is useful for debugging or running PHP code in the context of your Drupal site.
+
+```bash
+Psy Shell v0.12.3 (PHP 8.1.25 — cli) by Justin Hileman
+Ddev 102 site (Drupal 10.2.5)
+
+> $x = Node::load(1);
+= Drupal\node\Entity\Node {#6835
+    +in_preview: null,
+    translationLanguages: "en",
+    nid (integer): "1",
+    uuid (uuid): "0bcddef8-4c2e-4e3e-96a5-ec68d92d4506",
+    vid (integer): "6",
+    langcode (language): "en",
+    type (entity_reference): "article",
+    revision_timestamp (created): "1712933329",
+    revision_uid (entity_reference): "User::load(1)",
+    revision_log (string_long): [],
+    status (boolean): "1",
+    uid (entity_reference): "User::load(1)",
+    title (string): "test article",
+    created (created): "1712077117",
+...
+
+
+> $x
+= Drupal\node\Entity\Node {#6835
+    +in_preview: null,
+    translationLanguages: "en",
+    nid (integer): "1",
+    uuid (uuid): "0bcddef8-4c2e-4e3e-96a5-ec68d92d4506",
+    vid (integer): "6",
+    langcode (language): "en",
+    type (entity_reference): "article",
+    revision_timestamp (created): "1712933329",
+    revision_uid (entity_reference): "User::load(1)",
+    revision_log (string_long): [],
+    status (boolean): "1",
+    uid (entity_reference): "User::load(1)",
+    title (string): "test article",
+    created (created): "1712077117",
+...
+
+> $x->getTitle();
+test article
+
+> $x->set('title','new article title')->save();
+= 2
+
+> $x->getTitle();
+= "new article title"
+```
+
+Asking drush to give you a render array for the node $x is a good way to see what is available to you in the node object.  Here is how you can do that:
+
+```bash
+> $x = Node::load(1);
+= Drupal\node\Entity\Node {#6835
+    +in_preview: null,
+    translationLanguages: "en",
+    nid (integer): "1",
+    uuid (uuid): "0bcddef8-4c2e-4e3e-96a5-ec68d92d4506",
+    vid (integer): "6",
+    langcode (language): "en",
+    type (entity_reference): "article",
+    revision_timestamp (created): "1712933329",
+    revision_uid (entity_reference): "User::load(1)",
+    revision_log (string_long): [],
+    status (boolean): "1",
+    uid (entity_reference): "User::load(1)",
+    title (string): "test article",
+    created (created): "1712077117",
+...
+
+
+> $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+= Drupal\node\NodeViewBuilder {#6404}
+
+> $output = $view_builder->view($x);
+= [
+    "#node" => Drupal\node\Entity\Node {#6835
+      +in_preview: null,
+    },
+    "#view_mode" => "full",
+    "#cache" => [
+      "tags" => [
+        "node_view",
+        "node:1",
+      ],
+      "contexts" => [
+        "route.name.is_layout_builder_ui",
+      ],
+      "max-age" => -1,
+      "keys" => [
+        "entity_view",
+        "node",
+        "1",
+        "full",
+      ],
+      "bin" => "render",
+    ],
+    "#theme" => "node",
+    "#weight" => 0,
+    "#pre_render" => [
+      [
+        Drupal\node\NodeViewBuilder {#6404},
+        "build",
+      ],
+    ],
+  ]
+```
+
+
+
+Read more at
+-  [Drush.org php:cli](https://www.drush.org/latest/commands/php_cli/)
+-  [ChatGPT Experiments: "Act as Drush, shall we play a game?" - Blog post about getting ChatGpt to pretend it was drush by Joe Schindlar of Drupalize.me Mar 2024](https://drupalize.me/blog/chatgpt-experiments-act-drush-shall-we-play-game)
+
+
+## Global Drush - run drush on host
 
 I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded by [Oh-my-Zsh](https://ohmyz.sh/).  Drush runs slightly slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within `/vendor/bin`) and call it. **Always** install drush in each project using composer.
 
