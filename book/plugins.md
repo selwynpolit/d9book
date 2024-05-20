@@ -1251,8 +1251,9 @@ function mymodule_hook_block_info() {
 ### Derivative references
 - [Tutorial on Using Drupal 8 Plygin derivatives effectively](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
 - [Plugin Derivatives on drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-derivatives)
-- 
-
+- [Plugin Derivatives for Drupal 8, 9, and 10 from Drupalize.me](https://drupalize.me/tutorial/plugin-derivatives)
+- [Dynamic menu links in Drupal 8 with plugin derivatives by Daniel Sipos - Jun 2017](https://www.webomelette.com/dynamic-menu-links-drupal-8-plugin-derivatives)
+- [How do I create a queue derivative on StackExchange](https://drupal.stackexchange.com/questions/293667/how-do-i-create-a-queue-derivative)
 
 
 
