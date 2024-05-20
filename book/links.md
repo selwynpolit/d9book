@@ -81,22 +81,60 @@ You can generate links several different ways.
 ```php
 //Using link generator to create a GeneratedLink.
 $url = Url::fromUri('internal:/node/1');
-$link = \Drupal::service('link_generator')->generate('My link', $url);
+$link = \Drupal::service('link_generator')->generate('Scottish Pie', $url);
+
+// To get the string of the link:
+$str = $link->__toString();
+// or
+$str = (string) $link;
+// $str = <a href="/recipes/scottish-pie">Scottish Pie</a>
 ```
 
-If you want to use markup in the text of your link, you need to use a render array element rather than just using a string.
+### Render a link to a node
 
-[From Stack Exchange](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link):
+To create a render array element for the link:
 
 ```php
+$build['scottish_pie'] = [
+  '#type' => 'link',
+  '#title' => $this->t('Scottish Pie'),
+  '#url' => Url::fromUri('internal:/node/9'),
+  '#attributes' => [
+    'class' => ['scottish-pie-class'],
+  ],
+];
+
+// OR.
+$url = Url::fromUri('internal:/node/9');
+$link = \Drupal::service('link_generator')->generate('Scottish Pie', $url);
+// Render the link.
+$build['link'] = [
+  '#markup' => $link,
+];
+```
+
+To build the render array manually:
+
+```php
+$nid = 9;
 $url = Url::fromRoute('entity.node.canonical', ['node' => $nid]);
+//$url = Url::fromUri('internal:/node/9');
 $link_text =  [
   '#type' => 'html_tag',
-  '#tag' => 'span',
-  '#value' => $this->t('Load More'),
+  '#tag' => 'div',
+  '#attributes' => [
+    'class' => ['load-more-class'],
+  ],
+  '#value' => $this->t('Load related recipe'),
 ];
 $link = Link::fromTextAndUrl($link_text, $url);
+$build['load_more'] = [
+  '#markup' => $link->toString(),
+];
 ```
+
+[More at Stack Exchange](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link):
+
 
 ### Create an absolute link to a node
 
@@ -109,6 +147,29 @@ $url = Url::fromRoute('entity.node.canonical', ['node' => $nid], ['absolute' => 
 $link = Link::fromTextAndUrl($this->t('Read more'), $url);
 $build['read_more'] = $link->toRenderable();
 ```
+
+### Create a link to a route
+  
+```php
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+
+$url = Url::fromRoute('my_route', ['param1' => $value1, 'param2' => $value2]);
+// The Link class implements __toString() so you can print this directly.
+$link = \Drupal::service('link_generator')->generate('My link', $url);
+// Or
+$link = Link::fromTextAndUrl('My link', $url);
+```
+
+Links can generate a render array  of `#type => 'link'`using `toRenderable()`.
+
+Using the Link object, we can gerneate a link:
+
+
+```php
+$link = \Drupal::service('link_generator')->generatefromLink($link_object)
+```
+
 
 ### Add a class to your link
 
