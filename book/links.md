@@ -5,16 +5,23 @@ title: Links
 # Links, Aliases and URLs
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=links.md)
 
-## Create an external url
+
+
+
+## The Drupal Core Url Class
+
+The `Drupal\Core\Url` class is often used to create URL's. Two important methods are:
+
+`Url::fromRoute()` which takes a route name and parameters and
+
+`Url::fromUri()` which takes an internal or external URL
+
+You can also set attributes for the url using:
 
 ```php
-use Drupal\Core\Url
-
-$url = Url::fromUri('http://testsite.com/go/here');
-// Set options like target = '_blank' to open link in new window.
-$url->setOptions(['attributes' => ['target' => '_blank']]);
+$helpdesk_url->setOptions(['attributes' => ['target' => '_blank']]);
 ```
-
+See how these are used in some of the examples below.
 
 ## Create an internal url
 
@@ -50,25 +57,21 @@ Then something more complicated like this URL to `/reports/search?user=admin`
   $url = Url::fromUri('internal:/reports/search', $option);
 ```
 
-
-## The Drupal Core Url Class
-
-The `Drupal\Core\Url` class is often used to create URL's. Two important methods are:
-
-`Url::fromRoute()` which takes a route name and parameters and
-
-`Url::fromUri()` which takes an internal or external URL
-
-You can also set attributes for the url using:
+## Create an external url
 
 ```php
-$helpdesk_url->setOptions(['attributes' => ['target' => '_blank']]);
+use Drupal\Core\Url
+
+$url = Url::fromUri('http://testsite.com/go/here');
+// Set options like target = '_blank' to open link in new window.
+$url->setOptions(['attributes' => ['target' => '_blank']]);
 ```
-See how these are used in some of the examples below.
+
+
 
 ## The Drupal Core Link Class
 
-Closely related and often used in conjunction with the Drupal Core URL class is the `Drupal\Core\Link` class.  These can be used in render arrays. Note that you specify attributes like `target = "_blank"` in the Url (using `setOptions`), rather than the link.  It doesn't seem like you can specify attributes in the link. See above.
+Closely related and often used in conjunction with the Drupal Core `Url` class is the `Drupal\Core\Link` class.  These can be used in render arrays. Note that you specify attributes like `target = "_blank"` in the Url (using `setOptions`), rather than the link.  It doesn't seem like you can specify attributes in the link.
 
 
 You can generate links several different ways.
@@ -194,7 +197,7 @@ $url = Url::fromRoute('entity.node.canonical',['node' => $nid], $options);
 $link = \Drupal::service('link_generator')->generate('My link', $url);
 ```
 
-### Create a link from an internal URL
+### Create a link to an internal URL
 
 ```php
 use Drupal\Core\Url
@@ -214,20 +217,22 @@ $link = Link::fromTextAndUrl($this->t('Home'), $url);
 $build['homepage_link'] = $link->toRenderable();
 ```
 
-## Check if a link field is empty
+## Link Fields
+
+### Check if a link field is empty
 ```php
 if (!$citation_node->field_link->uri) {
   // Empty.
 }
 ```
 
-## Retrieve a link field from a node or a paragraph
+### Retrieve a link field from a node or a paragraph
 
 The link field `field_link` is extracted from the node and a valid uri is extracted from that field.
 
 ```php
 $correction_node = Node::load($nid);
-$current_url = $correction_node->get('field_link')->uri;
+$url = $correction_node->get('field_link')->uri;
 ```
 
 Or from a paragraph field
@@ -262,22 +267,19 @@ $vendor_url = $sf_contract->field_vendor_url;
 
 returns a `Drupal\Core\Field\FieldItemList` which is a list of fields so you then would have to pull out the first field and extract the URI out of that. I'm not sure why Drupal considers it multiple values instead of just one. This was not set up as a multivalue field.
 
-## Retrieve a URL field
 
-### Retrieve External links from a URL field
+### Extract an external URL from a link field
 
-You can get the URL (for external links) and then just the text part.
-
-Note this doesn't work for internal links. Note also this slightly convoluted example has a reference field field_sf_contract_ref which has a link to another entity and the field_vendor_url-\>first()-\>getUrl() is the important part. Also note, this is a single-value field (not a multivalue field -- so the first() call may be a little disturbing to those who expect things to be a little clearer.)
+You can get the URL (for external links) and then just the text part. Note this doesn't work for internal links. 
 
 ```php
 $citation_link = $citation->get('field_link');
 if (!$citation_link->isEmpty()) {
-  $citation_link = $citation->field_link->first()->getUrl()->toString();
+  $url_string = $citation->field_link->first()->getUrl()->toString();
 }
 ```
 
-Here is a slightly more complex example from a form:
+This slightly convoluted example has a reference field `field_sf_contract_ref` which has a link to another entity which has a field `field_vendor_url`. The call : `field_vendor_url->first()->getUrl()` does the work to retrieve the URL. Also, this is a single-value field (not a multivalue field) -- so the `first()` call may be a little confusing. Once we have the Url object, we can extract the URI with `getUri()` or `toString()`:
 
 ```php
 $vendor_url = $node->field_sf_contract_ref->entity->field_vendor_url->first()->getUrl();
@@ -290,9 +292,9 @@ if ($vendor_url) {
 
 
 
-### Retrieve Internal links from a URL field
+### Extract an internal URL from a link field
 
-For internal links, use getUrl()for the URL and -\>title for the title.
+For internal links, use `getUrl()`for the URL and `->title` for the title. Here we extract the URL and the title from a `field_link` field.
 
 ```php
 $instructions_node = Node::load($order_type_instructions_nid);
@@ -311,7 +313,7 @@ if ($instructions_node) {
 
 ## Get the NID from a URL Alias
 
-To get the nid for a node, you can pass the URL alias to getPathByAlias.
+To get the nid for a node, you can pass the URL alias parameter to `getPathByAlias()` of the `path_alias.manager service.
 
 ```php
 // Given "/test-node, returns "/node/32".
@@ -327,7 +329,7 @@ If you have a URL for a node and you want its nid
 $route = $url->getRouteParameters();
 // first check if it's a node.
 if (isset($route['node'])) {
-  $nid = $route["node"];
+  $nid = $route['node'];
 }
 ```
 
@@ -350,7 +352,7 @@ $term5_alias = $term5_url->toString();
 
 ## Get the User ID from a URL alias
 
-Returns \"/user/2\"
+Use `path_alias.manager` service to return `"/user/2"`
 
 ```php
 //User
@@ -359,14 +361,14 @@ $user_path_with_uid = \Drupal::service('path_alias.manager')->getPathByAlias('/s
 
 ## Get the URL alias for a node
 
-If no alias is set, this will return \"/node/32\". Note. If there are multiple aliases, you will get the most recently created one.
+If no alias is set, this will return `"/node/32"`. Note. If there are multiple aliases, you will get the most recently created one.
 
 ```php
 $node_path = '/node/32';
 $node32_alias = \Drupal::service('path_alias.manager')->getAliasByPath($node_path);
 ```
 
-Use this code if you need the absolute URL . If node/32 has a URL alias set to \"/test-node\" it returns \"https://d9book2.ddev.site/test-node\" . If you specify `absolute => FALSE`, it returns \"/test-node\" .
+Use this code if you need the absolute URL . If `node/32` has a URL alias set to \"/test-node\" it returns \"https://d9book2.ddev.site/test-node\" . If you specify `absolute => FALSE`, it returns \"/test-node\" .
 
 ```php
 use Drupal\Core\Url;
@@ -535,6 +537,7 @@ For <https://txg.ddev.site/newsroom/search/?country=1206>
 
 ![Image path arguments](/images/image-path-args.png)
 
+
 ## Retrieve query and GET or POST parameters (\$\_POST and \$\_GET)
 
 For get variables
@@ -681,5 +684,5 @@ print render($project_link);
 ## Reference links
 
 - [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
-- [Good reference from 2017 for creating links in Drupal](https://agaric.coop/blog/creating-links-code-drupal-8) 
+- [Creating Links in Code for Drupal 8 by David Valdez and Benjamin Melançon - Apr 2017](https://agaric.coop/blog/creating-links-code-drupal-8) 
 - [How do I create a link from Stack Exchange - Jan 2017](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link)
