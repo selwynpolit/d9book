@@ -8,9 +8,9 @@ use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Derivative class that provides the data for Block plugins.
+ * Derivative class that provides the data for Queue plugins.
  */
-class DerivativeExamplesBlockDerivative extends DeriverBase {
+class DerivativeExamplesQueueDerivative extends DeriverBase {
   use StringTranslationTrait;
 
   /**
@@ -34,7 +34,7 @@ class DerivativeExamplesBlockDerivative extends DeriverBase {
       foreach ($products as $key => $product) {
 
         $this->derivatives[$key] = $base_plugin_definition;
-        $this->derivatives[$key]['admin_label'] = $this->t('Derivative Example Block for Product Type : @type', ['@type' => $product]);
+        $this->derivatives[$key]['title'] = $this->t('Queue Name : @type', ['@type' => $product]);
       }
     }
 

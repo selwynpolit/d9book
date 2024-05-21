@@ -11,4 +11,3 @@ derivative_examples.product_type_menu_links:
   parent: derivative_examples.base
   class: Drupal\derivative_examples\Plugin\Menu\ProductTypeMenuLinks
   deriver: Drupal\derivative_examples\Plugin\Derivative\DerivativeExamplesMenuDerivative
-

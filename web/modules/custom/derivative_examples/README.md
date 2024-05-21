@@ -28,3 +28,15 @@ Navigate to https://drupal10.local/admin/structure/block and you will observe th
 Here we create different menu items with derivatives.
 
 ![Menu Derivatives](./data/menu-derivatives.png)
+
+## Queue Derivatives
+
+Here we create different Queue items with derivatives.
+
+![Queue Derivatives](./data/queue-derivatives.png)
+
+## Local Task Derivatives
+
+Here we create different menu local task with derivatives.
+
+![Local Task Derivatives](./data/localtask-derivatives.png)
