@@ -506,6 +506,95 @@ which outputs something like:
 
 ![Block listing](/images/block_listing.png)
 
+### List content types and fields
+
+To get `drush` to list all the content types on your site:
+
+```bash
+drush ev "print_r(array_keys(\Drupal\node\Entity\NodeType::loadMultiple()));"
+Array
+(
+    [0] => ad_block
+    [1] => announcement
+    [2] => committee
+    [3] => committee_member
+    [4] => document
+    [5] => drafting_team_member
+    [6] => meeting
+    [7] => page
+    [8] => page_2_column
+    [9] => page_accordion_location
+    [10] => stan
+    [11] => standard
+    [12] => team_member
+    [13] => wecc_member_organizations_repres
+)
+```
+
+To list all the fields on a content type use `drush fi` (or `drush field:info`).  If you just run `drush field_info` with no arguments, you will be prompted for the entity type and bundle.  If you know the entity type and bundle you can specify them as arguments.  Here is an example for the `page` content type:
+
+```bash
+
+$ drush field:info node page
+ ------------------------ ---------- ----------------------------- -------------
+  Field name               Required   Field type                    Cardinality
+ ------------------------ ---------- ----------------------------- -------------
+  field_access_role                   entity_access_by_role_field   -1
+  field_committee                     entity_reference              1
+  field_main_content                  text_long                     1
+  field_primary_image                 entity_reference              1
+  field_standard                      entity_reference              1
+  layout_builder__layout              layout_section                -1
+ ------------------------ ---------- ----------------------------- -------------
+
+```
+
+### List roles
+
+To get `drush` to list all the roles on your site: `drush role:list --format=list`
+
+```bash
+anonymous
+authenticated
+wecc_employee
+wecc_member
+nda
+base_case
+pslf
+wecc_it
+administrator
+meetings_administrator
+```
+
+If you want the roles with their permissions, you can use `drush role:permissions`:
+
+```bash
+$ drush role:list
+anonymous:
+  rid: anonymous
+  label: 'Anonymous User'
+  perms:
+    - 'access content'
+    - 'view media'
+authenticated:
+  rid: authenticated
+  label: 'Authenticated User'
+  perms:
+    - 'access content'
+    - 'delete own files'
+    - 'edit own image media'
+    - 'use text format webform_default'
+    - 'view media'
+abc_employee:
+  rid: abc_employee
+  label: 'ABC Employee'
+  perms:
+    - 'access administration pages'
+    - 'access content overview'
+    - 'access contextual links'
+    ...
+```
+
 ### Generate code
 
 Drush can scaffold (write your beginning code) modules, controllers, blocks, and much more (maybe not quite as well as ChatGPT 😉), which will save you tons of time. Use commands like `drush generate module`, `drush generate controller` or `drush generate plugin:block` to get a nice starting point for you to write your own controllers. 
