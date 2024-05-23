@@ -63,7 +63,7 @@ I also like to immediately install the `drushonhost` addon:
 ```sh
 ddev get rfay/ddev-drushonhost
 ```
-Read [more about global drush and drushonhost](drush#global-drush---run-drush-on-host)
+Read [more about global drush and drushonhost](drush#global-drush-run-drush-on-host)
 
 
 Edit the `web/sites/default/settings.php` so `settings.local.php` loads before `settings.ddev.php` (the order is critical). You will need to uncomment the lines that load the `settings.local.php`:
