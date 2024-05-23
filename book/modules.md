@@ -303,6 +303,12 @@ The approach in this module is to leverage core's existing `Datetime` functional
 
 ## Development
 
+### Environment Indicator
+This module will help you know what server environment (production, dev, local, etc) you are working in by adding a configurable color bar to each one of your environments. The Environment Indicator adds a coloured bar on the site informing you which environment you're currently in (Development, Staging, Production, etc.). This is incredibly useful if you have multiple environments for each of your sites, and like me, are prone to forgetting which version of the site you are currently looking at.
+
+[https://www.drupal.org/project/environment_indicator](https://www.drupal.org/project/environment_indicator)
+
+
 ### Module Builder
 
 A module which auto-generates a skeleton or "scaffolding" for a module, along with hints on how to fill them in. Useful for newbie developers to learn how Drupal code works, and seasoned developers who are too lazy to look up what arguments a function has to take.
