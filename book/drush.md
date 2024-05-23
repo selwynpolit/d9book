@@ -519,15 +519,6 @@ Array
     [2] => committee
     [3] => committee_member
     [4] => document
-    [5] => drafting_team_member
-    [6] => meeting
-    [7] => page
-    [8] => page_2_column
-    [9] => page_accordion_location
-    [10] => stan
-    [11] => standard
-    [12] => team_member
-    [13] => wecc_member_organizations_repres
 )
 ```
 
@@ -556,14 +547,9 @@ To get `drush` to list all the roles on your site: `drush role:list --format=lis
 ```bash
 anonymous
 authenticated
-wecc_employee
-wecc_member
-nda
-base_case
-pslf
-wecc_it
+abc_employee
+abc_member
 administrator
-meetings_administrator
 ```
 
 If you want the roles with their permissions, you can use `drush role:permissions`:
