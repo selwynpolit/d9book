@@ -47,6 +47,49 @@ ddev drush en devel devel_generate -y
 ```
 Read [more about Devel generate](#generating-test-content-with-devel-generate)
 
+
+### Install Core dev tools
+To install the core dev tools, use the following command:
+```sh
+ddev composer require drupal/core-dev --dev
+```
+
+drupal/core-dev includes various tools and libraries intended for development.
+
+
+Using `composer show drupal/core-dev --all` you can see the contents of the package. It should generate something like:
+```sh
+behat/mink ^1.10
+behat/mink-browserkit-driver ^2.1
+behat/mink-selenium2-driver ^1.4
+colinodell/psr-testlogger ^1.2
+composer/composer ^2.7
+drupal/coder ^8.3.10
+instaclick/php-webdriver ^1.4.1
+justinrainbow/json-schema ^5.2
+mglaman/phpstan-drupal ^1.2.1
+micheh/phpcs-gitlab ^1.1
+mikey179/vfsstream ^1.6.11
+open-telemetry/exporter-otlp ^1
+open-telemetry/sdk ^1
+php-http/guzzle7-adapter ^1.0
+phpspec/prophecy-phpunit ^2
+phpstan/extension-installer ^1.1
+phpstan/phpstan ^1.10.47
+phpstan/phpstan-phpunit ^1.3.11
+phpunit/phpunit ^9.6.13
+symfony/browser-kit ^6.4
+symfony/css-selector ^6.4
+symfony/dom-crawler ^6.4
+symfony/error-handler ^6.4
+symfony/lock ^6.4
+symfony/phpunit-bridge ^6.4
+symfony/var-dumper ^6.4
+```
+
+
+
+
 ### Install Admin Toolbar Module & Module Filter
 
 Every site needs [Admin toolbar module](https://www.drupal.org/project/admin_toolbar) and [Module filter module](https://www.drupal.org/project/module_filter)
