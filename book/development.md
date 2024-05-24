@@ -738,7 +738,7 @@ You can set up PhpStorm to automatically look at your code and warn you of lines
 
 This does require that you have installed the Drupal dev tools (with `composer require --dev drupal/core-dev`) wich include the [coder module](https://www.drupal.org/project/coder). See [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards) for details on how to install and configure it.
 
-Go to: Settings, Php, Debug, Quality Tools, PHP_CodeSniffer
+Go to: Settings, PHP, Quality Tools, PHP_CodeSniffer
 
 Use the following settings:
 - Configuration: System PHP
@@ -748,7 +748,7 @@ Under the `...` button set the PHP_CodeSniffer path to : `/Users/spolit/.compose
 If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
 
 ::: tip Note
-(replace `/Users/spolit` with your own path to your username) 
+Replace `/Users/spolit` with your own path to your username and `Sites/tea` with the name of your project.
 :::
 
 More at
