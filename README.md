@@ -15,6 +15,7 @@ thanks
 Selwyn
 
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=README.md)
-[![CI/CD](https://github.com/selwynpolit/d9book/actions/workflows/ci-cd.yml/badge.svg?branch=gh-pages)](https://github.com/selwynpolit/d9book/actions/workflows/ci-cd.yml)
+[![CI](https://github.com/selwynpolit/d9book/actions/workflows/ci.yml/badge.svg?branch=gh-pages)](https://github.com/selwynpolit/d9book/actions/workflows/ci.yml?query=branch%3Agh-pages)
+[![CD](https://github.com/selwynpolit/d9book/actions/workflows/cd.yml/badge.svg?branch=gh-pages)](https://github.com/selwynpolit/d9book/actions/workflows/cd.yml?query=branch%3Agh-pages)
 
 Drupal is a registered trademark of Dries Buytaert.
