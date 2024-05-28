@@ -727,6 +727,17 @@ It solves the problem of the default core behaviour, which delete all entries fi
 
 [https://www.drupal.org/project/node_access_rebuild_progressive](https://www.drupal.org/project/node_access_rebuild_progressive)
 
+## Structure
+
+### Event Platform
+
+The Event Platform is actually a set of modules, each of which provides functionality designed to satisfy the needs of anyone creating a site for a Drupal Camp or similar event.
+
+Event Platform Sessions creates a robust system for user-suggested sessions, including an approval workflow, and the ability to automatically notify a user when their suggestion is accepted or rejected. Accepted sessions are displayed in a list, and there's also the ability to associate sessions with rooms, tracks, time slots, and more.
+
+[https://www.drupal.org/project/event_platform](https://www.drupal.org/project/event_platform)
+
+[Demo](https://www.youtube.com/watch?v=1q5VqBSJVEM)
 
 ## Twig
 
