@@ -1,0 +1,5 @@
+# Product Details Local Task Links Derivative Example.
+# We set derive class, which will provide local tasks dynamically.
+derivative_examples.dynamic_tasks_links:
+  base_route: derivative_examples.dynamic_routes
+  deriver: Drupal\derivative_examples\Plugin\Derivative\DerivativeExamplesTaskLinksDerivative
