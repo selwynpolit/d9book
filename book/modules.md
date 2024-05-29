@@ -437,7 +437,7 @@ This module provides a CKEditor plugin to allow users to select Font Awesome ico
 
 [https://www.drupal.org/project/fontawesome](https://www.drupal.org/project/fontawesome)
 
-## Images
+## Images/Media
 
 ### Focal Point
 Focal Point allows you to specify the portion of an image that is most important. This information can be used when the image is cropped or cropped and scaled so that you don't, for example, end up with an image that cuts off the subject's head.
@@ -453,6 +453,13 @@ It offers 3 options that are not in views:
 - Works without views, you could output image URL on a node page
 
 [https://www.drupal.org/project/image_url_formatter](https://www.drupal.org/project/image_url_formatter)
+
+
+
+### Media Alias Display
+This module allows for direct viewing of a file with the URL alias. Instead of viewing the media entity and all the fields users can view a file (like a PDF). Instead of sites/default/files/name-of-file it will display the URL alias.
+
+[https://www.drupal.org/project/media_alias_display](https://www.drupal.org/project/media_alias_display)
 
 ### Svg Image
 This module changes default image field widget and formatter to allow use SVG image with the standard Image field.
