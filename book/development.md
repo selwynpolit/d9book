@@ -13,14 +13,15 @@ This section of the book is about your local development environment and the too
 
 Local development works really well using Docker containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process on any operating system. After installing `Docker` and `DDEV`, follow these steps:
 
-### Install Drupal
+### Install Drupal 10
 
 ```
 mkdir my-drupal10-site
 cd my-drupal10-site
-ddev config --project-type=drupal10 --docroot=web --create-docroot
+ddev config --project-type=drupal --php-version=8.3 --docroot=web
 ddev start
-ddev composer create drupal/recommended-project
+ddev composer create drupal/recommended-project:^10
+ddev config --update
 ddev composer require drush/drush
 ddev drush site:install --account-name=admin --account-pass=admin -y
 # Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
@@ -29,15 +30,8 @@ ddev drush uli
 ddev launch
 ```
 
-### Install Drupal developer tools
-
-You might want to install the Drupal dev tools using this:
-```
-composer require drupal/core-dev --dev --update-with-all-dependencies
-```
-
-More at [DDEV CMS Quickstart guides](https://ddev.readthedocs.io/en/stable/users/quickstart/) to install [Drupal](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal), Wordpress, TYPO3, Backdrop, Magento, Laravel etc. 
-And the [Local development guide on drupal.org - updated October 2023](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
+More at [DDEV CMS Quickstart guides: Drupal installation](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal).
+And the [Local development guide on drupal.org - updated May 2024](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
 
 ### Install Devel module
 To generate dummy content and access a host of other useful tools, install the [Devel module](https://www.drupal.org/project/devel)
@@ -48,13 +42,13 @@ ddev drush en devel devel_generate -y
 Read [more about Devel generate](#generating-test-content-with-devel-generate)
 
 
-### Install Core dev tools
+### Install Drupal Core developer tools
 To install the core dev tools, use the following command:
 ```sh
 ddev composer require drupal/core-dev --dev
 ```
 
-drupal/core-dev includes various tools and libraries intended for development.
+The `drupal/core-dev` package includes various tools and libraries intended for development.
 
 
 Using `composer show drupal/core-dev --all` you can see the contents of the package. It should generate something like:
@@ -86,8 +80,6 @@ symfony/lock ^6.4
 symfony/phpunit-bridge ^6.4
 symfony/var-dumper ^6.4
 ```
-
-
 
 
 ### Install Admin Toolbar Module & Module Filter
@@ -132,7 +124,7 @@ Copy the `sites/example.settings.local.php` to `sites/default/settings.local.php
 cp web/sites/example.settings.local.php web/sites/default/settings.local.php
 ```
 
-Add the `IS_DDEV_PROJECT` environment variable as the last line of your `settings.local.php`:
+Add the line below to include the `IS_DDEV_PROJECT` environment variable as the last line of your `settings.local.php`:
 
 ```php
 putenv("IS_DDEV_PROJECT=true");
@@ -147,20 +139,33 @@ Make the config sync dir with:
 mkdir -p config/sync
 ``` 
 
-And add it to your `sites/default/settings.php`
+And add it to your `sites/default/settings.php`. Here is the section in that file:
+
 ```php
+/**
+ * Location of the site configuration files.
+ *
+ * The $settings['config_sync_directory'] specifies the location of file system
+ * directory used for syncing configuration data. On install, the directory is
+ * created. This is used for configuration imports.
+ *
+ * The default location for this directory is inside a randomly-named
+ * directory in the public files path. The setting below allows you to set
+ * its location.
+ */
+# $settings['config_sync_directory'] = '/directory/outside/webroot';
 $settings['config_sync_directory'] = '../config/sync';
 ```
 
 ### Some optional steps
-Export your Drupal database with:
+Make a local backup of your database with:
 ```sh
 ddev export-db -f dbdump1.sql.gz
 ```
 
 Export your config with:
 ```sh
-drush cex
+ddev drush cex
 ```
 
 Add a `.gitignore` file with:
@@ -195,6 +200,10 @@ Add a `.gitignore` file with:
 ```
 
 
+Add a README.md in the root of your project with a description of your project.
+
+
+
 Create your repo on Github (or Gitlab) and add your site to git with:
 ```sh
 git init
@@ -208,6 +217,18 @@ git push -u origin main
 
 Rock n Roll!!!
 
+## Drupal Starter Project
+I have created the [drupalstarter project on github](https://github.com/selwynpolit/drupalstarter) which already has completed these steps, so you can clone that and start from there.
+  
+```sh
+git clone git@github.com:selwynpolit/drupalstarter.git my-drupal-site
+cd my-drupal-site
+ddev start
+ddev drush site:install --account-name=admin --account-pass=admin -y
+# setup settings.local.php as above
+# setup your config sync directory
+ddev cim -y
+```
 
 
 
