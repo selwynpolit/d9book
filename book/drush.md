@@ -650,7 +650,7 @@ To fix this modify the drush alias file by adding the following key under each e
     tty: 0
 ```
 
-Here is a complete example of an alias file:
+Here is an example of an alias file:
 
 ```yml
 prod:
