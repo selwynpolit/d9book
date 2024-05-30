@@ -630,6 +630,67 @@ $ drush generate controller
  • /Users/selwyn/Sites/d9book2/web/modules/custom/general/src/Controller/ExampleController.php
 ```
 
+### Retrieve database with sql-dump
+
+I often use `drush @site.prod sql-dump > prod.sql` to get a copy of the production database.  This is a quick way to get a copy of the database to work with locally.  For import into the DDEV database, it needs to be gzipped with `gzip prod.sql` and then can be imported with `ddev import-db --file=prod.sql.gz`.
+
+On Acquia, when you drush use sql-dump, you might see the following error:
+```
+drush @abc.prod sql-dump >dbprod.sql
+
+In Process.php line 1022:
+
+  TTY mode requires /dev/tty to be read/writable.
+```
+
+To fix this modify the drush alias file by adding the following key under each environment's alias:
+```
+  ssh:
+    tty: 0
+``
+Here is a complete example of an alias file:
+
+```yml
+prod:
+  root: /var/www/html/docroot
+  ac-site: abc
+  ac-env: prod
+  ac-realm: prod
+  uri: abc.prod.acquia-sites.com
+  host: abc.ssh.prod.acquia-sites.com
+  user: abc.prod
+  paths:
+    drush-script: /var/www/html/vendor/bin/drush
+  ssh:
+    tty: 0
+
+test:
+  root: /var/www/html/docroot
+  ac-site: abc
+  ac-env: test
+  ac-realm: test
+  uri: abc.prod.acquia-sites.com
+  host: abctest.ssh.prod.acquia-sites.com
+  user: abc.test
+  paths:
+    drush-script: /var/www/html/vendor/bin/drush
+  ssh:
+    tty: 0
+
+dev:
+  root: /var/www/html/docroot
+  ac-site: abc
+  ac-env: dev
+  ac-realm: dev
+  uri: abcdev.prod.acquia-sites.com
+  host: abcdev.ssh.prod.acquia-sites.com
+  user: abc.dev
+  paths:
+    drush-script: /var/www/html/vendor/bin/drush
+  ssh:
+    tty: 0
+```
+
 
 ### Sanitize Databases
 
