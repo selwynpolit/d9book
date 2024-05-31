@@ -425,6 +425,8 @@ This lets you add a view (and a view's display) to a content type so it gets ren
 
 ## Files
 
+### File Field Paths
+
 The File Field Paths module extends the default functionality of Drupal's core File module, Image module and many other File upload modules, by adding the ability to use entity based tokens in destination paths and file names.
 
 In simple terms, File (Field) Paths allows you to automatically sort and rename your uploaded files using token based replacement patterns to maintain a nice clean filesystem.
