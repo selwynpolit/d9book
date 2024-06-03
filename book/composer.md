@@ -285,6 +285,78 @@ and from <https://www.drupal.org/docs/develop/using-composer/using-drupals-compo
 More at <https://drupal.stackexchange.com/questions/290989/composer-keeps-overwriting-htaccess-and-other-files-every-time-i-do-anything>
 
 
+## Modify files that are usually included in scaffolding
+
+Here the `composer.json` has a little tweak that inserts (prepends?) the contents of the `scaffold/htaccess_prepend.txt` file into the `.htaccess` file.  This is useful for adding custom rules to the `.htaccess` file.  It also prevents several other files from being overwritten during composer install or update.
+
+```yaml
+"extra": {
+    "drupal-scaffold": {
+        "locations": {
+            "web-root": "docroot/"
+        },
+        "file-mapping": {
+            "[web-root]/.ht.router.php": false,
+            "[web-root]/example.gitignore": false,
+            "[web-root]/INSTALL.txt": false,
+            "[web-root]/README.md": false,
+            "[web-root]/web.config": false,
+            "[web-root]/modules/README.txt": false,
+            "[web-root]/profiles/README.txt": false,
+            "[web-root]/sites/default/default.services.yml": false,
+            "[web-root]/sites/default/default.settings.php": false,
+            "[web-root]/sites/example.settings.local.php": false,
+            "[web-root]/sites/example.sites.php": false,
+            "[web-root]/sites/README.txt": false,
+            "[web-root]/themes/README.txt": false,
+            "[web-root]/.htaccess": {
+                "prepend": "scaffold/htaccess_prepend.txt"
+            }
+        }
+    },
+```
+
+Here are the contents of the `scaffold/htaccess_prepend.txt` file.  Note that this adds a redirect rule to force HTTPS and also adds .htaccess password control for the dev, test and prod environments.:
+
+```apache
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+
+  # Redirect HTTP requests to HTTPS.
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+<IfModule mod_authn_file.c>
+  # Require authentication for the development environment.
+  <If "%{ENV:AH_SITE_ENVIRONMENT} == 'dev'">
+    AuthType Basic
+    AuthName "Authentication required"
+    AuthUserFile /mnt/files/abc.dev/nobackup/.htpasswd
+    Require valid-user
+  </If>
+
+  # Require authentication for the test/stage environment.
+  <If "%{ENV:AH_SITE_ENVIRONMENT} == 'test'">
+    AuthType Basic
+    AuthName "Authentication required"
+    AuthUserFile /mnt/files/abc.test/nobackup/.htpasswd
+    Require valid-user
+  </If>
+
+  # Require authentication for the production environment.
+  <If "%{ENV:AH_SITE_ENVIRONMENT} == 'prod'">
+    AuthType Basic
+    AuthName "Authentication required"
+    AuthUserFile /mnt/files/abc.prod/nobackup/.htpasswd
+    Require valid-user
+  </If>
+</IfModule>
+```
+
+
+
 ## Updating Drupal Core
 
 if there is `drupal/core-recommended` in your `composer.json` use:
