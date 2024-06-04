@@ -1150,6 +1150,151 @@ During module development or upgrades, it can be really useful to quickly uninst
 
 With the JSON:API and Serialization core modules enabled, simply navigate to any node and add `?_format=api_json` to the end of the URL. E.g. `https://d9book2.ddev.site/node/25?_format=api_json` 
 
+## Display a file instead of the node
+
+In this case, the node has a file field `field_doc_file` and we want to display that file instead of the node. This code also checks the user's permissions and rather displays the node if the user has the `administer content` permission.
+
+
+Here is the route event subscriber in `docroot/modules/custom/abc_document/abc_document.services.yml`:
+  
+```yaml
+services:
+  abc_document.route_subscriber:
+    class: Drupal\abc_document\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+```
+
+Here is the Code for the Route subscriber at `docroot/modules/custom/abc_document/src/Routing/RouteSubscriber.php`:
+```php
+<?php
+
+namespace Drupal\abc_document\Routing;
+
+use Drupal\Core\Routing\RouteSubscriberBase;
+use Symfony\Component\Routing\RouteCollection;
+
+/**
+ * Listens to the dynamic route events.
+ */
+class RouteSubscriber extends RouteSubscriberBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function alterRoutes(RouteCollection $collection) {
+    // Replace the controller for the node canonical route.
+    if ($route = $collection->get('entity.node.canonical')) {
+      $route->setDefaults([
+        '_controller' => '\Drupal\abc_document\Controller\NodeViewController::view',
+      ]);
+    }
+  }
+
+}
+```
+And finally, the controller in `docroot/modules/custom/abc_document/src/Controller/NodeViewController.php`:
+
+```php
+<?php
+
+namespace Drupal\abc_document\Controller;
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
+use Drupal\file\FileInterface;
+use Drupal\node\Controller\NodeViewController as NodeViewControllerBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+/**
+ * Defines a controller to render a single node.
+ */
+class NodeViewController extends NodeViewControllerBase {
+
+  /**
+   * The current request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected Request $request;
+
+  /**
+   * The stream wrapper manager.
+   *
+   * @var \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface
+   */
+  protected StreamWrapperManagerInterface $streamWrapperManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+
+    $instance->request = $container->get('request_stack')->getCurrentRequest();
+    $instance->streamWrapperManager = $container->get('stream_wrapper_manager');
+
+    return $instance;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function view(EntityInterface $node, $view_mode = 'full', $langcode = NULL) {
+
+    $included_types = [
+      'progress_report',
+      'program',
+      'products',
+      'finance',
+      'event',
+      ];
+
+    /** @var \Drupal\node\NodeInterface $node */
+    $bundle = $node->bundle();
+    if (!in_array($bundle, $included_types) || !$node->hasField('field_doc_file')) {
+      return parent::view($node, $view_mode);
+    }
+
+    // Display the node if the user is an admin.
+    if ($this->currentUser->hasPermission('administer content')
+    ) {
+      return parent::view($node, $view_mode);
+    }
+
+    // If the node has no file item.
+    $file = $node->get('field_doc_file')->entity;
+    if (!$file) {
+      throw new NotFoundHttpException();
+    }
+    assert($file instanceof FileInterface);
+    $uri = $file->getFileUri();
+    $scheme = $this->streamWrapperManager::getScheme($uri);
+
+    // If the file does not exist.
+    if (!$this->streamWrapperManager->isValidScheme($scheme) || !is_file($uri)) {
+      throw new NotFoundHttpException();
+    }
+
+    // Generate the response.
+    $response = new BinaryFileResponse($uri, Response::HTTP_OK, [], $scheme !== 'private');
+    if (!$response->headers->has('Content-Type')) {
+      $response->headers->set('Content-Type', $file->getMimeType() ?: 'application/octet-stream');
+    }
+
+    return $response;
+  }
+
+}
+```
+
+
+
+
 ## Drupal bootstrap process
 
 The Drupal bootstrap process is a series of steps that Drupal goes through on every page request to initialize the necessary resources and environment. Here are the steps:  
