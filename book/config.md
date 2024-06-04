@@ -19,7 +19,7 @@ You can override config items in a `settings.php` or `settings.local.php` using 
 [More on configuration Management on Drupal.org.](https://www.drupal.org/docs/configuration-management)
 
 
-## Reading config values in code
+## Read config values in code
 
 This example shows how to load a rest endpoint from config. This is very similar to Drupal 7 `variable_get()`.
 
@@ -28,39 +28,87 @@ Use the Configuration API main entry point `\Drupal::config()` to load the confi
 ```php
 $pizzaEndpoint = \Drupal::config('pizza_academy_core.pbx.rest.endpoint');
 $pizza_service_url = $pizzaEndpoint->get('pizza_rest_endpoint').$reg_id;
+
+# or more succinctly
+$pizza_service_url = \Drupal::config('pizza_academy_core.pbx.rest.endpoint')->get('pizza_rest_endpoint').$reg_id;
 ```
 
-When you export the config, this information is stored in a file called `pizza_academy_core.pbx.rest.endpoint.yml` with a key `pizza_rest_endpoint`.
 
-The contents of the file are simply:
+When you export the config (with `drush cex`), this information is stored in a file called `pizza_academy_core.pbx.rest.endpoint.yml` with a key `pizza_rest_endpoint`.
 
-```
+The contents of the file are:
+
+```yml
 pizza_rest_endpoint: 'https://pbx.pizza.com/pbx-profile-service/'
 ```
 
-You'll find this in a file in the config sync directory specified in
+You'll find this in a file in the `config sync` directory specified in
 `settings.php` e.g.
 
 ```
 config/sync/pizza_academy_core.pbx.rest.endpoint.yml
 ```
 
-The config sync directory location is specified in `settings.php` or `settings.local.php` like this
+The location of the `config sync directory` is specified in `settings.php` or `settings.local.php` like this:
 
 ```php
 $settings['config_sync_directory'] = '../config/sync';
 ```
 
-[More on creating custom modules: Using your own configuration](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
+[More on creating custom modules: Using your own configuration - Updated Feb 2024](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
 
-For testing, you can override config items in a `settings.php` or `settings.local.php` using the `$config` global variable.
+For testing, you can override config items in a `settings.php` or `settings.local.php` using the `$config` global variable. See [below for details.](#override-config-in-settingsphp)
 
 
-## Using drush to read config values
+## Read config values with drush
+
+While developing, you can use `drush cget` to interactively read config values.
 
 ```sh
-ddev drush ev "print \Drupal::config('samlauth.authentication')->get('sp_entity_id')"
+# Get the value of system.maintenance message
+drush cget system.maintenance message
+'system.maintenance:message': '@site is currently under maintenance. We should be back shortly. Thank you for your patience.'
 ```
+  
+```sh
+# Get all the values in the system.maintenance config
+drush cget system.maintenance
+_core:
+  default_config_hash: 1SNdA25INsV5YjlgAJtfC-6AM8VcWe_00xneMLb2yFg
+langcode: en
+message: '@site is currently under maintenance. We should be back shortly. Thank you for your patience.'
+```
+
+Another example from the samlauth module: 
+```sh
+# Get the value of sp_entity_id from the samlauth.authentication config
+drush cget samlauth.authentication.sp_entity_id
+'samlauth.authentication:sp_entity_id': 'https://abcc.prod.acquia-sites.com/saml/login'
+
+# Get all the values in the samlauth.authentication config
+drush cget samlauth.authentication
+default_config_hash: oDGEkhP0h58739879238472834j4h8ahhas6gashdkad
+login_menu_item_title: LOGIN
+logout_menu_item_title: Logout
+login_redirect_url: /front-page
+logout_redirect_url: ''
+error_redirect_url: ''
+error_throw: false
+local_login_saml_error: false
+logout_different_user: false
+drupal_login_roles:
+  authenticated: '0'
+  abc_employee: '0'
+  abcc_member: '0'
+```
+
+
+:::tip Note
+If you have overridden values in your settings.php, `drush cget` will only show them if you include the `--include-overridden` flag.  e.g. Use `drush cget samlauth.authentication --include-overridden`.
+:::
+
+
+
 
 
 
@@ -345,9 +393,7 @@ Don't forget there is a [module called config pages](https://www.drupal.org/proj
 
 ## Override config in settings.php
 
-This can be useful for local development environment (where you might
-put these changes into settings.local.php) or on each one of your servers where you might
-need some configuration to be slightly different. e.g. dev/test/prod.
+This can be useful for local development environment (where you might put these changes into `settings.local.php`) or in `settings.php` where dev, test and prod servers need configuration to be slightly different.
 
 Drupal allows global `$config` overrides (similar to drupal 7). The configuration system integrates these override values via the `Drupal\Core\Config\ConfigFactory::get()` implementation. When you retrieve a value from configuration, the global `$config` variable gets a chance to change the returned value:
 
@@ -357,7 +403,7 @@ Drupal allows global `$config` overrides (similar to drupal 7). The configuratio
 $message = \Drupal::config('system.maintenance')->get('message');
 ```
 
-To override configuration values in global `$config` in settings.php, use a line like this (which references the configuration keys:
+To override configuration values in global `$config` in settings.php, use:
 
 ```php
 $config['system.maintenance']['message'] = 'Sorry, our site is down now.';
@@ -369,18 +415,25 @@ For nested values, use nested array keys
 $config['system.performance']['css']['preprocess'] = 0;
 ```
 
-To test that you have successfully changed the config, you can use a drush command like:
+To test that you have successfully overridden the config, you can use a drush command like:
 
 ```sh
+drush cget system.maintenance.message --include-overridden
+'system.maintenance:message': 'Sorry, our site is down now.'
+```
+
+You can also use `drush ev` to print the overridden value:
+
+```sh
+# or
 ddev drush ev "print \Drupal::config('system.maintenance')->get('message')"
 # or
 ddev drush ev "print \Drupal::config('samlauth.authentication')->get('sp_entity_id')"
 ```
 :::tip Note
-You might think that you can use `drush cget` to see the overridden values. However, drush will ignore values overridden in settings.php. To see the overridden values, you need to add the flag: `--include-overridden`.
+You might think that `drush cget` will always display your overridden values but it will **ignore** values overridden in settings.php. To see the overridden values, you need to add the flag: `--include-overridden`.
 e.g. `drush cget system.maintenance.message --include-overridden` or `drush cget samlauth.authentication.sp_entity_id --include-overridden`
 :::
-
 
 
 If you have a configuration change, for example, you have enabled google tag manager. When you export the config `drush cex -y` and `git diff` to see what changed in config, you'll see (in the last 2 lines) that status is changed from true to false.
