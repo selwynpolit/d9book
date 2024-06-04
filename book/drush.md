@@ -785,7 +785,12 @@ password_reset_timeout: 86400
 password_strength: true
 ```
 
+More on [reading Drupal configuration](config/#read-config-values-with-drush) 
+
 And yes, you can use config:set (or cset) to change configuration. For more see <https://www.drush.org/latest/commands/config_get/>
+
+
+
 
 ### Check if current config matches exported config
 

@@ -816,6 +816,26 @@ Here is more of the config section of a composer.json for clarity:
     },
 ```
 
+Levels of stability
+
+- dev: This is the least stable version, and should never be used in production. It often includes packages under active development that may contain bugs or breaking changes and may still undergo significant modifications. It is only recommended for local development purposes.
+- alpha: It's a version also undergoing development but in a more stable state. It usually contains fewer breaking changes and features nearing final completion or awaiting a beta release. However, it is also not highly recommended for production environments.
+- beta: This version is currently being tested, and minor bugs, when noticed, will need to be fixed. However, it is more stable than the alpha and dev versions, but it's still not recommended for production purposes.
+- RC: The RC (Release Candidate) is a version pending official release. It's the closest to being stable, but the version requires community testing and feedback prior to the final release. Undiscovered bugs can also be identified during this phase, so it's best practice not to use it for production purposes.
+- stable: This is the required level for production purposes. It includes all packages that have gone through significant changes, bug fixes, community testing, feedback, and is now ready to use.
+
+In your composer.json, you can specify the minimum stability by doing the following:
+
+```json
+{
+    "minimum-stability": "stable"
+}
+```
+For more:
+- [freecodecamp.org](https://www.freecodecamp.org/news/what-is-minimum-stability-in-composer/)
+- [getcomposer.org](https://getcomposer.org/doc/04-schema.md#minimum-stability)
+
+
 ## Troubleshooting
 
 ### Composer won\'t update Drupal core
@@ -864,7 +884,7 @@ Then I reinstalled the correct version of drush with `composer require drush/dru
 
 
 
-## Composer won\'t install a module
+### Composer won\'t install a module
 
 In this case I am trying to install the `csv_serialization` module.  I get the following error:
 
