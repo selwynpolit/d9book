@@ -5,6 +5,15 @@ title: Taxonomy
 # Taxonomy
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=taxonomy.md)
 
+## Write taxonomy field
+
+```php
+$entity->set('field_file_type', 145);
+// OR.
+$entity->set('field_file_type', ['target_id' => 145]);
+```
+
+
 ## Lookup term by name
 
 ```php

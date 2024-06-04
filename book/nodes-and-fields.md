@@ -1123,6 +1123,15 @@ $foo = new Foo([
 ]);
 ```
 
+## Write taxonomy field
+
+```php
+$entity->set('field_file_type', 145);
+// OR.
+$entity->set('field_file_type', ['target_id' => 145]);
+```
+
+
 ## Write a date or datetime to a node
 
 note the `[]` array stuff is optional
