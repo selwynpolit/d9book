@@ -7,7 +7,7 @@ title: Config
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=config.md)
 
 ## Overview
-Config is stored in yml files so it can be checked into git. It is loaded into the config table of the database for performance. Use `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more. You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
+Config is stored in yml files so it can be checked into git. It is stored in the `config` table of the database for performance. Use `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more. You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
 
 Config files should be stored in a non-web accessible directory and specified in `settings.php` or `settings.local.php` like:
 
@@ -54,6 +54,14 @@ $settings['config_sync_directory'] = '../config/sync';
 [More on creating custom modules: Using your own configuration](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
 
 For testing, you can override config items in a `settings.php` or `settings.local.php` using the `$config` global variable.
+
+
+## Using drush to read config values
+
+```sh
+ddev drush ev "print \Drupal::config('samlauth.authentication')->get('sp_entity_id')"
+```
+
 
 
 ## Writing config values in code
@@ -283,9 +291,9 @@ $settings['config_readonly_whitelist_patterns'] = [
 [See the following documentation for more information on whitelisting.](https://git.drupalcode.org/project/config_readonly/-/blob/HEAD/README.md#configuration)
 
 
-## Config Storage in the database
+## Config storage in the database
 
-Config is kept in the config table of the database.
+Config is kept in the `config` table of the database.
 
 The `name` field stores the config id e.g. `views.view.infofeeds` (the definition of a view called `infofeeds`)
 
@@ -341,7 +349,7 @@ This can be useful for local development environment (where you might
 put these changes into settings.local.php) or on each one of your servers where you might
 need some configuration to be slightly different. e.g. dev/test/prod.
 
-Drupal allows global `$config` overrides (similar to drupal 7) The configuration system integrates these override values via the `Drupal\Core\Config\ConfigFactory::get()` implementation. When you retrieve a value from configuration, the global \$config variable gets a chance to change the returned value:
+Drupal allows global `$config` overrides (similar to drupal 7). The configuration system integrates these override values via the `Drupal\Core\Config\ConfigFactory::get()` implementation. When you retrieve a value from configuration, the global `$config` variable gets a chance to change the returned value:
 
 ```php
 // Get system site maintenance message text. This value may be overriden by
@@ -360,6 +368,20 @@ For nested values, use nested array keys
 ```php
 $config['system.performance']['css']['preprocess'] = 0;
 ```
+
+To test that you have successfully changed the config, you can use a drush command like:
+
+```sh
+ddev drush ev "print \Drupal::config('system.maintenance')->get('message')"
+# or
+ddev drush ev "print \Drupal::config('samlauth.authentication')->get('sp_entity_id')"
+```
+:::tip Note
+You might think that you can use `drush cget` to see the overridden values. However, drush will ignore values overridden in settings.php. To see the overridden values, you need to add the flag: `--include-overridden`.
+e.g. `drush cget system.maintenance.message --include-overridden` or `drush cget samlauth.authentication.sp_entity_id --include-overridden`
+:::
+
+
 
 If you have a configuration change, for example, you have enabled google tag manager. When you export the config `drush cex -y` and `git diff` to see what changed in config, you'll see (in the last 2 lines) that status is changed from true to false.
 
