@@ -175,11 +175,11 @@ function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_sta
 
 ## Hide a field with hook_form_alter
 
-In a `.module` file, I used this code to remove access to these fields:
+In a `.module` file, use this to hide these fields:
 
 ```php
-$form['field_highlight_section']['#access'] = 0;
-$form['field_accordion_section']['#access'] = 0;
+$form['field_highlight_section']['#access'] = FALSE;
+$form['field_accordion_section']['#access'] = FALSE;
 ```
 
 This grays out a field:
@@ -191,6 +191,9 @@ $form['field_text2']['#disabled'] = true;
 Here is the whole function where I also check what these is currently in use:
 
 ```php
+/**
+ * Implements hook_form_alter().
+ */
 function dan_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $activeThemeName = \Drupal::service('theme.manager')->getActiveTheme();
   if ($activeThemeName->getName() == 'seven') {
@@ -1951,7 +1954,8 @@ rsvp.admin_settings:
 
 ### Retrieving field values
 
-When you go to grab a field value from a form, use getValue(). The values that come back from this are arrays so you have to extract them like this (from org_mods.module)
+When you go to grab a field value from a form, use `getValue()`. The values that come back from this are arrays so you have to extract them like this (from org_mods.module)
+
 
 ```php
 function cn_form_validate($form, FormStateInterface $form_state) {
