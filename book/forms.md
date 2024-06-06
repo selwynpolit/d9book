@@ -1259,7 +1259,7 @@ The code loads `$nids` from the database, loops thru them, putting them into an 
 2.	The #executes_submit_callback => TRUE
 3.	The 'callback' => '::ajaxReplaceIwantForm' specifies what function to call when this field is “submitted”
 4.	The 'wrapper' => 'iwant-container' is the container that will get replaced
-5.	The 'method' => 'replace' which I guess means replace everything in said wrapper.
+5.	The 'method' => 'replace' which will replace everything in said wrapper. Note. as of Drupal 10.3.0, 'replace' is now 'replaceWith'. See [this change record](https://www.drupal.org/node/3450770)
 
 Then it defines the `$form['iwant_container']` and the `$form['iwant_container']['iwant']` element in readiness for the AJAX magic. Lastly it defines the submit `go` button.
 
@@ -1290,7 +1290,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
     '#ajax' => [
       'callback' => '::ajaxReplaceIwantForm',
       'wrapper' => 'iwant-container',
-      'method' => 'replace',
+      'method' => 'replace', // as of 10.3.0, this is now 'replaceWith'
     ],
   ];
   $iwant = [];
@@ -1347,7 +1347,7 @@ Then in the callback for the ajax `iam element`. It returns whatever needs to be
     '#ajax' => [
       'callback' => '::ajaxReplaceIwantForm',
       'wrapper' => 'iwant-container',
-      'method' => 'replace',
+      'method' => 'replace', // as of 10.3.0, this is now 'replaceWith'
 ```
 
 Then, add the ajax callback.
@@ -1456,7 +1456,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
     '#ajax' => [
       'callback' => '::ajaxReplaceIwantForm',
       'wrapper' => 'iwant-container',
-      'method' => 'replace',
+      'method' => 'replace', // as of 10.3.0, this is now 'replaceWith'
     ],
   ];
   $iwant = [];
@@ -1490,7 +1490,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
     '#ajax' => [
       'callback' => '::ajaxUpdateActionsForm',
       'wrapper' => 'actions-container',
-      'method' => 'replace',
+      'method' => 'replace', // as of 10.3.0, this is now 'replaceWith'
       'progress' => [
         'type' => 'none',
       ],
@@ -1600,7 +1600,7 @@ $form['iam'] = [
   '#ajax' => [
     'callback' => '::ajaxReplaceIwantForm',
     'wrapper' => 'iwant-container',
-    'method' => 'replace',
+    'method' => 'replace', // as of 10.3.0, this is now 'replaceWith'
   ],
 ];
 ```
@@ -1632,7 +1632,7 @@ $form['iwant_container']['iwant'] = [
   '#ajax' => [
     'callback' => '::ajaxUpdateActionsForm',
     'wrapper' => 'actions-container',
-    'method' => 'replace',
+    'method' => 'replace', // as of 10.3.0, this is now 'replaceWith'
     'progress' => [
       'type' => 'none',
     ],
