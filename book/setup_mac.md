@@ -12,7 +12,7 @@ Setting up your Mac for development is a highly personal process.  Everyone has 
 
 ### Display files that start with .
 
-Open finder and press Cmd-Shift-.
+Open finder and press `⌘ ⇧ .` (command-shift-period).
 
 ::: tip Note
 This is a toggle, so if you press it twice, it will turn the `.` files off again.
