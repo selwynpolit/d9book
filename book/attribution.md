@@ -24,7 +24,7 @@ Thanks to these rockstars for their contribution to the project. Please add your
 
 [Gary Gao](https://github.com/angrytoast) - Query access checking.
 
-[Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme (x2) and many other items.
+[Maks Oleksyuk](https://github.com/maks-oleksyuk) - Amazing work on moving the book to a new theme (x2) and many other items. Keeping vitepress humming along. General helpful suggestions.
 
 [Bernard Martinez](https://github.com/bmartinez287) - Block chapter fixes.
 
@@ -56,3 +56,4 @@ Thanks to these rockstars for their contribution to the project. Please add your
 
 [Dimitri Kritsotakis](https://github.com/dimitriskr) - Batch API magic.
 
+[Brian Hogue](https://github.com/syzygy333) - General clarification

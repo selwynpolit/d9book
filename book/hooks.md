@@ -11,6 +11,13 @@ Drupal hooks allow modules to alter and extend the behavior of Drupal core, or a
 
 According to ChapGPT: Hooks are a key aspect of Drupal\'s module system, and allow developers to interact with the core functionality of Drupal 9 or Drupal 10. They can be used to alter or extend the behavior of Drupal\'s core features, such as adding custom validation to a form,changing the way content is displayed, or adding new actions to the administrative interface. Hooks provide a powerful and flexible way to customize Drupal to meet the needs of a specific project or site, without having to modify the core code. They are essential for developers who want to build custom modules or themes, and are a fundamental part of the Drupal development process.
 
+## Find hooks that are available in modules
+
+Hooks are listed in each module in the `module.api.php` file e.g. `docroot/core/modules/views/views.api.php` contains the views API or `docroot/modules/contrib/paragraphs/paragraphs.api.php` contains the paragraphs API.
+
+
+
+
 ## Modify the login form with hook_form_FORM_ID_alter()   
 
 Here is code from hook_examples.module that modifies the user login form by adding a button. It passes the username and password that were entered to the mythical third party login endpoint.
