@@ -783,7 +783,7 @@ $ drush cim -y
 
 ## Views config.yml files
 
-For views, the config filenames are be in the form `views.view.infofeeds` for a view called `infofeeds`.
+For views, the config filenames follow the pattern `views.view.viewname`. So the filename for a view called `infofeeds` should be `views.view.infofeeds`.
 
 
 ## Troubleshooting
