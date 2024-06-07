@@ -10,9 +10,14 @@ Setting up your Mac for development is a highly personal process.  Everyone has 
 
 ## Better start with these
 
-### Display files that start with .
+### Display files that start with <kbd>.</kbd>
+
+In order to display files that start with a `.` (which are usually hidden) in the finder:
 
 Open finder and press `⌘ ⇧ .` (command-shift-period).
+
+<p>press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>.</kbd></p>
+
 
 ::: tip Note
 This is a toggle, so if you press it twice, it will turn the `.` files off again.
