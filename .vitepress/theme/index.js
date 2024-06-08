@@ -6,13 +6,12 @@ import googleAnalytics from 'vitepress-plugin-google-analytics';
 import imageViewer from 'vitepress-plugin-image-viewer';
 import DefaultTheme from 'vitepress/theme';
 import { h } from 'vue';
-import {
-  NolebaseEnhancedReadabilitiesMenu,
-} from '@nolebase/vitepress-plugin-enhanced-readabilities/client';
+import { NolebaseEnhancedReadabilitiesMenu } from '@nolebase/vitepress-plugin-enhanced-readabilities/client';
 
 import 'viewerjs/dist/viewer.min.css';
 import '@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css';
 import './style.css';
+import './styles/components/vp-doc.css';
 
 /** @type {import('vitepress').Theme} */
 export default {
