@@ -97,6 +97,9 @@ Install the [Homebrew package manager](https://brew.sh/). This will allow you to
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+Follow the steps that Homebrew suggests to update the .zprofile.  The Homebrew install may install the Command Line Tools for Xcode if they aren't already installed on your mac.
+
+
 ::: tip Note
 once you install a formula with Hombrew, you might want to see the `info` that was displayed after you ran the `brew install` command. This is that crucial info that you need to complete the installation. Do that with `brew info formula` e.g.:
 :::
@@ -159,7 +162,7 @@ Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.
 ```
 
 ::: tip Note
-If you install composer first, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.
+If you installed composer before this step, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.  Simply uninstall it and continue with the php 8.1 install.
 :::
 
 ## Composer
@@ -169,7 +172,7 @@ brew install composer
 ```
 
 ::: tip Note
-Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or later) first in the path. This could cause some challenges running the Drupal Test Traits and PHPUnit.
+Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or later) first in the path. PHP 8.2 or later could cause some challenges running the Drupal Test Traits and PHPUnit.
 :::
 
 ## Browsers
@@ -225,7 +228,7 @@ Install "certutil" with "brew install nss" and re-run "mkcert -install"
 
 ## Sequel Ace
 
-This is a great GUI SQL tool. It is actually a fork of the fantatic Sequel Pro which has not been updated in 4 years.
+This is a great GUI SQL tool. It is actually a fork of the fantastic Sequel Pro which has not been updated in 4 years.
 
 `brew install --cask sequel-ace`
 
@@ -262,6 +265,7 @@ Edit your `.zshrc` to make sure in your `~/.zshrc` you have the zsh-autosuggesti
 plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
 ```
 
+
 #### ZSH syntax highlighting
 
 [From the repo for zsh-syntax-highlighting:](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
@@ -279,6 +283,20 @@ In `~/.zshrc file` make sure in your `~/.zshrc` you have the `zsh-autosuggestion
 plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
 ```
 
+You may see a message after you open a new terminal window that says: `no such file or directory: /Users/spolit/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh`. 
+
+This is because there is a line in the `~/.zshrc` file that is trying to source the file after it was moved to the `~/.oh-my-zsh/custom/plugins` folder. 
+You may need to fix the line in ~/.zshrc to point to the correct location.
+  
+```
+# bad line
+#source /Users/spolit/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# good line - replace spolit with your username
+source /Users/spolit/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```
+
+
+
 ## Command line tools
 
 ### git
@@ -288,6 +306,8 @@ Although the macOS comes with git, it is probably wise to install the latest wit
 ```sh
 brew install git
 ```
+Note. you don't get the new version until you open a new terminal.
+
 
 #### Setup .gitconfig
 
@@ -296,10 +316,10 @@ In your $HOME directory, create the .gitconfig file. Replace my name and email a
 ```
 # This is Git's per-user configuration file.
 [user]
-  name = Selwyn Polit
-  email = selwynpolit@example.com
+	name = Selwyn Polit
+	email = selwynpolit@gmail.com
 [core]
-  excludesfile = /Users/spolit/.gitignore_global
+  excludesfile = /Users/selwyn/.gitignore_global
 
 [alias]
   co = checkout
@@ -317,6 +337,11 @@ In your $HOME directory, create the .gitconfig file. Replace my name and email a
         process = git-lfs filter-process
         required = true
 
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+
 ```
 
 Also to set the default main branch as `main` rather than the old and somewhat oppressive word `master` use:
@@ -324,6 +349,9 @@ Also to set the default main branch as `main` rather than the old and somewhat o
 ```sh
 git config --global init.defaultBranch main
 ```
+
+This is already implemented in the `.gitconfig` file above.
+
 
 #### Setup .gitignore_global
 
@@ -403,6 +431,8 @@ git config --global push.autoSetupRemote true
 
 [Read more about automatically creating upstream branches](https://adamj.eu/tech/2022/10/31/git-how-to-automatically-create-upstream-branches/)
 
+
+
 ### NVM (Node Version Manager)
 
 `brew install nvm`
@@ -438,7 +468,7 @@ Count lines of code.
 brew install cloc
 ```
 
-### acli
+### acli (Acquia CLI tool)
 
 [Acquia CLI tool](https://docs.acquia.com/acquia-cli/install/)
 
