@@ -1346,7 +1346,15 @@ In `settings.local.php` (or`settings.php` or `settings.ddev.php`) set the follow
 $config['system.logging']['error_level'] = 'verbose';
 ```
 
-See [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+The options are: 
+
+- `hide`: No errors or warnings
+- `some`: Errors and warnings
+- `all`: All messages
+- `verbose`: All messages, with backtrace information
+
+
+See [Enable verbose error logging for better backtracing and debugging - Updated April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
 
 
 ## Resources
