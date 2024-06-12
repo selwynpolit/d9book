@@ -986,6 +986,67 @@ return AccessResult::allowed();
 return AccessResult::allowedIf(TRUE);
 ```
 
+## Inject services into blocks
+
+To inject the messenger service into a block e.g. `messenger`:
+
+```php
+use Drupal\Core\Messenger\MessengerInterface;
+
+  /**
+   * @var \Drupal\Core\Messenger\Messenger
+   */
+  protected $messenger;
+
+  // In the constructor add the MessengerInterface to the list of services to inject.
+    /**
+   * {@inheritdoc}
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    FileUsageInterface $file_usage,
+    EntityTypeManager $entity_type_manager,
+    MessengerInterface $messenger,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->fileUsage = $file_usage;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->messenger = $messenger;
+  }
+
+  // In the create function get the messenger service.
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('file.usage'),
+      $container->get('entity_type.manager'),
+      $container->get('messenger')
+    );
+  }
+
+  // In your build function, use the messenger service.
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    $state = $this->currentRequest->query->get('state');
+    $fid = $this->configuration['member_file'][0] ?? NULL;
+
+    // load file.
+    if ($fid) {
+      $file = $this->entityTypeManager->getStorage('file')->load($fid);
+      $member_file_contents = file_get_contents($file->getFileUri());
+      if (is_null($file) || !$member_file_contents) {
+        $this->messenger->addError($this->t('Member file not found. Please try again later.'));
+      }
+    }
+```
+
+
 ## Using Drush to list blocks
 
 To list blocks, use the following drush command

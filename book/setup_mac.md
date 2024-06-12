@@ -317,7 +317,7 @@ In your $HOME directory, create the .gitconfig file. Replace my name and email a
 # This is Git's per-user configuration file.
 [user]
 	name = Selwyn Polit
-	email = selwynpolit@gmail.com
+	email = selwynpolit@example.com
 [core]
   excludesfile = /Users/selwyn/.gitignore_global
 
@@ -699,6 +699,13 @@ Rectangle is a window management app based on Spectacle, written in Swift. [More
 ```sh
 brew install --cask rectangle
 ```
+
+### Monosnap
+
+Capture fullscreen, area or window. Create pixel perfect screenshots. Record videos or .GIFs
+
+Install this via the [App store](https://apps.apple.com/us/app/monosnap-screenshot-editor/id540348655?mt=12)
+
 
 ## Resources
 
