@@ -799,6 +799,15 @@ Other JS select modules and libraries include:
 - [Selectize](https://selectize.github.io/selectize.js) with its Drupal module: [https://www.drupal.org/project/selectize](https://www.drupal.org/project/selectize)
 - [Chosen](https://harvesthq.github.io/chosen/) with its Drupal module: [https://www.drupal.org/project/chosen](https://www.drupal.org/project/chosen)
 
+### Tagify
+Tagify module integrates Drupal autocomplete and Tagify component which provides a widget that significantly enhances the usability of entity reference fields. This widget seamlessly transforms these fields into an intuitive tags input component, promoting user-friendliness and optimizing performance. The result is a smoother and more efficient user experience.
+
+![Tagify Widget Example](https://www.drupal.org/files/issues/2024-04-07/tagify-widget-example.gif)
+![Tagify Entity ID](https://www.drupal.org/files/issues/2024-04-04/tagify-entity-id.png)
+![Tagify Info Label Media Image](https://www.drupal.org/files/issues/2024-04-04/tagify-info-label-media-image.gif)
+
+[https://www.drupal.org/project/tagify](https://www.drupal.org/project/tagify)
+
 ## Workflow
 
 ### ECA: Event - Condition - Action
