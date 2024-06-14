@@ -7,7 +7,7 @@ title: Config
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=config.md)
 
 ## Overview
-Config is stored in yml files so it can be checked into git. It is stored in the `config` table of the database for performance. Use `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more. You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
+Config is stored in `yml` files so it can be checked into git. It is stored in the `config` table of the database for performance. Use `drush config-import` (or `drush cim`) for this purpose. Config includes database table definitions, views definitions and lots more. You can even use config to store a little setting indicating your site is in a `test` mode which can trigger displaying some useful information that only you can see.
 
 Config files should be stored in a non-web accessible directory and specified in `settings.php` or `settings.local.php` like:
 
