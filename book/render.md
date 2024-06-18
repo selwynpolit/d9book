@@ -521,6 +521,18 @@ Then in team-abc--correctional-voting.html.twig the `next` links are rendered --
 ```
 This example may be a little confusing as it loops through an array of links.
 
+## A string with a mailto link
+
+```php
+$build['message'] = [
+  '#missing_file_message' => $this->t("We're sorry, we are currently unable to locate area offices. Please contact <a href=':link'>webdude@example.com</a> for additional assistance.", [
+    ':link' => 'mailto:webdude@example.com?subject=Website%20Assistance',
+  ]),
+];
+```
+
+
+
 ## Simple unordered list
 
 This is a simple unordered list. The `#list_type` is `ul` for unordered list. The `#items` is an array of items. The `#title` is the title of the list. The `#attributes` causes the list to have the class `mylist`.
