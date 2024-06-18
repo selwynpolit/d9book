@@ -208,19 +208,24 @@ $text_array = [
 
 ## Text with variable substitution (Placeholders)
 
+To pass parameters to the `t()` function, use the `@` symbol. For example:
+
 ```php
 $render_array = [
   '#type' => 'markup',
   '#markup' => $this->t('You are viewing @title.  Unfortunately there is no image defined for delta: @delta.', ['@title' => $node->getTitle(), '@delta' =>$delta)],
   ];
 ```
+
+Also, you can use the `:variable`, for use specifically with URLs. The `:variable` placeholder is escaped with `\Drupal\Component\Utility\Html::escape()` and filtered for dangerous protocols using `UrlHelper::stripDangerousProtocols()`.
+
 And from the Render API Overview at
 <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x> :
 
 **Placeholders in render arrays**
 
-Render arrays have a placeholder mechanism, which can be used to add data into the render array late in the rendering process. This works in a similar manner to [\\Drupal\\Component\\Render\\FormattableMarkup::placeholderFormat](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Render%21FormattableMarkup.php/function/FormattableMarkup%3A%3AplaceholderFormat/10.0.x)(),
-with the text that ends up in the #markup property of the element at the end of the rendering process getting substitutions from placeholders that are stored in the \'placeholders\' element of the #attached property.
+Render arrays have a placeholder mechanism, which can be used to add data into the render array late in the rendering process. This works in a similar manner to the [core FormattableMarkup::placeholderFormat() function](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Render%21FormattableMarkup.php/function/FormattableMarkup%3A%3AplaceholderFormat/10.0.x)(),
+with the text that ends up in the `#markup` property of the element at the end of the rendering process getting substitutions from placeholders that are stored in the \'placeholders\' element of the #attached property.
 
 For example, after the rest of the rendering process was done, if your render array contained:
 
