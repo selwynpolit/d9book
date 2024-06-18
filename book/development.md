@@ -757,16 +757,26 @@ xdebug_break()
 
 You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards). 
 
-This does require that you have installed the Drupal dev tools (with `composer require --dev drupal/core-dev`) wich include the [coder module](https://www.drupal.org/project/coder). See [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards) for details on how to install and configure it.
+Best practice is to install the Drupal dev tools (with `composer require --dev drupal/core-dev`) which include the [coder module](https://www.drupal.org/project/coder). See [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards) for details on how to install and configure it.
 
 Go to: Settings, PHP, Quality Tools, PHP_CodeSniffer
 
 Use the following settings:
+- ON
 - Configuration: System PHP
-- Coding standard: Drupal
+- Check files with extensions: php, js, css, inc, module
+- Check the Installed standards path option and set that to the path to the coder module in your project. e.g. `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer`. You may have to do this twice.
+- Coding standard: Drupal. Nnote this may not be an option at this time so follow the next steps below and come back to this.
 
-Under the `...` button set the PHP_CodeSniffer path to : `/Users/spolit/.composer/vendor/bin/phpcs`
-If you have installed phpcs globally, this is the correct path to use. If you have installed PHP_CodeSniffer in your project locally, you could use a path like: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and it will work fine.
+Click the the `...` button on this page.  This will display the PHP_CodeSniffer dialog. Set the PHP_CodeSniffer path to :`/Users/spolit/Sites/tea/vendor/bin/phpcs` if you have the `core-dev` tools installed in your project. At this time you can also set the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf` if you want to use the code beautifier and fixer.
+
+Use  `/Users/spolit/.composer/vendor/bin/phpcs` and `/Users/spolit/.composer/vendor/bin/phpcf` respectively if you have installed phpcs globally.
+
+Next, you will need to click Apply and then OK.  You can now run the code sniffer by right-clicking on a file or directory and selecting `Run Inspection by PHP_CodeSniffer` from the context menu.
+
+If you are still not presented with the option to Select the Drupal coding standard, click apply and OK and then go back into the settings, PHP, Quality Tools, PHP_CodeSniffer and you should see the option to select the Drupal coding standard. (PHPStorm will kindly notify you that the list of coding standards has been updated.)
+
+Then, if you try to edit a line of code and say, add a trailing space, the line of code will get highlighted. Hovering over the line of code will show you "PHPCS: Whitespace found at end of line." If instead you see a dialog box that says "phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist then go back to the settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path.  Luckily this still allows the Coding standard: Drupal to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
 
 ::: tip Note
 Replace `/Users/spolit` with your own path to your username and `Sites/tea` with the name of your project.
@@ -775,6 +785,7 @@ Replace `/Users/spolit` with your own path to your username and `Sites/tea` with
 More at
 - [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
 - [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
+
 
 #### SlevoMat Coding Standards Error
 
@@ -785,31 +796,7 @@ Run "phpcs --help" for usage information
 ```
 ![Error messages in PHPStorm](/images/PHPStorm_codesniffer_errors.png)
 
-The solution is to edit the `.idea/phpcs.xml` file in the root of your project and remove the option line: 
-
-```xml
-<option name="installedPaths" value="$PROJECT_DIR$/vendor/drupal/coder/coder_sniffer" />
-```
-
-Here is the top section of the file with line 12 highlighted for clarity.
-
-```xml{12}
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="MessDetectorOptionsConfiguration">
-    <option name="transferred" value="true" />
-  </component>
-  <component name="PHPCSFixerOptionsConfiguration">
-    <option name="transferred" value="true" />
-  </component>
-  <component name="PHPCodeSnifferOptionsConfiguration">
-    <option name="codingStandard" value="Drupal" />
-    <option name="highlightLevel" value="WARNING" />
-    <option name="installedPaths" value="$PROJECT_DIR$/vendor/drupal/coder/coder_sniffer" />
-    <option name="useInstalledPaths" value="true" />
-    <option name="transferred" value="true" />
-  </component>
-```
+The solution is to open Settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path.  Luckily this still allows the Coding standard: `Drupal` to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
 
 See [this issue on drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485)
 
