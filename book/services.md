@@ -1014,6 +1014,63 @@ Read more about:
 - [Dependency Injection in Drupal 8 Plugins. (for blocks and other plugins) - Mar 2017](https://chromatichq.com/blog/dependency-injection-drupal-8-plugins)
 
 
+### Using the Drupal error logging service in a block
+
+To log errors/messages to the `Watchdog` service, check out this code foruse in a block:
+
+```php
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Logger\LoggerChannelInterface;
+
+  /**
+   * The logger channel.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected LoggerChannelInterface $logger;
+
+
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $container->get('logger.factory'),
+    );
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    LoggerChannelFactoryInterface $logger_factory,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    // Put your module name below.
+    $this->logger = $logger_factory->get('abc_module');
+  }
+
+  public function build() {
+  ...
+      // Error handling if the json file is corrupt.
+    $json = file_get_contents($uri);
+    if (json_validate($json) === FALSE) {
+      // Log to watchdog.
+      $this->logger->error('Invalid JSON file: @file', ['@file' => $uri]);
+      $build['content']['error'] = [
+        '#type' => 'markup',
+        '#markup' => $this->t("We're sorry, the JSON file is goobered!Please contact <a href=':link'>admin@example.com</a> for additional assistance.", [
+          ':link' => 'mailto:admin@example.com?subject=Website%20Assistance',
+        ]),
+      ];
+      return $build;
+}
+
+```
+
 ### When and how to use class-based Dependency Injection
 
 Here is the overview from the `Drupal.php` file for Drupal 9.5.0 of when and how to use dependency injection:
