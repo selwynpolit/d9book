@@ -647,7 +647,8 @@ For more, check out [generating custom services on the drush documentation page]
 - `path.validator` for validating paths
 - `messenger` for displaying messages
 - `current_route_match` for getting the current route
-
+- `request_stack` for getting the current request e.g. `$this->currentRequest = $requestStack->getCurrentRequest();`
+- `logger.factory` for logging errors to the watchdog log. 
 
 ## Services you may use
 - `cache.default` for caching
