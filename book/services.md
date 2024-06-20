@@ -1015,9 +1015,9 @@ Read more about:
 - [Dependency Injection in Drupal 8 Plugins. (for blocks and other plugins) - Mar 2017](https://chromatichq.com/blog/dependency-injection-drupal-8-plugins)
 
 
-### Using the Drupal error logging service in a block
+### Using the error logging service in a block
 
-To log errors/messages to the `Watchdog` service, check out this code foruse in a block:
+To log errors/messages to the `Watchdog` service, check out this code for use in a block:
 
 ```php
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;

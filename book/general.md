@@ -1352,7 +1352,53 @@ function route_play_help($route, $help) {
 }
 
 ```
+And from the [workbench menu access module](https://www.drupal.org/project/workbench_menu_access), this version uses the markdown module to display a markdown file:
 
+```php
+/**
+ * Help page text.
+ *
+ * @param string $route_name
+ *   The route name.
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ *   The route matcher service.
+ *
+ * @return string
+ *   An HTML string.
+ */
+function workbench_menu_access_help($route_name, RouteMatchInterface $route_match) {
+  $output = '';
+  switch ($route_name) {
+    case 'help.page.workbench_menu_access':
+      $readme = __DIR__ . '/README.md';
+      $text = file_get_contents($readme);
+
+      // If the Markdown module is installed, use it to render the README.
+      if ($text !== FALSE && \Drupal::moduleHandler()->moduleExists('markdown') === TRUE) {
+        $filter_manager = \Drupal::service('plugin.manager.filter');
+        $settings = \Drupal::configFactory()->get('markdown.settings')->getRawData();
+        $config = ['settings' => $settings];
+        /** @var \Drupal\filter\Plugin\FilterInterface $filter */
+        $filter = $filter_manager->createInstance('markdown', $config);
+        $output = $filter->process($text, 'en');
+      }
+      // Else the Markdown module is not installed output the README as text.
+      elseif ($text !== FALSE) {
+        $output = '<pre>' . $text . '</pre>';
+      }
+
+      // Add a link to the Drupal.org project.
+      $output .= '<p>';
+      $output .= t('Visit the <a href=":project_link">Workbench Menu Access project page</a> on Drupal.org for more information.', [
+        ':project_link' => 'https://www.drupal.org/project/workbench_menu_access',
+      ]);
+      $output .= '</p>';
+      break;
+  }
+
+  return $output;
+}
+```
 
 
 ## Troubleshoot memory problems
