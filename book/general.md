@@ -1352,7 +1352,7 @@ function route_play_help($route, $help) {
 }
 
 ```
-And from the [workbench menu access module](https://www.drupal.org/project/workbench_menu_access), this version uses the markdown module to display a markdown file:
+And from the [workbench menu access module](https://www.drupal.org/project/workbench_menu_access), this version uses the [markdown module](https://www.drupal.org/project/markdown) to display a markdown file:
 
 ```php
 /**
