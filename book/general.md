@@ -1400,6 +1400,19 @@ function workbench_menu_access_help($route_name, RouteMatchInterface $route_matc
 }
 ```
 
+## Display a message after a module is installed
+
+From [Menu custom access module](https://www.drupal.org/project/menu_custom_access) this code displays a message after the module is installed.  In `web/modules/contrib/menu_custom_access/menu_custom_access.install`:
+
+
+```php
+
+function menu_custom_access_install() {
+  \Drupal::messenger()->addStatus(t("Menu Custom Access is now enabled"));
+}
+```
+
+
 
 ## Troubleshoot memory problems
 
