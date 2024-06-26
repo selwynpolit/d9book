@@ -169,9 +169,14 @@ You can read more about using [hook_entity_presave](https://api.drupal.org/api/d
 
 Almost every project that runs for a while will require some hook_updates. This is the facility used to do automated changes to your sites and are executed via drush using `drush updb`. Here is an example that updates a menu item with a title \'Support\'.
 
-This code comes from a .install file:
+This code comes from a `.install` file but often you will see it in a `.module` file. The function name must be `modulename_update_8002` where `modulename` is the name of your module and `8002` is the update number.
 
 ```php
+/**
+ * Implements hook_update_N().
+ *
+ * Update menu links.
+ */
 function partridge_update_8002() {
 
   $mids = \Drupal::entityQuery('menu_link_content')
