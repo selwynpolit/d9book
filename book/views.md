@@ -442,6 +442,61 @@ function THEME_views_pre_execute(\Drupal\views\ViewExecutable $view) {
 }
 ```
 
+## Set the title for a view in code
+
+Here is some code that gets the views arguments and sets the title based on the argument.  This is from a custom module.  The view is called `loaders` and the display is `loaders_list_block`.  The title is set to the state abbreviation.  If the argument is the same as the exception value, the title is not set.
+
+
+```php
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function my_module_views_pre_render(ViewExecutable $view) {
+  $view_id = $view->id();
+  switch ($view_id) {
+    ///...
+    case 'loaders':
+      // Check the display.
+      if ($view->current_display !== 'loaders_list_block') {
+        break;
+      }
+      $title = $view->getTitle();
+      $view_args = $view->args;
+      if (is_array($view_args)) {
+        $state_arg = $view_args[0];
+        if ($state_arg == $view->argument['field_acronym_value_1']->options['exception']['value']) {
+          break;
+        }
+
+        $view->setTitle($title . ' for ' . _get_taxonomy_term_by_abbreviation($state_arg));
+      }
+      break;
+  }
+
+
+// For completeness, here is the helper function that retrieves the taxonomy term by abbreviation.
+function _get_taxonomy_term_by_abbreviation(?string $abbreviation): string {
+  if (is_null($abbreviation) || empty($abbreviation) {
+    return '';
+  }
+  $entity_query = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->getQuery()->accessCheck(FALSE);
+  $entity_result = $entity_query->condition('vid', 'states_and_territories')
+    ->condition('field_acronym', $abbreviation)
+    ->execute();
+
+  if (empty($entity_result)) {
+    return '';
+  }
+  $term_entity = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load(array_pop($entity_result));
+  return $term_entity?->label() ?? '';
+}
+
+```
+
+
+
+
 
 ## Reference
 - [Drupal API Reference: Template Preprocess views view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)

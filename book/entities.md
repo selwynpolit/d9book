@@ -111,6 +111,16 @@ $node->save();
 ```
 
 
+## Identify if an entity is a node
+
+```php
+    $entity = $this->routerMatch->getParameter('node');
+    // Is this a node?
+    if (!$entity instanceof NodeInterface) {
+      return NULL;
+    }
+```
+
 
 ## Get the entity type and content type (or bundle type)
 
