@@ -246,6 +246,15 @@ public function loadTerms() {
   }
 }
 ```
+Alternatively, you can also load the terms using `loadByProperties()`. This creates an array of `\Drupal\taxonomy\Entity\Term` objects indexed by their term ID.
+
+```php
+  $vocab_id = 'sections';
+  $terms2 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
+    ->loadTree($vocab_id);
+```
+
+
 
 ## Load all terms for a vocabulary and put them in a select (dropdown)
 
