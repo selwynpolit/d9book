@@ -13,7 +13,7 @@ According to ChapGPT: Hooks are a key aspect of Drupal\'s module system, and all
 
 ## Find hooks that are available in modules
 
-Hooks are listed in each module in the `module.api.php` file e.g. `docroot/core/modules/views/views.api.php` contains the views API or `docroot/modules/contrib/paragraphs/paragraphs.api.php` contains the paragraphs API.
+Available hooks are listed in each module in their `module.api.php` file e.g. `docroot/core/modules/views/views.api.php` contains the hooks available for the views API while `docroot/modules/contrib/paragraphs/paragraphs.api.php` contains the hooks you can use for the paragraphs API.
 
 
 
@@ -193,7 +193,33 @@ function partridge_update_8002() {
 }
 ```
 
+This information is stored in the `key_value` table in the database which you can quickly query to see if the update has been run:
+
+```sql
+SELECT value FROM key_value WHERE collection="system.schema" AND name = 'block';
+```
+The result will appear like:
+
+```
++---------+
+| value   |
++---------+
+| i:8000; |
++---------+
+1 row in set (0.004 sec)
+```
+
+Use the `update.update_hook_registry` service to get or set the installed version of a module. 
+
+```bash
+# Get the installed version of a module
+drush ev "echo \Drupal::service('update.update_hook_registry')->getInstalledVersion('my_module');"
+# Set the installed version of a module
+drush ev "\Drupal::service('update.update_hook_registry')->setInstalledVersion('my_module', 8001);"
+```
+
 [More at this Specbee blog post](https://www.specbee.com/blogs/update-and-post-update-hooks-for-successful-drupal-site-updates)
+
 
 ## Theme hooks
 
