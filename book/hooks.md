@@ -185,6 +185,8 @@ function partridge_update_8002() {
 
   foreach($mids as $mid) {
     $menu_link = \Drupal::entityTypeManager()->getStorage('menu_link_content')->load($mid);
+    // Display a message to the user.
+    \Drupal::messenger()->addMessage('Updating menu link ' . $menu_link->getTitle());
 
     $title = $menu_link->getTitle();
     if ($title === 'Support') {
