@@ -758,6 +758,91 @@ public function videoSelectChange(array $form, FormStateInterface $form_state) {
 }
 ```
 
+## Table of menu items
+
+This emulates the Drupal core menu listing with the menu items in a table with the columns: `Title`, `Description`, and  `Operations` and is used in the `build()` function of a block:
+
+```php
+ /**
+   * {@inheritdoc}
+   */
+  public function build(): array {
+    $uid = $this->currentUser->id();
+    $user = $this->entityTypeManager->getStorage('user')->load($uid);
+
+    // Load all menus.
+    $menus = $this->menuStorage->loadMultiple();
+    $accessible_menus = [];
+
+    foreach ($menus as $menu) {
+      $menu_name = $menu->id();
+      $parameters = $this->menuLinkTree->getCurrentRouteMenuTreeParameters($menu_name);
+      $tree = $this->menuLinkTree->load($menu_name, $parameters);
+      $manipulators = [
+        ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+        ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+      ];
+      $tree = $this->menuLinkTree->transform($tree, $manipulators);
+
+      $menu_entity = $this->entityTypeManager->getStorage('menu')
+        ->load($menu_name);
+      $access = $this->checkSections($menu_entity, $user);
+      if ($access) {
+        $edit_url = Url::fromRoute('entity.menu.edit_form', ['menu' => $menu_name]);
+        $add_link_url = Url::fromRoute('entity.menu.add_link_form', ['menu' => $menu_name]);
+
+        $rows[] = [
+          'title' => $menu->label(),
+          'description' => $menu->getDescription(),
+          'operations' => [
+            'data' => [
+              '#type' => 'operations',
+              '#links' => [
+                'edit' => [
+                  'title' => $this->t('Edit'),
+                  'url' => $edit_url,
+                ],
+                'add_link' => [
+                  'title' => $this->t('Add link'),
+                  'url' => $add_link_url,
+                ],
+              ],
+            ],
+          ],
+        ];
+
+      }
+    }
+
+    $build['content'] = [
+      '#type' => 'table',
+      '#header' => [$this->t('Title'), $this->t('Description'), $this->t('Operations')],
+      '#rows' => $rows,
+      '#empty' => $this->t('No menus available.'),
+    ];
+
+    return $build;
+  }
+```
+
+If you just want a list of links, you can use the following code:
+
+```php
+  //...
+    if ($access) {
+      $url = Url::fromRoute('entity.menu.edit_form', ['menu' => $menu_name]);
+      $link = Link::fromTextAndUrl($menu->label(), $url)->toRenderable();
+      $accessible_menus[] = $link;
+      //...
+
+    $build['content'] = [
+      '#theme' => 'item_list',
+      '#items' => $accessible_menus,
+    ];
+    return $build;
+
+
+
 ## Limit allowed tags in markup
 
 Here we allow \<i\> (italics) tags in the login menu item, and \<i\> and \<sup\> (superscript) tags in the logout menu item

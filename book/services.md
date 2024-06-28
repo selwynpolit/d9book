@@ -572,7 +572,9 @@ $this->account = $account;
 
 See more about [Dependency injection in Drupal 8 plugins (or blocks) by Märt Matoo - March 2017](https://chromatichq.com/insights/dependency-injection-drupal-8-plugins/)
 
+## List all services using Devel module
 
+You can use the devel menu and select Container Info or navigate to `/devel/container/service` to see a list of all services.
 
 
 ## List all services using Drush

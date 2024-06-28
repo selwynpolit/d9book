@@ -59,24 +59,25 @@ Create the patch:
 git diff >file_entity_disable_file_menu_tab.patch
 ```
 
-Add the patch to the patches section of composer.json. Notice below the line starting with \"drupal/file_entity\" is the local file patch:
+Add the patch to the `patches` section of `composer.json` under the `extra` section. Notice below the line starting with `"drupal/file_entity\"` is the local file patch:
 
 ```json
-"patches": {
-    "drupal/commerce": {
-        "Allow order types to have no carts": "https://www.drupal.org/files/issues/2018-03-16/commerce-direct-checkout-50.patch"
-    },
-    "drupal/views_load_more": {
-        "Template change to keep up with core": "https://www.drupal.org/files/issues/views-load-more-pager-class-2543714-02.patch" ,
-        "Problems with exposed filters": "https://www.drupal.org/files/issues/views_load_more-problems-with-exposed-filters-2630306-4.patch"
-    },
-    "drupal/easy_breadcrumb": {
-        "Titles in breadcrumbs are double-escaped": "https://www.drupal.org/files/issues/2018-06-21/2979389-7-easy-breadcrumb--double-escaped-titles.patch"
-    },
-    "drupal/file_entity": {
-        "Temporarily disable the files menu tab": "./patches/file_entity_disable_file_menu_tab.patch"
-    }
-}
+"extra": {
+  "patches": {
+      "drupal/file_entity": {
+          "Temporarily disable the files menu tab": "./patches/file_entity_disable_file_menu_tab.patch"
+      }
+      "drupal/commerce": {
+          "Allow order types to have no carts": "https://www.drupal.org/files/issues/2018-03-16/commerce-direct-checkout-50.patch"
+      },
+      "drupal/views_load_more": {
+          "Template change to keep up with core": "https://www.drupal.org/files/issues/views-load-more-pager-class-2543714-02.patch" ,
+          "Problems with exposed filters": "https://www.drupal.org/files/issues/views_load_more-problems-with-exposed-filters-2630306-4.patch"
+      },
+      "drupal/easy_breadcrumb": {
+          "Titles in breadcrumbs are double-escaped": "https://www.drupal.org/files/issues/2018-06-21/2979389-7-easy-breadcrumb--double-escaped-titles.patch"
+      },
+  }
 ```
 
 Revert the file in git and then try to apply the patch.
