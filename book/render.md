@@ -810,7 +810,6 @@ This emulates the Drupal core menu listing with the menu items in a table with t
             ],
           ],
         ];
-
       }
     }
 
@@ -840,7 +839,7 @@ If you just want a list of links, you can use the following code:
       '#items' => $accessible_menus,
     ];
     return $build;
-
+```
 
 
 ## Limit allowed tags in markup
