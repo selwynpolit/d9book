@@ -812,6 +812,47 @@ This emulates the Drupal core menu listing with the menu items in a table with t
   }
 ```
 
+For completeness, here is the `checkSections()` function which was borrowed (and slightly modified) from the [Workbench Menu Access module](https://www.drupal.org/project/workbench_menu_access):
+
+```php
+  /**
+   * Check sections for menu access.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity to check.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The user account.
+   *
+   * @return bool
+   *   TRUE if the user has access, FALSE otherwise.
+   */
+  protected function checkSections(EntityInterface $entity, AccountInterface $account) {
+    static $check;
+    // Internal cache for performance.
+    $key = $entity->id() . ':' . $account->id();
+    if (!isset($check[$key])) {
+      // By default, ignore menus that don't explicitly have permissions.
+      $check[$key] = FALSE;
+      // Check for admin role.
+      if ($account->hasPermission('administer workbench menu access') || $account->hasPermission('bypass workbench access')) {
+        return TRUE;
+      }
+      $config = $this->configFactory->get('workbench_menu_access.settings');
+      $active = $config->get('access_scheme');
+      $settings = $entity->getThirdPartySetting('workbench_menu_access', 'access_scheme');
+      if (!is_null($active) && !is_null($settings)) {
+        /** @var \Drupal\workbench_access\Entity\AccessSchemeInterface $scheme */
+        $scheme = $this->entityTypeManager->getStorage('access_scheme')->load($active);
+        $user_sections = $this->userSectionStorage->getUserSections($scheme, $account);
+
+        // Check children / parents.
+        $check[$key] = $this->workbenchAccessManager::checkTree($scheme, $settings, $user_sections);
+      }
+    }
+    return $check[$key];
+  }
+```
+
 If you just want a list of links, you can use the following code:
 
 ```php
@@ -828,6 +869,88 @@ If you just want a list of links, you can use the following code:
     ];
     return $build;
 ```
+
+
+## List of menus with a pager
+
+This code is implemented in a block `build()` function.  It displays a list of menus with a pager. The menus are sorted by their labels. The menus are displayed in a table with the columns: `Title`, `Description`, and `Operations`. The menus are displayed 10 at a time. If there are more than 10 menus, a pager is displayed at the bottom of the table. The URL is modified to display the page number when the user clicks on the pager.
+
+```php
+  public function build(): array {
+    $uid = $this->currentUser->id();
+    $user = $this->entityTypeManager->getStorage('user')->load($uid);
+
+    // Load all menus.
+    $menus = $this->menuStorage->loadMultiple();
+    $rows = [];
+    $accessibleMenus = [];
+    $itemsPerPage = 10;
+
+    foreach ($menus as $menu_name => $menu) {
+      $accessibleMenus[] = $menu;
+    }
+
+    // Sort the $accessibleMenus[] array by menu label.
+    usort($accessibleMenus, function ($a, $b) {
+      return $a->label() <=> $b->label();
+    });
+
+    $totalMenus = count($accessibleMenus);
+    $totalPages = (int) ceil($totalMenus / $itemsPerPage);
+
+    $pager = $this->pagerManager->createPager($totalMenus, $itemsPerPage, 0);
+    $currentPage = $pager->getCurrentPage();
+    // Slice the array of menus for the current page.
+    $pagedMenus = array_slice($accessibleMenus, $currentPage * $itemsPerPage, $itemsPerPage, TRUE);
+
+    foreach ($pagedMenus as $menu_name => $menu) {
+      $edit_url = Url::fromRoute('entity.menu.edit_form', ['menu' => $menu_name]);
+      $add_link_url = Url::fromRoute('entity.menu.add_link_form', ['menu' => $menu_name]);
+      $rows[] = [
+        'title' => $menu->label(),
+        'description' => $menu_label,
+        'operations' => [
+          'data' => [
+            '#type' => 'operations',
+            '#links' => [
+              'edit' => [
+                'title' => $this->t('Edit'),
+                'url' => $edit_url,
+              ],
+              'add_link' => [
+                'title' => $this->t('Add link'),
+                'url' => $add_link_url,
+              ],
+            ],
+          ],
+        ],
+      ];
+    }
+
+    $build['content'] = [
+      '#type' => 'table',
+      '#header' => [
+        $this->t('Title'),
+        $this->t('Description'),
+        $this->t('Operations'),
+      ],
+      '#rows' => $rows,
+      '#empty' => $this->t('No menus available.'),
+    ];
+
+    // Add pagination if necessary.
+    if ($totalPages > 1) {
+      $build['pager'] = [
+        '#type' => 'pager',
+        '#element' => 0,
+      ];
+    }
+
+    return $build;
+  }
+```
+
+
 
 
 ## Limit allowed tags in markup
