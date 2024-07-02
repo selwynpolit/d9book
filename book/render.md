@@ -774,23 +774,11 @@ This emulates the Drupal core menu listing with the menu items in a table with t
     $menus = $this->menuStorage->loadMultiple();
     $accessible_menus = [];
 
-    foreach ($menus as $menu) {
-      $menu_name = $menu->id();
-      $parameters = $this->menuLinkTree->getCurrentRouteMenuTreeParameters($menu_name);
-      $tree = $this->menuLinkTree->load($menu_name, $parameters);
-      $manipulators = [
-        ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-        ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-      ];
-      $tree = $this->menuLinkTree->transform($tree, $manipulators);
-
-      $menu_entity = $this->entityTypeManager->getStorage('menu')
-        ->load($menu_name);
-      $access = $this->checkSections($menu_entity, $user);
+    foreach ($menus as $menu_id => $menu) {
+      $access = $this->checkSections($menu, $user);
       if ($access) {
         $edit_url = Url::fromRoute('entity.menu.edit_form', ['menu' => $menu_name]);
         $add_link_url = Url::fromRoute('entity.menu.add_link_form', ['menu' => $menu_name]);
-
         $rows[] = [
           'title' => $menu->label(),
           'description' => $menu->getDescription(),
