@@ -1760,9 +1760,9 @@ Should be  wrapped in `(function($){}`
 
 ### How do you find all the possible AJAX commands to use with addCommand()?
 
-Just look in docroot/core/lib/Drupal/Core/Ajax
+Just look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a class that implements a command.
+These are all the Commands you want to use with `addCommand()` for AJAX response e.g. `RedirectCommand` or `OpenModalDialogCommand`. Also check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
 
-You will see a bunch of different classes - All the Commands you want to use with `addCommand()` for AJAX response e.g. `RedirectCommand` or `OpenModalDialogCommand`.
 
 ### Another AJAX Submit example
 
