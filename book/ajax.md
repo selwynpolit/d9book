@@ -147,6 +147,12 @@ block_play.hide_block:
 To see this work, place the block on a page, view the page, and click the link.  The block will be replaced with the text "The block has totally new content now!!!".  Try commenting out the `ReplaceCommand` and uncommenting the `AppendCommand` to see the difference.
 
 
+### Finding the AJAX commands to use with addCommand()?
+
+Look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a class that implements a command e.g. `RedirectCommand` or `OpenModalDialogCommand`. Also check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
+
+
+
 ## Resources
 - [Drupal API Form Element Reference with examples](https://api.drupal.org/api/drupal/elements/10)
 - [Drupal AJAX AJAX forms updated Dec 2022](https://www.drupal.org/docs/8/api/javascript-api/ajax-forms)
