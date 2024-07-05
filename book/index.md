@@ -24,7 +24,7 @@ features:
     details: Use the Drupal core Actions module to control Drupal
     link: /actions
 
-  - icon: 🎯
+  - icon: 🪣
     title: AJAX
     details: Why refresh the page when you can use the built-in AJAX functionality
     link: /ajax

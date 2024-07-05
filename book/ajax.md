@@ -11,6 +11,7 @@ AJAX is a way to update parts of a page without refreshing the entire page.  Thi
 
 
 ## Update content using a custom AJAX link in a block
+To render a block with an AJAX link that updates the content of the block, follow these steps:
 
 In `web/modules/custom/block_play/block_play.info.yml` add the following:
 
