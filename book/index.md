@@ -24,6 +24,11 @@ features:
     details: Use the Drupal core Actions module to control Drupal
     link: /actions
 
+  - icon: 🎯
+    title: AJAX
+    details: Why refresh the page when you can use the built-in AJAX functionality
+    link: /ajax
+
   - icon: 🔢
     title: Batch and Queue
     details: The Batch API and Queue subsystem let you take on large tasks
