@@ -608,12 +608,8 @@ public function build() {
 
 ### Provide a block template for a form in a block
 
-In /modules/custom/dan_pagination/src/Form/VideoPaginationForm.php I have a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
+In `/modules/custom/dan_pagination/src/Form/VideoPaginationForm.php` there is a form which is displayed in a block. The usual block template file provided by the theme is `block.html.twig` and looks like this:
 
-(Here is an image of this source code. Strangely, Jekyll/Github requires me to jump through some hoops for TWIG source. I'm still experimenting.)
-![block template](/images/block_template.png)
-
-Here is the source:
 
 ```twig
 <div
@@ -635,11 +631,10 @@ The template outputs the guts of the block as
 {{ block content }}
 ```
 
-For my custom theme called dprime, I added a new template file at
-`themes/custom/dprime/templates/block/block--videopaginationblock.html.twig` and added lots of fun stuff to output the form in bits and pieces.
+For the custom theme called `dprime`, there is a template file at
+`themes/custom/dprime/templates/block/block--videopaginationblock.html.twig` which has lots of fun stuff to output the form in bits and pieces.
 
-e.g. like here, to display the previous_clip item from the form's
-render array which looks like this:
+e.g. like here, to display the previous_clip item from the form's render array which looks like this:
 
 ```php
 $form['previous_clip'] = [
@@ -671,11 +666,9 @@ And in the template, you can see `content.previous_clip` referencing this conten
 
 ### Form submission with redirect
 
-Here is a `submitForm()` function from docroot/modules/custom/websphere_commerce/modules/checkout/src/Form/ReviewForm.php
+Here is a `submitForm()` function from `docroot/modules/custom/websphere_commerce/modules/checkout/src/Form/ReviewForm.php`
 
-The call to `$form_state->getValues()` retrieves all the values in the
-form. The rest of the logic checks a value and redirects the user to a
-specific page.
+The call to `$form_state->getValues()` retrieves all the values in the form. The rest of the logic checks a value and redirects the user to a specific page.
 
 ```php
 public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -700,7 +693,7 @@ function redirectUser($path, $route = FALSE) {
 ```
 ### Ajax redirect
 
-If you want to redirect to the `/cart` url, you must add an AJAX command. See the [RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/9.4.x)
+If you want to redirect to the `/cart` url, you must add the AJAX `RedirectCommand`. See the [RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/10)
 
 ```php
 $cartUrl = Url::fromUri('internal:/cart');
@@ -710,8 +703,7 @@ $ajax_response->addCommand(
 return $ajax_response;
 ```
 
-In a non-ajax form, to redirect to the cart url, we would just use
-something like this:
+In a non-ajax form, to redirect to the cart url, use `setRedirectUrl` like this:
 
 ```php
 $form_state->setRedirectUrl($cartUrl);
@@ -719,11 +711,7 @@ $form_state->setRedirectUrl($cartUrl);
 
 ### AJAX redirect from a select element (dropdown)
 
-Here I set up a dropdown with the url's and when the user makes a change
-in the dropdown, the browser goes to that url. The url's are /node/1
-/node/2 etc. For the correct url to be built, we have to prefix
-"internal:" to them and that happens in the callback function
-`mySelectChange()`.
+Here I set up a dropdown with the url's and when the user makes a change in the dropdown, the browser goes to that url. The url's are `/node/1` `/node/2` etc. For the correct url to be built, we have to prefix "internal:" to them and that happens in the callback function `mySelectChange()`.
 
 ```php
   /**
@@ -1061,186 +1049,9 @@ Note. This should probably be a static function to avoid this symfony error:
 TypeError: Argument 1 passed to Drupal\Core\Routing\RequestContext::fromRequest() must be an instance of Symfony\Component\HttpFoundation\Request, null given
 ```
 
-#### Ajax redirect
-
-If you want to redirect to the `/cart` url, you must add an AJAX command. See the [RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/9.4.x)
-
-```php
-$cartUrl = Url::fromUri('internal:/cart');
-$ajax_response->addCommand(
-    new RedirectCommand($cartUrl->toString())//Note this is a string!! 
-);
-return $ajax_response;
-```
-
-In a non-ajax form, to redirect to the cart url, we would just use
-something like this:
-
-```php
-$form_state->setRedirectUrl($cartUrl);
-```
-
-### AJAX redirect from a select element (dropdown)
-
-Here I set up a dropdown with the url's and when the user makes a change
-in the dropdown, the browser goes to that url. The url's are /node/1
-/node/2 etc. For the correct url to be built, we have to prefix
-"internal:" to them and that happens in the callback function
-`mySelectChange()`.
-
-```php
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
-
-    // Get the form values and raw input (unvalidated values).
-    $values = $form_state->getValues();
-
-    // Define a wrapper id to populate new content into.
-    $ajax_wrapper = 'my-ajax-wrapper';
-
-    // Select element.
-    $form['my_select'] = [
-      '#type' => 'select',
-      '#empty_value' => '',
-      '#empty_option' => '- Select a value -',
-      '#default_value' => (isset($values['my_select']) ? $values['my_select'] : ''),
-      '#options' => [
-        '/node/1' => 'One',
-        '/node/2' => 'Two',
-        '/node/3' => 'Three'
-      ],
-      '#ajax' => [
-        'callback' => [$this, 'mySelectChange'],
-        'event' => 'change',
-        'wrapper' => $ajax_wrapper,
-      ],
-    ];
-    // Build a wrapper for the ajax response.
-    $form['my_ajax_container'] = [
-      '#type' => 'container',
-      '#attributes' => [
-        'id' => $ajax_wrapper,
-      ]
-    ];
-
-    return $form;
-  }
-
-  /**
-   * The callback function for when the `my_select` element is changed.
-   *
-   */
-  public function mySelectChange(array $form, FormStateInterface $form_state) {
-
-    $values = $form_state->getValues();
-
-    $response = new AjaxResponse();
-//    $url = Url::fromUri('internal:/node/2');
-    $url = Url::fromUri('internal:' . $values['my_select']);
-
-    $command = new RedirectCommand($url->toString());
-    $response->addCommand($command);
-    return $response;
-  }
-
-  //Don't forget an empty submitForm().
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    // This function left blank intentionally.
-  }
-```
-
-Invoke the form from the controller with:
-
-return
-```php
-return \Drupal::formBuilder()->getForm('Drupal\org_opinions\Form\IndividualOpinionForm');
-```
-
-The form is at
-`docroot/modules/custom/org_opinions/src/Form/IndividualOpinionForm.php`.
-
-And don't forget these:
-
-```php
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\RedirectCommand;
-```
-
-Let's say you have several select elements on the form like `my_select` and `my_select2` like this (Sorry - not too creative, I know.):
-
-```php
-$ajax_wrapper = 'my-ajax-wrapper';
-// Select.
-$form['my_select'] = [
-  '#type' => 'select',
-  '#empty_value' => '',
-  '#empty_option' => '- Select a value -',
-  '#default_value' => (isset($values['my_select']) ? $values['my_select'] : ''),
-  '#options' => [
-    '/node/1' => 'One',
-    '/node/2' => 'Two',
-    '/node/3' => 'Three'
-  ],
-  '#ajax' => [
-    'callback' => [$this, 'mySelectChange'],
-    'event' => 'change',
-    'wrapper' => $ajax_wrapper,
-  ],
-];
-  $form['my_select2'] = [
-    '#type' => 'select',
-    '#empty_value' => '',
-    '#empty_option' => '- Select a value -',
-    '#default_value' => (isset($values['my_select']) ? $values['my_select'] : ''),
-    '#options' => [
-      '/node/4' => 'Four',
-      '/node/5' => 'Five',
-      '/node/6' => 'Six'
-    ],
-    '#ajax' => [
-      'callback' => [$this, 'mySelectChange'],
-      'event' => 'change',
-      'wrapper' => $ajax_wrapper,
-    ],
-];
-```
-
-Both use the same callback: `mySelectChange`. We can make the callback a little smarter by figuring out internally which element called it.
-
-```php
-  /**
-   * Callback function for changes to the `my_select`any select element.
-   */
-  public function mySelectChange(array $form, FormStateInterface $form_state) {
-    $values = $form_state->getValues();
-
-
-    //$elem stores the element info 
-    $elem = $form_state->getTriggeringElement();
-    //$value[$elem["#name"]] stores the path like /node/2
-
-    $response = new AjaxResponse();
-    // Internal URLS must look like this: 'internal:/node/2'.
-//    $url = Url::fromUri('internal:' . $values['my_select']);
-    $url = Url::fromUri('internal:' . $values[$elem["#name"]]);
-
-    $command = new RedirectCommand($url->toString());
-    $response->addCommand($command);
-    return $response;
-
-  }
-```
-
 ### Update a value in another field(I am I want) using AJAX
 
-This was used for a web page that had 2 dropdown fields.  It showed I am a \_\_\_\_ and I want
-\_\_\_\_.
+This was used for a web page that had 2 dropdown fields.  It showed I am a \_\_\_\_ and I want \_\_\_\_.
 
 The code makes the assumption that there is only 1 matching `I want` for
 each `I am` which is way too limiting but it does illuminate the techniques somewhat. Therefor, if you select an `I am`, you only get 1 choice for an `I

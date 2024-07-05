@@ -346,7 +346,7 @@ services:
     class: Drupal\kitchen_product\ProductManagerService
 ```
 
-For [scaffolding services with drush, check out](#generate-custom-services-using-drush).
+Check out [scaffolding services with drush](#generate-custom-services-using-drush).
 
 ### Arguments
 
