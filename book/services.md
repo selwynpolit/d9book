@@ -348,9 +348,10 @@ services:
 
 Check out [scaffolding services with drush](#generate-custom-services-using-drush).
 
+
 ### Dependency injection in your custom service
 
-Om this custom service, three services are injected. In the `web/modules/custom/ajax_pager_table/ajax_pager_table.services.yml` file:
+In this custom service, three services are injected. In the `web/modules/custom/ajax_pager_table/ajax_pager_table.services.yml` file:
 
 ```yaml
 services:
@@ -360,7 +361,7 @@ services:
 ```
 
 
-and in the constructor, they are referenced `web/modules/custom/ajax_pager_table/src/Service/TableContentService.php`:
+In the constructor, they are referenced `web/modules/custom/ajax_pager_table/src/Service/TableContentService.php`:
 
 ```php
 
@@ -372,6 +373,7 @@ class TableContentService {
     private readonly PagerManagerInterface $pagerManager,
   ) {}
 ```
+
 Note. There is no need to define the services in a `create()` function.
 
 
