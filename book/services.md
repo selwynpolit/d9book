@@ -348,6 +348,34 @@ services:
 
 Check out [scaffolding services with drush](#generate-custom-services-using-drush).
 
+### Dependency injection in your custom service
+
+Om this custom service, three services are injected. In the `web/modules/custom/ajax_pager_table/ajax_pager_table.services.yml` file:
+
+```yaml
+services:
+  ajax_pager_table.table_content_service:
+    class: Drupal\ajax_pager_table\Service\TableContentService
+    arguments: ['@messenger', '@current_user', '@pager.manager']
+```
+
+
+and in the constructor, they are referenced `web/modules/custom/ajax_pager_table/src/Service/TableContentService.php`:
+
+```php
+
+class TableContentService {
+
+  public function __construct(
+    private readonly MessengerInterface $messenger,
+    private readonly AccountProxyInterface $currentUser,
+    private readonly PagerManagerInterface $pagerManager,
+  ) {}
+```
+Note. There is no need to define the services in a `create()` function.
+
+
+
 ### Arguments
 
 You can specify optional arguments to pass to your service which might be needed when Drupal instantiates your service. Here we pass the `keyvalue` service as well as a Boolean value:
@@ -361,7 +389,7 @@ services:
       - "%highway.road.use_key_value_cache%"
 ```
 
-The `%highway.road.user_key_value_cache%` value is a special argument which has been defined above the services key as a parameter. Its value will default to true on production:
+The `%highway.road.user_key_value_cache%` value is a special argument which has been defined above the services key as a parameter. Its value will default to `true` on production:
 
 ```yaml
 parameters:
@@ -387,7 +415,7 @@ parameters:
 ```
 
 ::: tip Note
-You can also pass strings in the form \'blah\' surrounded by single quotes.
+You can also pass strings in the form `'blah'` surrounded by single quotes.
 :::
 
 
