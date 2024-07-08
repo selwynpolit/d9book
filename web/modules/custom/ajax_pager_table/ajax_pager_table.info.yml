@@ -1,0 +1,7 @@
+name: 'AJAX Pager Table'
+type: module
+description: 'A custom block with a table and AJAX pager.'
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - drupal:block

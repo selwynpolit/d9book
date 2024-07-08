@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Add use-ajax class to each link in the pager.
+ *
+ * Implements hook_preprocess_pager().
+ */
+function ajax_pager_table_preprocess_pager(&$variables): void {
+  if (isset($variables['items'])) {
+    foreach ($variables['items']['pages'] as &$page) {
+      $page['attributes']->addClass('use-ajax');
+      }
+  }
+  if (isset($variables["items"]["next"])) {
+    $variables["items"]["next"]["attributes"]->addClass("use-ajax");
+  }
+  if (isset($variables["items"]["previous"])) {
+    $variables["items"]["previous"]["attributes"]->addClass("use-ajax");
+  }
+  if (isset($variables["items"]["first"])) {
+    $variables["items"]["first"]["attributes"]->addClass("use-ajax");
+  }
+  if (isset($variables["items"]["last"])) {
+    $variables["items"]["last"]["attributes"]->addClass("use-ajax");
+  }
+}

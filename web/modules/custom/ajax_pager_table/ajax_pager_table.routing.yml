@@ -1,0 +1,19 @@
+#ajax_pager_table.load_page:
+#  path: '/ajax-pager-table/load-page/{page}'
+#  defaults:
+#    _controller: '\Drupal\ajax_pager_table\Controller\AjaxPagerTableController::loadPage'
+#    _title: 'Load page'
+#  requirements:
+#    _permission: 'access content'
+ajax_pager.refresh_table:
+  path: '/refresh-selwyn-wrapper/{page}'
+  defaults:
+    _controller: '\Drupal\ajax_pager_table\Controller\AjaxPagerTableController::refreshAjaxBlock'
+    page: 0
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      page:
+        type: integer
+        required: false

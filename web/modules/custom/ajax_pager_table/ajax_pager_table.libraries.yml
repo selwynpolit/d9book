@@ -1,0 +1,9 @@
+ajax_pager:
+  version: 1.x
+  js:
+    js/ajax_pager.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupal.ajax
+    - core/jquery.form

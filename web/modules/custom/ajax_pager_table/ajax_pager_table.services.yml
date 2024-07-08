@@ -1,0 +1,4 @@
+services:
+  ajax_pager_table.table_content_service:
+    class: Drupal\ajax_pager_table\Service\TableContentService
+    arguments: ['@messenger', '@current_user', '@pager.manager']
