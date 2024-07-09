@@ -322,7 +322,7 @@ The most important part in the pager definition array is this code which provide
   '#route_name' => 'ajax_pager.refresh_table',
   '#parameters' => ['page' => $current_page],
 ```
-
+:::
 
 
 The required service definition along with its arguments is in the `web/modules/custom/ajax_pager_table/ajax_pager_table.services.yml` file:
