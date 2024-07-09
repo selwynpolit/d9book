@@ -1525,6 +1525,54 @@ It should look like this:
 
 ![Leaflet map with popups](/images/leaf-map-block.png)
 
+## Add StringTranslationTrait to a class to use $this-t()
+
+To use the `$this->t()` method in a class, add the `use StringTranslationTrait` to the class. It looks like this:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\doi_workbench;
+
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
+/**
+ * Service for building the menu table.
+ */
+final class MenuTableBuilder implements MenuTableBuilderInterface {
+
+  use StringTranslationTrait;
+...
+  public function buildTable(int $page): array {
+    $uid = $this->currentUser->id();
+    ...
+        foreach ($pagedMenus as $menu_name => $menu) {
+      $edit_url = Url::fromRoute('entity.menu.edit_form', ['menu' => $menu_name]);
+      $add_link_url = Url::fromRoute('entity.menu.add_link_form', ['menu' => $menu_name]);
+      $rows[] = [
+        'title' => $menu->label(),
+        'description' => $menu_label,
+        'operations' => [
+          'data' => [
+            '#type' => 'operations',
+            '#links' => [
+              'edit' => [
+                'title' => $this->t('Edit'),
+                'url' => $edit_url,
+              ],
+              'add_link' => [
+                'title' => $this->t('Add link'),
+                'url' => $add_link_url,
+              ],
+            ],
+          ],
+        ],
+      ];
+    }
+```
 
 ## Troubleshoot memory problems
 
