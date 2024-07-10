@@ -1146,6 +1146,29 @@ During module development or upgrades, it can be really useful to quickly uninst
 
 ![Menu option to reinstall modules](/images/reinstall_modules.png)
 
+
+
+## Uninstall modules
+
+Sometimes during development, things go goofy and you need to uninstall a module.  Hopefully you can use the Drupal user interface (Extend, uninstall modules) or `drush pmu MODULENAME`.  If these fail, try:
+
+```sh
+drush eval "\$module_data = \Drupal::config('core.extension')->get('module'); unset(\$module_data['MODULENAME']); \Drupal::configFactory()->getEditable('core.extension')->set('module', \$module_data)->save();"
+
+drush php-eval "\Drupal::keyValue('system.schema')->delete('MODULENAME');"
+```
+If you have still an error you should clear the cache or rebuild the router:
+
+```sh`
+drush cr
+drush ev '\Drupal::service("router.builder")->rebuild();'
+drush cc router (Drupal 9/10)
+```
+
+More [at this page on drupal.org](https://www.drupal.org/forum/support/post-installation/2019-10-15/how-to-uninstall-drupal-8-module-when-uninstall-page)
+
+
+
 ## View a node in JSON format
 
 With the JSON:API and Serialization core modules enabled, simply navigate to any node and add `?_format=api_json` to the end of the URL. E.g. `https://d9book2.ddev.site/node/25?_format=api_json` 
