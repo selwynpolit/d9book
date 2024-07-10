@@ -1159,7 +1159,7 @@ drush php-eval "\Drupal::keyValue('system.schema')->delete('MODULENAME');"
 ```
 If you have still an error you should clear the cache or rebuild the router:
 
-```sh`
+```sh
 drush cr
 drush ev '\Drupal::service("router.builder")->rebuild();'
 drush cc router (Drupal 9/10)
