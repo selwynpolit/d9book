@@ -347,6 +347,10 @@ In order to get the pager links to all respond to AJAX, each link in the pager n
  * Implements hook_preprocess_pager().
  */
 function ajax_pager_table_preprocess_pager(&$variables): void {
+    // Make sure we only add the class to our pager.
+  if ($variables['pager']['#route_name'] !== 'ajax_pager.refresh_table') {
+    return;
+  }
   if (isset($variables['items'])) {
     foreach ($variables['items']['pages'] as &$page) {
       $page['attributes']->addClass('use-ajax');
