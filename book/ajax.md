@@ -266,7 +266,7 @@ class TableContentService {
    * @return array
    *   The render array of the table.
    */
-  public function getTableContent(int $page, bool $retrieve_pager = FALSE): array {
+  public function getTableContent(int $page): array {
     $items_per_page = 10;
     $total_items = 105;
 
@@ -295,18 +295,18 @@ class TableContentService {
       '#prefix' => '<div id="table-wrapper">',
       '#suffix' => '</div>',
     ];
-    if ($retrieve_pager) {
+    //if ($retrieve_pager) {
       if ($total_items > 1) {
         $build['table_content']['pager'] = [
           '#type' => 'pager',
           '#element' => 0,
           '#route_name' => 'ajax_pager.refresh_table',
-          '#parameters' => ['page' => $current_page],
+          //'#parameters' => ['page' => $current_page],
           '#prefix' => '<div id="pager-wrapper">',
           '#suffix' => '</div>',
         ];
       }
-    }
+    //}
     // add wrapper around whole thing
     $build['table_content']['#prefix'] = '<div id="ajax-pager-table-wrapper">';
     $build['table_content']['#suffix'] = '</div>';
@@ -445,15 +445,25 @@ class AjaxPagerTableController extends ControllerBase {
     );
   }
 
-  public function refreshAjaxBlock(int $page = 0) {
+  /**
+   * Refreshes the table content via AJAX.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request object.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The AJAX response.
+   */
+  //public function refreshAjaxBlock(int $page = 0) {
+  public function refreshAjaxBlock() {
     //$request = \Drupal::request();
     $request = $this->requestStack->getCurrentRequest();
-    if (!$request->isXmlHttpRequest()) {
+    if (is_null($request) || !$request->isXmlHttpRequest()) {
       throw new HttpException(400, 'This is not an AJAX request.');
     }
-    $page_number = $request->query->get('page');
+    $page_number = (int) $request->query->get('page');
     $response = new AjaxResponse();
-    $command = new ReplaceCommand('#ajax-pager-table-wrapper', $this->tableContentService->getTableContent($page_number, TRUE));
+    $command = new ReplaceCommand('#ajax-pager-table-wrapper', $this->tableContentService->getTableContent($page_number));
     // Alternatively, you can replace individual wrappers.
     // $command = new ReplaceCommand('#table-wrapper', $this->tableContentService->getTableContent($page_number));
     $response->addCommand($command);
@@ -470,17 +480,11 @@ And finally, we need a route to handle the AJAX request.  This is in the `web/mo
 
 ```yaml
 ajax_pager.refresh_table:
-  path: '/refresh-selwyn-wrapper/{page}'
+  path: '/refresh-selwyn-wrapper'
   defaults:
     _controller: '\Drupal\ajax_pager_table\Controller\AjaxPagerTableController::refreshAjaxBlock'
-    page: 0
   requirements:
     _permission: 'access content'
-  options:
-    parameters:
-      page:
-        type: integer
-        required: false
 ```
 
 
