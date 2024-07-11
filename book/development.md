@@ -554,6 +554,50 @@ you can rather use:
 [more at](https://support.acquia.com/hc/en-us/articles/1500002909602-Drush-throws-an-Access-denied-you-need-at-least-one-of-the-PROCESS-privilege-s-error-message)
 :::
 
+### MySQL configuration
+
+DDEV allows you to configure MySQL settings in the `.ddev/mysql` directory. You can add a `anything.cnf` file to this directory to configure MySQL settings. This is useful for setting up a local development environment that matches your production environment.
+
+For example, in file `.ddev/mysql/fix_max_allowed_packet.cnf` I tried the following:
+
+```sh
+[mysqld]
+max_allowed_packet = 768M
+```
+
+I was able to check a value from the MySQL configuration with:
+
+```sh
+ddev drush sqlc
+```
+Then once you see the `mysql>` prompt, type:
+
+```sh
+show variables like 'max_allowed_packet';
++--------------------+-----------+
+| Variable_name      | Value     |
++--------------------+-----------+
+| max_allowed_packet | 805306368 |
++--------------------+-----------+
+1 row in set (0.00 sec)
+```
+
+
+I was trying to dump a database and saw the following:
+  
+```sh
+ddev drush sql-dump >dbdump1.sql
+> mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
+> mysqldump: Error 2020: Got packet bigger than 'max_allowed_packet' bytes when dumping table `key_value` at row: 87620
+
+In SqlCommands.php line 215:
+
+  Unable to dump database. Rerun with --debug to see any error message.
+
+Failed to run drush sql-dump: exit status 1
+```
+
+I've seen the `Access denied` error but I don't think it is significant, so I usually ignore it. The `max_allowed_packet` one is a little more dire. This [stackoverflow question](https://stackoverflow.com/questions/8815445/mysqldump-error-got-packet-bigger-than-max-allowed-packet) suggested creating a [mysqldump] section and setting max_allowed_packet = 512M in the my.cnf file. This did not work for me. I tried setting it to 768M, 1024 and even 4096 but no luck.  I'm guessing there is some corruption in the database I was using.
 
 
 ### Cleanup some disk space 
