@@ -58,7 +58,10 @@ To find the form_id for a node comment form, start by editing an article node wi
 
 The formid is `comment_comment_form`. Note *dashes will need to become underscores in your code*.
 
-Alternatively, you can add a `hook_form_alter` and  `print_r` or `dsm` the `$form_id`.  If you prefer, you could also log it to the watchdog log:
+## Display the form id in the message area
+
+When you need to quickly find the form id, you can add a `hook_form_alter` to a `.module` file to show the form id. 
+
 
 ```php
 function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
@@ -67,7 +70,8 @@ function nisto_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_sta
 \Drupal::logger('nisto_form_alter')->notice('Form ID: ' . $form_id);
 ```
 
-Notice that a node add form looks like `node_catastrophe_notice_form` while a node edit form looks more like this: `node_catastrophe_notice_edit_form`
+Notice the patterns of the form id: A `node add` is `node_catastrophe_notice_form` while a `node edit` is `node_catastrophe_notice_edit_form`.
+
 
 ## Add buttons to your custom forms
 
