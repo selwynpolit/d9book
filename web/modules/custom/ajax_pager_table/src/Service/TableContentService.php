@@ -26,7 +26,7 @@ class TableContentService {
    * @return array
    *   The render array of the table.
    */
-  public function getTableContent(int $page, bool $retrieve_pager = FALSE): array {
+  public function getTableContent(int $page): array {
     $items_per_page = 10;
     $total_items = 105;
 
@@ -55,19 +55,18 @@ class TableContentService {
       '#prefix' => '<div id="table-wrapper">',
       '#suffix' => '</div>',
     ];
-    if ($retrieve_pager) {
-      if ($total_items > 1) {
-        $build['table_content']['pager'] = [
-          '#type' => 'pager',
-          '#element' => 0,
-          '#route_name' => 'ajax_pager.refresh_table',
-          '#parameters' => ['page' => $current_page],
-          '#prefix' => '<div id="pager-wrapper">',
-          '#suffix' => '</div>',
-        ];
-      }
+    if ($total_items > 1) {
+      $build['table_content']['pager'] = [
+        '#type' => 'pager',
+        '#element' => 0,
+        '#route_name' => 'ajax_pager.refresh_table',
+        //'#parameters' => ['page' => $current_page],
+        '#prefix' => '<div id="pager-wrapper">',
+        '#suffix' => '</div>',
+      ];
     }
-    // add wrapper around whole thing
+
+    // Add wrapper around whole thing.
     $build['table_content']['#prefix'] = '<div id="ajax-pager-table-wrapper">';
     $build['table_content']['#suffix'] = '</div>';
     return $build;

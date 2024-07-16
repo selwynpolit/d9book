@@ -67,7 +67,7 @@ class AjaxPagerTableBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function build() {
     $page = \Drupal::request()->query->get('page') ?? 0;
-    $build = $this->tableContentService->getTableContent($page, TRUE);
+    $build = $this->tableContentService->getTableContent($page);
     return $build;
   }
 

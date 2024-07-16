@@ -62,7 +62,8 @@ class AjaxPagerTableController extends ControllerBase {
     );
   }
 
-  public function refreshAjaxBlock(int $page = 0) {
+  //public function refreshAjaxBlock(int $page = 0) {
+  public function refreshAjaxBlock() {
     //$request = \Drupal::request();
     $request = $this->requestStack->getCurrentRequest();
     if (!$request->isXmlHttpRequest()) {
@@ -70,7 +71,7 @@ class AjaxPagerTableController extends ControllerBase {
     }
     $page_number = $request->query->get('page');
     $response = new AjaxResponse();
-    $command = new ReplaceCommand('#ajax-pager-table-wrapper', $this->tableContentService->getTableContent($page_number, TRUE));
+    $command = new ReplaceCommand('#ajax-pager-table-wrapper', $this->tableContentService->getTableContent($page_number));
     // Alternatively, you can replace individual wrappers.
     // $command = new ReplaceCommand('#table-wrapper', $this->tableContentService->getTableContent($page_number));
     $response->addCommand($command);
