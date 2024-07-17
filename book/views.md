@@ -60,6 +60,25 @@ function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_
 }
 ```
 
+## Change a filter
+Assuming you have a filter on a list field called `field_traffic_light` and you want to change the value of the filter to include both `red` and `green`, you can use `hook_views_pre_view()` to do the job:
+
+```php
+/**
+ * Implements hook_views_pre_view().
+ *
+ */
+function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array $args) {
+  // Check if the view is the one we want to alter.
+  if ($view->id() === 'blurbs' && $display_id === 'page_1') {
+      // Change a filter.
+      $display = $view->getDisplay();
+      $filters = $view->getDisplay()->getOption('filters');
+      $filters['field_traffic_light_value']['value'] = ['red', 'green'];
+      $display->setOption('filters', $filters);  }
+}
+```
+Views cleverly names the array according to whether the field is a reference field or some other value field by using names like `field_section_target_id` and `field_traffic_light_value` respectively.
 
 
 ## Template Preprocess views view
