@@ -42,7 +42,7 @@ function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_
 ```
 
 ## Disable an exposed filter
-Assuming you have an exposed filter on a reference field called `field_section` you want to disable it, you can use `hook_views_pre_view()` to do the job:
+Assuming you have an exposed filter on a reference field called `field_section` you want to remove the dropdown select list, you can use `hook_views_pre_view()` to do the job:
 
 ```php
 /**
@@ -79,6 +79,49 @@ function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_
 }
 ```
 Views cleverly names the array according to whether the field is a reference field or some other value field by using names like `field_section_target_id` and `field_traffic_light_value` respectively.
+
+
+## Add a filter
+
+Using `hook_views_pre_view()` you can retrieve the current filters, define a new one in an array and add it to the filters array.  This example adds a filter for a taxonomy term field called `field_topics_target_id` which is for a taxonomy reference field. Note that the `key` and the `id` can be anything you want.  Views uses a naming convention like `field_section_target_id` and `field_traffic_light_value` when it generates them:
+
+```php
+/**
+ * Implements hook_views_pre_view().
+ *
+ */
+function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array $args) {
+  $display = $view->getDisplay();
+  $filters = $view->getDisplay()->getOption('filters');
+
+  $new_filter = [
+    'tid' => [ // Views will use 'field_topics_target_id'
+      'id' => 'tid',  //Views will use 'field_topics_target_id'
+      'table' => 'node__field_topics',
+      'field' => 'field_topics_target_id',
+      'relationship' => 'none',
+      'group_type' => 'group',
+      'admin_label' => '',
+      'plugin_id' => 'taxonomy_index_tid',
+      'operator' => 'or',
+      'value' => $value,
+      'group' => 1,
+      'exposed' => FALSE,
+      'expose' => [], //..13 element array
+      'is_grouped' => FALSE,
+      'group_info' => [], //..10 element array
+      'reduce_duplicates' => FALSE,
+      'vid' => 'topics',
+      'type' => 'select',
+      'hierarchy' => FALSE,
+      'limit' => TRUE,
+      'error_message' => TRUE,
+    ],
+  ];
+  $filters = $filter + $new_filter;
+  $display->setOption('filters', $filters);
+}
+```
 
 
 ## Template Preprocess views view
