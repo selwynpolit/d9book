@@ -52,6 +52,7 @@ Assuming you have an exposed filter on a reference field called `field_section` 
 function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array $args) {
   // Check if the view is the one we want to alter.
   if ($view->id() === 'blurbs' && $display_id === 'page_1') {
+      $filters = $view->getDisplay()->getOption('filters');
       // Disable exposed filter.
       $filters['field_section_target_id']['exposed'] = FALSE;
       $display->setOption('filters', $filters);
@@ -730,6 +731,17 @@ function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_
   }
 }
 ```
+
+To make changes to filters in a view, retrieve the filters with `$filters = $view->getDisplay()->getOption('filters')`. This returns an array with an element corresponding to each filter defined in the view.
+So the view with these filters defined:
+
+![view filters](/images/view-filters.png)
+
+Will return an array like this:
+
+![filters array](/images/view-filters-in-debugger.png)
+
+You can modify the filters array and set that back into the view for processing with `$display->setOption('filters', $filters)`.
 
 
 ### Links
