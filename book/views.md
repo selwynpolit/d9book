@@ -5,6 +5,62 @@ title: Views
 # Views
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=views.md)
 
+## Change the view title
+
+To change the title of the view, in a `.module` file, you can use this code:
+
+```php
+function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array $args) {
+  // Check if the view is the one we want to alter.
+  if ($view->id() === 'blurbs' && $display_id === 'page_1') {
+    $user = \Drupal::currentUser();
+    if ($user->hasRole('administrator')) {
+      // Returns a Drupal\views\Plugin\views\display\Page object for a page view.
+      $display = $view->getDisplay();
+      $display->setOption('title', 'Hello, Administrator!');
+    }
+  }
+}
+```
+
+## Change contextual filters value
+
+Assuming the URL `https://ddev102.ddev.site/blurbs/green` where green is the value you are passing to the contextual filter, you could change it to rather use `red` with the following code:
+
+```php
+/**
+ * Implements hook_views_pre_view().
+ *
+ */
+function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array $args) {
+  // Check if the view is the one we want to alter.
+  if ($view->id() === 'blurbs' && $display_id === 'page_1') {
+      $args[0] = 'red';
+      $view->setArguments($args);
+  }
+}
+```
+
+## Disable an exposed filter
+Assuming you have an exposed filter on a reference field called `field_section` you want to disable it, you can use `hook_views_pre_view()` to do the job:
+
+```php
+/**
+ * Implements hook_views_pre_view().
+ *
+ */
+function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array $args) {
+  // Check if the view is the one we want to alter.
+  if ($view->id() === 'blurbs' && $display_id === 'page_1') {
+      // Disable exposed filter.
+      $filters['field_section_target_id']['exposed'] = FALSE;
+      $display->setOption('filters', $filters);
+  }
+}
+```
+
+
+
 ## Template Preprocess views view
 Using template_preprocess_views_view you customize the view by adding or modifying variables.  This is useful if you want to add a form to a view or add some other variable to the view.  See more at the [Drupal API link to function template_preprocess_views_view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)
 
@@ -630,7 +686,54 @@ function dod_views_generate_view_filter($filter, $value, $op = 'or') {
 
 
 
+
+
 ## Reference
+
+### Views API
+Look in `core/modules/views/views.api.php` for all the hooks available for views along with examples of their usage. The file is also available online at [Drupal API Reference: views.api.php](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/views/views.api.php?ref_type=heads)
+
+### hook_views_pre_view()
+In [Drupal API Reference: hooks_views_pre_view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/function/hook_views_pre_view/10) you can make significant changes to a view before it appears on a page. These include:
+- Alter a view at the very beginning of Views processing.
+- Add an attached view to the view by setting `$view->attachment_before` and `$view->attachment_after`.
+
+::: tip Note
+To make the changes appear on the page, you will notify the `$view` object or the `display` object using calls like: `$view->setArguments($args)` or `$view->setOption('title', $new_title)`. The `$view` object is passed as an argument, but you will have to retrieve the display object using `$display = $view->getDisplay()`.
+:::
+
+
+For example to add an argument (contextual filter value) use this code in a `.module` file:
+
+```php
+function hook_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+    // Modify contextual filters for my_special_view if user has 'my special permission'.
+    $account = \Drupal::currentUser();
+    if ($view->id() == 'my_special_view' && $account->hasPermission('my special permission') && $display_id == 'public_display') {
+        $args[0] = 'custom value';
+        $view->setArguments($args);
+    }
+}
+```
+
+To change the title of the view, in a '.module' file, you can use this code:
+```php
+function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array $args) {
+  // Check if the view is the one we want to alter.
+  if ($view->id() === 'blurbs' && $display_id === 'page_1') {
+    $user = \Drupal::currentUser();
+    if ($user->hasRole('administrator')) {
+      // Returns a Drupal\views\Plugin\views\display\Page object for a page view.
+      $display = $view->getDisplay();
+      $display->setOption('title', 'Hello, Administrator!');
+    }
+  }
+}
+```
+
+
+### Links
+- [Drupal API Reference: hook_views_pre_view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/function/hook_views_pre_view/10)
 - [Drupal API Reference: Template Preprocess views view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)
 - [Drupal API Reference: Template Preprocess Views View Field](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view_field/9.3.x )
 - [Building a Views display style plugin for Drupal - updated Nov 2023](https://www.drupal.org/docs/develop/creating-modules/building-a-views-display-style-plugin-for-drupal)
