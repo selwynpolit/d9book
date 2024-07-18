@@ -614,6 +614,9 @@ function _get_taxonomy_term_by_abbreviation(?string $abbreviation): string {
 ```
 
 
+## Exclude previously loaded nodes from a view
+
+Using the [Views exclude previous module](https://www.drupal.org/project/views_exclude_previous) you can exclude previously loaded nodes from a view.  This is useful when you have a view and an attachment view but you don't want them to both show the same nodes. It provides a filter that you can add to the view to exclude previously loaded nodes.
 
 
 

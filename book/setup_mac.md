@@ -121,6 +121,10 @@ echo 'export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"' >> ~/.zshrc
 echo 'export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"' >> ~/.zshrc
 ```
 
+::: tip Note
+Most recently Drupal requires PHP 8.2 so you might want to install that instead. 
+:::
+
 Add some settings to let you run drush:
 
 check to make sure this is the place to add your custom settings.ini
