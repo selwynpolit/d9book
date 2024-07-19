@@ -868,6 +868,65 @@ From
 <div{{ content_attributes.addClass('node__content') }}>
 ```
 
+Here we set a bunch of classes:
+
+```twig
+{#
+/**
+ * @file
+ * Theme override for Call to Action paragraph.
+ *
+ */
+#}
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    'usa-button-group__item',
+    'grid-col-12',
+    'tablet---grid-col-6',
+    'desktop---'~button_width
+  ]
+%}
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      <a href="{{content.field_uswds_button.0["#url"]}}" class="usa-button {{ button_style }} {% if show_arrow is not empty %}usa-button--arrow{% endif %}">{{content.field_uswds_button.0["#title"]}}</a>
+    {% endblock %}
+  </div>
+{% endblock paragraph %}
+```
+
+This line uses a ternary operator to check if the `view_mode` variable is set. If `view_mode` is set (truthy), it appends a class to the paragraph that includes the view mode's machine name, formatted with the clean_class filter. The `clean_class` filter is used to ensure that the class name is safe to use in HTML (e.g., spaces are replaced with dashes, and unsafe characters are removed):
+  
+```twig
+view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+```
+
+
+### Add classes to a link
+
+```twig
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    'callout-item',
+  ]
+%}
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {{ content.field_usabc_body }}
+      <a href="{{content.field_uswds_button.0["#url"]}}" class="usa-button usa-button-big usa-button-secondary">{{content.field_uswds_button.0["#title"]}}</a>
+    {% endblock %}
+  </div>
+{% endblock paragraph %}
+```
+
+
 ### Add a class conditionally
 
 From `~/Sites/very/web/themes/very/templates/node--teaser.html.twig`
