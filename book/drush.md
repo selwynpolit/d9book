@@ -116,6 +116,53 @@ final class DrushPlay2Commands extends DrushCommands {
 You can execute the commands defined here with `drush drush_play2:command-name abc` or `drush foo abc` which will output "Achievement unlocked" or `drush drush_play2:token` or `drush token` which will output a long table.
 
 
+And just for fun, how about a command that lists the usages of a paragraph in other paragraphs:
+
+```php
+  #[CLI\Command(name: 'drush_play:list-paragraph-usage', aliases: ['lpu'])]
+  #[CLI\Description(description: 'Lists paragraph types that use a specified paragraph type.')]
+  #[CLI\Argument(name: 'paragraph_machine_name', description: 'The machine name of the paragraph type to search for.')]
+  public function listParagraphUsage($paragraph_machine_name): RowsOfFields {
+    $paragraphTypes = $this->entityTypeManager->getStorage('paragraphs_type')->loadMultiple();
+    $rows = [];
+
+    foreach ($paragraphTypes as $paragraphType) {
+      $fields = $this->entityFieldManager->getFieldDefinitions('paragraph', $paragraphType->id());
+      foreach ($fields as $field) {
+        if ($field->getType() === 'entity_reference_revisions') {
+          $settings = $field->getSettings();
+          if (isset($settings['target_type']) && $settings['target_type'] === 'paragraph') {
+            $allowedTypes = $settings['handler_settings']['target_bundles'] ?? [];
+            if (in_array($paragraph_machine_name, $allowedTypes)) {
+              $rows[] = [
+                'paragraph_type' => $paragraphType->id(),
+                'field_name' => $field->getName(),
+              ];
+            }
+          }
+        }
+      }
+    }
+
+    if (empty($rows)) {
+      $this->logger()->warning(dt('No paragraph types found using the specified paragraph type.'));
+      return new RowsOfFields([]);
+    }
+
+    return new RowsOfFields($rows);
+  }
+```
+
+
+The ouput looks something like this:
+```
+$ ddev drush lpu button
+-
+  paragraph_type: button_group
+  field_name: field_buttons
+```
+
+
 
 ### Drush command that finds all uses of the button paragraph type
 
