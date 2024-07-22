@@ -104,6 +104,9 @@ These are paid training courses that are very detailed and informative.  They ar
 * [Salsa Digital Agency has some good articles](https://salsa.digital/insights) that are definitely worth keeping up with.
 * [Dries Buytaert's blog](https://dri.es/) - Dries is the founder and project lead of Drupal and the CTO of Acquia.
 * [Tag1 consulting blog](https://www.tag1consulting.com/blog) is another fantastic source of interesting and informative articles about Drupal.
+* [Short but sweet Drupal articles by Oliver Davies](https://www.oliverdavies.uk/blog) - Oliver is a Drupal developer and Linux system administrator.
+* [Markie blog](https://mark.ie/blog) - Short and interesting articles and utility scripts including reports on his core work. Mark Conroy is a Drupal developer and consultant.
+
 
 ### Podcasts and Vlogs
 - [Talking Drupal is a long standing weekly conversation about and around Drupal development. It was started by Stephen Cross, John Picozzi, and Nic Lafin in 2013 and is still going strong.](https://www.talkingdrupal.com) [This author was interviewed on Episode #398](https://www.talkingdrupal.com/398)
