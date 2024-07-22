@@ -200,7 +200,7 @@ class OpinionLanding extends BlockBase {
 
 ## Create a Block with a config form
 
-Here is an example which includes a block and a corresponding config form that controls what is displayed in the block. The block can be placed using the Block Layout system in Drupal at /admin/structure/block (shown below) or via twig in a template file.
+Here is an example which includes a block and a corresponding config form that controls what is displayed in the block. The block can be placed using the Block Layout system in Drupal at `/admin/structure/block` (shown below) or via twig in a template file.
 
 ![Block layout system](/images/image7.png)
 

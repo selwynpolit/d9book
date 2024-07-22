@@ -326,6 +326,27 @@ This example builds a `$helpdesk_url`, calls a `sendMail()` function and then de
 ```
 
 
+## Display a message to an anonymous user after redirect
+
+From a slack discussion in the Drupal `#Support` Slack channel, here is an example of how to display a message to an anonymous user after a redirect. Be aware that this may work for the first user (without the `\Drupal::service('session')->save()` call, but may fail on subsequent attempts.  The `session` service is used to store the messages in the session.
+
+```php
+    // Set a message to inform the user
+    \Drupal::messenger()->addMessage(t('Thank you for applying for an account. Your account is currently pending approval by the site administrator.<br />In the meantime, a welcome message with further instructions has been sent to your email address.'));
+
+    // Store the messages in the session
+    \Drupal::service('session')->save();
+
+    // Perform redirection to the front page
+    $url = Url::fromRoute('<front>')->toString();
+    $response = new RedirectResponse($url);
+    $response->send();
+    exit;
+```
+
+
+
+
 ## Display a variable while debugging
 
 You can use var_dump and print_r but sometimes it is difficult to see where they display.
