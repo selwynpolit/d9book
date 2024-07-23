@@ -6,7 +6,7 @@ export default defineConfig({
   title: 'Drupal at your Fingertips',
   description:
     'Drupal at your Fingertips: A developers quick reference for Drupal 9 and 10',
-  base: '/d9book',
+  base: '/',
   srcDir: './book',
   outDir: './dist',
   cleanUrls: true,
