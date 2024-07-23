@@ -2,7 +2,7 @@
 
 ## A modern Drupal quick reference book for developers
 
-### Read it at [https://www.drupalatyourfingertips.com]((https://www.drupalatyourfingertips.com))
+### Read it at [https://www.drupalatyourfingertips.com](https://www.drupalatyourfingertips.com)
 
 In this branch (`gh-pages`) you are invited to make changes or updates and help move this open source documentation along.
 
