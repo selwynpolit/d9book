@@ -498,3 +498,5 @@ curl_close($ch);
 - [Speak HTTP with Drupal::httpClient by William Hetherington on using Drupal 8 to speak http using guzzle - Dec 2015](https://drupalize.me/blog/201512/speak-http-drupal-httpclient)
 - [Inject a Service in Drupal 8 code snippet from J M Olivas showing how to use dependency injection with Guzzle](https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4)
 - [PSR-7: HTTP message interfaces describes common interfaces for representing HTTP messages and URI\'s](https://www.php-fig.org/psr/psr-7/)
+- [HTTP Client Manager](https://www.drupal.org/project/http_client_manager) provides a Guzzle based plugin which allows you to manage HTTP clients using Guzzle Service Descriptions via YAML, JSON or PHP files.
+- 
