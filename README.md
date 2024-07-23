@@ -4,11 +4,11 @@
 
 ### Read it at [https://www.drupalatyourfingertips.com](https://www.drupalatyourfingertips.com)
 
-In this branch (`gh-pages`) you are invited to make changes or updates and help move this open source documentation along.
+Please consider making changes to the `gh-pages` branch to help move this open source documentation project along.
 
-The actual pages are in the book directory while the index file contains the markdown for the home page.
+The actual pages are in the `book` directory while the home page is in `index.md`.
 
-Please fork, edit and submit pull requests as you please.
+Please fork, edit and submit pull requests to improve this content. You are also welcome to [contribute financially using this link](https://www.paypal.com/paypalme/selwynpolit) or the Sponsor this project link on the [github project page](https://github.com/selwynpolit/d9book).
 
 thanks
 
