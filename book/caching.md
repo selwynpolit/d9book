@@ -160,7 +160,7 @@ function ddd_node_view_alter(array &$build, EntityInterface $entity, EntityViewD
 
 ## Set cache context correctly when retrieving query, get or post parameters 
 
-Drupal will cache requests so be sure to correctly specify cache context when building your render arrays if they need those parameters.
+Drupal will cache requests so be sure to correctly specify the cache context when building your render arrays if they need those parameters.
 
 For more on retrieving those, see [Retrieving query, get or post parameters](general#retrieve-query-get-or-post-parameters)
 
