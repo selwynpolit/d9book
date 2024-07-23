@@ -456,6 +456,14 @@ nvm --version
 0.39.7
 ```
 
+Then to install node:
+
+```sh
+nvm install node
+```
+This will also give you access to `npm`.
+
+
 ### bat
 
 [bat(https://github.com/sharkdp/bat)] is a replacement for cat, does beautiful syntax highlighting
