@@ -26,20 +26,12 @@ more information about render arrays and rendering.
 
 ### Twig Templating Engine
 
-Drupal uses the templating engine Twig. Twig offers developers a fast,
-secure, and flexible method for building templates for Drupal 8 sites.
-Twig does not require front-end developers to know PHP to build and
-manipulate Drupal themes.
+Drupal uses the Twig templating engine. Twig offers developers a fast,secure, and flexible method for building templates for Drupal sites. Twig does not require front-end developers to know PHP to build and manipulate Drupal themes.
 
-For more on theming in Drupal
-see <https://www.drupal.org/docs/theming-drupal> .
-
-For further Twig documentation
-see [https://twig.symfony.com/doc/2.x](https://twig.symfony.com/doc/2.x%20/)
-and <https://twig.symfony.com/doc/3.x>
+For more info on theming Drupal, read [Theming Drupal on drupal.org](https://www.drupal.org/docs/theming-drupal) and the [Twig documentation](https://twig.symfony.com/doc/3.x)
 
 :::tip Note
-Drupal 10 uses **Twig 3**, Drupal 9 uses Twig 2 and Drupal 8 used Twig 1.
+Drupal 10 uses **Twig 3**, Drupal 9 uses [Twig 2](https://twig.symfony.com/doc/2.x%20/) and Drupal 8 used Twig 1.
 :::
 
 
@@ -2075,6 +2067,18 @@ So here I compare a field value so I have to use striptags to remove all html. I
   {{ drupal_block('opinion_landing', wrapper=false) }}
 {% endif %}
 ```
+
+## Xdebug in twig
+When you need to see the values of variables in your twig templates, simply enable Xdebug add 
+  
+  ```twig
+  {{ devel_breakpoint() }}
+  ```
+
+This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template.
+
+![Xdebug in twig](/images/twig-xdebug.png)
+
 
 ## Reference
 
