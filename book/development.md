@@ -797,6 +797,18 @@ xdebug_break()
 
 
 
+### Xdebug in twig
+When you need to see the values of variables in your twig templates, simply enable Xdebug and add the following line to your twig template:
+  
+  ```twig
+  {{ devel_breakpoint() }}
+  ```
+
+This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template.
+
+![Xdebug in twig](/images/twig-xdebug.png)
+
+
 ### Code Sniffing
 
 You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards). 

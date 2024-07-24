@@ -2068,16 +2068,17 @@ So here I compare a field value so I have to use striptags to remove all html. I
 {% endif %}
 ```
 
-## Xdebug in twig
-When you need to see the values of variables in your twig templates, simply enable Xdebug add 
+### Xdebug in twig
+When you need to see the values of variables in your twig templates, simply enable Xdebug and add the following line to your twig template:
   
   ```twig
   {{ devel_breakpoint() }}
   ```
 
-This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template.
+This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template.
 
 ![Xdebug in twig](/images/twig-xdebug.png)
+
 
 
 ## Reference
