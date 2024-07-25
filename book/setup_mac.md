@@ -435,7 +435,37 @@ git config --global push.autoSetupRemote true
 
 [Read more about automatically creating upstream branches](https://adamj.eu/tech/2022/10/31/git-how-to-automatically-create-upstream-branches/)
 
+### git Large File Storage (LFS)
+Some repos use git LFS to store large files. 
 
+If you see a message like this when you try to clone a repo, you will need to install git LFS:
+
+```sh
+git clone git@bitbucket.org:webfirst/abc.git
+Cloning into 'abc'...
+remote: Enumerating objects: 13270, done.
+remote: Counting objects: 100% (3918/3918), done.
+remote: Compressing objects: 100% (3372/3372), done.
+remote: Total 13270 (delta 1735), reused 1561 (delta 326), pack-reused 9352 (from 1)
+Receiving objects: 100% (13270/13270), 19.53 MiB | 9.13 MiB/s, done.
+Resolving deltas: 100% (7233/7233), done.
+git-lfs filter-process: git-lfs: command not found
+fatal: the remote end hung up unexpectedly
+warning: Clone succeeded, but checkout failed.
+You can inspect what was checked out with 'git status'
+and retry with 'git restore --source=HEAD :/'
+``
+
+You can install git LFS with:
+
+```sh
+brew install git-lfs
+git lfs install
+```
+
+
+
+Then you can run `git lfs install` to initialize git LFS.
 
 ### NVM (Node Version Manager)
 
