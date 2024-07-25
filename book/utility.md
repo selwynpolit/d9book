@@ -73,6 +73,36 @@ $randomImage = $random->image($destination, '400x300', '800x600');
 
 Each of these methods offers a different kind of random data generation, suitable for various testing and placeholder needs in Drupal development. Whether you need random strings for user inputs, objects with random properties for testing object interactions, or even placeholder images for theming, this utility class has you covered.
 
+## Nested Array Utility
+
+Here is a really convoluted way to insert some additional instructions on a form upload field in a media entity. If you really want to show the world how clever you are and that you can use the `NestedArray` utility class, you can use do it like this:
+
+```php
+/**
+ * Implements hook_form_alter().
+ */
+function abc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Mapping of form IDs to their respective fields and new descriptions.
+  $form_mappings = [
+    'media_library_add_form_upload' => ['container', 'upload'],
+    'media_image_add_form' => ['field_media_image', 'widget', 0],
+    'media_image_edit_form' => ['replace_file', 'replacement_file'],
+  ];
+
+  // Check if the current form ID is in the mappings.
+  if (array_key_exists($form_id, $form_mappings)) {
+    $message = t('Keep titles clear and useful. e.g., "ski_trip_2023" instead of "img_pxl_443445"<br>');
+    $parents = $form_mappings[$form_id];
+    $el = &NestedArray::getValue($form, $parents);
+    if ($el !== NULL) {
+      $el['#description'] = $message . $el['#description'];
+    }
+  }
+}
+```
+More on the `NestedArray` class can be found [at api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21NestedArray.php/class/NestedArray/10).
+
+
 ## Reference
 
 - [Utility classes and functions Drupal API](https://api.drupal.org/api/drupal/core%21core.api.php/group/utility/10)

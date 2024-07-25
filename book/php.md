@@ -100,7 +100,7 @@ This way, any changes made to `$correlation` inside the loop will be reflected i
 
 ## Deep merge arrays with numeric keys
 
-While searching for a way to merge two arrays with numeric keys, I found this [information on PHP.net](https://www.php.net/manual/en/function.array-merge-recursive.php).  Unfortunately `array_merge_recursive()` does not work with numeric keys.  The following code (from 12 years ago) is a solution to the problem.  I did have to get ChatGPT to modernize the code a bit so it would work with PHP 8.
+While searching for a way to merge two arrays with numeric keys, I found this [information on PHP.net](https://www.php.net/manual/en/function.array-merge-recursive.php).  Unfortunately `array_merge_recursive()` does not work with numeric keys.  The following code (from 12 years ago) is a solution to the problem.  I did use ChatGPT to modernize the code for PHP 8.
 
 
 ```php
@@ -169,6 +169,57 @@ It allows you to match a value against multiple conditions and return a result b
 
 More at [php.net](https://www.php.net/manual/en/control-structures.match.php).
 
+
+## Field mapping
+
+Here is the most convoluted way (Don\'t ask.) I could figure out to insert some additional instructions on a form upload field in a media entity. It showed some interesting ways to get deep into the render array. This line: `$field_reference = &$form;` establishes a starting point for navigating the form's structure. By using a reference (`&`), any changes made to `$field_reference` will directly affect the `$form` array, ensuring that the alterations are applied to the actual form being processed.
+
+The loop below navigates through the form array to the specific field that needs modification. It does so by updating $field_reference at each step to point deeper into the form structure, following the path defined in the mapping. This dynamic navigation allows the code to reach any field within the form, regardless of its depth or location.
+
+```php
+foreach ($mapping['field_path'] as $path) {
+  $field_reference = &$field_reference[$path];
+}
+```
+
+
+Here is the whole function:
+
+```php
+/**
+ * Implements hook_form_alter().
+ */
+function abc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+    // Mapping of form IDs to their respective fields and new descriptions.
+    $message = t('Keep titles clear and useful. e.g., "ski_trip_2023" instead of "img_pxl_443445"<br>');
+  $form_mappings = [
+    'media_library_add_form_upload' => [
+      'field_path' => ['container', 'upload'],
+      'description' => $message,
+    ],
+    'media_image_add_form' => [
+      'field_path' => ['field_media_image', 'widget', 0],
+      'description' => $message,
+    ],
+    'media_image_edit_form' => [
+      'field_path' => ["replace_file", "replacement_file"],
+      $message,
+    ],
+  ];
+  // Check if the current form ID is in the mappings.
+  if (array_key_exists($form_id, $form_mappings)) {
+    // Retrieve the mapping for the current form.
+    $mapping = $form_mappings[$form_id];
+    // Build the reference to the form field.
+    $field_reference = &$form;
+    foreach ($mapping['field_path'] as $path) {
+      $field_reference = &$field_reference[$path];
+    }
+    // Insert the new description before the existing one.
+    $field_reference['#description'] = $mapping['description'] . '<br>' . $field_reference['#description'];
+  }
+}
+```
 
 
 
