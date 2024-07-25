@@ -18,3 +18,8 @@ cache
 # Drupal site
 config/
 web/
+
+# Mac OS files
+book/public/.DS_Store
+book/.DS_Store
+.DS_Store
