@@ -75,7 +75,7 @@ Each of these methods offers a different kind of random data generation, suitabl
 
 ## Nested Array Utility
 
-Here is a really convoluted way to insert some additional instructions on a form upload field in a media entity. If you really want to show the world how clever you are and that you can use the `NestedArray` utility class, you can use do it like this:
+Here is a really convoluted way to insert some additional instructions on a form upload field when adding or editing media entities. If you really want to impress your manager and show that you can use the `NestedArray` utility class, you can use do it like this:
 
 ```php
 /**
@@ -102,6 +102,28 @@ function abc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 ```
 More on the `NestedArray` class can be found [at api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21NestedArray.php/class/NestedArray/10).
 
+Just for giggles, this is the way I think it should be done:
+
+```php
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function abc_media_form_media_library_add_form_upload_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['container']['upload']['#description'] = t('Keep titles clear and useful. e.g., "ski_trip_2023" instead of "img_pxl_443445"<br>') . '<br>' . $form['container']['upload']['#description'];
+}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function abc_media_form_media_image_add_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['field_media_image']['widget'][0]['#description'] = t('Keep titles clear and useful. e.g., "ski_trip_2023" instead of "img_pxl_443445"<br>') . '<br>' . $form['field_media_image']['widget'][0]['#description'];
+}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function abc_media_form_media_image_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form["replace_file"]["replacement_file"]["#description"] = t('Keep titles clear and useful. e.g., "ski_trip_2023" instead of "img_pxl_443445"<br>') . '<br>' . $form["replace_file"]["replacement_file"]["#description"];
+}
+```
 
 ## Reference
 
