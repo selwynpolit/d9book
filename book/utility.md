@@ -78,6 +78,9 @@ Each of these methods offers a different kind of random data generation, suitabl
 Here is a really convoluted way to insert some additional instructions on a form upload field when adding or editing media entities. If you really want to impress your manager and show that you can use the `NestedArray` utility class, you can use do it like this:
 
 ```php
+
+use Drupal\Component\Utility\NestedArray;
+
 /**
  * Implements hook_form_alter().
  */
