@@ -388,7 +388,7 @@ I love short linux aliases like `ll` (or just `l`) for listing files. If you spe
 
 Use ddev ssh to "ssh" into the container and then type ll to list the files in a directory.
 
-Either copy `.ddev/homeadditions/bash_aliases.example` to `.ddev/homeadditions/bash_aliases` and add them there!
+Either copy `.ddev/homeadditions/bash_aliases.example` to `.ddev/homeadditions/.bash_aliases` and add them there! Don\'t forget the leading period in the filename. 
 
 OR
 
@@ -399,7 +399,7 @@ alias ll="ls -lhAp"
 alias l="ls -lhAp"
 ```
 
-Note. don't use `.homeadditions` - use the `homeadditions` with no period (or full stop) in front.
+Note. Be sure to restart the container with `ddev restart` to see the changes. Don\'t use `.homeadditions` - use the `homeadditions` with no period (or full stop) in front.
 
 ### Upgrading DDEV
 
