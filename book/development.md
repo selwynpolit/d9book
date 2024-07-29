@@ -804,9 +804,12 @@ When you need to see the values of variables in your twig templates, simply enab
   {{ devel_breakpoint() }}
   ```
 
-This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template.
+This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template. 
+
+Apparently PHPStorm has the ability to step through twig templates just like PHP code. See this [Jetbrains blog post on Twig debug support]([https://www.jetbrains.com/help/phpstorm/twig.html#debugging-twig-templates) for details. There is also a [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug).
 
 ![Xdebug in twig](/images/twig-xdebug.png)
+
 
 
 ### Code Sniffing
