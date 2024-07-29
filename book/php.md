@@ -221,7 +221,26 @@ function abc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 }
 ```
 
+## The difference between require and include
 
+The difference between include and require is subtle. 
+
+Require, as the function name suggests *requires* that the included file exist to continue the script. So, if require fails, the script stops. 
+
+Using include *will allow* the script to continue. Most of the time, using require makes more sense because it's likely that the file we want to include includes some important information that is required for your application to run properly.
+
+e.g. 
+```php
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
+
+// Automatically generated include for settings managed by ddev.
+$ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
+if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
+  require $ddev_settings;
+}
+```
 
 
 ## Reference
