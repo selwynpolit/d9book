@@ -221,6 +221,9 @@ function abc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 }
 ```
 
+For those of you following along at home, you may realize that this could easily be performed with a simple `hook_form_FORM_ID_alter()` implementation for each form. Some developers think this is a better way to do things. You decide.
+
+
 ## The difference between require and include
 
 The difference between include and require is subtle. 
