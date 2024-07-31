@@ -619,6 +619,24 @@ function _get_taxonomy_term_by_abbreviation(?string $abbreviation): string {
 Using the [Views exclude previous module](https://www.drupal.org/project/views_exclude_previous) you can exclude previously loaded nodes from a view.  This is useful when you have a view and an attachment view but you don't want them to both show the same nodes. It provides a filter that you can add to the view to exclude previously loaded nodes.
 
 
+## Display a list of content that has values in paragraph titles
+
+In this case I have content types that have paragraphs that are put into a `field_content` field. (Sorry, I know that is a confusing name for a field).  The paragraphs have a `field_title` field.  I want to display a list of content that has paragraphs with titles that contain 'Resources', 'Tools' or 'Software' in `field_title`.
+
+First I have to establish a relationship between the field `field_content` in the node and the paragraphs it references. When I click `add relationships` each field that allows paragraphs is listed e.g. `Paragraph referenced from field_xxxx`.  I choose the `Paragraph referenced from field_content`.
+
+I can filter by paragraph types by adding a paragraph type filter.  This is listed as `Paragraph type`.  In the screen shotbelow I chose some types. I can specify the relationship to use as `field_content: Paragraph` (if there is only 1, this is the default).  This shows up in the view as `(field_content: Paragraph) Paragraph type (in Lab Cus...)`.
+
+For filtering the `field_content`, I add those filters and specify `contains Resources`, `contains tools` and `contains software` and specify the relationship as `(field_content: Paragraph)`. This shows up as `(field_content: Paragraph) Title Override (contains Resources)`.
+
+I also used the `add/or rearrange` filter criteria to break the filters into groups and specify some or conditions.
+
+![Views Rearrange filter criteria](/images/views-filter-criteria.png)
+
+See the image below for what the view looks like:
+![Views relationships](/images/views-paragraph-relationship.png)
+
+
 
 
 ## Reference
