@@ -693,6 +693,30 @@ Will return an array like this:
 
 You can modify the filters array and set that back into the view for processing with `$display->setOption('filters', $filters)`.
 
+## Attached views
+
+If you need to make changes to attached views, this is the technique you can use to retrieve them.  This code is from a `.module` file.  It retrieves the attached views, and returns the matching one if it is found.
+
+```php
+function _get_attachments(ViewExecutable $view, string $attachment_id): null|array){
+  $attachments = $view->getDisplay()->getAttachedDisplays();
+  if (empty($attachments)) {
+    return NULL;
+  }
+  if (!in_array($attachment_id, $attachments)) {
+    return NULL;
+  }
+
+  // There could be two attachments, one before and one after.
+  $attachments = array_merge($view->attachment_before, $view->attachment_after);
+  foreach ($attachments as $attachment) {
+    if ($attachment['#display_id'] === $attachment_id) {
+      return $attachment;
+    }
+  }
+}
+```
+
 
 ### Links
 - [Drupal API Reference: hook_views_pre_view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/function/hook_views_pre_view/10)
