@@ -1435,7 +1435,7 @@ function menu_custom_access_install() {
 }
 ```
 
-## Generate a map with popups in a block
+## Generate a Leaflet map with popups in a block
 
 Using the [Leaflet module](https://www.drupal.org/project/leaflet), you can create a map with popups in a block. In `web/modules/custom/leafmap/src/Plugin/Block/LeafMapBlock.php`:
 
@@ -1514,6 +1514,10 @@ class LeafMapBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     // Create a map with the features.
     $map = leaflet_map_get_info('OSM Mapnik');
+    
+    // Add Clustering by enabling the Leaflet Markercluster module.
+    $map['settings']['leaflet_markercluster']['control'] = TRUE;
+
     $build['map'] = $this->leafletService->leafletRenderMap($map, $features, '500px');
 
     // Attach the library.
