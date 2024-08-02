@@ -56,4 +56,6 @@ Thanks to these rockstars for their contribution to the project. Please add your
 
 [Dimitri Kritsotakis](https://github.com/dimitriskr) - Batch API magic.
 
-[Brian Hogue](https://github.com/syzygy333) - General clarification
+[Brian Hogue](https://github.com/syzygy333) - General clarification.
+
+[Ian Moffitt](https://github.com/nessthehero) - Fix typos.
