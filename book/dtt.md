@@ -521,7 +521,7 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 # $class_loader->addPsr4('Drupal\Tests\my_module\\', "$root/modules/custom/my_module/tests/src");
 ```
 
-### docker-composer.testing.yaml
+### docker-compose.testing.yaml
 
 Here is the docker-compose.testing.yaml from [Michael Strelan on drupal.org](https://www.drupal.org/u/mstrelan). Once you add this and restart DDEV, you will be able to do AJAX and Javascript testing of DTT tests. Note this is a "just works" situation as Michael puts it. Note that if you have this file in place, you don't need to provide all the `env` values in the `phpunit.xml` above.
 
