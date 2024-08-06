@@ -216,7 +216,7 @@ In the class are the `getFormId()`, `getEditableConfigName()`, `buildForm()` and
 
 Then in `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` we specify the route where we invoke the form.
 
-Besides the quick_pivot.info.yml (module info) file, that should be all you need to make the config for the block.
+Besides the `quick_pivot.info.yml` (module info) file, that should be all you need to make the config for the block.
 
 ### The Block definition
 Now for the block that users see (also the one that pops up in the block configuration) in `docroot/modules/custom/quick_pivot/src/Plugin/Block/QuickPivotSubscribeBlock.php`
@@ -681,17 +681,17 @@ public function getCacheMaxAge() {
 
 ## Add a configuration form to your block
 
-Making a block configurable means it has a form where you can specify its settings, e.g., the configuration form for the menu block module allows you to specify menu levels. Ignore this if your block does not need any configuration.
+Making a block configurable means it has a form where you can specify its settings, e.g., the configuration form for the menu block module allows you to specify menu levels. 
 
 To make your block configurable, override 3 methods from BlockBase.
 
-1.  defaultConfiguration
+1.  defaultConfiguration - returns the default configuration for the block.
 
-2.  blockForm
+2.  blockForm - creates the configuration form.
 
-3.  blockSubmit
+3.  blockSubmit - store the configuration form values.
 
-Here `defaultConfiguration()` returns a block_count of 5.
+In this example, `defaultConfiguration()` returns a block_count of 5.
 
 ```php
 /**
