@@ -15,7 +15,7 @@ Local development works really well using Docker containers and [DDEV](https://g
 
 ### Install Drupal 10
 
-```
+```sh
 mkdir my-drupal10-site
 cd my-drupal10-site
 ddev config --project-type=drupal --php-version=8.3 --docroot=web
@@ -28,6 +28,22 @@ ddev drush site:install --account-name=admin --account-pass=admin -y
 ddev drush uli
 ## Or this will open a browser and you can login with username: `admin` and password: `admin`
 ddev launch
+```
+
+or for Drupal 11
+  
+```sh
+mkdir my-drupal-site && cd my-drupal-site
+ddev config --project-type=drupal --php-version=8.3 --docroot=web
+ddev start
+ddev composer create drupal/recommended-project:^11
+ddev composer require drush/drush
+ddev config --update
+ddev restart
+ddev drush site:install --account-name=admin --account-pass=admin -y
+ddev launch
+# or automatically log in with
+ddev launch $(ddev drush uli)
 ```
 
 More at [DDEV CMS Quickstart guides: Drupal installation](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal).
