@@ -7,7 +7,7 @@ title: Tests
 
 ## Overview
 
-Tests are written as PHP classes. These are executed in the terminal (or optionally from within PhpStorm). Each test consists of code with calls to various assert functions to test if an expected result matches an actual result. So if a function should return true, you will usually assertTrue(\$return_value) or if a unit returns 5, you will assertEquals(5, \$return_value).
+Tests are written as PHP classes. These are executed in the terminal (or optionally from within PhpStorm). Each test consists of code with calls to various assert functions to test if an expected result matches an actual result. So if a function should return `true` if it succeeds, you can test its return value with `assertTrue($return_value)` or if it should returns if it succeeds, you can test with `assertEquals(5, $return_value)`.
 
 E.g.
 
