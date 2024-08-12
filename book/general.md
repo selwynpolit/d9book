@@ -1552,6 +1552,39 @@ It should look like this:
 
 ![Leaflet map with popups](/images/leaf-map-block.png)
 
+
+### Customize the map pointers
+
+You can customize the map pointers by specifying a path to a local `.png` file or a remote file on a CDN. Then pass the `$icon` as one of the elements of the `$features` array. You can see how in this snippet from the `build()` function:
+
+```php
+    $icon = [
+      // 'iconUrl' => 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+      //'iconUrl' => '/themes/custom/abcd/assets/img/usa-icons/api.svg',
+      'iconUrl' => '/sites/default/files/icon-electric.png',
+      'iconSize' => [25, 41],
+      'iconAnchor' => [12, 41],
+      'popupAnchor' => [1, -34],
+      'shadowSize' => [41, 41],
+      // shadowUrl: 'my-icon-shadow.png',
+      // shadowRetinaUrl: 'my-icon-shadow@2x.png',
+    ];
+
+    $features[] = [
+      'type' => 'point',
+      'lat' => $lat,
+      'lon' => $long,
+      'popup' => [
+        'value' => implode('<hr>', $popupContent),
+        'options' => $this->configuration['popup_options'] ?? '{"maxWidth":"300","minWidth":"50", "autoPan": true}',
+      ],
+      'icon' => $icon,
+    ];
+```
+
+
+
+
 ## Add StringTranslationTrait to a class to use $this-t()
 
 To use the `$this->t()` method in a class, add the `use StringTranslationTrait` to the class. It looks like this:
