@@ -75,7 +75,9 @@ Each of these methods offers a different kind of random data generation, suitabl
 
 ## Nested Array Utility
 
-Here is a really convoluted way to insert some additional instructions on a form upload field when adding or editing media entities. If you really want to impress your manager and show that you can use the `NestedArray` utility class, you can use do it like this:
+There is a useful utility class in Drupal called `NestedArray` that provides a set of static methods for manipulating nested arrays. This class is particularly helpful when working with complex nested arrays, such as form elements or configuration data. Check [it out at api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21NestedArray.php/class/NestedArray/10)
+
+Here is a really convoluted way to insert some additional instructions on a form upload field when adding or editing media entities. If you really want to impress others, you can use the `NestedArray` utility class like this:
 
 ```php
 
