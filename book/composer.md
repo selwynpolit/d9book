@@ -25,6 +25,11 @@ First I get the repo/git version of the module:
 $ composer update drupal/file_entity --prefer-source
 ```
 
+::: tip Note
+You can also just go retrieve the module using the git clone from the module\'s project page on drupal.org.  This allows you to more quickly create your patch without impacting your current project.
+:::
+
+
 Then change the file in the text editor and run git diff to see the changes:
 
 ```sh
