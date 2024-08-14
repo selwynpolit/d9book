@@ -666,6 +666,19 @@ function pega_academy_core_block_view_alter(array &$build, \Drupal\Core\Block\Bl
 }
 ```
 
+## Specify caching for a block
+In the `build()` method of a block, you can specify caching. Here is an example of a block that caches for 1 hour. The block has a custom cache tag for cache management and also varies on the URL path or query args:
+
+```php
+  ...
+  $build['#cache']['contexts'] = Cache::mergeTags($this->getCacheContexts(), ['url.path', 'url.query_args:page']);
+  $build['#cache']['tags'][] = 'abc_jobs:api_data:block:jobs_map';
+  $build['#cache']['max-age'] = 60 * 60;
+
+  return $build;
+```
+
+
 ## Disable caching in a block
 
 From `docroot/modules/custom/websphere_commerce/modules/cart/src/Plugin/Block/CartSummary.php`:

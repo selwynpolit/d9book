@@ -158,6 +158,18 @@ function ddd_node_view_alter(array &$build, EntityInterface $entity, EntityViewD
 }
 ```
 
+## Specify caching for a block
+In the `build()` method of a block, you can specify caching. Here is an example of a block that caches for 1 hour. The block has a custom cache tag for cache management and also varies on the URL path or query args:
+
+```php
+  ...
+  $build['#cache']['contexts'] = Cache::mergeTags($this->getCacheContexts(), ['url.path', 'url.query_args:page']);
+  $build['#cache']['tags'][] = 'abc_jobs:api_data:block:jobs_map';
+  $build['#cache']['max-age'] = 60 * 60;
+
+  return $build;
+```
+
 ## Set cache context correctly when retrieving query, get or post parameters 
 
 Drupal will cache requests so be sure to correctly specify the cache context when building your render arrays if they need those parameters.
