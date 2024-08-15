@@ -53,7 +53,7 @@ ddev launch $(ddev drush uli)
 ```
 
 ::: tip Note
-the link that is returned by drush uli can quickly be launched with the keyboard shortcut <kbd>⌘ Cmd</kbd> +  Mouse Click.
+The link that is returned by drush uli can quickly be launched with the keyboard shortcut <kbd>⌘ Cmd</kbd> +  Mouse Click.
 :::
 
 
