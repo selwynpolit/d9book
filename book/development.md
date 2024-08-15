@@ -13,8 +13,9 @@ This section of the book is about your local development environment and the too
 
 Local development works really well using Docker containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process on any operating system. After installing `Docker` and `DDEV`, follow these steps:
 
-### Install Drupal 10
+### Install Drupal
 
+#### Drupal 10
 ```sh
 mkdir my-drupal10-site
 cd my-drupal10-site
@@ -28,9 +29,11 @@ ddev drush site:install --account-name=admin --account-pass=admin -y
 ddev drush uli
 ## Or this will open a browser and you can login with username: `admin` and password: `admin`
 ddev launch
+# Or automatically log in with
+ddev launch $(ddev drush uli)
 ```
 
-or for Drupal 11
+#### Drupal 11
   
 ```sh
 mkdir my-drupal-site && cd my-drupal-site
@@ -41,10 +44,18 @@ ddev composer require drush/drush
 ddev config --update
 ddev restart
 ddev drush site:install --account-name=admin --account-pass=admin -y
+# Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
+ddev drush uli
+## Or this will open a browser and you can login with username: `admin` and password: `admin`
 ddev launch
-# or automatically log in with
+# Or automatically log in with
 ddev launch $(ddev drush uli)
 ```
+
+::: tip Note
+the link that is returned by drush uli can quickly be launched with the keyboard shortcut [[⌘ Cmd]] +  Mouse Click.
+:::
+
 
 More at [DDEV CMS Quickstart guides: Drupal installation](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal).
 And the [Local development guide on drupal.org - updated May 2024](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
