@@ -12,7 +12,7 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   head: [
-    ['link', { rel: 'icon', href: '/d9book/images/favicon.ico' }],
+    ['link', { rel: 'icon', href: '/images/favicon.ico' }],
     [
       'script',
       {
