@@ -196,6 +196,7 @@ These can contain configs, like a view or any other config.
 
 
 See also [Include default configuration in your Drupal 8 module - Updated Jan 2024](https://www.drupal.org/docs/develop/creating-modules/include-default-configuration-in-your-drupal-module)
+
 [More at Stack Exchange](https://drupal.stackexchange.com/questions/197897/what-is-the-difference-between-the-config-and-the-settings-directories#197903)
 
 
