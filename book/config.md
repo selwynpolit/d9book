@@ -195,9 +195,9 @@ These can contain configs, like a view or any other config.
 - `optional`: All configurations will be installed if possible. If a configuration has missing dependencies, it won't be installed but the module **will** be installed.
 
 
-See also [Include default configuration in your Drupal 8 module - Updated Jan 2024](https://www.drupal.org/docs/develop/creating-modules/include-default-configuration-in-your-drupal-module)
-
-[More at Stack Exchange](https://drupal.stackexchange.com/questions/197897/what-is-the-difference-between-the-config-and-the-settings-directories#197903)
+See also 
+- [Include default configuration in your Drupal 8 module - Updated Jan 2024](https://www.drupal.org/docs/develop/creating-modules/include-default-configuration-in-your-drupal-module)
+- [What is the difference between the config and settings directories at Stack Exchange](https://drupal.stackexchange.com/questions/197897/what-is-the-difference-between-the-config-and-the-settings-directories#197903)
 
 
 
