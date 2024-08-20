@@ -59,3 +59,6 @@ Thanks to these rockstars for their contribution to the project. Please add your
 [Brian Hogue](https://github.com/syzygy333) - General clarification.
 
 [Ian Moffitt](https://github.com/nessthehero) - Fix typos.
+
+[hazn](https://github.com/haznai) - Clarification.
+
