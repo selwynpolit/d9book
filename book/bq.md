@@ -751,11 +751,12 @@ There is [another example of using the Queue API from Karim Boudjema - August 20
 ## Resources
 
 Read more about batch processing at these sites:
-=======
+
 - [Batch API overview on drupal.org - updated April 2024](https://www.drupal.org/docs/drupal-apis/batch-api/batch-api-overview)
 - [Batch API on drupal.org](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10)
 - [Smack My Batch Up: Batch Processing In Drupal 8 by Phil Norton July 2016](https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8)
 - [Well commented source code for batch operations for Drupal 10](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L561)
+- [Phil Norton\'s Drupal batch examples](https://github.com/hashbangcode/drupal_batch_examples)
 
 Read more about the Queue API at these sites:
 - [Karim Boudjema from August 2018 has some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
