@@ -7,7 +7,7 @@ title: Javascript
 
 ## Closures
 
-Since Drupal's implementation of jQuery uses [jQuery.noConflict()](https://api.jquery.com/jquery.noconflict/), it is also considered good practice to wrap your custom Drupal javascript inside of a closure like this:
+Since Drupal's implementation of jQuery uses [jQuery.noConflict()](https://api.jquery.com/jquery.noconflict/), it is considered good practice to wrap your custom Drupal javascript inside of a closure like this:
 
 ```js
 (function ($, Drupal) {
