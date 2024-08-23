@@ -21,6 +21,34 @@ Alternatively, you could start with forking the repo using the button at the top
 When you create a pull request, please make sure that the target branch is `gh-pages`. This is the branch that is used to build the site.  I will review the changes and merge them into the site if they are appropriate.  
 
 
+# Setting up and running a local copy of the site on your mac
+
+This will let you make edits and see them in real time.  It is useful for testing changes before submitting a pull request especially if you want to try some of the cool magic that [Vitepress](https://vitepress.dev/) can do.  Check out the [Vitepress Markdown Extensions](https://vitepress.dev/guide/markdown#markdown-extensions) for more.
+
+1. Clone the repo to your local e.g. d9book2
+2. Install all the requirements with: 
+```sh
+nvm install node
+npm install -g pnpm
+```
+1. Build the site locally with:
+```sh
+pnpm install
+1. Start local dev server with:
+```sh
+pnpm run book:dev
+```
+
+This shows a local URL: http://localhost:5173/
+open it!
+
+To build your site for production (which generates static files in the dist directory), you can use the following:  (This doesn't seem necessary as the local dev server seems to do the same thing)
+```sh
+pnpm run book:build
+```
+
+
+
 # Resources
 
 - [https://github.com/firstcontributions/first-contributions](https://github.com/firstcontributions/first-contributions) is a great place to start if you are new to contributing to open source projects.
