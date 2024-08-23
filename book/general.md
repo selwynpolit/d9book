@@ -1594,7 +1594,7 @@ To use the `$this->t()` method in a class, add the `use StringTranslationTrait` 
 
 declare(strict_types=1);
 
-namespace Drupal\doi_workbench;
+namespace Drupal\abc_workbench;
 
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -1633,6 +1633,118 @@ final class MenuTableBuilder implements MenuTableBuilderInterface {
       ];
     }
 ```
+
+
+## Overriding admin menu listing 
+
+In this instance, the requirement was to change the menu listing to only show menus that the user has access to. This is done by overriding the `MenuListBuilder` class. First you have to change the handler class in a `hook_entity_type_alter()` in `abc_workbench.module`:
+
+```php
+/**
+ * Implements hook_entity_type_alter().
+ */
+function abc_workbench_entity_type_alter(array &$entity_types) {
+  $entity_types['menu']->setHandlerClass('list_builder', AbcWorkbenchMenuListBuilder::class);
+}
+```
+Then define the `listbuilder` service in the `.services.yml` file: `docroot/modules/custom/abc_workbench/abc_workbench.services.yml`:
+
+```yaml
+  abc_workbench.menu_list_builder:
+    class: Drupal\abc_workbench\AbcWorkbenchMenuListBuilder
+    arguments: [ '@entity_type.manager', '@entity_type.manager' ]
+    tags:
+      - { name: entity_list_builder, entity_type: menu }
+```
+
+Then lastly, you create the `AbcWorkbenchMenuListBuilder` class in `docroot/modules/custom/abc_workbench/src/AbcWorkbenchMenuListBuilder.php`.  Note that you only have to implement the functions that you want to override. In this case, it was the `getEntityIds()` function which can leverage custom or additional functions to help filter the output.  In this case, it checks the user's access to the menu and only includes those menus that the user has access to.:
+
+Here is the `getEntityIds()` function:
+
+```php
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEntityIds() {
+    // Remove the limit from the parent.
+    $this->limit = NULL;
+
+    // Get all menus to check access.
+    $query = $this->getStorage()->getQuery()->sort('label', 'ASC');
+    $allMenus = $query->execute();
+    $includeMenus = [];
+
+    // Check access for each menu and identify which menus to include.
+    foreach ($allMenus as $menu_id) {
+      // Load the menu entity using the menu ID.
+      $menu = $this->getStorage()->load($menu_id);
+      if ($menu && $this->checkSections($menu, $this->currentUser)) {
+        $includeMenus[] = $menu->id();
+      }
+    }
+
+    // Include only the menus that have access.
+    $query = $this->getStorage()->getQuery()
+      ->condition('id', $includeMenus, 'IN')
+      ->sort('label', 'ASC');
+
+    return $query->execute();
+  }
+```
+
+Also for clarity, here is the `checkSections()` function that is called in the `getEntityIds()` function:
+
+```php
+/**
+   * Check Menu access.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $menu
+   *   The entity to check.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account to check.
+   *
+   * @return bool
+   *   TRUE if access is granted, FALSE otherwise.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  protected function checkSections(EntityInterface $menu, AccountInterface $account): bool {
+    static $check;
+    // Internal cache for performance.
+    $key = $menu->id() . ':' . $account->id();
+    if (!isset($check[$key])) {
+      // By default, ignore menus that don't explicitly have permissions.
+      $check[$key] = FALSE;
+      // Check for admin role.
+      if ($account->hasPermission('administer workbench menu access') || $account->hasPermission('bypass workbench access')) {
+        return TRUE;
+      }
+      $config = $this->configFactory->get('workbench_menu_access.settings');
+      $active = $config->get('access_scheme');
+      $settings = $menu->getThirdPartySetting('workbench_menu_access', 'access_scheme');
+      if (!is_null($active) && !is_null($settings)) {
+        /** @var \Drupal\workbench_access\Entity\AccessSchemeInterface $scheme */
+        $scheme = $this->entityTypeManager->getStorage('access_scheme')
+          ->load($active);
+        $user_sections = $this->userSectionStorage->getUserSections($scheme, $account);
+
+        // Check children / parents.
+        $check[$key] = $this->workbenchAccessManager::checkTree($scheme, $settings, $user_sections);
+      }
+    }
+    return $check[$key];
+  }
+```
+
+If you need to override the user entity listbuilder, check out [Overriding the User entity list_builder handler](https://drupal.stackexchange.com/questions/284599/overriding-the-user-entity-list-builder-handler)
+
+- [EntityListBuilder API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityListBuilder.php/class/EntityListBuilder/10)
+- [UserListBuilder API which extends EntityListBuilder](https://api.drupal.org/api/drupal/core%21modules%21user%21src%21UserListBuilder.php/class/UserListBuilder/10)
+- [MenuListBuilder API which extends EntityListBuilder](https://api.drupal.org/api/drupal/core%21modules%21menu_ui%21src%21MenuListBuilder.php/class/MenuListBuilder/10)
+
+
 
 ## Troubleshoot memory problems
 
