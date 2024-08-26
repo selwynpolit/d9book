@@ -130,6 +130,88 @@ function abc_media_form_media_image_edit_form_alter(&$form, FormStateInterface $
 }
 ```
 
+## getClass() Utility
+This function prepares a string for use as a valid class name by replacing the following characters that are not alphanumeric or an underscore. It is useful when you need to generate a class name based on a string that may contain special characters.  It can also be used to clean up taxonomy term names as in the example below:
+
+This code ensures that the term name comparison accounts for variations in character casing and formatting, for matching user-provided arguments to taxonomy terms.
+
+```php
+foreach ($all_terms as $term) {
+  // Replace certain characters like spaces and special characters with hyphens.
+  $term = \Drupal\Component\Utility\Html::getClass($term->getName());
+  // Replace hyphens with spaces.
+  $term = str_replace('-', ' ', $term);
+  // Check if the term matches the argument.
+  if (strcasecmp($term, $argument) === 0) {
+    $terms[$term->id()] = $term;
+  }
+}
+```
+
+
+
+The `getClass()` function calls the function below which may help understand exactly what it does:
+
+```php
+  /**
+   * Prepares a string for use as a CSS identifier (element, class, or ID name).
+   *
+   * Link below shows the syntax for valid CSS identifiers (including element
+   * names, classes, and IDs in selectors).
+   *
+   * @see http://www.w3.org/TR/CSS21/syndata.html#characters
+   *
+   * @param string $identifier
+   *   The identifier to clean.
+   * @param array $filter
+   *   An array of string replacements to use on the identifier.
+   *
+   * @return string
+   *   The cleaned identifier.
+   */
+  public static function cleanCssIdentifier(
+    $identifier,
+    array $filter = [
+      ' ' => '-',
+      '_' => '-',
+      '/' => '-',
+      '[' => '-',
+      ']' => '',
+    ],
+  ) {
+    // We could also use strtr() here but its much slower than str_replace(). In
+    // order to keep '__' to stay '__' we first replace it with a different
+    // placeholder after checking that it is not defined as a filter.
+    $double_underscore_replacements = 0;
+    if (!isset($filter['__'])) {
+      $identifier = str_replace('__', '##', $identifier, $double_underscore_replacements);
+    }
+    $identifier = str_replace(array_keys($filter), array_values($filter), $identifier);
+    // Replace temporary placeholder '##' with '__' only if the original
+    // $identifier contained '__'.
+    if ($double_underscore_replacements > 0) {
+      $identifier = str_replace('##', '__', $identifier);
+    }
+
+    // Valid characters in a CSS identifier are:
+    // - the hyphen (U+002D)
+    // - a-z (U+0030 - U+0039)
+    // - the colon (U+003A)
+    // - A-Z (U+0041 - U+005A)
+    // - the underscore (U+005F)
+    // - 0-9 (U+0061 - U+007A)
+    // - ISO 10646 characters U+00A1 and higher
+    // We strip out any character not in the above list.
+    $identifier = preg_replace('/[^\x{002D}\x{0030}-\x{0039}\x{003A}\x{0041}-\x{005A}\x{005F}\x{0061}-\x{007A}\x{00A1}-\x{FFFF}]/u', '', $identifier);
+    // Identifiers cannot start with a digit, two hyphens, or a hyphen followed by a digit.
+    $identifier = preg_replace([
+      '/^[0-9]/',
+      '/^(-[0-9])|^(--)/',
+    ], ['_', '__'], $identifier);
+    return $identifier;
+  }
+```
+
 ## Reference
 
 - [Utility classes and functions Drupal API](https://api.drupal.org/api/drupal/core%21core.api.php/group/utility/10)
