@@ -246,6 +246,26 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
 ```
 
 
+## nullsafe operator
+
+The nullsafe operator `?->` is a new feature in PHP 8 that allows you to safely access properties and methods of an object without having to check if the object is null. This means you only need 1 null check as the operator will return null if any of the calls in the chain return null.
+
+```php
+ $job = $this->apiHandler?->getJobs()?->getJobById($job_id);
+ // Any of the calls can return NULL
+ if ($job === NULL) {
+  continue;
+ }
+```
+
+::: tip Note
+The `?->` signs after each call. If any of the calls in the chain return null, the entire chain will return null.
+:::
+
+[PHP Nullsafe Operator](https://wiki.php.net/rfc/nullsafe_operator)
+
+
+
 ## Reference
 
 * [PHP Docs](https://www.php.net/docs.php)
