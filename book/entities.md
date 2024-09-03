@@ -46,8 +46,7 @@ if ($count_nodes == 0) {
 
 ## Create an entity
 
-To create a new entity object, use the entity_create. **NOTE** that this
-only creates an entity object and does not persist it.
+To create a new entity object, use `the entity_create`. **NOTE** that this only creates an entity object and does not persist it. Use `->save()` to persist it.
 
 ```php
 $node = entity_create('node', array(
@@ -56,8 +55,7 @@ $node = entity_create('node', array(
   'type' => 'article',
 ));
 ```
-If you know what the entity class name (bundle type) is, you can use it
-directly.
+If you know what the entity class name (bundle type) is, you can use it directly.
 
 ```php
 $node = Node::create(array(
@@ -69,7 +67,7 @@ $node = Node::create(array(
 
 ## Save an entity
 
-Entity save is done by calling the instance's save method.
+To save an entity, use the instance's `save` method.
 
 ```php
 $node->save();
@@ -208,8 +206,8 @@ return $fid;
 
 This looks quite interesting although I haven't had an opportunity to try it yet.
 
-From Entity Validation API overview at
-<https://www.drupal.org/node/2015613>
+From [Entity Validation API overview](https://www.drupal.org/node/2015613)
+
 
 The [entity validation
 API](https://www.drupal.org/docs/drupal-apis/entity-api/entity-validation-api)

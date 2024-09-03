@@ -2369,6 +2369,147 @@ foreach ($node->get('field_my_para')->referencedEntities() as $ent){
 }
 ```
 
+## Find all the long text fields that have a certain string
+
+In this code snippet from an [issue in the entity embed module](https://www.drupal.org/project/entity_embed/issues/3077225#comment-14806085) the author loads all the fields of type string_long, text_long, and text_with_summary and then queries for nodes with the value `data-entity-embed-display-settings=""`.  The code then removes the string and saves the node. It is a useful example because it shows how to find all the fields of a certain type.
+
+Please note that I have not tested this code so it may not be perfect.
+
+```php
+<?php
+
+/**
+ * Example batch update hook.
+ */
+function just_an_example(&$sandbox) {
+  // Get the entity type manager and node storage.
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $node_storage = $entity_type_manager->getStorage('node');
+  $limit = 100;
+
+  // Initialize the sandbox if it's the first run.
+  if (!isset($sandbox['total'])) {
+    // Load all fields of type string_long, text_long, and text_with_summary.
+    $string_long_fields = array_map(fn ($field) => $field->getName(),
+      $entity_type_manager
+        ->getStorage('field_storage_config')
+        ->loadByProperties([
+          'entity_type' => 'node',
+          'type' => 'string_long',
+        ])
+    );
+    $text_long_fields = array_map(fn ($field) => $field->getName(),
+      $entity_type_manager
+        ->getStorage('field_storage_config')
+        ->loadByProperties([
+          'entity_type' => 'node',
+          'type' => 'text_long',
+        ])
+    );
+    $text_with_summary_fields = array_map(fn ($field) => $field->getName(),
+      $entity_type_manager
+        ->getStorage('field_storage_config')
+        ->loadByProperties([
+          'entity_type' => 'node',
+          'type' => 'text_with_summary',
+        ])
+    );
+
+    // Merge all field names into a single array.
+    $sandbox['fields'] = array_merge($string_long_fields, $text_long_fields, $text_with_summary_fields);
+
+    // Initialize bundles array.
+    $sandbox['bundles'] = [];
+    foreach ($sandbox['fields'] as $field_name) {
+      // Load field storage config and get bundles for each field.
+      $field_storage = $entity_type_manager->getStorage('field_storage_config')->load($field_name);
+      if ($field_storage) {
+        $sandbox['bundles'] = array_merge($sandbox['bundles'], $field_storage->getBundles());
+      }
+    }
+
+    // Initialize counters.
+    $sandbox['current'] = $sandbox['count'] = $sandbox['changed'] = 0;
+
+    // Initialize node IDs array.
+    $sandbox['nids'] = [];
+    foreach ($sandbox['fields'] as $field) {
+      // Query for nodes with specific field values and add to node IDs array.
+      $query = \Drupal::database()->select("node__{$field}", 'f')
+        ->fields('f', ['entity_id'])
+        ->condition("f.{$field}_value", 'data-entity-embed-display-settings=""', 'REGEXP BINARY')
+        ->condition('f.bundle', $sandbox['bundles'], 'IN');
+      $sandbox['nids'] = array_merge($sandbox['nids'], $query->execute()->fetchCol());
+    }
+
+    // Remove duplicate node IDs and sort them.
+    $sandbox['nids'] = array_unique($sandbox['nids']);
+    sort($sandbox['nids']);
+    $sandbox['total'] = count($sandbox['nids']);
+  }
+
+  // Query for nodes to process in the current batch.
+  $nids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->range(0, $limit)
+    ->condition('nid', $sandbox['nids'], 'IN')
+    ->condition('nid', $sandbox['current'], '>=')
+    ->sort('nid', 'ASC');
+  $nodes = $nids->execute();
+  $nodes = $node_storage->loadMultiple($nodes);
+
+  // Process each node.
+  foreach ($nodes as $node) {
+    $languages = $node->getTranslationLanguages();
+
+    // Process each language translation of the node.
+    foreach ($languages as $langcode => $lang_obj) {
+      $cs_node = $node->getTranslation($langcode);
+      $changed_node = FALSE;
+
+      // Process each field in the node.
+      foreach ($sandbox['fields'] as $field_name) {
+        if ($cs_node->hasField($field_name)) {
+          $value = $cs_node->get($field_name)->getValue();
+          $changed_field = FALSE;
+
+          // Check and update field values.
+          foreach ($value as &$content) {
+            if (preg_match_all('/data-entity-embed-display-settings=""/', $content['value'], $matches)) {
+              foreach ($matches[0] as $replacement) {
+                // Remove the match and flag for saving.
+                $content['value'] = str_replace($replacement, '', $content['value']);
+                $changed_field = $changed_node = TRUE;
+              }
+            }
+          }
+
+          // Save the updated field value.
+          if ($changed_field) {
+            $cs_node->set($field_name, $value);
+          }
+        }
+      }
+
+      // Save the node if any field was changed.
+      if ($changed_node) {
+        $sandbox['changed']++;
+        $cs_node->save();
+      }
+    }
+
+    // Update the current node ID and increment the count.
+    $sandbox['current'] = $node->id();
+    $sandbox['count']++;
+  }
+
+  // Update the progress and display status messages.
+  $sandbox['#finished'] = empty($sandbox['total']) ? 1 : ($sandbox['count'] / $sandbox['total']);
+  \Drupal::messenger()->addStatus($sandbox['count'] . ' nodes processed out of ' . $sandbox['total']);
+  \Drupal::messenger()->addStatus($sandbox['changed'] . ' nodes altered');
+}
+```
+
 
 ## Puzzles
 
