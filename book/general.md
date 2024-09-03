@@ -1320,7 +1320,9 @@ class NodeViewController extends NodeViewControllerBase {
 
 ## Drupal bootstrap process
 
-The Drupal bootstrap process is a series of steps that Drupal goes through on every page request to initialize the necessary resources and environment. Here are the steps:  
+The Drupal bootstrap process is a series of steps that Drupal goes through on every page request to initialize the necessary resources and environment. You should have this article ready for your next interview.
+
+Here are the steps:  
 
 1. **Loading the autoloader:** The first step in the bootstrap process is to load the Composer-generated `autoloader`. This allows Drupal to use any classes defined in the codebase without explicitly requiring the files they're defined in.  
 1. **Reading settings:** Drupal reads the `settings.php` file which has configuration settings for the site, such as database connection information and various other settings.
