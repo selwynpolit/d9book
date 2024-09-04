@@ -6,7 +6,7 @@ title: Caching
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=caching.md)
 
 
-### Set the max-age in a render array
+## Set the max-age in a render array
 
 This will show up in the headers for anonymous users as `x-drupal-cache-max-age: 3600`.
 
@@ -747,8 +747,9 @@ Generally I enable twig debugging and disable caching while developing a site.  
 
 To enable TWIG debugging output in source, in `sites/default/development.services.yml` set `twig.config debug:true`.  See `core.services.yml` for lots of other items to change for development.
 
-You can also navigate to `/admin/config/development/settings` where you can click checkboxes in the Drupal admin u/i.
-
+::: tip Note
+You can rather navigate to `/admin/config/development/settings` where you can click checkboxes in the Drupal admin u/i.  This is much quicker and easier.
+:::
 
 TWIG debugging output looks like this:
 
