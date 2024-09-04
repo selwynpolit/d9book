@@ -247,6 +247,11 @@ e.g at URL: `https://tea.ddev.site/teks/admin/srp/v2/program/590536/team/vote_nu
 
 Read more [on debugging cache tags - CacheableResponseInterface](https://www.drupal.org/docs/8/api/responses/cacheableresponseinterface#debugging) and [debugging cache tags in the cache API](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags#s-debugging)
 
+Also look at [Matt Glaman's article on Debugging your render cacheable metadata in Drupal from Feb 2023](https://mglaman.dev/blog/debugging-your-render-cacheable-metadata-drupal)
+
+![Debugging your render cacheable metadata in Drupal](/images/debugging-render-cache.png)
+
+
 ### Invalidate the cache tag for a specific node
 
 In this function, we build a `$cache_tag` like `node: 123` and call `Cache:invalidateTags()` so Drupal will force a reload from the database for anything that depends on that node.
