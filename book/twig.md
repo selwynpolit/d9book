@@ -2079,13 +2079,20 @@ This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extens
 
 ![Xdebug in twig](/images/twig-xdebug.png)
 
-This [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug) allows you to place `{{ breakpoint() }}` into your Twig template which will opens in a file outside your Twig template - `BreakpointExtension.php`. It won\'t actually open your Twig file but it will let you inspect all of the variables as if you were running Xdebug within the Twig template. The key values you'll see are:
+This [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug) allows you to place:
+```twig
+{{ breakpoint() }}
+```
+into your Twig template which will opens in a file outside your Twig template - `BreakpointExtension.php`. It won\'t actually open your Twig file but it will let you inspect all of the variables as if you were running Xdebug within the Twig template. The key values you'll see are:
 
 `$context`: Variables available to use in the template.
 
 `$environment`: Information about the Twig environment, including available functions.
 
-`$arguments`: If you supply an argument to breakpoint (e.g. `{{ breakpoint(fields) }}`), it'll be viewable here.
+`$arguments`: If you supply an argument to breakpoint it will be viewable here for example:
+```twig
+{{ breakpoint(fields) }}
+```
 
 
 
