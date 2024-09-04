@@ -2077,13 +2077,7 @@ When you need to see the values of variables in your twig templates, simply enab
 
 This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template. 
 
-Also PHPStorm has the ability to step through twig templates just like PHP code. See the following useful links for more:
-- [Jetbrains help article on Debugging Twig templates(https://www.jetbrains.com/help/phpstorm/twig-templates-support.html#debugging-twig-templates) 
-- [Jetbrains blog post on Twig debug support from May 2019](https://blog.jetbrains.com/phpstorm/2019/05/twig-and-blade-templates-debugging-2/)
-- [Jetbrains article from 2019](https://blog.jetbrains.com/phpstorm/2019/01/phpstorm-2019-1-early-access-program-is-open/#twig_debug_support)
-
 ![Xdebug in twig](/images/twig-xdebug.png)
-
 
 This [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug) allows you to place `{{ breakpoint() }}` into your Twig template which will opens in a file outside your Twig template - `BreakpointExtension.php`. It won\'t actually open your Twig file but it will let you inspect all of the variables as if you were running Xdebug within the Twig template. The key values you'll see are:
 
@@ -2094,7 +2088,18 @@ This [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug) al
 `$arguments`: If you supply an argument to breakpoint (e.g. `{{ breakpoint(fields) }}`), it'll be viewable here.
 
 
+
 More at [Debugging Twig Templates on drupal.org - updated Aug 2024](https://www.drupal.org/docs/develop/theming-drupal/twig-in-drupal/debugging-twig-templates)
+
+Also PHPStorm has the ability to step through twig templates just like PHP code. See the following useful links for more:
+- [Jetbrains help article on Debugging Twig templates](https://www.jetbrains.com/help/phpstorm/twig-templates-support.html#debugging-twig-templates) 
+- [Jetbrains blog post on Twig debug support from May 2019](https://blog.jetbrains.com/phpstorm/2019/05/twig-and-blade-templates-debugging-2/)
+- [Jetbrains article from 2019](https://blog.jetbrains.com/phpstorm/2019/01/phpstorm-2019-1-early-access-program-is-open/#twig_debug_support)
+
+
+
+
+
 
 
 ## Reference
