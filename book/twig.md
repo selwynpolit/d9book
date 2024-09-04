@@ -2069,7 +2069,7 @@ So here I compare a field value so I have to use striptags to remove all html. I
 ```
 
 ### Xdebug in twig
-When you need to see the values of variables in your twig templates, simply enable Xdebug and add the following line to your twig template:
+When you need to see the values of variables in your twig templates, with the devel module enabled, enable DDEV\'s Xdebug (`ddev xdebug on`) and add the following line to your twig template:
   
 ```twig
 {{ devel_breakpoint() }}
