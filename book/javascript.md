@@ -461,3 +461,5 @@ In the `node--map.html.twig` file at `web/themes/custom/txglobal/templates/conte
 - [JavaScript API overview on drupal.org updated Dec 2022](https://www.drupal.org/docs/drupal-apis/javascript-api/javascript-api-overview)
 - [Adding assets (CSS, JS) to a Drupal theme via *.libraries.yml on drupal.org updated Apr 2024](https://www.drupal.org/docs/develop/theming-drupal/adding-assets-css-js-to-a-drupal-theme-via-librariesyml)
 - [Cache busting javascript using VERSION value in libraries.yml - June 2022](https://chromatichq.com/insights/drupal-libraries-version/)
+- [Javascript coding standards on drupal.org updated May 2024](https://www.drupal.org/node/172169)
+- 
