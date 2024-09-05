@@ -45,6 +45,12 @@ To build your site for production (which generates static files in the dist dire
 pnpm run book:build
 ```
 
+To update the dependencies, you can use the following:
+
+```sh
+pnpm update
+```
+
 ## Resources
 
 - [First contributions](https://github.com/firstcontributions/first-contributions) is a great place to start if you are new to contributing to open source projects.
