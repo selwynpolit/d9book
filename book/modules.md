@@ -146,7 +146,25 @@ This module lets you put Single Directory Components in the page using blocks. T
 [https://www.drupal.org/project/sdc_block](https://www.drupal.org/project/sdc_block)
 
 
+## Configuration
 
+### Config Ignore
+This module is a tool to let you keep the configuration you want, in place. This can be useful when you have a configuration that is different between environments, such as development and production. This module allows you to ignore specific configuration files, so they are not overridden when importing or exporting configuration.
+
+You can set them up using the settings.php file e.g. to ignore the google analytics settings:
+
+```php
+$config['config_ignore.settings']['ignored_config_entities'][] = 'google_analytics.settings';
+```
+
+
+[https://www.drupal.org/project/config_ignore](https://www.drupal.org/project/config_ignore)
+
+
+### Config split
+Config Split allows you to split your configuration into separate directories and enables you to have different configuration between different environments. This is useful when you have configuration that is different between environments, such as development and production.
+
+[https://www.drupal.org/project/config_split](https://www.drupal.org/project/config_split)
 
 ## Content Entry/Editing
 
