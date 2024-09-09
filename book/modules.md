@@ -278,6 +278,17 @@ Examples:
 [https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
 
 
+## Data Integrity
+### Audit Files
+
+Audit files is designed to perform audits of your upload directory and the corresponding database records. It will cross check that all files in the database have a corresponding physical file, or that all files in the upload directory have a corresponding entry in the database.
+
+This module can be helpful in identifying orphan files that have not been deleted when their corresponding node was removed. The reports allow you to permanently remove files or database entries that represent orphans.
+
+
+[https://www.drupal.org/project/auditfiles](https://www.drupal.org/project/auditfiles)
+
+
 ## Date/Time
 
 ### Smart Date
