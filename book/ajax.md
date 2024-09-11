@@ -489,11 +489,149 @@ ajax_pager.refresh_table:
 
 
 
-## Finding the AJAX commands to use with addCommand()?
+## Finding the AJAX commands to use with addCommand()
 
-Look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a class that implements a command e.g. `RedirectCommand` or `OpenModalDialogCommand`. Also check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
+Look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a class that implements a command e.g. `AddCssCommand`, `RedirectCommand` or `OpenModalDialogCommand`. Also check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
 
 
+## The Basics of the AJAX framework
+
+If you prefer watching a presentation on this, check out Michael Miles [Drupal 8 Day: Demystifying AJAX Callback Commands in Drupal 8](https://www.youtube.com/watch?v=6YhJq01jlpY). This session outlines and explains Drupal 8 AJAX callback commands and how to use them. AJAX callback commands are the sets of PHP and JavaScript functions that control all AJAX functionality on a Drupal site.  
+
+### Callback Commands
+Callback commands have two parts, a JavaScript function and a PHP class. The JavaScript function is called when the AJAX request is successful. The PHP class is used to define the JavaScript function to call.  Core, contrib and custom modules can define their own callback commands. See views, ctools etc. for examples.
+
+Drupal core provides a number of callback commands (\~40) which are basically wrappers to jQuery functions. e.g. `insert`, `remove`, `slideDown`. See [jQuery API docs for a complete list of jQuery functions](https://api.jquery.com/).
+
+#### JavaScript side of the callback command
+The AJAX framework provides a global JS object with functions attached. These functions are the JavaScript part of the callback commands. The Global JS object is `Drupal.AjaxCommands.prototype` and is defined in `misc/ajax.js`. All callback commands are attached to this object
+
+Every function that is a callback accepts 3 args:
+- ajax: information about the ajax request - the element that triggered it, the endpoint that is being requested, the element that is marked to be altered etc.
+- Response: Contains all the data that has been sent back by the server to this function - i.e. data to be placed on the page e.g. html markup, elements to select or to trigger, any other data that the JS function is expected to be acted on
+- status: The status code of the request - hopefully a 200, but could be a 500/504 etc.
+
+These can be any JavaScript that you want and is location in the `js` directory of a module.
+```JS
+(function ($, window, Drupal, drupalSettings) {
+  'use strict';
+  Drupal.AjaxCommands.prototype.myCommand = function (ajax, response, status) {
+    // Custom JS code here.
+
+    // Do something with the response.
+
+    console.log(response.data);
+  };
+})(jQuery, window, Drupal, drupalSettings);
+```
+
+
+### PHP side of the callback command
+
+The PHP class implements the `CommandInterface` interface. This interface has a single method `render()` that returns an associative array with at least an elemtn with a key of `command`. The value of `command` is the name of the JavaScript function to call. The array can also have other data passed which becomes the response data.
+
+The PHP class is in a path like `module/src/Ajax/[CommandName]Command.php`
+
+
+```php
+<?php
+namespace Drupal\MyModule\Ajax;
+
+use Drupal\Core\Ajax\CommandInterface;
+
+// Ajax command called as a Javascript method in the form MyCommand().
+class MyCommand implements CommandInterface {
+
+  // Implements Drupal\Core\Ajax\CommandInterface::render().
+  public function render() {
+    return [
+      'command' => 'myCommand', // The JS function to call
+      'data' => 'some data', // Other response arguments.
+    ];
+  }
+}
+```
+
+#### Core example: RemoveCommand
+
+Here is the RemoveCommand.php file from core.  It is at `web/core/lib/Drupal/Core/Ajax/RemoveCommand.php`:
+```php
+<?php
+
+namespace Drupal\Core\Ajax;
+
+/**
+ * AJAX command for calling the jQuery remove() method.
+ *
+ * The 'remove' command instructs the client to use jQuery's remove() method
+ * to remove each of elements matched by the given selector, and everything
+ * within them.
+ *
+ * This command is implemented by Drupal.AjaxCommands.prototype.remove()
+ * defined in misc/ajax.js.
+ *
+ * @see http://docs.jquery.com/Manipulation/remove#expr
+ *
+ * @ingroup ajax
+ */
+class RemoveCommand implements CommandInterface {
+
+  /**
+   * The CSS selector for the element(s) to be removed.
+   *
+   * @var string
+   */
+  protected $selector;
+
+  /**
+   * Constructs a RemoveCommand object.
+   *
+   * @param string $selector
+   *   The selector.
+   */
+  public function __construct($selector) {
+    $this->selector = $selector;
+  }
+
+  /**
+   * Implements Drupal\Core\Ajax\CommandInterface:render().
+   */
+  public function render() {
+    return [
+      'command' => 'remove',
+      'selector' => $this->selector,
+    ];
+  }
+
+}
+```
+
+Here is the JS function that is called is in `web/core/misc/ajax.js`. Notice that it uses data from the `response` to target elements on the page and remove them. Also it removes any behaviors that are attached to the elements that are about to be removed.:
+
+```javascript
+    /**
+     * Command to remove a chunk from the page.
+     *
+     * @param {Drupal.Ajax} [ajax]
+     *   {@link Drupal.Ajax} object created by {@link Drupal.ajax}.
+     * @param {object} response
+     *   The response from the Ajax request.
+     * @param {string} response.selector
+     *   A jQuery selector string.
+     * @param {object} [response.settings]
+     *   An optional array of settings that will be used.
+     * @param {number} [status]
+     *   The XMLHttpRequest status.
+     */
+    remove(ajax, response, status) {
+      const settings = response.settings || ajax.settings || drupalSettings;
+      $(response.selector)
+        .each(function () {
+          Drupal.detachBehaviors(this, settings);
+        })
+        .remove();
+    },
+```
 
 ## Resources
 - [Drupal AJAX API](https://api.drupal.org/api/drupal/core%21core.api.php/group/ajax/10)
