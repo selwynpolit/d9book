@@ -261,13 +261,18 @@ public function getFormId() {
 }
 ```
 
-## Conditional fields and field states API (#states)
+## Conditional form fields and field states API (#states)
 
-There are some nice articles at <https://mushtaq.ch/blog/11/drupal-8-conditionally-hide-a-form-field> and <https://www.lullabot.com/articles/form-api-states> that go into more detail.
+There are some nice articles:
+- [Form API #states from lullabot.com - Mar 2015](https://www.lullabot.com/articles/form-api-states)
+- [Conditional Form Fields on drupal.org updated Sep 2024](https://www.drupal.org/docs/drupal-apis/form-api/conditional-form-fields)
+- and thanks to the wayback machine [Drupal 8 - Conditionally hide a form field - Feb 2017](https://web.archive.org/web/20210506222219/https://mushtaq.ch/blog/11/drupal-8-conditionally-hide-a-form-field)
 
-Note. There is a very workable conditional fields module <https://www.drupal.org/project/conditional_fields> which lets you do the same sort of thing without any code.
+::: tip Note
+Also consider the [conditional fields module](https://www.drupal.org/project/conditional_fields) which lets you do the same sort of thing without any code.
+:::
 
-The magic sauce is to use the jQuery selector to identify the field that will control the states. You can see the left side of the `=>` has the jQuery code to select a checkbox or radio button.
+The magic sauce is to use the `jQuery` selector to identify the field that will control the states. You can see the left side of the `=>` has the jQuery code to select a checkbox or radio button.
 
 ```php
 ':input[name="copies_yes_no"]' => ['value' => '0']
