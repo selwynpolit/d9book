@@ -496,7 +496,7 @@ Look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a 
 
 ## The Basics of the AJAX framework
 
-If you prefer watching a presentation on this, check out Michael Miles [Drupal 8 Day: Demystifying AJAX Callback Commands in Drupal 8](https://www.youtube.com/watch?v=6YhJq01jlpY). This session outlines and explains Drupal 8 AJAX callback commands and how to use them. AJAX callback commands are the sets of PHP and JavaScript functions that control all AJAX functionality on a Drupal site.  
+If you prefer watching a video presentation on this, check out Michael Miles [Drupal 8 Day: Demystifying AJAX Callback Commands in Drupal 8](https://www.youtube.com/watch?v=6YhJq01jlpY). This session outlines and explains Drupal 8 AJAX callback commands and how to use them. AJAX callback commands are the sets of PHP and JavaScript functions that control all AJAX functionality on a Drupal site.  The slides are available [on slideshare](https://www.slideshare.net/slideshow/drupal8day-demystifying-drupal-8-ajax-callback-commands/69024610) His [Ajax Dblog project can be viewed here ](https://www.drupal.org/project/ajax_dblog)
 
 ### Callback Commands
 Callback commands have two parts, a JavaScript function and a PHP class. The JavaScript function is called when the AJAX request is successful. The PHP class is used to define the JavaScript function to call.  Core, contrib and custom modules can define their own callback commands. See views, ctools etc. for examples.
@@ -522,13 +522,13 @@ These can be any JavaScript that you want and is location in the `js` directory 
 
     console.log(response.data);
   };
-})(jQuery, window, Drupal, drupalSettings);
+})(jQuery, this, Drupal, drupalSettings);
 ```
 
 
 ### PHP side of the callback command
 
-The PHP class implements the `CommandInterface` interface. This interface has a single method `render()` that returns an associative array with at least an elemtn with a key of `command`. The value of `command` is the name of the JavaScript function to call. The array can also have other data passed which becomes the response data.
+The PHP class implements the `CommandInterface` interface. This interface has a single method `render()` that returns an associative array with at least an element with a key of `command`. The value of `command` is the name of the JavaScript function to call. The array can also have other data passed which becomes the response data.
 
 The PHP class is in a path like `module/src/Ajax/[CommandName]Command.php`
 
@@ -632,6 +632,14 @@ Here is the JS function that is called is in `web/core/misc/ajax.js`. Notice tha
         .remove();
     },
 ```
+
+
+### Using Ajax callback commands
+1. Include the Ajax framework and commands onto the page
+2. Return an AjaxResponse object
+3. Attach commands with `addCommand()` method
+4. 
+
 
 ## Resources
 - [Drupal AJAX API](https://api.drupal.org/api/drupal/core%21core.api.php/group/ajax/10)
