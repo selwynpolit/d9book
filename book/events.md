@@ -8,7 +8,7 @@ title: Events
 
 ## Overview
 
-Events allow different components of the system to interact and communicate with each other. One system component dispatches the event at an appropriate time; many events are dispatched by Drupal core and the Symfony event system in every request. Other system components can register as event subscribers; when an event is dispatched, a method is called on each registered subscriber, allowing each one to react. For more on the general concept of events, see [The EventDispatcher Component in the Symfony docs](https://symfony.com/doc/current/components/event_dispatcher.html)
+Events allow different components of the system to interact and communicate with each other. One system component dispatches the event at an appropriate time; many events are dispatched by Drupal core and the Symfony event system in every request. Other system components can register as event subscribers. When an event is dispatched, a method is called on each registered subscriber, allowing each one to react. For more on the general concept of events, see [The EventDispatcher Component in the Symfony docs](https://symfony.com/doc/current/components/event_dispatcher.html)
 
 
 Take an example from the [HttpKernel component](https://symfony.com/doc/current/components/http_kernel.html). Once a `Response` object has been created, it may be useful to allow other elements in the system to modify it (e.g. add some cache headers) before it's actually used. To make this possible, the Symfony kernel dispatches an event - `kernel.response`. Here's how it works:
@@ -20,10 +20,10 @@ Take an example from the [HttpKernel component](https://symfony.com/doc/current/
 
 Event systems are used in many complex applications as a way to allow extensions to modify how the system works. An event system can be implemented in a variety of ways, but generally, the concepts and components that make up the system are the same.
 
-**Event Subscribers** - Sometimes called "Listeners", are callable methods or functions that react to an event being propagated throughout the Event Registry.
-**Event Registry** - Where event subscribers are collected and sorted.
-**Event Dispatcher** - The mechanism in which an event is triggered, or "dispatched", throughout the system.
-**Event Context** - Many events require a specific set of data that is important to the subscribers to an event. This can be as simple as a value passed to the Event Subscriber, or as complex as a specially created class that contains the relevant data.
+- **Event Subscribers** - Sometimes called "Listeners", are callable methods or functions that react to an event being propagated throughout the Event Registry.
+- **Event Registry** - Where event subscribers are collected and sorted.
+- **Event Dispatcher** - The mechanism in which an event is triggered, or "dispatched", throughout the system.
+- **Event Context** - Many events require a specific set of data that is important to the subscribers to an event. This can be as simple as a value passed to the Event Subscriber, or as complex as a specially created class that contains the relevant data.
 
 
 ## Finding Drupal events
@@ -43,6 +43,7 @@ Drupal/Core/Routing/RoutePreloader.php::onRequest
 
 ![Web Profiler Events listing](/images/events-listing.png)
 
+
 ## Generate event subscriber with Drush
 
 You can use drush to generate the code for working on this module using `drush generate service:event-subscriber`
@@ -52,7 +53,7 @@ It will create the `module.info.yml` file, the `module.services.yml` file and al
 
 ## Subscribe to a core event
 
-Here is an example which subscribes to the `Kernel::REQUEST` event. This happens very early in the process. On each request, it checks to see if the site is in maintenance mode, and if it is, logs the event and redirects the user to www.nytimes.com.
+Here is an example which subscribes to the `Kernel::REQUEST` event. This happens very early in the process. On each request, it checks to see if the site is in maintenance mode, and if it is, logs the event and redirects the user to `www.nytimes.com`.
 
 ::: tip Note
 You can use drush to generate the code for working on this module using `drush generate service:event-subscriber`
@@ -148,108 +149,203 @@ The array keys are event names and the value can be:
 - An array composed of the method name to call and the priority
 - An array of arrays composed of the method names to call and respective priorities, or 0 if unset
 
-For instance:
+For example:
+```php
 ['eventName' => 'methodName']
 ['eventName' => ['methodName', $priority]]
 ['eventName' => [['methodName1', $priority], ['methodName2']]]
-The code must not depend on runtime state as it will only be called at compile time. All logic depending on runtime state must be put into the individual methods handling the events.
-Returns: array<string, string|array{0: string, 1: int}|list<array{0: string, 1?: int}>
-
-## Subscribe to custom events
-
-```php
-// For each event key define an array of arrays composed of the method names
-// to call and optional priorities. The method name here refers to a method
-// on this class to call whenever the event is triggered.
-$events[IncidentEvents::NEW_REPORT][] = ['notifyMario'];
-
-// Subscribers can optionally set a priority. If more than one subscriber is
-// listening to an event when it is triggered they will be executed in order
-// of priority. If no priority is set the default is 0.
-$events[IncidentEvents::NEW_REPORT][] = ['notifyBatman', -100];
-
-// We'll set an event listener with a very low priority to catch incident
-// types not yet defined. In practice, this will be the 'cat' incident.
-$events[IncidentEvents::NEW_REPORT][] = ['notifyDefault', -255];
 ```
 
-See [Examples module's events_example](https://git.drupalcode.org/project/examples/-/blob/4.0.x/modules/events_example/src/EventSubscriber/EventsExampleSubscriber.php?ref_type=heads) for more
+The code must not depend on runtime state as it will only be called at compile time. All logic depending on runtime state must be put into the individual methods handling the events. 
+Returns: `array<string, string|array{0: string, 1: int}|list<array{0: string, 1?: int}>`
+
 
 
 
 ## Define custom events
 
-In this excerpt from the [Examples module's events_example](https://git.drupalcode.org/project/examples/-/blob/4.0.x/modules/events_example/src/EventSubscriber/EventsExampleSubscriber.php?ref_type=heads) we define an event called `NEW_REPORT`. To subscribe to this custom event, we can refer to `IncidentEvents::NEW_REPORT`.
+1. Define the event constants in a class
+2. Define the event class
+3. Dispatch the event
 
+When creating a custom event, first create a file `mymodule/src/Event/IncidentEvents.php` to hold the constants that define the event names like this:
+
+```php
+<?php
+
+namespace Drupal\mymodule\Event;
+
+final class IncidentEvents {
+  /**
+   * Name of the event fired when a new report is created.
+   *
+   * @Event
+   *
+   * @var string
+   */
+  const NEW_REPORT = 'mymodule.new_report';
+}
+```
+
+ In the example above, we define an event called `NEW_REPORT`. We then subscribe to this event in the `getSubscribedEvents` method of the `EventsExampleSubscriber` class.
+
+There is another example in the [Examples module's events_example](https://git.drupalcode.org/project/examples/-/blob/4.0.x/modules/events_example/src/Event/IncidentEvents.php?ref_type=heads) module.
+
+
+Then to handle the additional contextual data that you want to provide to the event subscribers when dispatching an event, create a new class that extends `\Symfony\Component\EventDispatcher\Event` `mymodule/src/Event/IncidentReportEvent.php`.
 
 ```php
 <?php
 
 namespace Drupal\events_example\Event;
 
+use Symfony\Contracts\EventDispatcher\Event;
+
 /**
- * Defines events for the events_example module.
+ * Wraps a incident report event for event subscribers.
  *
- * It is best practice to define the unique names for events as constants in a
- * static class. This provides a place for documentation of the events, as well
- * as allowing the event dispatcher to use the constants instead of hard coding
- * a string.
+ * Whenever there is additional contextual data that you want to provide to the
+ * event subscribers when dispatching an event you should create a new class
+ * that extends \Symfony\Component\EventDispatcher\Event.
  *
- * In this example we're defining one new event:
- * 'events_example.new_incident_report'. This event will be dispatched by the
- * form controller \Drupal\events_example\Form\EventsExampleForm whenever a new
- * incident is reported. If your application dispatches more than one event
- * you can use a single class to document multiple events -- just add a new
- * constant for each. Group related events together with a single class;
- * define another class for unrelated events.
+ * See \Drupal\Core\Config\ConfigCrudEvent for an example of this in core.
  *
- * The docblock for each event name should contain a description of when, and
- * under what conditions, the event is triggered. A module developer should be
- * able to read this description in order to determine whether this is
- * the event that they want to subscribe to.
- *
- * Additionally, the docblock for each event should contain an "@Event" tag.
- * This is used to ensure documentation parsing tools can gather and list all
- * events.
- *
- * Example: https://api.drupal.org/api/drupal/core%21core.api.php/group/events/
- *
- * In core \Drupal\Core\Config\ConfigCrudEvent is a good example of defining and
- * documenting new events.
- *
- * @ingroup events_example
  */
-final class IncidentEvents {
+class IncidentReportEvent extends Event {
 
   /**
-   * Name of the event fired when a new incident is reported.
-   *
-   * This event allows modules to perform an action whenever a new incident is
-   * reported via the incident report form. The event listener method receives a
-   * \Drupal\events_example\Event\IncidentReportEvent instance.
-   *
-   * @Event
-   *
-   * @see \Drupal\events_example\Event\IncidentReportEvent
+   * Incident type.
    *
    * @var string
    */
-  const NEW_REPORT = 'events_example.new_incident_report';
+  protected $type;
+
+  /**
+   * Detailed incident report.
+   *
+   * @var string
+   */
+  protected $report;
+
+  /**
+   * Constructs an incident report event object.
+   *
+   * @param string $type
+   *   The incident report type.
+   * @param string $report
+   *   A detailed description of the incident provided by the reporter.
+   */
+  public function __construct($type, $report) {
+    $this->type = $type;
+    $this->report = $report;
+  }
+
+  /**
+   * Get the incident type.
+   *
+   * @return string
+   *   The type of report.
+   */
+  public function getType() {
+    return $this->type;
+  }
+
+  /**
+   * Get the detailed incident report.
+   *
+   * @return string
+   *   The text of the report.
+   */
+  public function getReport() {
+    return $this->report;
+  }
 
 }
 ```
+See the code [in the example module](https://git.drupalcode.org/project/examples/-/blob/4.0.x/modules/events_example/src/Event/IncidentReportEvent.php?ref_type=heads)
 
-In the code below we refer to `IncidentEvents::NEW_REPORT` in the `getSubscribedEvents` method and specify that when this event is fired, the `notifyManagers` method should be called.
 
-
+To dispatch your event, you can use:
 ```php
- /**
+$event = new IncidentReportEvent($type, $report);
+$this->event_dispatcher->dispatch($event, IncidentEvents::NEW_REPORT);
+```
+
+Or more completely:
+```php
+<?php
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Drupal\mymodule\Event\NewReportEvent;
+
+class SomeClass {
+  protected $eventDispatcher;
+
+  public function __construct(EventDispatcherInterface $event_dispatcher) {
+    $this->eventDispatcher = $event_dispatcher;
+  }
+
+  public function someMethod() {
+    $report = 'some report data';
+    $event = new NewReportEvent($report);
+    $this->eventDispatcher->dispatch($event, NewReportEvent::EVENT_NAME);
+  }
+}
+```
+
+
+
+
+
+
+## Subscribe to custom events
+
+You need an Event Subscriber class which is the class that responds to the custom event (i.e. the class that does the magic when the event fires). You also need a `mymodule.services.yml` which tells Drupal about the Event Subscriber class.
+
+The EventSubscriber class e.g. `mymodule/src/EventSubscriber/EventsExampleSubscriber.php` looks something like this:
+  
+```php
+<?php
+namespace Drupal\mymodule\EventSubscriber;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\mymodule\Event\IncidentEvents;
+
+class YourModuleEventSubscriber implements EventSubscriberInterface {
+
+  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[IncidentEvents::NEW_REPORT][] = ['notifyManagers'];
+    $events[IncidentEvents::NEW_REPORT][] = ['notifyMario'];
     return $events;
   }
+
+  /**
+   * Method to handle the notifyMario event.
+   */
+  public function notifyMario($event) {
+    // You put your code here to handle the event.
+  }
+}
+```
+
+Then you register your event subscriber in `mymodule.services.yml` like this:
+
+```yml
+services:
+  your_module.event_subscriber:
+    class: Drupal\your_module\EventSubscriber\YourModuleEventSubscriber
+    tags:
+      - { name: event_subscriber }
+```
+
+If you want to subscribe to multiple events, you can add more entries to the `$events` array in the `getSubscribedEvents` method. The key is the event name and the value is an array of method names to call when the event is triggered. You can also specify a priority for each method. The method with the highest priority will be called first. If two methods have the same priority, they will be called in the order they were added to the array.
+
+```php
+$events[IncidentEvents::NEW_REPORT][] = ['notifyMario'];
+$events[IncidentEvents::NEW_REPORT][] = ['notifyBatman', -100];
+$events[IncidentEvents::NEW_REPORT][] = ['notifyDefault', -255];
 ```
 
 
