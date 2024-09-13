@@ -499,7 +499,7 @@ class EventsExampleForm extends FormBase {
 }
 ```
 
-# Stop propagation and access information about the event
+## Stop propagation and access information about the event
 
 If you have multiple subscribers to an event and you want to skip them after a certain one is called, you can use `$event->stopPropagation`:
 
@@ -516,6 +516,174 @@ public function notifyMario(IncidentReportEvent $event) {
     }
   }
 ```
+
+## Use custom autocomplete route
+
+The  `RouteSubscriber` class extends `RouteSubscriberBase` and listens to dynamic route events.  It serves to alter existing routes via the `alterRoutes` method. The `RouteCollection` object parameter contains all the routes defined in the application.
+
+In the `web/modules/custom/abc_admin_enhancements/abc_admin_enhancements.services.yml` file there is a service defined for the `RouteSubscriber` class. This service is tagged as an event subscriber, which means that it will be automatically registered with the event dispatcher when the module is installed. The `RouteSubscriber` class listens for the `system.entity_autocomplete` route and alters it to use a custom controller.
+
+```yml
+services:
+  abc_admin_enhancements.route_subscriber:
+    class: Drupal\abc_admin_enhancements\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  abc_admin_enhancements.autocomplete_matcher:
+    class: Drupal\abc_admin_enhancements\EntityAutocompleteMatcher
+    arguments: ['@plugin.manager.entity_reference_selection']
+```
+
+
+Here is the `web/modules/custom/abc_admin_enhancements/src/Routing/RouteSubscriber.php` file:
+
+```php
+<?php
+
+namespace Drupal\abc_admin_enhancements\Routing;
+
+use Drupal\Core\Routing\RouteSubscriberBase;
+use Symfony\Component\Routing\RouteCollection;
+
+/**
+ * Listens to the dynamic route events.
+ */
+class RouteSubscriber extends RouteSubscriberBase {
+  /**
+   * {@inheritdoc}
+   */
+  public function alterRoutes(RouteCollection $collection) {
+    if($route = $collection->get('system.entity_autocomplete')) {
+      $route->setDefault('_controller', '\Drupal\abc_admin_enhancements\Controller\EntityAutocompleteController::handleAutocomplete');
+    }
+  }
+}
+```
+
+Here is `web/modules/custom/abc_admin_enhancements/src/Controller/EntityAutocompleteController.php`:
+
+```php
+<?php
+
+namespace Drupal\abc_admin_enhancements\Controller;
+
+use Drupal\Core\KeyValueStore\KeyValueStoreInterface;
+use Drupal\abc_admin_enhancements\EntityAutocompleteMatcher;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class EntityAutocompleteController extends \Drupal\system\Controller\EntityAutocompleteController {
+
+  /**
+   * The autocomplete matcher for entity references.
+   */
+  protected $matcher;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(EntityAutocompleteMatcher $matcher, KeyValueStoreInterface $key_value) {
+    $this->matcher = $matcher;
+    $this->keyValue = $key_value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('abc_admin_enhancements.autocomplete_matcher'),
+      $container->get('keyvalue')->get('entity_autocomplete')
+    );
+  }
+}
+```
+
+Finally, here is the `web/modules/custom/abc_admin_enhancements/src/EntityAutocompleteMatcher.php` file with the `getMatches` method:
+
+```php
+<?php
+
+namespace Drupal\abc_admin_enhancements;
+
+use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\Tags;
+
+class EntityAutocompleteMatcher extends \Drupal\Core\Entity\EntityAutocompleteMatcher {
+
+  /**
+   * Gets matched labels based on a given search string.
+   */
+  public function getMatches($target_type, $selection_handler, $selection_settings, $string = '') {
+    $account = \Drupal::currentUser();
+    $user_roles = $account->getRoles(true);
+
+    $is_admin = in_array('administrator', $user_roles);
+    $is_pcm = in_array('principal_content_manager', $user_roles);
+    $is_lcm = in_array('local_content_manager', $user_roles);
+    $is_lcm_lite = in_array('local_light_content_manager', $user_roles);
+    $is_sce = in_array('staff_content_editor', $user_roles);
+    $is_pla = in_array('job_first_approver', $user_roles) || in_array('job_second_approver', $user_roles);
+
+    $matches = [];
+    $options = $selection_settings + [
+      'target_type' => $target_type,
+      'handler' => $selection_handler,
+    ];
+
+    $handler = $this->selectionManager->getInstance($options);
+
+    if (isset($string)) {
+      // Get an array of matching entities.
+      $match_operator = !empty($selection_settings['match_operator']) ? $selection_settings['match_operator'] : 'CONTAINS';
+      $entity_labels = $handler->getReferenceableEntities($string, $match_operator, 10);
+
+      // Loop through the entities and convert them into autocomplete output.
+      foreach ($entity_labels as $entity_type => $values) {
+        // Filter results to only editable labs for LCM's...
+        if($entity_type === 'laboratory' && ($is_lcm || $is_lcm_lite)) {
+          $user = \Drupal\user\Entity\User::load($account->id());
+
+          $editable_labs = [];
+          if($user->hasField('field_editable_labs')) {
+            foreach($user->get('field_editable_labs')->getValue() as $editable_lab) {
+              $editable_labs[] = $editable_lab['target_id'];
+            }
+          }
+
+          $values = array_filter($values, function($key) use($editable_labs) {
+            return in_array($key, $editable_labs);
+          }, ARRAY_FILTER_USE_KEY);
+        }
+
+        foreach ($values as $entity_id => $label) {
+          /*$entity = \Drupal::entityTypeManager()->getStorage($target_type)->load($entity_id);
+          if(!$entity->isPublished()) {
+            // Filter out unpublished content.
+            continue;
+          }*/
+
+          $key = "{$label} ({$entity_id})";
+
+          // Strip things like starting/trailing white spaces, line breaks and
+          // tags.
+          $key = preg_replace('/\\s\\s+/', ' ', str_replace("\n", '', trim(Html::decodeEntities(strip_tags($key)))));
+
+          // Names containing commas or quotes must be wrapped in quotes.
+          $key = Tags::encode($key);
+          $matches[] = array(
+            'value' => $key,
+            'label' => $label,
+          );
+        }
+      }
+    }
+
+    return $matches;
+  }
+}
+```
+
 
 
 ## Resources
