@@ -521,7 +521,7 @@ Additional features (beyond the main functionality):
 ## Other
 
 ### Duration Field
-This module creates a new duration field, that can be added to any entity. A duration field can collect any combination of year, month, day, hour, minute and second. Field settings allow for the site builder to determine what level of granularity they wish to collect from users, so if the required level of granularity is a date, the field settings would be set to collect year, month and day. The module is flexible in that users could choose to only collect year and seconds. While this doesn't really make sense for most logical data collection, the module has the flexibility that allows it to happen.
+This module creates a new duration field, that can be added to any entity. A duration field can collect any combination of year, month, day, hour, minute and second. Field settings allow for the site builder to determine what level of granularity they wish to collect from users, so if the required level of granularity is a date, the field settings would be set to collect year, month and day. The module is flexible in that users could choose to only collect year and seconds. While this doesn't really make sense for most logical data collection, the module has the flexibility that allows it to happen.  Be sure to check out the Smart date module also.
 
 [https://www.drupal.org/project/duration_field](https://www.drupal.org/project/duration_field)
 
@@ -538,7 +538,16 @@ Smart Trim implements a new field formatter for textfields (text, text_long, and
 
 [https://www.drupal.org/project/smart_trim](https://www.drupal.org/project/smart_trim)
 
+
+### Ultimate Cron
+Ultimate Cron is a flexible and extensive cron management system that allows you to create and manage system cron jobs through a web interface. It allows you to create cron jobs that run at specific times, or at regular intervals. It also allows you to create cron jobs that run only once, or that run indefinitely. You can also create cron jobs that run only when certain conditions are met, such as when a certain number of nodes have been created, or when a certain amount of time has passed since the last cron job was run.
+[https://www.drupal.org/project/ultimate_cron](https://www.drupal.org/project/ultimate_cron)
+
+
+
 ## Paragraphs
+
+
 
 ### Paragraphs
 Paragraphs allows grouping together fields to make a cohesive unit of content.
