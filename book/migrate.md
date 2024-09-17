@@ -44,6 +44,7 @@ This migration Process snippet example demonstrates how to populate the fields o
 ## Resources
 
 * [31 days of Drupal migrations by Mauricio Dinarte - August 2019](https://understanddrupal.com/migrations)
+* [Drupal Migration Kick Start and Cheat Sheet by David Lanier of Phase 2 Aug 24](https://www.linkedin.com/pulse/drupal-migration-kick-start-cheat-sheet-david-lanier-zvmic/)
 * [Unraveling the ETL Data Migration Process. A 3 part series from Tag1 Consulting - Dec 2023 & Jan 2024](https://www.tag1consulting.com/blog/unraveling-etl-process-extract)
 * [Stop waiting for Feeds module: how to import RSS in Drupal 8 by Campbell Vertesi - June 2017](https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8)
 * [Issue on Drupal.org where Mike Ryan, co-author of the migrate module,  addresses how to start a migration programmatically](https://www.drupal.org/project/drupal/issues/2764287)
