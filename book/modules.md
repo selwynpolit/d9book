@@ -404,6 +404,14 @@ The Admin Toolbar module intends to improve the default Toolbar (the administrat
 The module works on the top of the default toolbar core module and is therefore a light module and keeps all the toolbar functionalities (shortcut / media responsive).
 [https://www.drupal.org/project/admin_toolbar](https://www.drupal.org/project/admin_toolbar)
 
+### Cron Fail Alert
+
+This module sends an email notification to site administrators when the Drupal cron has failed to run after a specified amount of time.
+
+[https://www.drupal.org/project/cron_fail_alert](https://www.drupal.org/project/cron_fail_alert)
+
+
+
 ### Module filter
 
 The modules list page can become quite big when dealing with a fairly large site or even just a dev site meant for testing new and various modules being considered. What this module aims to accomplish is the ability to quickly find the module you are looking for without having to rely on the browsers search feature which more times than not shows you the module name in the 'Required by' or 'Depends on' sections of the various modules or even some other location on the page like a menu item.
