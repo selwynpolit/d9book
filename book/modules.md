@@ -603,6 +603,15 @@ This allows editors to add content way faster because they do not need to add al
 
 [https://www.drupal.org/project/paragraphs_sets](https://www.drupal.org/project/paragraphs_sets)
 
+
+### Paragraph View Modes
+
+Did you ever run into an issue of creating new paragraph type with the same fields only because it looks a bit different?
+This tiny module is meant to easily reuse the same paragraph types with different view mode (display mode). With this module, you can choose which view modes should be available during editing of the content by using the widget settings for a particular type of paragraph. You can also dynamically choose in which display mode you want to render this specific paragraph when adding the content.
+
+[https://www.drupal.org/project/paragraph_view_mode](https://www.drupal.org/project/paragraph_view_mode)
+
+
 ### Layout Paragraphs
 
 Layout Paragraphs provides an intuitive drag-and-drop experience for building flexible layouts with paragraphs. The module was designed from the ground up with paragraphs in mind, and works seamlessly with existing paragraph reference fields.
