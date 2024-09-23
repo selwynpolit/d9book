@@ -227,6 +227,9 @@ To separate patches into a different file other than composer json add `"patches
 }
 ```
 
+
+### Troubleshoot Composer Patches
+
 If composer install fails, try `composer -vvv` for verbose output
 
 If the issue is that it can't find the file for example if it displays the following:
