@@ -1778,6 +1778,99 @@ Down the rabbit hole:
 
 
 
+## Config split
+
+In your `settings.php` file, you identify the active split with:
+
+```php
+/*
+ * Config Split settings.
+ */
+// Note. local is active
+$config['config_split.config_split.local']['status'] = TRUE;
+$config['config_split.config_split.dev']['status'] = FALSE;
+$config['config_split.config_split.stage']['status'] = FALSE;
+$config['config_split.config_split.prod']['status'] = FALSE;
+```
+
+Assuming you have the `config_split` module installed, you will need a `split` for each environment at `admin/config/development/configuration/config-split`.  Commonly: `local`, `dev`, `stage`, `prod`.
+Specify a directory such as `../config/local` for the `local` split.  Configuration files that are specific to this split are stored here. Similarly, you could use:
+* `dev`: `../config/dev`
+* `test`:  `../config/test`
+* `prod`:  `../config/prod`
+This assumes that the `settings.php` specifies the config directory as `../config/sync` with `$settings['config_sync_directory'] = '../config/sync';`
+
+
+When you configure the active split in your `settings.php`, you can export the configuration for that split with `ddev drush cex -y`. There is no need to use the `ddev drush config-split: export local` command any more.  The `ddev drush cex ` command handles it all correctly.
+
+
+
+
+
+
+### Overview of steps required for each environment.
+* Set the active split in `settings.php` e.g. `$config['config_split.config_split.local']['status'] = TRUE;`
+* Import the current configuration with `ddev drush cim -y`
+* Make your changes to the configuration via the Drupal u/i
+* Export your changes with `ddev drush cex -y`. This will handle the split file e.g. `config/sync/config_split.config_split.local.yml` (for the local split) as well as the specific configuration changes that you made for that split.
+* Test and commit your changes.
+* Repeat for each environment.
+
+
+
+### Enable a module on a specific environment
+
+For a module enabled on a specific environment e.g. cron fail alert on `prod` 
+* Select the `prod` split in `settings.php` (or `settings.local.php`).
+* Clear cache with `ddev drush cr`
+* `ddev drush cim` so you are using the `prod` split configuration.
+* Enable the module in Drupal and configure it as needed.
+* In the config split settings for `prod`, check the cron fail alert in `complete split`
+
+Running a `ddev drush cst` you should see that the `prod` config split has changed, the `core.extension` has changed and there is a `cron_fail_alert.settings.yml`.
+
+When you export the configuration with `ddev drush cex -y`, the files will be updated to reflect these changes.
+
+
+Also the `config_split.config_split.prod.yml` file will list `cron_fail_alert` under the `modules` key:
+```yml
+label: Production
+description: 'Config Split for Production'
+weight: 0
+stackable: false
+no_patching: false
+storage: folder
+folder: ../config/prod
+module:
+  cron_fail_alert: 0
+theme: {  }
+complete_list:
+  - environment_indicator.indicator
+  - dblog.settings
+partial_list: {  }
+```
+
+A `git status` should show you that the `config/prod/cron_fail_alert.settings.yml` has been created. Notice this file is in the `config/prod` directory. This means that when you deploy to `prod` (and `drush cim`), the `cron_fail_alert` module will be enabled and the configuration you specified for it will be correctly loaded.
+
+
+### Use different settings for different environments
+Here we want to use database logging (watchdog) for all environments, but we want to keep 100,000 items in the log for `prod`, and 10,000 items for dev, stage and local. 
+
+* Set the active split in `settings.php` e.g. `$config['config_split.config_split.local']['status'] = TRUE;`
+* Import the current configuration with `ddev drush cim -y`
+* Enable the `Database logging` module in Drupal and configure it to keep 10,000 items.
+* In config split, check the `dblog.settings` in the Configuration items.
+* Repeat this for `dev` and `stage` environments.
+* Export the configuration with `ddev drush cex -y`
+ 
+
+
+::: tip Note
+Using the [chosen](https://www.drupal.org/project/chosen) module on your site will make the config split a little easier as it displays the selected items in a more user-friendly way.
+:::
+
+
+
 ## Resources
 
 - [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg - Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
