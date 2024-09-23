@@ -166,6 +166,21 @@ Config Split allows you to split your configuration into separate directories an
 
 [https://www.drupal.org/project/config_split](https://www.drupal.org/project/config_split)
 
+
+### Configuration Update Manager
+The Configuration Update Manager module provides a user interface for managing configuration updates. It allows you to update configuration from a module that provides configuration updates.
+
+The report component of this module supplements the core Configuration Manager module, by providing a report that allows you to see the differences between the configuration items provided by the current versions of your installed modules, themes, and install profile, and the configuration on your site. The report is available from the administration UI, or via Drush commands.
+
+
+If you run the report from the administration UI, you can also import new configuration provided by updates, delete unwanted configuration items, and revert your site configuration to the provided values, on a case-by-case basis.
+
+The main use case is: You update a module, and it has either changed default config that it provides, or added new config items. You want to be able to import the new items, view the differences between the site config and the changed config, and possibly "revert" (or it may be an update) to the newly-provided default config.
+
+[https://www.drupal.org/project/config_update](https://www.drupal.org/project/config_update)
+
+
+
 ## Content Entry/Editing
 
 ### Automatic Entity Label
