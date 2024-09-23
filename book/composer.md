@@ -190,7 +190,7 @@ e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrapp
 
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
 
-::: tip danger
+::: danger
 You should **not use apply patches from Gitlab merge requests** for several reasons. 
 1. When the new drupal.org is released, issues will be moved to gitlab. These file urls will stop working at some point, and if they do your project won't build. Be future proof, use local patches.
 2. New patches may be added to the merge request, and you won't know about them. They could be flawed or malicious which could break your site.
