@@ -190,7 +190,7 @@ e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrapp
 
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
 
-Note. The patch file itself may look a little different from what you may be accustomed to. In the example below, there is a header with the commit message and author details:
+Note. The patch file itself may look a little different from what you may be accustomed to. In the example below, you may notice that there is a header with the commit message and author details before the patch itself actually begins. This is normal and the patch should still apply correctly.:
 
 ```diff
 From a4edb6adc09abb1ca52e92d80111173bfa206132 Mon Sep 17 00:00:00 2001
