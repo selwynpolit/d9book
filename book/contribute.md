@@ -52,5 +52,7 @@ pnpm update
 ```
 
 ## Resources
-
+- [Markdown Guide](https://www.markdownguide.org/) - A comprehensive guide to Markdown.
+- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/) - A quick reference to the Markdown syntax.
 - [First contributions](https://github.com/firstcontributions/first-contributions) is a great place to start if you are new to contributing to open source projects.
+- [Vitepress Markdown Extensions](https://vitepress.dev/guide/markdown) - Vitepress has some cool markdown extensions that are usedin this book to make the content more interesting and interactive.
