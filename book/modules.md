@@ -742,6 +742,13 @@ SecKit provides Drupal with various security-hardening options. This lets you mi
 
 [https://www.drupal.org/project/seckit](https://www.drupal.org/project/seckit)
 
+### Username Enumeration Prevention
+
+Username Enumeration Prevention is a project which aims to mitigate common ways of anonymous users identifying valid usernames on a Drupal site. Username enumeration is a technique used by malicious actors to identify valid usernames on a web application, which can then be used in other attacks such as credential stuffing.
+
+[https://www.drupal.org/project/username_enumeration_prevention](https://www.drupal.org/project/username_enumeration_prevention)
+
+
 ## SEO
 
 ### Pathauto
