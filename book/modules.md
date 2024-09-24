@@ -286,6 +286,14 @@ Provides a formatter to use that allows users to download file and image entitie
 Adds a "Clone" tab to a node. When clicked, a new node is created and fields from the previous node are populated into the new fields.
 [https://www.drupal.org/project/quick_node_clone](https://www.drupal.org/project/quick_node_clone)
 
+
+### Scheduler
+Scheduler gives editors the ability to schedule content, media, commerce products and taxonomy terms for publishing and unpublishing at specified dates and times in the future. The 2.x branch introduced a plugin system to allow scheduled processing of more entity types, and plugins have been developed to schedule Content, Media, Commerce Products and Taxonomy Terms.
+
+[https://www.drupal.org/project/scheduler](https://www.drupal.org/project/scheduler)
+
+
+
 ## Data Import
 
 ### Feeds
