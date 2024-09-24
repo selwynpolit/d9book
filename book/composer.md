@@ -182,13 +182,36 @@ composer update -vvv
 
 Use this technique **at your peril!** 
 
-A better process is to download the Merge request patch, and after reviewing carefully, apply it with cweagans/composer-patches with a local reference like: patches/core-1234567-33.patch.
+A better process is to download the Merge request patch, and after reviewing carefully, apply it with `cweagans/composer-patches` with a local reference like: `patches/core-1234567-33.patch`.
 
 Using the URL of the merge request, add `.patch` at the end of the URL and that will be the path to the latest patch.
 
 e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
 
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
+
+Note. The patch file itself may look a little different from what you may be accustomed to. In the example below, there is a header with the commit message and author details:
+
+```diff
+From a4edb6adc09abb1ca52e92d80111173bfa206132 Mon Sep 17 00:00:00 2001
+From: Derek Wright <git@dwwright.net>
+Date: Wed, 6 Dec 2023 16:42:51 -1000
+Subject: [PATCH 1/6] Bug #2418369: Initial Functional tests to show bugs in
+ URL aliases + language handling
+
+---
+ .../PathologicLanguageAliasTest.php           | 158 ++++++++++++++++++
+ 1 file changed, 158 insertions(+)
+ create mode 100644 tests/src/Functional/PathologicLanguageAliasTest.php
+
+diff --git a/tests/src/Functional/PathologicLanguageAliasTest.php b/tests/src/Functional/PathologicLanguageAliasTest.php
+new file mode 100644
+index 0000000..a4f7c84
+--- /dev/null
++++ b/tests/src/Functional/PathologicLanguageAliasTest.php
+@@ -0,0 +1,158 @@
+```
+
 
 ::: danger
 You should **not apply patches directly from Gitlab merge requests** for several reasons. 
