@@ -1418,6 +1418,8 @@ More at:
 - [Working with the devel module in Drupal 9 to generate dummy content by Karishma Amin - August 2023](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
 - [Generating dummy Drupal content with Devel & more - October 2021](https://gole.ms/guidance/generating-dummy-drupal-content-devel-more)
 
+
+
 ## Enable verbose display of warning and error messages
 
 In `settings.local.php` (or`settings.php` or `settings.ddev.php`) set the following config:
@@ -1437,6 +1439,95 @@ The options are:
 
 
 See [Enable verbose error logging for better backtracing and debugging - Updated April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+
+
+
+
+## Testing a local API from Drupal and DDEV
+
+When you to have Drupal communicate with an external API, you might want to to test the API locally. To do this you can use curl or a browser to make calls to your endpoint e.g. `http://localhost:3000/api/v1/crms/external/protocol/find/all`.
+
+Using a tool such as [Mocktoon](https://mockoon.com) you can set up a local endpoint which Drupal can communicate with.  Mockoon is a free and open-source desktop application allowing to quickly mock servers and APIs. Testing against the local API with curl looks like:
+  
+  ```sh
+  curl -w "\nHTTP Status: %{http_code}\n" http://localhost:3000/api/v1/crms/external/protocol/find/all
+
+{
+  "userId": "90554",
+  "firstname": "Clovis",
+  "lastname": "Lemke",
+  "friends": [
+      {
+        "id": "e56de95d-1f47-42f1-b79c-18a2fc0b3f93"
+      },
+      {
+        "id": "1454f4a9-270f-4cb6-b88f-b6e7d9106daf"
+      },
+      {
+        "id": "131eeffa-4194-41c7-9ef2-bddeb3872eb4"
+      }
+  ]
+}
+HTTP Status: 413
+```
+
+You can also put the URL in a browser to see the output.
+![Chrome browser showing JSON output](/images/locahost-chrome.png)
+
+ When you try to do this from Drupal, if you specify `localhost:3000` Drupal will fail to connect.  You might see errors like:
+  
+```
+cURL error 7: Failed to connect to localhost port 3000 after 1 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://localhost:3000/api/v1/crms/external/protocol/find/all
+```   
+
+The solution is to rather specify the url using `host.docker.internal` e.g. `http://host.docker.internal:3000/api/v1/crms/external/protocol/find/all`.
+
+
+
+## Enable CORS for testing
+
+In some instances, you will need to enable CORS (Cross-Origin Resource Sharing) for various reasons including allowing your site to perform cross-domain ajax request in web applications. 
+
+::: tip Note
+Remember that enabling wide-open CORS (allowing * for headers, methods, and origins) is generally insecure for production. You should restrict it to development environments, where security concerns are lower, and make sure that your CORS policy is locked down appropriately for production to prevent unauthorized or malicious access.
+:::
+
+This is a two step process involving a browser extension and a tweak to the `sites/default/development.services.yml` file. 
+
+1. The browser extension allows you to make requests to the site from a different origin. There are many of Chrome browser extensions.  One is [CORS](https://mybrowseraddon.com/access-control-allow-origin.html?v=0.1.9&type=install). Once installed, you can click on the icon and enable CORS. I like this version because it has a testing page that lets you confirm that CORS is enabled. 
+
+2. In `sites/default/development.services.yml` add the following:
+
+```yml
+parameters:
+  ## Twig debug settings
+  http.response.debug_cacheability_headers: true
+  twig.config:
+    debug: true
+    auto_reload: true
+    cache: false
+  ## Enable CORS for testing  
+  cors.config:
+    enabled: false
+    # Specify allowed headers, like 'x-allowed-header'.
+    allowedHeaders: ['*']
+    # Specify allowed request methods, specify ['*'] to allow all possible ones.
+    allowedMethods: ['*']
+    # Configure requests allowed from specific origins.
+    allowedOrigins: ['*']
+    # Sets the Access-Control-Expose-Headers header.
+    exposedHeaders: ['*']
+    # Sets the Access-Control-Max-Age header.
+    maxAge: 86400
+    # Sets the Access-Control-Allow-Credentials header.
+    supportsCredentials: true
+```
+
+Clear the Drupal cache and you should be ready to go.
+
+
+Enabling CORS during Drupal development allows for smooth communication between a decoupled front-end and back-end, especially when they run on different origins (e.g., different ports or domains). It also facilitates testing integrations with third-party services, external APIs, mobile apps, and debugging potential CORS issues early, preventing problems when the app is deployed to production.
+
 
 
 ## Resources
