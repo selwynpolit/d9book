@@ -1157,7 +1157,16 @@ Also read [https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care
 
 ## Development.services.yml
 
-Recommended setup for development is to have this file in `sites/default/development.services.yml`.
+Recommended setup for development is to have this file in `sites/development.services.yml`.  Confirm the location by looking in `sites/default/settings.local.php` for the following:
+
+```php
+/**
+ * Enable local development services.
+ */
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
+```
+
+Here is the contents of the `development.services.yml` file:
 
 ```yml
 # Local development services.
