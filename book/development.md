@@ -1472,7 +1472,7 @@ HTTP Status: 413
 ```
 
 You can also put the URL in a browser to see the output.
-![Chrome browser showing JSON output](/images/locahost-chrome.png)
+![Chrome browser showing JSON output](/images/localhost-chrome.png)
 
  When you try to do this from Drupal, if you specify `localhost:3000` Drupal will fail to connect.  You might see errors like:
   
