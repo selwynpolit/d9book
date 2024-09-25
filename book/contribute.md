@@ -37,9 +37,10 @@ pnpm install
 pnpm run book:dev
 ```
 
-This shows a local URL: `http://localhost:5173/` open it!
+This shows a local URL: `http://localhost:5173/`. You can click on the link or press the letter `o` to open it in your browser.  Use `h` for help.
 
-To build your site for production (which generates static files in the dist directory), you can use the following: (This doesn't seem necessary as the local dev server seems to do the same thing)
+To build your site and check for broken links  (which also generates static files in the dist directory), you can use the following:
+
 
 ```sh
 pnpm run book:build
