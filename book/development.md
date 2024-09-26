@@ -1529,6 +1529,45 @@ Clear the Drupal cache and you should be ready to go.
 Enabling CORS during Drupal development allows for smooth communication between a decoupled front-end and back-end, especially when they run on different origins (e.g., different ports or domains). It also facilitates testing integrations with third-party services, external APIs, mobile apps, and debugging potential CORS issues early, preventing problems when the app is deployed to production.
 
 
+## Module directory structure
+
+From [PSR-4 namespaces and autoloading in Drupal 8 on drupal.org - updated Dec 2022](https://www.drupal.org/docs/develop/standards/php/psr-4-namespaces-and-autoloading-in-drupal-8)
+
+Example vegetable.module directory structure:
+
+* modules/vegetable/
+    * css/
+    * js/
+    * src/
+        * Controller/
+            * VegetableController.php → class Drupal\vegetable\Controller\VegetableController
+    * Form/
+        * VegetableForm.php → class Drupal\vegetable\Form\VegetableForm
+    * Plugin/
+    * Block/
+        * VegetableBlock.php → class Drupal\vegetable\Plugin\Block\VegetableBlock
+    * Entity/
+        * Tomato.php → class Drupal\vegetable\Entity\Tomato
+        * Cucumber.php → class Drupal\vegetable\Entity\Cucumber
+    * Tests/
+        * TomatoTest.php → class Drupal\vegetable\Tests\TomatoTest
+        * CucumberTest.php → class Drupal\vegetable\Tests\CucumberTest
+        * VegetableManagerTest.php → class Drupal\vegetable\Tests\VegetableManagerTest
+    * fixtures/
+        * weather-data.json
+    * templates/
+    * tests/
+        * src/
+            * Functional/
+            * Kernel/
+            * Unit/
+                * TomatoTest.php → class Drupal\Tests\vegetable\Unit\TomatoTest
+            * Traits/
+                * VegetableTestTrait.php → trait Drupal\Tests\vegetable\Traits\VetegableTestTrait
+    * vegetable.info.yml
+* vegetable.routing.yml
+* vegetable.module
+
 
 ## Resources
 
