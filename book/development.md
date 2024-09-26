@@ -1494,7 +1494,7 @@ Remember that enabling wide-open CORS (allowing * for headers, methods, and orig
 
 This is a two step process involving a browser extension and a tweak to the `sites/default/development.services.yml` file. 
 
-1. The browser extension allows you to make requests to the site from a different origin. There are many of Chrome browser extensions.  One is [CORS](https://mybrowseraddon.com/access-control-allow-origin.html?v=0.1.9&type=install). Once installed, you can click on the icon and enable CORS. I like this version because it has a testing page that lets you confirm that CORS is enabled. 
+1. Install a browser extension which allows you to make requests to the site from a different origin. There are many Chrome browser extensions that offer this.  Tru [Allow CORS: Access-Control-Allow-Origin](https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en&pli=1). I like this version because it is easily configured, has a video tutorial, and has a testing page that lets you confirm that CORS is enabled. Once installed, you can click on the icon and enable CORS.
 
 2. In `sites/default/development.services.yml` add the following:
 
