@@ -1873,6 +1873,8 @@ Using the [chosen](https://www.drupal.org/project/chosen) module on your site wi
 
 The now deprecated way of doing this was to use the `hook_search_api_solr_query_alter` hook in a custom module.  From [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent) this process needs to be replaced with an event subscriber.  
 
+You can see an example of [this](https://git.drupalcode.org/project/acquia_search/-/blob/3.1.x/src/EventSubscriber/PreQuery/EdisMax.php?ref_type=heads) in the [Acquia Search module](https://www.drupal.org/project/acquia_search) also. 
+
 Here is the old way. This will alter the functionality of the search when used with the `site_search` and`related_position_listings` views.  It boosts the search results based on the `field_boosted_created_date` field and the `field_position_campus` field.  It also filters the search results based on the `field_position_title_select` field and the `field_other_position_title` field.
 
 ```php
@@ -2159,6 +2161,54 @@ final class SolrQueryAlterEventSubscriber implements EventSubscriberInterface {
 }
 ```
 
+## Enhance the relevance of SOLR search results
+This function customizes the Solr documents by adding a boosted created date field for specific content types before they are indexed.
+
+The purpose of adding a boosted created date field is to enhance the relevance of search results by giving higher importance to the creation date of certain content types. In this case, the field_boosted_created_date is added to Solr documents to ensure that documents of the content type news_universal_news_item have their creation date indexed. This allows the search system to prioritize or boost these documents based on their creation date, potentially improving the search ranking for more recent or relevant news items. For other content types, this field is set to NULL, indicating that they do not receive the same boost based on their creation date.
+
+Note. this function doesn't actually do any boosting.  That is handled elsewhere in the code.  This function just adds the field to the Solr documents.
+
+```php
+/**
+ * Alter Solr documents before they are sent to Solr for indexing.
+ *
+ * @param \Solarium\QueryType\Update\Query\Document[] $documents
+ *   An array of \Solarium\QueryType\Update\Query\Document\Document objects
+ *   ready to be indexed, generated from $items array.
+ * @param \Drupal\search_api\IndexInterface $index
+ *   The search index for which items are being indexed.
+ * @param \Drupal\search_api\Item\ItemInterface[] $items
+ *   An array of items to be indexed, keyed by their item IDs.
+ */
+function abc_search_search_api_solr_documents_alter(array &$documents, \Drupal\search_api\IndexInterface $index, array $items) {
+  if($index->id() !== 'abc') {
+    return;
+  }
+
+  // First we need to create an Index field.
+  $boosted_created_date_field_name = 'field_boosted_created_date';
+  if (is_null($index->getField($boosted_created_date_field_name))) {
+    $index_field = new \Drupal\search_api\Item\Field($index, $boosted_created_date_field_name);
+    $index_field->setType('date');
+    $index_field->setPropertyPath('created');
+    $index_field->setDatasourceId('entity:node');
+    $index_field->setLabel('Boosted Created Date');
+    $index->addField($index_field);
+    $index->save();
+  }
+
+  foreach ($documents as $document) {
+    // Set the field data for Universal News content type.
+    // For all other content types, set NULL
+    $solr_field_name = 'ds_' . $boosted_created_date_field_name;
+    if ($document->getFields()['ss_type'] === 'news_universal_news_item') {
+      $document->setField($solr_field_name, $document->getFields()['ds_created']);
+    } else {
+      $document->setField($solr_field_name, NULL);
+    }
+  }
+}
+```
 
 
 ## Replace special characters
