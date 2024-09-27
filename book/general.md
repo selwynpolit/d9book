@@ -1869,6 +1869,309 @@ Here we want to use database logging (watchdog) for all environments, but we wan
 Using the [chosen](https://www.drupal.org/project/chosen) module on your site will make the config split a little easier as it displays the selected items in a more user-friendly way.
 :::
 
+## Modify SOLR Search behavior
+
+The now deprecated way of doing this was to use the `hook_search_api_solr_query_alter` hook in a custom module.  From [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent) this process needs to be replaced with an event subscriber.  
+
+Here is the old way. This will alter the functionality of the search when used with the `site_search` and`related_position_listings` views.  It boosts the search results based on the `field_boosted_created_date` field and the `field_position_campus` field.  It also filters the search results based on the `field_position_title_select` field and the `field_other_position_title` field.
+
+```php
+/**
+ * Implements hook_search_api_solr_query_alter().
+ * 
+ * @param \Solarium\Core\Query\QueryInterface $solarium_query
+ * @param \Drupal\search_api\Query\QueryInterface $query
+ * @throws \Drupal\search_api\SearchApiException
+ */
+function abc_search_search_api_solr_query_alter(\Solarium\Core\Query\QueryInterface $solarium_query, \Drupal\search_api\Query\QueryInterface $query) {
+  $request = \Drupal::request();
+  $view = $query->getOption('search_api_view');
+
+  if(!($view)) {
+    return;
+  }
+
+  if ($view->id() === 'site_search' && !empty($request->get('f')) && in_array('content_type:news_universal_news_item', $request->get('f'))) {
+    $boosted_created_date_field_name = 'field_boosted_created_date';
+    $solr_field_names = $query->getIndex()->getServerInstance()->getBackend()->getSolrFieldNames($query->getIndex());
+    if (isset($solr_field_names[$boosted_created_date_field_name]) && !empty($solr_field_names[$boosted_created_date_field_name])) {
+      // Boost documents by date.
+      $boost_functions = 'recip(ms(NOW,' . $solr_field_names[$boosted_created_date_field_name] . '),3.16e-15,1,1)';
+      $solarium_query->getEDisMax()->setBoostFunctionsMult($boost_functions);
+
+      // Avoid the conversion into a lucene parser expression, keep edismax.
+      $solarium_query->addParam('defType', 'edismax');
+      $helper = $solarium_query->getHelper();
+
+      // if keys entered, also boost the title
+      if (!empty($query->getKeys())) {
+        // TODO: This doesn't do anything? Remove/refactor
+        $search_terms = array_filter($query->getKeys(), function ($v, $k) {
+          return is_numeric($k);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        foreach ($search_terms as $term) {
+          $solarium_query->addParam('bq', 'tm_X3b_und_title:' . $helper->escapeTerm($term) . '^15');
+        }
+      }
+    }
+  }
+
+  // Related position listings search
+  if ($view->id() === 'related_position_listings' && !empty($view->args)) {
+    $nid = $view->args[0];
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+    $solr_field_names = $query->getIndex()->getServerInstance()->getBackend()->getSolrFieldNames($query->getIndex());
+
+    $solarium_query->addParam('defType', 'edismax');
+    $query->getParseMode()->setConjunction('OR');
+    $helper = $solarium_query->getHelper();
+
+    $bqParams = [];
+    $fqParams = [];
+
+    // Set search query (based on keywords).
+    if ($node->hasField('field_position_keywords') && !empty($node->field_position_keywords->value)) {
+      $values = explode(',', $node->field_position_keywords->value);
+      array_walk($values, function(&$v) {
+        $v = trim($v, " \"'");
+      });
+
+      $query->keys('"' . implode('" "', $values) . '"');
+    }
+
+    // Filter by position
+    if ($node->hasField('field_position_title_select') && isset($node->field_position_title_select->entity)) {
+      // Ensure "position title" tid matches
+      $field_position_title_select_field_name = 'field_position_title_select';
+      if (isset($solr_field_names[$field_position_title_select_field_name]) && !empty($solr_field_names[$field_position_title_select_field_name])) {
+        //$solarium_query->addParam('fq', 'itm_field_position_title_select:' . $node->field_position_title_select->entity->id());
+        $fqParams[] = 'itm_field_position_title_select:' . $node->field_position_title_select->entity->id();
+      }
+
+      // Ensure other "position title" value matches if relevant
+      if (strcasecmp($node->field_position_title_select->entity->label(), 'Other') === 0) {
+        $field_other_position_title_field_name = 'field_other_position_title';
+        if (isset($solr_field_names[$field_other_position_title_field_name]) && !empty($solr_field_names[$field_other_position_title_field_name])) {
+          //$solarium_query->addParam('fq', 'ss_field_other_position_title:' . $node->field_other_position_title->value);
+          $fqParams[] = 'ss_field_other_position_title:' . $helper->escapePhrase($node->field_other_position_title->value);
+        }
+      }
+    }
+
+    // Boost job location field.
+    if ($node->hasField('field_position_campus') && !empty($node->field_position_campus->value)) {
+      $bqParams[] = 'sm_field_position_campus:' . $helper->escapePhrase($node->field_position_campus->value) . '^10';
+    }
+
+    // Boost appointment type field.
+    if ($node->hasField('field_appointment_type') && !empty($node->field_appointment_type->value)) {
+      $bqParams[] = 'sm_field_appointment_type:' . $helper->escapePhrase($node->field_appointment_type->value) . '^10';
+    }
+
+    // Boost work schedule field.
+    if ($node->hasField('field_work_schedule') && !empty($node->field_work_schedule->value)) {
+      $bqParams[] = 'sm_field_work_schedule:' . $helper->escapePhrase($node->field_work_schedule->value) . '^10';
+    }
+
+    // Boost citizenship field.
+    if ($node->hasField('field_citizenship') && !empty($node->field_citizenship->value)) {
+      $bqParams[] = 'ss_field_citizenship:' . $helper->escapePhrase($node->field_citizenship->value) . '^10';
+    }
+
+    if (count($bqParams) > 0) {
+      $solarium_query->addParam('bq', $bqParams);
+    }
+
+    if (count($fqParams) > 0) {
+      $solarium_query->addParam('fq', $fqParams);
+    }
+  }
+}
+```
+
+
+The new way which uses an event subscriber, looks like this:
+
+
+In the `abc_search` module, the `abc_search.services.yml` file defines the event subscriber:
+
+```yaml
+services:
+  abc_search.query_alter:
+    class: Drupal\abc_search\EventSubscriber\SolrQueryAlterEventSubscriber
+    tags:
+      - { name: event_subscriber }
+```
+
+Then in the file `src/EventSubscriber/SolrQueryAlterEventSubscriber.php`:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\abc_search\EventSubscriber;
+
+use Drupal\search_api_solr\Event\PreQueryEvent;
+use Drupal\search_api_solr\Event\SearchApiSolrEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+/**
+ * Alter the solr query results.
+ */
+final class SolrQueryAlterEventSubscriber implements EventSubscriberInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents(): array {
+    return [
+      SearchApiSolrEvents::PRE_QUERY => 'preQuery',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preQuery(PreQueryEvent $event): void {
+    $query = $event->getSearchApiQuery();
+    $solarium_query = $event->getSolariumQuery();
+
+    $request = \Drupal::request();
+    $view = $query->getOption('search_api_view');
+    if(!($view)) {
+      return;
+    }
+
+    /*
+     * When searching, if you select news in the faceted search, modify
+     * boosting behavior to prioritize more recent creation date.
+     */
+    if ($view->id() === 'site_search' && !empty($request->get('f')) && in_array('content_type:news_universal_news_item', $request->get('f'))) {
+      $boosted_created_date_field_name = 'field_boosted_created_date';
+      $solr_field_names = $query->getIndex()->getServerInstance()->getBackend()->getSolrFieldNames($query->getIndex());
+      if (isset($solr_field_names[$boosted_created_date_field_name]) && !empty($solr_field_names[$boosted_created_date_field_name])) {
+        // Boost documents by date.
+        $boost_functions = 'recip(ms(NOW,' . $solr_field_names[$boosted_created_date_field_name] . '),3.16e-15,1,1)';
+        $solarium_query->getEDisMax()->setBoostFunctionsMult($boost_functions);
+
+        // Avoid the conversion into a Lucene parser expression, keep edismax.
+        $solarium_query->addParam('defType', 'edismax');
+        $helper = $solarium_query->getHelper();
+
+        // If keys entered, also boost the title.
+        if (!empty($query->getKeys())) {
+          $search_terms = array_filter($query->getKeys(), function ($v, $k) {
+            return is_numeric($k);
+          }, ARRAY_FILTER_USE_BOTH);
+
+          foreach ($search_terms as $term) {
+            $solarium_query->addParam('bq', 'tm_X3b_und_title:' . $helper->escapeTerm($term) . '^15');
+          }
+        }
+      }
+    }
+
+    // Related position listings search.
+    if ($view->id() === 'related_position_listings' && !empty($view->args)) {
+
+      $nid = $view->args[0];
+      $node = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+      $solr_field_names = $query->getIndex()->getServerInstance()->getBackend()->getSolrFieldNames($query->getIndex());
+
+      /*
+       * Use Extended DisMax (eDisMax) query parser for additional features
+       * and flexibility for handling complex queries.
+       */
+      $solarium_query->addParam('defType', 'edismax');
+      $query->getParseMode()->setConjunction('OR');
+      $helper = $solarium_query->getHelper();
+
+      $bqParams = [];
+      $fqParams = [];
+
+      // Set search query (based on keywords).
+      if ($node->hasField('field_position_keywords') && !empty($node->field_position_keywords->value)) {
+        $values = explode(',', $node->field_position_keywords->value);
+        array_walk($values, function (&$v) {
+          /*
+           * Remove leading or trailing whitespace, double quotes, single
+           *  quotes.
+           */
+          $v = trim($v, " \"'");
+          // This might be a good idea in the future.
+          // $special_chars = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/'];
+          // $v = str_replace($special_chars, array_map(fn($char) => '\\' . $char, $special_chars), $v);
+        });
+        $query->keys('"' . implode('" "', $values) . '"');
+      }
+
+      // Filter by position.
+      if ($node->hasField('field_position_title_select') && isset($node->field_position_title_select->entity)) {
+        // Ensure "position title" tid matches.
+        $field_position_title_select_field_name = 'field_position_title_select';
+        if (isset($solr_field_names[$field_position_title_select_field_name]) && !empty($solr_field_names[$field_position_title_select_field_name])) {
+          //$solarium_query->addParam('fq', 'itm_field_position_title_select:' . $node->field_position_title_select->entity->id());
+          $fqParams[] = 'itm_field_position_title_select:' . $node->field_position_title_select->entity->id();
+        }
+
+        // Ensure other "position title" value matches if relevant
+        if (strcasecmp($node->field_position_title_select->entity->label(), 'Other') === 0) {
+          $field_other_position_title_field_name = 'field_other_position_title';
+          if (isset($solr_field_names[$field_other_position_title_field_name]) && !empty($solr_field_names[$field_other_position_title_field_name])) {
+            //$solarium_query->addParam('fq', 'ss_field_other_position_title:' . $node->field_other_position_title->value);
+            $fqParams[] = 'ss_field_other_position_title:' . $helper->escapePhrase($node->field_other_position_title->value);
+          }
+        }
+      }
+
+      // Boost job location field.
+      if ($node->hasField('field_position_campus') && !empty($node->field_position_campus->value)) {
+        $bqParams[] = 'sm_field_position_campus:' . $helper->escapePhrase($node->field_position_campus->value) . '^10';
+      }
+
+      // Boost appointment type field.
+      if ($node->hasField('field_appointment_type') && !empty($node->field_appointment_type->value)) {
+        $bqParams[] = 'sm_field_appointment_type:' . $helper->escapePhrase($node->field_appointment_type->value) . '^10';
+      }
+
+      // Boost work schedule field.
+      if ($node->hasField('field_work_schedule') && !empty($node->field_work_schedule->value)) {
+        $bqParams[] = 'sm_field_work_schedule:' . $helper->escapePhrase($node->field_work_schedule->value) . '^10';
+      }
+
+      // Boost citizenship field.
+      if ($node->hasField('field_citizenship') && !empty($node->field_citizenship->value)) {
+        $bqParams[] = 'ss_field_citizenship:' . $helper->escapePhrase($node->field_citizenship->value) . '^10';
+      }
+
+      if (count($bqParams) > 0) {
+        $solarium_query->addParam('bq', $bqParams);
+      }
+
+      if (count($fqParams) > 0) {
+        $solarium_query->addParam('fq', $fqParams);
+      }
+    }
+  }
+
+}
+```
+
+
+
+## Replace special characters
+
+This code uses array_map to create a new array where each special character is prefixed with a backslash (\). This effectively escapes each character. For example, `+` becomes `\+`, `*` becomes `\*`, etc.
+
+```php
+$special_chars = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/'];
+$v = str_replace($special_chars, array_map(fn($char) => '\\' . $char, $special_chars), $v);
+```
+
+If `$v` is `"Hello+World!"`, after running this code, `$v` would become `"Hello\+World\!"`.
+
 
 
 ## Resources
