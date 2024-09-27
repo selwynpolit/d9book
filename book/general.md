@@ -2163,7 +2163,7 @@ final class SolrQueryAlterEventSubscriber implements EventSubscriberInterface {
 
 ## Replace special characters
 
-This code uses array_map to create a new array where each special character is prefixed with a backslash (\). This effectively escapes each character. For example, `+` becomes `\+`, `*` becomes `\*`, etc.
+This code uses array_map to create a new array where each special character is prefixed with a backslash (`\`). This effectively escapes each character. For example, `+` becomes `\+`, `*` becomes `\*`, etc.
 
 ```php
 $special_chars = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/'];
