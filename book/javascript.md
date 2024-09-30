@@ -454,6 +454,77 @@ In the `node--map.html.twig` file at `web/themes/custom/txglobal/templates/conte
 {{ attach_library('txglobal/map') }}
 ```
 
+
+
+## Retrieve values from select fields on a form and update other fields
+
+```js
+(function ($, Drupal) {
+
+  /**
+   * Handle controlling the node add/edit for the staff profile content type.
+   * 
+   */
+  Drupal.behaviors.areasOfExpertiseImprovements = {
+    attach: function () {
+
+      // The select field for the staff profile type.
+      const typeSelect = $('.staff-profile-form #edit-field-staff-profile-type');
+
+      // The select field for the primary title.
+      const cccPrimaryTitleSelect = $('#edit-field-staff-profile-title');
+
+...
+
+      /**
+       * Handle the areas of expertise field.
+       */
+      const updateAreasOfExpertise = () => {
+        // Get the value of the primary title select field as an integer.
+        const cccPrimaryTitle = parseInt(cccPrimaryTitleSelect.val(),10);
+        // Get the value of the type select (taxonomy) field as an integer.
+        const typeSelectVal = parseInt(typeSelect.val(),10);
+
+        if (typeSelectVal === 2574) {
+          handlePI(); // Type = PI.
+        }
+        // Type = Other Staff.
+        else if (typeSelectVal === 2575) { 
+          // Array of primary title tid's that are considered valid for Other Staff.
+          const validCccPrimaryTitles = [2477, 2478, 2558, 2651];
+          if (validCccPrimaryTitles.includes(cccPrimaryTitle)) {
+            handleOtherStaffWithCccPrimaryTitle();
+          } else {
+            handleOtherStaff();
+          }
+        }
+      };
+
+...
+
+      // Update field on the initial form load.
+      updateAreasOfExpertise();
+
+      // Update field on the Staff Profile type change.
+      typeSelect.on('change', function () {
+        resetAllAreasOfExpertise(true);
+        updateAreasOfExpertise();
+      });
+
+      // Update fields on the Primary Title change.
+      cccPrimaryTitleSelect.on('change', function () {
+        updateAreasOfExpertise();
+      });
+    }
+  };
+
+})(jQuery, Drupal);
+
+
+
+```
+
+
 ---
 
 ## Resources
