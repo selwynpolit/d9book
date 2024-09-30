@@ -403,7 +403,7 @@ $sanitized_text = \Drupal\Component\Utility\Xss::filterAdmin($text);
 $sanitized_text = \Drupal\Component\Utility\Xss::filter($text);
 ```
 
-4. **Html::cleanCssIdentifier**: This function is used to sanitize a string that is meant to be used as a CSS identifier.
+4. **Html::cleanCssIdentifier**: This function is used to sanitize a string that is meant to be used as a CSS identifier. It is also useful when creating anchors.
 
 ```php
 $sanitized_text = \Drupal\Component\Utility\Html::cleanCssIdentifier($text);
