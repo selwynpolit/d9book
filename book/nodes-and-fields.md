@@ -1407,17 +1407,11 @@ if ($instructions_node) {
 
 ## Load a node and retrieve a paragraph field
 
-Because paragraphs and nodes are both entities, the pattern is the same.
-You load the entity (node or paragraph) and then simply reference the
-field name e.g. `myentity->field_blah`
+Because paragraphs and nodes are both entities, the pattern is the same. You load the entity (node or paragraph) and then simply reference the field name e.g. `myentity->field_blah`
 
-From /Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme
+From `/Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme`
 
-These are a little different from regular fields. Generally you want to
-get their target_id which will tell you the pid or paragraph id.
-Here are two different ways to load a video_collection_node and go to
-retrieve a field `field_related_lessons` which holds paragraphs of type
-`related_lessons`
+These are a little different from regular fields. Generally you want to get their `target_id` which will tell you the `pid` or paragraph id. Here are two different ways to load a `video_collection_node` and go to retrieve a field `field_related_lessons` which holds paragraphs of type `related_lessons`:
 
 ```php
 $video_collection_node = Node::load($video_collection_nid);
@@ -1430,43 +1424,35 @@ $lessons = $video_collection_node->get('field_related_lessons');
 foreach ($lessons as $lesson) {
   $paragraph_revision_ids[] = $lesson->target_revision_id;
 }
+```
 
-Paragraphs use the contributed Entity Reference Revisions module to reference
-paragraphs and it is very important to use the `target_revision_id` property
-when referencing paragraphs. Alternatively, the `entity` computed property can
-be used to retrieve the paragraph entity itself.
+Paragraphs use the contributed [Entity Reference Revisions module](https://www.drupal.org/project/entity_reference_revisions) to reference paragraphs and it is very important to use the `target_revision_id` property when referencing paragraphs. Alternatively, the `entity` computed property can be used to retrieve the paragraph entity itself.
 
 OR
 
+```php
 //This gives you an array of arrays [['target_id' => '348','target_revision_id' => '348'],['target_id' => '349','target_revision_id' => '349'] ]
 $lessons = $video_collection_node->get('field_related_lessons')->getValue();
 foreach ($lessons as $lesson) {
   $paragraph_revision_ids[] = $lesson['target_revision_id'];
 }
+```
 
-Collecting them like this is only an example, while the `loadMultiple` method
-exists on entity storage objects, there is no `loadMultipleRevisions` method.
+Collecting them like this is only an example, while the `loadMultiple` method exists on entity storage objects, there is no `loadMultipleRevisions` method.
 
-EH!
-
+```php
 // This gives you null! - don't do this.
 $lessons = $video_collection_node->get('field_related_lessons')->value;
 ```
 
-Note. `getValue()` here will get you the nid buried in a result array of
-arrays like `result[0]['target_revision_id']` - quicker to just grab
-`->target_revision_id`
-
-```
+:::tip Note
+Note. `getValue()` here will get you the nid buried in a result array of arrays like `result[0]['target_revision_id']` - quicker to just grab `->target_revision_id`
+:::
 
 ## Load a node and grab a paragraph field to find the nid in an entity reference field
 
 From
-/Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme -
-Continuing from above, I load a node, grab it's field
-`field_related_lessons` which holds paragraphs of type `related_lessons`
-and grab it's field `field_lesson.` That field has a target_id which is
-the nid for the entity reference field. Phew! 
+`/Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme` - Continuing from above, I load a node, grab it's field `field_related_lessons` which holds paragraphs of type `related_lessons` and grab it's field `field_lesson.` That field has a target_id which is the nid for the entity reference field. Phew!:
 
 ```php
 //Grab the related lessons from the collection.
@@ -1485,10 +1471,62 @@ $variables['related_lessons_pids'] = $pids;
 $variables['related_lessons_nids'] = $related_lessons_nids;
 ```
 
+
+## Loop through the paragraphs in a node
+This code is from a `hook_preprocess_node` function in a `.theme` file. It loads a node and then loops through the paragraphs in a field `field_related_lessons` and then grabs the title of the paragraph.
+
+```php
+<?php
+
+use Drupal\Core\Render\Element;
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function abc_preprocess_node(&$variables) {
+
+  /** @var \Drupal\node\Entity\Node $node */
+  $node = $variables['node'];
+  $bundle = $node->bundle();
+  $view_mode = $variables['view_mode'];
+
+  // Check the there is a field_content field.
+  if (isset($variables['content']['field_content'])) {
+    $content_tabs = [];
+    // Loop through each instance of the field_content field.
+    foreach (Element::children($variables['content']['field_content']) as $idx) {
+      /** @var \Drupal\Core\Entity\EntityInterface $entity */
+      // Grab each paragraph.
+      $entity = $variables['content']['field_content'][$idx]['#paragraph'];
+
+      // Get the paragraph's human readable type (not machine name).
+      $bundle_label = \Drupal::entityTypeManager()
+        ->getStorage($entity->getEntityType()->getBundleEntityType())
+        ->load($entity->bundle())
+        ->label();
+
+      // For staff_profile content, strip off the "Staff Profile" prefix.
+      if ($bundle === 'staff_profile') {
+        // This makes "Staff Profile Staff Resources" into "Resources".
+        $bundle_label = preg_replace('#^(Staff Profile )#i', '', $bundle_label);
+
+        $variables['offset'] = 0;
+        // Check if there is a title term on the node.
+        if (($title_term = $node->get('field_staff_profile_title')->entity) !== NULL) {
+          // If the title term has a field_global field and it is set to 1, offset the first tab.
+          if ($title_term->hasField('field_global') && $title_term->get('field_global')->getString() == '1') {
+            $variables['offset'] = 1;
+          }
+        }
+      }
+      ...
+
+```
+
+
 ## How to get Node URL alias or Taxonomy Alias by Node id or Term ID
 
-Drupal 8 uses `Url` objects to easily generate and manipulate paths. The
-easiest way is to load the entity and convert it to a URL object:
+Drupal uses `Url` objects to easily generate and manipulate paths. The easiest way is to load the entity and convert it to a URL object:
 
 ```php
 $node = Node::load(1234)
