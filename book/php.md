@@ -264,7 +264,7 @@ The `?->` signs after each call. If any of the calls in the chain return null, t
 
 [PHP Nullsafe Operator](https://wiki.php.net/rfc/nullsafe_operator)
 
-## Some Regex examples
+## Regex examples
 
 
 ```php
@@ -288,6 +288,52 @@ if (preg_match($start_pattern, $entity->bundle())) {
 }
 ```
 
+Return early pattern
+
+I am a fan of the [return early pattern](https://medium.com/swlh/return-early-pattern-3d18a41bba8).  Return early is the way of writing functions or methods so that the expected positive result is returned at the end of the function and the rest of the code terminates early by returning or throwing an exception if there are any errors.  I've also seen this called the "happy path" pattern.
+
+
+Doesn't this code make you feel good?  It is from the medium article linked above.  
+
+```php
+public String returnStuff(SomeObject argument1, SomeObject argument2){
+      if (!argument1.isValid()) {
+            throw new Exception();
+      }
+
+      if (!argument2.isValid()) {
+            throw new Exception();
+      }
+
+      SomeObject otherVal1 = doSomeStuff(argument1, argument2);
+
+      if (!otherVal1.isValid()) {
+            throw new Exception();
+      }
+
+      SomeObject otherVal2 = doAnotherStuff(otherVal1);
+
+      if (!otherVal2.isValid()) {
+            throw new Exception();
+      }
+
+      return "Stuff";
+}
+```
+
+While you are contemplating this, consider these anti-patterns: [Else is considered smelly](https://wiki.c2.com/?ElseConsideredSmelly=) and [Arrow Anti-Pattern](https://wiki.c2.com/?ArrowAntiPattern) where code becomes shaped like an arrow because of nested conditions and loops like:
+
+```
+ if
+   if
+     if
+       if
+         do something
+       endif
+     endif
+   endif
+ endif
+```
 
 ## Reference
 
