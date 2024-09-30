@@ -264,6 +264,29 @@ The `?->` signs after each call. If any of the calls in the chain return null, t
 
 [PHP Nullsafe Operator](https://wiki.php.net/rfc/nullsafe_operator)
 
+## Some Regex examples
+
+
+```php
+// Remove Lab and a space from the beginning of a string.
+$bundle_label = preg_replace('#^(Lab )#i', '', $bundle_label);
+```
+
+```php
+// Remove Team Content regardless of case from the beginning of a string.
+// #i is the case-insensitive flag.
+$bundle_label = preg_replace('#^(Team Content)#i', 'Team', $bundle_label);
+```
+
+```php
+// Create human friendly ids for the top level paragraphs for the tabs
+// Match strings that start with "lab_", "office_", or "staff_profile_"
+$start_pattern = '/^(lab|office|staff_profile)_/';
+if (preg_match($start_pattern, $entity->bundle())) {
+  // Remove the matched prefix.
+  $id = preg_replace($start_pattern, '', $id);
+}
+```
 
 
 ## Reference
