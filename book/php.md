@@ -288,6 +288,17 @@ if (preg_match($start_pattern, $entity->bundle())) {
 }
 ```
 
+
+```php
+// Remove the suffix _tab from the bundle name.
+// e.g. if the bundle is "lab_tab" it will be changed to "lab"
+$end_pattern = '/_(tab)$/';
+if (preg_match($end_pattern, $entity->bundle())) {
+  $id = preg_replace($end_pattern, '', $id);
+}
+```
+
+
 Return early pattern
 
 I am a fan of the [return early pattern](https://medium.com/swlh/return-early-pattern-3d18a41bba8).  Return early is the way of writing functions or methods so that the expected positive result is returned at the end of the function and the rest of the code terminates early by returning or throwing an exception if there are any errors.  I've also seen this called the "happy path" pattern.
@@ -334,6 +345,21 @@ While you are contemplating this, consider these anti-patterns: [Else is conside
    endif
  endif
 ```
+
+
+## Replace special characters
+
+This code uses array_map to create a new array where each special character is prefixed with a backslash (`\`). This effectively escapes each character. For example, `+` becomes `\+`, `*` becomes `\*`, etc.
+
+```php
+$special_chars = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/'];
+$v = str_replace($special_chars, array_map(fn($char) => '\\' . $char, $special_chars), $v);
+```
+
+If `$v` is `"Hello+World!"`, after running this code, `$v` would become `"Hello\+World\!"`.
+
+
+
 
 ## Reference
 

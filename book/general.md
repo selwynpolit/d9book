@@ -2211,16 +2211,6 @@ function abc_search_search_api_solr_documents_alter(array &$documents, \Drupal\s
 ```
 
 
-## Replace special characters
-
-This code uses array_map to create a new array where each special character is prefixed with a backslash (`\`). This effectively escapes each character. For example, `+` becomes `\+`, `*` becomes `\*`, etc.
-
-```php
-$special_chars = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/'];
-$v = str_replace($special_chars, array_map(fn($char) => '\\' . $char, $special_chars), $v);
-```
-
-If `$v` is `"Hello+World!"`, after running this code, `$v` would become `"Hello\+World\!"`.
 
 
 
