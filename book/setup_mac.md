@@ -121,6 +121,8 @@ echo 'export PATH="/opt/homebrew/opt/php@8.1/bin:$PATH"' >> ~/.zshrc
 echo 'export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"' >> ~/.zshrc
 ```
 
+After updating, be sure to run `source ~/.zshrc` or you will have to close the terminal and reopen it.
+
 ::: tip Note
 Most recently Drupal requires PHP 8.2 so you might want to install that instead. 
 :::
@@ -269,6 +271,7 @@ Edit your `.zshrc` to make sure in your `~/.zshrc` you have the zsh-autosuggesti
 plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
 ```
 
+After updating, be sure to run `source ~/.zshrc` or you will have to close the terminal and reopen it.
 
 #### ZSH syntax highlighting
 
@@ -479,6 +482,8 @@ Add the following to the end of your `~/.zshrc` file:
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 ```
 
+After updating, be sure to run `source ~/.zshrc` or you will have to close the terminal and reopen it.
+
 To test if it installed correctly, use:
 
 ```sh
@@ -552,7 +557,8 @@ Then add it to your path with by adding the following to the end of your `~/.zsh
 export PATH="$HOME/bin:$PATH"
 ```
 
-:::
+After updating, be sure to run `source ~/.zshrc` or you will have to close the terminal and reopen it.
+
 
 ### jq
 
@@ -595,7 +601,7 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 ```
 
 ::: tip Note
-Test any of these path changes by running `source ~/.zshrc` to reload the environment variables. You can also open a new iterm window if you prefer.
+Test any of these path changes by running `source ~/.zshrc` to reload the environment variables. You can also close the iterm window and open a new one if you prefer.
 :::
 
 By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands e.g.
