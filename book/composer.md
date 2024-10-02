@@ -868,6 +868,22 @@ For more:
 - [getcomposer.org](https://getcomposer.org/doc/04-schema.md#minimum-stability)
 
 
+
+## Composer bump
+
+Composer 2.4 adds a new command called bump, that updates the requirements listed in the `composer.json` file with the currently installed version numbers. When the version numbers are bumped in the `composer.json` file, it effectively prevents Composer from installing a lower version of the required packages.  This can be useful when you have multiple people on a team who are updating composer and have to deal with version conflicts of the composer.lock file. See [php.watch article](https://php.watch/articles/composer-bump): 
+
+To use the bump command with ddev, just run:
+
+```sh
+ddev composer bump
+./composer.json has been updated (46 changes).
+```
+
+
+
+
+
 ## Troubleshooting
 
 ### Composer won\'t update Drupal core
