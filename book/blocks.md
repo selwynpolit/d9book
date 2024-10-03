@@ -18,138 +18,53 @@ Blocks are [plugins](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-a
 
 ## Create a block with Drush generate
 
-Use Drush's code generation ability to quickly generate the code you need to create your own custom block.
-
-First generate a module if you don't have one. Here we generate a module called Block Module with a machine name: block_module.
+Use Drush's code generation ability to quickly generate the code you need to create your own custom block. First generate a module with `drush generate module` if you don't have one. Here we generate a block for use in the `crap` module:
 
 ```sh
-drush generate module
+drush generate plugin:block
 
- Welcome to module generator!
-––––––––––––––––––––––––––––––
+ Welcome to block generator!
+–––––––––––––––––––––––––––––
 
- Module name:
- ➤ Block Module
+ Module machine name:
+ ➤ crap
 
- Module machine name [block_module]:
+ Block admin label:
+ ➤ Fax block
+
+ Plugin ID [crap_fax_block]:
+ ➤ fax_block
+
+ Plugin class [FaxBlockBlock]:
+ ➤ FaxBlock
+
+ Block category [Custom]:
  ➤
 
- Module description:
- ➤ Custom module to explore Drupal blocks
-
- Package [Custom]:
- ➤
-
- Dependencies (comma separated):
- ➤
-
- Would you like to create module file? [No]:
+ Make the block configurable? [No]:
  ➤ y
 
- Would you like to create install file? [No]:
+ Would you like to inject dependencies? [No]:
+ ➤ y
+
+ Type the service name or use arrows up/down. Press enter to continue:
+ ➤ RequestStack
+ The value is not correct service name.
+
+ Type the service name or use arrows up/down. Press enter to continue:
+ ➤ request_stack
+
+ Type the service name or use arrows up/down. Press enter to continue:
  ➤
 
- Would you like to create README.md file? [No]:
- ➤
+ Create access callback? [No]:
+ ➤ y
 
  The following directories and files have been created or updated:
 –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-• /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.info.yml
-• /Users/selwyn/Sites/ddev93/web/modules/custom/block_module/block_module.module
+ • /Users/spolit/Sites/ddev102/web/modules/custom/crap/config/schema/crap.schema.yml
+ • /Users/spolit/Sites/ddev102/web/modules/custom/crap/src/Plugin/Block/FaxBlock.php```
 ```
-
-Use `drush generate` to create the code for a block. Specify the module name (e.g. block_module) so Drush knows where to put the block code. We also must give the block an admin label, plugin ID, and class.
-
-```sh
-drush generate block
-
-Welcome to block generator!
-----------------------------------------------------------
-
-Module machine name [web]:
-➤ block_module
-
-Block admin label [Example]:
-➤ Block Module Example
-
-Plugin ID [block_module_block_module_example]:
-➤
-
-Plugin class [BlockModuleExampleBlock]:
-➤
-
-Block category [Custom]:
-➤
-
-Make the block configurable? [No]:
-➤
-
-Would you like to inject dependencies? [No]:
-➤
-
-Create access callback? \[No\]:
-➤
-
-The following directories and files have been created or updated:
-
-----------------------------------------------------------
-• /Users/selwyn/Sites/ddev93/web/modules/block_module/src/Plugin/Block/BlockModuleExampleBlock.php
-```
-
-This generates a file at `web/modules/custom/block_module/src/Plugin/Block/BlockModuleExampleBlock.php` that looks like this:
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace Drupal\block_module\Plugin\Block;
-
-use Drupal\Core\Block\BlockBase;
-
-/**
- * Provides a block module example block.
- *
- * @Block(
- *   id = "block_module_block_module_example",
- *   admin_label = @Translation("Block Module Example"),
- *   category = @Translation("Custom")
- * )
- */
-final class BlockModuleExampleBlock extends BlockBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    $build['content'] = [
-      '#markup' => $this->t('It works!'),
-    ];
-    return $build;
-  }
-
-}
-```
-
-* Enable the module with: `ddev drush en block_module`
-* Clear the cache with:`ddev drush cr`
-* In Drupal, navigate to `/admin/structure/block` and place the block (`block module example`) in the content area. See the diagram below on how to place the block in the content area.
-
-![place block 2](/images/image2.png)
-
-![place block 3](/images/image3.png)
-
-You may have to clear the Drupal cache again to get the new block to show up in the list. After clicking `Place block,` a `Configure block` screen appears. You can safely just click `Save block.`
-
-![place block 4](/images/image4.png)
-
-Navigate back to the home page of the site and you'll see your block appearing. Screenshot below:
-
-![place block 5](/images/image5.png)
-
-You can safely remove the block via the block layout page, choose "remove" from the dropdown next to your "Block Module Example"
-
-![Remove block](/images/image6.png)
 
 
 
@@ -702,7 +617,7 @@ To make your block configurable, override 3 methods from BlockBase.
 
 2.  blockForm - creates the configuration form.
 
-3.  blockSubmit - store the configuration form values.
+3.  blockSubmit - to store the configuration form values.
 
 In this example, `defaultConfiguration()` returns a block_count of 5.
 
@@ -939,7 +854,7 @@ This causes the block to be available only on various node pages (view, edit etc
 
 The order of named options passed to `@ContextDefinition` after the first argument does not matter.
 
-Then in the block we check to make sure the user is viewing a node and that the user has `view rsvplist` permission.  See the code below:
+In the block we can check to make sure the user is viewing a node and that the user has `view rsvplist` permission.  See the code below:
 
 ```php
   protected function blockAccess(AccountInterface $account) {
@@ -1259,13 +1174,149 @@ public function build() {
 }
 ```
 
+### Example block with dependency injection, configuration and form validation
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\crap\Plugin\Block;
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+
+/**
+ * Provides a fax block block.
+ *
+ * @Block(
+ *   id = "fax_block",
+ *   admin_label = @Translation("Fax block"),
+ *   category = @Translation("Custom"),
+ * )
+ */
+final class FaxBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * Constructs the plugin instance.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    private readonly RequestStack $requestStack,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): self {
+    return new self(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('request_stack'),
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration(): array {
+    return [
+      'example' => $this->t('Hello world!'),
+      'fax_number' => '555-555-5555',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state): array {
+    $form['example'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Example'),
+      '#default_value' => $this->configuration['example'],
+    ];
+    $form['fax_number'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Fax Number'),
+      '#default_value' => $this->configuration['fax_number'] ?? '',
+      '#description' => $this->t('Enter a valid fax number.'),
+    ];
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state): void {
+    $this->configuration['example'] = $form_state->getValue('example');
+    $this->configuration['fax_number'] = $form_state->getValue('fax_number');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build(): array {
+    $config = $this->getConfiguration();
+    $fax_number = isset($config['fax_number']) ? $config['fax_number'] : '';
+    $build['content'] = [
+      '#markup' => $this->t('It works! Example is: @example', ['@example' => $config['example']]),
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
+    ];
+    $build['fax'] = [
+      '#markup' => $this->t('The fax number is @number!', ['@number' => $fax_number]),
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
+    ];
+    $request = $this->requestStack->getCurrentRequest();
+    $uri = $request->getUri();
+    $build['uri'] = [
+      '#markup' => $this->t('The URI is @uri!', ['@uri' => $uri]),
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
+    ];
+
+    return $build;
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function blockAccess(AccountInterface $account): AccessResult {
+    // @todo Evaluate the access condition here.
+    return AccessResult::allowedIf(TRUE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state): void {
+    $fax_number = $form_state->getValue('fax_number');
+    if (!preg_match('/^\d{3}-\d{3}-\d{4}$/', $fax_number)) {
+      $form_state->setErrorByName('fax_number', $this->t('The fax number is not valid.'));
+    }
+  }
+
+}
+```
 
 
 ## Resources
 
-- [Drupal blocks in the user interface on Drupal.org updated Feb 2023](https://www.drupal.org/docs/user_guide/en/block-concept.html)
-- [Block API overview on Drupal.org updated April 2023](https://www.drupal.org/docs/drupal-apis/block-api/block-api-overview)
+- [Drupal blocks in the user interface on Drupal.org updated Aug 2024](https://www.drupal.org/docs/user_guide/en/block-concept.html)
+- [Block API overview on Drupal.org updated July 2024](https://www.drupal.org/docs/drupal-apis/block-api/block-api-overview)
 - [Plugin API overview on Drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview)
-- [Drupal Blocks API](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/group/block_api/10)
+- [Blocks API on Drupal.org](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/group/block_api/10)
 - [Programatically creating a block in Drupal 9 - Dec 2021](https://www.specbee.com/blogs/programmatically-creating-block-in-drupal-9)
 - [How to Create a Custom Block in Drupal 8/9/10 Oct 2022](https://www.agiledrop.com/blog/how-create-custom-block-drupal-8-9-10)
