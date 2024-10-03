@@ -613,11 +613,13 @@ Making a block configurable means it has a form where you can specify its settin
 
 To make your block configurable, override 3 methods from BlockBase.
 
-1.  defaultConfiguration - returns the default configuration for the block.
+1.  `defaultConfiguration()` - returns the default configuration for the block.
 
-2.  blockForm - creates the configuration form.
+2.  `blockForm()` - creates the configuration form.
 
-3.  blockSubmit - to store the configuration form values.
+3.  `blockSubmit()` - to store the configuration form values.
+
+You can also add a `blockValidate()` method to validate the form. There is an example of this near the [end of this chapter](#example-block-with-dependency-injection-configuration-and-form-validation).
 
 In this example, `defaultConfiguration()` returns a block_count of 5.
 
