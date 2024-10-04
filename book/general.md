@@ -2161,6 +2161,11 @@ final class SolrQueryAlterEventSubscriber implements EventSubscriberInterface {
 }
 ```
 
+::: tip Note
+There is a useful helper class provided by the [Solarium package](https://packagist.org/packages/solarium/solarium) that can be used to escape terms and phrases.  This is used in the code above.  You access it via `$helper = $solarium_query->getHelper();` and then you can use `$helper->escapeTerm($term)` or `$helper->escapePhrase($phrase)`.  Other functions include: `escapeXMLCharacterData()`, `filterControlCharacters()` and `escapeLocalParamValue()`.  These all have some nice regex patterns you can use in your code.
+:::
+
+
 ## Enhance the relevance of SOLR search results
 This function customizes the Solr documents by adding a boosted created date field for specific content types before they are indexed.
 
