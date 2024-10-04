@@ -26,6 +26,15 @@ $accepted_votes = $feedback_error_node->get('field_accepted_votes')->value;
 // Returns 0 if no value was entered into the field.
 ```
 
+## Retrieve a text field value of comma separated values into an array
+
+If you have a text field with comma separated values such as `apple`, `pear`, `banana`, you can retrieve them into an array directly like this:
+
+```php
+ $values_array  = explode(',', $node->field_position_keywords->value);
+ ```
+
+
 ## Retrieve a list field value
 
 With a list field called `field_tks_audience` with the following values:
