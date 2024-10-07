@@ -1366,6 +1366,29 @@ This approach allows us to fine-tune the cache behavior of this highly trafficke
 This is an example of balancing a custom site feature whose initial specification was cache-resistant, but with careful use of the available technology, we can provide most of the same benefits with a dramatic improvement in scalability and performance.
 
 
+## Using deployment identifiers to streamline deployments and not require cache clears
+
+To avoid a complete cache rebuild on every deployment, you can use a deployment identifier to tag cache items. This way, you can invalidate only the cache items that are affected by the deployment. This is especially useful for deployments that don't affect the cache, such as deployments that only change configuration or content.  If you need to make a change to your `services.yml` file, you can update the deployment identifier in  to invalidate only the cache items that are affected by the change.
+
+Look in `settings.php` for the following to specify the deployment identifier:
+
+```php
+/**
+ * Deployment identifier.
+ *
+ * Drupal's dependency injection container will be automatically invalidated and
+ * rebuilt when the Drupal core version changes. When updating contributed or
+ * custom code that changes the container, changing this identifier will also
+ * allow the container to be invalidated as soon as code is deployed.
+ */
+# $settings['deployment_identifier'] = \Drupal::VERSION;
+```
+
+Check out Matt Glaman's video [What is the deployment identifier in Drupal? - June 2021](https://mglaman.dev/blog/what-deployment-identifier-drupal) for more details.
+
+
+
+
 ## The Basics
 
 ### Internal page cache vs Dynamic page cache
