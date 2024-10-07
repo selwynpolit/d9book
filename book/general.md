@@ -2215,6 +2215,18 @@ function abc_search_search_api_solr_documents_alter(array &$documents, \Drupal\s
 }
 ```
 
+## Attach a library to all forms
+
+Use `hook_form_alter()` to attach a custom library to all forms. This is useful when you want to include custom JavaScript or CSS files on all forms. In this example, the `abc_search` library is attached to all forms.
+
+```php
+/**
+ * Implements hook_form_alter().
+ */
+function abc_search_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Attach the custom library to all forms.
+  $form['#attached']['library'][] = 'abc_search/abc_search';
+```
 
 
 
