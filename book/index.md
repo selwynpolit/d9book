@@ -139,6 +139,11 @@ features:
     details: Logging and notification
     link: /logging
 
+  - icon: 💻
+    title: Mac Setup
+    details: Setup your mac for Drupal development
+    link: /setup_mac
+
   - icon: 🍽️
     title: Menus
     details: Grappling with the Drupal menu system
@@ -168,6 +173,12 @@ features:
     title: Paragraphs
     details: Extending Drupal content types with Paragraphs
     link: /paragraphs
+
+- icon: 🐘
+    title: PHP
+    details: Tips and tricks using PHP
+    link: /php
+
 
   - icon: 🧱
     title: Plugins
@@ -203,16 +214,6 @@ features:
     title: Services and Dependency injection
     details: The new modern way to write code, creating services and using D.I. in controllers, drush commands
     link: /services
-
-  - icon: 💻
-    title: Mac Setup
-    details: Setup your mac for Drupal development
-    link: /setup_mac
-
-  - icon: 🐘
-    title: PHP
-    details: Tips and tricks using PHP
-    link: /php
 
   - icon: 💡
     title: State
