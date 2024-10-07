@@ -164,6 +164,11 @@ features:
     details: Loading and saving nodes and different types of fields, multivalue field magic, link fields, entity reference fields, url fields, storing JSON data into text fields, paragraphs, great cheat sheets
     link: /nodes-and-fields
 
+  - icon: 📚
+    title: Paragraphs
+    details: Extending Drupal content types with Paragraphs
+    link: /paragraphs
+
   - icon: 🧱
     title: Plugins
     details: Extending Drupal with the building blocks of the plugin system
