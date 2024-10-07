@@ -1368,7 +1368,7 @@ This is an example of balancing a custom site feature whose initial specificatio
 
 ## Using deployment identifiers to streamline deployments and not require cache clears
 
-To avoid a complete cache rebuild on every deployment, you can use a deployment identifier to tag cache items. This way, you can invalidate only the cache items that are affected by the deployment. This is especially useful for deployments that don't affect the cache, such as deployments that only change configuration or content.  If you need to make a change to your `services.yml` file, you can update the deployment identifier in  to invalidate only the cache items that are affected by the change.
+To avoid a complete cache rebuild on every deployment, you can use a deployment identifier to tag cache items. This way, you can invalidate only the cache items that are affected by the deployment. This is especially useful for deployments that don't affect the cache, such as deployments that only change configuration or content.  If you need to make a change to your `services.yml` file, you can update the deployment identifier in `settings.php` and invalidate only the cache items or rebuild the service containers that are affected by the change.
 
 Look in `settings.php` for the following to specify the deployment identifier:
 
