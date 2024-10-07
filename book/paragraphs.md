@@ -290,6 +290,10 @@ function abc_preprocess_node(&$variables) {
 
 Here we want to perform validation when a node is added or edited so we use `hook_form_alter` to add a validation function to the form. In this case, we are adding a validation function to a node form with the id `node_staff_profile_form` and `node_staff_profile_edit_form`. We add a class to the form so we can target it with CSS and then add a validation function `_ccr_admin_enhancements_area_of_expertise_validate` to the form.
 
+::: tip Note
+The validate function fires at various times including when a paragraph is added, removed or closed. We check for these conditions and then perform our validations.
+:::
+
 
 
 In `abc_admin_enhancements.module`:

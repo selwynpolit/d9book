@@ -171,7 +171,7 @@ features:
 
   - icon: 📚
     title: Paragraphs
-    details: Extending Drupal content types with Paragraphs
+    details: Extending Drupal content types with Paragraphs by creating flexible and reusable content components.
     link: /paragraphs
 
 - icon: 🐘
