@@ -174,11 +174,10 @@ features:
     details: Extending Drupal content types with Paragraphs by creating flexible and reusable content components.
     link: /paragraphs
 
-- icon: 🐘
+- icon: 🖍️
     title: PHP
     details: Tips and tricks using PHP
     link: /php
-
 
   - icon: 🧱
     title: Plugins
