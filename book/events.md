@@ -688,6 +688,6 @@ class EntityAutocompleteMatcher extends \Drupal\Core\Entity\EntityAutocompleteMa
 
 ## Resources
 
-- [Subscribe to and dispatch events on Drupal.org](https://www.drupal.org/docs/develop/creating-modules/subscribe-to-and-dispatch-events)
+- [Subscribe to and dispatch events on Drupal.org updated Nov 2023](https://www.drupal.org/docs/develop/creating-modules/subscribe-to-and-dispatch-events)
 - [Overview of event dispatch and subscribing in the Drupal API](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
 
