@@ -1011,6 +1011,76 @@ From
 {% endif %}
 ```
 
+
+## Adding Regions to a Theme
+
+All regions are declared in the `mytheme.info.yml` file. The keys match the machine name and the values match the label for each available region.
+
+For example:
+```yaml
+regions:
+  header: Header
+  content: Content
+  sidebar_left: 'Sidebar - Left'
+  sidebar_right: 'Sidebar - Right'
+  footer: Footer
+```
+
+Then each region can be referenced in the `page.html.twig` template file:
+
+```twig
+<div class="container">
+
+  {% if page.header %}
+    <div class="row">
+      <div class="header col-xs-12">
+        {{ page.header }}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="row">
+
+    {% if page.sidebar_left %}
+      <div class="sidebar-left col-xs-2">
+        {{ page.sidebar_left }}
+      </div>
+    {% endif %}
+
+    {% if page.sidebar_left and page.sidebar_right %}
+      <div class="content col-xs-8">
+        {{ page.content }}
+      </div>
+    {% elseif page.sidebar_left or page.sidebar_right %}
+      <div class="content col-xs-10">
+        {{ page.content }}
+      </div>
+    {% else %}
+      <div class="content col-xs-12">
+        {{ page.content }}
+      </div>
+    {% endif %}
+
+    {% if page.sidebar_right %}
+      <div class="sidebar-right col-xs-2">
+        {{ page.sidebar_right }}
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% if page.footer %}
+    <div class="row">
+      <div class="footer col-xs-12">
+        {{ page.footer }}
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+```
+
+
 ## Add Javascript into a twig template
 
 ```twig
