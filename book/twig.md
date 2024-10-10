@@ -14,12 +14,11 @@ Drupal 10 uses **Twig 3**. Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
 Drupal\'s theme system allows a theme to have nearly complete control
 over the appearance of the site, which includes both the markup and the
 CSS used to style the markup. For this system to work, instead of
-writing HTML markup directly, modules return `render arrays`, which
+writing HTML markup directly, modules return render arrays, which
 are structured hierarchical arrays that include the data to be rendered
 into HTML, and options that affect the markup. Render arrays are
 ultimately rendered into HTML or other output formats by recursive calls
-to [\\Drupal\\Core\\Render\\RendererInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10)(),
-traversing the depth of the render array hierarchy. At each level, the
+to [\\Drupal\\Core\\Render\\RendererInterface::render](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10)(), traversing the depth of the render array hierarchy. At each level, the
 theme system is invoked to do the actual rendering. See the Drupal API documentation
 for [\\Drupal\\Core\\Render\\RendererInterface::render()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21RendererInterface.php/function/RendererInterface%3A%3Arender/10) and the [Drupal API Theme system overview](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10) for
 more information about render arrays and rendering.
@@ -28,7 +27,7 @@ more information about render arrays and rendering.
 
 Drupal uses the Twig templating engine. Twig offers developers a fast,secure, and flexible method for building templates for Drupal sites. Twig does not require front-end developers to know PHP to build and manipulate Drupal themes.
 
-For more info on theming Drupal, read [Theming Drupal on drupal.org](https://www.drupal.org/docs/theming-drupal) and the [Twig documentation](https://twig.symfony.com/doc/3.x)
+For more info on theming Drupal, read [Theming Drupal on Drupal.org](https://www.drupal.org/docs/theming-drupal) and the [Twig documentation](https://twig.symfony.com/doc/3.x)
 
 :::tip Note
 Drupal 10 uses **Twig 3**, Drupal 9 uses [Twig 2](https://twig.symfony.com/doc/2.x%20/) and Drupal 8 used Twig 1.
@@ -1033,6 +1032,13 @@ From
 ```
 
 ## Control/Logic
+
+### Setting Variables
+
+```twig
+{% set x = 123 %}
+{% set name = 'Name: !name'|t('!name', list.name) %}
+```
 
 ### Concatenate values into a string with join
 
