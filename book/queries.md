@@ -11,7 +11,7 @@ For most work, I use entityQueries. There are a few circumstances where I've nee
 
 ### Find matching nodes entityQuery
 
-In this EntityQuery example we search for nodes of content type (bundle) ws_product and match field_product_sku with the \$sku variable.
+In this `entityQuery` example we search for nodes of content type (or bundle) `ws_product` and match `field_product_sku` with the `$sku` variable.
 
 use Drupal\node\Entity\Node;
 
@@ -35,7 +35,7 @@ function getProductId($sku) {
 
 ### Find matching nodes entityQuery
 
-In this entityQuery we search for published nodes of type contract with field_contract_status having the value "Active". This puts the resulting nids and node titles in a render array for display.
+In this `entityQuery` we search for published nodes of type `contract` with `field_contract_status` having the value `"Active"`. This puts the resulting nids and node titles in a render array for display.
 
 This is a simple query which outputs a bunch of nids and titles
 
