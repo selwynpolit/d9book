@@ -1148,6 +1148,86 @@ The queries.txt file will automatically be deleted when the container is restart
 Thanks to [Dries Buytart\'s Effortless inspecting of Drupal database queries article for this useful tip.](https://dri.es/effortless-inspecting-of-drupal-database-queries)
 
 
+## Accessing a custom table
+
+From the [XMLSitemap module](https://www.drupal.org/project/xmlsitemap) 
+
+This example from `web/modules/contrib/xmlsitemap/src/XmlSitemapLinkStorage.php` accesses the `xmlsitemap` table and runs a quick query to see if the status or access fields are being changed. If they are, it sets a flag to regenerate the sitemap. The `addExpression('1')` method is used to simplify the query, and the `range(0, 1)` method is used to limit the query to the first row.  This code could definitely have been written more clearly but it does show how to run a query on a table.
+
+```php
+  public function checkChangedLinks(array $conditions = [], array $updates = [], $flag = FALSE) {
+    // If we are changing status or access, check for negative current values.
+    $conditions['status'] = (!empty($updates['status']) && empty($conditions['status'])) ? 0 : 1;
+    $conditions['access'] = (!empty($updates['access']) && empty($conditions['access'])) ? 0 : 1;
+
+    $query = $this->connection->select('xmlsitemap');
+    $query->addExpression('1');
+    foreach ($conditions as $field => $value) {
+      $operator = is_array($value) ? 'IN' : '=';
+      $query->condition($field, $value, $operator);
+    }
+    $query->range(0, 1);
+    $changed = $query->execute()->fetchField();
+
+    if ($changed && $flag) {
+      $this->state->set('xmlsitemap_regenerate_needed', TRUE);
+    }
+
+    return $changed;
+  }
+```
+
+[Link to this function's source code](https://git.drupalcode.org/project/xmlsitemap/-/blob/8.x-1.x/src/XmlSitemapLinkStorage.php?ref_type=heads#L283)
+
+
+This code snippet from `web/modules/contrib/xmlsitemap/src/XmlSitemapLinkStorage.php` shows a query that uses `queryRange()`:
+
+```php
+  /**
+   * {@inheritdoc}
+   */
+  public function checkChangedLink(array $link, array $original_link = NULL, $flag = FALSE) {
+    $changed = FALSE;
+
+    if ($original_link === NULL) {
+      // Load only the fields necessary for data to be changed in the sitemap.
+      $original_link = $this->connection->queryRange("SELECT loc, access, status, lastmod, priority, changefreq, changecount, language FROM {xmlsitemap} WHERE type = :type AND id = :id", 0, 1, [':type' => $link['type'], ':id' => $link['id']])->fetchAssoc();
+    }
+    ...
+
+```
+[Link to this function's source](https://git.drupalcode.org/project/xmlsitemap/-/blob/8.x-1.x/src/XmlSitemapLinkStorage.php?ref_type=heads#L262)
+
+
+
+The following snippet shows an example of using the `merge` command.  This will add or update an existing link into the `xmlsitemap` table. In the `web/modules/contrib/xmlsitemap/src/XmlSitemapLinkStorage.php` file, the following code is used to write to the `xmlsitemap` table. Browse the [source code here](https://git.drupalcode.org/project/xmlsitemap/-/blob/8.x-1.x/src/XmlSitemapLinkStorage.php?ref_type=heads#L212).
+
+```php
+    $queryStatus = $this->connection->merge('xmlsitemap')
+      ->keys([
+        'type' => $link['type'],
+        'id' => $link['id'],
+        'language' => $link['language'],
+      ])
+      ->fields([
+        'loc' => $link['loc'],
+        'subtype' => $link['subtype'],
+        'access' => (int) $link['access'],
+        'status' => (int) $link['status'],
+        'status_override' => $link['status_override'],
+        'lastmod' => $link['lastmod'],
+        'priority' => $link['priority'],
+        'priority_override' => $link['priority_override'],
+        'changefreq' => $link['changefreq'],
+        'changecount' => $link['changecount'],
+      ])
+      ->execute();
+```
+
+
+You can [browse the source for the entire module here.](https://git.drupalcode.org/project/xmlsitemap)
+
+
 ## Reference
 
 - [API documentation for query Condition class](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Query%21Condition.php/class/Condition/9.3.x)
