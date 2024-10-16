@@ -519,9 +519,27 @@ In the `node--map.html.twig` file at `web/themes/custom/txglobal/templates/conte
   };
 
 })(jQuery, Drupal);
+```
 
+## ESLint
 
+[ESLint](http://eslint.org/) can be used to make sure JavaScript code is consistent, free from syntax errors, leaking variables and that it can be properly minified.
 
+[ESLint](http://eslint.org/) is a Node.js module and is integrated into a number of IDEs. (See [installation and usage instructions](http://eslint.org/docs/user-guide/getting-started#installation-and-usage).) One of the fastest ways to install all necessary ESLint dependencies is using [eslint-config-drupal](https://www.npmjs.com/package/eslint-config-drupal).
+
+The following configuration files ship with Drupal and can be used from there: `.eslintrc.json` and `
+.eslintignore`.
+
+In a Drupal folder these configuration files will be automatically detected and used by ESLint when it is invoked from within the code base.
+
+**Installation**
+
+```bash
+# Before running these commands, install node.js, npm, and npx
+npm install eslint --save-dev
+npm i eslint-config-drupal
+npx eslint modules/custom/
+npx eslint themes/custom/
 ```
 
 
