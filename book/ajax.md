@@ -802,7 +802,7 @@ Here is the JS function that is called is in `web/core/misc/ajax.js`. Notice tha
 1. Include the Ajax framework and commands onto the page
 2. Return an AjaxResponse object
 3. Attach commands with `addCommand()` method
-4. 
+
 
 
 ## Resources
