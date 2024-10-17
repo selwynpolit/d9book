@@ -1768,7 +1768,7 @@ $mgpu2 = round(memory_get_peak_usage(TRUE) / 1024 / 1024, 2) . ' MB';
 \Drupal::logger('tea_teks_srp')->info('Memory usage: ' . $mgu1 . ' ' . $mgu2 . ' Peak: ' . $mgpu1 . ' ' . $mgpu2);
 ```
 
-It may be worth looking at the `getOptimalMemoryLimit()` and `setMemoryLimit()` functions in the [xmlsitemap]([https://www.](https://www.drupal.org/project/xmlsitemap)) module.  
+It may be worth looking at the `getOptimalMemoryLimit()` and `setMemoryLimit()` functions in the [xmlsitemap](https://www.drupal.org/project/xmlsitemap) module.  
 
 ```php
   public function getOptimalMemoryLimit() {
