@@ -750,15 +750,17 @@ There is [another example of using the Queue API from Karim Boudjema - August 20
 
 ## Resources
 
-Read more about batch processing at these sites:
+### Batch processing Resources
 
 - [Batch API overview on drupal.org - updated April 2024](https://www.drupal.org/docs/drupal-apis/batch-api/batch-api-overview)
 - [Batch API on drupal.org](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10)
+- [Drupal 11: Batch Processing Using Drupal by Phil Norton - Sep 2024](https://www.hashbangcode.com/article/drupal-11-batch-processing-using-drush)
+- [Drupal 11: An Introduction to Batch Processing with the Batch API by Phil Norton - Aug 2024](https://www.hashbangcode.com/article/drupal-11-introduction-batch-processing-batch-api)
 - [Smack My Batch Up: Batch Processing In Drupal 8 by Phil Norton July 2016](https://www.weareaccess.co.uk/blog/2016/07/smack-my-batch-batch-processing-drupal-8)
 - [Well commented source code for batch operations for Drupal 10](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L561)
 - [Phil Norton\'s Drupal batch examples](https://github.com/hashbangcode/drupal_batch_examples)
 
-Read more about the Queue API at these sites:
+## Queue API Resources
 - [Karim Boudjema from August 2018 has some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
 - [Sarthak TTN from Feb 2017 shows some sample code on implementing cron and the queue API](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8)
 - [There is a somewhat incomplete example from Alan Saunders article on December 2021](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9)

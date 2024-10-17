@@ -1768,6 +1768,46 @@ $mgpu2 = round(memory_get_peak_usage(TRUE) / 1024 / 1024, 2) . ' MB';
 \Drupal::logger('tea_teks_srp')->info('Memory usage: ' . $mgu1 . ' ' . $mgu2 . ' Peak: ' . $mgpu1 . ' ' . $mgpu2);
 ```
 
+It may be worth looking at the `getOptimalMemoryLimit()` and `setMemoryLimit()` functions in the [xmlsitemap]([https://www.](https://www.drupal.org/project/xmlsitemap)) module.  
+
+```php
+  public function getOptimalMemoryLimit() {
+    $optimal_limit = &drupal_static(__FUNCTION__);
+    if (!isset($optimal_limit)) {
+      // Set the base memory amount from the provided core constant.
+      $optimal_limit = Bytes::toNumber(\Drupal::MINIMUM_PHP_MEMORY_LIMIT);
+
+      // Add memory based on the chunk size.
+      $optimal_limit += xmlsitemap_get_chunk_size() * 500;
+
+      // Add memory for storing the url aliases.
+      if ($this->config->get('prefetch_aliases')) {
+        $aliases = $this->connection->query("SELECT COUNT(id) FROM {path_alias}")->fetchField();
+        $optimal_limit += $aliases * 250;
+      }
+    }
+    return $optimal_limit;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setMemoryLimit($new_limit = NULL) {
+    $current_limit = @ini_get('memory_limit');
+    if ($current_limit && $current_limit != -1) {
+      if (!is_null($new_limit)) {
+        $new_limit = $this->getOptimalMemoryLimit();
+      }
+      if (Bytes::toNumber($current_limit) < $new_limit) {
+        return @ini_set('memory_limit', $new_limit);
+      }
+    }
+  }
+```
+The [full source code for the module is here](https://git.drupalcode.org/project/xmlsitemap).
+
+
+
 Down the rabbit hole: 
 - [Changing PHP memory limits - May 2022](https://www.drupal.org/docs/7/managing-site-performance-and-scalability/changing-php-memory-limits)
 - [memory_get_usage()](https://www.php.net/manual/en/function.memory-get-usage.php)
