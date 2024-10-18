@@ -787,6 +787,52 @@ $ drush cim -y
 For views, the config filenames follow the pattern `views.view.viewname`. So the filename for a view called `infofeeds` should be `views.view.infofeeds`.
 
 
+## Drupal Site UUID
+
+Each Drupal site gets a unique UUID, generated on install.
+
+This UUID is used to match configuration exports to the correct site.
+
+In order for config import to work, the exported config files must contain a matching Site UUID.
+
+If your exported files do not match, you can change your site's UUID using Drupal Configuration API.
+
+To update your exported files with a different UUID, simply set the UUID and run the export again.
+
+
+### Getting and setting the Site UUID
+
+The Drupal Site `UUID` is stored as the configuration item `system.site:uuid`
+
+You can set it with drush or in `settings.php` using `$config` overrides.
+
+Override Site `UUID` using `settings.php`
+ 
+To override the site's `UUID`, you can put the following snippet into your `settings.php` file:
+
+```php
+$config['system.site']['uuid'] = '1234567890';
+```
+
+Using Drush
+```sh
+drush cget system.site uuid
+
+drush cset system.site uuid 1234567890
+```
+
+:::tip Note
+It's strongly recommended that you do a database dump (e.g. using `ddev export-db`) before each synchronization of the staging and the active directory. The database-dump "could save your life" on a potentially needed rollback-strategy.
+
+also
+
+Don't try to change the active configuration on your site by changing files in a module's config/install directory. This will NOT work, because Drupal only reads from that directory when the module is installed.
+:::
+
+
+Read more at [Drupal Site UUID on Drupal.org - Updated Sep 2023](https://www.drupal.org/docs/administering-a-drupal-site/configuration-management/managing-your-sites-configuration#s-drupal-site-uuid)
+
+
 ## Troubleshooting
 
 ### Config export
@@ -806,6 +852,6 @@ I hope this one saves you countless hours of frustration. I know it has caused m
 
 ## Resources
 
-- [Configuration Management on drupal.org - updated May 2023](https://www.drupal.org/docs/configuration-management)
-- [Defining and using your own configuration in Drupal on drupal.org - updated Feb 2024](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
-- [Drupal::config - Config API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/9.2.x)
+- [Configuration Management on Drupal.org - updated May 2023](https://www.drupal.org/docs/configuration-management)
+- [Defining and using your own configuration in Drupal on Drupal.org - updated Feb 2024](https://www.drupal.org/docs/creating-custom-modules/defining-and-using-your-own-configuration-in-drupal)
+- [Config API Reference: Drupal::config](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Aconfig/10)
