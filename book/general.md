@@ -1911,11 +1911,11 @@ Using the [chosen](https://www.drupal.org/project/chosen) module on your site wi
 
 ## Modify SOLR Search behavior
 
-The now deprecated way of doing this was to use the `hook_search_api_solr_query_alter` hook in a custom module.  From [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent) this process needs to be replaced with an event subscriber.  
+The now deprecated way of doing this was to use the `hook_search_api_solr_query_alter()` hook in a custom module.  From [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on Drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent) this process needs to be replaced with an event subscriber.  
 
 You can see an [example of this](https://git.drupalcode.org/project/acquia_search/-/blob/3.1.x/src/EventSubscriber/PreQuery/EdisMax.php?ref_type=heads) in the [Acquia Search module](https://www.drupal.org/project/acquia_search) also. 
 
-Here is the old way. This will alter the functionality of the search when used with the `site_search` and`related_position_listings` views.  It boosts the search results based on the `field_boosted_created_date` field and the `field_position_campus` field.  It also filters the search results based on the `field_position_title_select` field and the `field_other_position_title` field.
+Here is the old way: In this example, this code will alter the functionality of the search when used with the `site_search` and`related_position_listings` views.  It boosts the search results based on the `field_boosted_created_date` field and the `field_position_campus` field.  It also filters the search results based on the `field_position_title_select` field and the `field_other_position_title` field.  It is an interesting example of some of the tweaking that can be done to improve search results for your use case.  For example, if you want the search results to show staff first, or show the most recent news items first, or show the most relevant job listings first, you can use this hook to adjust the search results accordingly.
 
 ```php
 /**
