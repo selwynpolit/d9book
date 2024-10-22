@@ -1025,6 +1025,185 @@ Run "composer audit" for a full list of advisories.
 ```
 
 
+### Composer won\'t update a module
+In this instance I want to update a Drupal 10 site with the [metatag](https://www.drupal.org/project/metatag) module. This site has the `"drupal/metatag": "^1.26",` version and there is a `2.02` version available I try to update the module with:
+
+```sh
+ddev composer update drupal/metatag
+
+Gathering patches from patch file.
+Loading composer repositories with package information
+Updating dependencies
+Nothing to modify in lock file
+Installing dependencies from lock file (including require-dev)
+Nothing to install, update or remove
+```
+
+Checking to see what is blocking the update:
+
+```sh
+ ddev composer prohibits drupal/metatag 2.0
+udda/udda_rd          -     requires drupal/metatag (^1.26)
+drupal/schema_metatag 2.6.0 requires drupal/metatag (^1.0)
+Not finding what you were looking for? Try calling `composer require "drupal/metatag:2.0" --dry-run` to get another view on the problem.
+Composer [prohibits drupal/metatag 2.0] failed, composer command failed: exit status 1. stderr=
+```
+
+Note. the `udda/udda_rd` represents the entire project and so it i listed as requiring `drupal\metatag`.
+
+
+
+Poking around on Drupal.org, I find that there is also an update to the `schema_metatag` module to version `3.0.3` . Trying to update the `schema_metatag` module fails as they are dependent on each other:
+
+```sh
+ddev composer update drupal/metatag
+Gathering patches from patch file.
+Loading composer repositories with package information
+Updating dependencies
+Nothing to modify in lock file
+Installing dependencies from lock file (including require-dev)
+Nothing to install, update or remove
+```
+
+
+Checking to see what is blocking either update is not very useful. Composer sees that the project requires the old version of `metatag`:
+
+```sh
+ddev composer prohibits drupal/metatag 2.0.2 -t
+drupal/metatag 2.0.2 Manage meta tags for all entities.
+└──udda/udda_rd (requires drupal/metatag ^1.26)
+Not finding what you were looking for? Try calling `composer require "drupal/metatag:2.0.2" --dry-run` to get another view on the problem.
+```
+and the same for `schema_metatag`.
+  
+```sh
+ddev composer prohibits drupal/schema_metatag 3.0.3 -t
+drupal/schema_metatag 3.0.3 Metatag implementation of Schema.org structured data (JSON-LD)
+└──udda/udda_rd (requires drupal/schema_metatag ^2.6)
+Not finding what you were looking for? Try calling `composer require "drupal/schema_metatag:3.0.3" --dry-run` to get another view on the problem.
+```
+
+
+To update both at the same time use the following:
+  
+```sh
+  ddev composer require drupal/schema_metatag:^3.0 drupal/metatag:^2.0
+./composer.json has been updated
+Running composer update drupal/schema_metatag drupal/metatag
+Gathering patches from patch file.
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 2 updates, 0 removals
+  - Upgrading drupal/metatag (1.26.0 => 2.0.2)
+  - Upgrading drupal/schema_metatag (2.6.0 => 3.0.3)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 2 updates, 0 removals
+Gathering patches from patch file.
+Gathering patches for dependencies. This might take a minute.
+  - Upgrading drupal/metatag (1.26.0 => 2.0.2): Extracting archive
+  - Upgrading drupal/schema_metatag (2.6.0 => 3.0.3): Extracting archive
+Generating autoload files
+109 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+phpstan/extension-installer: Extensions installed
+Scaffolding files for drupal/core:
+  - Copy [web-root]/.eslintrc.json from assets/scaffold/files/eslintrc.json
+  - Skip [web-root]/sites/development.services.yml: overridden in udda/udda_rd
+Scaffolding files for udda/udda_rd:
+  - Skip [web-root]/sites/development.services.yml because it already exists and overwrite is false.
+> cd web && patch -p1 <../patches/eslint-additional-rules.patch
+patching file .eslintrc.json
+Found 3 security vulnerability advisories affecting 3 packages.
+Run "composer audit" for a full list of advisories.
+```
+
+
+
+Another solution is to update both modules at the same time with dependencies (`-W`) which updates several other items including some Symfony components. I'm a fan of this approach as it keeps everything up to date:
+
+```sh
+ddev composer require drupal/schema_metatag:^3.0 drupal/metatag:^2.0 -W
+
+./composer.json has been updated
+Running composer update drupal/schema_metatag drupal/metatag --with-all-dependencies
+Gathering patches from patch file.
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 24 updates, 0 removals
+  - Upgrading composer/semver (3.4.2 => 3.4.3)
+  - Upgrading doctrine/annotations (1.14.3 => 1.14.4)
+  - Upgrading drupal/metatag (1.26.0 => 2.0.2)
+  - Upgrading drupal/schema_metatag (2.6.0 => 3.0.3)
+  - Upgrading guzzlehttp/promises (2.0.3 => 2.0.4)
+  - Upgrading phpstan/phpdoc-parser (1.30.0 => 1.33.0)
+  - Upgrading psr/log (3.0.1 => 3.0.2)
+  - Upgrading symfony/console (v6.4.11 => v6.4.12)
+  - Upgrading symfony/dependency-injection (v6.4.11 => v6.4.12)
+  - Upgrading symfony/filesystem (v6.4.9 => v6.4.12)
+  - Upgrading symfony/http-foundation (v6.4.10 => v6.4.12)
+  - Upgrading symfony/http-kernel (v6.4.11 => v6.4.12)
+  - Upgrading symfony/mailer (v6.4.9 => v6.4.12)
+  - Upgrading symfony/mime (v6.4.11 => v6.4.12)
+  - Upgrading symfony/polyfill-php72 (v1.30.0 => v1.31.0)
+  - Upgrading symfony/polyfill-php73 (v1.30.0 => v1.31.0)
+  - Upgrading symfony/polyfill-php80 (v1.30.0 => v1.31.0)
+  - Upgrading symfony/polyfill-php81 (v1.30.0 => v1.31.0)
+  - Upgrading symfony/process (v6.4.8 => v6.4.12)
+  - Upgrading symfony/routing (v6.4.11 => v6.4.12)
+  - Upgrading symfony/serializer (v6.4.11 => v6.4.12)
+  - Upgrading symfony/string (v6.4.11 => v6.4.12)
+  - Upgrading symfony/validator (v6.4.11 => v6.4.12)
+  - Upgrading symfony/yaml (v6.4.11 => v6.4.12)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 0 installs, 24 updates, 0 removals
+Gathering patches from patch file.
+Gathering patches for dependencies. This might take a minute.
+  - Upgrading symfony/string (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading symfony/console (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading psr/log (3.0.1 => 3.0.2): Extracting archive
+  - Upgrading symfony/filesystem (v6.4.9 => v6.4.12): Extracting archive
+  - Upgrading composer/semver (3.4.2 => 3.4.3): Extracting archive
+  - Upgrading symfony/polyfill-php80 (v1.30.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/yaml (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading symfony/validator (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading symfony/serializer (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading symfony/routing (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading symfony/http-foundation (v6.4.10 => v6.4.12): Extracting archive
+  - Upgrading symfony/process (v6.4.8 => v6.4.12): Extracting archive
+  - Removing symfony/polyfill-php72 (v1.30.0)
+  - Upgrading symfony/mime (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading symfony/mailer (v6.4.9 => v6.4.12): Extracting archive
+  - Upgrading symfony/http-kernel (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading symfony/dependency-injection (v6.4.11 => v6.4.12): Extracting archive
+  - Upgrading guzzlehttp/promises (2.0.3 => 2.0.4): Extracting archive
+  - Upgrading doctrine/annotations (1.14.3 => 1.14.4): Extracting archive
+  - Upgrading phpstan/phpdoc-parser (1.30.0 => 1.33.0): Extracting archive
+  - Upgrading symfony/polyfill-php81 (v1.30.0 => v1.31.0): Extracting archive
+  - Upgrading symfony/polyfill-php73 (v1.30.0 => v1.31.0): Extracting archive
+  - Upgrading drupal/metatag (1.26.0 => 2.0.2): Extracting archive
+  - Upgrading drupal/schema_metatag (2.6.0 => 3.0.3): Extracting archive
+ 10/24 [===========>----------------]  41%  - Installing symfony/polyfill-php72 (v1.31.0)
+Generating autoload files
+109 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+phpstan/extension-installer: Extensions installed
+Scaffolding files for drupal/core:
+  - Copy [web-root]/.eslintrc.json from assets/scaffold/files/eslintrc.json
+  - Skip [web-root]/sites/development.services.yml: overridden in udda/udda_rd
+Scaffolding files for udda/udda_rd:
+  - Skip [web-root]/sites/development.services.yml because it already exists and overwrite is false.
+> cd web && patch -p1 <../patches/eslint-additional-rules.patch
+patching file .eslintrc.json
+Found 3 security vulnerability advisories affecting 3 packages.
+Run "composer audit" for a full list of advisories.
+```
+
+
+
+
+
 ### The big reset button
 
 If composer barfs with a bunch of errors, try removing vendor, /core,
