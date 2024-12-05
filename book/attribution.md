@@ -63,3 +63,9 @@ Thanks to these rockstars for their contribution to the project. Please add your
 [hazn](https://github.com/haznai) - Clarification.
 
 [Brendan Johnson](https://github.com/Lustratus) - Menu Listbuilder magic.
+
+[Randy Fay](https://github.com/rfay) - DDEV updates and so much more.
+
+[Raynald Mompoint](https://github.com/raynaldmo) - Updates to the learning chapter
+
+[GeorgiadisChristos](https://github.com/GeorgiadisChristos) - Migrate chapter fixes.
