@@ -19,6 +19,7 @@ There are many books about Drupal that are worth reading.
 - [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/483XEWV)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3SuU18j)
 - [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3SwXHq9). For an interview with the author about this book [check out this episode of Talking Drupal ](https://www.talkingdrupal.com/425)
+- [Drupal 10+ Theming - How to convert an HTML template to a Drupal Theme](https://drupal10plustheming.com/)
 - [Learning Drupal 9 as a framework by Stef Van Looveren. Full code included.](https://www.amazon.com/Learning-Drupal-framework-custom-included/dp/B0B6XJ6F4Q) The code in the [repo](https://github.com/stef-van-looveren/learning-drupal-as-a-framework/tree/main) was updated to Drupal 10 in Feb 2024. This is also available in [pdf or epub format on leanpub](https://leanpub.com/drupal-9)
 - [31 days of Drupal migrations by Mauricio Dinarte updated October 2020](https://leanpub.com/31-days-of-drupal-migrations)
 - [Fran Gil's Expert in Drupal 9 Front-End Development. Updated in Sep 2022](https://www.forcontu.com/en/books/expert-in-drupal-9-front-end-development)
@@ -29,7 +30,7 @@ There are many books about Drupal that are worth reading.
 - [Check out some older Drupal books from Packt publishing](https://subscription.packtpub.com/search?query=Drupal)
 - [Drupal Book.org is an online only book by Ivan.  Updated Sep 2018. While it is not complete, it is a nicely formatted valuable resource](https://drupalbook.org/)
 - [Drupal 8 Theming with Twig by Chaz Chumley Published in March 2016](https://amzn.to/3MzPrly)
-
+  
 ::: tip Please note
 Some of these are affiliate links so Amazon may send me some money if you purchase items using these links.
 :::
