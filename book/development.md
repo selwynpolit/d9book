@@ -1013,7 +1013,7 @@ PHPStorm has the ability to step through twig templates just like PHP code. See 
 
 
 
-### Code Sniffing
+### Code Sniffing with phpcs
 
 You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards). 
 
@@ -1026,11 +1026,16 @@ Use the following settings:
 - Configuration: System PHP
 - Check files with extensions: php, js, css, inc, module
 - Check the Installed standards path option and set that to the path to the coder module in your project. e.g. `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer`. You may have to do this twice.
-- Coding standard: Drupal. Nnote this may not be an option at this time so follow the next steps below and come back to this.
+- Coding standard: Drupal. Note this may not be an option at this time so follow the next steps below and come back to this.
+
+![PHPStorm codesniffer settings](/images/phpstorm-phpcs1.png)
+
 
 Click the the `...` button on this page.  This will display the PHP_CodeSniffer dialog. Set the PHP_CodeSniffer path to :`/Users/spolit/Sites/tea/vendor/bin/phpcs` if you have the `core-dev` tools installed in your project. At this time you can also set the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf` if you want to use the code beautifier and fixer.
 
 Use  `/Users/spolit/.composer/vendor/bin/phpcs` and `/Users/spolit/.composer/vendor/bin/phpcf` respectively if you have installed phpcs globally.
+
+![PHPStorm codesniffer settings more](/images/phpstorm-phpcs2.png)
 
 Next, you will need to click Apply and then OK.  You can now run the code sniffer by right-clicking on a file or directory and selecting `Run Inspection by PHP_CodeSniffer` from the context menu.
 
