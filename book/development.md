@@ -11,7 +11,7 @@ This section of the book is about your local development environment and the too
 
 ## Local Drupal site setup
 
-Local development works really well using Docker containers and [DDEV](https://github.com/drud/ddev). Setting up a local site is a completely painless process on any operating system. After installing `Docker` and `DDEV`, follow these steps:
+Local development works really well using Docker containers and [DDEV](https://github.com/ddev/ddev). Setting up a local site is a completely painless process on any operating system. After installing `Docker` and `DDEV`, follow these steps:
 
 ### Install Drupal
 
@@ -58,7 +58,7 @@ The link that is returned by drush uli can quickly be launched with the keyboard
 
 
 More at [DDEV CMS Quickstart guides: Drupal installation](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal).
-And the [Local development guide on drupal.org - updated May 2024](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
+And the [Local development guide on drupal.org](https://www.drupal.org/docs/official_docs/en/_local_development_guide.html).
 
 ### Install Devel module
 To generate dummy content and access a host of other useful tools, install the [Devel module](https://www.drupal.org/project/devel)
@@ -146,7 +146,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
 ```
 
 
-### Setup settings.local.php
+### Set up settings.local.php
 
 Copy the `sites/example.settings.local.php` to `sites/default/settings.local.php` with 
 
@@ -301,7 +301,7 @@ Also this [Composerize Drupal github repo - June 2022](https://github.com/grasma
 
 ## DDEV
 
-For local Docker container development on any platform, there is no better tool than DDEV. This is a [well-documented](https://ddev.readthedocs.io/en/stable/), [well-supported](https://ddev.readthedocs.io/en/stable/#support-and-user-contributed-documentation) tool by the Amazing Randy Fay. You can get help from him or some of the other friendly folks on [Discord](https://discord.gg/hCZFfAMc5k) almost instantly.
+For local Docker container development on any platform, there is no better tool than DDEV. This is a [well-documented](https://ddev.readthedocs.io/en/stable/), [well-supported](https://ddev.readthedocs.io/en/stable/users/support/) tool cared for Randy Fay and the DDEV community. You can get help from him or some of the other friendly folks on [Discord](https://discord.com/invite/5wjP76mBJD) almost instantly.
 
 From the docs:
 
@@ -311,15 +311,11 @@ From the docs:
 
 -   [DDEV Stack Overflow](https://stackoverflow.com/questions/tagged/ddev) for support and frequently asked questions. We respond quite quickly here and the results provide quite a library of user-curated solutions.
 
--   [DDEV issue queue](https://github.com/drud/ddev/issues) for bugs and feature requests
+-   [DDEV issue queue](https://github.com/ddev/ddev/issues) for bugs and feature requests
 
--   Interactive community support on [Discord](https://discord.gg/hCZFfAMc5k) for everybody, plus sub-channels for CMS-specific questions and answers.
+-   Interactive community support on [Discord](https://discord.com/invite/5wjP76mBJD) for everybody, plus sub-channels for CMS-specific questions and answers.
 
--   [ddev-contrib](https://github.com/drud/ddev-contrib) repo provides a number of vetted user-contributed recipes for extending and using DDEV. Your contributions are welcome.
-
--   [awesome-ddev](https://github.com/drud/awesome-ddev) repo has loads of external resources, blog posts, recipes, screencasts, and the like. Your contributions are welcome.
-
--   [Twitter with tag #ddev](https://twitter.com/search?q=%23ddev&src=typd&f=live) will get to us, but it\'s not as good for interactive support, but we\'ll answer anywhere.
+-   [awesome-ddev](https://github.com/ddev/awesome-ddev) repo has loads of external resources, blog posts, recipes, screencasts, and the like. Your contributions are welcome.
 
 ### Local config -  your .ddev/config.local.yaml
 
@@ -444,7 +440,6 @@ Here are some examples that you can add to your `.ddev/config.yaml` file:
 # 6-11-24: Node ver 16, import docksal config split, add packages.
 hooks:
   post-start:
-    - exec: nvm install 16
     - exec: drush config-split:import docksal -y
 #    - exec: cd /var/www/html/web/themes/custom/uddd && npm install
   post-import-db:
@@ -476,9 +471,9 @@ Check out [sharing your DDEV-Local site via a public URL using `ddev share` and 
 
 ### Email Capture and Review
 
-Mailpit (which replaced MailHog) is a mail catcher which is configured to capture and display emails sent in the development environment.
+Mailpit is a mail catcher which is configured to capture and display emails sent in the development environment.
 
-After your project is started, access the Mailpit web interface at `http://mysite.ddev.site:8026` or use `ddev launch -m` to launch Mailpit.
+After your project is started, access the Mailpit web interface at `http://mysite.ddev.site:8026` or use `ddev mailpit` to launch Mailpit.
 
 
 Mailpit will not intercept emails if your application is configured to use SMTP or a third-party ESP integration.
@@ -486,7 +481,7 @@ Mailpit will not intercept emails if your application is configured to use SMTP 
 If you’re using SMTP for outgoing mail—with Symfony Mailer or SMTP modules, for example—update your application’s SMTP server configuration to use localhost and Mailpit’s port 1025.
 
 
-[Read more in the DDEV docs](https://ddev.readthedocs.io/en/latest/users/usage/developer-tools/#email-capture-and-review-mailpit)
+[Read more in the DDEV docs](https://ddev.readthedocs.io/en/stable/users/usage/developer-tools/#email-capture-and-review-mailpit)
 
 
 ### Solr and DDEV
@@ -494,10 +489,8 @@ If you’re using SMTP for outgoing mail—with Symfony Mailer or SMTP modules, 
 Many sites require Solr for search. You can add Solr to your DDEV project but it has some complexities.  Here is a way to get it set up.
 
 ```sh
-# For DDEV v1.23.5 or above run
+# To install, run
 ddev add-on get ddev/ddev-solr
-# For earlier versions use:
-#ddev get ddev/ddev-solr
 ddev restart
 ```
 
@@ -560,16 +553,6 @@ In phpstorm, you can uncheck the following settings:
 - force break at first line when no path mapping is specified
 - force break at first line when a script is outside the project
 
-Note. we usually use port 9000 for xdebug look in `.ddev/php/xdebug_report_port.ini` for the real port settings. Recently for a project I found it  set to 11011
-
-The contents of the file are:
-
-```
-[PHP]
-
-xdebug.remote_port=11011
-```
-
 For phpstorm, if you start listening for a debug connection, it should automatically try to create a debug server config for you. If it doesn't manually create one using the following values:
 
 e.g 
@@ -591,16 +574,6 @@ For command line or drush debugging (xdebug, phpstorm)
 ddev ssh
 ```
 
-```
-export PHP_IDE_CONFIG=\"serverName=d8git.ddev.site\"
-```
-
-or
-
-```
-export PHP_IDE_CONFIG=\"serverName=inside-mathematics.ddev.site\"
-```
-
 confirm debug is turned on
 
 ```
@@ -613,10 +586,6 @@ You should see:
 xdebug support => enabled
 ```
 
-Also you can confirm the port
-
-set a server in phpstorm that matches the name `d8git.ddev.site` or `inside-mathematics.ddev.site`.
-
 Configure the server to use path mappings
 
 `/Users/selwyn/Sites/ddev 82 ---> /var/www/html`
@@ -627,18 +596,9 @@ set breakpoint and run
 
 replace `d8git.ddev.site` with the name of your project
 
-::: tip Note
-You must execute drush from the vendor dir or you will always be ignored like this:
-```
-../vendor/drush/drush/drush fixmat
-```
-:::
-
-If it doesn't seem to work, try enable Break at first line in PHP scripts - it will usually stop there.
-
-
 Read [more at stackoverflow](https://stackoverflow.com/questions/50283253/how-can-i-step-debug-a-drush-command-with-ddev-and-phpstorm)
 
+Note that with Drush 13+ you must set `DRUSH_ALLOW_XDEBUG=1` or run `drush --xdebug` for debugging to work.
 
 ### Use drush commands in your shell with DDEV
 
@@ -683,7 +643,7 @@ max_allowed_packet = 768M
 I was able to check a value from the MySQL configuration with:
 
 ```sh
-ddev drush sqlc
+ddev mysql
 ```
 Then once you see the `mysql>` prompt, type:
 
@@ -741,7 +701,7 @@ List all docker volumes
 docker volume ls
 ```
 
-Read more about [DDEV General cleanup](https://github.com/drud/ddev/issues/1465)
+Read more about [DDEV General cleanup](https://github.com/ddev/ddev/issues/1465)
 
 ### Accessing specific containers
 
@@ -840,14 +800,10 @@ Creating ddev-router ... done
 Failed to start inside-mathematics: db container failed: log=, err=health check timed out: labels map[com.ddev.site-name:inside-mathematics com.docker.compose.service:db] timed out without becoming healthy, status=
 ```
 
-This is almost always caused by a corrupted database, most often in a larger database. Since v0.17.0, this is generally only caused by docker being shut down in an ungraceful way. Unfortunately, both Docker for Windows and Docker for Mac shut down without notifying the container during upgrade, with a manual Docker exit, or at system shutdown. It can be avoided by stopping or removing your projects before letting Docker
+This is almost always caused by a corrupted database, most often in a larger database.  Unfortunately, both Docker for Windows and Docker for Mac shut down without notifying the container during upgrade, with a manual Docker exit, or at system shutdown. It can be avoided by stopping or removing your projects before letting Docker
 exit.
 
-To fix, `ddev remove --remove-data`, then `ddev start`. This may fail and suggest this bazooka version:
-
-```sh
-ddev stop --remove-data --omit-snapshot
-```
+To fix, `ddev delete --omit-snapshot -y`, then `ddev start`.
 
 
 ## Local Solr setup with Search API Solr
@@ -1796,7 +1752,7 @@ Example vegetable.module directory structure:
 - [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards)
 - [Running PHPStan On Drupal Custom Modules - July 2022](https://www.hashbangcode.com/article/drupal-9-running-phpstan-drupal-custom-modules)
 - [The Ultimate Guide to drupal/core-* packages - May 2022](https://gorannikolovski.com/blog/ultimate-guide-drupal-core-packages#drupal-core-dev)
-- [DDEV performance especially around Mutagen on MacOS - Mar 2024](https://ddev.readthedocs.io/en/latest/users/install/performance/)
+- [DDEV performance especially around Mutagen on MacOS - Mar 2024](https://ddev.readthedocs.io/en/stable/users/install/performance/)
 - [DDEV CMS Quickstart guides - January 2024](https://ddev.readthedocs.io/en/stable/users/quickstart/)
 - [Why you should care about using settings.local.php - February 2024](https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp)
 - [Troubleshooting Xdebug on DDEV docs](https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#troubleshooting-xdebug)
