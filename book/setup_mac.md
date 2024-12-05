@@ -198,7 +198,7 @@ Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or 
 
 Install ddev
 
-[From the DDEV docs website](https://ddev.readthedocs.io/en/latest/users/install/ddev-installation/#macos)
+[From the DDEV docs website](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/#macos)
 
 ```sh
 brew install ddev/ddev/ddev
@@ -734,7 +734,7 @@ Run stats from applications folder, in settings, select start at login.
 
 ### ngrok
 
-ngrok lets you quickly share a site you are developing on with others. From the ddev docs: `ddev share` proxies the project via ngrok for sharing your project with others on your team or around the world. It’s built into DDEV and requires an [ngrok.com](https://ngrok.com) account. Run `ddev share` and then give the resultant URL to your collaborator or use it on your mobile device. More at [https://ddev.readthedocs.io/en/latest/users/topics/sharing/](https://ddev.readthedocs.io/en/latest/users/topics/sharing/)
+ngrok lets you quickly share a site you are developing on with others. From the ddev docs: `ddev share` proxies the project via ngrok for sharing your project with others on your team or around the world. It’s built into DDEV and requires an [ngrok.com](https://ngrok.com) account. Run `ddev share` and then give the resultant URL to your collaborator or use it on your mobile device. More at [https://ddev.readthedocs.io/en/stable/users/topics/sharing/](https://ddev.readthedocs.io/en/stable/users/topics/sharing/)
 
 ```sh
 brew install ngrok

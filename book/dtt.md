@@ -2235,7 +2235,7 @@ When Phpstorm pops up, specify that the vendor directory is at
 ### Testing setup
 - [Debug any of Drupal\'s PHPUnit tests in PhpStorm with a DDEV-Local Environment from August 3, 2021 by Joe Shindelar. Includes how to set up Chromedriver in DDEV](https://drupalize.me/blog/debug-any-drupals-phpunit-tests-phpstorm-ddev-local-environment)
 - [Joe references this article from 5-13-2021 called Update 2021 - Fully integrate DDEV and PHPStorm - including Unit Tests with Coverage by \@sasunegomo](https://susi.dev/fully-integrate-ddev-and-phpstorm-including-unit-tests-with-coverage-update-2021/)
-- [Setup Behat for Drupal 8/9 with DDEV-Local and Selenium Recipe on Github as part of the ddev-contrib repo from July 2021 by Mike Miles](https://github.com/drud/ddev-contrib/tree/master/docker-compose-services/drupal8-behat-selenium)
+- [Setup Behat for Drupal 8/9 with DDEV-Local and Selenium Recipe on Github as part of the ddev-contrib repo from July 2021 by Mike Miles](https://github.com/ddev/ddev-contrib/tree/master/docker-compose-services/drupal8-behat-selenium)
 
 - [Randy Fay lays out some details about running Selenium/Behat inside DDEV containers - August 2020](https://stackoverflow.com/questions/51527663/running-selenium-tests-using-behat-drupal-extension-inside-ddev-containers)
 
@@ -2255,7 +2255,7 @@ When Phpstorm pops up, specify that the vendor directory is at
         DDEV](https://glamanate.com/blog/running-drupals-nightwatch-test-suite-ddev).** How to run Drupal's newest testing framework: Nightwatch.js, for end-to-end tests in Node.js run against a Selenium/WebDriver server.
 
 - [Running Drupal's PHPUnit test suites on DDEV by Matt Glaman from October 2018. The first in his series referenced above](https://glamanate.com/blog/running-drupals-phpunit-test-suites-ddev)
-- [DDEV Contrib Repo](https://github.com/drud/ddev-contrib)
+- [DDEV Contrib Repo](https://github.com/ddev/ddev-contrib)
 
 ### Mocking
 
