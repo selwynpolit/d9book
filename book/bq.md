@@ -903,7 +903,8 @@ There is [another example of using the Queue API from Karim Boudjema - August 20
 - [Well commented source code for batch operations for Drupal 10](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/includes/form.inc#L561)
 - [Phil Norton\'s Drupal batch examples](https://github.com/hashbangcode/drupal_batch_examples)
 
-## Queue API Resources
+### Queue API Resources
+- [Phil Norton Queue example repo - Nov 2024](https://github.com/hashbangcode/drupal-queue-example)
 - [Karim Boudjema from August 2018 has some good examples using the queue API](http://karimboudjema.com/en/drupal/20180807/create-queue-controller-drupal8)
 - [Sarthak TTN from Feb 2017 shows some sample code on implementing cron and the queue API](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8)
 - [There is a somewhat incomplete example from Alan Saunders article on December 2021](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9)
