@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@nolebase/vitepress-plugin-enhanced-readabilities':
-        specifier: 2.11.1
-        version: 2.11.1(@algolia/client-search@5.18.0)(postcss@8.4.49)(sass@1.83.0)(search-insights@2.17.2)
+        specifier: 2.12.0
+        version: 2.12.0(@algolia/client-search@5.18.0)(postcss@8.4.49)(sass@1.83.0)(search-insights@2.17.2)
       prettier:
         specifier: ^3.4.2
         version: 3.4.2
@@ -333,8 +333,8 @@ packages:
   '@nolebase/ui@2.12.0':
     resolution: {integrity: sha512-QL2mXIIUE6uItO7MUJdIJsPqmTQkEI7Leah+i51WGEfouuvrBDgFnH2LEqhXh3fmO2Bu7HiVpUu3meduSrORLg==}
 
-  '@nolebase/vitepress-plugin-enhanced-readabilities@2.11.1':
-    resolution: {integrity: sha512-2iD/CsABrLKT2cP/2D7L9mof2re6lMZaGfwVlJbkOd1svHJFU9QmAqZ9QAR2iPWHutUGEemW4sgKUpDnFiIV8Q==}
+  '@nolebase/vitepress-plugin-enhanced-readabilities@2.12.0':
+    resolution: {integrity: sha512-sK5byozn2GZQiFvjvAo7lsdG6lgCifpEmpwMV8kji6p9SFz5lsTrIavg1tisFjN3glwpaSVSXaMDTJuuwDWdQw==}
 
   '@parcel/watcher-android-arm64@2.5.0':
     resolution: {integrity: sha512-qlX4eS28bUcQCdribHkg/herLe+0A9RyYC+mm2PXpncit8z5b3nSqGVzMNR3CmtAOgRutiZ02eIJJgP/b1iEFQ==}
@@ -1536,7 +1536,7 @@ snapshots:
       - typescript
       - universal-cookie
 
-  '@nolebase/vitepress-plugin-enhanced-readabilities@2.11.1(@algolia/client-search@5.18.0)(postcss@8.4.49)(sass@1.83.0)(search-insights@2.17.2)':
+  '@nolebase/vitepress-plugin-enhanced-readabilities@2.12.0(@algolia/client-search@5.18.0)(postcss@8.4.49)(sass@1.83.0)(search-insights@2.17.2)':
     dependencies:
       '@iconify-json/carbon': 1.2.5
       '@iconify-json/icon-park-outline': 1.2.2
