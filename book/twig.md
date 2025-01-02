@@ -1734,7 +1734,32 @@ Here are some examples. A complete list is included below:
 {% endfilter %}
 ```
 
-Filters
+### Drupal Specific Filters 
+These are declared in [TwigExtension::getFilters()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Template%21TwigExtension.php/function/TwigExtension%3A%3AgetFilters/10).
+
+* `trans` - This filter (alternatively, `t`) will run the variable through the Drupal `t()` function, which will return a translated string. This filter should be used for any interface strings manually placed in the template that will appear for users.
+* `placeholder` - This filter escapes content to HTML and formats it using `drupal_placeholder()`, which makes it display as emphasized text.
+* `clean_class` - This filter prepares a string for use as a valid HTML class name. See [Html::getClass()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Html.php/function/Html%3A%3AgetClass/10)
+* `clean_id` - This filter prepares a string for use as a valid HTML ID. See [Html::getID()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Html.php/function/Html%3A%3AgetId/10)
+* `format_date` - This filter prepares a timestamp for use as a formatted date string. See [DateFormatter::format()](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DateFormatter.php/function/DateFormatter%3A%3Aformat/10)
+* `raw` - This filter should be avoided whenever possible, particularly if you're outputting data that could be user-entered. In Drupal 9 Twig 2, the `{% raw %}` tag is deprecated in favor of `{% verbatim %}`. (The `|raw` filter, on the other hand, is not deprecated.)
+* `render` - This filter is a wrapper for the `render()` function. It takes a render array and outputs rendered HTML markup. This can be useful if you want to apply an additional filter (such as stripping tags), or if you want to make a conditional based on the rendered output (for example, if you have a non-empty render array that returns an empty string). It also can be used on strings and certain objects, mainly those implementing the `toString()` method.
+* `safe_join` - The safe_join filter joins several strings together with a supplied separator. See [TwigExtension::safeJoin().](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Template%21TwigExtension.php/function/TwigExtension%3A%3AsafeJoin/10)
+* `without` - The without filter creates a copy of the renderable array and removes child elements by key specified through arguments passed to the filter. The copy can be printed without these elements. The original renderable array is still available and can be used to print child elements in their entirety in the twig template. You can pass a field or an array of fields. See [twig_without.](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Template%21TwigExtension.php/function/TwigExtension%3A%3AwithoutFilter/10)
+* `add_suggestion` - This filter allows adding a theme suggestion to a render array rendered with `#theme`. For example, if `content.body` has a render array with `'#theme' => 'field'`, using the `|add_suggestion` filter with the variable 
+```twig
+{{ content.body|add_suggestion('details') }}
+```
+ would allow loading a template `field--details.html.twig`. The theme suggestion added with `|add_suggestion` will have the highest priority, and will take precedence over any pre-existing theme suggestions.
+
+* `clean_unique_id` - This can be used for getting a unique ID. The filter ensures that even if the template rendered multiple times, the ID remains unique for each usage.
+* `add_class` - This allows for setting CSS classes on field render arrays.
+* `set_attribute` - This allows for setting HTML attributes on field render arrays.
+
+See examples of some of these at [Drupal Specific Filters](https://www.drupal.org/docs/develop/theming-drupal/twig-in-drupal/filters-modifying-variables-in-twig-templates#s-drupal-specific-filters) and [Drupal Theming Do's and Don'ts by  Don Lalicon - Dec 2023](https://evolvingweb.com/blog/drupal-theming-dos-and-donts)
+
+
+### List of Twig Filters
 
 - [abs](https://twig.symfony.com/doc/3.x/filters/abs.html)
 - [batch](https://twig.symfony.com/doc/3.x/filters/batch.html)
@@ -2191,6 +2216,7 @@ Drupal 10 uses [Twig 3](https://twig.symfony.com/doc/3.x/). Drupal 9 uses Twig 
 ## Reference
 
 - [Theme system overview on api.drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10)
+- [Drupal Theming Do's and Don'ts by  Don Lalicon - Dec 2023](https://evolvingweb.com/blog/drupal-theming-dos-and-donts)
 - [Twig 3 documentation](https://twig.symfony.com/doc/3.x/)
 - [Drupal.org Theming documentation](https://www.drupal.org/docs/theming-drupal)
 - [Handy Twig functions you can use directly in templates - Updated Jan 2023](https://www.drupal.org/docs/theming-drupal/twig-in-drupal/functions-in-twig-templates)
