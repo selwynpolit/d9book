@@ -1759,7 +1759,7 @@ These are declared in [TwigExtension::getFilters()](https://api.drupal.org/api/d
 See examples of some of these at [Drupal Specific Filters](https://www.drupal.org/docs/develop/theming-drupal/twig-in-drupal/filters-modifying-variables-in-twig-templates#s-drupal-specific-filters) and [Drupal Theming Do's and Don'ts by  Don Lalicon - Dec 2023](https://evolvingweb.com/blog/drupal-theming-dos-and-donts)
 
 
-### List of Twig Filters
+### List of Twig V3 Filters
 
 - [abs](https://twig.symfony.com/doc/3.x/filters/abs.html)
 - [batch](https://twig.symfony.com/doc/3.x/filters/batch.html)
