@@ -450,7 +450,7 @@ entity called `views.view.infofeeds`.
 your info in the data field i.e. in Sequel Ace, look for data like
 `%image_width%` )
 
-It is pretty reasonable that the custom field formatter will require some configuration, so this means we will need a `module/config/schema/module.schema.yml` file
+Often the custom field formatter will require some configuration, so this means we will need a `module/config/schema/module.schema.yml` file
 
 So at
 `~/Sites/ncs/docroot/modules/custom/ncs_infoconnect/config/schema/ncs_infoconnect.schema.yml`
@@ -722,7 +722,7 @@ I'm curious to see if it works.
 
 Annotations are documented in Drupal by providing an empty class in the `Drupal\{module}\Annotation` namespace which implements `\Drupal\Component\Annotation\AnnotationInterface`, and adding a `@docblock` that contains the `@Annotation` annotation. 
 
-To find the annotation for a plugin, simply use `command` + `shift` + `O` in PhpStorm to open a file (make sure `files` is selected) and then type `FieldFormatter` or whatever the plugin type is. Select the file that is in the `Annotation` namespace. i.e. in a directory like `web/core/lib/Drupal/Core/Field/Annotation/...`.
+To find the annotation for a plugin, simply use <kbd>command</kbd> + <kbd>shift</kbd> + <kbd>O</kbd> in PhpStorm to open a file (make sure `files` is selected) and then type `FieldFormatter` or whatever the plugin type is. That is the letter \"O\" btw, not the number zero. Select the file that is in the `Annotation` namespace. i.e. in a directory like `web/core/lib/Drupal/Core/Field/Annotation/...`.
 
 ![search for annotation](/images/find-annotation.png)
 

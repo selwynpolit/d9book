@@ -1844,7 +1844,9 @@ This assumes that the `settings.php` specifies the config directory as `../confi
 When you configure the active split in your `settings.php`, you can export the configuration for that split with `ddev drush cex -y`. There is no need to use the `ddev drush config-split: export local` command any more.  The `ddev drush cex ` command handles it all correctly.
 
 
-
+::: tip Note
+Using the [chosen](https://www.drupal.org/project/chosen) module on your site will make the config split a little easier as it displays the selected items in a more user-friendly way.
+:::
 
 
 
@@ -1903,11 +1905,18 @@ Here we want to use database logging (watchdog) for all environments, but we wan
 * Repeat this for `dev` and `stage` environments.
 * Export the configuration with `ddev drush cex -y`
  
+### Multiple splits
+In some circumstances, it can be useful to have additional splits for specific purposes.  For example, if your project is hosted on acquia, you might have an `acquia` split in addition to `local`, `dev`, `test` and `prod`. The reason to have an `acquia` split is that you might have specific configuration for the Acquia environment that is common to all Acqui environments (i.e. dev/test/prod). E.g. the search api settings could all be the same for any acquia environment but you wouldn't have them on the local environment.  This means you set them up once for the `acquia` environment rather than once for each of `dev`, `test` and `prod`. In that instance, the config for the `acquia` would have the search api settings in `config/acquia` directory. See the screenshots below for an example of this:
 
+Here are the items that I have split off for the `acquia` split. First the complete split items:
+![Config Split](/images/config-split-acquia1.png)
 
-::: tip Note
-Using the [chosen](https://www.drupal.org/project/chosen) module on your site will make the config split a little easier as it displays the selected items in a more user-friendly way.
-:::
+Then the partial split items:
+![Config Split](/images/config-split-acquia2.png)
+
+These are the files that show up in the `config/acquia` (actually the name of this directory is `env_acquia` but it is the same idea):
+![Config Split](/images/config-split-acquia3.png)
+
 
 ## Modify SOLR Search behavior
 
