@@ -425,5 +425,6 @@ Examples of vector database products. Some can be hosted locally or are offered 
  ## Resources
  - [Drupal Slack #ai channel](https://www.drupal.org/community/contributor-guide/reference-information/talk/tools/slack)
  - [Drupal AI Online Meetup #2](https://www.drupal.org/project/ai/issues/3478581). This contains the link to the youtube presentation by Scott Euser (Soapbox).
+ - [How to Set Up the OpenAI Module in Drupal 10 - Jan 2025](https://www.lnwebworks.com/insight/open-ai-module)
 
 
