@@ -190,17 +190,30 @@ composer require cweagans/composer-patches
 
 ## Patches from a Gitlab merge request
 
-Use this technique **at your peril!** 
+Be aware that this technique can be a source of security problems so use  it at your peril!
 
-A better process is to download the Merge request patch, and after reviewing carefully, apply it with `cweagans/composer-patches` with a local reference like: `patches/core-1234567-33.patch`.
+For local quick testing, you can use a patch from a merge request on Gitlab like the following:
 
-Using the URL of the merge request, add `.patch` at the end of the URL and that will be the path to the latest patch.
+```json
+    "extra": {
+        "patches": {
+            "drupal/viewsreference": {
+                "Update to 'autocompleteclose' event for autocomplete widget": "https://git.drupalcode.org/project/viewsreference/-/merge_requests/79.patch"
+            }
+        },
+```
 
-e.g. for a merge request at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
+Make sure you have installed the `cweagans/composer-patches` package first otherwise 
+
+A safer approach is to download a `merge request patch`, and after reviewing carefully, apply it locally after making sure you have installed the `cweagans/composer-patches` package.  In your `composer.json`, you can reference the local file with something like: `patches/core-1234567-33.patch` (and following the steps [above](#creating-a-local-patch-to-a-contrib-module)).
+
+Specify the URL of the merge request by adding `.patch` at the end of the MR URL and that will be the path to the latest patch. e.g. for a merge request at:
+* [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2) or
+*  [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2/diffs?view=parallel)
 
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
 
-Note. The patch file itself may look a little different from what you may be accustomed to. In the example below, you may notice that there is a header with the commit message and author details before the patch itself actually begins. This is normal and the patch should still apply correctly.:
+Note. The patch files for MR\'s look a little different from most patch files you've seen. In the example below, you may notice that there is a header with the commit message and author details before the patch itself actually begins. This is normal and the patch should still apply correctly.:
 
 ```diff
 From a4edb6adc09abb1ca52e92d80111173bfa206132 Mon Sep 17 00:00:00 2001
@@ -224,7 +237,7 @@ index 0000000..a4f7c84
 
 
 ::: danger
-You should **not apply patches directly from Gitlab merge requests** for several reasons. 
+You should **not apply patches directly from Gitlab merge requests** on production sites for several reasons. 
 1. When the new drupal.org is released, issues will be moved to gitlab. These file urls will stop working at some point, and if they do your project won't build. Be future proof, use local patches.
 2. New patches may be added to the merge request, and you won't know about them. They could be flawed or malicious which could break your site.
 3. Your composer install (or deployment) now depends on drupal.org. If you are building your site and drupal.org has a temporary outage, your deployment will fail.
