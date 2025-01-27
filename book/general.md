@@ -2449,6 +2449,41 @@ function abc_search_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
   $form['#attached']['library'][] = 'abc_search/abc_search';
 ```
 
+## Cookie lifespan
+
+Sometimes security wants you to reduce the lifespan of cookies and therefor session.  Drupal has a default of 2,000,000 seconds (23 days) which means you will stay logged in for as long as 23 days. This can be a problem especially on a shared computer. This can be tweaked to set it to 8 hours by adding  `sites/default/services.yml` with the following content:
+
+```yaml
+parameters:
+  session.storage.options:
+    # Default ini options for sessions.
+    #
+    # Some distributions of Linux (most notably Debian) ship their PHP
+    # installations with garbage collection (gc) disabled. Since Drupal depends
+    # on PHP's garbage collection for clearing sessions, ensure that garbage
+    # collection occurs by using the most common settings.
+    # @default 1
+    gc_probability: 1
+    # @default 100
+    gc_divisor: 100
+    #
+    # Set session lifetime (in seconds), i.e. the grace period for session
+    # data. Sessions are deleted by the session garbage collector after one
+    # session lifetime has elapsed since the user's last visit. When a session
+    # is deleted, authenticated users are logged out, and the contents of the
+    # user's session is discarded.
+    # @default 200000
+    gc_maxlifetime: 28800
+    #
+    # Set session cookie lifetime (in seconds), i.e. the time from the session
+    # is created to the cookie expires, i.e. when the browser is expected to
+    # discard the cookie. The value 0 means "until the browser is closed".
+    # @default 2000000
+    cookie_lifetime: 28800
+```
+More at:
+- [Drupal Tips: Changing session lifetime for users by David Rodriguez - Mar 2022](https://davidjguru.github.io/blog/drupal-tips-changing-session-lifetime-for-users)
+- [Stack Exchange](https://drupal.stackexchange.com/questions/215622/how-do-i-set-the-cookie-lifetime)
 
 
 
