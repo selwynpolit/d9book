@@ -687,9 +687,9 @@ $connection = Database::getConnection();
 $connection = \Drupal::service('database');
 ```
 
-### SQL select example
+### SQL select examples
 
-Static query example from a controller. This loads some fields from the donors table and returns a render array with a count of how many results it found.
+Here is a static query example from a controller. This loads some fields from the `donors` table and returns a render array with a count of how many results it found.
 
 ```php
 public function queryBuild1() {
@@ -708,6 +708,33 @@ public function queryBuild1() {
   ];
 
   return $render_array;
+}
+```
+
+
+Another example which loads all the nodes of type `page` and returns the node id and title.
+
+```php
+
+use Drupal\Core\Database\Connection;
+
+public function queryBuild2() {
+    $connection = \Drupal::database();
+    $query = $connection->select('node', 'n');
+    $query->fields('n', ['nid']);
+    $query->condition('n.type', 'page');
+    $results = $query->execute();
+
+    foreach ($results as $row) {
+      $node = \Drupal::entityTypeManager()->getStorage('node')->load($row->nid);
+
+      if ($node) {
+        $nid = $node->id();
+        $title = $node->getTitle();
+        //...
+      }
+      ...
+    }
 }
 ```
 
