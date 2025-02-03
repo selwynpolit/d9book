@@ -230,14 +230,14 @@ function mymodule_entity_bundle_field_info_alter(&$fields, \Drupal\Core\Entity\E
 ```
 
 Custom validation constraints can also be defined.  These links may be useful: 
-[ForumLeafConstraint](https://api.drupal.org/api/drupal/core%21modules%21forum%21src%21Plugin%21Validation%21Constraint%21ForumLeafConstraint.php/class/ForumLeafConstraint/8)/
-and 
-[ForumLeafConstraintValidator](https://api.drupal.org/api/drupal/core%21modules%21forum%21src%21Plugin%21Validation%21Constraint%21ForumLeafConstraintValidator.php/class/ForumLeafConstraintValidator/8)
+* [ForumLeafConstraint](https://api.drupal.org/api/drupal/core%21modules%21forum%21src%21Plugin%21Validation%21Constraint%21ForumLeafConstraint.php/class/ForumLeafConstraint/8)
+* [ForumLeafConstraintValidator](https://api.drupal.org/api/drupal/core%21modules%21forum%21src%21Plugin%21Validation%21Constraint%21ForumLeafConstraintValidator.php/class/ForumLeafConstraintValidator/8)
 
 Also from https://drupalize.me/tutorial/entity-validation-api?p=2792 (you need a paid membership to read the whole tutorial):
 Drupal includes the [Symfony Validator
 component](https://symfony.com/doc/2.8/components/validator.html), and
-provides an Entity Validation API to assist in validating the values of fields in an entity. By using the Entity Validation API you can ensure that you\'r validation logic is applied to Entity CRUD operations regardless of how they are triggered. Whether editing an Entity via a Form API form, or creating a new Entity via the REST API, the same validation code will be used.
+provides an Entity Validation API to assist in validating the values of fields in an entity. By using the Entity Validation API you can ensure that your validation logic is applied to Entity CRUD operations regardless of how they are triggered. Whether editing an Entity via a Form API form, or creating a new Entity via the REST API, the same validation code will be used.
+
 
 ## Resources
 
