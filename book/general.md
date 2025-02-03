@@ -2486,6 +2486,133 @@ More at:
 - [Stack Exchange](https://drupal.stackexchange.com/questions/215622/how-do-i-set-the-cookie-lifetime)
 
 
+## Custom module to search all pages for a string
+
+This controller will search all pages by rendering them and report back if the string is found.  This is useful if you need to find a string in a page that is not easily found in the database.  This is a simple example of how to do this.  
+
+Here is the `page_search_utility.info.yml` file:
+
+```yaml
+name: 'Page search utility'
+type: module
+description: 'Page search utility.'
+package: 'Custom'
+core_version_requirement: ^10
+```
+
+
+This is a controller that can be accessed via a route.  The route is defined in the `page_search_utility.routing.yml` file:
+
+```yaml
+page_search_utility_search1:
+  path: '/page-search/search1'
+  defaults:
+    _title: 'Page Search Utility'
+    _controller: '\Drupal\page_search_utility\Controller\PageSearchUtilityController'
+  requirements:
+    _permission: 'access content'
+```
+
+Here is the controller in the `src/Controller/PageSearchUtilityController.php` file:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\page_search_utility\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Database\Connection;
+
+/**
+ * Returns responses for Page search utility routes.
+ */
+final class PageSearchUtilityController extends ControllerBase {
+
+  /**
+   * Builds the response.
+   */
+  public function __invoke(): array {
+    $string_to_find = 'abc.example.com';
+    $connection = \Drupal::database();
+    $build = [];
+    $this->find_string_in_nodes($string_to_find, $connection, $build);
+
+    $build['content'][] = [
+      '#type' => 'item',
+      '#markup' => $this->t('Finished'),
+    ];
+
+    return $build;
+  }
+
+  function find_string_in_nodes($string, Connection $connection, array &$build): void {
+    // Create entity query to load all published nodes.
+    $query = \Drupal::entityQuery('node');
+    $query->condition('status', 1);
+    $query->accessCheck(FALSE);
+    $nids = $query->execute();
+    $count = count($nids);
+
+    // Show message indicating number of nodes to be processed.
+    $build['content'][] = [
+      '#title' => 'Search: ',
+      '#type' => 'item',
+      '#markup' => 'Processing ' . $count . ' nodes',
+    ];
+
+    foreach ($nids as $nid) {
+      $node = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+      // If node doesn't load, report the nid and continue.
+      if (!$node) {
+        $build['content'][] = [
+          '#title' => 'Node Problem: ',
+          '#type' => 'item',
+          '#markup' => 'Node not loaded: ' . $nid,
+        ];
+        continue;
+      }
+      $nid = $node->id();
+      $type = $node->bundle();
+      $url = $node->toUrl();
+
+      $renderer = \Drupal::service('renderer');
+      $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+      $render_array = $view_builder->view($node, 'full');
+      $rendered_node = $renderer->renderPlain($render_array);
+
+      if (str_contains($rendered_node->__toString(), $string)) {
+        // print 'Found links to "' . $string . '" in node ' . $nid . PHP_EOL;
+        //$result = 'Found links to "' . $string . '" in node ' . $nid . PHP_EOL;
+        $result = 'Found link(s) to "' . $string . '" in node ' . $nid . ' of type ' . $type . PHP_EOL;
+        $build['content'][] = [
+          '#prefix' => '<div>',
+          '#title' => $result,
+          '#type' => 'link',
+          '#url' => $url,
+          '#suffix' => '</div>',
+        ];
+      }
+    }
+  }
+
+}
+```
+
+Here is what the output looks like when it finds the string:
+
+```
+Processing nodes Processing 2790 nodes
+
+Found links to "abc.example.com" in node 7
+Found links to "abc.example.com" in node 8
+Finished
+```
+
+There is also a [Find Text Module](https://www.drupal.org/project/find_text) that can be used to search for text in the site. 
+
+
 
 ## Resources
 
