@@ -207,8 +207,16 @@ Define dependencies between fields based on their states and values. It provides
 Provides an autocomplete widget for text fields that suggests all existing (previously entered) values for that field. This provides more flexibility than "allowed values" for the content editor to add new values. At that same time, it is simpler in many cases than creating a taxonomy vocabulary (no hierarchies, no separate system, no permissions headaches, no rendered pages per term).
 [https://www.drupal.org/project/existing_values_autocomplete_widget](https://www.drupal.org/project/existing_values_autocomplete_widget)
 
-### Inline Entity Form
+### Anti-Duplicates
+The Anti-Duplicates module helps you avoid duplicate content on your website by displaying possible \"duplicates\" for the content you are posting, based on the keyword on the title of that content. It provides AJAX support so it notifies you as you type in the title.
+[https://www.drupal.org/project/anti_duplicates](https://www.drupal.org/project/anti_duplicates)
 
+
+### Unique Field
+The Unique Field module performs extra validation when a node is created or updated by a user to require that a node's title, author, language, and fields are unique within a given context. Drupal allows you to create  multiple nodes with the same title or the same value in any combination of fields. For example, if you have a content type with a date field and there should only be one node per date, you could use this module to prevent a node from being saved with a date already used in another node.  Note. the user interface is a litte confusing on this one - look on the content type edit page for the tab: \"Unique Field Restrictions\" tab. Here you can specify the fields that need to be unique, as well as the scope and then whether you want a combination of the values from the fields to be unique or just the individual fields.
+[https://www.drupal.org/project/unique_field](https://www.drupal.org/project/unique_field)
+
+### Inline Entity Form
 Provides a widget for inline management (creation, modification, removal) of referenced entities.The primary use case is the parent -> children one (product display -> products, order -> line items, etc.), where the child entities are never managed outside the parent form. Existing entities can also be referenced.  This module has it's origins in the [Drupal Commerce module.](https://www.drupal.org/project/commerce).
 
 
