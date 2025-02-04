@@ -470,7 +470,7 @@ function tea_preprocess_views_view_field(&$variables) {
 
 ## Either Or in views
 
-To show one field if it exists otherwise show another field is remarkably easy.
+To show one field if it exists otherwise show another field follow these steps:
 
 1. Add a field for `field1` and exclude it from display.
 1. Add a field for `field2` and exclude it from display. 
@@ -478,6 +478,7 @@ To show one field if it exists otherwise show another field is remarkably easy.
 1. In the rewrite results put the token for `field2`.  Eg. `[colorbox]`
 1. In the `No results behavior`, put the token for `field1` e.g. `[field1]`.
 
+This is the equivalent of an `if then else` statement in views.
 
 
 
