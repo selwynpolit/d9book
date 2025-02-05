@@ -468,6 +468,40 @@ function tea_preprocess_views_view_field(&$variables) {
 }
 ```
 
+
+### Example 4
+This example from `my_module.module` file modifies the output of the `type` field in the `search` view. It replaces the value in the type field with the bundle for a content type or custom entity (and formats it slightly).
+
+
+```php
+/**
+ * Implements template_preprocess_views_view_field().
+ */
+function my_module_preprocess_views_view_field(array &$variables) {
+  $view = $variables["view"];
+  $viewname = $view->id();
+  $display = $variables["view"]->current_display;
+  if ($viewname == 'search' && $display == 'block_1') {
+    $field = $variables['field']->field;
+    if ($field == 'type') {
+      if (\Drupal::currentUser()->isAnonymous()) {
+        $entity = $variables['row']->_entity;
+        $bundle = $entity->bundle();
+        $type = $entity->getEntityType()->id();
+        // Append `document` to the bundle name if the type is `www_document`.
+        if ($type == 'www_document' && str_contains($bundle, 'document') === false) {
+          $bundle .= ' Document';
+        }
+        // Convert to title case.
+        $bundle = ucwords($bundle);
+        $variables['output'] = \Drupal\Core\Render\Markup::create($bundle);
+      }
+    }
+  }
+
+}
+```
+
 ## Either Or in views
 
 To show one field if it exists otherwise show another field follow these steps:
