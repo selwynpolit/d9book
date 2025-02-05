@@ -89,6 +89,12 @@ The above statement will return either TRUE or FALSE. TRUE means you are on the 
 $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 ```
 
+## Retrieve the Symfony Request object
+
+```php
+$request = \Drupal::request();
+```
+
 ## Retrieve query, get or post parameters 
 
 For `get` variables use:
@@ -113,6 +119,14 @@ $collection = $query['collection'];
 ::: tip Note
 Drupal will cache requests so render arrays need cache contexts specified correctly in order to successfully retrieve those parameters. See [Caching](caching#set-cache-context-correctly-when-retrieving-query-get-or-post-parameters)
 :::
+
+## Retrieve the query string
+
+```php
+$request->getQueryString()
+```
+e.g. if a url has `?_wrapper_format=drupal_ajax&ajax_form=1` this will return `_wrapper_format=drupal_ajax&ajax_form=1`
+
 
 ## Convert TranslatableMarkup to a string
 
