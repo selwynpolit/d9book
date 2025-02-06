@@ -292,11 +292,30 @@ e.g.
 
 ## Display a message with a link in the notification area 
 
-This example builds a `$helpdesk_url`, calls a `sendMail()` function and then depending on the return value `$results` it displays a message or error with a built in link in the notification area:
+This example builds a link to a node using the node title and displays it in the message area. The link will open in a new tab.
+
+```php
+$node = Node::load(1);
+$url = Url::fromUri('internal:/node/1');
+$url->setOptions(['attributes' => ['target' => '_blank']]);
+$title = $node->getTitle();
+$link = \Drupal::service('link_generator')->generate(t('@title', ['@title' => $title]), $url);
+$message_render_array = [
+  '#type' => 'markup',
+  '#markup' => t('Click @link to open the document in a new tab',
+    [
+      '@link' => $link,
+    ]),
+];
+
+\Drupal::messenger()->addMessage($message_render_array);
+```
+
+This more complex example builds a `$helpdesk_url`, calls the `sendMail()` function and then depending on the return value `$results` it displays a message or error with a built in link in the notification area:
 
 
 ```php
-    $helpdesk_url = Url::fromUri('https://helpdesk.abc..gov/helpme');
+    $helpdesk_url = Url::fromUri('https://helpdesk.abc.gov/helpme');
     $helpdesk_url->setOptions(['attributes' => ['target' => '_blank']]);
     $helpdesk_link = \Drupal::service('link_generator')->generate('please submit a help ticket here', $helpdesk_url);
     $results = $general_utility->sendEmail([$email_to], $from_email, $subject, $message_body );
@@ -324,6 +343,25 @@ This example builds a `$helpdesk_url`, calls a `sendMail()` function and then de
       \Drupal::messenger()->addError($render_array);
     }
 ```
+
+## Display a link in the message area
+
+This will display a message which is a link to the url for the target node in the message area. The link will open in a new tab.
+
+```php
+      $title = $node->getTitle();
+      $url = \Drupal\Core\Url::fromUri('internal:/node/' . $nid);
+      $url->setOptions(['attributes' => ['target' => '_blank']]);
+
+      $message_render_array = [
+        '#title' => t('Click for article @title', ['@title' => $title]),
+        '#type' => 'link',
+        '#url' => $url,
+      ];
+      \Drupal::messenger()->addMessage($message_render_array);
+  ```
+
+
 
 
 ## Display a message to an anonymous user after redirect
