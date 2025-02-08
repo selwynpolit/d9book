@@ -208,19 +208,41 @@ $text_array = [
 
 ## Text with variable substitution (Placeholders)
 
-To pass parameters to the `t()` function, use the `@` symbol. For example:
+To pass parameters to the `t()` function, use the `@`, `%` or `:` symbols before the variable name.
+
+The `@` symbol is used for text that is displayed to the user. The `%` symbol is used for text that is displayed to the user and is emphasized using `<em>` tags. The `:` symbol is used for URLs.
+When you use the form `:variable`, for URLs the `:variable` placeholder is escaped with `\Drupal\Component\Utility\Html::escape()` and filtered for dangerous protocols using `UrlHelper::stripDangerousProtocols()`.
+
 
 ```php
 $render_array = [
   '#type' => 'markup',
-  '#markup' => $this->t('You are viewing @title.  Unfortunately there is no image defined for delta: @delta.', ['@title' => $node->getTitle(), '@delta' =>$delta)],
+  '#markup' => $this->t('You are viewing @title.  Unfortunately there is no image defined for delta: @delta.', [
+    '@title' => $node->getTitle(),
+    '@delta' => $delta)],
   ];
 ```
 
-Also, you can use the `:variable`, for use specifically with URLs. The `:variable` placeholder is escaped with `\Drupal\Component\Utility\Html::escape()` and filtered for dangerous protocols using `UrlHelper::stripDangerousProtocols()`.
+Here we use both `@` and `:` placeholders. Notice that the title is emphasized with `<em>` tags.:
 
-And from the Render API Overview at
-<https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x> :
+```php
+  $node = \Drupal\node\Entity\Node::load(2306);
+  $title = $node->getTitle();
+  $document_link = $node->toLink()->toString();
+  Drupal::messenger()->addError(t('A Document with the title :title already exists. @link',
+    [
+      ':title' => $title,
+      '@link' => $document_link,
+    ]));
+```
+
+
+::: tip
+In `.module` files, use `t()` and in classes, use `$this->t()` e.g. Use this in a Form`'#title' => $this->t('Diff radio behavior'),`, this in a module file `t('Diff radio behavior')`. And from a controller, use `'#title' => $this->t('Changes to %title', ['%title' => $entity->label()]),`.
+:::
+
+
+And from the [Render API Overview on Drupal.org](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x):
 
 **Placeholders in render arrays**
 
