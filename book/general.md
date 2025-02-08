@@ -2594,7 +2594,7 @@ final class PageSearchUtilityController extends ControllerBase {
       $renderer = \Drupal::service('renderer');
       $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
       $render_array = $view_builder->view($node, 'full');
-      $rendered_node = $renderer->renderPlain($render_array);
+      $rendered_node = $renderer->render($render_array);
 
       if (str_contains($rendered_node->__toString(), $string)) {
         // print 'Found links to "' . $string . '" in node ' . $nid . PHP_EOL;
