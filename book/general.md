@@ -2626,6 +2626,25 @@ Finished
 
 There is also a [Find Text Module](https://www.drupal.org/project/find_text) that can be used to search for text in the site. 
 
+## Get the display name for a custom entity bundle
+
+If you have created custom entities with bundles e.g. custom entities of type `hardware` with bundles: `nut`, `bolt`, `screw`, etc. and you want to get the display name for the bundle, you can use the following code. Note the display name is customizable through the Drupal User Interface so users can customize it to make it more human readable. 
+
+```php
+$entity_id = 123;
+$entity_type_id = 'hardware';
+// Load the entity and get it's bundle machine name.
+$entity = \Drupal::entityTypeManager()->getStorage($entity_type_id)->load($entity_id);
+$bundle = $entity->bundle();
+
+// Use the entity type bundle info service to get the bundle info.
+$entity_type_bundle_info = \Drupal::service('entity_type.bundle.info');
+$bundle_info = $entity_type_bundle_info->getBundleInfo($entity_type_id);
+// Get the label for the bundle.
+$bundle_label = $bundle_info[$bundle]['label'];
+```
+
+I used this in an implementation of `template_preprocess_views_view_field()` to get the display name of the bundle for a custom entity type to display in a view. For some strange reason, Drupal wouldn't display the bundle name for anonymous users even though they had access to the content.
 
 
 ## Resources
