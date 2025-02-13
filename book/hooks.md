@@ -805,6 +805,46 @@ Some types of entities invoke hooks for specific operations:
     -   [hook_node_update_index](https://api.drupal.org/api/drupal/core%21modules%21node%21node.api.php/function/hook_node_update_index/10)()
 
 
+### Display additional information on custom entities
+
+There is a custom entity called a `www_document` and it has various bundles which need to be displayed on the entity view page. In this code I display the friendlier \"display name\" rather than the machine name (which is in the `$bundle` variable).
+
+Here is the code to do that from `www_document.module`:
+
+```php
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function www_document_preprocess_www_document(&$variables): void {
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $variables['elements']['#www_document'];
+
+  if ($variables['view_mode'] == 'full') {
+    $bundle = $entity->bundle();
+    // Get the bundle display name.
+    $bundle_display_name = \Drupal::service('entity_type.bundle.info')
+      ->getBundleInfo($entity->getEntityTypeId())[$bundle]['label'];
+    // If it doesn't end with document, add that.
+    if (!str_contains(strtolower($bundle_display_name), 'document')) {
+      $bundle_display_name .= ' Document';
+    }
+
+    $bundle_display_name = ucfirst($bundle_display_name);
+    $variables['bundle'] = $bundle_display_name;
+  }
+}
+```
+
+In the template, the bundle can be output like this:
+
+```twig
+{% if bundle %}
+  <div class="document-bundle">{{ bundle }}</div>
+{% endif %}
+```
+
+
+
 ## Theme hooks Overview
 
 Here is an excerpt from the [Theme System Overview](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/10):
