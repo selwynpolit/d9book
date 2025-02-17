@@ -38,20 +38,17 @@ In the System settings, displays, set your main display monitor to the monitor t
 
 ## Show speaker icon in menu bar
 
-If the Sound control isn't in the menu bar, choose Apple menu > System Settings, then click Control Center in the sidebar. (You may need to scroll down.) Click the pop-up menu next to Sound on the right, then choose whether to show Sound in the menu bar all the time or only when it's active.
+If the Sound control isn't in the menu bar, choose Apple menu > System Settings, then click Control Center in the sidebar. (You may need to scroll down.) Click the pop-up menu next to `Sound` on the right, then choose `Always show in menu bar`.
 
 ## SSH Keys
 
-To generate a 4096 byte (4K) key use these commands and just hit return when prompted. Don't enter a passphrase.:
+To generate a 4096 byte (4K) key use these commands and just hit return when prompted. Replace johnsmith@example.com with your own email. Don't enter a passphrase, just press <kbd>return</kbd> for all prompts.:
 
 ```bash
+mkdir ~/.ssh
 cd ~/.ssh
-ssh-keygen -t rsa -b 4096 -C "johnsmith@gmail.com"
+ssh-keygen -t rsa -b 4096 -C "johnsmith@example.com"
 ```
-
-::: tip Note
-Replace johnsmith@gmail.com with your email.
-:::
 
 You will need to add the ssh key to the agent permanently.  
 for older versions of MacOS:
