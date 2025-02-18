@@ -121,12 +121,11 @@ echo 'export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"' >> ~/.zshrc
 After updating, be sure to run `source ~/.zshrc` or you will have to close the terminal and reopen it.
 
 ::: tip Note
-Most recently Drupal requires PHP 8.2 so you might want to install that instead. 
+Most recently Drupal has begun using PHP 8.3 so you might want to install that instead with `brew install php@8.3`. 
 :::
 
-Add some settings to let you run drush:
+Add settings to let you run drush. Use this to locate your custom `.ini` file:
 
-check to make sure this is the place to add your custom settings.ini
 
 ```sh
 php --ini
@@ -165,7 +164,7 @@ Additional .ini files parsed:      /opt/homebrew/etc/php/8.1/conf.d/ext-opcache.
 ```
 
 ::: tip Note
-If you installed composer before this step, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.  Simply uninstall it and continue with the php 8.1 install.
+If you installed composer before this step, you might end up with php 8.2 installed which has some challenges running the Drupal Test Traits and PHPUnit.  Simply uninstall it and continue installing the version of php that you want.
 :::
 
 ## Composer
@@ -186,10 +185,12 @@ Ideally install this after installing PHP@8.1 to avoid this putting PHP 8.2 (or 
 - [Opera](https://www.opera.com/)
 
 ## Dev tools
+These are the dev tools I install next
 
 - [Phpstorm](https://www.jetbrains.com/phpstorm/)
 - [VScode](https://code.visualstudio.com/)
 - [Docker](https://docs.docker.com/desktop/install/mac-install/)
+- [Sublime Text](https://www.sublimetext.com/)
 
 ## DDEV
 
@@ -217,7 +218,7 @@ To initialize mkcert for ddev, run:
 mkcert -install
 ```
 
-This is the output which in this case is prompting to install nss if you have FireFox installed. Don't forget that step.
+This may prompt you to install nss if you have FireFox installed. Don't forget that step.
 
 ```
 Created a new local CA 💥
@@ -242,6 +243,160 @@ This is a great GUI SQL tool. It is actually a fork of the fantastic Sequel Pro 
 [Download and install iTerm2](https://iterm2.com/)
 
 Follow [instructions here](https://iterm2.com/documentation-shell-integration.html) to install Shell integration. The easiest way to install shell integration is to select the iTerm2>Install Shell Integration menu item. It will download and run a shell script. This enables command history in the toolbelt. Try it. You'll love it!
+
+### .zshrc
+MacOS comes with the ZSH shell which can have all sorts of cool customization.  Here is a copy of my `.zshrc` file.  You can copy this to your home directory and then run `source ~/.zshrc` to reload the settings.  Many of these settings are explained in more detail below.
+
+```sh
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+ZSH_THEME="avit"
+ZSH_THEME="eastwood"
+ZSH_THEME="agnoster"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+# plugins=(git)
+
+
+# selwyn 9-3-20: add plugins
+
+plugins=(git z macos zsh-autosuggestions zsh-syntax-highlighting sudo)
+#plugins=(git osx zsh-syntax-highlighting)
+
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Selwyn 4-15-21 - add aliases
+alias sz='source ~/.zshrc'     # Easily source your ~/.zshrc file.
+alias zshrc='vim  ~/.zshrc'     # Easily edit your ~/.zshrc file.
+alias myip="curl http://ipecho.net/plain; echo"
+alias selenium='selenium-server -port 4444'
+alias xon='ddev xdebug on'
+alias xoff='ddev xdebug off'
+
+# Selwyn 10-3-20
+# for Drupal coding standards.
+alias drupalcs="phpcs --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"
+# for Drupal best practices.
+alias drupalcsp="phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"
+# for auto-fixing according to Drupal coding standards.
+alias drupalcbf="phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"
+
+
+# Selwyn 1-18-23: display year in listings
+alias l='ls -lahT'
+alias ll='ls -lahT'
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Selwyn php 8.3
+export PATH="/opt/homebrew/opt/php@8.3/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.3/sbin:$PATH"
+
+# 11-25-23: for global drush
+export PATH="$HOME/.composer/vendor/bin:$PATH" 
+
+# 9-26-24: for brew install nvm
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+```
+
+
 
 ### Oh My ZSH
 
@@ -273,9 +428,12 @@ After updating, be sure to run `source ~/.zshrc` or you will have to close the t
 #### ZSH syntax highlighting
 
 [From the repo for zsh-syntax-highlighting:](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
+Use these commands to install the zsh-syntax-highlighting plugin:
 
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+```
+```bash
 echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 ```
 
