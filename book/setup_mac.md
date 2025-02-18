@@ -238,14 +238,12 @@ This is a great GUI SQL tool. It is actually a fork of the fantastic Sequel Pro 
 
 ## Terminal
 
-### Iterm2 Terminal Replacement
-
-[Download and install iTerm2](https://iterm2.com/)
-
-Follow [instructions here](https://iterm2.com/documentation-shell-integration.html) to install Shell integration. The easiest way to install shell integration is to select the iTerm2>Install Shell Integration menu item. It will download and run a shell script. This enables command history in the toolbelt. Try it. You'll love it!
-
-### .zshrc
+### Shell file: .zshrc
 MacOS comes with the ZSH shell which can have all sorts of cool customization.  Here is a copy of my `.zshrc` file.  You can copy this to your home directory and then run `source ~/.zshrc` to reload the settings.  Many of these settings are explained in more detail below.
+
+::: tip Note
+The .zshrc file is a script that runs when you open a terminal window. It is a shell script that is run by the ZSH shell. It is used to set up your shell environment, define aliases, functions, and set shell options. It is similar to the .bashrc file used by the bash shell.
+:::
 
 ```sh
 # If you come from bash you might have to change your $PATH.
@@ -397,6 +395,13 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 ```
 
 
+### Iterm2 Terminal Replacement
+
+[Download and install iTerm2](https://iterm2.com/)
+
+Follow [instructions here](https://iterm2.com/documentation-shell-integration.html) to install Shell integration. The easiest way to install shell integration is to select the iTerm2>Install Shell Integration menu item. It will download and run a shell script. This enables command history in the toolbelt. Try it. You'll love it!
+
+
 
 ### Oh My ZSH
 
@@ -433,6 +438,8 @@ Use these commands to install the zsh-syntax-highlighting plugin:
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 ```
+
+Only add the following if you haven't used my `.zshrc` file above:
 ```bash
 echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 ```
