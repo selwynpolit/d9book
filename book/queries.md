@@ -376,6 +376,84 @@ protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_fe
 }
 ```
 
+### Entity reference multi-value fields - match single value
+
+To match a single value, use 'IN' or 'NOT IN' as the operator
+
+This will find nodes with 2 in their array of terms
+
+```php
+    $query = \Drupal::entityQuery('node')
+        ->condition('status', NODE_PUBLISHED)
+        ->condition('type', 'custom_type')
+        ->condition('custom_taxonomy', '2', 'IN')
+        ->sort('field_last_name', DESC);
+```
+
+This will find nodes with 2 or 8 in their array of terms
+
+```php
+    $query = \Drupal::entityQuery('node')
+        ->condition('status', NODE_PUBLISHED)
+        ->condition('type', 'custom_type')
+        ->condition('custom_taxonomy', [2,8], 'IN')
+        ->sort('field_last_name', DESC);
+```
+
+### Entity reference multi-value fields - array exact match
+
+For an exact match to and array, use andConditionGroup
+
+https://drupal.stackexchange.com/questions/226396/perform-a-query-with-an-entity-field-condition-with-multiple-values
+
+Use two separate `andConditionGroup()`. 
+This will find nodes with a match of [2,8]
+
+```php
+$query = \Drupal::entityQuery('node')
+  ->condition('status', NODE_PUBLISHED)
+  ->condition('type', 'custom_type');
+$and = $query->andConditionGroup();
+$and->condition('custom_taxonomy', 2);
+$query->condition($and);
+$and = $query->andConditionGroup();
+$and->condition('custom_taxonomy', 8);
+$query->condition($and);
+$result = $query->execute();
+```
+
+This works no matter how many terms are in the field or in which delta they are.
+
+For a dynamic array, put this in a foreach loop:
+
+```php
+    // An array to match. someFunc is your custom code that returns an array
+    $dynamic_array = someFunc();
+    
+    // Start the query.  
+    $custom_query = $this->entityTypeManager->getStorage('node')
+      ->getQuery();
+
+// Set the parameters. Could be multiple so use andConditionGroup.  
+    if (!empty($dynamic_array)) {
+      foreach ($dynamic_array as $value_integer) {
+        $and = $custom_query->andConditionGroup();
+        $and->condition('field_my_multivalue_ref', $value_integer, 'IN');
+        $custom_query->condition($and);
+      }
+    }
+    else {
+      $custom_query->condition('field_my_multivalue_ref', NULL, 'IS NULL');
+    }
+
+    $custom_query
+      ->accessCheck(FALSE)
+      // any other conditions you want to add, like:
+      ->condition('type', 'my_node_type');
+    $result = $custom_query->execute();
+
+```
+
 ### Find nodes that were modified recently
 
 To select for nodes that were modified within the last seven days, use the following:
