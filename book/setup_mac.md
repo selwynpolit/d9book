@@ -192,6 +192,11 @@ These are the dev tools I install next
 - [Docker](https://docs.docker.com/desktop/install/mac-install/)
 - [Sublime Text](https://www.sublimetext.com/)
 
+## Communications
+- [Slack](https://slack.com/intl/en-za/downloads/mac)
+- [Discord](https://discord.com/)
+
+
 ## DDEV
 
 Install ddev
@@ -635,6 +640,12 @@ Then you can run `git lfs install` to initialize git LFS.
 ### NVM (Node Version Manager)
 
 `brew install nvm`
+
+You will need a `.nvm` directory in your home directory. If you don't have one, create it with:
+
+```sh
+mkdir ~/.nvm
+```
 
 Add the following to the end of your `~/.zshrc` file:
 
