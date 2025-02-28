@@ -69,3 +69,5 @@ Thanks to these rockstars for their contribution to the project. Please add your
 [Raynald Mompoint](https://github.com/raynaldmo) - Updates to the learning chapter
 
 [GeorgiadisChristos](https://github.com/GeorgiadisChristos) - Migrate chapter fixes.
+
+[Nathan Kenall](https://github.com/boinkster) - Queries.

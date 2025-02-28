@@ -101,7 +101,7 @@ public function entityExists() {
 
 ### Find nodes that match a taxonomy term entityQuery
 
-Find all nodes that match a term_id and retrieve the first 5 nodes sorted by title. This code also puts them into a render array for display.
+Find all nodes that match a `term_id` and retrieve the first 5 nodes sorted by title. This code also puts them into a render array for display.
 
 ```php
 protected function loadFirstOpinion($term_id) {
@@ -126,9 +126,9 @@ protected function loadFirstOpinion($term_id) {
   return $render_array;
 ```
 
-### Find 5 nodes that have a matching taxonomy term entityQuery
+### Find 5 nodes that have a matching taxonomy term
 
-We look for published nodes of node type `opinion` that have a term in the category field, sorted by title ascending, starting with the first result and giving us 5 results. The resulting titles are put into a render array.
+Look for published nodes of node type `opinion` that have a term in the category field, sorted by title ascending, starting with the first result and returning 5 results. The resulting titles are put into a render array.
 
 ```php
 protected function loadFirstOpinion($term_id) {
@@ -153,7 +153,9 @@ protected function loadFirstOpinion($term_id) {
   return $render_array;
 ```
 
-### Find matching nodes and delete them entityQuery
+### Find matching nodes and delete them
+
+Use an `entityQuery` to find the first 10 nodes of type `event` and delete them. Return a render array with a message for display.
 
 ```php
 public function deleteQuery1() {
@@ -178,7 +180,7 @@ public function deleteQuery1() {
 }
 ```
 
-### Sort by Node ID, title (nid)
+### Sort by Node ID(nid) or title
 
 ```php
 // Descending.
@@ -214,8 +216,6 @@ for ($i=0;$i<=$nid_count;$i+=100) {
 Note. The created (and changed) field uses a unix timestamp. This is an `int` 11 field in the db with a value like `1525302749` If you add a Drupal `datefield`, its data looks like `2019-05-15T21:32:00` (varchar 20)
 
 If you want to query a date field in a content type, you will have to fiddle around with the setTimezone stuff that is commented out below. The date field referenced below (`field_date`) is a standard Drupal date field.
-
-More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update> and <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
 
 ```php
   protected function loadOpinionForAYear($year, $term_id) {
@@ -260,27 +260,26 @@ More at <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query
 
   }
 ```
+[More at this 2018 blog post](https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update) and [on Stack Exchange](https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8)
 
-### entityQuery frequently used conditions
+
+
+### Frequently used conditions for entityQuery
 
 -   Published: `->condition('status', 1)`
-
 -   Text field not empty: `->condition('field_source_url', '', '<>')`
-
 -   Field value \> 14: `->condition('field_some_field', 14, '>')`
-
 -   Reference field empty: `->notExists('field_sf_account_ref');`
-
 -   Null: `->condition($field, NULL, 'IS NULL');`
-
 -   Not Null: `->condition($field,NULL, 'IS NOT NULL');`
 
-Lots more at
-<https://www.drupal.org/docs/8/api/database-api/dynamic-queries/conditions>
+[More conditions on Drupal.org updated Aug 2024](https://www.drupal.org/docs/8/api/database-api/dynamic-queries/conditions)
 
-### Update menu items programatically
 
-To update several items in a menu use hook_update.
+
+### Menu query to update menu items programatically
+
+To update several items in a menu, you could use `hook_update`.
 
 ```php
 function park_academy_update_8002() {
@@ -309,9 +308,11 @@ function park_academy_update_8002() {
 
 ### Query multi-value fields
 
-When querying multivalue fields, you need to use `%delta` to specify the position (or delta) for the value you are looking for.  You also have to identify to the query which position (or delta) you want to query.  In the example below, we specify `field_srp_voting_status.%delta` as 1 - indicating the second position (0 based always) and `field_srp_voting_status.%delta.value` for the actual value we are looking for (either accepted, rejected or incomplete):
+When querying multivalue fields, you can specify the `%delta` to identify the position (or delta) for the value you are looking for.  In the example below, we specify `field_srp_voting_status.%delta` as 1 to  indicate the second position (It is zero based).  We use `field_srp_voting_status.%delta.value` for the actual value we are looking for (either `accepted`, `rejected` or `incomplete`):
 
 ```php
+    // Find correlation nodes with accepted, rejected or incomplete in the 
+    // $field_voting_status in position 1.
     $vote_number = 1;
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'correlation', '=')
@@ -330,8 +331,8 @@ When querying multivalue fields, you need to use `%delta` to specify the positio
 ```
 
 
-### Query entity reference fields if they have a value or no value
-To check if there is a value in an entity reference fields, use the following code
+### Match entity reference fields that have values or don't
+Use the following to check if there is a value in an entity reference field:
 
 ```php
 $query = \Drupal::entityQuery('node')
@@ -345,24 +346,17 @@ if ($vote_type == 'feedback_error'){
   // Check for filled entity reference field.
   $query->exists('field_ref_error_feedback');
 }
-
 ```
 
-### Entity reference fields entityQuery
+### Query a field in the entity in entity reference fields
 
-In the following query, we check for a value in the entity that is referenced in the entity reference field?  For example, if you have an entity reference field which references node (entity) 27.  This query can look in node 27 and check a field value in that node.  Here we check in field_first_name for the the value `Fred`:
-
-```php
-      ->condition('field_tks_pub_expectation.entity.field_first_name', 'Fred', '=')
-```
-
-For querying for a user id, we query the `field_voter.entity:user.uid` value.  See code below:
+To find a matching user id in the entity (user) that is referenced in the entity reference field `field_voter`, you can query the `field_voter.entity:user.uid` value:
 
 ```php
 protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_feedback_nid, int $vote_number) {
   $node = [];
   $query = \Drupal::entityQuery('node')
-    ->condition('type', 'srp_voting_record')
+    ->condition('type', 'stp_voting_record')
     ->condition('field_voter.entity:user.uid', $user_id)
     ->condition('field_ref_error_feedback', $error_feedback_nid)
     ->condition('field_srp_vote_number', $vote_number)
@@ -376,49 +370,62 @@ protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_fe
 }
 ```
 
-### Entity reference multi-value fields - match single value
-
-To match a single value, use 'IN' or 'NOT IN' as the operator
-
-This will find nodes with 2 in their array of terms
+This syntax lets you look at any entity that is referenced in an entity reference field and search for a field value in that entity. E.g. you can look in field_first_name for the the value `Fred`:
 
 ```php
+->condition('field_tts_pub_expectation.entity.field_first_name', 'Fred', '=')
+```
+
+
+
+### Find values in multi-value entity reference fields
+
+To match a single value, use `IN` or `NOT IN` as the operator.
+
+This will find any nodes with tid 2 in the taxonomy entity reference field:
+
+```php
+    $tid = 2;
     $query = \Drupal::entityQuery('node')
         ->condition('status', NODE_PUBLISHED)
         ->condition('type', 'custom_type')
-        ->condition('custom_taxonomy', '2', 'IN')
+        ->condition('field_category', $tid, 'IN')
+        ->accessCheck(FALSE);
         ->sort('field_last_name', DESC);
 ```
 
-This will find nodes with 2 or 8 in their array of terms
-
+This will find nodes with 2 or 8 in the taxonomy entity reference field:
 ```php
+    $tids = [2,8];
     $query = \Drupal::entityQuery('node')
         ->condition('status', NODE_PUBLISHED)
         ->condition('type', 'custom_type')
-        ->condition('custom_taxonomy', [2,8], 'IN')
+        ->condition('field_category', $tids, 'IN')
+        ->accessCheck(FALSE);
         ->sort('field_last_name', DESC);
 ```
 
-### Entity reference multi-value fields - array exact match
+### Find multiple values in a multi-value entity reference field
 
-For an exact match to and array, use andConditionGroup
-
-https://drupal.stackexchange.com/questions/226396/perform-a-query-with-an-entity-field-condition-with-multiple-values
+For an exact match to an array, use `andConditionGroup`
 
 Use two separate `andConditionGroup()`. 
-This will find nodes with a match of [2,8]
+This will find nodes with a tid match of both 2 and 8:
 
 ```php
 $query = \Drupal::entityQuery('node')
   ->condition('status', NODE_PUBLISHED)
   ->condition('type', 'custom_type');
+  ->accessCheck(FALSE);
+
 $and = $query->andConditionGroup();
-$and->condition('custom_taxonomy', 2);
+$and->condition('field_category', 2);
 $query->condition($and);
+
 $and = $query->andConditionGroup();
-$and->condition('custom_taxonomy', 8);
+$and->condition('field_category', 8);
 $query->condition($and);
+
 $result = $query->execute();
 ```
 
@@ -434,7 +441,7 @@ For a dynamic array, put this in a foreach loop:
     $custom_query = $this->entityTypeManager->getStorage('node')
       ->getQuery();
 
-// Set the parameters. Could be multiple so use andConditionGroup.  
+    // Set the parameters. Could be multiple so use `andConditionGroup`.
     if (!empty($dynamic_array)) {
       foreach ($dynamic_array as $value_integer) {
         $and = $custom_query->andConditionGroup();
@@ -451,8 +458,10 @@ For a dynamic array, put this in a foreach loop:
       // any other conditions you want to add, like:
       ->condition('type', 'my_node_type');
     $result = $custom_query->execute();
-
 ```
+[See more on Stack Exchange](https://drupal.stackexchange.com/questions/226396/perform-a-query-with-an-entity-field-condition-with-multiple-values)
+
+
 
 ### Find nodes that were modified recently
 
@@ -474,10 +483,9 @@ $voting_record_nids = array_values($voting_record_nids);
 
 ### andCondition and orCondition example
 
-Here is an example of a submitForm function where after a node is deleted, an additional query is fired off which looks for nodes that are either:
-1. Of type `srp_voting_records` with matching $ef_node_id's
-2. Of type `srp_publisher_response` with matching $ef_node_id's
-
+Here is an example of a `submitForm` function which deletes the node then queries for nodes that are either:
+1. Of type `srp_voting_records` with matching `$ef_node_id`
+2. Of type `srp_publisher_response` with matching `$ef_node_id`
 Then it deletes those nodes it found.
 
 Note. the `ef` in `$ef_node_id` stands for error/feedback if that makes the code any clearer.
@@ -625,7 +633,7 @@ If NULL, defaults to the `'='` operator.
 
 ### Paragraph entityQuery example
 
-This code looks up related paragraphs of type `accordio_video_section`, grabs the first one (this should have used a sort to more reliably return the same value), then finds all `video_collection` nodes in that collection. In essence, this finds a list of other videos that are in the collection for the video you are viewing.
+This code looks up related paragraphs of type `accordio_video_section`, grabs the first one (this should have used a sort to more reliably return the same value), then finds all `video_collection` nodes in that collection. In summary, this finds a list of other videos that are in the collection for the video you are viewing.  Think of it as a related video list.
 
 ```php
   public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
@@ -709,14 +717,15 @@ This code looks up related paragraphs of type `accordio_video_section`, grabs th
       }
     }
 ```
-From ~Sites/inside-mathematics/modules/custom/dana_pagination/src/Form/VideoPaginationForm.php.
 
 
 ## Static and Dynamic Queries
 
-Sometimes you will use static or dynamic queries rather than entityQueries. These use actual SQL versus the `entityQuery` approach where you build the various parts of the query using PHP methods.
+Sometimes you will use static or dynamic queries rather than entityQueries. These use actual `SQL` versus the `entityQuery` approach where you build the various parts of the query using PHP methods. I have seen a situation where a static query would work where an entityQuery would not. 
 
-Dynamic queries let the Drupal database driver generate the sql string and therefore has more flexibility in the resulting sql string. Static queries are just a sql string which have no flexibility in making small adjustments for a specific database back-end. This means may not work for other databases. The core supported databases are MySQL, PostgreSQL and SQLite. When we use dynamic queries, they should work for more/all databases. Dynamic queries are however a little bit slower than static queries.
+::: tip Note
+Dynamic queries let the Drupal database driver generate the `SQL` string and therefore has more flexibility in the resulting `SQL` string. Static queries are just a `SQL` string which have no flexibility in making small adjustments for a specific database back-end. This means may not work for other databases. The core supported databases are MySQL, PostgreSQL and SQLite. Dynamic queries should work for more/all databases. Dynamic queries are however a little bit slower than static queries.
+:::
 
 An example static query is:
 
@@ -726,18 +735,24 @@ $query = $database->query("SELECT id, example FROM {mytable}");
 $result = $query->fetchAll();
 ```
 
-Dynamic queries refer to queries that are built dynamically by Drupal rather than provided as an explicit query string. All Insert, Update, Delete, and Merge queries must be dynamic. Select queries may be either static or dynamic. Therefore, "dynamic query" generally refers to a dynamic Select query.
+Dynamic queries refer to queries that are built dynamically by Drupal rather than provided as an explicit query string. All `insert`, `update`, `delete`, and `merge` queries must be dynamic. `Select` queries may be either static or dynamic. Therefore, \"dynamic query\" generally refers to a **dynamic select query**.
 
 For this static query:
 ```php
-$result = $database->query("SELECT uid, name, status, created, access FROM {users_field_data} u WHERE uid <> 0 LIMIT 50 OFFSET 0");
+$result = $database
+  ->query("SELECT uid, name, status, created, access 
+          FROM {users_field_data} u 
+          WHERE uid <> 0 
+          LIMIT 50 
+          OFFSET 0"
+          );
 ```
 
 The equivalent dynamic query is:
 
 ```php
-// Create an object of type Select and directly add extra detail
-// to this query object: a condition, fields and a range.
+// Create an Select object and directly add extra details
+// like a condition, fields and a range.
 $query = $database->select('users_field_data', 'u')
   ->condition('u.uid', 0, '<>')
   ->fields('u', ['uid', 'name', 'status', 'created', 'access'])
@@ -818,7 +833,7 @@ public function queryBuild2() {
 
 ### Find the biggest value in a field
 
-Here is a quick query and retrieve the result. In this case we are finding the highest value for the id column.
+Here is a query to find the highest value for the id column in the `donors` table.
 
 ```php
 public function highestId() {
@@ -842,7 +857,7 @@ public function highestId() {
 
 ### SQL update query - example 1
 
-This shows how to update a status field to the new value in `$status` when the uuid matches, the event is either update or add, and the status is new.
+This code finds records which have matching `uuid`, have a status of `new` and the event is either `update` or `add`. It then updates the status to the value passed in the `$status` parameter.
 
 ```php
 public function setUpdateStatus(string $uuid, string $status) {
@@ -907,24 +922,93 @@ public function updateQuery1() {
   return $render_array;
 }
 ```
+::: tip Note
+This will return the number of rows affected by the SQL update query although this `RETURN_AFFECTED` functionality will be deprecated in Drupal version 11. [See rowCount for Drupal 9](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x) and [Drupal 10 source code](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/lib/Drupal/Core/Database/Connection.php#L802).
 
-Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x> and <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>
+```php
+  // Depending on the type of query we may need to return a different value.
+  // See DatabaseConnection::defaultOptions() for a description of each
+  // value.
+  // @todo the block below is deprecated and as of Drupal 11 will be
+  //   removed, query() will only return a StatementInterface object.
+  // @see https://www.drupal.org/project/drupal/issues/3256524
+  switch ($options['return'] ?? Database::RETURN_STATEMENT) {
+    case Database::RETURN_STATEMENT:
+      return $stmt;
+
+    // Database::RETURN_AFFECTED should not be used; enable row counting
+    // by passing the appropriate argument to the constructor instead.
+    // @see https://www.drupal.org/node/3186368
+    case Database::RETURN_AFFECTED:
+      $stmt->allowRowCount = TRUE;
+      return $stmt->rowCount();
+```
+:::
 
 
 ### SQL insert
 
-From
-<https://www.drupal.org/docs/drupal-apis/database-api/insert-queries>
+Certain databases require special handling for `LOB` (Large OBject, such as TEXT in MySQL) and `BLOB` (Binary Large OBject) fields, so a layer of abstraction is required to allow individual database drivers to implement whatever special handling they require.
 
-Which to use\? `$connection-\>insert()` or `$connection->query()` or what are the difference between `insert()` and `query()`\?
+Insert queries are started using the insert() method as follows:
+
+```php
+/** @var \Drupal\Core\Database\Connection $connection */
+$connection = \Drupal::service('database');
+$query = $connection->insert('mytable', $options);
+```
+
+That creates an `insert` query object that will insert one or more records to the `mytable` table. Note that braces are not required around the table name as the query builder will handle that automatically.
+
+The insert query object uses a fluent API. That is, all methods (except `execute()`) return the query object itself allowing method calls to be chained. 
+
+The insert query object supports a number of different usage patterns to support different needs. In general, the workflow consists of specifying the fields that the query will insert into, specifying the values the query will insert for those fields, and executing the query. 
+
+Here is an example in the compact form with chained together commands:
+
+```php
+$result = $connection->insert('mytable')
+  ->fields([
+    'title' => 'Example',
+    'uid' => 1,
+    'created' => \Drupal::time()->getRequestTime(),
+  ])
+  ->execute();
+```
+
+which is equivalent to:
+
+```sql
+INSERT INTO {mytable} (title, uid, created) VALUES ('Example', 1, 1221717405);
+```
+
+You can insert multiple rows using the multi-insert form of an insert query. This will execute three insert statements together as a single unit, using the most efficient method for the particular database driver in use. Note that here we have saved the query object to a variable so that we can loop on $values and call the values() method repeatedly
+
+```php
+$values = [
+  ['title' => 'Example 1', 'uid' => 1, 'created' => \Drupal::time()->getRequestTime()],
+  ['title' => 'Example 2', 'uid' => 1, 'created' => \Drupal::time()->getRequestTime()],
+  ['title' => 'Example 3', 'uid' => 1, 'created' => \Drupal::time()->getRequestTime()],
+];
+$query = $connection->insert('mytable')
+  ->fields(['title', 'uid', 'created']);
+foreach ($values as $record) {  
+  $query->values($record);
+}
+$result = $query->execute();
+```
+
+
+::: tip Note
+What are the differences between `insert()` and `query()`\?
 
 - `insert()` has each column specified as a separate entry in the fields
-    array and the code can clean each column value. query() has an SQL
+    array and the code can clean each column value. `query()` has an `SQL`
     string with no way of checking individual columns.
 
 - If you use `query()` with placeholders, the code can check the column
     values but placeholders are just an option, there is no way to
-    ensure your SQL does not contain values not passed through
+    ensure your `SQL` does not contain values not passed through
     placeholders.
 
 - `insert()` passes the request through a set of hooks to let other
@@ -936,8 +1020,9 @@ Which to use\? `$connection-\>insert()` or `$connection->query()` or what are th
 
 - `insert()` is more likely to work with other databases and future
     versions of Drupal.
+:::
 
-### SQL Insert Query
+#### SQL Insert Query Example
 
 ```php
 /**
@@ -947,8 +1032,6 @@ public function insert() {
 
   /** @var \Drupal\Core\Database\Connection $connection */
   $connection = \Drupal::service('database');
-
-  //    $query = $connection->insert('donors', $options);
 
   // single insert.
   $result = $connection->insert('donors')
@@ -998,8 +1081,6 @@ More at [Insert Queries on drupal.org - updated Nov 2023](https://www.drupal.org
 
 ### SQL Delete query
 
-This will return the number of rows affected by the SQL delete query.
-
 ```php
 use Drupal\Core\Database\Database;
 
@@ -1019,7 +1100,29 @@ public function deleteQuery2() {
 }
 ```
 
-Note. This will be deprecated in Drupal 11. See <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x> also <https://git.drupalcode.org/project/drupal/-/blob/9.5.x/core/lib/Drupal/Core/Database/Connection.php#L968>.
+::: tip Note
+This will return the number of rows affected by the SQL delete query although this `RETURN_AFFECTED` functionality will be deprecated in Drupal version 11. [See rowCount for Drupal 9](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x) and [Drupal 10 source code](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/lib/Drupal/Core/Database/Connection.php#L802).
+
+```php
+  // Depending on the type of query we may need to return a different value.
+  // See DatabaseConnection::defaultOptions() for a description of each
+  // value.
+  // @todo the block below is deprecated and as of Drupal 11 will be
+  //   removed, query() will only return a StatementInterface object.
+  // @see https://www.drupal.org/project/drupal/issues/3256524
+  switch ($options['return'] ?? Database::RETURN_STATEMENT) {
+    case Database::RETURN_STATEMENT:
+      return $stmt;
+
+    // Database::RETURN_AFFECTED should not be used; enable row counting
+    // by passing the appropriate argument to the constructor instead.
+    // @see https://www.drupal.org/node/3186368
+    case Database::RETURN_AFFECTED:
+      $stmt->allowRowCount = TRUE;
+      return $stmt->rowCount();
+```
+:::
+
 
 ### Paragraph static query example
 
@@ -1049,8 +1152,144 @@ function txg_preprocess_paragraph__simple_card(&$variables) {
 
 
 
+## Useful Queries
+These are (planned) useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.) or use directly in MySQL using the command line.:
 
-### Create a custom table for your module
+```sh
+ddev drush sqlc
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 134650
+Server version: 5.7.42-0ubuntu0.18.04.1-log (Ubuntu)
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [db]> SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2) as SIZE_MB FROM information_schema.TABLES WHERE table_schema = DATABASE() ORDER BY SIZE_MB DESC LIMIT 10;
+```
+
+### List of top 10 biggest tables 
+
+```sql
+SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2)
+ as SIZE_MB 
+ FROM information_schema.TABLES 
+ WHERE table_schema = DATABASE() 
+ ORDER BY SIZE_MB 
+ DESC LIMIT 10;
+```
+This outputs something like this:
+
+```
++----------------------------------+---------+
+| table_name                       | SIZE_MB |
++----------------------------------+---------+
+| node_field_data                  |  499.25 |
+| path_alias                       |  446.16 |
+| search_api_db_default_index_text |  424.98 |
+| node                             |  209.55 |
+| cache_entity                     |  187.59 |
+| search_api_db_default_index      |  186.80 |
+| node_field_revision              |  164.80 |
+| search_api_item                  |  152.67 |
+| node_access                      |  146.98 |
+| path_alias_revision              |  126.14 |
++----------------------------------+---------+
+10 rows in set (0.141 sec)
+```
+
+
+More on [Stack Overflow](https://stackoverflow.com/questions/9620198/how-to-get-the-sizes-of-the-tables-of-a-mysql-database/42262936#42262936)
+
+
+## Use the database abstraction layer to avoid SQL injection attacks
+
+It is bad practice to concatenate data directly into SQL queries.
+
+```php
+// Bad practice - don't do it!.
+\Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = '. $_GET['user']);
+```
+
+**Good Practice:**
+
+Use proper argument substitution. The database layer works on top of PHP PDO, and uses an array of named placeholders:
+
+```php
+\Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = :name', [':name' => $_GET['user']]);
+```
+
+For a variable number of argument, use an array of arguments or use the select() method.  See examples of each below:
+
+```php
+$users = ['joe', 'poe', $_GET['user']];
+\Database::getConnection()->query('SELECT f.bar FROM {foo} f WHERE f.bar IN (:users[])',  [':users[]' => $users]);
+```
+
+```php
+$users = ['joe', 'poe', $_GET['user']];
+$result = \Database::getConnection()->select('foo', 'f')
+  ->fields('f', ['bar'])
+  ->condition('f.bar', $users)
+  ->execute();
+```
+
+When forming a `LIKE` query, make sure that you escape condition values to ensure they don't contain wildcard characters like `"%"``:
+
+```php
+db_select('table', 't')
+  ->condition('t.field', '%_' . db_like($user), 'LIKE')
+  ->execute();
+```
+
+Make sure that users cannot provide any operator to a query's condition. For example, this is unsafe:
+
+```php
+db_select('table', 't')
+  ->condition('t.field', $user, $user_input)
+  ->execute();
+```
+Instead, set a list of allowed operators and only allow users to use those.
+
+`db_query`, `db_select`, and `db_like` were deprecated and removed from Drupal 9 - instead you should use a database connection object and call the query, select, and [escapeLike](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Connection.php/function/Connection%3A%3AescapeLike/9) methods on it (the parameters are the same).
+
+
+
+## Viewing the MariaDB General Query Log
+
+```sh
+ddev mysql -u root -proot
+```
+
+
+Set the file path for the general query log. The general query log is a feature in MySQL that logs all `SQL` queries received from clients, as well as information about client connections and disconnections.
+
+```sh
+SET global general_log = 1;
+SET global log_output = 'file';
+SET global general_log_file = '/home/selwyn/queries.txt';
+```
+
+Log into the database container and tail the log file:
+```sh
+ddev ssh -s db
+tail -f queries.txt
+```
+
+To turn off the general query log:
+```sh
+SET global general_log = 0;
+```
+
+or use `ddev restart` to restart all the containers.
+
+The `queries.txt` file will automatically be deleted when the container is restarted.
+
+Thanks to [Dries Buytaert\'s Effortless inspecting of Drupal database queries article for this useful tip.](https://dri.es/effortless-inspecting-of-drupal-database-queries)
+
+
+## Create a custom table for your module
 
 If you need a custom database table (or two) for use in a custom module, you can use `hook_schema` in your `module.install` file. This will cause the table(s) to be created at module install time and **removed** at module uninstall time.
 
@@ -1123,134 +1362,6 @@ function nocs_connect_schema() {
 }
 ````
 
-## Other Queries
-These are useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.) or use directly in MySQL using the command line.:
-
-```sh
-ddev drush sqlc
-
-Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MySQL connection id is 134650
-Server version: 5.7.42-0ubuntu0.18.04.1-log (Ubuntu)
-
-Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-MySQL [db]> SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2) as SIZE_MB FROM information_schema.TABLES WHERE table_schema = DATABASE() ORDER BY SIZE_MB DESC LIMIT 10;
-```
-
-### List of top 10 biggest tables 
-
-```sql
-SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2) as SIZE_MB FROM information_schema.TABLES WHERE table_schema = DATABASE() ORDER BY SIZE_MB DESC LIMIT 10;
-```
-This outputs something like this:
-
-```
-+----------------------------------+---------+
-| table_name                       | SIZE_MB |
-+----------------------------------+---------+
-| node_field_data                  |  499.25 |
-| path_alias                       |  446.16 |
-| search_api_db_default_index_text |  424.98 |
-| node                             |  209.55 |
-| cache_entity                     |  187.59 |
-| search_api_db_default_index      |  186.80 |
-| node_field_revision              |  164.80 |
-| search_api_item                  |  152.67 |
-| node_access                      |  146.98 |
-| path_alias_revision              |  126.14 |
-+----------------------------------+---------+
-10 rows in set (0.141 sec)
-```
-
-
-More on [Stack Overflow](https://stackoverflow.com/questions/9620198/how-to-get-the-sizes-of-the-tables-of-a-mysql-database/42262936#42262936)
-
-## Use the database abstraction layer to avoid SQL injection attacks
-
-It is bad practice to concatenate data directly into SQL queries.
-
-```php
-// Bad practice - don't do it!.
-\Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = '. $_GET['user']);
-```
-
-**Good Practice:**
-
-Use proper argument substitution. The database layer works on top of PHP PDO, and uses an array of named placeholders:
-
-```php
-\Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = :name', [':name' => $_GET['user']]);
-```
-
-For a variable number of argument, use an array of arguments or use the select() method.  See examples of each below:
-
-```php
-$users = ['joe', 'poe', $_GET['user']];
-\Database::getConnection()->query('SELECT f.bar FROM {foo} f WHERE f.bar IN (:users[])',  [':users[]' => $users]);
-```
-
-```php
-$users = ['joe', 'poe', $_GET['user']];
-$result = \Database::getConnection()->select('foo', 'f')
-  ->fields('f', ['bar'])
-  ->condition('f.bar', $users)
-  ->execute();
-```
-
-When forming a `LIKE` query, make sure that you escape condition values to ensure they don't contain wildcard characters like `"%"``:
-
-```php
-db_select('table', 't')
-  ->condition('t.field', '%_' . db_like($user), 'LIKE')
-  ->execute();
-```
-
-Make sure that users cannot provide any operator to a query's condition. For example, this is unsafe:
-
-```php
-db_select('table', 't')
-  ->condition('t.field', $user, $user_input)
-  ->execute();
-```
-Instead, set a list of allowed operators and only allow users to use those.
-
-`db_query`, `db_select`, and `db_like` were deprecated and removed from Drupal 9 - instead you should use a database connection object and call the query, select, and [escapeLike](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Connection.php/function/Connection%3A%3AescapeLike/9) methods on it (the parameters are the same).
-
-
-
-## Viewing the MariaDB General Query Log
-
-```sh
-ddev mysql -u root -proot
-```
-
-```sh
-SET global general_log = 1;
-
-SET global log_output = 'file';
-
-SET global general_log_file = '/home/selwyn/queries.txt';
-```
-
-Log into the database container and tail the log file:
-```sh
-ddev ssh -s db
-tail -f queries.txt
-```
-
-To turn off the general query log:
-```sh
-SET global general_log = 0;
-```
-
-or use `ddev restart` to restart all the containers.
-
-The queries.txt file will automatically be deleted when the container is restarted.
-
-Thanks to [Dries Buytart\'s Effortless inspecting of Drupal database queries article for this useful tip.](https://dri.es/effortless-inspecting-of-drupal-database-queries)
 
 
 ## Accessing a custom table
@@ -1282,7 +1393,7 @@ This example from `web/modules/contrib/xmlsitemap/src/XmlSitemapLinkStorage.php`
   }
 ```
 
-[Link to this function's source code](https://git.drupalcode.org/project/xmlsitemap/-/blob/8.x-1.x/src/XmlSitemapLinkStorage.php?ref_type=heads#L283)
+[More source code](https://git.drupalcode.org/project/xmlsitemap/-/blob/8.x-1.x/src/XmlSitemapLinkStorage.php?ref_type=heads#L283)
 
 
 This code snippet from `web/modules/contrib/xmlsitemap/src/XmlSitemapLinkStorage.php` shows a query that uses `queryRange()`:
@@ -1301,7 +1412,7 @@ This code snippet from `web/modules/contrib/xmlsitemap/src/XmlSitemapLinkStorage
     ...
 
 ```
-[Link to this function's source](https://git.drupalcode.org/project/xmlsitemap/-/blob/8.x-1.x/src/XmlSitemapLinkStorage.php?ref_type=heads#L262)
+[More source ode](https://git.drupalcode.org/project/xmlsitemap/-/blob/8.x-1.x/src/XmlSitemapLinkStorage.php?ref_type=heads#L262)
 
 
 
@@ -1331,6 +1442,23 @@ The following snippet shows an example of using the `merge` command.  This will 
 
 
 You can [browse the source for the entire module here.](https://git.drupalcode.org/project/xmlsitemap)
+
+
+## Debugging queries (and view the actual SQL)
+
+Use the `__toString()` member to see what is really happening in a query.  You can use the `Evaluate dialog` in PhpStorm to dynamically display the `SQL` query by typing in the query variable and `->__toString()`.  See the screenshot below for the output.
+
+![Debugging queries](/images/debug-query1.png)
+
+Click the teensy little View link on the right side of the evaluate dialog for this display:
+
+![Debugging queries](/images/debug-query2.png)
+
+I was able to tell what the sort criteria was:
+
+![Debugging queries](/images/debug-query3.png)
+
+
 
 
 ## Reference
