@@ -11,9 +11,9 @@
     "book:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@nolebase/vitepress-plugin-enhanced-readabilities": "2.12.1",
-    "prettier": "^3.4.2",
-    "sass": "^1.83.4",
+    "@nolebase/vitepress-plugin-enhanced-readabilities": "2.15.0",
+    "prettier": "^3.5.2",
+    "sass": "^1.85.1",
     "viewerjs": "^1.11.7",
     "vitepress": "1.6.3",
     "vitepress-plugin-back-to-top": "^1.0.1",
@@ -21,10 +21,10 @@
     "vitepress-plugin-google-analytics": "^1.0.2",
     "vitepress-plugin-image-viewer": "^1.1.6",
     "vitepress-plugin-tabs": "^0.6.0",
-    "vitepress-sidebar": "^1.30.2",
+    "vitepress-sidebar": "^1.31.0",
     "vue": "^3.5.13"
   },
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@9.15.5",
   "engines": {
     "pnpm": ">=9",
     "node": ">=22"

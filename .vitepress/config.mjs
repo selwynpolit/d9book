@@ -58,7 +58,7 @@ export default defineConfig({
       useTitleFromFrontmatter: true,
       sortMenusByName: true,
       hyphenToSpace: true,
-      excludeFiles: [
+      excludePattern: [
         'about.md',
         'attribution.md',
         'mysteries.md',
@@ -69,7 +69,7 @@ export default defineConfig({
     }),
 
     socialLinks: [
-      { icon: 'x', link: '//twitter.com/selwynpolit' },
+      { icon: 'x', link: '//x.com/selwynpolit' },
       { icon: 'github', link: '//github.com/selwynpolit' },
     ],
 
