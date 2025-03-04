@@ -227,6 +227,18 @@ Currently the autocomplete in the Link Field widget always shows content suggest
 [https://www.drupal.org/project/link_field_autocomplete_filter](https://www.drupal.org/project/link_field_autocomplete_filter)
 
 
+### Find Text
+
+Find Text is an editor/administrator tool to directly search all text fields on a site for a given string or regexp pattern. This allows for direct, and directed, database searches for text content without the need to use more advanced tools or requiring direct access to the database.
+
+For instance, if a product name is going to be updated, Find Text can be used to find all instances of this name within text fields, including node body fields, text fields within paragraphs or blocks, or text values within custom fields. Similarly, instances of a specific HTML class, relative or absolute link, drupal entity, etc., can be searched for directly prior to any rendering or other processing occurs on the frontend.
+
+The results table of the search includes the entities on which the text appears (e.g. node or menu), the specific field or fields in which the text is used, and the full content which contains the searched text. The matching text will be highlighted within the full text.
+
+It can search for strings with wildcard characters as well as do Regexp searches.
+
+[https://www.drupal.org/project/find_text](https://www.drupal.org/project/find_text)
+
 ## Cleanup
 
 ### Node Revision Delete
@@ -419,7 +431,7 @@ This module intercepts all outgoing emails from a Drupal site and reroutes them 
 
 ## Entities
 
-###Storage Entities
+### Storage Entities
 
 A new entity type for managing data that should be stored in the database, but only displayed within or associated with other content. If you're using a solution like Rabbit Hole to prevent direct access to an entire content type, that content might be better stored as storage entities.
 Lightweight by design, but fieldable just like content types. This module is similar to Basic Data but where that module requires a "data" blob in addition to a name, this module only requires a name, and any other fields can be completely custom to suit your specific needs. Also, this module is designed to be revisionable and translatable.
@@ -682,7 +694,7 @@ Displays a list of missing modules and lets you fix the entries. Also deletes le
 
 
 
-## Rest
+## REST
 
 ### REST UI
 This module provides a user interface to make it easier to configure the core REST modules provided by Drupal. It provides a new settings page for each REST resource where you can configure the allowed methods (GET, POST, etc), formats (json, xml, etc), authentication, serialization, and validation. It also provides a new configuration form to configure the serialization format for each entity type.  Adding the [Simple OAuth](https://www.drupal.org/project/simple_oauth) module will allow you to configure OAuth2 authentication for your REST resources.
