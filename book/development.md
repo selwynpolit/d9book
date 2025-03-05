@@ -168,7 +168,7 @@ If you see an error like: `PHP Fatal error:  Composer detected issues in your pl
 
 
 ### Set config sync directory
-Make the config sync dir with:
+Make the config sync dir off the root of the project (i.e. at the same level as the `web` directory:
 ```sh
 mkdir -p config/sync
 ``` 
@@ -202,7 +202,7 @@ Export your config with:
 ddev drush cex
 ```
 
-Add a `.gitignore` file with:
+Add a `.gitignore` file in the project root.  Here are some common entries:
 
 ```
 /vendor/
