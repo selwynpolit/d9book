@@ -190,14 +190,13 @@ $day = [
 ];
 ```
 
-Read [more about Cacheability of render arrays on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
-
+Read [more about Cacheability of render arrays on Drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
 
 
 
 ## Using cache tags
 
-To generate a list of cached node teasers that is always accurate, use cache tags. Here is a render array that will be updated time a node is added, deleted or edited:
+To display a list of cached node teasers (even for anonymous users) that is always accurate, use cache tags. Here is a render array that will be updated any time a node is added, deleted or edited:
 
 ```php
 $build = [
@@ -211,28 +210,120 @@ $build = [
 ];
 ```
 
-You can cause the cache to be invalidated only when a content type of `book` or `magazine` is changed in two ways:
+## Invalidating caches for specific nodes
 
-1. Include all node tags `(node:{#id})`, it doesn\'t matter if a new node of a particular type was added.
+When cache data becomes stale, invalidate the cache bins by building an array of cache names (or cache_ids) and call `invalidateMultiple()`:
 
-2. Create and control your own cache tag, and invalidate it when you want.
+```php
+  public function invalidateAllCaches() {
+    $citation_cache_id = "citations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+    $correlation_cache_id = "correlations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+    $expectation_cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
+    $cache_ids = [$citation_cache_id, $correlation_cache_id, $expectation_cache_id];
+    \Drupal::cache()->invalidateMultiple($cache_ids);
+  }
+```
 
-If you want a block to be rebuilt every time that a term from a particular vocab_id is added, changed, or deleted you can cache the term list.
-If you need to cache a term list per vocab_id - i.e.  every time that a term from a particular vocab_id is added, changed, or deleted the cache tag is invalided using `Cache::invalidateTags($tag_id)`. When Drupal goes to render this array, it will not use the cached version.
+
+## Invalidate cache tags when content is changed
+
+You can cause the cache to be invalidated when content of `book` or `magazine` is changed:
+
+```php
+$build = [
+  '#type' => 'markup',
+  '#markup' => $sMarkup,        
+  '#cache' => [
+    'keys' => ['home-all','home'],
+    'tags'=> ['node_list:book','node_list:magazine'], // invalidate cache when any nodes are added/changed etc.
+    'max-age' => '36600', // invalidate cache after 10h
+  ],
+];
+```
+
+
+## Custom cache tags
+
+To create your own custom cache tag, use the `Cache::invalidateTags()` method.  This will cause the cache to be invalidated when the tag is called.  Here is a block with a custom cache tag `custom_tag_example`:
+
+
+
+```php
+namespace Drupal\custom_module\Plugin\Block;
+
+use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
+
+/**
+ * Provides a 'Custom Cache Tag Block'.
+ *
+ * @Block(
+ *   id = "custom_cache_tag_block",
+ *   admin_label = @Translation("Custom Cache Tag Block")
+ * )
+ */
+class CustomCacheTagBlock extends BlockBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    // Generate some dynamic content.
+    $output = 'Generated at: ' . date('H:i:s');
+
+    return [
+      '#markup' => $this->t('Custom cache block - @output', ['@output' => $output]),
+      '#cache' => [
+        'tags' => ['custom_tag_example'], // Our custom cache tag
+      ],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheTags() {
+    // Add our custom cache tag.
+    return Cache::mergeTags(parent::getCacheTags(), ['custom_tag_example']);
+  }
+}
+```
+
+You can invalidate the cache tag with this code:
 
 ```php
 use Drupal\Core\Cache\Cache;
 
-function filters_invalidate_vocabulary_cache_tag($vocab_id) {
-  Cache::invalidateTags(['filters_vocabulary:' . $vocab_id]);
+/**
+ * Invalidates the custom cache tag.
+ */
+function custom_module_invalidate_custom_cache() {
+  Cache::invalidateTags(['custom_tag_example']);
 }
 ```
 
-If you want this to work for nodes, you may be able to  just change `$vocab_id` for `$node_type`.
+
+You can invalidate the custom cache tag when new articles are added to the site.  This will cause the cache to be invalidated and the block to be rebuilt.
+
+```php
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function my_module_node_insert(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'article') {
+    // Invalidate the cache when a new article is created.
+    custom_module_invalidate_custom_cache();
+  }
+}
+```
+
+
 
 ## Debugging Cache tags
 
-In `development.services.yml` set the `http.response debug_cacheability_headers` parameter:
+In `sites/development.services.yml` set the `http.response debug_cacheability_headers` parameter:
 
 ```yml
 parameters:
@@ -252,7 +343,7 @@ Also look at [Matt Glaman's article on Debugging your render cacheable metadata 
 ![Debugging your render cacheable metadata in Drupal](/images/debugging-render-cache.png)
 
 
-### Invalidate the cache tag for a specific node
+## Invalidate the cache tag for a specific node
 
 In this function, we build a `$cache_tag` like `node: 123` and call `Cache:invalidateTags()` so Drupal will force a reload from the database for anything that depends on that node.
 
@@ -274,10 +365,10 @@ public function vote(array $options): void {
 ```
 
 ::: tip Note
-According to <https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags> Although many entity types follow a predictable cache tag format of `<entity type ID>:<entity ID>`, third-party code shouldn't rely on this. Instead, it should retrieve cache tags to invalidate for a single entity using its`::getCacheTags()` method, e.g., `$node->getCacheTags()`, `$user->getCacheTags()`, `$view->getCacheTags()` etc.
+From [Cache tags on Drupal.org updated July 2024](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags) Although many entity types follow a predictable cache tag format of `<entity type ID>:<entity ID>`, third-party code shouldn't rely on this. Instead, it should retrieve cache tags to invalidate for a single entity using its`::getCacheTags()` method, e.g., `$node->getCacheTags()`, `$user->getCacheTags()`, `$view->getCacheTags()` etc.
 :::
 
-## Setting cache keys in a block
+## Setting cache keys for a block
 
 If you add some code to a block that includes the logged in user's name, you may find that the username will not be displayed correctly -- rather it may show the prior users name. This is because the cache context of user doesn't bubble up to the display of the container (e.g. the node that is displayed along with your custom block.)  Add this to bubble the cache contexts up.
 
@@ -574,22 +665,9 @@ Here is a complete function which loads data from the cache.  If the cache is em
   }
 ```
 
-Read more about the [Cache API](https://api.drupal.org/api/drupal/core!core.api.php/group/cache)
+Read more about the [Cache API on Drupal.org](https://api.drupal.org/api/drupal/core!core.api.php/group/cache)
 
 
-## Invalidating caches
-
-When cache data becomes stale, quickly invalidate the cache bins by building an array of cache names (or cache_ids) and call `invalidateMultiple()`:
-
-```php
-  public function invalidateAllCaches() {
-    $citation_cache_id = "citations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
-    $correlation_cache_id = "correlations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
-    $expectation_cache_id = "expectations.program.$this->programNid.vote.$this->voteNumber.publisher.$this->publisherNid";
-    $cache_ids = [$citation_cache_id, $correlation_cache_id, $expectation_cache_id];
-    \Drupal::cache()->invalidateMultiple($cache_ids);
-  }
-```
 
 ## Make a response dependent on any taxonomy term changes with cache tags
 
@@ -1641,9 +1719,19 @@ You can see which cache contexts a certain page varies by and which cache tags i
 
 ![Cache contexts in Chrome](/images/cache-contexts1.png)
 
-Here is a screen shot of cache tags
+Here is a screen shot of cache tags (X-Drupal-Cache-Tags) in Chrome:
 
 ![Cache tags in Chrome](/images/cache-tags1.png)
+
+::: tip Note
+If you don't see the headers, they may be disabled in your `sites/development.services.yml`  or `sites/default/default.services.yml` file.  You can enable them by setting `response.add_cache_metadata_headers: true` in either file.
+```yaml
+parameters:
+  http.response.debug_cacheability_headers: true
+```
+See [Debugging Cache Tags](#debugging-cache-tags) for more information.
+:::
+
 
 Read more about [Cacheability of render arrays on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/render-api/cacheability-of-render-arrays)
 
