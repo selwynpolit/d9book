@@ -245,7 +245,7 @@ You should **not apply patches directly from Gitlab merge requests** on producti
 :::
 
 
-## composer.json patches in separate file
+## Put composer.json patches in a separate file
 
 To separate patches into a different file other than composer json add `"patches-file"` section under `"extra"`. See example below:
 
@@ -466,7 +466,7 @@ Problem 1
 More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3) and [Updating Drupal core via composer updated Dec 2023. ](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
 
 
-## What are the dependencies?
+## How to identify dependencies
 
 To check why a project is included use `composer why` or `composer depends`.
 
@@ -639,6 +639,12 @@ Install the module with:
 `composer require drupal/node_access_rebuild_progressive`
 
 The module will be installed and the patch applied!
+
+::: tip Note
+This only works if you have already run composer install for the project.  If you have a completely new project, you need to rather remove references to the \"unsupported\" module(s) in the composer.json file and then run `composer install`.  After that, add them back in and `composer install` should work fine.
+:::
+
+
 
 More at
 - [Using Drupal's Lenient Composer Endpoint - Sep 2023](https://www.drupal.org/docs/develop/using-composer/using-drupals-lenient-composer-endpoint)
@@ -1007,7 +1013,195 @@ ddev composer bump
 ./composer.json has been updated (46 changes).
 ```
 
+## Using the require-dev section in composer.json
 
+You will often need to install certain modules for a development environment but not install them on the production, staging or dev environments. Examples of these modules are: `devel`, `webprofiler`, `kint`, `devel_php`, `devel_generate`, `devel_reinstall`, `devel_entity_updates`, `devel_debug_log`, `devel_query_log` etc. 
+
+To add modules to the `require-dev` section, use the `--dev` flag when installing the module.  For example:
+
+```sh
+composer require --dev drupal/devel
+```
+
+Or to install the Drupal core developer tools:
+```sh
+ddev composer require drupal/core-dev --dev
+```
+
+
+Install the modules in the `require` as well as in the `require-dev` section:
+
+```sh
+composer install 
+Or the deprecated:
+composer install --dev
+```
+
+
+Install only items in the `require` section ie. without development dependencies:
+```sh
+composer install --no-dev
+```
+
+::: tip Note
+The Composer `--dev` flag is deprecated, meaning it will eventually be removed and has no effect in Composer 3. Instead of using `--dev`, you should now use the require-dev section in your composer.json file or use the `--no-dev` flag for production deployments. 
+:::
+
+
+Example of `composer.json` require-dev section:
+
+```json
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "drupal/coder": "^8.3",
+        "drupal/core-dev": "^10.3",
+        "drupal/devel": "^5.2",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+```
+
+Here is a complete `composer.json` file from my test project https://github.com/selwynpolit/ddev102 for reference:
+
+```json
+{
+    "name": "drupal/recommended-project",
+    "description": "Project template for Drupal projects with a relocated document root",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    ],
+    "require": {
+        "composer/installers": "^2.0",
+        "cweagans/composer-patches": "^1.7",
+        "drupal/admin_toolbar": "^3.4",
+        "drupal/bartik": "^1.0",
+        "drupal/conditional_fields": "^4.0@alpha",
+        "drupal/core-composer-scaffold": "^10.2",
+        "drupal/core-project-message": "^10.2",
+        "drupal/core-recommended": "^10.2",
+        "drupal/entity": "^1.4",
+        "drupal/environment_indicator": "^4.0",
+        "drupal/examples": "^4.0",
+        "drupal/extlink": "^2.0",
+        "drupal/inline_entity_form": "^3.0@RC",
+        "drupal/jsonapi_extras": "^3.24",
+        "drupal/lb_plus": "^2.1",
+        "drupal/leaflet": "^10.2",
+        "drupal/map_provider": "^1.0",
+        "drupal/markdown_easy": "^1.0",
+        "drupal/masquerade": "^2.0@RC",
+        "drupal/menu_custom_access": "^2.0@beta",
+        "drupal/module_filter": "^5.0",
+        "drupal/node_view_permissions": "^1.6",
+        "drupal/openstreetmap": "^1.0",
+        "drupal/paragraphs": "^1.17",
+        "drupal/pathauto": "^1.12",
+        "drupal/permissions_by_term": "^3.1",
+        "drupal/redirect": "^1.9",
+        "drupal/restui": "^1.21",
+        "drupal/simple_oauth": "^6.0-beta",
+        "drupal/smart_date": "^4.1",
+        "drupal/smart_date_starter_kit": "^2.3",
+        "drupal/unique_field": "^2.2",
+        "drupal/workbench": "^1.4",
+        "drupal/workbench_menu_access": "^2.1",
+        "drush/drush": "^12.5"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true,
+            "tbachert/spi": true,
+            "cweagans/composer-patches": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            }
+        },
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
+        },
+        "drupal-core-project-message": {
+            "include-keys": [
+                "homepage",
+                "support"
+            ],
+            "post-create-project-cmd-message": [
+                "<bg=blue;fg=white>                                                         </>",
+                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
+                "<bg=blue;fg=white>                                                         </>",
+                "",
+                "<bg=yellow;fg=black>Next steps</>:",
+                "  * Install the site: https://www.drupal.org/docs/installing-drupal",
+                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
+                "  * Get support: https://www.drupal.org/support",
+                "  * Get involved with the Drupal community:",
+                "      https://www.drupal.org/getting-involved",
+                "  * Remove the plugin that prints this message:",
+                "      composer remove drupal/core-project-message"
+            ]
+        },
+        "patches": {
+            "drupal/permissions_by_term": {
+                "Extend permissions by edit and create permissions for related nodes - 2926212": "https://www.drupal.org/files/issues/2024-07-31/2926212-18.patch"
+            }
+        }
+    },
+    "require-dev": {
+        "drupal/core-dev": "^10.2",
+        "drupal/devel": "^5.2"
+    }
+}
+```
 
 
 

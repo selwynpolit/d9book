@@ -741,7 +741,6 @@ Honeypot uses both the honeypot and timestamp methods of deterring spam bots fro
 [https://www.drupal.org/project/honeypot](https://www.drupal.org/project/honeypot)
 
 ### Key
-
 Key provides the ability to improve Drupal security by managing sensitive keys (such as API and encryption keys). It gives site administrators the ability to define how and where keys are stored, which allows the option of a high level of security and allows sites to meet regulatory or compliance requirements.
 
 Examples of the types of keys that could be managed with Key are: 
@@ -762,6 +761,17 @@ Successor of Protected Permissions module.  Light-weight, non-intrusive spam pro
 SecKit provides Drupal with various security-hardening options. This lets you mitigate the risks of exploitation of different web application vulnerabilities.
 
 [https://www.drupal.org/project/seckit](https://www.drupal.org/project/seckit)
+
+### Security Review
+
+The Security Review module helps safeguard your Drupal site by checking for common vulnerabilities. It ensures file system permissions prevent arbitrary code execution, verifies text formats to block dangerous tags, and detects PHP or JavaScript in content. It also assesses error reporting settings to prevent information leaks, enforces secure private file handling, and restricts uploads to safe file extensions. Additionally, it monitors database errors for potential SQL injection attempts and tracks failed logins that may indicate brute-force attacks.  
+
+Other critical checks include reviewing administrator permissions to prevent misconfigurations, ensuring usernames are not used as passwords, and verifying that passwords are not included in user emails. The module also checks for PHP execution risks, confirms that the base URL or trusted host settings are properly configured to prevent phishing, and ensures Views access is controlled to avoid unintended data exposure. While the module does not automatically apply fixes, it provides a checklist and resources to help you manually secure your site. Some results may require further investigation based on your site’s specific setup.
+
+This module automates testing for many of the easy-to-make mistakes that render your site insecure.
+
+[https://www.drupal.org/project/security_review](https://www.drupal.org/project/security_review)
+
 
 ### Username Enumeration Prevention
 
