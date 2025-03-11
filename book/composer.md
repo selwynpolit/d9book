@@ -1017,19 +1017,22 @@ ddev composer bump
 
 You will often need to install certain modules for a development environment but not install them on the production, staging or dev environments. Examples of these modules are: `devel`, `webprofiler`, `kint`, `devel_php`, `devel_generate`, `devel_reinstall`, `devel_entity_updates`, `devel_debug_log`, `devel_query_log` etc. 
 
-To add modules to the `require-dev` section, use the `--dev` flag when installing the module.  For example:
+This is done by adding these modules to the `require-dev` section.  Simply use the `--dev` composer flag when requiring the module.  
+
+For example, to add the devel module to your project:
 
 ```sh
 composer require --dev drupal/devel
 ```
 
-Or to install the Drupal core developer tools:
+Or the Drupal core developer tools:
+
 ```sh
 ddev composer require drupal/core-dev --dev
 ```
 
 
-Install the modules in the `require` as well as in the `require-dev` section:
+To install all the modules (e.g. on your local environment) including those in the `require-dev` section:
 
 ```sh
 composer install 
@@ -1038,7 +1041,7 @@ composer install --dev
 ```
 
 
-Install only items in the `require` section ie. without development dependencies:
+For production you can install only items in the `require` section ie. without development dependencies using:
 ```sh
 composer install --no-dev
 ```
