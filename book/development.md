@@ -19,10 +19,10 @@ Local development works really well using Docker containers and [DDEV](https://g
 ```sh
 mkdir my-drupal10-site
 cd my-drupal10-site
-ddev config --project-type=drupal --php-version=8.3 --docroot=web
+ddev config --project-type=drupal10 --docroot=web
 ddev start
 ddev composer create drupal/recommended-project:^10
-ddev config --update
+# ddev config --update
 ddev composer require drush/drush
 ddev drush site:install --account-name=admin --account-pass=admin -y
 # Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
@@ -33,16 +33,16 @@ ddev launch
 ddev launch $(ddev drush uli)
 ```
 
+See [DDEV docs](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal-drupal-10)
+
 #### Drupal 11
   
 ```sh
 mkdir my-drupal-site && cd my-drupal-site
-ddev config --project-type=drupal --php-version=8.3 --docroot=web
+ddev config --project-type=drupal11 --php-version=8.3 --docroot=web
 ddev start
 ddev composer create drupal/recommended-project:^11
 ddev composer require drush/drush
-ddev config --update
-ddev restart
 ddev drush site:install --account-name=admin --account-pass=admin -y
 # Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
 ddev drush uli
@@ -51,6 +51,8 @@ ddev launch
 # Or automatically log in with
 ddev launch $(ddev drush uli)
 ```
+See [DDEV docs](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal-drupal-11)
+
 
 ::: tip Note
 The link that is returned by drush uli can quickly be launched with the keyboard shortcut <kbd>⌘ Cmd</kbd> +  Mouse Click.
@@ -166,7 +168,7 @@ If you see an error like: `PHP Fatal error:  Composer detected issues in your pl
 
 
 ### Set config sync directory
-Make the config sync dir with:
+Make the config sync dir off the root of the project (i.e. at the same level as the `web` directory:
 ```sh
 mkdir -p config/sync
 ``` 
@@ -200,7 +202,7 @@ Export your config with:
 ddev drush cex
 ```
 
-Add a `.gitignore` file with:
+Add a `.gitignore` file in the project root.  Here are some common entries:
 
 ```
 /vendor/
