@@ -1009,7 +1009,7 @@ When you need to see the values of variables in your twig templates, simply enab
 
 This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template. 
 
-PHPStorm has the ability to step through twig templates just like PHP code. See this [Jetbrains blog post on Twig debug support](https://www.jetbrains.com/help/phpstorm/twig.html#debugging-twig-templates) for details. There is also a [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug).
+PHPStorm has the ability to step through twig templates just like PHP code. (I haven't tried this yet.) See this [Jetbrains blog post on Twig debug support](https://www.jetbrains.com/help/phpstorm/twig.html#debugging-twig-templates) for details. There is also a [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug).
 
 ![Xdebug in twig](/images/twig-xdebug.png)
 
@@ -1035,6 +1035,10 @@ Use the following settings:
 
 Click the the `...` button on this page.  This will display the PHP_CodeSniffer dialog. Set the PHP_CodeSniffer path to :`/Users/spolit/Sites/tea/vendor/bin/phpcs` if you have the `core-dev` tools installed in your project. At this time you can also set the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf` if you want to use the code beautifier and fixer.
 
+::: tip Note
+Replace `/Users/spolit/Sites/tea` with the path to your project.
+:::
+
 Use  `/Users/spolit/.composer/vendor/bin/phpcs` and `/Users/spolit/.composer/vendor/bin/phpcf` respectively if you have installed phpcs globally.
 
 ![PHPStorm codesniffer settings more](/images/phpstorm-phpcs2.png)
@@ -1043,11 +1047,8 @@ Next, you will need to click Apply and then OK.  You can now run the code sniffe
 
 If you are still not presented with the option to Select the Drupal coding standard, click apply and OK and then go back into the settings, PHP, Quality Tools, PHP_CodeSniffer and you should see the option to select the Drupal coding standard. (PHPStorm will kindly notify you that the list of coding standards has been updated.)
 
-Then, if you try to edit a line of code and say, add a trailing space, the line of code will get highlighted. Hovering over the line of code will show you "PHPCS: Whitespace found at end of line." If instead you see a dialog box that says "phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist then go back to the settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path.  Luckily this still allows the Coding standard: Drupal to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
+To test if it is working, edit a line of code and add a trailing space. That line of code should immediately get highlighted. Hovering over the line of code will show you "PHPCS: Whitespace found at end of line." If instead you see a dialog box that says "phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist then go back to the settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path.  Luckily this still allows the Coding standard: Drupal to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
 
-::: tip Note
-Replace `/Users/spolit` with your own path to your username and `Sites/tea` with the name of your project.
-:::
 
 More at
 - [PhpStorm PHP_Codesniffer docs](https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html).
@@ -1068,6 +1069,52 @@ The solution is to open Settings, PHP, Quality Tools, PHP_CodeSniffer and unchec
 See [this issue on drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485)
 
 
+### Lando Xdebug
+
+In .lando.yml add xdebug: true: 
+
+```yaml
+services:
+  appserver:
+   xdebug: true
+```
+
+Run `lando rebuild` to restart the services with xdebug enabled. Please note. `lando restart` will not enable debug
+
+Enable debugging in PHPStorm by clicking the telephone icon to select `Start Listening for PHP Debug Connections`.
+
+Open the index.php file and add a breakpoint by clicking on the line number.
+
+Refresh the page with your site and you should see the PHPStorm open up the debug panel. Confusingly, it will focus on the `Console` tab.  
+
+Click on the `Debugger` tab where you will see the error message:
+ Can\'t find a source position. Server with the name \'appserver\' doesn\'t exist. 
+
+You will see:
+ 
+![Debugger tab](/images/configure-servers.png)
+
+
+
+Click the link to `Configure servers`.
+
+
+Add a server with the following settings:
+- Name: `appserver` (can be anything)
+- Host: `abc.lndo.site` (this has to be the actual url to the site without https://)
+- Port: `80`
+- Debugger: `Xdebug`
+- Check the box for `Use path mappings`
+- Under the `Absolute path on the server` column, set the top level of the site to `/app`
+- In addition, under the same column, set the web directory to `/app/web` (Don't forget this step!)
+
+![PHPStorm xdebug settings](/images/phpstorm-lando-xdebug1.png)
+
+As soon as you apply and click ok, the index.php file should appear with a blue line highlighting the breakpoint.  
+
+![PHPStorm xdebug displaying break](/images/debugger-stopped.png)
+
+Additional info is available at [Setting up Xdebug with Lando and PhpStorm on DrupalEasy.com - 2018](https://www.drupaleasy.com/blogs/ultimike/2018/01/setting-xdebug-lando-and-phpstorm)
 
 
 ## PHPStan static code analysis
