@@ -1152,8 +1152,9 @@ function txg_preprocess_paragraph__simple_card(&$variables) {
 
 
 
-## Useful Queries
-These are (planned) useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.) or use directly in MySQL using the command line.:
+## Useful queries and snippets
+
+Here are some useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.) or use directly in MySQL using the command line `ddev drush sqlc`:
 
 ```sh
 ddev drush sqlc
@@ -1201,6 +1202,226 @@ This outputs something like this:
 
 
 More on [Stack Overflow](https://stackoverflow.com/questions/9620198/how-to-get-the-sizes-of-the-tables-of-a-mysql-database/42262936#42262936)
+
+
+### Format output from a select query
+
+The table format default output is hard to read.  The `G` option will format the output in a more readable way.
+
+Usual format from a select query:
+
+```sql
+MariaDB [db]> select * from sessions;
++-----+---------------------------------------------+------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| uid | sid                                         | hostname   | timestamp  | session                                                                                                                                                                                                                                                                               |
++-----+---------------------------------------------+------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|   1 | 6_GYbpm8eu1MbvTyL9j-bh6d6fcPci-1aoNcVbp835o | 172.21.0.5 | 1741612580 | _sf2_attributes|a:1:{s:3:"uid";s:1:"1";}_sf2_meta|a:4:{s:1:"u";i:1741612556;s:1:"c";i:1741186093;s:1:"l";i:2000000;s:1:"s";s:43:"fBirJVd_IQx5LXxF4WlzuLiR6hy0DUc2TcTQqRPaPJE";}                                                                                                       |
+|   1 | 7e-OPABLA2IXPqpqyrN3vH7RDwM6znr38TDZ0VZsB5Q | 172.23.0.1 | 1742318727 | _sf2_attributes|a:1:{s:3:"uid";s:1:"1";}_sf2_meta|a:4:{s:1:"u";i:1742318728;s:1:"c";i:1742318543;s:1:"l";i:2000000;s:1:"s";s:43:"op5lgAFvLVolHUvhbpgkEDNYU4E-j-IiUq0y0qyLaiU";}                                                                                                       |
+|   1 | EKYp2HPCPG2zB_KKM4O-wRvm1C8AQ8yxT515NkhbjVs | 172.23.0.1 | 1742243572 | _sf2_attributes|a:1:{s:3:"uid";s:1:"1";}_sf2_meta|a:4:{s:1:"u";i:1742243573;s:1:"c";i:1741399093;s:1:"l";i:2000000;s:1:"s";s:43:"m0l275rVN9rasGTpCNADkWC_ls0oD00hS6nXRpZOpuc";}                                                                                                       |
+|   1 | shKeFAj1njr0NVOhtsy-R8WXaDueWXE_NN_yqa0gIko | 172.21.0.5 | 1741185985 | _sf2_attributes|a:2:{s:3:"uid";s:1:"1";s:12:"pass_reset_1";s:74:"3v9Susa6Ge_XRS80_x_tHx-qYROShIBkBu0QsORMtbbs1qPtILqUFtCeZomEvWnz4mlS-ZEKcQ";}_sf2_meta|a:4:{s:1:"u";i:1741185985;s:1:"c";i:1741185985;s:1:"l";i:2000000;s:1:"s";s:43:"JwJT4PItEyHJwxEJ_NC8Cxa4jzrYuoW6q-Kt8rlyjUI";} |
++-----+---------------------------------------------+------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+4 rows in set (0.009 sec)
+```
+
+To format the output in a more readable way, use the `G` option. There is a backslash before the `G` to escape it.:
+
+```sql
+MariaDB [db]> select * from sessions\G;
+*************************** 1. row ***************************
+      uid: 1
+      sid: 6_GYbpm8eu1MbvTyL9j-bh6d6fcPci-1aoNcVbp835o
+ hostname: 172.21.0.5
+timestamp: 1741612580
+  session: _sf2_attributes|a:1:{s:3:"uid";s:1:"1";}_sf2_meta|a:4:{s:1:"u";i:1741612556;s:1:"c";i:1741186093;s:1:"l";i:2000000;s:1:"s";s:43:"fBirJVd_IQx5LXxF4WlzuLiR6hy0DUc2TcTQqRPaPJE";}
+*************************** 2. row ***************************
+      uid: 1
+      sid: 7e-OPABLA2IXPqpqyrN3vH7RDwM6znr38TDZ0VZsB5Q
+ hostname: 172.23.0.1
+timestamp: 1742318727
+  session: _sf2_attributes|a:1:{s:3:"uid";s:1:"1";}_sf2_meta|a:4:{s:1:"u";i:1742318728;s:1:"c";i:1742318543;s:1:"l";i:2000000;s:1:"s";s:43:"op5lgAFvLVolHUvhbpgkEDNYU4E-j-IiUq0y0qyLaiU";}
+*************************** 3. row ***************************
+      uid: 1
+      sid: EKYp2HPCPG2zB_KKM4O-wRvm1C8AQ8yxT515NkhbjVs
+ hostname: 172.23.0.1
+timestamp: 1742243572
+  session: _sf2_attributes|a:1:{s:3:"uid";s:1:"1";}_sf2_meta|a:4:{s:1:"u";i:1742243573;s:1:"c";i:1741399093;s:1:"l";i:2000000;s:1:"s";s:43:"m0l275rVN9rasGTpCNADkWC_ls0oD00hS6nXRpZOpuc";}
+*************************** 4. row ***************************
+      uid: 1
+      sid: shKeFAj1njr0NVOhtsy-R8WXaDueWXE_NN_yqa0gIko
+ hostname: 172.21.0.5
+timestamp: 1741185985
+  session: _sf2_attributes|a:2:{s:3:"uid";s:1:"1";s:12:"pass_reset_1";s:74:"3v9Susa6Ge_XRS80_x_tHx-qYROShIBkBu0QsORMtbbs1qPtILqUFtCeZomEvWnz4mlS-ZEKcQ";}_sf2_meta|a:4:{s:1:"u";i:1741185985;s:1:"c";i:1741185985;s:1:"l";i:2000000;s:1:"s";s:43:"JwJT4PItEyHJwxEJ_NC8Cxa4jzrYuoW6q-Kt8rlyjUI";}
+4 rows in set (0.003 sec)
+```
+
+### Show variables from my.cnf
+
+You can use these commands to make sure your `my.cnf` variables are set correctly e.g. `show variables like 'max_allowed_packet';` or `show variables like 'max%';`
+
+
+```sql
+mysql> show variables like 'key_buffer%';
++-----------------+-----------+
+| Variable_name   | Value     |
++-----------------+-----------+
+| key_buffer_size | 536870912 |
++-----------------+-----------+
+```
+
+
+### Display current database in use
+
+If you want to figure out which database is being used in the current session, use the `database()` function:
+
+```sql
+MariaDB [db]> select database();
++------------+
+| database() |
++------------+
+| db         |
++------------+
+1 row in set (0.012 sec)
+```
+
+### Show all databases
+
+```sql
+MariaDB [db]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db                 |
+| information_schema |
+| test               |
++--------------------+
+3 rows in set (0.015 sec)
+```
+
+### Show all tables
+
+```sql
+MariaDB [db]> show tables;
+```
+
+```
++----------------------------------+
+| Tables_in_db                     |
++----------------------------------+
+| block_content                    |
+| block_content__body              |
+| block_content_field_data         |
+| block_content_field_revision     |
+| block_content_revision           |
+| block_content_revision__body     |
+| cache_access_policy              |
+| cache_bootstrap                  |
+| cache_config                     |
+| cache_container                  |
+| cache_data                       |
+| cache_default                    |
+| cache_discovery                  |
+| cache_dynamic_page_cache         |
+| cache_entity                     |
+| cache_menu                       |
+| cache_page                       |
+| cache_render                     |
+| cache_toolbar                    |
+| cachetags                        |
+| comment                          |
+| comment__comment_body            |
+| comment_entity_statistics        |
+| comment_field_data               |
+| config                           |
+| config_export                    |
+| config_import                    |
+| file_managed                     |
+| file_usage                       |
+| flood                            |
+| help_search_items                |
+| history                          |
+| key_value                        |
+| key_value_expire                 |
+| menu_link_content                |
+| menu_link_content_data           |
+| menu_link_content_field_revision |
+| menu_link_content_revision       |
+| menu_tree                        |
+| node                             |
+| node__body                       |
+| node__comment                    |
+| node__field_image                |
+| node__field_tags                 |
+| node_access                      |
+| node_field_data                  |
+| node_field_revision              |
+| node_revision                    |
+| node_revision__body              |
+| node_revision__comment           |
+| node_revision__field_image       |
+| node_revision__field_tags        |
+| path_alias                       |
+| path_alias_revision              |
+| queue                            |
+| router                           |
+| search_dataset                   |
+| search_index                     |
+| search_total                     |
+| semaphore                        |
+| sequences                        |
+| sessions                         |
+| shortcut                         |
+| shortcut_field_data              |
+| shortcut_set_users               |
+| taxonomy_index                   |
+| taxonomy_term__parent            |
+| taxonomy_term_data               |
+| taxonomy_term_field_data         |
+| taxonomy_term_field_revision     |
+| taxonomy_term_revision           |
+| taxonomy_term_revision__parent   |
+| user__roles                      |
+| user__user_picture               |
+| users                            |
+| users_data                       |
+| users_field_data                 |
+| watchdog                         |
++----------------------------------+
+78 rows in set (0.010 sec)
+```
+
+### Show process list
+
+```sql
+MariaDB [db]> show full processlist;
++------+------+------------------+------+---------+------+----------+-----------------------+----------+
+| Id   | User | Host             | db   | Command | Time | State    | Info                  | Progress |
++------+------+------------------+------+---------+------+----------+-----------------------+----------+
+| 6557 | db   | 172.23.0.2:35630 | db   | Query   |    0 | starting | show full processlist |    0.000 |
++------+------+------------------+------+---------+------+----------+-----------------------+----------+
+1 row in set (0.008 sec)
+```
+
+### Quickly clear all tables
+
+```sql
+CLEAR ALL TABLES in A DB
+---------------------------------------
+SET FOREIGN_KEY_CHECKS = 0; 
+SET @tables = NULL;
+SET SESSION group_concat_max_len = 1000000;
+SELECT GROUP_CONCAT(table_schema, '.', table_name) INTO @tables
+  FROM information_schema.tables 
+  WHERE table_schema = 'wfm'; -- specify DB name here.
+
+SET @tables = CONCAT('DROP TABLE IF EXISTS ', @tables);
+PREPARE stmt FROM @tables;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET FOREIGN_KEY_CHECKS = 1; 
+
+show tables;
+```
+
 
 
 ## Use the database abstraction layer to avoid SQL injection attacks
@@ -1459,6 +1680,90 @@ I was able to tell what the sort criteria was:
 ![Debugging queries](/images/debug-query3.png)
 
 
+## Useful my.cnf settings
+
+To enable error log add following
+```
+[mysqld]
+log_error=/var/log/mysql/mysql_error.log
+
+# To enable general query log add following
+general_log_file        = /var/log/mysql/mysql.log
+general_log             = 1
+
+# To enable Slow Query Log add following
+log_slow_queries       = /var/log/mysql/mysql-slow.log
+long_query_time = 2
+log-queries-not-using-indexes
+```
+
+## Enable logs at runtime
+
+To enable logs at runtime, login to mysql client (`mysql -u root -p`) and give:
+
+```sql
+SET GLOBAL general_log = 'ON';
+SET GLOBAL slow_query_log = 'ON';
+```
+
+
+## Troubleshooting
+
+### Definer error
+
+When loading a database and there are references in it to `DEFINER=` you might see this error
+
+```
+ERROR 1227 (42000) at line 7746: Access denied; you need (at least one of) the SUPER privilege(s) for this operation
+```
+
+To fix this, remove any reference to `DEFINER=`
+
+e.g.
+```
+/*!50017 DEFINER="ruttnzsrnv"@"%"*/
+```
+remove everything between the `/* */` and try again
+
+
+more at [Stack Overflow](https://stackoverflow.com/questions/44015692/access-denied-you-need-at-least-one-of-the-super-privileges-for-this-operat)
+
+
+### Unknown collation
+
+When importing a db from and you see this error:
+
+```sh
+$ ddev import-db --src=dbprod.sql.gz
+ERROR 1273 (HY000) at line 25: Unknown collation: 'utf8mb4_0900_ai_ci'
+ 184KiB 0:00:00 [4.31MiB/s] [>                                                                                         ]  0%
+ERROR: 1
+Failed to import database db for dir: exit status 1
+```
+From [https://github.com/ddev/ddev/issues/1902](https://github.com/ddev/ddev/issues/1902): 
+
+More at [Accent insensitivity and case insensitivity, two excellent things to have in collation](https://www.monolune.com/what-is-the-utf8mb4_0900_ai_ci-collation/)
+
+The workaround is to replace the `ai_ci` encoding part in the file with this sed command:
+```sh
+sed -i '' 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_ci/g' 2019-10-26-prod.sql
+```
+this may also work
+
+Here is an oldish message from Randy Fay:
+I hope it's clear to everybody that in current versions of ddev, the fix is to use the mysql database instead of mariadb. Use the mysql_version that matches your production server.
+
+There's no need for a workaround in ddev. Please use the mysql version that matches your server.
+ 1. ddev stop --remove-data
+ 2. Edit your .ddev/config.yaml to remove any mariadb_version. Add mysql_version: 5.7 or mysql_version: 8.0 or whatever matches your server version.
+ 3. ddev start
+ 4. ddev import-db --src=/path/to/your/sqldump.sql.gz
+
+Again... if your server is using mysql 8, please just change your ddev project to use mysql 8.
+ 
+```sh
+ddev config --mariadb-version="" --mysql-version=8.0
+```
 
 
 ## Reference
@@ -1471,3 +1776,4 @@ I was able to tell what the sort criteria was:
 - [Insert Queries](https://www.drupal.org/docs/drupal-apis/database-api/insert-queries)
 - [Querying date fields from 2018](https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update)
 - [Querying date fields](https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8)
+- [MySQL 8 docs](https://dev.mysql.com/doc/refman/8.0/en/)
