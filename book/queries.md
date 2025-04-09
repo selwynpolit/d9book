@@ -1422,6 +1422,27 @@ SET FOREIGN_KEY_CHECKS = 1;
 show tables;
 ```
 
+### Generate TRUNCATE statements for all cache tables
+
+This will generate a list of `TRUNCATE` statements for all tables that start with `cache_`. You can then copy and paste the output into your SQL tool to clear all cache tables.
+
+
+```sql
+SELECT concat('TRUNCATE TABLE `', TABLE_NAME, '`;')
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_NAME LIKE 'cache%'
+```
+
+
+### Generate statements to convert character set and collation type for all tables
+
+This will generate a list of `ALTER TABLE` statements for all tables in the database. You can then copy and paste the output into your SQL tool to convert all tables to `utf8mb4` character set and `utf8mb4_0900_ai_ci` collation type.
+
+```sql
+SELECT CONCAT('ALTER TABLE `', TABLE_NAME, '` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;')
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA = 'f';
+```
 
 
 ## Use the database abstraction layer to avoid SQL injection attacks
