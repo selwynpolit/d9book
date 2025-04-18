@@ -807,7 +807,7 @@ From `docroot/modules/contrib/batch/src/Batch/Operation/OperationBase.php`:
 
 From [Alan Saunders article, December 2021](https://www.alansaunders.co.uk/blog/queues-drupal-8-and-9):
 
-A queue is simply a list of stuff that gets worked through one by one, one analogy could be a conveyor belt on a till in a supermarket, the cashier works through each item on the belt to scan them.
+A queue is simply a list of stuff that gets worked through one by one. An analogy could be a conveyor belt on a till in a supermarket, the cashier works through each item on the belt to scan them.
 
 Queues are handy in Drupal for chunking up large operations, like sending emails to many people. By using a queue, you are trying to avoid overloading the servers resources which could cause the site to go offline until the resources on the server are free'd up.
 
