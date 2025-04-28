@@ -2647,6 +2647,261 @@ $bundle_label = $bundle_info[$bundle]['label'];
 I used this in an implementation of `template_preprocess_views_view_field()` to get the display name of the bundle for a custom entity type to display in a view. For some strange reason, Drupal wouldn't display the bundle name for anonymous users even though they had access to the content.
 
 
+## lsync daemon
+
+The [lsync](https://github.com/lsyncd/lsyncd) daemon is a tool that can be used to synchronize files between two or more servers. It is similar to `rsync`, but it runs as a daemon and can be configured to automatically synchronize files at regular intervals. This can be useful for keeping files in sync between a primary and secondary server, such as in a load-balanced environment. 
+
+If you give lsync too large of a directory, it may fail. You can solve this by breaking up the tasks into smaller chunks.  Do this by creating separate `sync` sections. Lsync knows how to automatically execute each `sync` section without any additional configuration. 
+
+I was working on a project that was failing to sync the entire `/web/server1/html` directory due to vast number of files and folders. The solution was to break it up into multiple `sync` sections, each handling a smaller chunk of the directory. In the example config file below, the `/web/server1/html` directory is broken up into multiple `sync` sections, each handling a different subdirectory. 
+
+:::tip Note
+You have to restart the lsync daemon after making changes to the configuration file.  You can do this with `sudo systemctl restart lsyncd` or `sudo service lsyncd restart`.  You can also check the status of the daemon with `sudo systemctl status lsyncd` or `sudo service lsyncd status`. Check the logs in `/var/log/lsyncd/lsyncd.log` to see if there are any errors or issues with the synchronization.
+:::
+
+This partial configuration file should provide enough information to identify how to use it. It is stored in  `/etc/lsyncd.conf`. This instruction ` default.rsyncssh,` indicates that it will use `rsync` over SSH.  You can simply choose from a set of three default implementations which are: rsync, rsyncssh and direct.
+
+The `source` is the source directory to be synchronized, and the `targetdir` is the target directory on the remote server.  The `host` is the remote server to synchronize with.  The `delay` is the time in seconds to wait before synchronizing.  The `rsync` options are passed to the `rsync` command.
+
+
+```
+----
+-- User configuration file for lsyncd.
+--
+-- For more examples, see /usr/share/doc/lsyncd*/examples/
+--
+-- sync{default.rsyncssh, source="/var/www/html", host="localhost", targetdir=}
+
+settings {
+ logfile = "/var/log/lsyncd/lsyncd.log",
+ statusFile = "/var/log/lsyncd/lsyncd.status",
+ statusInterval = 20,
+ insist = true,
+}
+
+-- Sync Configurations /web/server1/html/config/
+sync {
+ default.rsyncssh,
+ source = "/web/server1/html/config/",
+ host = "123.123.123.123",
+ targetdir = "/web/server2/html/config/",
+ delay = 5,
+
+ rsync = {
+   update=true,
+   perms=true,
+   executability=true,
+   verbose=true,
+   owner=true,
+   group=true,
+ }
+}
+
+-- Sync Patches /web/server1/html/patches/
+sync {
+  default.rsyncssh,
+  source = "/web/server1/html/patches/",
+  host = "123.123.123.123",
+  targetdir = "/web/server2/html/patches/",
+  delay = 5,
+ 
+  rsync = {
+    update=true,
+    perms=true,
+    executability=true,
+    verbose=true,
+    owner=true,
+    group=true,
+  }
+}
+
+-- Sync Vendor /web/server1/html/vendor/
+sync {
+  default.rsyncssh,
+  source = "/web/server1/html/vendor/",
+  host = "123.123.123.123",
+  targetdir = "/web/server2/html/vendor/",
+  delay = 5,
+ 
+  rsync = {
+    update=true,
+    perms=true,
+    executability=true,
+    verbose=true,
+    owner=true,
+    group=true,
+  }
+}
+
+-- Sync Vendor /web/server1/html/web/
+-- Notice the exclude section
+sync {
+  default.rsyncssh,
+  source = "/web/server1/html/web/",
+  host = "123.123.123.123",
+  targetdir = "/web/server2/html/web/",
+  exclude = {
+    '/web/server2/html/web/vendor/*',
+    '/web/server2/html/web/sites/default/files/*',
+    '/web/server2/html/web/sites/faq/files/*'
+  },
+  delay = 5,
+ 
+  rsync = {
+    update=true,
+    perms=true,
+    executability=true,
+    verbose=true,
+    owner=true,
+    group=true,
+  }
+}
+
+
+-- Sync files /web/server2/html/web/sites/default/files/
+ sync {
+  default.rsyncssh,
+  source = "/web/server2/html/web/sites/default/files/",
+  host = "123.123.123.123",
+  targetdir = "/web/server2/html/web/sites/default/files/",
+  delay = 5,
+ 
+  rsync = {
+    update=true,
+    perms=true,
+    executability=true,
+    verbose=true,
+    owner=true,
+    group=true,
+  }
+ }
+```
+
+Here is an example of the command that would be run by the lsync daemon.  This is the command that would be run if you were to run it manually.  The `--delete` option will delete files on the target server that are not present on the source server.  The `--ignore-errors` option will ignore errors and continue with the synchronization.  The `-sEolvutpg` options are passed to the `rsync` command to control the synchronization process.
+
+```sh
+/usr/bin/rsync --delete --ignore-errors -sEolvutpg -r /web/server1/html/config/ 123.123.123.123:/web/server2.com/html/config
+```
+
+If you have 30GB of files in `sites/default/files`, you could logically break these into 3 tasks each one which could handle 10GB of data. 
+```
+/sites/default/files 30GB
+/sites/default/files/2022 10GB
+/sites/default/files/2023 10GB
+```
+
+you might create one `sync` section for the `sites/default/files` which represents 10 GB (excluding the `sites/default/files/2022` and `sites/default/files/2023`  directories) and then create another section for the `sites/default/files/2022` which represents another 10 GB and a third section for `sites/default/files/2023` which represents another 10 GB.
+
+
+To ensure all required files are synced, identify a top level directory such as `sites/default/files` and then exclude subdirectories (such as `sites/default/files/2022` and `sites/default/files/2023`) to logically give the synch process only as much work as it can handle. 
+
+You can use useful linux utilities like `du` to identify the size of directories.  For example, to get the size of the `sites/default/files` directory, you could run:
+
+```sh
+ du -h --max-depth=1 /web/server1/html
+```
+
+It outputs something like:
+```
+ 20M	./config
+4.0K	./.lando
+455M	./web
+ 60K	./patches
+  0B	./.local
+ 25M	./node_modules
+1.1M	./solr
+ 24K	./scripts
+  0B	./modules
+4.0K	./lando_config
+402M	./vendor
+ 19G	.
+```
+
+
+:::tip Note
+If you want to get really crazy, you can write scripts in the [Lua programming language](https://www.lua.org/home.html)
+:::
+
+
+### Bash script to check for lsyncd errors
+
+This is a bash script that can be used to check for errors in the lsyncd log file.  It will check the log file for any errors and report them.  It will also check the number of lines in the log file and if it exceeds 21 lines, it will report that as an error. This is not a robust solution and is very specific to my implementation. You may need to modify it to suit your needs. 
+
+Use the command: `rsync --delete --ignore-errors -sEolvutpgnc -r $EXCLUDES "${SRC}/" "${DEST}/" > /tmp/rsync_output.log 2>&1` to run the rsync command and redirect the output to a log file. Note. Replace the src and dest with real values (no double quotes or dollar signs needed) This will create a log file in `/tmp/rsync_output.log` that contains the output of the rsync command. If a filename is listed in the file, that means rsync has found a difference between the source and destination directories. No output means the directories are in sync.
+
+ Run wc to count the lines of the file with `wc -l < /tmp/rsync_output.log`.  You may need to add a file to the source directory and rerun to see the output.  Then you can update the script to check for the number of lines for your setup.
+
+```bash
+#!/bin/bash
+# Validate that multiple source and destination directories are in sync using rsync over SSH.
+
+# Define an array of source, destination, and exclude patterns.
+# Format: "SRC1|DEST1|EXCLUDES1" "SRC2|DEST2|EXCLUDES2" ...
+DIR_PAIRS=(
+  "/web/server1/html/config/|123.123.123.123:/web/server2/html/config/"
+  "/web/server1/html/vendor/|123.123.123.123:/web/server2/html/vendor/"
+  "/web/server1/html/web/|123.123.123.123:/web/server2/html/web/|--exclude=vendor --exclude=sites/default/files --exclude=sites/fai/files"
+  "/web/server1/html/web/vendor/|123.123.123.123:/web/server2/html/web/vendor/"
+  "/web/server1/html/web/sites/default/files/|123.123.123.123:/web/server2/html/web/sites/default/files/|--exclude=agov_logs --exclude=current --exclude=archives –exclude=php"
+  "/web/server1/html/web/sites/default/files/archives/|123.123.123.123:/web/server2/html/web/sites/default/files/archives/|--exclude=far --exclude=pdf --exclude=zip"
+  "/web/server1/html/web/sites/default/files/archives/far/|123.123.123.123:/web/server2/html/web/sites/default/files/archives/far/"
+  "/web/server1/html/web/sites/default/files/archives/pdf/|123.123.123.123:/web/server2/html/web/sites/default/files/archives/pdf/"
+  "/web/server1/html/web/sites/default/files/archives/zip/|123.123.123.123:/web/server2/html/web/sites/default/files/archives/zip/"
+  "/web/server1/html/web/sites/default/files/current/|123.123.123.123:/web/server2/html/web/sites/default/files/current/"
+  "/web/server1/html/web/sites/default/files/agov_logs/|123.123.123.123:/web/server2/html/web/sites/default/files/agov_logs/"
+  "/web/server1/html/web/sites/fai/files/|123.123.123.123:/web/server2/html/web/sites/fai/files/|--exclude=pdfs --exclude=direct"
+  "/web/server1/html/web/sites/fai/files/pdfs/|123.123.123.123:/web/server2/html/web/sites/fai/files/pdfs/"
+  "/web/server1/html/web/sites/fai/files/direct/|123.123.123.123:/web/server2/html/web/sites/fai/files/direct/"
+  "/web/server1/html/|123.123.123.123:/web/server2/html/|--exclude=backups --exclude=config --exclude=configbck120624 --exclude=config_bkp --exclude=config_stage.zip --exclude=current --exclude=DATABASE_BACKUPS_FOR_A_FAI --exclude=database-starter.sql.gz --exclude=dita_tools --exclude=lando_config --exclude=my-php-policy.pp --exclude=my-php-policy.te --exclude=published --exclude=regulation --exclude=vendor --exclude=web"
+)
+
+
+# Loop through each pair and validate sync.
+for PAIR in "${DIR_PAIRS[@]}"; do
+  SRC=$(echo "$PAIR" | cut -d'|' -f1)
+  DEST=$(echo "$PAIR" | cut -d'|' -f2)
+  EXCLUDES=$(echo "$PAIR" | cut -d'|' -f3)
+
+
+  echo "Validating sync from ${SRC} to ${DEST} using rsync in checksum dry-run mode with SSH..."
+
+
+  # The options used:
+  # --delete: Flag files in the destination that have been removed from the source
+  # --ignore-errors: Continue syncing even if there are errors
+  # -s: Handle spaces in file names
+  # -E: Preserve executability
+  # -o: Preserve owner
+  # -l: Copy symlinks as symlinks
+  # -v: Verbose output
+  # -u: Skip files that are newer on the destination
+  # -t: Preserve modification times
+  # -p: Preserve permissions
+  # -g: Preserve group
+  # -n: Dry run (no changes made)
+  # -r: Recursive
+  # -c: Use checksum to determine if files are different
+  rsync --delete --ignore-errors -sEolvutpgnc -r $EXCLUDES "${SRC}/" "${DEST}/" > /tmp/rsync_output.log 2>&1
+
+
+  # Count the number of lines in the output log
+  LINE_COUNT=$(wc -l < /tmp/rsync_output.log)
+
+  # Check if the line count exceeds 21
+  if [ "$LINE_COUNT" -gt 21 ]; then
+    echo "Validation found differences or errors for ${SRC} -> ${DEST}:"
+    cat /tmp/rsync_output.log
+    exit 1
+  else
+    echo "Validation successful: All files are in sync for ${SRC} -> ${DEST}."
+  fi
+done
+
+exit 0
+```
+
+
+
 ## Resources
 
 - [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg - Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
