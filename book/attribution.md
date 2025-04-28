@@ -71,3 +71,5 @@ Thanks to these rockstars for their contribution to the project. Please add your
 [GeorgiadisChristos](https://github.com/GeorgiadisChristos) - Migrate chapter fixes.
 
 [Nathan Kenall](https://github.com/boinkster) - Queries.
+
+[Pramod Ganore](https://github.com/pramodganore) - Localstack.
