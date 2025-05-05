@@ -912,7 +912,7 @@ You can use `ddev drush -l dmultisite1 status` to see the status of the subsite.
 
 ### Using Prefixes
 
-This is the least ideal way to set up a multisite. It puts all the tables in the same database and uses prefixes to separate them. This is not a good idea because it can lead to confusion and make it difficult to manage the database. It also makes it harder to migrate a site to a different server or hosting provider.
+This is the worst way to set up a multisite. It puts all the tables in the same database and uses prefixes to separate them. This is not a good idea because it can lead to confusion and make it difficult to manage the database. It also makes it harder to migrate a site to a different server or hosting provider.
 
 I created a [d10m git repo](https://github.com/selwynpolit/d10m) which has a multisite setup with 3 subsites using the same database and prefixes for the tables.  You can clone it and run `ddev start` to see it working.
 
@@ -1200,11 +1200,32 @@ https://subsite2.ddev.site/user/reset/1/1746199233/TNYXEGePpgXweOukz_yg-4fRWj6x3
 Note. this drush directory is at the same level as the `web` or `docroot` directory.
 
 
-Strangely, DDEV reports problems in the site listing.  Not sure what that is about.
+If DDEV reports problems in the site listing such as this:
 
 ![Site listing](/images/dmulti3.png)
 
 
+A quick look at the mutagen status output may show you that there are transition problems:
+
+```sh
+ddev mutagen status -l
+
+...
+	Transition problems:
+		web/sites/subsite3_/files: unable to remove directory: permission denied
+		web/sites/subsite3_/settings.php: unable to remove file: permission denied
+```
+
+
+You can resolve this by adding upload_dirs to the `.ddev/config.yaml` file:
+
+```yaml
+upload_dirs:
+  - sites/default/files
+  - sites/subsite1/files
+  - sites/subsite2/files
+  - sites/subsite3/files
+```
 
 
 
