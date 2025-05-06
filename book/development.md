@@ -1112,7 +1112,7 @@ https://subsite1.ddev.site/user/reset/1/174615/imZKgw0PxVDsPJJWihBUjlOyx-2NkV7Lw
 
 ### Drush aliases for multisite
 
-You can set up a drush alias for the subsites where you specify each uri in  `drush/sites/self.site.yml` For example:
+You can set up a drush alias for the subsites where you specify each uri in  `~/Sites/d10m/drush/sites/self.site.yml` For example:
 
 
 ```yaml
@@ -1141,7 +1141,7 @@ ddev drush @self.subsite2 en admin_toolbar -y
 ```
 
 
-Note. The drush directory is at the same level as the `web` or `docroot` directory.
+Note. The drush directory is at the same level as the `web` or `docroot` directory.  Also if you call the file `selwyn.site.yml`, you can use `ddev drush @selwyn.subsite1 uli` etc. See [Drush aliases](drush.md#drush-aliases) for more info.
 
 
 ### Problems with multisite
@@ -1168,7 +1168,7 @@ ddev drush --uri=https://subsite1.ddev.site uli
 https://subsite1.ddev.site/user/reset/1/1746198785/imZKgctexfaXuUw0PxVDsPJJWihBUjlOyx-2NkV7Lwc/login
 ```
 
-Additionally, you can set up a drush alias for the subsites where you specify each uri in  `drush/sites/self.site.yml` For example:
+Additionally, you can set up a drush alias for the subsites where you specify each uri in  `drush/sites/self.site.yml` (at the same level as the .ddev directory. e.g. at `~/Sites/d10m/drush/sites/self.site.yml`) For example:
 
 
 ```yaml
