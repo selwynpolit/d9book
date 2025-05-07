@@ -2306,14 +2306,13 @@ Example vegetable.module directory structure:
 * vegetable.routing.yml
 * vegetable.module
 
-# Localstack - services
+## Localstack - services
 You can use AWS services like S3, Solr, OpenSearch, dashboard locally by spinning up a simple docker localstack service
-Add this to your docker-compose.yml
+Add this to your `docker-compose.yml`
 
-[Go to localstack to see list of services available](https://docs.localstack.cloud/references/coverage/)
+Go to [localstack to see list of services available](https://docs.localstack.cloud/references/coverage/)
 
 ```yaml
-
 localstack:
   container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
   image: localstack/localstack:0.11.2
@@ -2346,7 +2345,7 @@ localstack:
 To use the above localstack service just specify the ports and endpoints you wish to use locally. The examples below are the defaults (no changes needed). 
 I would change the s3 bucket name, everything else can be defaults. 
 
-``` .env
+```
 # Localstack
 # LOCALSTACK_SERVICES=s3,sns,sqs,es
 # LOCALSTACK_SERVICES=opensearch
