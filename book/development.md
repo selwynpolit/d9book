@@ -732,7 +732,9 @@ I'm not a huge fan of multisite for many reasons but if you need to set it up, h
 - Share the same database and use prefixes for the tables.
 - Probably a zillion other ways to do it including using a different database server for each site.
 
+Also [Why Pantheon thinks multisite is a bad idea - June 2017](https://pantheon.io/blog/drupal-multisite-much-ado-about-drupal-multisite#snowflake-sites)
 
+Thanks to Aastha Shrivastava for her article [Setting up drupal9 multi-site with DDEV](https://dev.to/shriaas2898/setting-up-drupal9-multi-site-with-ddev-2f22) as well as Russell Jones's [Youtube video: Easy Drupal 10 Multi-Site Setup with DDEV | Get Started in Minutes!](https://www.youtube.com/watch?v=MvXJJllmW8I) for their excellent work informing this section.
 
 
 ### Using different databases
@@ -912,7 +914,7 @@ You can use `ddev drush -l dmultisite1 status` to see the status of the subsite.
 
 ### Using Prefixes
 
-This is the worst way to set up a multisite. It puts all the tables in the same database and uses prefixes to separate them. This is not a good idea because it can lead to confusion and make it difficult to manage the database. It also makes it harder to migrate a site to a different server or hosting provider.
+This is the *worst* way to set up a multisite. It puts all the tables in the same database and uses prefixes to separate them. This is not a good idea because it can lead to confusion and make it difficult to manage the database. It also makes it harder to migrate a site to a different server or hosting provider.
 
 I created a [d10m git repo](https://github.com/selwynpolit/d10m) which has a multisite setup with 3 subsites using the same database and prefixes for the tables.  You can clone it and run `ddev start` to see it working.
 
@@ -1091,8 +1093,7 @@ Drupal config    : sites/default/files/sync
 
 
 
-#### Credit
-Thanks to Aastha Shrivastava for her article [Setting up drupal9 multi-site with DDEV](https://dev.to/shriaas2898/setting-up-drupal9-multi-site-with-ddev-2f22) as well as Russell Jones's [Youtube video: Easy Drupal 10 Multi-Site Setup with DDEV | Get Started in Minutes!](https://www.youtube.com/watch?v=MvXJJllmW8I) for their excellent work informing this section.
+
 
 
 ### Drush for multisite
