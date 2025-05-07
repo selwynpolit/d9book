@@ -2306,6 +2306,75 @@ Example vegetable.module directory structure:
 * vegetable.routing.yml
 * vegetable.module
 
+# Localstack - services
+You can use AWS services like S3, Solr, OpenSearch, dashboard locally by spinning up a simple docker localstack service
+Add this to your docker-compose.yml
+
+[Go to localstack to see list of services available](https://docs.localstack.cloud/references/coverage/)
+
+```yaml
+
+localstack:
+  container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
+  image: localstack/localstack:0.11.2
+  ports:
+    - "4566:4566"
+    - "4571:4571"
+    - "4578:4578"
+    - "4598:4598"
+    - "${LOCALSTACK_PORT_WEB_UI-9080}:${PORT_WEB_UI-9080}"
+  environment:
+    - EDGE_PORT=4566
+    - SERVICES=${LOCALSTACK_SERVICES- }
+    - DEBUG=${LOCALSTACK_DEBUG- }
+    - DATA_DIR=${LOCALSTACK_DATA_DIR- }
+    - PORT_WEB_UI=${LOCALSTACK_PORT_WEB_UI- }
+    # - LAMBDA_EXECUTOR=${LOCALSTACK_LAMBDA_EXECUTOR- }
+    - KINESIS_ERROR_PROBABILITY=${LOCALSTACK_KINESIS_ERROR_PROBABILITY- }
+    - DOCKER_HOST=unix:///var/run/docker.sock
+    - HOST_TMP_FOLDER=${LOCALSTACK_TMPDIR}
+    - S3FS_BUCKET=${S3FS_BUCKET}
+    # - ELASTICSEARCH__BACKEND=http://localhost:9200
+    # - OPENSEARCH_CUSTOM_BACKEND=http://opensearch:9200
+  volumes:
+    - /tmp/localstack
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    - ./aws/:/docker-entrypoint-initaws.d
+
+```
+
+To use the above localstack service just specify the ports and endpoints you wish to use locally. The examples below are the defaults (no changes needed). 
+I would change the s3 bucket name, everything else can be defaults. 
+
+``` .env
+# Localstack
+# LOCALSTACK_SERVICES=s3,sns,sqs,es
+# LOCALSTACK_SERVICES=opensearch
+# LOCALSTACK_PORT_WEB_UI=9080
+# LOCALSTACK_DATA_DIR=/tmp/localstack/data
+# LOCALSTACK_TMPDIR=/tmp/localstack/tempdir
+
+## Open Search
+# OPENSEARCH_SERVICE_ENDPOINT=opensearch
+# OPENSEARCH_PORT=9200
+# OPENSEARCH_SERVICE_DOMAIN=
+# LOCAL_OS_PROTOCOL=http://
+
+# OPENSEARCH_USER=admin
+# OPENSEARCH_PASSWORD=admin
+
+
+# S3
+# S3FS_BUCKET=your-bucket-name
+# S3FS_REGION=us-west-2
+# S3FS_HOSTNAME=localstack:4566
+# S3FS_AWS_ACCESS_KEY=foo
+# S3FS_AWS_SECRET_KEY=bar
+# S3FS_USE_PATH_STYLE_ENDPOINT=TRUE
+# S3FS_USE_HTTPS=FALSE
+# S3FS_S3_PUBLIC_URL=http://localstack:4566/your-bucket-name
+# S3FS_USE_CUSTOM_HOST=TRUE
+```
 
 ## Resources
 
