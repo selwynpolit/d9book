@@ -912,6 +912,33 @@ You can use `ddev drush -l dmultisite1 status` to see the status of the subsite.
 ::::
 
 
+#### Backup and restore the database for a subsite
+
+To export a database, use `ddev export-db` with the `-d` option to specify the database to export from (default \"db\")
+e.g. 
+
+```sh
+ddev export-db -d site1 -f dbsite1.sql.gz
+```
+This will create a file called `dbsite1.sql.gz` in the current directory.
+
+To restore (import) a database for a subsite, use `ddev import-db -d site1 --file=dbdump1.sql.gz` 
+
+
+
+You can also use drush. E.g. to backup the database for a subsite `dmultusite1` with drush, use:
+
+```sh
+ddev drush -l dmultisite1 sql-dump >dbdump1.sql
+```
+
+and to restore it, use:
+
+```sh
+ddev drush -l dmultisite1 sqlc < dbdump1.sql
+```
+
+
 ### Using Prefixes
 
 This is the *worst* way to set up a multisite. It puts all the tables in the same database and uses prefixes to separate them. This is not a good idea because it can lead to confusion and make it difficult to manage the database. It also makes it harder to migrate a site to a different server or hosting provider.
