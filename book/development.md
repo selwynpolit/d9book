@@ -323,7 +323,7 @@ From the docs:
 
 From https://ddev.readthedocs.io/en/stable/users/extend/config_yaml
 
--  You can override the config.yaml with extra files named `config.*.yaml\`. For example, use `.ddev/config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default config.yaml.
+-  You can override the config.yaml with extra files named `config.*.yaml\`. For example, use `.ddev/config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default `config.yaml`.
 
 - Additionally, you could add a `.ddev/config.selwyn.yaml` for Selwyn-specific values. I like to set the timezone and the router port in case some of my coworkers use an alternate port:
 
@@ -466,9 +466,9 @@ brew upgrade ddev
 ```
 
 
-### Show others your ddev local site using ngrok
+### Ngrok Site sharing
 
-Check out [sharing your DDEV-Local site via a public URL using `ddev share` and ngrok by Mike Anello updated Mar 2020](https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok)
+This clever tool allows you to share your local site with others.  You can use it to show off your work or get help from a colleague. Check out [sharing your DDEV-Local site via a public URL using `ddev share` and ngrok by Mike Anello updated Mar 2020](https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok)
 
 
 ### Email Capture and Review
@@ -516,7 +516,7 @@ The admin UI is protected by basic authentication. The preconfigured admin accou
 To access the Solr container from DDEV's web container (i.e. from within Drupal), use `http://solr:8983`.
 
 ::: tip Note
-Don't use `localhost` for the name of the solr server in your search api configuration. Use `solr` instead.
+Don't use `localhost` for the name of the solr server in your search api configuration. Use `solr` instead.  Also there is no need to create a core or collection. The search api can do that for you by just clicking a button called `+upload configset` which appears after you define a solr server.
 :::
 
 
@@ -538,7 +538,7 @@ Solr uses a program called `zookeeper` to manage some of the configuration of th
 
 
 
-### DDEV and Xdebug
+### Xdebug and DDEV
 
 This is a magical match made in heaven. To enable or disable Xdebug use
 
@@ -723,6 +723,543 @@ Use
 or for selenium, use:
 
 `ddev ssh -s selenium`
+
+
+## Drupal Multisite and DDEV
+
+I'm not a huge fan of multisite for many reasons but if you need to set it up, here are the steps.  You should be aware that there are some variations that you can use for multisite.
+- Create a separate database for each site.
+- Share the same database and use prefixes for the tables.
+- Probably a zillion other ways to do it including using a different database server for each site.
+
+Also [Why Pantheon thinks multisite is a bad idea - June 2017](https://pantheon.io/blog/drupal-multisite-much-ado-about-drupal-multisite#snowflake-sites)
+
+Thanks to Aastha Shrivastava for her article [Setting up drupal9 multi-site with DDEV](https://dev.to/shriaas2898/setting-up-drupal9-multi-site-with-ddev-2f22) as well as Russell Jones's [Youtube video: Easy Drupal 10 Multi-Site Setup with DDEV | Get Started in Minutes!](https://www.youtube.com/watch?v=MvXJJllmW8I) for their excellent work informing this section.
+
+
+### Using different databases
+
+This is a cleaner way to do multisite as the data is slightly more isolated.
+
+I created a [dmulti git repo](https://github.com/selwynpolit/dmulti) which has a multisite setup with 3 subsites using the different databases for each subsite.  You can clone it and run `ddev start` to see it working.
+
+Here are the steps to create the `dmulti` project with a main site `dmulti` and 3 subsites called `dmultisite1`, `dmultisite2` and `dmultisite3` each in it\'s own database.
+
+1. Get Drupal installed in a directory called `dmulti`. From [the DDEV Docs CMS Quickstart: Drupal 10 ](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal)
+
+```sh
+mkdir dmulti && cd dmulti
+ddev config --project-type=drupal10 --docroot=web
+ddev start
+ddev composer create drupal/recommended-project:^10
+ddev composer require drush/drush
+ddev drush site:install --account-name=admin --account-pass=admin -y
+ddev launch
+# or automatically log in with
+ddev launch $(ddev drush uli)
+```
+
+2. Add additional hostnames in the `.ddev/config.yaml` file under additional_hostnames.  Here we add 3 subsites under `additional_hostnames`:
+
+```yaml
+name: dmulti
+type: drupal10
+docroot: web
+php_version: "8.3"
+webserver_type: nginx-fpm
+xdebug_enabled: false
+additional_hostnames:
+  - dmultisite1
+  - dmultisite2
+  - dmultisite3
+additional_fqdns: []
+database:
+    type: mariadb
+    version: "10.11"
+use_dns_when_possible: true
+composer_version: "2"
+web_environment: []
+corepack_enable: false
+```
+
+3. Create the `dmultisite1`, `dmultisite2` and `dmultisite3` directories in the `web/sites` directory. 
+
+Kinda like this: ![Create the subsite directories](/images/dmulti1.png)
+
+
+4. Copy `examples.sites.php` to `sites.php` and add the entries for the subsites in your `web/sites/sites.php` file:
+```
+$sites['dmultisite1.ddev.site'] = 'dmultisite1';
+$sites['dmultisite2.ddev.site'] = 'dmultisite2';
+$sites['dmultisite3.ddev.site'] = 'dmultisite3';
+```
+
+5. In order to let Drupal know about the subsites and the separate databases we will need a `settings.php` file as well as a `settings.ddev.php` in each of the subsite directories.  Copy the `sites/default/settings.php` and `sites/default/settings.ddev.php` files into each of the subsite directories
+
+DDEV will have already setup the `web/sites/settings.php` file correctly for you.  Confirm that it looks like this at the bottom of the file:
+```php
+// Automatically generated include for settings managed by ddev.
+if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev.php')) {
+  include __DIR__ . '/settings.ddev.php';
+}
+
+/**
+ * Load local development override configuration, if available.
+ *
+ * Create a settings.local.php file to override variables on secondary (staging,
+ * development, etc.) installations of this site.
+ *
+ * Typical uses of settings.local.php include:
+ * - Disabling caching.
+ * - Disabling JavaScript/CSS compression.
+ * - Rerouting outgoing emails.
+ *
+ * Keep this code block at the end of this file to take full effect.
+ */
+#
+# if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+#   include $app_root . '/' . $site_path . '/settings.local.php';
+# }
+```
+
+6. Update the `sites/dmultisite1/settings.ddev.php` files in each directory to look like this:
+
+```php
+...
+<?php
+$host = "db";
+$port = 3306;
+$driver = "mysql";
+
+$databases['default']['default']['database'] = "site1";
+$databases['default']['default']['username'] = "site1";
+$databases['default']['default']['password'] = "site1";
+$databases['default']['default']['host'] = $host;
+$databases['default']['default']['port'] = $port;
+$databases['default']['default']['driver'] = $driver;
+...
+```
+This will cause Drupal to use the correct database for each subsite.
+
+Note. change the database name, username and password for each subsite in the `settings.ddev.php` file. 
+
+
+7. Restart ddev with `ddev restart` and use `ddev status` to see the new URLs.  
+
+Here is the output from ddev status:
+
+```sh
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ Project: dmulti ~/Sites/dmulti https://dmulti.ddev.site                                │
+│ Docker platform: docker-desktop                                                        │
+│ Router: traefik                                                                        │
+├──────────────┬──────┬─────────────────────────────────────────────┬────────────────────┤
+│ SERVICE      │ STAT │ URL/PORT                                    │ INFO               │
+├──────────────┼──────┼─────────────────────────────────────────────┼────────────────────┤
+│ web          │ OK   │ https://dmulti.ddev.site                    │ drupal10 PHP 8.3   │
+│              │      │ InDocker -> Host:                           │ Server: nginx-fpm  │
+│              │      │  - web:80 -> 127.0.0.1:60094                │ Docroot: 'web'     │
+│              │      │  - web:443 -> 127.0.0.1:60093               │ Perf mode: mutagen │
+│              │      │  - web:8025 -> 127.0.0.1:60095              │ Node.js: 22        │
+├──────────────┼──────┼─────────────────────────────────────────────┼────────────────────┤
+│ db           │ OK   │ InDocker -> Host:                           │ mariadb:10.11      │
+│              │      │  - db:3306 -> 127.0.0.1:60092               │ User/Pass: 'db/db' │
+│              │      │                                             │ or 'root/root'     │
+├──────────────┼──────┼─────────────────────────────────────────────┼────────────────────┤
+│ phpmyadmin   │ OK   │ https://dmulti.ddev.site:8037               │                    │
+│              │      │ InDocker:                                   │                    │
+│              │      │  - phpmyadmin:80                            │                    │
+├──────────────┼──────┼─────────────────────────────────────────────┼────────────────────┤
+│ Mailpit      │      │ Mailpit: https://dmulti.ddev.site:8026      │                    │
+│              │      │ Launch: ddev mailpit                        │                    │
+├──────────────┼──────┼─────────────────────────────────────────────┼────────────────────┤
+│ Project URLs │      │ https://dmulti.ddev.site,                   │                    │
+│              │      │ https://dmultisite1.ddev.site,              │                    │
+│              │      │ https://dmultisite2.ddev.site,              │                    │
+│              │      │ https://dmultisite3.ddev.site,              │                    │
+│              │      │ https://127.0.0.1:60093,                    │                    │
+│              │      │ http://dmulti.ddev.site,                    │                    │
+│              │      │ http://dmultisite1.ddev.site,               │                    │
+│              │      │ http://dmultisite2.ddev.site,               │                    │
+│              │      │ http://dmultisite3.ddev.site,               │                    │
+│              │      │ http://127.0.0.1:60094                      │                    │
+└──────────────┴──────┴─────────────────────────────────────────────┴────────────────────┘
+```
+
+
+
+
+7. Follow the instructions at [DDEV phpMyAdmin](https://github.com/ddev/ddev-phpmyadmin) to install phpMyAdmin.  You can use the `ddev phpmyadmin` command to access phpMyAdmin.  You should see a database called `db` for the main site.
+
+```sh
+ddev add-on get ddev/ddev-phpmyadmin
+ddev restart
+```
+
+8. Now for the databases.  DDEV automatically created the main site database. In PHPMyadmin, add 3 users called `site1`, `site2` and `site3` each with a user and password of `site1`, `site2` and `site3` respectively and also create a database for each user.
+
+![Create the subsite databases](/images/dmulti4.png)
+
+
+9. You should now be able to navigate to each subsite e.g.  `http://dmultisite1.ddev.site` and follow the prompts to install Drupal. 
+
+
+10. You can use `ddev drush -l dmultisite1 uli` to get a login url for each subsite. Notice that the URLs will not be correct for the subsites. Check out [Drush aliases for multisite](#drush-aliases-for-multisite) below to see how to fix this.
+
+
+:::: tip Note
+You can use `ddev drush -l dmultisite1 status` to see the status of the subsite. 
+::::
+
+
+#### Backup and restore the database for a subsite
+
+To export a database, use `ddev export-db` with the `-d` option to specify the database to export from (default \"db\")
+e.g. 
+
+```sh
+ddev export-db -d site1 -f dbsite1.sql.gz
+```
+This will create a file called `dbsite1.sql.gz` in the current directory.
+
+To restore (import) a database for a subsite, use `ddev import-db -d site1 --file=dbdump1.sql.gz` 
+
+
+
+You can also use drush. E.g. to backup the database for a subsite `dmultusite1` with drush, use:
+
+```sh
+ddev drush -l dmultisite1 sql-dump >dbdump1.sql
+```
+
+and to restore it, use:
+
+```sh
+ddev drush -l dmultisite1 sqlc < dbdump1.sql
+```
+
+
+### Using Prefixes
+
+This is the *worst* way to set up a multisite. It puts all the tables in the same database and uses prefixes to separate them. This is not a good idea because it can lead to confusion and make it difficult to manage the database. It also makes it harder to migrate a site to a different server or hosting provider.
+
+I created a [d10m git repo](https://github.com/selwynpolit/d10m) which has a multisite setup with 3 subsites using the same database and prefixes for the tables.  You can clone it and run `ddev start` to see it working.
+
+Here are the steps to create the `d10m` project with a main site `d10m` and 3 subsites called `subsite1`, `subsite2` and `subsite3`.
+
+Here are the steps:
+
+1. Get Drupal installed in a directory called `d10m`. From [the DDEV Docs CMS Quickstart: Drupal 10 ](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal)
+
+```sh
+mkdir d10m && cd d10m
+ddev config --project-type=drupal10 --docroot=web
+ddev start
+ddev composer create drupal/recommended-project:^10
+ddev composer require drush/drush
+ddev drush site:install --account-name=admin --account-pass=admin -y
+ddev launch
+# or automatically log in with
+ddev launch $(ddev drush uli)
+```
+
+Confirm that the site is running correctly by clicking around and creating content.
+
+2. Add additional hostnames in the `.ddev/config.yaml` file under additional_hostnames.  Here we add 3 subsites under `additional_hostnames`:
+
+```yaml
+name: d10m
+type: drupal10
+docroot: web
+php_version: "8.3"
+webserver_type: nginx-fpm
+xdebug_enabled: false
+additional_hostnames:
+  - subsite1
+  - subsite2
+  - subsite3
+additional_fqdns: []
+database:
+    type: mariadb
+    version: "10.11"
+use_dns_when_possible: true
+composer_version: "2"
+web_environment: []
+corepack_enable: false
+```
+
+3. Follow the instructions at [DDEV PhpMyAdmin](https://github.com/ddev/ddev-phpmyadmin) to install phpMyAdmin.  You can use the `ddev phpmyadmin` command to access phpMyAdmin.  You should see a database called `db` for the main site.
+
+```sh
+ddev add-on get ddev/ddev-phpmyadmin
+ddev restart
+```
+
+
+
+4. Create the `subsite1`, `subsite2` and `subsite3` directories in the `web/sites` directory. 
+
+![Create the subsite directories](/images/dmulti1.png)
+
+
+4. Copy `examples.sites.php` to `sites.php` and add the entries for the subsites in your `web/sites/sites.php` file:
+```
+   $sites['subsite1.ddev.site'] = 'subsite1';
+   $sites['subsite2.ddev.site'] = 'subsite2';
+   $sites['subsite3.ddev.site'] = 'subsite3';
+```
+
+After a `ddev restart`, use `ddev status` to see all the URLs as well as the additional hostnames listed:
+
+```sh
+ddev status
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ Project: d10m ~/Sites/d10m https://d10m.ddev.site                               │
+│ Docker platform: docker-desktop                                                 │
+│ Router: traefik                                                                 │
+├──────────────┬──────┬──────────────────────────────────────┬────────────────────┤
+│ SERVICE      │ STAT │ URL/PORT                             │ INFO               │
+├──────────────┼──────┼──────────────────────────────────────┼────────────────────┤
+│ web          │ OK   │ https://d10m.ddev.site               │ drupal10 PHP 8.3   │
+│              │      │ InDocker -> Host:                    │ Server: nginx-fpm  │
+│              │      │  - web:80 -> 127.0.0.1:65316         │ Docroot: 'web'     │
+│              │      │  - web:443 -> 127.0.0.1:65318        │ Perf mode: mutagen │
+│              │      │  - web:8025 -> 127.0.0.1:65317       │ Node.js: 22        │
+├──────────────┼──────┼──────────────────────────────────────┼────────────────────┤
+│ db           │ OK   │ InDocker -> Host:                    │ mariadb:10.11      │
+│              │      │  - db:3306 -> 127.0.0.1:65315        │ User/Pass: 'db/db' │
+│              │      │                                      │ or 'root/root'     │
+├──────────────┼──────┼──────────────────────────────────────┼────────────────────┤
+│ phpmyadmin   │ OK   │ https://d10m.ddev.site:8037          │                    │
+│              │      │ InDocker:                            │                    │
+│              │      │  - phpmyadmin:80                     │                    │
+├──────────────┼──────┼──────────────────────────────────────┼────────────────────┤
+│ Mailpit      │      │ Mailpit: https://d10m.ddev.site:8026 │                    │
+│              │      │ Launch: ddev mailpit                 │                    │
+├──────────────┼──────┼──────────────────────────────────────┼────────────────────┤
+│ Project URLs │      │ https://d10m.ddev.site,              │                    │
+│              │      │ https://subsite1.ddev.site,          │                    │
+│              │      │ https://subsite2.ddev.site,          │                    │
+│              │      │ https://subsite3.ddev.site,          │                    │
+│              │      │ https://127.0.0.1:65318,             │                    │
+│              │      │ http://d10m.ddev.site,               │                    │
+│              │      │ http://subsite1.ddev.site,           │                    │
+│              │      │ http://subsite2.ddev.site,           │                    │
+│              │      │ http://subsite3.ddev.site,           │                    │
+│              │      │ http://127.0.0.1:65316               │                    │
+└──────────────┴──────┴──────────────────────────────────────┴────────────────────┘
+```
+
+
+
+5. In order to let Drupal know about the prefixes we will need a `settings.php` file in each of the subsite directories.  Copy the `sites/default/settings.php` into each of the subsite directories. Then add this towards the bottom of the file:
+
+
+```php
+if (file_exists($app_root  . '/sites/default/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
+  include $app_root . '/sites/default/settings.ddev.php';
+}
+# change subsite1 to the name of your subsite.
+$databases['default']['default']['prefix'] = 'subsite1_';
+```
+
+This will cause Drupal to use the `web/sites/default/settings.ddev.php` file in the main site directory (`$app_root/sites/default/settings.ddev.php`) which has these settings:
+
+```php
+$host = "db";
+$port = 3306;
+$driver = "mysql";
+
+$databases['default']['default']['database'] = "db";
+$databases['default']['default']['username'] = "db";
+$databases['default']['default']['password'] = "db";
+$databases['default']['default']['host'] = $host;
+$databases['default']['default']['port'] = $port;
+$databases['default']['default']['driver'] = $driver;
+```
+The prefix will be added to the table names in the database by the `settings.ddev.php` in each subsite\'s directory.  For example, if you have a table called `node` in the main site, it will be called `subsite1_node` in the subsite. Note. If you leave off the trailing underscore, it will be called `subsite1node` which is not as clear.
+
+If you run any of the subsites by navigating to `http://subsite1.ddev.site` or `http://subsite2.ddev.site` etc. Follow the prompts to install Drupal. 
+![Install Drupal](/images/dmulti2.png)
+
+Optionally you could potentially use the `ddev drush site:install` command to install the subsite. Unfortunately it prompts to drop all tables in the database which will remove all the tables for the other subsites regardless of prefix or not. Rather use the web interface to install the site.
+
+```sh
+ddev drush site:install --db-url=mysql://db:db@db:3306/db --account-name=admin --account-pass=admin --site-name="Subsite 3" --db-prefix=subsite3_ --sites-subdir=subsite3 --site-mail=subsite3@example.com```
+
+You can look at the drush status of a subsite with: `ddev drush -l subsite2 status`:
+
+```sh
+ddev drush -l subsite2 status
+Drupal version   : 10.4.6
+Site URI         : http://subsite2
+DB driver        : mysql
+DB hostname      : db
+DB port          : 3306
+DB username      : db
+DB name          : db
+Database         : Connected
+Drupal bootstrap : Successful
+Default theme    : olivero
+Admin theme      : claro
+PHP binary       : /usr/bin/php8.3
+PHP config       : /etc/php/8.3/cli/php.ini
+PHP OS           : Linux
+PHP version      : 8.3.19
+Drush script     : /var/www/html/vendor/bin/drush.php
+Drush version    : 13.6.0.0
+Drush temp       : /tmp
+Drush configs    : /var/www/html/vendor/drush/drush/drush.yml
+Install profile  : standard
+Drupal root      : /var/www/html/web
+Site path        : sites/subsite2
+Files, Public    : sites/subsite2/files
+Files, Temp      : /tmp
+Drupal config    : sites/default/files/sync
+```
+
+
+
+
+
+
+### Drush for multisite
+
+Be sure to use the `-l` option to specify the subsite you want to run the command on. For example, to clear the cache for subsite1, use:
+
+```sh
+ddev drush -l subsite1 cr
+```
+
+Also if you need the correct url to be output by drush use the `--uri` option to specify the correct URL. For example:
+
+```sh
+ddev drush --uri=https://subsite1.ddev.site uli
+https://subsite1.ddev.site/user/reset/1/174615/imZKgw0PxVDsPJJWihBUjlOyx-2NkV7Lwc/login
+```
+
+### Drush aliases for multisite
+
+You can set up a drush alias for the subsites where you specify each uri in  `~/Sites/d10m/drush/sites/self.site.yml` For example:
+
+
+```yaml
+subsite1:
+  root: /var/www/html/web
+  uri: https://subsite1.ddev.site
+subsite2:
+  root: /var/www/html/web
+  uri: https://subsite2.ddev.site
+subsite3:
+  root: /var/www/html/web
+  uri: https://subsite3.ddev.site
+```
+
+
+Then, specify the drush alias when running any drush commands such as `uli`:
+
+```sh
+ddev drush @self.subsite1 uli
+https://subsite1.ddev.site/user/reset/1/1746199179/uwMRyywm_W45tbW9yuuCEbeCy7KA6WJhbmV9krHVbbw/login
+```
+and
+
+```sh
+ddev drush @self.subsite2 en admin_toolbar -y
+```
+
+
+Note. The drush directory is at the same level as the `web` or `docroot` directory.  Also if you call the file `selwyn.site.yml`, you can use `ddev drush @selwyn.subsite1 uli` etc. See [Drush aliases](drush.md#drush-aliases) for more info.
+
+
+### Problems with multisite
+
+I've seen some problems with `drush uli` command. 
+
+```sh
+ddev drush uli
+https://d10m.ddev.site/user/reset/1/1746197983/FzB_nebAqHFZmdsBJXpjYC_wjx7RAgjL352qZyaz81M/login
+```
+This will give you a one time login link for the main site.  To get a one time login link for the subsite, use:
+
+```sh
+ddev drush -l subsite1 uli
+http://subsite1/user/reset/1/1746197975/XGX2vNVlVwQ6fIAzE9HATNniNMOLbz8dN63UAUtb_cw/login
+```
+
+Notice that the url for this command is wrong. It should be `https://subsite1.ddev.site/user/reset/1/1746197975/XGX2vNVlVwQ6fIAzE9HATNniNMOLbz8dN63UAUtb_cw/login` but it is not.  This is a bug in drush.  
+
+You can work around this by using the `--uri` option to specify the correct URL. For example:
+
+```sh
+ddev drush --uri=https://subsite1.ddev.site uli
+https://subsite1.ddev.site/user/reset/1/1746198785/imZKgctexfaXuUw0PxVDsPJJWihBUjlOyx-2NkV7Lwc/login
+```
+
+Additionally, you can set up a drush alias for the subsites where you specify each uri in  `drush/sites/self.site.yml` (at the same level as the .ddev directory. e.g. at `~/Sites/d10m/drush/sites/self.site.yml`) For example:
+
+
+```yaml
+subsite1:
+  root: /var/www/html/web
+  uri: https://subsite1.ddev.site
+subsite2:
+  root: /var/www/html/web
+  uri: https://subsite2.ddev.site
+subsite3:
+  root: /var/www/html/web
+  uri: https://subsite3.ddev.site
+```
+
+
+Then, specify the drush alias when running the uli command:
+
+```sh
+ddev drush @self.subsite1 uli
+https://subsite1.ddev.site/user/reset/1/1746199179/uwMRyywm_W45tbW9yuuCEbeCy7KA6WJhbmV9krHVbbw/login
+```
+and
+
+```sh
+ddev drush @self.subsite2 uli
+https://subsite2.ddev.site/user/reset/1/1746199233/TNYXEGePpgXweOukz_yg-4fRWj6x3DYohOQ-QQwvXYg/login
+```
+
+Note. this drush directory is at the same level as the `web` or `docroot` directory.
+
+
+If DDEV reports problems in the site listing such as this:
+
+![Site listing](/images/dmulti3.png)
+
+
+A quick look at the mutagen status output may show you that there are transition problems:
+
+```sh
+ddev mutagen status -l
+
+...
+	Transition problems:
+		web/sites/subsite3_/files: unable to remove directory: permission denied
+		web/sites/subsite3_/settings.php: unable to remove file: permission denied
+```
+
+
+You can resolve this by adding upload_dirs to the `.ddev/config.yaml` file:
+
+```yaml
+upload_dirs:
+  - sites/default/files
+  - sites/subsite1/files
+  - sites/subsite2/files
+  - sites/subsite3/files
+```
+
+
+
+
+
+
 
 
 ## DDEV Troubleshooting
@@ -1796,6 +2333,74 @@ Example vegetable.module directory structure:
 * vegetable.routing.yml
 * vegetable.module
 
+## Localstack - services
+You can use AWS services like S3, Solr, OpenSearch, dashboard locally by spinning up a simple docker localstack service
+Add this to your `docker-compose.yml`
+
+Go to [localstack to see list of services available](https://docs.localstack.cloud/references/coverage/)
+
+```yaml
+localstack:
+  container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
+  image: localstack/localstack:0.11.2
+  ports:
+    - "4566:4566"
+    - "4571:4571"
+    - "4578:4578"
+    - "4598:4598"
+    - "${LOCALSTACK_PORT_WEB_UI-9080}:${PORT_WEB_UI-9080}"
+  environment:
+    - EDGE_PORT=4566
+    - SERVICES=${LOCALSTACK_SERVICES- }
+    - DEBUG=${LOCALSTACK_DEBUG- }
+    - DATA_DIR=${LOCALSTACK_DATA_DIR- }
+    - PORT_WEB_UI=${LOCALSTACK_PORT_WEB_UI- }
+    # - LAMBDA_EXECUTOR=${LOCALSTACK_LAMBDA_EXECUTOR- }
+    - KINESIS_ERROR_PROBABILITY=${LOCALSTACK_KINESIS_ERROR_PROBABILITY- }
+    - DOCKER_HOST=unix:///var/run/docker.sock
+    - HOST_TMP_FOLDER=${LOCALSTACK_TMPDIR}
+    - S3FS_BUCKET=${S3FS_BUCKET}
+    # - ELASTICSEARCH__BACKEND=http://localhost:9200
+    # - OPENSEARCH_CUSTOM_BACKEND=http://opensearch:9200
+  volumes:
+    - /tmp/localstack
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    - ./aws/:/docker-entrypoint-initaws.d
+
+```
+
+To use the above localstack service just specify the ports and endpoints you wish to use locally. The examples below are the defaults (no changes needed). 
+I would change the s3 bucket name, everything else can be defaults. 
+
+```
+# Localstack
+# LOCALSTACK_SERVICES=s3,sns,sqs,es
+# LOCALSTACK_SERVICES=opensearch
+# LOCALSTACK_PORT_WEB_UI=9080
+# LOCALSTACK_DATA_DIR=/tmp/localstack/data
+# LOCALSTACK_TMPDIR=/tmp/localstack/tempdir
+
+## Open Search
+# OPENSEARCH_SERVICE_ENDPOINT=opensearch
+# OPENSEARCH_PORT=9200
+# OPENSEARCH_SERVICE_DOMAIN=
+# LOCAL_OS_PROTOCOL=http://
+
+# OPENSEARCH_USER=admin
+# OPENSEARCH_PASSWORD=admin
+
+
+# S3
+# S3FS_BUCKET=your-bucket-name
+# S3FS_REGION=us-west-2
+# S3FS_HOSTNAME=localstack:4566
+# S3FS_AWS_ACCESS_KEY=foo
+# S3FS_AWS_SECRET_KEY=bar
+# S3FS_USE_PATH_STYLE_ENDPOINT=TRUE
+# S3FS_USE_HTTPS=FALSE
+# S3FS_S3_PUBLIC_URL=http://localstack:4566/your-bucket-name
+# S3FS_USE_CUSTOM_HOST=TRUE
+```
 
 ## Resources
 
