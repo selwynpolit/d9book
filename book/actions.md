@@ -7,13 +7,19 @@ title: Actions
 
 ## Overview
 
+TL;DR: The Actions module provides a powerful and flexible way to automate tasks on your website by defining actions and triggers, allowing you to create customized workflows that improve your site's functionality and user experience. - ChatGPT (with minor tweaks on my part.)
+
+
+:::tip Note
+The core `actions_ui` module in Drupal core [has been deprecated](https://www.drupal.org/node/3425074) and will be removed in Drupal 11. Core actions are still available and can be used with either the [Rules module](https://www.drupal.org/project/rules) or the [ECA module](https://www.drupal.org/project/eca). It is possible to enable the actions_ui module for simple actions but you probably should consider using either the Rules module or the ECA module instead.
+:::
+
 The Actions module is a core module in Modern Drupal that allows site builders and developers to create automated workflows by defining actions and triggers. In Drupal, actions refer to a set of tasks or operations that can be performed on a site. For example, an action can be sending an email, publishing content, or updating a database record. 
 
 With the Actions module, you can create a customized workflow that can be triggered by a specific event. For example, when a user submits a form on your website, you can trigger an action to send an email notification to the site administrator. You can also chain multiple actions together to create complex workflows.
 
 The Actions module provides a user-friendly interface for defining and managing actions. You can create custom actions using PHP code (see below) or use pre-defined actions provided by Drupal core or contributed modules. The module also provides a way to organize and categorize actions, making it easy to find and use them in your workflows.
 
-TL;DR: The Actions module provides a powerful and flexible way to automate tasks on your website by defining actions and triggers, allowing you to create customized workflows that improve your site's functionality and user experience. - ChatGPT (with minor tweaks on my part.)
 
 From the config page in Drupal: 
 >There are two types of actions: simple and advanced. Simple actions do not require any additional configuration and are listed here automatically. Advanced actions need to be created and configured before they can be used because they have options that need to be specified; for example, sending an email to a specified address or unpublishing content containing certain words. To create an advanced action, select the action from the drop-down list in the advanced action section below and click the Create button.
