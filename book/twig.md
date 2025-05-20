@@ -217,7 +217,7 @@ In a node template, you can display specific node fields by prefacing them with 
 
 ### Paragraph fields
 
-These still work fine: `content.field_abc` or `node.field_ref_topic` but instead of `node`, you preface fields with `paragraph` like this:
+These still work fine: `content.field_abc` or `node.field_ref_topic` but instead of `node`, you preface fields with `paragraph`. Note. paragraphs always need to have a number to specify which item you are referring to.
 
 ```twig
 termid0: {{ paragraph.field_ref_tax.0.target_id }}
@@ -274,6 +274,33 @@ params: {{ params }}
 ```
 
 This will output something like: `5+6+19`
+
+### File fields in a parargraph
+
+To display a link to a file field in a paragraph use the following. Note. this isn't a media field.
+
+```twig
+{% if paragraph.field_qrl_pdf_file.value %}
+  <a href="{{ paragraph.field_qrl_pdf_file.0.entity.uri.value|file_url }}">
+    {{ paragraph.field_qrl_pdf_file.0.entity.filename.value }}
+  </a>
+{% endif %}
+```
+
+You can also loop through the values with:
+
+```twig
+{% for file in paragraph.field_qrl_pdf_file %}
+  <a href="{{ file.entity.uri.value|file_url }}" target="_blank">
+    {{ file.entity.filename.value }}
+  </a>
+{% endfor %}
+```
+::: tip Note
+The `|` symbol is a Twig filter operator that applies a filter to a variable or expression. The `file_url` Twig filter converts the file\'s URI into a publicly accessible URL for the `<a>` tag\'s `href` attribute.
+:::
+
+
 
 ### Body
 
