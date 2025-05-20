@@ -570,6 +570,43 @@ Example block with a machine name of `block---system-powered-by-block.html.twig`
 </div>
 ```
 
+## Render paragraphs in a block
+
+Here we have a field in the block called `field_clp_links` which is a reference to a paragraph. We can render the paragraph in the block template using the following code.  Each item is a `<li>` in an `<ul>` list. Notice we extract the `#items` from the field.  Each `#item` represents a paragraph and we use the `|view` filter to render the paragraph. In this case, we also have a template for the paragraph which lays out the contents of the paragraph the way we want it.
+
+```twig
+  {% if content.field_clp_links %}
+    <ul class="clp-links">
+      {% for item in content.field_clp_links['#items'] %}
+        {{ dump(item) }}
+        <li>{{ item.entity|view }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+```
+
+
+
+
+### Render block fields
+
+While block content is rendered with `{{ content }}` you can also render specific fields in the block. For example, to render the fields `field_clp1_heading` and `field_clp1_description`, use:
+
+
+```twig
+  {% if content.field_clp1_heading %}
+    <h1>{{ content.field_clp1_heading }}</h1>
+  {% endif %}
+
+  {% if content.field_clp1_description %}
+    <div class="usa-accordion__content">
+      {{ content.field_clp1_description }}
+    </div>
+  {% endif %}
+```
+
+
+
 ### Render an array as an OL list created in the template_preprocess_node()
 
 Here we create a list in the function:
