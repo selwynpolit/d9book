@@ -7,20 +7,24 @@ title: Actions
 
 ## Overview
 
+TL;DR: The Actions module provides a powerful and flexible way to automate tasks on your website by defining actions and triggers, allowing you to create customized workflows that improve your site's functionality and user experience. - ChatGPT (with minor tweaks on my part.)
+
+
+:::tip Note
+The core `actions_ui` module [has been deprecated](https://www.drupal.org/node/3425074) and will be removed in Drupal 11. It is possible to enable this module to view and create  actions but getting them to fire is a little more challenging. Core actions are however still available and can be used with either the [Rules module](https://www.drupal.org/project/rules) or the [ECA module](https://www.drupal.org/project/eca) which can also use Drupal core\'s [events](events.md).
+:::
+
 The Actions module is a core module in Modern Drupal that allows site builders and developers to create automated workflows by defining actions and triggers. In Drupal, actions refer to a set of tasks or operations that can be performed on a site. For example, an action can be sending an email, publishing content, or updating a database record. 
 
 With the Actions module, you can create a customized workflow that can be triggered by a specific event. For example, when a user submits a form on your website, you can trigger an action to send an email notification to the site administrator. You can also chain multiple actions together to create complex workflows.
 
 The Actions module provides a user-friendly interface for defining and managing actions. You can create custom actions using PHP code (see below) or use pre-defined actions provided by Drupal core or contributed modules. The module also provides a way to organize and categorize actions, making it easy to find and use them in your workflows.
 
-TL;DR: The Actions module provides a powerful and flexible way to automate tasks on your website by defining actions and triggers, allowing you to create customized workflows that improve your site's functionality and user experience. - ChatGPT (with minor tweaks on my part.)
 
 From the config page in Drupal: 
 >There are two types of actions: simple and advanced. Simple actions do not require any additional configuration and are listed here automatically. Advanced actions need to be created and configured before they can be used because they have options that need to be specified; for example, sending an email to a specified address or unpublishing content containing certain words. To create an advanced action, select the action from the drop-down list in the advanced action section below and click the Create button.
 
-::: tip Note
-The [ECA module](https://www.drupal.org/project/eca) can use Drupal core actions (and events) if you need to do even more.
-:::
+
 
 ## Custom Actions
 Here, A Drupal action is a fuctionality which performs specific action when executed. For example, Archive Node or Make Content Sticky.
@@ -332,7 +336,7 @@ configuration:
 ```
 
 :::tip Note
-You need to install the core module Actions first to be able to configure action plugins in UI.
+You need to enable the core module `Actions UI` to be able to configure action plugins in UI. It is deprecated and will be removed in Drupall 11. You can still use actions plugins in the [Rules](https://www.drupal.org/project/rules) or [ECA](https://www.drupal.org/project/eca) modules.
 :::
 
 Configuration Page `/admin/config/system/actions`
@@ -343,6 +347,7 @@ See the [change record: Actions are now plugins, configured actions are configur
 
 ## Reference
 
-* [Actions UI module overview updated January 2023](https://www.drupal.org/docs/8/core/modules/action/overview)
+* [Actions UI module overview updated April 2024](https://www.drupal.org/docs/8/core/modules/action/overview)
 * [Change Record - Actions are now plugins, configured actions are configuration entities](https://www.drupal.org/node/2020549)
 * [ECA: Event-Condition-Action - no-code solution to orchestrate your Drupal site](https://www.drupal.org/project/eca)
+* [Rules module](https://www.drupal.org/project/rules)
