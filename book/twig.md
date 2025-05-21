@@ -546,6 +546,44 @@ Dump category: {{ dump(node.field_ref_tax.entity.label) }}
 </pre>
 ```
 
+### Boolean field
+
+To process a boolean field `field_ts_wrap`, you need to access the `[#items].0.value` as shown below. Here we check for a positive value.
+
+```twig
+  {% if content.field_ts_wrap['#items'].0.value %}
+      {# This will output the "on" or "off" label values defined in the field #}
+      {{ content.field_ts_wrap }}
+  {% endif %}
+```
+
+For negative values use `not`:
+
+```twig
+{% if not content.field_ts_wrap['#items'].0.value %}
+  {# The boolean field is FALSE #}
+{% endif %}
+```
+
+To use the logical value of the boolean field to affect the class of a div, use the following:
+
+```twig
+    {% if content.field_ts_right_text %}
+      {% if content.field_ts_wrap['#items'].0.value %}
+        <div class="right wrap">
+          {{ content.field_ts_right_text }}
+        </div>
+      {% else %}
+        <div class="right">
+          {{ content.field_ts_right_text }}
+        </div>
+      {% endif %}
+    {% endif %}
+```
+
+
+
+
 ### Render a block
 
 Example block with a machine name of `block---system-powered-by-block.html.twig` from a custom theme
@@ -570,7 +608,7 @@ Example block with a machine name of `block---system-powered-by-block.html.twig`
 </div>
 ```
 
-## Render paragraphs in a block
+### Render paragraphs in a block
 
 Here we have a field in the block called `field_clp_links` which is a reference to a paragraph. We can render the paragraph in the block template using the following code.  Each item is a `<li>` in an `<ul>` list. Notice we extract the `#items` from the field.  Each `#item` represents a paragraph and we use the `|view` filter to render the paragraph. In this case, we also have a template for the paragraph which lays out the contents of the paragraph the way we want it.
 
