@@ -820,6 +820,37 @@ We can put the pieces in the twig template like this
 
 ```
 
+### Test a link for a value
+
+You can test for a link's value using the following:
+
+```twig
+{% if content.field_link.0['#url'] %}
+  <a href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
+{% endif %}
+```
+
+Or
+
+```twig
+      {% if content.field_ts_left_link[0]['#url'] is not empty %}
+        <div class="left">
+          {{ content.field_ts_left_link }}
+        </div>
+      {% elseif content.field_ts_left_text %}
+        <div class="left">
+          {{ content.field_ts_left_text }}
+        </div>
+      {% endif %}
+```
+
+::: tip Note
+You can specify the first item in an array with `.0` or `[0]` e.g.
+```twig
+    {% if content.field_ts_left_link[0]['#url'] is not empty %}
+    {% if content.field_ts_left_link.0['#url'] is not empty %}
+```
+
 ### Render an image with an image style
 
 From `inside-marthe/themes/custom/dp/templates/paragraph/paragraph--sidebar-resource.html.twig`
