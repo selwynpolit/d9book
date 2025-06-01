@@ -1834,12 +1834,43 @@ Down the rabbit hole:
 
 ## Config split
 
-In your `settings.php` file, you identify the active split with:
+
+### Setup
+
+[Config Split](https://www.drupal.org/project/config_split) allows you to manage different configurations for different environments. 
+
+To set it up correctly:
+
+* Install the `config_split` module with `ddev composer require drupal/config_split` and enable it
+
+* Specify the location for your config directory in your `sites/default/settings.php` (or `sites/default/settings.local.php`) file:
+
+`$settings['config_sync_directory'] = '../config/default';`
+
+These names are up to you but it is common to use `default`, `local`, `dev`, `stage`, and `prod`.
+
+
+* With the `config_split` module installed, you will need to define a `split` for each environment at `admin/config/development/configuration/config-split`.  Use `local`, `dev`, `stage`, `prod`. So, using the UI, specify a directory such as `../config/local` for the `local` split where the config files will be stored.
+
+Similarly, use the following directories for the other `splits`:
+* `dev`: `../config/dev`
+* `stage`:  `../config/stage`
+* `prod`:  `../config/prod`
+ 
+
+When you [specify the active split](#specify-the-active-split-in-settingsphp) in your `settings.php`, you can export the configuration for that split with `ddev drush cex -y`. There is no need to use the `ddev drush config-split: export local` command any more.  The `ddev drush cex ` command handles it all correctly.
+
+
+::: tip Note
+Using the [chosen](https://www.drupal.org/project/chosen) module on your site will make the config split **much** easier as it displays the selected items in a more user-friendly way.
+:::
+
+
+### Specify the active split in settings.php
+
+In your `sites/default/settings.php` (or `sites/default/settings.local.php`) file, specify the active split with:
 
 ```php
-/*
- * Config Split settings.
- */
 // Note. local is active
 $config['config_split.config_split.local']['status'] = TRUE;
 $config['config_split.config_split.dev']['status'] = FALSE;
@@ -1847,24 +1878,11 @@ $config['config_split.config_split.stage']['status'] = FALSE;
 $config['config_split.config_split.prod']['status'] = FALSE;
 ```
 
-Assuming you have the `config_split` module installed, you will need a `split` for each environment at `admin/config/development/configuration/config-split`.  Commonly: `local`, `dev`, `stage`, `prod`.
-Specify a directory such as `../config/local` for the `local` split.  Configuration files that are specific to this split are stored here. Similarly, you could use:
-* `dev`: `../config/dev`
-* `test`:  `../config/test`
-* `prod`:  `../config/prod`
-This assumes that the `settings.php` specifies the config directory as `../config/sync` with `$settings['config_sync_directory'] = '../config/sync';`
+Note. you can also use the UI if you prefer, but this way is much better.
 
 
-When you configure the active split in your `settings.php`, you can export the configuration for that split with `ddev drush cex -y`. There is no need to use the `ddev drush config-split: export local` command any more.  The `ddev drush cex ` command handles it all correctly.
+### Steps required for each environment.
 
-
-::: tip Note
-Using the [chosen](https://www.drupal.org/project/chosen) module on your site will make the config split a little easier as it displays the selected items in a more user-friendly way.
-:::
-
-
-
-### Overview of steps required for each environment.
 * Set the active split in `settings.php` e.g. `$config['config_split.config_split.local']['status'] = TRUE;`
 * Import the current configuration with `ddev drush cim -y`
 * Make your changes to the configuration via the Drupal u/i
@@ -1872,25 +1890,50 @@ Using the [chosen](https://www.drupal.org/project/chosen) module on your site wi
 * Test and commit your changes.
 * Repeat for each environment.
 
+Note. This gets more challenging when you don\'t have things like the prod solr server available on your local environment. 
+
 
 
 ### Enable a module on a specific environment
 
-For a module enabled on a specific environment e.g. cron fail alert on `prod` 
-* Select the `prod` split in `settings.php` (or `settings.local.php`).
+To enable a module on a specific environment e.g. [cron fail alert](https://www.drupal.org/project/cron_fail_alert) on `prod`:
+
+* Select the `prod` split in `sites/default/settings.php` (or `sites/default/settings.local.php`).
 * Clear cache with `ddev drush cr`
-* `ddev drush cim` so you are using the `prod` split configuration.
-* Enable the module in Drupal and configure it as needed.
-* In the config split settings for `prod`, check the cron fail alert in `complete split`
+* Import config with `ddev drush cim` so you are using the `prod` split configuration.
+* Enable the module in the Drupal UI and configure it as needed.
+* In the config split settings for `prod`, under **Complete Split**: 
+  * check the `cron fail alert` module
+  * Optionally check the `cron_fail_alert.settings` configuration item
+* Save the config split settings.
+* In the Drupal UI, looking at the config syncronization, you should changes in the `prod` split,, `core.extension` and `cron_fail_alert.settings`. 
 
-Running a `ddev drush cst` you should see that the `prod` config split has changed, the `core.extension` has changed and there is a `cron_fail_alert.settings.yml`.
+* Runn `ddev drush cst` to see the same changes.
 
-When you export the configuration with `ddev drush cex -y`, the files will be updated to reflect these changes.
+* Export the configuration with `ddev drush cex -y` and the files will be updated to reflect these changes.
 
 
-Also the `config_split.config_split.prod.yml` file will list `cron_fail_alert` under the `modules` key:
+The `config/prod/cron_fail_alert.settings.yml` file will be created:
+
 ```yml
-label: Production
+_core:
+  default_config_hash: khSnEtFiGSz3-pPFM3L857pZoL77s7f5fy0PdSebpyE
+frequency: 15
+tolerance: 20
+subject: 'URGENT: Drupal cron has failed, please investigate'
+message: 'The scheduled cron has not been running as expected for the last @minutes minutes, and we need someone to investigate the issue as soon as possible at @site'
+```
+
+
+Also the `config_split.config_split.prod.yml` file will list `cron_fail_alert` under the `module` key:
+
+```yml
+uuid: 127bf9a4-4f6f-4c37-8eda-9d28474cb2b7
+langcode: en
+status: true
+dependencies: {  }
+id: prod
+label: Prod
 description: 'Config Split for Production'
 weight: 0
 stackable: false
@@ -1906,21 +1949,52 @@ complete_list:
 partial_list: {  }
 ```
 
+Note. this file also shows environment indicator and dblog settings, which are also enabled in the `prod` environment.
+
 A `git status` should show you that the `config/prod/cron_fail_alert.settings.yml` has been created. Notice this file is in the `config/prod` directory. This means that when you deploy to `prod` (and `drush cim`), the `cron_fail_alert` module will be enabled and the configuration you specified for it will be correctly loaded.
 
 
 ### Use different settings for different environments
-Here we want to use database logging (watchdog) for all environments, but we want to keep 100,000 items in the log for `prod`, and 10,000 items for dev, stage and local. 
+To use database logging (watchdog) for all environments, where we want to keep 100,000 items in the log for `prod`, and 10,000 items for dev, stage and local:
 
-* Set the active split in `settings.php` e.g. `$config['config_split.config_split.local']['status'] = TRUE;`
+* Enable the local split in `sites/default/settings.local.php` e.g. `$config['config_split.config_split.local']['status'] = TRUE;`
 * Import the current configuration with `ddev drush cim -y`
 * Enable the `Database logging` module in Drupal and configure it to keep 10,000 items.
-* In config split, check the `dblog.settings` in the Configuration items.
-* Repeat this for `dev` and `stage` environments.
+* In `local` config split UI under **Partial Split**, Configuration items, check the `dblog.settings`
 * Export the configuration with `ddev drush cex -y`
- 
+
+This will create the `config/local/config_split.patch.dblog.settings.yml` file with the following contents:
+
+```yml
+adding:
+  row_limit: 10000
+removing:
+  row_limit: 1000
+```
+
+
+* For `prod`, set the active split in `settings.php` e.g. `$config['config_split.config_split.prod']['status'] = TRUE;`
+* Import the current configuration with `ddev drush cim -y`
+* Enable the `Database logging` module in Drupal and configure it to keep 100,000 items.
+* In `prod` config split UI under **Partial Split**, Configuration items, check the `dblog.settings`
+* Export the configuration with `ddev drush cex -y`
+
+Config export will create the `config/prod/config_split.patch.dblog.settings.yml` file with the following content:
+
+```yml
+adding:
+  row_limit: 100000
+removing:
+  row_limit: 1000
+```
+
+* You should be able to repeat this process for `dev` and `stage` environments following the above steps.
+
+
+
+
 ### Multiple splits
-In some circumstances, it can be useful to have additional splits for specific purposes.  For example, if your project is hosted on acquia, you might have an `acquia` split in addition to `local`, `dev`, `test` and `prod`. The reason to have an `acquia` split is that you might have specific configuration for the Acquia environment that is common to all Acqui environments (i.e. dev/test/prod). E.g. the search api settings could all be the same for any acquia environment but you wouldn't have them on the local environment.  This means you set them up once for the `acquia` environment rather than once for each of `dev`, `test` and `prod`. In that instance, the config for the `acquia` would have the search api settings in `config/acquia` directory. See the screenshots below for an example of this:
+In some circumstances, it can be useful to have additional splits for specific purposes.  For example, if your project is hosted on acquia, you might have an `acquia` split in addition to `local`, `dev`, `test` and `prod`. The reason to have an `acquia` split is that you might have specific configuration for the Acquia environment that is common to all Acquia environments (i.e. dev/test/prod). E.g. the search api settings could all be the same for any acquia environment but you wouldn't have them on the local environment.  This means you set them up once for the `acquia` environment rather than once for each of `dev`, `test` and `prod`. In that instance, the config for the `acquia` would have the search api settings in `config/acquia` directory. See the screenshots below for an example of this:
 
 Here are the items that I have split off for the `acquia` split. First the complete split items:
 ![Config Split](/images/config-split-acquia1.png)
@@ -1930,6 +2004,14 @@ Then the partial split items:
 
 These are the files that show up in the `config/acquia` (actually the name of this directory is `env_acquia` but it is the same idea):
 ![Config Split](/images/config-split-acquia3.png)
+
+
+### Chosen with config split
+The [Chosen module](https://www.drupal.org/project/chosen) can be used to make the config split selection more user-friendly.  It will display the selected items in a much more readable way, rather than an almost endless list of checkboxes.  You can see an example of this in the screenshot below:
+
+![Config Split with Chosen](/images/chosen_config_split1.png)
+
+
 
 
 ## Modify SOLR Search behavior
