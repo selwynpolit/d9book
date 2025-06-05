@@ -16,12 +16,17 @@ $settings['config_sync_directory'] = '../config/sync';
 ```
 You can override config items in a `settings.php` or `settings.local.php` using the `$config` global variable.
 
-::: tip Note
-Blocks are content entities, but the *placement* of blocks are configuration entities.
+
+Details about using [Config Split](https://www.drupal.org/project/config_split) to manage config for different environments is covered in the [Config Split section](general#config-split).
+
+::: tip Block content and placement
+Blocks are content entities, but the *placement* of blocks are configuration entities. If you create a content block and place it in a region, when you export config, the location config i.e.  `block.block.[block_name].yml` is put into the `config sync` directory. The block content itself is stored in the database.  So when you go to import the config, your block(s) don't show up and the block placement config doesn't have it's content. The solution is to remove the block placement config on your local before exporting, then after importing on the remote, re-create the block content and placement. This can be a bit unexpected and is a bit of a pain.
 :::
 
 
-[More on configuration Management on Drupal.org.](https://www.drupal.org/docs/configuration-management)
+[More on configuration Management on Drupal.org - updated May 2023.](https://www.drupal.org/docs/configuration-management)
+
+
 
 
 ## Read config values in code
