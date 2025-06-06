@@ -19,11 +19,6 @@ You can override config items in a `settings.php` or `settings.local.php` using 
 
 Details about using [Config Split](https://www.drupal.org/project/config_split) to manage config for different environments is covered in the [Config Split section](general#config-split).
 
-::: tip Block content and placement
-Blocks are content entities, but the *placement* of blocks are configuration entities. If you create a content block and place it in a region, when you export config, the location config i.e.  `block.block.[block_name].yml` is put into the `config sync` directory. The block content itself is stored in the database.  So when you go to import the config, your block(s) don't show up and the block placement config doesn't have it's content. The solution is to remove the block placement config on your local before exporting, then after importing on the remote, re-create the block content and placement. This can be a bit unexpected and is a bit of a pain.
-:::
-
-
 [More on configuration Management on Drupal.org - updated May 2023.](https://www.drupal.org/docs/configuration-management)
 
 
@@ -843,6 +838,18 @@ Don't try to change the active configuration on your site by changing files in a
 Read more at [Drupal Site UUID on Drupal.org - Updated Sep 2023](https://www.drupal.org/docs/administering-a-drupal-site/configuration-management/managing-your-sites-configuration#s-drupal-site-uuid)
 
 
+## Block config
+
+Blocks are content entities, but the *placement* of blocks are configuration entities. If you create a content block and place it in a region, when you export config, the location config i.e.  `block.block.[block_name].yml` is put into the `config sync` directory. The block content itself is stored in the database.  So when you go to import the config, your block(s) don't show up and the block placement config doesn't have it's content. The solution is to remove the block placement config on your local before exporting, then after importing on the remote, re-create the block content and placement. 
+
+Fortunately, there is a module called [Structure Sync](https://www.drupal.org/project/structure_sync) which is really nice! 
+
+Structure sync provides Drush commands and admin interface screens for adding content as configuration. This includes menu items, custom blocks and taxonomy terms. 
+
+Note. this is a two step process. When you \"export\" blocks in the Drupal UI (or using the drush command), it creates a config item which you then must export with `drush cex -y` and add to your repo (just like any other config). This creates a `config/default/structure_sync.data.yml` file which can then be imported into another site with `drush cim`.
+
+
+
 ## Troubleshooting
 
 ### Config export
@@ -858,6 +865,44 @@ $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy', 'masquerade'
 For some reason, an edge condition is reached which confuses the configuration engine in Drupal. Commenting out the above line resolves the issue.
 
 I hope this one saves you countless hours of frustration. I know it has caused me plenty of frustration!
+
+
+## The Basics
+
+In Drupal 10, configuration management works with git to make your life go predictably. This is very good!
+
+### When Configuration Management Works Correctly
+
+**Development Workflow Benefits:**
+Configuration becomes versionable code that can be tracked, reviewed, and deployed like any other asset. Developers can create features locally, export configurations, and have teammates import those exact same settings. This eliminates the manual recreation of content types, views, or module settings across environments.
+
+**Deployment Reliability:**
+Automated deployments become possible since configuration changes flow predictably from development through staging to production. Database updates happen programmatically rather than through manual admin interface clicks, reducing human error and deployment time.
+
+**Team Collaboration:**
+Multiple developers can work on different features simultaneously without configuration conflicts. Changes get merged through standard Git workflows, and the entire team maintains visibility into what configurations are changing and why.
+
+**Environment Consistency:**
+All environments mirror each other precisely in terms of configuration. A bug found in staging will behave identically in production because the underlying configuration is identical.
+
+### When Configuration Management Fails
+
+**Split-Brain Scenarios:**
+The most problematic issue occurs when configuration exists in both the database and code but differs between them. Drupal uses the version in the database and ignores the one in config leading to unexpected behavior, crashes and deployment failures.
+
+**Deployment Failures:**
+Configuration imports can fail during deployment if there are dependency conflicts, missing modules, or configuration schema mismatches. This can leave sites in broken states or prevent new features from activating.
+
+**Lost Work:**
+If developers make configuration changes directly in production databases without exporting to code, those changes disappear during the next code deployment. Hours of administrative work can vanish instantly.
+
+**Development Friction:**
+When the system breaks down, developers resort to manual configuration recreation across environments. This slows development velocity and reintroduces human error into the deployment process.
+
+**Override Confusion:**
+Drupal's configuration override system allows environment-specific settings, but incorrect usage can mask problems during development that only surface in production, making debugging extremely difficult.
+
+The key is maintaining discipline around the configuration workflow - always making changes in code first, exporting configurations properly, and ensuring all team members follow the same processes for configuration management.
 
 
 ## Resources
