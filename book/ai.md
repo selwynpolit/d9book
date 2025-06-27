@@ -14,14 +14,18 @@ This chapter is a little different from most of the others in the book.  It is m
 
 ## Cost
 
-If you want to use [OpenAI](https://openai.com/), you have to preload your account with some money.  This wasn't obvious to me.  
-You can confirm that this is working by navigating to [the OpenAI playground](https://platform.openai.com/playground/chat?models=gpt-4o)and putting in some sort of a prompt.  If you have successfully paid your account, you will see a response.  Monitor [your usage here](https://platform.openai.com/usage).
+You can currently use the [amazee.ai](https://amazee.ai) provider for **free**.  If you want to use [OpenAI](https://openai.com/), you have to preload your account with some money.  This wasn't obvious to me.  
+You can confirm that this is working by navigating to [the OpenAI playground](https://platform.openai.com/playground/chat?models=gpt-4o) and putting in some sort of a prompt.  If you have successfully paid your account, you will see a response.  Monitor [your usage here](https://platform.openai.com/usage).
 
 ## AI Providers
 
-There are a range of (ever changing) AI providers available which can be used to provide AI services to your Drupal site.  These include: OpenAI, Anthropic, Groq, OpenAI, Ollama, Huggingface, Imstudio, Mistral, Auphonic, AWS Bedrock, Deepgram, DeepL Translate, ElevenLabs, Fireworks AI and [Google Gemini](https://ai.google.dev/)
+There are a range of (ever changing) AI providers available which can be used to provide AI services to your Drupal site.  These include: OpenAI, Anthropic, Groq, OpenAI, Ollama, Huggingface, Imstudio, Mistral, Auphonic, AWS Bedrock, Deepgram, DeepL Translate, ElevenLabs, Fireworks AI, [Google Gemini](https://ai.google.dev/) and [amazee.ai](https://amazee.ai/).
 
+### amazee.ai
 
+[amazee.ai](https://amazee.ai/) is a private AI infrastructure provider by [amazee.io](https://amazee.io). It is designed with a strong focus on data sovereignty and privacy, allowing enterprises to keep sensitive data in their region and comply with data privacy regulations like GDPR.
+
+Setting up amazee.ai is straightforward, requiring only a valid email. There is no need to manually generate and handle API keys between the provider and the Drupal module.
 
 ## Drupal AI modules
 
