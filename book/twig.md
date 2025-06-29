@@ -1143,6 +1143,38 @@ From
     {% endfor %}
 {% endif %}
 ```
+## Adding templates to a Custom Theme
+
+You can add custom Twig templates to a custom Theme. This can be useful in order to ensure separation of concerns. For example, if you had a module that sends emails to users, instead of having the email body text in the module code it can be abstracted out to a twig template.
+
+```php
+        $render_array = [
+          '#theme' => 'mail__user',
+          '#user' => $user,
+          '#baseurl' => $baseurl,
+          '#hash' => $hash,
+        ];
+        $email_body = \Drupal::service('renderer')->renderPlain($render_array);
+```
+
+Then create the twig file `templates\mail__user.tpl.php`
+
+This file can contain the variables defined in the render array
+
+```twig
+<p>
+	Welcome $user
+</p>
+<hr>
+<p>
+	No longer want to receive these emails?
+	<a href="{{ baseurl }}/unsubscribe/{{ hash }}">Unsubscribe</a>
+</p>
+```
+
+After clearing caches the value of `$email_body` should now be the contents of `templates\mail__user.tpl.php`. 
+
+Note that for simplicity's sake this example uses a static service call to `\Drupal::service('renderer')` which is not the best practice. It is better to use [dependency injection](services#using-dependency-injection-in-blocks) whenever possible. 
 
 
 ## Adding Regions to a Theme
