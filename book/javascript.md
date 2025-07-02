@@ -294,6 +294,50 @@ or using native js `forEach`:
 }) (Drupal, jQuery);
 ```
 
+## Set all cards to the same height
+The code in file `drupal/web/sites/abc/themes/custom/uswds_base_abc/js/paragraphHeightNormalization.js` will normalize the height of all paragraphs within a specific container, ensuring they all have the same height based on the tallest card. This is useful when users can put different content into each paragraph and you want them to be consistent.
+
+The `.field--name-field-clp2-requirements` class targets the block field that holds the paragraphs. 
+
+The `.paragraph--type--requirements-container` class targets each individual paragraph within that container.
+
+```js
+((Drupal) => {
+  Drupal.behaviors.paragraphHeightNormalization = {
+    // Exclude execution on mobile or tablet devices (width < 1024px)
+    if (window.innerWidth < 1024) {
+      return;
+    }
+    attach: (context) => {
+      const paragraphContainers = context.querySelectorAll('.field--name-field-clp2-requirements');
+      
+      paragraphContainers.forEach(container => {
+        const paragraphs = container.querySelectorAll('.paragraph--type--requirements-container');
+        
+        // Find maximum height
+        const maxHeight = Array.from(paragraphs).reduce((max, paragraph) => {
+          return Math.max(max, paragraph.offsetHeight);
+        }, 0);
+
+        // Apply max height
+        paragraphs.forEach(paragraph => {
+          paragraph.style.height = `${maxHeight}px`;
+        });
+      });
+    }
+  };
+})(Drupal);
+```
+
+Don't forget to add the library to your theme's `uswds_base_abc.libraries.yml` file:
+
+```yaml
+paragraph-height-normalization:
+  version: 1.x
+  js:
+    js/paragraphHeightNormalization.js: {}
+```
+
 ## Add a quick function to run when the page is ready
 
 ```js
