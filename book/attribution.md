@@ -73,3 +73,7 @@ Thanks to these rockstars for their contribution to the project. Please add your
 [Nathan Kenall](https://github.com/boinkster) - Queries.
 
 [Pramod Ganore](https://github.com/pramodganore) - Localstack.
+
+[Dan Lemon](https://github.com/dan2k3k4) - AI contributions.
+
+[Steven DuBois](https://github.com/sdubois) - Twig.
