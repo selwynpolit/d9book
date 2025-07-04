@@ -1737,7 +1737,7 @@ For more info:
 
 ## VS Code and Drupal
 
-Some folks like to use [Microsoft's Visual Studio Code](https://code.visualstudio.com/) as a free alternative to PHPStorm. 
+Some folks like to use [Microsoft's Visual Studio Code (VS Code)](https://code.visualstudio.com/) as a free alternative to PHPStorm. 
 
 Check out some details of using VS Code with Drupal in the [Drupal.org documentation - updated Feb 2025](https://www.drupal.org/docs/develop/development-tools/editors-and-ides/configuring-visual-studio-code).
 
