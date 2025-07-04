@@ -1739,15 +1739,15 @@ For more info:
 
 Some folks like to use [Microsoft's Visual Studio Code (VS Code)](https://code.visualstudio.com/) as a free alternative to PHPStorm. 
 
-Check out some details of using VS Code with Drupal in the [Drupal.org documentation - updated Feb 2025](https://www.drupal.org/docs/develop/development-tools/editors-and-ides/configuring-visual-studio-code).
-
-
 It has a number of plugins that can make it a powerful tool for Drupal development. Here are some of the plugins that you might find useful:
 
 - [PHP Intelephense](https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client) - a high performance PHP language server packed full of features.
 - [PHP Debug](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug) - a VS Code extension to enable debugging of PHP scripts.
 - [PHP CS Fixer](https://marketplace.visualstudio.com/items?itemName=junstyle.php-cs-fixer) - a PHP coding standards fixer for Visual Studio Code.
 - [PHP DocBlocker](https://marketplace.visualstudio.com/items?itemName=neilbrayfield.php-docblocker) - a simple, dependency free PHP specific DocBlocking package.
+
+Check out some details of using VS Code with Drupal in the [Drupal.org documentation - updated Feb 2025](https://www.drupal.org/docs/develop/development-tools/editors-and-ides/configuring-visual-studio-code).
+
 
 Mike Anello of [Drupaleasy](https://www.drupaleasy.com/) has a Youtube video from Midcamp explaining how to set up [VS Code for Drupal Development - March 2024](https://youtu.be/p-nz369Savs?si=-7cc5IW96LlEw5e9). The session description is:
 
