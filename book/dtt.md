@@ -7,7 +7,7 @@ title: Tests
 
 ## Overview
 
-Tests are written as PHP classes. These are executed in the terminal (or optionally from within PhpStorm). Each test consists of code with calls to various assert functions to test if an expected result matches an actual result. So if a function should return `true` if it succeeds, you can test its return value with `assertTrue($return_value)` or if it should returns if it succeeds, you can test with `assertEquals(5, $return_value)`.
+Tests are written as PHP classes. These are executed in the terminal (or optionally from within PhpStorm). Each test consists of code with calls to various assert functions to test if an expected result matches an actual result. So if a function should return `true` if it succeeds, you can test its return value with `assertTrue($return_value)` or if it should return the value: 5 if it succeeds, you can test with `assertEquals(5, $return_value)`.
 
 E.g.
 
@@ -108,7 +108,7 @@ While tests are running, I noticed that files appear in the `/simpletest/browser
 
 ## Setup PHPUnit tests 
 
-Using Drupal version 9.4.5 let's get PHPunit tests running inside the ddev containers (not on the host machine).
+Using Drupal version 9.4.5 let's get PHPunit tests running inside the ddev containers (instead of on the host machine).
 
 To get started with phpunit, follow [instructions on drupal.org](https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/running-phpunit-tests)
 
@@ -304,7 +304,7 @@ OK (1 test, 1 assertion)
 Note. It does expect the file `web/core/phpunit.xml` to exist and be
 configured correctly. See setup above for details.
 
-## My first PHPUnit test
+## My first (functional) PHPUnit test
 
 This is my test of a class I wrote called Requirements. It does require some Drupal to be bootstrapped, so it can't be a unit test. It must be a functional test and therefore in the `modules/custom/tea_teks_requirements/tests/src/Functional` directory.
 
@@ -364,6 +364,12 @@ OK (1 test, 1 assertion)
 ```
 
 Note. The OK means it worked.
+
+Check out [How to write your first functional test in Drupal 10 - May 2025](https://eduardotelaya.com/blog/technology/2025-05-26-how-to-write-your-first-functional-test-in-drupal-10/) for another example of writing a functional test in Drupal 10. 
+
+
+
+
 
 ## Drupal Test Traits Overview
 
