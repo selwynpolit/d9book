@@ -235,21 +235,21 @@ Here is an excerpt from the [Theme System Overview](https://api.drupal.org/api/d
 
 Several functions are called before the template file is invoked to modify the variables that are passed to the template. These make up the \"preprocessing\" phase, and are executed (if they exist), in the following order (note that in the following list, HOOK indicates the hook being called or a less specific hook. For example, if `#theme' => 'node__article` is called, hook is `node__article` and `node`.
 
-MODULE indicates a module name, THEME indicates a theme name, and ENGINE indicates a theme engine name). Modules, themes, and theme engines can provide these functions to modify how the data is preprocessed, before it is passed to the theme template:
+**MODULE** indicates a module name, **THEME** indicates a theme name, and **ENGINE** indicates a theme engine name). Modules, themes, and theme engines can provide these functions to modify how the data is preprocessed, before it is passed to the theme template:
 
-- **[template_preprocess](https://api.drupal.org/api/drupal/core%21includes%21theme.inc/function/template_preprocess/10)(&\$variables, \$hook)**: Creates a default set of variables for all theme hooks with template implementations. Provided by Drupal Core.
+- `template_preprocess(&$variables, $hook, $info)` This [function]((https://api.drupal.org/api/drupal/core%21includes%21theme.inc/function/template_preprocess/10)) creates a default set of variables for all theme hooks with template implementations and is provided by Drupal Core.
 
-- **template_preprocess_HOOK(&\$variables)**: Should be implemented by the module that registers the theme hook, to set up default variables.
+- `template_preprocess_HOOK(&$variables)`: Should be implemented by the module that registers the theme hook, to set up default variables.
 
-- **MODULE_preprocess(&\$variables, \$hook)**: hook_preprocess() is invoked on all implementing modules.
+- `MODULE_preprocess(&$variables, $hook)`: `hook_preprocess()` is invoked on all implementing modules.
 
-- **MODULE_preprocess_HOOK(&\$variables)**: hook_preprocess_HOOK() is invoked on all implementing modules, so that modules that didn\'t define the theme hook can alter the variables.
+- `MODULE_preprocess_HOOK(&$variables)`: `hook_preprocess_HOOK()` is invoked on all implementing modules, so that modules that didn\'t define the theme hook can alter the variables.
 
-- **ENGINE_engine_preprocess(&\$variables, \$hook)**: Allows the theme engine to set necessary variables for all theme hooks with template implementations.
+- `ENGINE_engine_preprocess(&$variables, $hook)`: Allows the theme engine to set necessary variables for all theme hooks with template implementations.
 
-- **ENGINE_engine_preprocess_HOOK(&\$variables)**: Allows the theme engine to set necessary variables for the particular theme hook.
+- `ENGINE_engine_preprocess_HOOK(&$variables)`: Allows the theme engine to set necessary variables for the particular theme hook.
 
-- **THEME_preprocess(&\$variables, \$hook)**: Allows the theme to set necessary variables for all theme hooks with template  implementations.
+- `THEME_preprocess(&$variables, $hook)`: Allows the theme to set necessary variables for all theme hooks with template  implementations.
 
 - `THEME_preprocess_HOOK(&$variables)`: Allows the theme to set necessary variables specific to the particular theme hook.
 
@@ -265,7 +265,7 @@ Generally, `.theme` files will include the following to create or alter variable
 
 ### hook_preprocess_node example 1
 
-To add a custom variable (`custom_variable`) to be displayed in your template, add a function in your `.theme` file like the one listed below. This example also adds a `#suffix` to the `field_image` which renders that string after the `field_image` is rendered.
+To add a custom variable (`custom_variable`) to be displayed in your template, add a function in your `.theme` file like the one listed below. 
 
 ```php
 function mytheme_preprocess_node(&$variables) {
@@ -277,17 +277,12 @@ function mytheme_preprocess_node(&$variables) {
 }
 ```
 
-In your node\'s Twig template <code v-pre>{{ custom_variable }}</code> will display the new variable.
-
+In your node\'s Twig template <code v-pre>{{ custom_variable }}</code> will display the new variable.  This example also adds a `#suffix` to the `field_image` which renders that string after the `field_image` is rendered. Fields such as `field_image` will be automatically rendered by the node template unless you've modified the template.
 
 Usually the `$variables['content'] ` contains the render array for all the fields in the node. In the Twig template this appears as <code v-pre>{{ content }}</code>. 
 
 
-
-
-Fields such as `field_image` will be automatically rendered by the node template unless you've modified the template.
-
-Here is an example of a node template from the Olivero theme: `drupal/web/core/themes/olivero/templates/content/node.html.twig`:
+Here is a node template from the Olivero theme: `web/core/themes/olivero/templates/content/node.html.twig`:
 
 ```twig
 {% set layout = layout ? 'layout--' ~ layout|clean_class %}
