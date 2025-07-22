@@ -20,7 +20,7 @@ Available hooks are listed in each module in their `module.api.php` file e.g. `d
 
 ## Modify the login form with hook_form_FORM_ID_alter()   
 
-Here is code from hook_examples.module that modifies the user login form by adding a button. It passes the username and password that were entered to the mythical third party login endpoint.
+Here is code from `hook_examples.module` that modifies the user login form by adding a button. It passes the username and password that were entered to a mythical third party login endpoint.
 
 ```php
 /**
@@ -50,11 +50,11 @@ function hook_examples_user_login_form_submit(array &$form, \Drupal\Core\Form\Fo
   $form_state->setRedirect($login_url);
 }
 ```
-In the above code, the **hook_examples_form_user_login_form_alter()** function implements the **hook_form_FORM_ID_alter()** hook, where
-**FORM_ID** is the ID of the form being altered, in this case **user_login_form**. The function modifies the login form by adding a
-custom submit button, with a submit handler function of **hook_examples_user_login_form_submit()**.
+In the above code, the `hook_examples_form_user_login_form_alter()` function implements the `hook_form_FORM_ID_alter()` hook, where
+`FORM_ID` is the ID of the form being altered, in this case `user_login_form`. The function modifies the login form by adding a
+custom submit button, with a submit handler function of `hook_examples_user_login_form_submit()`.
 
-When the button is clicked, the **hook_examples_user_login_form_submit()** function gets the username and password from the form state , builds the URL for the third-party login page, including the username and password as query parameters. Finally, the user is redirected to this URL using the **\$form_state-\>setRedirect()** method.
+When the button is clicked, the `hook_examples_user_login_form_submit()` function gets the username and password from the form state , builds the URL for the third-party login page, including the username and password as query parameters. Finally, the user is redirected to this URL using the `$form_state->setRedirect()` method.
 
 ## Modify the node edit form with hook_form_alter()
 
@@ -76,9 +76,8 @@ function hook_examples_form_alter(array &$form, FormStateInterface $form_state, 
   }
 }
 ```
-This code uses the **hook_form_alter** hook to alter the node edit form and modify the value of the submit button for nodes of type **event**.
-The **\$form_id** argument is used to check if the form being altered is the node edit form for nodes of type **event**, and if it is, the submit button\'s value is changed to \"Update Event\". A redundant check is
-added to ensure the node is of type \"event\" for clarity.
+This code uses the `hook_form_alter` hook to alter the node edit form and modify the value of the submit button for nodes of type `event`.
+The `$form_id` argument is used to check if the form being altered is the node edit form for nodes of type `event`, and if it is, the submit button\'s value is changed to \"Update Event\". A redundant check is added to ensure the node is of type \"event\" for clarity.
 
 ## Modify fields in a node with hook_ENTITY_TYPE_presave()
 
@@ -252,34 +251,93 @@ MODULE indicates a module name, THEME indicates a theme name, and ENGINE indicat
 
 - **THEME_preprocess(&\$variables, \$hook)**: Allows the theme to set necessary variables for all theme hooks with template  implementations.
 
-- **THEME_preprocess_HOOK(&\$variables)**: Allows the theme to set necessary variables specific to the particular theme hook.
+- `THEME_preprocess_HOOK(&$variables)`: Allows the theme to set necessary variables specific to the particular theme hook.
 
 ### Hook_preprocess
 
 Generally, `.theme` files will include the following to create or alter variables for :
 
-- **hook_preprocess_html()** the html template
+- `hook_preprocess_html()` the html template
 
-- **hook_preprocess_page()** the page template
+- `hook_preprocess_page()` the page template
 
-- **hook_preprocess_node()** the node template. Note hook_node_type_preprocess_node() also works where you can specify the node type e.g. wc_product_preprocess_node() which expects a content type of wc_product.
+- `hook_preprocess_node()` the node template. Note `hook_node_type_preprocess_node()` also works where you can specify the node type e.g. `wc_product_preprocess_node()` which expects a content type of `wc_product`.
 
 ### hook_preprocess_node example 1
 
-To add a custom variable to be displayed in your template, add a function in your .theme file like the one listed below. This example also adds a #suffix to the field_image which renders that string after the field_image is rendered.
+To add a custom variable (`custom_variable`) to be displayed in your template, add a function in your `.theme` file like the one listed below. This example also adds a `#suffix` to the `field_image` which renders that string after the `field_image` is rendered.
 
 ```php
 function mytheme_preprocess_node(&$variables) {
   $variables['custom_variable'] = "Bananas are yellow";
+  // Add a suffix to the field_image.
   $variables['content']['field_image']['#suffix'] = "this suffix on the image";
-  kint($variables);
+  // Optionally with installed, you can see all the variables available in the node template.
+  // kint($variables);
 }
 ```
-The render array you want to change will be in the content variable which shows up in the kint output as `$variables['content']`
 
-Usually fields such as field_image will be automatically rendered by the node template (unless you've tweaked it to display in some other template.)
+In your node\'s Twig template <code v-pre>{{ custom_variable }}</code> will display the new variable.
 
-In your node\'s Twig template you would specify <code v-pre>{{ custom_variable }}</code> to have it display on every node.
+
+Usually the `$variables['content'] ` contains the render array for all the fields in the node. In the Twig template this appears as <code v-pre>{{ content }}</code>. 
+
+
+
+
+Fields such as `field_image` will be automatically rendered by the node template unless you've modified the template.
+
+Here is an example of a node template from the Olivero theme: `drupal/web/core/themes/olivero/templates/content/node.html.twig`:
+
+```twig
+{% set layout = layout ? 'layout--' ~ layout|clean_class %}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    layout ? 'grid-full',
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+<article{{ attributes.addClass(classes) }}>
+  <header class="{{ layout }}">
+    {{ title_prefix }}
+      {% if label and not page %}
+      <h2{{ title_attributes.addClass('node__title') }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      </h2>
+    {% endif %}
+    {{ title_suffix }}
+    {% if display_submitted %}
+      <div class="node__meta">
+      {% if author_picture %}
+        <div class="node__author-image">
+          {{ author_picture }}
+        </div>
+      {% endif %}
+        <span{{ author_attributes }}>
+          {{ 'By'|t }} {% apply spaceless %}{{ author_name }}{% endapply %}, {{ date }}
+        </span>
+        {{ metadata }}
+      </div>
+    {% endif %}
+  </header>
+  <div{{ content_attributes.addClass('node__content', layout) }}>
+    {# Comments not part of content, so they won't inherit .text-content styles. #}
+    {{ content|without('comment') }}
+  </div>
+  {% if content.comment %}
+    <div id="comments" class="{{ layout }}">
+      {{ content.comment }}
+    </div>
+  {% endif %}
+</article>
+```
+
 
 
 
@@ -287,15 +345,14 @@ In your node\'s Twig template you would specify <code v-pre>{{ custom_variable }
 
 This code is used to make a date range like `3/30/2023 -- 3/31/2023` appear as `Mar 30-31, 2023`
 
-The date values are stored in the field_date which is a date range
-field. This code is from the .theme file.  Here we retrieve the starting and ending date values:
+The date values are stored in the `field_date` which is a date range field. This code is from the `.theme` file.  Here we retrieve the starting and ending date values:
 
 ```php
 $from = $variables["node"]->get('field_date')->getValue()[0]['value'];
 $to = $variables["node"]->get('field_date')->getValue()[0]['end_value'];
 ```
 
-Here is the hook_preprocess_node()
+Here is the `hook_preprocess_node()`:
 
 Notice that we are creating a Twig variable called "scrunch_date" which we want to display.
 
