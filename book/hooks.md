@@ -237,7 +237,7 @@ Several functions are called before the template file is invoked to modify the v
 
 **MODULE** indicates a module name, **THEME** indicates a theme name, and **ENGINE** indicates a theme engine name). Modules, themes, and theme engines can provide these functions to modify how the data is preprocessed, before it is passed to the theme template:
 
-- `template_preprocess(&$variables, $hook, $info)` This [function]((https://api.drupal.org/api/drupal/core%21includes%21theme.inc/function/template_preprocess/10)) creates a default set of variables for all theme hooks with template implementations and is provided by Drupal Core.
+- `template_preprocess(&$variables, $hook, $info)` This [function](https://api.drupal.org/api/drupal/core%21includes%21theme.inc/function/template_preprocess/10) creates a default set of variables for all theme hooks with template implementations and is provided by Drupal Core.
 
 - `template_preprocess_HOOK(&$variables)`: Should be implemented by the module that registers the theme hook, to set up default variables.
 
