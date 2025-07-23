@@ -254,14 +254,16 @@ Several functions are called before the template file is invoked to modify the v
 - `THEME_preprocess_HOOK(&$variables)`: Allows the theme to set necessary variables specific to the particular theme hook.
 
 ### Hook_preprocess
-
-Generally, `.theme` files will include the following to create or alter variables for :
+`hook_preprocess_HOOK` is a generic term or pattern that includes all the specific preprocessing hooks like `hook_preprocess_block`, `hook_preprocess_page`, `hook_preprocess_node`, etc. Generally these will be in your `.theme` file. These functions are used to modify the variables that are passed to the template files for rendering.
 
 - `hook_preprocess_html()` the html template
-
 - `hook_preprocess_page()` the page template
+- `hook_preprocess_node()` the node template. Note `mytheme_preprocess_node__article()` would work for nodes of type article.  `mytheme_preprocess_node__wc_product()` would apply to content of type `wc_product`.
+- `hook_preprocess_block()` the block template.
 
-- `hook_preprocess_node()` the node template. Note `hook_node_type_preprocess_node()` also works where you can specify the node type e.g. `wc_product_preprocess_node()` which expects a content type of `wc_product`.
+See [this huge list of 272 instances of hook_preprocess_hook used in Drupal 10 core](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/implementations/hook_preprocess_HOOK/10)
+
+ 
 
 ### hook_preprocess_node example 1
 
@@ -403,6 +405,49 @@ Now in the twig template we can output the `scrunch_date` we created in the temp
 {% endif %}
 ```
 
+### Add a fontawesome icon to a heading in a view block
+
+In `docroot/themes/custom/wecc_theme/wcc_theme.theme` 
+
+This code uses `hook__preprocess_block()` to add an icon to the block title for certain blocks. It uses FontAwesome icons (`bullhorn` and `calendar-days`) and adds them to the label of each block.
+
+```php
+/**
+ * Implements hook_preprocess_HOOK() for 'block'.
+ */
+function wcc_theme_preprocess_block(&$variables) {
+
+  // Define icons for certain list blocks.
+  $list_blocks = [
+    'views_block:announcements_list-block_1' => [
+      'icon' => 'bullhorn',
+      'label' => t('Announcements'),
+    ],
+    // <div class="views-element-container contextual-region block block-views block-views-blocknew-meetings-list-block-1 mb-2">
+    'views_block:new_announcements_list-block_1' => [
+      'icon' => 'bullhorn',
+      'label' => t('Announcements'),
+    ],
+    'views_block:meetings_list-block_1' => [
+      'icon' => 'calendar-days',
+      'label' => t('Meetings'),
+    ],
+    // <div class="views-element-container contextual-region block block-views block-views-blocknew-meetings-list-block-1 mb-2">
+    'views_block:new_meetings_list-block_1' => [
+      'icon' => 'calendar-days',
+      'label' => t('Meetings'),
+    ],
+  ];
+
+  // Add an icon to the block title for certain list blocks.
+  if (array_key_exists($variables['plugin_id'] ?? NULL, $list_blocks)) {
+    $variables['label'] = new FormattableMarkup('<i class="fa-solid fa-@icon" aria-hidden="true"></i><span class="ms-3">@label</span>', [
+      '@icon' => $list_blocks[$variables['plugin_id']]['icon'],
+      '@label' => $variables['label']['#markup'] ?? $list_blocks[$variables['plugin_id']]['label'],
+    ]);
+  }
+}
+```
 
 
 ## Organizing your hooks code the OOP way
@@ -581,14 +626,16 @@ Here is an excerpt from the Drupal API at
 
 ### Create operations
 
-To create an entity:
+[To create an entity](https://api.drupal.org/api/drupal/10/search/create):
 
-\$entity = \$storage-\>[**create**](https://api.drupal.org/api/drupal/10/search/create)();
-
+```php
+$entity = $storage->create();
 // Add code here to set properties on the entity.
 // Until you call save(), the entity is just in memory.
 
-\$entity-\>[**save**](https://api.drupal.org/api/drupal/10/search/save)();
+$entity->save();
+```
+
 
 There is also a shortcut method on entity classes, which creates an entity with an array of provided property values:
 `\Drupal\Core\Entity::create()`.
@@ -611,43 +658,63 @@ See [Save operations](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Co
 
 To load (read) a single entity:
 
-\$entity = \$storage-\>[**load**](https://api.drupal.org/api/drupal/10/search/load)(\$id);
+```php
+$entity = $storage->load($id);
+```
 
 To load multiple entities:
-\$entities = \$storage-\>**loadMultiple**(\$ids);
+```php
+$entities = $storage->loadMultiple($ids);
+```
 
-Since load() calls loadMultiple(), these are really the same operation. Here is the order of hooks and other operations that take place during entity loading:
+
+
+
+Since `load()` calls `loadMultiple()`, these are really the same operation. Here is the order of hooks and other operations that take place during entity loading:
 
 -   Entity is loaded from storage.
--   postLoad() is called on the entity class, passing in all of the
-    loaded entities.
+-   `postLoad()` is called on the entity class, passing in all of the loaded entities.
 -   [hook_entity_load](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_load/10)()
 -   [hook_ENTITY_TYPE_load](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_load/10)()
 
 When an entity is loaded, normally the default entity revision is loaded. It is also possible to load a different revision, for entities that support revisions, with this code:
 
-\$entity = \$storage-\>**loadRevision**(\$revision_id);
+
+
+```php
+$entity = $storage->loadRevision($revision_id);
+```
+
 
 This involves the same hooks and operations as regular entity loading.
 
-The \"latest revision\" of an entity is the most recently created one, regardless of it being default or pending. If the entity is
-translatable, revision translations are not taken into account either. In other words, any time a new revision is created, that becomes the latest revision for the entity overall, regardless of the affected translations. To load the latest revision of an entity:
+The \"latest revision\" of an entity is the most recently created one, regardless of it being default or pending. If the entity is translatable, revision translations are not taken into account either. In other words, any time a new revision is created, that becomes the latest revision for the entity overall, regardless of the affected translations. To load the latest revision of an entity:
 
-\$revision_id = \$storage-\>**getLatestRevisionId**(\$entity_id);
+```php
+$revision_id = $storage->getLatestRevisionId($entity_id);
 
-\$entity = \$storage-\>**loadRevision**(\$revision_id);
+$entity = $storage->loadRevision($revision_id);
+```
 
-As usual, if the entity is translatable, this code instantiates into \$entity the default translation of the revision, even if the latest revision contains only changes to a different translation:
+As usual, if the entity is translatable, this code instantiates into `$entity` the default translation of the revision, even if the latest revision contains only changes to a different translation:
 
-\$is_default = \$entity-\>**isDefaultTranslation**();
+```php
 // returns TRUE
+$is_default = $entity->isDefaultTranslation(); 
+```
 
-The \"latest translation-affected revision\" is the most recently created one that affects the specified translation. For example, when a new revision introducing some changes to an English translation is saved, that becomes the new \"latest revision\". However, if an existing Italian translation was not affected by those changes, then the \"latest translation-affected revision\" for Italian remains what it was. To load the Italian translation at its latest translation-affected revision:
 
-\$revision_id = \$storage-\>**getLatestTranslationAffectedRevisionId**(\$entity_id, \'it\');
-\$it_translation = \$storage
--\>**loadRevision**(\$revision_id)
--\>**getTranslation**(\'it\');
+The \"latest translation-affected revision\" is the most recently created one that affects the specified translation. For example, when a new revision introducing some changes to an English translation is saved, that becomes the new \"latest revision\". However, if an existing Italian translation was not affected by those changes, then the \"latest translation-affected revision\" for Italian remains what it was. 
+
+To load the Italian translation at its latest translation-affected revision:
+
+
+```php
+$revision_id = $storage->getLatestTranslationAffectedRevisionId($entity_id, 'it');
+
+$it_translation = $storage ->loadRevision($revision_id) ->getTranslation('it');
+```
+
 
 ### Save operations
 
@@ -671,7 +738,7 @@ To update an existing entity, you will need to load it, change properties, and t
     - [hook_ENTITY_TYPE_translation_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_translation_delete/10)()
     - [hook_entity_translation_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_translation_delete/10)()
 
-- postSave() is called on the entity object.
+- `postSave()` is called on the entity object.
 
 
 - [hook_ENTITY_TYPE_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_insert/10)()
@@ -704,15 +771,15 @@ function tea_teks_entity_update(\Drupal\Core\Entity\EntityInterface $entity) {
 }
 ```
 
-Some specific entity types invoke hooks during preSave() or postSave() operations. Examples:
+Some specific entity types invoke hooks during `preSave()` or `postSave()` operations. Examples:
 
--   **Field configuration preSave()**: hook_field_storage_config_update_forbid()
+- `Field configuration preSave()`: `hook_field_storage_config_update_forbid()`
 
--   **Node postSave()**: hook_node_access_records() and hook_node_access_records_alter()
+- `Node postSave()`: `hook_node_access_records()` and `hook_node_access_records_alter()`
 
--   Config entities that are acting as entity bundles in postSave(): hook_entity_bundle_create()
+- Config entities that are acting as entity bundles in `postSave()`: `hook_entity_bundle_create()`
 
--   **Comment**: hook_comment_publish() and hook_comment_unpublish() as appropriate.
+- Comment: `hook_comment_publish()` and `hook_comment_unpublish()` as appropriate.
 
 Note that all translations available for the entity are stored during a save operation. When saving a new revision, a copy of every translation is stored, regardless of it being affected by the revision.
 
@@ -739,7 +806,7 @@ $storage->delete($entities);
 
 During the delete operation, the following hooks and other events happen:
 
-- preDelete() is called on the entity class.
+- `preDelete()` is called on the entity class.
 
 - [hook_ENTITY_TYPE_predelete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_predelete/10)()
 
@@ -747,7 +814,7 @@ During the delete operation, the following hooks and other events happen:
 
 - Entity and field information is removed from storage.
 
-- postDelete() is called on the entity class.
+- `postDelete()` is called on the entity class.
 
 - [hook_ENTITY_TYPE_delete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_delete/10)()
 
@@ -756,7 +823,7 @@ During the delete operation, the following hooks and other events happen:
 Some specific entity types invoke hooks during the delete process.
 Examples:
 
-- **Entity bundle postDelete()**: hook_entity_bundle_delete()
+- Entity bundle postDelete(): `hook_entity_bundle_delete()`
 
 Individual revisions of an entity can also be deleted:
 
@@ -787,7 +854,7 @@ $build = $view_builder
 ->view($entity, 'view_mode_name', $language->getId());
 ```
 
-You can also use the viewMultiple() method to view multiple entities.
+You can also use the `viewMultiple()` method to view multiple entities.
 
 Hooks invoked during the operation of building a render array:
 
@@ -801,7 +868,7 @@ View builders for some types override these hooks, notably:
 
 -   The Tour view builder does not invoke any hooks.
 
--   The Block view builder invokes hook_block_view_alter() and hook_block_view_BASE_BLOCK_ID_alter(). Note that in other view builders, the view alter hooks are run later in the process.
+-   The Block view builder invokes `hook_block_view_alter()` and `hook_block_view_BASE_BLOCK_ID_alter()`. Note that in other view builders, the view alter hooks are run later in the process.
 
 During the rendering operation, the default entity viewer runs the following hooks and operations in the pre-render step:
 
@@ -823,9 +890,9 @@ During the rendering operation, the default entity viewer runs the following hoo
 
 Some specific builders have specific hooks:
 
--   The Node view builder invokes hook_node_links_alter().
+-   The Node view builder invokes `hook_node_links_alter()`.
 
--   The Comment view builder invokes hook_comment_links_alter().
+-   The Comment view builder invokes `hook_comment_links_alter()`.
 
 After this point in rendering, the theme system takes over. See the [Theme system and render API topic](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10) for more information.
 
@@ -859,7 +926,7 @@ Some types of entities invoke hooks for specific operations:
 
 ### Display additional information on custom entities
 
-There is a custom entity called a `www_document` and it has various bundles which need to be displayed on the entity view page. In this code I display the friendlier \"display name\" rather than the machine name (which is in the `$bundle` variable).
+There is a custom entity called a `www_document` and it has various bundles which need to be displayed on the entity view page. In this code you can display the friendlier \"display name\" rather than the machine name (which is in the `$bundle` variable).
 
 Here is the code to do that from `www_document.module`:
 
@@ -958,8 +1025,7 @@ For further information on overriding theme hooks see [https://www.drupal.org/no
 
 ### Altering theme hook suggestions
 
-Modules can also alter the theme suggestions provided using the
-mechanisms of the previous section. There are two hooks for this: the theme-hook-specific `hook_theme_suggestions_HOOK_alter()` and the generic `hook_theme_suggestions_alter()`. These hooks get the current list of suggestions as input, and can change this array (adding suggestions and removing them).
+Modules can also alter the theme suggestions provided using the mechanisms of the previous section. There are two hooks for this: the theme-hook-specific `hook_theme_suggestions_HOOK_alter()` and the generic `hook_theme_suggestions_alter()`. These hooks get the current list of suggestions as input, and can change this array (adding suggestions and removing them).
 
 
 
