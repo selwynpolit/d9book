@@ -125,7 +125,8 @@ function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_
 
 
 ## Template Preprocess views view
-Using template_preprocess_views_view you customize the view by adding or modifying variables.  This is useful if you want to add a form to a view or add some other variable to the view.  See more at the [Drupal API link to function template_preprocess_views_view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/9.3.x)
+Using `template_preprocess_views_view` you customize the view by adding or modifying variables.  This is useful if you want to add a form or some other variable to the view.  See more at the [Drupal API link to function template_preprocess_views_view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.theme.inc/function/template_preprocess_views_view/10)
+
 
 
 ### Example 1
@@ -166,17 +167,18 @@ function dirt_preprocess_views_view(array &$variables) {
 ```
 
 ### Example 3
-This version looks up the venue reference field and replace the node ID with the venue reference field's title.
+This version looks up the venue reference field and replace the node ID with the venue reference field\'s title.
 
 ```php
 function dirt_preprocess_views_view(array &$variables) {
   $view = $variables['view'];
-  if ($view->name == 'events_landing_page') {
+  if ($view->id() == 'events_landing_page') {
     foreach ($view->result as $r => $result) {
       $node = $result->_entity;
       $venue = $node->get('field_venue')->entity;
 
       // Replace the node ID with the venue reference field's title.
+      // I know this looks a little weird but it just replaces the id() field in the view with the venue reference field's title.
       $variables['rows'][$r]['#row']->nid = $venue->getTitle();
     }
   }
@@ -186,9 +188,37 @@ function dirt_preprocess_views_view(array &$variables) {
 
 
 ## Template Preprocess Views View Field
-This is used to preprocess the output of a field in a view.  It is a little more complex than the view preprocess function, but not much. 
+
+This is used to replace a field in a view.  Here is a quick example:
+
 
 ### Example 1
+
+```php
+function uswds_abc_preprocess_views_view_field(&$variables) {
+
+  $view = $variables['view'];
+  $view_name = $view->id();
+  $field = $variables['field'];
+  $field_name = $field->field;
+  $display = $view->current_display;
+
+  if ($view_name == 'per_table' &&
+      $display == 'per_table_auto' &&
+      $field_name == 'field_name') {
+    $variables['output'] = 'News output';
+  }
+
+  // The nothing field is a placeholder custom text field.
+  if ($view_name === 'toolkit' && $field_name === 'nothing') {
+    $variables['output'] = 'Your custom value here';
+  }
+}
+```
+
+
+
+### Example 2
 
 This function from  `/Users/selwyn/Sites/txglobal/web/themes/custom/txglobal/txglobal.theme` modifies the value of the `nid` field in the `news_events_search` view.  It does some magic based on the `nid` field which is in the view and builds some stuff
 
@@ -303,7 +333,7 @@ function _txglobal_multival_ref_data(FieldItemListInterface $ref_field, $param_n
 }
 ```
 
-### Example 2
+### Example 3
 
 Another version of `~/Sites/txglobal/web/themes/custom/txglobal/txglobal.theme` which builds a `UL` of links based on the nid field in the view.  It also uses a helper function to build the links.  The helper function is in the same file and is called `build_related_items_links()`.
 
@@ -441,7 +471,7 @@ And the template
 </section>
 ```
 
-### Example 3
+### Example 4
 
 This example has a view called `selwyntest3` and a display called `page_1`.  It modifies the `nid` field to output a specific value.  In this case, there were two nid fields. Views refers to them as  `nid` and `nid_1`.  This shows how to find the correct field and modify the output. It is from `~/Sites/tea/docroot/themes/custom/tea/tea.theme`.
 
@@ -469,7 +499,7 @@ function tea_preprocess_views_view_field(&$variables) {
 ```
 
 
-### Example 4
+### Example 5
 This example from `my_module.module` file modifies the output of the `type` field in the `search` view. It replaces the value in the type field with the bundle for a content type or custom entity (and formats it slightly).
 
 
@@ -504,7 +534,7 @@ function my_module_preprocess_views_view_field(array &$variables) {
 
 ## Either Or in views
 
-To show one field if it exists otherwise show another field follow these steps:
+This is such a neat trick to show one field *if it exists* otherwise show another field:
 
 1. Add a field for `field1` and exclude it from display.
 1. Add a field for `field2` and exclude it from display. 
