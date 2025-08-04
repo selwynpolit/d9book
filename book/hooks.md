@@ -263,7 +263,8 @@ Several functions are called before the template file is invoked to modify the v
 
 See [this huge list of 272 instances of hook_preprocess_hook used in Drupal 10 core](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/implementations/hook_preprocess_HOOK/10)
 
- 
+
+
 
 ### hook_preprocess_node example 1
 
@@ -404,6 +405,12 @@ Now in the twig template we can output the `scrunch_date` we created in the temp
   {% endif %}
 {% endif %}
 ```
+
+
+## Another example of hook_preprocess_node
+
+Check out [this example of using hook_preprocess_node to do some wrangling of the node variables before they are passed to the node template.](general.md#figure-out-a-file-extension-and-display-an-icon) 
+
 
 ### Add a fontawesome icon to a heading in a view block
 

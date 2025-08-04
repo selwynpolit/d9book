@@ -2732,6 +2732,152 @@ $bundle_label = $bundle_info[$bundle]['label'];
 I used this in an implementation of `template_preprocess_views_view_field()` to get the display name of the bundle for a custom entity type to display in a view. For some strange reason, Drupal wouldn't display the bundle name for anonymous users even though they had access to the content.
 
 
+## Figure out a file extension and display an icon
+
+This is implemented in a `.theme` file. It does several things including trimming the body text, getting the topic area from a taxonomy term, and determining the type of toolkit item based on the file extension of either the link field (`field_link`) or the attachment field (`field_attachment`). It also sets an icon name based on the type of toolkit item.
+
+```
+/**
+ * Implements hook_preprocess_node() for node templates.
+ */
+function uswds_base_abc_preprocess_node(&$variables): void {
+  $view_mode = $variables['view_mode'];
+  $node = $variables['node'];
+  $node_type = '';
+  $variables['node_type'] = '';
+  if ($node) { // check we have a node object.
+    $variables['nodeid'] = $node->id();
+    $node_type = $node->getType();
+  }
+  if ($node_type != 'toolkit_item') {
+    return;
+  }
+//  if ($view_mode != 'card') {
+//    // Only process card view mode for toolkit_item nodes.
+//    return;
+//  }
+
+  // Body processing.
+  $variables['body'] = '';
+  $body = $node->get('body')->getValue();
+  if (!empty($body)) {
+    $body = $body[0]['value'];
+    // Limit the body text to 50 characters.
+    if (strlen($body) > 60) {
+      $body = substr($body, 0, 60) . '...';
+    }
+    $variables['body'] = $body;
+  }
+
+  // Process field_topic_area
+  $variables['topic_area'] = '';
+  $topic_area = $node->get('field_topic_area')->getValue();
+  if (!empty($topic_area)) {
+    // Lookup taxonomy term by ID.
+    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $term = $term_storage->load($topic_area[0]['target_id']);
+    if ($term) {
+      // Get the term name.
+      $variables['topic_area'] = $term->getName();
+    }
+  }
+
+  // Process link field.
+  $toolkit_item_type = 'WEB';
+  $variables['link'] = '';
+  $link = $node->get('field_link')->getValue();
+  if (!empty($link)) {
+    $uri = $link[0]['uri'];
+    $variables['link'] = $uri;
+    if (str_contains($uri, '.pdf')) {
+      $toolkit_item_type = 'PDF';
+    }
+    if (str_contains($uri, '.docx') || str_contains($uri, '.doc')) {
+      $toolkit_item_type = 'DOC';
+    }
+    if (str_contains($uri, '.xlsx') || str_contains($uri, '.xls')) {
+      $toolkit_item_type = 'XLS';
+    }
+  }
+
+  // Process the attachment field.
+  $variables['attachment'] = '';
+  $attachment = $node->get('field_attachment')->getValue();
+  if (!empty($attachment)) {
+    $file = \Drupal::entityTypeManager()->getStorage('file')->load($attachment[0]['target_id']);
+    $filename_with_path = $file->getFileUri();
+    $filename = $file->getFilename();
+    $variables['file'] = $filename_with_path;
+
+    $file_extension = strtolower(substr($filename, -5));
+    // check for pdf
+    if (str_ends_with($file_extension, '.pdf')) {
+      $toolkit_item_type = 'PDF';
+    }
+    // check for docx or doc
+    if (str_ends_with($file_extension, '.docx') ||str_ends_with($file_extension, '.doc')) {
+      $toolkit_item_type = 'DOC';
+    }
+    // check for xlsx or xls
+    if (str_ends_with($file_extension, '.xlsx') || str_ends_with($file_extension, '.xls')) {
+      $toolkit_item_type = 'XLS';
+    }
+
+//    $toolkit_item_type = strtoupper($file_extension);
+    $variables['attachment'] = $filename;
+  }
+
+  // Figure out the icon based on the toolkit item type.
+  switch($toolkit_item_type) {
+    case 'PDF':
+      $icon_name = 'pdf-icon.svg';
+      break;
+    case 'DOC':
+      $icon_name = 'doc-icon.svg';
+      break;
+    case 'XLS':
+      $icon_name = 'xls-icon.svg';
+      break;
+    default:
+      $icon_name = 'web-icon.svg';
+      break;
+  }
+
+  $variables['toolkit_item_type'] = $toolkit_item_type;
+  $variables['icon_name'] = $icon_name;
+
+}
+```
+
+Here is the twig template (`node--toolkit-item--card.html.twig`) that uses the variables set in the preprocess function:
+
+```twig
+
+  <div class="toolkit-card-item">
+    <div class="usa-card__header">
+      {% if file %}
+        <a href="{{ file|file_url }}"  class=""><h3>{{ label }}</h3></a>
+      {% endif %}
+
+      {% if link %}
+        <a href="{{ link }}" class=""><h3>{{ label }}</h3></a>
+      {% endif %}
+    </div>
+
+    <div class="usa-card__body">
+      {{ body|replace({'<p>':'', '</p>':''}) }}
+      <div>{{ topic_area }}</div>
+      <img class="toolkit-card-icon float-right"
+           src="/sites/abc/themes/custom/uswds_base_abc/assets/img/{{ icon_name }}"
+           alt="{{ icon_name }}"
+           class="toolkit-card-icon">
+    </div>
+  </div>
+```
+
+
+
+
 ## lsync daemon
 
 The [lsync](https://github.com/lsyncd/lsyncd) daemon is a tool that can be used to synchronize files between two or more servers. It is similar to `rsync`, but it runs as a daemon and can be configured to automatically synchronize files at regular intervals. This can be useful for keeping files in sync between a primary and secondary server, such as in a load-balanced environment. 
