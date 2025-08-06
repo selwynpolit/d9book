@@ -417,7 +417,7 @@ Using `Drupal.behaviors`:
 
 ## Asset library overview
 
-These are collections of css and js files
+These are collections of `css` and j`s files
 
 Namespaced: theme_name/library_name
 
@@ -425,7 +425,7 @@ There are 3 ways to use asset libraries:
 
 1.	Info file
 2.	Preprocess function
-3.	<code v-pre>{{ attach_library('classy/node') }}</code>
+3.	In twig: <code v-pre>{{ attach_library('classy/node') }}</code>
 
 Here is an example of an asset library in use:
 
@@ -472,6 +472,17 @@ function mytheme_preprocess_node(&$variables) {
 }
 ```
 
+## Attaching a library to specific pages
+To attach a library to specific pages, you can use the `hook_preprocess_page()` function in your theme or module. This allows you to conditionally load libraries based on the current path.  Here we add the toolkit library to the `/resources/toolkit` and `/resources/cor-toolkit` paths.
+
+```php
+  // Get the current path
+  $path = \Drupal::service('path.current')->getPath();
+
+  if($path == '/resources/toolkit' || $path == '/resources/cor-toolkit') {
+    $page['#attached']['library'][] = 'uswds_base_abc/toolkits';
+  }
+```
 
 
 
