@@ -823,11 +823,20 @@ Executing invalidate in code does **not** clear any caches that are using `cache
 
 Generally I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
 
-To enable TWIG debugging output in source, in `sites/default/development.services.yml` set `twig.config debug:true`.  See `core.services.yml` for lots of other items to change for development.
+The easy way to disable caching and enable twig debugging is to navigate to `/admin/config/development/settings` (in the menus: config, development settings) where you can click checkboxes: 
+* Do not cache markup
+* Twig development mode
+ * Twig debug mode
+ * Disable Twig cache
 
-::: tip Note
-You can rather navigate to `/admin/config/development/settings` where you can click checkboxes in the Drupal admin u/i.  This is much quicker and easier.
-:::
+
+
+The old way of editing the `settings.php` file and adding a `development.services.yml` file is outlined below as there is some useful info there.
+
+You can enable `TWIG debugging output` in source, in `sites/default/development.services.yml` by setting `twig.config debug:true`.  Don't create `development.services.yml` from scratch. It already exists under `/sites` so you can copy it from there.
+
+See `core.services.yml` for lots of other items to change for development.
+
 
 TWIG debugging output looks like this:
 
@@ -908,7 +917,7 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-You need to enable your `development.services.yml` file so add this to your `settings.local.php`:
+You will need to let Drupal know about an additional `services.yml` file called: `development.services.yml`, so add this to your `settings.local.php`:
 
 ```php
 /**
@@ -917,7 +926,7 @@ You need to enable your `development.services.yml` file so add this to your `set
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
 
-You also need to disable caches and JS/CSS preprocessing in `settings.local.php` with: 
+To disable caches and JS/CSS preprocessing in `settings.local.php`: 
 
 ```php
 $config['system.performance']['css']['preprocess'] = FALSE;
@@ -1052,6 +1061,60 @@ services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
+
+## Configure Memcache/Memcached for development
+
+To install Memcached in ddev, use the [instructions on Github](https://github.com/ddev/ddev-memcached) or run the following command:
+
+```bash
+ddev add-on get ddev/ddev-memcached
+```
+
+To test memcached you can ssh into the ddev container and run nc (netcat) to connect to the memcached server.  You can then run `stats` to see the stats of the memcached server.:
+
+```bash
+ddev ssh
+ nc memcached 11211
+ stats
+```
+
+
+Add this to `web/sites/default/settings.php`:
+
+```php
+
+//Memcache settings
+$settings['memcache']['servers'] = ['memcached:11211' => 'default'];
+$settings['memcache']['bins'] = ['default' => 'default'];
+// For multisite installations, you can use a key prefix to avoid cache collisions.
+// This is useful if you have multiple sites using the same Memcached server.
+$settings['memcache']['key_prefix'] = 'abc_';
+$settings['cache']['default'] = 'cache.backend.memcache';
+// $settings['cache']['bins']['render'] = 'cache.backend.memcache';
+$settings['cache']['bins']['bootstrap'] = 'cache.backend.database';
+$settings['cache']['bins']['config'] = 'cache.backend.database';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.memcache';
+$settings['cache']['bins']['page'] = 'cache.backend.memcache';
+$settings['memcache']['cache_lifetime'] = 3600; // Set a longer cache lifetime (e.g., 1 hour)
+
+
+Also add this at the end of  `drupal/web/sites/default/services.yml` and for each multisite installation in `drupal/web/sites/abc/services.yml`
+
+Be sure to indent 2 spaces as this is a child of ‘parameters’:
+
+```yml
+services:
+ # Replaces the default lock backend with a memcache implementation.
+ lock:
+   class: Drupal\Core\Lock\LockBackendInterface
+   factory: memcache.lock.factory:get
+```
+
+If you enable the `memcache_admin` module and you can see statistics at reports, memcache statistics or `/admin/reports/memcache`. 
+
+
+
+
 
 ## How to specify the cache backend for Memcache, Redis or APCu
 
