@@ -2377,6 +2377,63 @@ Also PHPStorm has the ability to step through twig templates just like PHP code.
 Drupal 10 uses [Twig 3](https://twig.symfony.com/doc/3.x/). Drupal 9 uses Twig 2. Drupal 8 used Twig 1.
 
 
+## Specify Twig cache directory
+
+To specify the twig cache directory, you can set the `twig.config` in your `settings.php` or `settings.local.php` file. This will put the files in `sites/default/files/php/twig`.  For example:
+
+```php
+$settings['php_storage']['twig']['directory'] = dirname(__DIR__, 3) . '/web/sites/default/files/php';
+//print_r($settings['php_storage']['twig']['directory']);
+//die();
+```
+If you are running multisite, you can specify a differnet directory as:
+
+
+```php
+$settings['php_storage']['twig']['directory'] = dirname(__DIR__, 3) . '/web/sites/abc/files/php';
+//print_r($settings['php_storage']['twig']['directory']);
+//die();
+```
+
+The contents of the twig cache directory look like this:
+
+```bash
+$ ls -al web/sites/default/files/php/twig/
+total 24
+drwxrwxrwx 32 selwyn dialout  1024 Aug  7 14:43 .
+drwxrwxrwx  3 selwyn dialout    96 Aug  7 14:38 ..
+-rw-r--r--  1 selwyn dialout 18436 Aug  7 14:40 .DS_Store
+-r--r--r--  1 selwyn dialout   685 Aug  7 14:38 .htaccess
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e___string_template__f49880_NN_VMPzsk0fsIHKEI9ntPhwsq
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_block--page-title-block.h_tgfz4c4juxnpD4aDVTBlWsaqb
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_block.html.twig_x8I-oVYvpbDWQ4QuF0y-PVkMw
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_breadcrumb.html.twig_46abLa0hhdTWd_3Y92yEOycnx
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_container.html.twig_H9qkHFmVke5GYDAqw4xmUwQ4b
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_footer.html.twig_YXh4ZmpsCPcoGYx3jBR6NBMo3
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_form-element-label--caac-_vKCEAg2x3sckyUCQlN7yPSRdG
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_form-element-label.html.t_bhKzqtX13io4wng6iHZuMo3Mn
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_form-element.html.twig_gx-A3PbkJvKcdmimZLNKuuwC9
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_form.html.twig_xsfOfFTGWQArRagKJW7EHZx3t
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_government-banner.html.tw_71SdxmgeUrnzA9BMu48Qr74C8
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_html.html.twig_YJjFlo-mqfDxoipte7J3Yf1lU
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_input--radio.html.twig_moOIP56AHVKkirr26fxKFKNpc
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_input.html.twig_z-DdRSH9bO8WMtdNNjd5H5glm
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_item-list.html.twig_j-IVqZN2vwfekqprXiPJh8VT6
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_off-canvas-page-wrapper.h_Sfa9f9uqatnN4fGvquqWz5bDB
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_page-title.html.twig_7hcSrBU6D9mNy6WCofuOILHF_
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_page.html.twig_CZvIobjLdhd9jI82rTu1wtAap
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_radios.html.twig_jStGtr0jfVqcJagtvzRGR7uAO
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_region--content.html.twig_P6_FGT8769z_SeL38LgUIGlSr
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_region--footer_menu.html._RexhRvp4G0glvRy3cVhpQOIYW
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_region--header.html.twig_sT119pFu7PogXBWCQXLOH85hA
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_region--help.html.twig_GCPomffNUsVQbUKXB6GEO_Idx
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_region--highlighted.html._oBVV2IAEEOEHWSVb7x0q5QPPj
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_region--primary_menu.html_1dB2Q--GbFz93Vf340JAYI3ZE
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_region.html.twig_iez0n3XOxqTFJs8McJ5jgkPJc
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_status-messages.html.twig_-TqTFKSSgM289iZbJ0klYKBbo
+drwxrwxrwx  4 selwyn dialout   128 Aug  7 14:43 6895015c75e2e_table.html.twig_j7SPBo5ZGJUR7L8CRxWbq5eea
+```
+
 
 ## Reference
 
