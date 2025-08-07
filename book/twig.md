@@ -2379,23 +2379,22 @@ Drupal 10 uses [Twig 3](https://twig.symfony.com/doc/3.x/). Drupal 9 uses Twig 
 
 ## Specify Twig cache directory
 
-To specify the twig cache directory, you can set the `twig.config` in your `settings.php` or `settings.local.php` file. This will put the files in `sites/default/files/php/twig`.  For example:
+To specify the twig cache directory, you can set the `twig.config` in your `sites/default/settings.php` or `sites/default/settings.local.php` file. Clearing Drupal caches will then cause the twig cache files to appear in `sites/default/files/php/twig` when you load pages in the browser.
 
 ```php
 $settings['php_storage']['twig']['directory'] = dirname(__DIR__, 3) . '/web/sites/default/files/php';
 //print_r($settings['php_storage']['twig']['directory']);
 //die();
 ```
-If you are running multisite, you can specify a differnet directory as:
+If you are running multisite, you can specify a different directory for each site as:
 
 
 ```php
+// For the abc site.
 $settings['php_storage']['twig']['directory'] = dirname(__DIR__, 3) . '/web/sites/abc/files/php';
-//print_r($settings['php_storage']['twig']['directory']);
-//die();
 ```
 
-The contents of the twig cache directory look like this:
+The contents of the twig cache directory look something like this.  You can always delete the twig directory and Drupal will recreate it:
 
 ```bash
 $ ls -al web/sites/default/files/php/twig/
