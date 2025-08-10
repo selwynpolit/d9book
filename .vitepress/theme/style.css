@@ -172,3 +172,22 @@
 .VPSocialLinks.VPNavBarSocialLinks.social-links {
   margin-right: 0;
 }
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 100%;
+  aspect-ratio: 16 / 9; /* Ensures responsive video dimensions */
+  background-color: #f9f9f9; /* Light background for a clean look */
+  border-radius: 12px; /* Rounded corners for a modern feel */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  overflow: hidden; /* Ensures content stays within rounded corners */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.video-container:hover {
+  transform: scale(1.02); /* Slight zoom on hover */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
