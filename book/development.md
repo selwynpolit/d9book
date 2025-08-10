@@ -325,9 +325,14 @@ From https://ddev.readthedocs.io/en/stable/users/extend/config_yaml
 
 -  You can override the config.yaml with extra files named `config.*.yaml\`. For example, use `.ddev/config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default `config.yaml`.
 
-- Additionally, you could add a `.ddev/config.selwyn.yaml` for Selwyn-specific values. I like to set the timezone and the router port in case some of my coworkers use an alternate port:
+
+
+- Additionally, you could add a `.ddev/config.local.yml` or `.ddev/config.selwyn.yaml` for your own values.
+  - Here you can specify the project name so you can have a unique name for each instance of the project. The checked in version of the config.yml could be set to name: `agov` and then each version (e.g. `agov1`, `agov2`, `agov3`) could be set in the `config.selwyn.yaml` file. 
+  - I like to set the timezone and the router port in case some of my coworkers use different values:
 
 ```yaml
+name: agov1
 router_http_port: "80"
 router_https_port: "443"
 timezone: America/Chicago
@@ -676,6 +681,14 @@ Failed to run drush sql-dump: exit status 1
 
 I've seen the `Access denied` error but I don't think it is significant, so I usually ignore it. The `max_allowed_packet` one is a little more dire. This [stackoverflow question](https://stackoverflow.com/questions/8815445/mysqldump-error-got-packet-bigger-than-max-allowed-packet) suggested creating a [mysqldump] section and setting max_allowed_packet = 512M in the my.cnf file. This did not work for me. I tried setting it to 768M, 1024 and even 4096 but no luck.  I'm guessing there is some corruption in the database I was using.
 
+
+
+### Windows DDEV setup
+Randy Fay recorded a video on how to set up DDEV on Windows in July 2025 which you might find useful.  The DDEV docs have an [installation guide for windows](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/#ddev-installation-windows) and a [Windows Quickstart guide](https://ddev.readthedocs.io/en/stable/users/quickstart/#windows-quickstart).
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1dr_4gPtFlQ?si=EusxXVQSNtz_gziH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
 ### Cleanup some disk space 
 
