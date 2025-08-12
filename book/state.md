@@ -26,7 +26,7 @@ Similarly to TempStore, you can also use the Drupal cache system to load complic
 
 The State API allows you to store small pieces of information specific to a site. This information is stored permanently in the database.
 
-State API data is stored permanently in the key_value table. There is a `set()`, `get()` and `delete()` as well as `setMultiple()` and `getMultiple()` functions. The convention for the key name is to use periods(. or full-stops) to separate words. E.g. `my.state.data` or `emergency.header.message`. Underscores are also used e.g. `system.cron_key` or `system.cron_last`.
+State API data is stored permanently in the `key_value` table. Functions to access this are: `set()`, `get()`,  `delete()` as well as `setMultiple()` and `getMultiple()`. The convention for the key name is to use periods(. or full-stops) to separate words. E.g. `my.state.data` or `emergency.header.message`. Underscores are also used e.g. `system.cron_key` or `system.cron_last`.
 
 State settings are values which should usually not be exported to code, and only make sense in the context of one site. For example, cron key is a state setting whereas the front page path is a \"config\" variable.
 
@@ -36,7 +36,7 @@ To set a state value:
 \Drupal::state()->set('system.cron_key', md5("This is an example of a bad cron key")); 
 ```
 
-In contrast, this is how you set a config value:
+In contrast, this is how you set a **config** value:
 
 ```php
 \Drupal::configFactory()
@@ -45,7 +45,7 @@ In contrast, this is how you set a config value:
   ->save(); 
 ```
 
-In Drupal 7, this was done using variable_set(). If you are upgrading from a Drupal 7 site, check out this article from March 2021 about upgrading to the Drupal 8 State system at <https://www.drupal.org/node/1787318>
+In Drupal 7, this was done using `variable_set()`. If you are upgrading from a Drupal 7 site, check out this article from March 2021 about upgrading to the [Drupal 8 State system](https://www.drupal.org/node/1787318).
 
 Writing state data looks like this:
 
