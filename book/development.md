@@ -738,6 +738,20 @@ or for selenium, use:
 `ddev ssh -s selenium`
 
 
+### How to add java to the DDEV container
+
+If you find yourself needing Java in the container, you can add it to your `.ddev/config.local.yaml` file like this:
+
+```yaml
+webimage_extra_packages: [ default-jre ]
+```
+then restart DDEV with `ddev restart`.
+
+Note. you can specify a specific version of Java like `openjdk-11-jre-headless` (Java 11) or `openjdk-17-jre-headless` (Java 17).
+
+
+
+
 ## Drupal Multisite and DDEV
 
 I'm not a huge fan of multisite for many reasons but if you need to set it up, here are the steps.  You should be aware that there are some variations that you can use for multisite.
