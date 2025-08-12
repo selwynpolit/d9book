@@ -2362,10 +2362,11 @@ Example vegetable.module directory structure:
 * vegetable.module
 
 ## Localstack - services
-You can use AWS services like S3, Solr, OpenSearch, dashboard locally by spinning up a simple docker localstack service
+This is an alternative to DDEV where you need to use AWS services like S3, Solr, OpenSearch, dashboard locally. See [localstack to see list of services available](https://docs.localstack.cloud/references/coverage/).
+
+
 Add this to your `docker-compose.yml`
 
-Go to [localstack to see list of services available](https://docs.localstack.cloud/references/coverage/)
 
 ```yaml
 localstack:
@@ -2397,7 +2398,7 @@ localstack:
 
 ```
 
-To use the above localstack service just specify the ports and endpoints you wish to use locally. The examples below are the defaults (no changes needed). 
+To use the above localstack service specify the ports and endpoints you wish to use locally. The examples below are the defaults (no changes needed). 
 I would change the s3 bucket name, everything else can be defaults. 
 
 ```
