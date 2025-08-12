@@ -75,6 +75,17 @@ $current_path = Url::fromRoute('<current>')->toString();
 
 [Lots more on the Drupal Stackexchange](https://drupal.stackexchange.com/questions/106103/how-do-i-get-the-current-path-alias-or-path)
 
+
+
+## Get the path to the public directory
+
+To get the path to the public directory, you can use the file system service. This is useful for accessing files stored there.
+
+```php
+$public_path = \Drupal::service('file_system')->realpath('public://');
+```
+
+
 ## Check if you are on the Front page
 
 ```php
