@@ -1376,7 +1376,7 @@ exit.
 To fix, `ddev delete --omit-snapshot -y`, then `ddev start`.
 
 
-### DDEV list -A shows running (problems)
+### DDEV list shows running (problems)
 
 Notice how `ddev list` shows the status of the project as `running (problems)` This is an issue with Mutagen.  
 
