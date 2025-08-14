@@ -573,6 +573,10 @@ e.g
 For Lando, check out: [How to configure xdebug with Lando & VS code for Drupal Development - Apr 2023](https://thehigglers.com/blogs/how-to-configure-xdebug-with-lando-for-drupal-development/) also [Lando + PHPStorm + Xdebug in the Lando docs - Updated Nov 2023](https://docs.lando.dev/guides/lando-phpstorm.html)
 
 
+
+
+
+
 ### Command line or drush debugging
 
 For command line or drush debugging (xdebug, phpstorm)
@@ -1370,6 +1374,199 @@ This is almost always caused by a corrupted database, most often in a larger dat
 exit.
 
 To fix, `ddev delete --omit-snapshot -y`, then `ddev start`.
+
+
+### DDEV list -A shows running (problems)
+
+Notice how `ddev list` shows the status of the project as `running (problems)` This is an issue with Mutagen.  
+
+```
+ddev list -A
+┌────────┬────────────────────┬──────────────────────┬─────────────────────────┬──────────┐
+│ NAME   │ STATUS             │ LOCATION             │ URL                     │ TYPE     │
+├────────┼────────────────────┼──────────────────────┼─────────────────────────┼──────────┤
+│ agov3  │ running (ok)       │ ~/Sites/agov3/drupal │ https://agov3.ddev.site │ drupal10 │
+├────────┼────────────────────┼──────────────────────┼─────────────────────────┼──────────┤
+│ agov4  │ running (problems) │ ~/Sites/agov4/drupal │ https://agov4.ddev.site │ drupal10 │
+├────────┼────────────────────┼──────────────────────┼─────────────────────────┼──────────┤
+│ Router │ OK                 │ ~/.ddev              │ http://127.0.0.1:10999  │          │
+└────────┴────────────────────┴──────────────────────┴─────────────────────────┴──────────┘
+```
+
+::: tip Note
+Be sure to check the support channels for DDEV especially the [DDEV Discord](https://discord.com/invite/5wjP76mBJD) for help.
+If you want to post about a problem, the folks there will usually want to see the output of `ddev debug test` ( e.g. on the host: /var/folders/4m/sp0m3vwj71g9n0nlv83mzbnr0000gp/T/ddev-debug-test.txt) and `ddev describe` commands so have those ready.
+:::
+
+
+
+
+Check the status of Mutagen with:
+
+```sh
+ddev mutagen st -l
+```
+
+Here is the output:
+
+```
+Mutagen: problems:
+--------------------------------------------------------------------------------
+Name: agov4
+Identifier: sync_sEpOVQ05Rzd27QOvP349xWoLmICcMSx7OgOVC5bDCWK
+Labels:
+	com.ddev.config-hash: a5bb90222a29c5639969092b524e248782845abb
+	com.ddev.volume-signature: Users-selwyn-docker-run-1747061760
+Configuration:
+	Synchronization mode: Two Way Resolved
+	Hashing algorithm: Default (SHA-1)
+	Maximum allowed entry count: Default (2⁶⁴−1)
+	Maximum staging file size: Default (18 EB)
+	Symbolic link mode: POSIX Raw
+	Ignore syntax: Default (Mutagen)
+	Ignores:
+		/.git
+		/.tarballs
+		/.ddev/db_snapshots
+		/.ddev/.importdb*
+		.DS_Store
+		.idea
+		/web/sites/default/files
+		/web/sites/fai/files
+	Ignore VCS mode: Default (Propagate)
+	Permissions mode: Default (Portable)
+Alpha:
+	URL: /Users/selwyn/Sites/agov4/drupal
+	Configuration:
+		Watch mode: Default (Portable)
+		Watch polling interval: Default (10 seconds)
+		Probe mode: Default (Probe)
+		Scan mode: Default (Accelerated)
+		Stage mode: Neighboring
+		File mode: Default (0600)
+		Directory mode: Default (0700)
+		Default file/directory owner: Default
+		Default file/directory group: Default
+	Connected: Yes
+	Synchronizable contents:
+		17610 directories
+		131006 files (8.4 GB)
+		11 symbolic links
+	Transition problems:
+		regulation/far/git/epub/Graphics/piid.png: unable to create file: unable to relocate staged file: file exists
+		regulation/far/git/html/copypaste-AllTopic/Graphics/PIID.PNG: unable to create file: unable to relocate staged file: file exists
+		regulation/far/git/html/copypaste-FullParts/Graphics/piid.png: unable to create file: unable to relocate staged file: file exists
+Beta:
+	URL: docker://ddev-agov4-web/var/www/html
+		DOCKER_HOST=unix:///Users/selwyn/.docker/run/docker.sock
+	Configuration:
+		Watch mode: Default (Portable)
+		Watch polling interval: Default (10 seconds)
+		Probe mode: Default (Probe)
+		Scan mode: Default (Accelerated)
+		Stage mode: Neighboring
+		File mode: Default (0600)
+		Directory mode: Default (0700)
+		Default file/directory owner: Default
+		Default file/directory group: Default
+		Compression: Default (DEFLATE)
+	Connected: Yes
+	Synchronizable contents:
+		17610 directories
+		131009 files (8.4 GB)
+		11 symbolic links
+Status: Watching for changes
+--------------------------------------------------------------------------------
+```
+
+I think the issue is with this section:
+
+```
+	Transition problems:
+		regulation/far/git/epub/Graphics/piid.png: unable to create file: unable to relocate staged file: file exists
+		regulation/far/git/html/copypaste-AllTopic/Graphics/PIID.PNG: unable to create file: unable to relocate staged file: file exists
+		regulation/far/git/html/copypaste-FullParts/Graphics/piid.png: unable to create file: unable to relocate staged file: file exists
+```
+
+I tried:
+```sh
+ chmod -R 777 regulation
+```
+But that didn't seem to fix things even after a `ddev restart`.
+
+From [Troubleshooting Mutagen Sync Issues](https://ddev.readthedocs.io/en/stable/users/install/performance/#troubleshooting-mutagen-sync-issues) I saw that the `ddev mutagen reset` command can be used to reset the Mutagen synchronization.
+
+This showed:
+
+```
+Mutagen has been reset. You may now `ddev start` with or without Mutagen enabled.
+```
+This cleared up the problem but it is not a long term solution.  
+
+
+The solution (thanks to Randy Fay) was to add the following to my `.ddev/config.local.yaml` 
+
+```yaml
+upload_dirs:
+  - sites/default/files
+  - sites/fai/files
+  - ../regulation
+```
+
+This tells DDEV to ignore the `regulation` directory and not try to sync it with Mutagen. 
+
+For more info, see [DDEV documentation on upload_dirs](https://ddev.readthedocs.io/en/stable/users/configuration/config/#upload_dirs).
+
+Perhaps it would be useful to explain:
+
+From Randy Fay:
+
+
+>The normal way that filesystems get mounted into a container is with a bind mount. That's the same as a network mount via NFS or whatever. It's a way to make a filesystem appear in one system from another.
+>
+>But on macOS and Windows, bind-mounts are terribly slow for many contexts. So mutagen instead copies all the data and keeps it up-to-date.
+
+
+And thanks to Deepseek: 
+
+
+>This is about how DDEV (a tool for local web development) handles file directories where your website stores user-uploaded files (like images, documents, etc.).
+>
+>upload_dirs Definition
+>
+>This is a setting where you tell DDEV which folders contain user-uploaded files (e.g., sites/default/files in Drupal or a custom folder like ../private).
+>
+>These folders can be inside or outside your website’s main directory (docroot), but they must be inside your project directory (the main folder where your website code lives).
+>
+>Why It Matters for ddev import-files
+>
+>When you run ddev import-files (to bring in uploaded files from another environment), DDEV looks in these folders to know where to put the files.
+>
+>What’s a "Bind-Mount"?
+>
+>A bind-mount is like a mirror—it lets a folder inside your Docker container (where DDEV runs) directly access a folder on your computer without copying files back and forth.
+>
+>When Mutagen (a file-syncing tool) is enabled, files in upload_dirs are not synced with Mutagen because they’re directly bound to your local machine (faster access, no sync delays).
+>
+>Example: Drupal with Two Upload Directories
+>
+>By default, Drupal uses sites/default/files for uploads.
+>
+>If you also want files stored in ../private, you’d list both:
+>
+>yaml
+>upload_dirs: ["sites/default/files", "../private"]
+>This ensures ddev import-files and Mutagen handle both locations correctly.
+>
+>Key Takeaways
+>upload_dirs tells DDEV where your uploaded files live.
+>
+>Bind-mounting makes these folders faster when using Mutagen (avoids slow syncing).
+>
+>Useful if your project has multiple upload locations (e.g., default + custom folders).
+
+
+
 
 
 ## Local Solr setup with Search API Solr
