@@ -2888,6 +2888,29 @@ Here is the twig template (`node--toolkit-item--card.html.twig`) that uses the v
 
 
 
+## File and directory permissions
+Taken from a Jenkins deployment job that restores file and directory permissions for a Drupal site. 
+
+```sh
+logdate
+echo -n "[${DATE}]"
+echo " RESTORING FILE PERMISSIONS: html/web"
+sudo find ${WEBROOT}/web -type d -exec chmod 755 {} +
+sudo find ${WEBROOT}/web -type f -exec chmod 644 {} +
+```
+
+Use `find` to recursively set permissions for all directories and files within the path stored in `${WEBROOT}/web`. 
+
+The first `sudo find` command searches for all directories (-type d) and applies `chmod 755`, which sets read, write, and execute permissions for the owner, and read and execute permissions for group and others. This ensures that directories are accessible and can be traversed by users who need to access the web content.
+
+The second one finds all files (-type f) and applies `chmod 644`, granting read and write permissions to the owner, and read-only permissions to group and others. This is a common permission scheme for web files, allowing the web server to read files while restricting modification to the owner. The use of `-exec` with `{}` passes each found item to `chmod`, and the `+` at the end optimizes execution by batching changes.
+
+```sh
+Logdate is defined above as
+logdate () {
+  DATE=$(date -u +'%Y-%m-%d %H:%M:%SUTC');
+}
+```
 
 ## lsync daemon
 
