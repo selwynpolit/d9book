@@ -1295,6 +1295,9 @@ upload_dirs:
 
 ## DDEV Troubleshooting
 
+Be sure to check the support channels for DDEV especially the [DDEV Discord](https://discord.com/invite/5wjP76mBJD) for help.
+If you want to post about a problem, the folks there will usually want to see the output of `ddev debug test` ( e.g. on the host: /var/folders/4m/sp0m3vwj71g9n0nlv83mzbnr0000gp/T/ddev-debug-test.txt) and `ddev describe` commands so have those ready. I recommend you reach out to the DDEV community for help with any issues you may have. You will be pleasantly surprised at how helpful they can be.
+
 ### Why is DDEV doing strange things?
 
 You can find out what it’s doing, use `DDEV_DEBUG=true ddev start` or even `DDEV_VERBOSE=true ddev start`. This will display all sorts of debug or verbose information which might give you more information on problems.
