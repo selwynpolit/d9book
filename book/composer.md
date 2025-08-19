@@ -1207,6 +1207,117 @@ Here is a complete `composer.json` file from my test project https://github.com/
 ```
 
 
+## composer audit
+The `composer audit` command checks your project for known security vulnerabilities in the installed packages. More at [php.watch article](https://php.watch/articles/composer-audit).
+
+See example output:
+
+```sh
+$ composer audit
+Found 10 security vulnerability advisories affecting 3 packages:
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          |                                                                                  |
+| CVE               | CVE-2025-3057                                                                    |
+| Title             | Drupal core - Critical - Cross site scripting - SA-CORE-2025-001                 |
+| URL               | https://www.drupal.org/sa-core-2025-001                                          |
+| Affected versions | >= 8.0.0 < 10.3.13 || >= 10.4.0 < 10.4.3 || >= 11.0.0 < 11.0.12 || >= 11.1.0 <   |
+|                   | 11.1.3                                                                           |
+| Reported at       | 2025-02-19T16:49:28+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          |                                                                                  |
+| CVE               | CVE-2025-31673                                                                   |
+| Title             | Drupal core - Moderately critical - Access bypass - SA-CORE-2025-002             |
+| URL               | https://www.drupal.org/sa-core-2025-002                                          |
+| Affected versions | >= 8.0.0 < 10.3.13 || >= 10.4.0 < 10.4.3 || >= 11.0.0 < 11.0.12 || >= 11.1.0 <   |
+|                   | 11.1.3                                                                           |
+| Reported at       | 2025-02-19T16:58:10+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          |                                                                                  |
+| CVE               | CVE-2025-31674                                                                   |
+| Title             | Drupal core - Moderately critical - Gadget Chain - SA-CORE-2025-003              |
+| URL               | https://www.drupal.org/sa-core-2025-003                                          |
+| Affected versions | >= 8.0.0 < 10.3.13 || >= 10.4.0 < 10.4.3 || >= 11.0.0 < 11.0.12 || >= 11.1.0 <   |
+|                   | 11.1.3                                                                           |
+| Reported at       | 2025-02-19T17:03:28+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          |                                                                                  |
+| CVE               | CVE-2025-31675                                                                   |
+| Title             | Drupal core - Moderately critical - Cross Site Scripting - SA-CORE-2025-004      |
+| URL               | https://www.drupal.org/sa-core-2025-004                                          |
+| Affected versions | >= 8.0.0 < 10.3.14 || >= 10.4.0 < 10.4.5 || >= 11.0.0 < 11.0.13 || >= 11.1.0 <   |
+|                   | 11.1.5                                                                           |
+| Reported at       | 2025-03-19T18:54:35+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          | medium                                                                           |
+| CVE               | CVE-2025-3057                                                                    |
+| Title             | Drupal Core Potential Cross-Site Scripting (XSS) via Error Messages              |
+| URL               | https://github.com/advisories/GHSA-39g6-x4x8-5jcm                                |
+| Affected versions | >=11.1.0,<11.1.3|>=11.0.0,<11.0.12|>=10.4.0,<10.4.3|>=8.0.0,<10.3.13             |
+| Reported at       | 2025-04-01T00:30:35+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          | medium                                                                           |
+| CVE               | CVE-2025-31674                                                                   |
+| Title             | Drupal Core Improperly Controlled Modification of Dynamically-Determined Object  |
+|                   | Attributes Vulnerability                                                         |
+| URL               | https://github.com/advisories/GHSA-2qph-q8xw-gv7q                                |
+| Affected versions | >=11.1.0,<11.1.3|>=11.0.0,<11.0.12|>=10.4.0,<10.4.3|>=8.0.0,<10.3.13             |
+| Reported at       | 2025-04-01T00:30:33+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          | low                                                                              |
+| CVE               | CVE-2025-31675                                                                   |
+| Title             | Drupal Core Cross-Site Scripting (XSS) Vulnerability                             |
+| URL               | https://github.com/advisories/GHSA-m4wj-hhwj-47qp                                |
+| Affected versions | >=11.1.0,<11.1.5|>=11.0.0,<11.0.13|>=10.4.0,<10.4.5|>=8.0.0,<10.3.14             |
+| Reported at       | 2025-04-01T00:30:33+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/core                                                                      |
+| Severity          | medium                                                                           |
+| CVE               | CVE-2025-31673                                                                   |
+| Title             | Drupal Core Vulnerable to Forceful Browsing                                      |
+| URL               | https://github.com/advisories/GHSA-wpp8-fjgf-pwc7                                |
+| Affected versions | >=11.1.0,<11.1.3|>=11.0.0,<11.0.12|>=10.4.0,<10.4.3|>=8.0.0,<10.3.13             |
+| Reported at       | 2025-04-01T00:30:33+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | drupal/search_api_solr                                                           |
+| Severity          |                                                                                  |
+| CVE               | CVE-2025-3907                                                                    |
+| Title             | Search API Solr - Moderately critical - Cross Site Request Forgery -             |
+|                   | SA-CONTRIB-2025-046                                                              |
+| URL               | https://www.drupal.org/sa-contrib-2025-046                                       |
+| Affected versions | <4.3.9                                                                           |
+| Reported at       | 2025-04-23T16:59:33+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
++-------------------+----------------------------------------------------------------------------------+
+| Package           | twig/twig                                                                        |
+| Severity          | medium                                                                           |
+| CVE               | CVE-2025-24374                                                                   |
+| Title             | Missing output escaping for the null coalesce operator                           |
+| URL               | https://symfony.com/blog/twig-cve-2025-24374-missing-output-escaping-for-the-nul |
+|                   | l-coalesce-operator                                                              |
+| Affected versions | >=3.16.0,<3.19.0                                                                 |
+| Reported at       | 2025-01-29T06:52:00+00:00                                                        |
++-------------------+----------------------------------------------------------------------------------+
+```
+
+
+
+
+
 
 ## Troubleshooting
 

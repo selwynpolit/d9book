@@ -184,7 +184,7 @@ This query strips the variables (anything after a question mark in your URL).
 
 ## General overview of harding your Drupal site
 
-[from Acquia.com](https://acquia.my.site.com/s/article/360041130414-Harden-Drupal-sites-against-security-threats)
+From [Acquia.com](https://acquia.my.site.com/s/article/360041130414-Harden-Drupal-sites-against-security-threats)
 
 **Ensure up-to-date backups are safe and secure**
 - Initiate a production database backup
@@ -585,3 +585,4 @@ Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeyp
 - [Drupal defense in depth — securing Drupal at the content layer with a CDN - May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-the-content-layer-with-a-cdn)
 - [Drupal defense in depth — securing Drupal at edge layer via a Web Application Firewall (WAF) May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-edge-layer-via-a-web-application-firewall-waf)
 - [Drupal defense in depth — securing Drupal at the application layer - May 2023](https://salsa.digital/insights/Drupal-defense-in-depth-securing-drupal-at-the-application-layer)
+- [Composer audit to check for security vulnerabilities](composer#composer-audit)
