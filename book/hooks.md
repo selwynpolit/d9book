@@ -84,6 +84,9 @@ The `$form_id` argument is used to check if the form being altered is the node e
 In this example, the form mode is altered to the desired form mode.
 
 ```php
+/**
+ * Implements hook_entity_form_mode_alter().
+ */
 function hook_node_form_mode_alter(string &$form_mode, EntityInterface $entity) {
   $storage = \Drupal::service('entity_type.manager')->getStorage('entity_form_display');
   $form_display_mode = $storage->load('form_display_mode');
