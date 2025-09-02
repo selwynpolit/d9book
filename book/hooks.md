@@ -79,6 +79,22 @@ function hook_examples_form_alter(array &$form, FormStateInterface $form_state, 
 This code uses the `hook_form_alter` hook to alter the node edit form and modify the value of the submit button for nodes of type `event`.
 The `$form_id` argument is used to check if the form being altered is the node edit form for nodes of type `event`, and if it is, the submit button\'s value is changed to \"Update Event\". A redundant check is added to ensure the node is of type \"event\" for clarity.
 
+## Alternate node form display
+
+In this example, the form mode is altered to the desired form mode.
+
+```php
+function hook_node_form_mode_alter(string &$form_mode, EntityInterface $entity) {
+  $storage = \Drupal::service('entity_type.manager')->getStorage('entity_form_display');
+  $form_display_mode = $storage->load('form_display_mode');
+
+  if ($form_display_mode instanceof EntityFormDisplayInterface) {
+    $form_mode = $form_display_mode->getMode();
+  }
+}
+```
+This code uses the `hook_entity_form_mode_alter` hook to alter the node edit form with the configured form display mode `form_display_mode`.
+
 ## Modify fields in a node with hook_ENTITY_TYPE_presave()
 
 This example does all sorts of interesting things to the node as it is about to be saved.
