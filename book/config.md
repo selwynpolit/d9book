@@ -113,8 +113,21 @@ If you have overridden values in your settings.php, `drush cget` will only show 
 :::
 
 
+## Read config directory with drush
+
+You can use `drush eval` to display the `$GLOBALS["config_directories"]["sync"]` variable which shows you where the config files reside with:
 
 
+For a regular site:
+  ```sh
+  drush eval 'print $GLOBALS["config_directories"]["sync"] ?? \Drupal::service("settings")->get("config_sync_directory");'
+  ```
+  
+
+For a multisite - to check the fai subsite
+```sh
+drush -l fai  php:eval 'print $GLOBALS["config_directories"]["sync"] ?? \Drupal::service("settings")->get("config_sync_directory");'
+```
 
 
 ## Writing config values in code

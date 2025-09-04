@@ -2912,7 +2912,66 @@ logdate () {
 }
 ```
 
-## lsync daemon
+## List enabled contrib modules for a site with drush
+
+You can use drush to list enabled contrib modules for a site.
+
+```sh
+ddev drush pm:list --type=module --status=enabled --no-core --format=list | sort > /tmp/agov.txt
+```
+
+In a multisite, you might need to compare the enabled modules.  Here we list the enabled modules for the default and fai sites and then run a diff on them.
+
+```sh
+# Quick diff of enabled contrib modules:
+drush -l default pm:list --type=module --status=enabled --no-core --format=list | sort > /tmp/agov.txt
+drush -l fai  pm:list --type=module --status=enabled --no-core --format=list | sort > /tmp/fai.txt
+diff -u /tmp/agov.txt /tmp/fai.txt
+```
+
+
+## Use git to figure out if a particular module was ever used on a project
+
+Here I need to know if the "purge" module was ever used in the project.
+
+```sh
+git log -p -S "purge" -- composer.json
+```
+
+The output showing the `purge_queuer_url` was added on December 17, 2021 (by the famous Illya Kuryakinlooks something like:
+
+```
+commit 885cf9a4c3ed4d78ee28449624fe7794b5670f68
+Author: Illya Kuryakin <illya.kuryakin@uncle.org>
+Date:   Fri Dec 17 09:22:32 2021 -0500
+
+    Add ccos and purger modules
+
+diff --git a/drupal/composer.json b/drupal/composer.json
+index bc205f7e9..6b7d3a093 100755
+--- a/drupal/composer.json
++++ b/drupal/composer.json
+@@ -46,6 +46,7 @@
+         "drupal/autologout": "^1.3",
+         "drupal/cas": "^1.7",
+         "drupal/cas_attributes": "^2.0@beta",
++        "drupal/ccos": "^2.0",
+         "drupal/coder": "^8.3",
+         "drupal/config_split": "^1.7",
+         "drupal/context": "^4.1",
+@@ -79,6 +80,8 @@
+         "drupal/pdf_api": "2.x-dev@dev",
+         "drupal/phpmailer_smtp": "*",
+         "drupal/printable": "^2.0",
++        "drupal/purge_queuer_url": "^1.0",
++        "drupal/queue_ui": "^2.2",
+         "drupal/redirect": "^1.6",
+         "drupal/rename_admin_paths": "^2.0",
+```
+
+
+
+## Sync files between servers with lsync daemon
 
 The [lsync](https://github.com/lsyncd/lsyncd) daemon is a tool that can be used to synchronize files between two or more servers. It is similar to `rsync`, but it runs as a daemon and can be configured to automatically synchronize files at regular intervals. This can be useful for keeping files in sync between a primary and secondary server, such as in a load-balanced environment. 
 
