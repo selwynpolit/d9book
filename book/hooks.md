@@ -79,24 +79,31 @@ function hook_examples_form_alter(array &$form, FormStateInterface $form_state, 
 This code uses the `hook_form_alter` hook to alter the node edit form and modify the value of the submit button for nodes of type `event`.
 The `$form_id` argument is used to check if the form being altered is the node edit form for nodes of type `event`, and if it is, the submit button\'s value is changed to \"Update Event\". A redundant check is added to ensure the node is of type \"event\" for clarity.
 
-## Alternate node form display
 
-In this example, the form mode is altered to the desired form mode.
+
+## Use an alternate node form
+
+To use a different form mode (`custom_edit`) for the node edit form for article nodes, you can implement the `hook_entity_form_mode_alter()` hook. You will need to define a form mode using structure, display modes, form modes, select content and then enter a new mode e.g. Custom Edit (with machine name `custom_edit`). Specify the `article` content type in this dialog and in structure, content types, article, manage form display, you can select the `custom_edit` mode. It is next to the `Default` option.  Customize the form to fit your needs by dragging fields around as needed.  You can use this to hide fields or customize field widgets etc.  Then add the following code to a `.module` file:
 
 ```php
+use Drupal\Core\Entity\EntityInterface;
+
 /**
  * Implements hook_entity_form_mode_alter().
  */
-function hook_node_form_mode_alter(string &$form_mode, EntityInterface $entity) {
-  $storage = \Drupal::service('entity_type.manager')->getStorage('entity_form_display');
-  $form_display_mode = $storage->load('form_display_mode');
-
-  if ($form_display_mode instanceof EntityFormDisplayInterface) {
-    $form_mode = $form_display_mode->getMode();
+function ddev105_entity_form_mode_alter(string &$form_mode, EntityInterface $entity) {
+  // Example: Use custom form mode for article nodes under certain conditions
+  if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'article') {
+    // Check if user has specific role.
+    $current_user = \Drupal::currentUser();
+    if ($current_user->hasRole('editor')) {
+      $form_mode = 'custom_edit';
+    }
   }
 }
 ```
-This code uses the `hook_entity_form_mode_alter` hook to alter the node edit form with the configured form display mode `form_display_mode`.
+
+
 
 ## Modify fields in a node with hook_ENTITY_TYPE_presave()
 
