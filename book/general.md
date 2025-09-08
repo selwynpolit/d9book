@@ -2023,7 +2023,7 @@ The [Chosen module](https://www.drupal.org/project/chosen) can be used to make t
 ![Config Split with Chosen](/images/chosen_config_split1.png)
 
 :::: tip Note
-There is a drush command to install the chosen library: `drush chosenplugin` which will download the library and place it in the correct location.
+There is a drush command to install the chosen library: `drush chosenplugin` which will download the library and place it in the correct location. If you notice that the config split doesn't look like the images above after you've cleared caches,  run the drush command `drush chosenplugin` to fix it.
 ::::
 
 
