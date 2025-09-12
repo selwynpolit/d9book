@@ -1062,27 +1062,26 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 
-## Configure Memcache/Memcached for development
+## Memcache/Memcached
 
-To install Memcached in ddev, use the [instructions on Github](https://github.com/ddev/ddev-memcached) or run the following command:
+`memcached` (with a “d”) is the Linux daemon or server process that actually stores keys in RAM.
+
+Drupal’s [memcache module](https://www.drupal.org/project/memcache) provides the integration layer that lets Drupal use the `memcached` daemon for Cache API, locks, etc. It can work with either PHP of the PHP extensions `memcache` or `memcached`. Read [Memcache on Drupal.org - updated Apr 2025](https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-modules/memcache)
+
+
+
+
+### Configure Memcache for development
+
+To install Memcached in DDEV, use the [instructions on Github](https://github.com/ddev/ddev-memcached) or run:
 
 ```bash
 ddev add-on get ddev/ddev-memcached
 ```
 
-To test memcached you can ssh into the ddev container and run nc (netcat) to connect to the memcached server.  You can then run `stats` to see the stats of the memcached server.:
-
-```bash
-ddev ssh
- nc memcached 11211
- stats
-```
-
-
-Add this to `web/sites/default/settings.php`:
+Add these settings to `web/sites/default/settings.php` to identify which bins are using Memcached:
 
 ```php
-
 //Memcache settings
 $settings['memcache']['servers'] = ['memcached:11211' => 'default'];
 $settings['memcache']['bins'] = ['default' => 'default'];
@@ -1096,7 +1095,7 @@ $settings['cache']['bins']['config'] = 'cache.backend.database';
 $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.memcache';
 $settings['cache']['bins']['page'] = 'cache.backend.memcache';
 $settings['memcache']['cache_lifetime'] = 3600; // Set a longer cache lifetime (e.g., 1 hour)
-
+```
 
 Also add this at the end of  `drupal/web/sites/default/services.yml` and for each multisite installation in `drupal/web/sites/abc/services.yml`
 
@@ -1113,8 +1112,207 @@ services:
 If you enable the `memcache_admin` module and you can see statistics at reports, memcache statistics or `/admin/reports/memcache`. 
 
 
+### Talk directly to Memcache
+
+Use `nc` (netcat) to issue commands to Memcache e.g. `ddev exec 'echo "stats" | nc memcached 11211'`. This will show you the stats of the memcached server.
+
+Alternatively, ssh into the ddev container and run `nc` .  You can then run `stats` to see the stats of the memcached server.:
+
+```bash
+ddev ssh
+nc memcached 11211
+stats
+```
+
+It outputs something like:
+
+```
+STAT pid 1
+STAT uptime 92744
+STAT time 1757702625
+STAT version 1.6.39
+STAT libevent 2.1.12-stable
+STAT pointer_size 64
+STAT rusage_user 87.722401
+STAT rusage_system 65.974062
+STAT max_connections 1024
+STAT curr_connections 2
+STAT total_connections 319
+STAT rejected_connections 0
+STAT connection_structures 7
+STAT response_obj_oom 0
+STAT response_obj_count 1
+STAT response_obj_bytes 65536
+STAT read_buf_count 448
+STAT read_buf_bytes 7340032
+STAT read_buf_bytes_free 7258112
+STAT read_buf_oom 0
+STAT reserved_fds 20
+STAT cmd_get 221930
+STAT cmd_set 154065
+STAT cmd_flush 0
+STAT cmd_touch 0
+STAT cmd_meta 0
+STAT get_hits 198497
+STAT get_misses 23433
+STAT get_expired 0
+STAT get_flushed 0
+STAT delete_misses 6581
+STAT delete_hits 1524
+STAT incr_misses 0
+STAT incr_hits 0
+STAT decr_misses 0
+STAT decr_hits 0
+STAT cas_misses 0
+STAT cas_hits 0
+STAT cas_badval 0
+STAT touch_hits 0
+STAT touch_misses 0
+STAT store_too_large 23
+STAT store_no_memory 0
+STAT auth_cmds 0
+STAT auth_errors 0
+STAT bytes_read 716302004
+STAT bytes_written 945069722
+STAT limit_maxbytes 134217728
+STAT accepting_conns 1
+STAT listen_disabled_num 0
+STAT time_in_listen_disabled_us 0
+STAT threads 4
+STAT conn_yields 0
+STAT hash_power_level 16
+STAT hash_bytes 524288
+STAT hash_is_expanding 0
+STAT slab_reassign_rescues 110
+STAT slab_reassign_chunk_rescues 0
+STAT slab_reassign_inline_reclaim 454
+STAT slab_reassign_busy_items 38
+STAT slab_reassign_busy_deletes 0
+STAT slab_reassign_busy_nomem 38
+STAT slab_reassign_running 0
+STAT slabs_moved 1
+STAT lru_crawler_running 0
+STAT lru_crawler_starts 55
+STAT lru_maintainer_juggles 3139714
+STAT malloc_fails 0
+STAT log_worker_dropped 0
+STAT log_worker_written 0
+STAT log_watcher_skipped 0
+STAT log_watcher_sent 0
+STAT log_watchers 0
+STAT unexpected_napi_ids 0
+STAT round_robin_fallback 0
+STAT bytes 98878719
+STAT curr_items 21433
+STAT total_items 154175
+STAT slab_global_page_pool 0
+STAT expired_unfetched 0
+STAT evicted_unfetched 865
+STAT evicted_active 0
+STAT evictions 1025
+STAT reclaimed 0
+STAT crawler_reclaimed 0
+STAT crawler_items_checked 481538
+STAT lrutail_reflocked 18
+STAT moves_to_cold 125050
+STAT moves_to_warm 27342
+STAT moves_within_lru 8459
+STAT direct_reclaims 467
+STAT lru_bumps_dropped 0
+END
+```
 
 
+
+Or to view specific commands:
+
+```bash
+ddev exec 'echo "stats" | nc memcached 11211 | egrep "cmd_get|cmd_set"'
+```
+
+
+
+
+Additional interesting commands you can run:
+
+`curr_items` — number of items currently in cache. If it suddenly drops to near zero, the cache was likely flushed.
+
+`uptime` — if this is small, Memcached was restarted (which also clears the cache).
+
+`cmd_flush` — number of times the flush_all command has been issued since startup. If this increments, someone just cleared the cache.  Sadly `drush cr` doesn't do a flush_all so this is not an indicator that the Drupal cache was rebuilt.
+
+
+```sh
+echo "stats" | nc memcached 11211 | grep curr_items
+STAT curr_items 20563
+```
+
+```sh
+echo "stats" | nc memcached 11211 | grep uptime
+STAT uptime 441973
+```
+
+```sh
+echo "stats" | nc memcached 11211 | grep cmd_flush
+STAT cmd_flush 0
+```
+
+### Memcache debug setting
+You can enable Memcache debug which will cause errors to be logged in watchdog:
+
+```php
+$settings['memcache']['debug'] = TRUE;
+```
+
+Now I get some interesting output:
+
+```sh
+ddev drush cr
+ [error]  MemcachedDriver::set() error key=acq_%3Aentity%3A-values%3Anode%3A31745 error=[37]ITEM TOO BIG
+```
+
+This was also logged in watchdog indicating that node 31745 was too large to be cached:
+
+```
+MemcachedDriver::set() error key=acq_%3Aentity%3A-values%3Anode%3A31745 error=[37]ITEM TOO BIG
+```
+To check the settings for memcache, use:
+
+```sh
+ddev exec 'echo "stats settings" | nc memcached 11211 | egrep "maxbytes|item_size"'
+STAT maxbytes 134217728
+STAT item_size_max 1048576
+STAT ext_item_size 512
+```
+
+This explains that the maximum item size for memcache is set to 1MB (1048576 bytes), and the maximum total memory available for caching is set to 128MB (134217728 bytes). Since the node being cached exceeded the maximum item size, it could not be stored in memcache.
+
+### Which cache bins use memcache
+
+```php
+ddev drush php:eval 'foreach (\Drupal\Core\Cache\Cache::getBins() as $bin=>$b){echo "$bin => ".get_class($b).PHP_EOL;}'
+```
+
+Output:
+```
+static => Drupal\Core\Cache\MemoryBackend
+bootstrap => Drupal\Core\Cache\DatabaseBackend
+config => Drupal\Core\Cache\DatabaseBackend
+default => Drupal\memcache\MemcacheBackend
+entity => Drupal\memcache\MemcacheBackend
+menu => Drupal\memcache\MemcacheBackend
+render => Drupal\memcache\MemcacheBackend
+access_policy => Drupal\memcache\MemcacheBackend
+data => Drupal\memcache\MemcacheBackend
+discovery => Drupal\Core\Cache\ChainedFastBackend
+dynamic_page_cache => Drupal\memcache\MemcacheBackend
+feeds_download => Drupal\memcache\MemcacheBackend
+page => Drupal\memcache\MemcacheBackend
+site_settings => Drupal\memcache\MemcacheBackend
+toolbar => Drupal\memcache\MemcacheBackend
+signal => Drupal\memcache\MemcacheBackend
+ultimate_cron_logger => Drupal\memcache\MemcacheBackend
+```
 
 ## How to specify the cache backend for Memcache, Redis or APCu
 
@@ -1275,8 +1473,7 @@ More [at Drupalize.me](https://drupalize.me/tutorial/clear-drupals-cache)
 
 ## Using cache tags with reverse proxies
 
-
-More [about cache tags on drupal.org](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags)
+More [about cache tags on drupal.org updated July 2024](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags)
 
 Rather than caching responses in Drupal and invalidating them with cache tags, you could also cache responses in reverse proxies (Varnish, CDN …) and then invalidate responses they have cached using cache tags associated with those responses. To allow those reverse proxies to know which cache tags are associated with each response, you can send the cache tags along with a header.
 
@@ -1284,13 +1481,13 @@ Just like Drupal can send an `X-Drupal-Cache-Tags` header for debugging, it can 
 
 As a rule of thumb, it's recommended that both your web server and your reverse proxy support response headers with values of up to 16 KB.
 
-1. HTTP is text-based. Cache tags are therefore also text-based. Reverse proxies are free to represent cache tags in a different data structure internally. The 16 KB response header value limit was selected based on 2 factors: A) to ensure it works for the 99% case, B) what is practically achievable. Typical web servers (Apache) and typical CDNs (Fastly) support 16 KB response header values. This means roughly 1000 cache tags, which is enough for the 99% case.
+1. HTTP is text-based. Cache tags are therefore also text-based. Reverse proxies are free to represent cache tags in a different data structure internally. The 16 KB response header value limit was selected based on 2 factors: A) to ensure it works for the 99% case, B) what is practically achievable. Typical web servers (Apache) and typical CDNs (e.g. Fastly) support 16 KB response header values. This means roughly 1000 cache tags, which is enough for the 99% of cases.
 2. The number of cache tags varies widely by site and the specific response. If it's a response that depends on many other things, there will be many cache tags. More than 1000 cache tags on a response will be rare.
 3. But, of course, this guideline (~1000 tags/response is sufficient) may and will evolve over time, as we A) see more real-world applications use it, B) see systems specifically leverage/build on top of this capability.
 
 Finally, anything beyond 1000 cache tags probably indicates a deeper problem: that the response is overly complex, that it should be split up. Nothing prevents you going beyond that number in Drupal, but it may require manual fine-tuning which is acceptable for such extremely complex use cases. Arguably, that's the case even for far less than 1000 cache tags.
 
-Read [some details about using cache tags with Varnish on drupal.org - updated July 2023](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags-varnish)
+Read [some details about using cache tags with Varnish (including varnish purger and some VCL) on drupal.org - updated Sep 2024](https://www.drupal.org/docs/drupal-apis/cache-api/cache-tags-varnish)
 Also check out [Configuring Varnish for Drupal](https://www.varnish-software.com/developers/tutorials/configuring-varnish-drupal/)
 
 Here are links to some CDN's implementations of tag-based invalidation:
@@ -1298,6 +1495,34 @@ Here are links to some CDN's implementations of tag-based invalidation:
 - [Fastly](https://www.fastly.com/documentation/reference/api/#purge_077dfb4aa07f49792b13c87647415537)
 - [KeyCDN](https://www.keycdn.com/api#purge-zone-tag)
 - [Akamai](https://techdocs.akamai.com/purge-cache/reference/api#concepts)
+
+
+## List cache bins
+```sh
+ddev drush php:eval 'echo implode("\n", array_keys(\Drupal\Core\Cache\Cache::getBins()));'
+```
+
+Outputs something like:
+
+```
+static
+bootstrap
+config
+default
+entity
+menu
+render
+access_policy
+data
+discovery
+dynamic_page_cache
+feeds_download
+page
+site_settings
+toolbar
+signal
+ultimate_cron_logger
+```
 
 
 ## class ChainedFastBackend
