@@ -5,7 +5,7 @@ layout: home
 hero:
   name: 'Drupal at your fingertips'
   text: 'by Selwyn Polit'
-  tagline: "Modern Drupal developer's quick code reference for versions 9 and 10"
+  tagline: "A modern Drupal quick reference for developers"
   image:
     src: /images/d9book.svg
     alt: Drupal at your Fingertips
