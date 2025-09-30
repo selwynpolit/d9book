@@ -1574,7 +1574,7 @@ And thanks to Deepseek:
 
 ## Local Solr setup with Search API Solr
 
-If you haven't already added solr to your project, follow these [steps to get solr installed in your ddev project](#solr) first. 
+If you haven't already added solr to your project, follow these [steps to get solr installed in your ddev project](#solr-and-ddev) first. 
 
 Solr Cloud is the \"modern\" (and simplest) way to run Solr.  There are other ways, but this is the setup we'll cover here.
 
