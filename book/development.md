@@ -162,7 +162,7 @@ Add the line below to include the `IS_DDEV_PROJECT` environment variable as the 
 putenv("IS_DDEV_PROJECT=true");
 ```
 
-After a `ddev drush cr` and perhaps a `ddev restart` you should be able to run drush on the host. e.g. `drush cst`.
+After a `ddev drush cr` and perhaps a `ddev restart` you should be able to run drush on the host. e.g. `ddev drush cst`.
 
 If you see an error like: `PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 8.1.28. in /Users/selwyn/Sites/ddev104/vendor/composer/platform_check.php on line 24` this means your project might be using PHP 8.3 while you have PHP 8.1 installed on your mac globally. You can downgrade the PHP version in the project `config.yaml` or update your host (macOS) PHP version with `brew install php@8.3` and then `brew link --force --overwrite php@8.3` to make it the default PHP version. You can check the version with `php -v`.
 
