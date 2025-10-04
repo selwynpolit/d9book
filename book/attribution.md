@@ -74,6 +74,9 @@ Thanks to these rockstars for their contribution to the project. Please add your
 
 [Pramod Ganore](https://github.com/pramodganore) - Localstack.
 
+[Trevor James](https://github.com/trevorjames) - DDEV Development.
+
+
 [Dan Lemon](https://github.com/dan2k3k4) - AI contributions.
 
 [Steven DuBois](https://github.com/sdubois) - Twig.
