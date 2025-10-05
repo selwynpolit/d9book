@@ -29,7 +29,7 @@ $value = $this->t("Accept");
 $this->t('The value of x is @x', ['@x' => $x]);
 ```
 
-To build longer strings, concatenate the output of the `$this-t()` function.  For bonus this example adds a reload button.
+To build longer strings, concatenate the output of the `$this-t()` function.  For bonus, this example adds a reload button.
 
 ```php
 // Format intro message.
@@ -50,17 +50,17 @@ This code is from the [examples module](https://www.drupal.org/project/examples)
 ## Find a form id in the page source
 
 When you need to make changes to a form, it can take a little time to find the form.  You often need to find the form id as the first step.
-To find the form_id for a node comment form, start by editing an article node with the comment form displaying. Inspect code in chrome and look for something like this:
+To find the form_id for a node comment form, start by editing an article node with the comment form displaying. Inspect code in Chrome and look for something like this:
 
 ```html
 <form class="comment-comment-form comment-form" data-drupal-selector="comment-form" action="/comment/reply/node/1/comment" method="post" id="comment-form" accept-charset="UTF-8" data-drupal-form-fields="edit-subject-0-value,edit-comment-body-0-value,edit-comment-body-0-format--2,edit-submit,edit-preview">
 ```
 
-The formid is `comment_comment_form`. Note *dashes will need to become underscores in your code*.
+The form id is `comment_comment_form`. Note *dashes will need to become underscores in your code*.
 
 ## Display the form id in the message area
 
-When you need to quickly find the form id, you can add a `hook_form_alter` to a `.module` file to show the form id. 
+When you need to quickly find the form id, you can add a `hook_form_alter` to a `.module` file to show the form id.
 
 
 ```php
@@ -75,7 +75,7 @@ Notice the patterns of the form id: A `node add` is `node_catastrophe_notice_for
 
 ## Add buttons to your custom forms
 
-In the code below there is a submit button which will execute the `submitForm` function.  There are two additional buttons: `update_nodes` which, when clicked will call the `updateNodes` function and `cache_warmer` which will execute the `warmCaches` function.
+In the code below, there is a submit button which will execute the `submitForm` function.  There are two additional buttons: `update_nodes` which, when clicked, will call the `updateNodes` function and `cache_warmer` which will execute the `warmCaches` function.
 
 ```php
     $form['sanity_fieldset']['actions'] = [
@@ -134,7 +134,7 @@ and here is the beginning of the `submit` function that goes along with the `upd
     batch_set($batch);    
 ```
 
->Note. The example above shows a batch function.  You can read more in the [Batch and Queue chapter](bq)
+>Note, the example above shows a batch function.  You can read more in the [Batch and Queue chapter](bq)
 
 ## Modify a button on a form with hook_form_alter
 
@@ -192,7 +192,7 @@ This grays out a field:
 $form['field_text2']['#disabled'] = true;
 ```
 
-Here is the whole function where I also check what these is currently in use:
+Here is the whole function where I also check what is currently in use:
 
 ```php
 /**
@@ -228,7 +228,7 @@ $form['moderation_state']['#access'] = FALSE;
 ```
 
 ## Multiple fields on the same controller/page
-If you need to have the same form appear multiple times on a page, you need to add a little special logic. In one example, I had several items displayed on a page, and each one needed an option to add feedback by the user.  This required the use of a static class variable to uniquely identify each instance of the form on the page.  
+If you need to have the same form appear multiple times on a page, you need to add a little special logic. In one example, I had several items displayed on a page, and each one needed an option to add feedback by the user.  This required the use of a static class variable to uniquely identify each instance of the form on the page.
 
 ```php
 /**
@@ -244,7 +244,7 @@ class SrpAddFeedbackForm extends FormBase {
   ...  
 ```
 
-In the `getFormId()` method where you would normally just use `return 'tea_teks_srp_feedback_add';`, you can use the following code instead: 
+In the `getFormId()` method where you would normally just use `return 'tea_teks_srp_feedback_add';`, you can use the following code instead:
 
 ```php
 /**
@@ -269,7 +269,7 @@ There are some nice articles:
 - and thanks to the wayback machine [Drupal 8 - Conditionally hide a form field - Feb 2017](https://web.archive.org/web/20210506222219/https://mushtaq.ch/blog/11/drupal-8-conditionally-hide-a-form-field)
 
 ::: tip Note
-Also consider the [conditional fields module](https://www.drupal.org/project/conditional_fields) which lets you do the same sort of thing without any code.
+Also, consider the [conditional fields module](https://www.drupal.org/project/conditional_fields) which lets you do the same sort of thing without any code.
 :::
 
 The magic sauce is to use the `jQuery` selector to identify the field that will control the states. You can see the left side of the `=>` has the jQuery code to select a checkbox or radio button.
@@ -360,7 +360,7 @@ function org_mods_form_alter(array &$form, FormStateInterface $form_state, $form
 ```
 
 Here is a variant on this theme for making a field visible or required. In this example, it isn't using the `[value]` as part of the name. When
-I tried that above, it didn't seem to work. Perhaps I didn't have the correct jquery selector.
+I tried that above, it didn't seem to work. Perhaps I didn't have the correct jQuery selector.
 
 ```php
 $form['field_blah_blah']['#states']= [
@@ -387,7 +387,7 @@ $educationLevel = $form['education_level']['#options'][$key];
 
 ### Add an autocomplete taxonomy field
 
-This makes a field on your form that automagically starts populating with terms when you start typing. Here the `$vid` is a vocabulary machine name like `media_tags`. Not sure what `#tags` does -- It doesn't seem to be required. Notice vocab id (vid) is the taxonomy machine name not a number.
+This makes a field on your form that automagically starts populating with terms when you start typing. Here, the `$vid` is a vocabulary machine name like `media_tags`. Not sure what `#tags` does -- It doesn't seem to be required. Notice vocab id (vid) is the taxonomy machine name, not a number.
 
 ```php
 $vid1 = 'media_tags';
@@ -634,7 +634,7 @@ In `/modules/custom/dan_pagination/src/Form/VideoPaginationForm.php` there is a 
 </div>
 ```
 
-The template outputs the guts of the block as 
+The template outputs the guts of the block as
 
 ```twig
 {{ block content }}
@@ -702,7 +702,7 @@ function redirectUser($path, $route = FALSE) {
 ```
 ### Ajax redirect
 
-If you want to redirect to the `/cart` url, you must add the AJAX `RedirectCommand`. See the [RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/10)
+If you want to redirect to the `/cart` URL, you must add the AJAX `RedirectCommand`. See the [RedirectCommand in the API Reference](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Ajax%21RedirectCommand.php/class/RedirectCommand/10)
 
 ```php
 $cartUrl = Url::fromUri('internal:/cart');
@@ -712,7 +712,7 @@ $ajax_response->addCommand(
 return $ajax_response;
 ```
 
-In a non-ajax form, to redirect to the cart url, use `setRedirectUrl` like this:
+In a non-AJAX form, to redirect to the cart URL, use `setRedirectUrl` like this:
 
 ```php
 $form_state->setRedirectUrl($cartUrl);
@@ -720,7 +720,7 @@ $form_state->setRedirectUrl($cartUrl);
 
 ### AJAX redirect from a select element (dropdown)
 
-Here I set up a dropdown with the url's and when the user makes a change in the dropdown, the browser goes to that url. The url's are `/node/1` `/node/2` etc. For the correct url to be built, we have to prefix "internal:" to them and that happens in the callback function `mySelectChange()`.
+Here I set up a dropdown with the URL's and when the user makes a change in the dropdown, the browser goes to that URL. The URLs are `/node/1` `/node/2` etc. For the correct URL to be built, we have to prefix "internal:" to them and that happens in the callback function `mySelectChange()`.
 
 ```php
   /**
@@ -873,11 +873,11 @@ Both use the same callback: `mySelectChange`. We can make the callback a little 
 
 
 
-## Add Javascript to a form
+## Add JavaScript to a form
 
 This code is in the [examples](https://www.drupal.org/project/examples) module in the `DependentDropdown` example where one field depends on the value from another
 
-From web/modules/contrib/examples/ajax_example/src/Form/DependentDropdown.php the form has some Javascript included via a library:
+From web/modules/contrib/examples/ajax_example/src/Form/DependentDropdown.php the form has some JavaScript included via a library:
 
 ```php
 public function buildForm(array $form, FormStateInterface $form_state, $nojs = NULL) {
@@ -901,7 +901,7 @@ Notice in the `buildform()` function that the code references the machine
 name for the library (not the library's filename which is
 `ajax_example.libraries.yml`.)
 
-Here is the js for completeness:
+Here is the JS for completeness:
 
 ```js
 (function ($) {
@@ -922,7 +922,7 @@ Here is the js for completeness:
 
 ## AJAX Forms
 
-When adding ajax to a form, you will need the code:
+When adding AJAX to a form, you will need the code:
 
 ```php
 $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -934,9 +934,9 @@ There are some really sweet [writeups about AJAX forms](https://www.drupal.org/d
 
 ### Popup an AJAX modal dialog
 
-If you want to have a form pop up a modal dialog or do something via ajax you have to do some slightly special stuff.
+If you want to have a form pop up a modal dialog or do something via AJAX you have to do some slightly special stuff.
 
-First define what will appear on the dialog
+First, define what will appear on the dialog
 
 ```php
 $checkoutLink = '/checkout/' . $get_order_item_id . '/shipping';
@@ -957,7 +957,7 @@ $content['#markup'] = render($success_modal_popup);
 $content['#attached']['library'][] = 'core/drupal.dialog.ajax';
 $content['#attached']['library'][] = 'websphere_commerce_cart/minicart';
 ```
-Then add an ajax command to open the dialog:
+Then add an AJAX command to open the dialog:
 
 ```php
 $ajax_response->addCommand(
@@ -968,7 +968,7 @@ return $ajax_response;
 
 Don't forget to **return** the `$ajax_response;`
 
-Here is a slightly example displaying a modal dialog:
+Here is a simple example displaying a modal dialog:
 
 ```php
 $addTocartFailed = $websphere_config->get('cart.add_to_cart_failed');
@@ -1041,7 +1041,7 @@ $form['submit'] = [
 return $form;
 ```
 
-In this implementation, there is an empty `submitForm()` function. For the ajax submit callback we use `add_to_cart_submit()`. Note how a `new
+In this implementation, there is an empty `submitForm()` function. For the AJAX submit callback, we use `add_to_cart_submit()`. Note how a `new
 AjaxResponse` is created.
 
 ```php
@@ -1052,7 +1052,7 @@ public function add_to_cart_submit(array &$form, FormStateInterface $form_state)
   $product_qty = $inputs['product_qty'];
 ```
 
-Note. This should probably be a static function to avoid this symfony error:
+Note, this should probably be a static function to avoid this Symfony error:
 
 ```
 TypeError: Argument 1 passed to Drupal\Core\Routing\RequestContext::fromRequest() must be an instance of Symfony\Component\HttpFoundation\Request, null given
@@ -1063,7 +1063,7 @@ TypeError: Argument 1 passed to Drupal\Core\Routing\RequestContext::fromRequest(
 This was used for a web page that had 2 dropdown fields.  It showed I am a \_\_\_\_ and I want \_\_\_\_.
 
 The code makes the assumption that there is only 1 matching `I want` for
-each `I am` which is way too limiting but it does illuminate the techniques somewhat. Therefor, if you select an `I am`, you only get 1 choice for an `I
+each `I am` which is way too limiting but it does illuminate the techniques somewhat. Therefore, if you select an `I am`, you only get 1 choice for an `I
 want`.
 
 There is nothing too interesting in the `IamiwantBlock.php` but in the
@@ -1073,15 +1073,15 @@ dropdown fields, `I am` and `I want` and a `go` button. The value in the
 
 From: `txg/web/modules/custom/iamiwant/src/Form/IamiwantForm.php`.
 
-The code loads `$nids` from the database, loops thru them, putting them into an array `$iam` indexed by node id. Then it defines the `$form['iam']` element with all the good `#ajax` stuff including: 
+The code loads `$nids` from the database, loops thru them, putting them into an array `$iam` indexed by node id. Then it defines the `$form['iam']` element with all the good `#ajax` stuff including:
 
 1.	The '#submit' callback: ::submitSelectIam
 2.	The #executes_submit_callback => TRUE
 3.	The 'callback' => '::ajaxReplaceIwantForm' specifies what function to call when this field is “submitted”
 4.	The 'wrapper' => 'iwant-container' is the container that will get replaced
-5.	The 'method' => 'replace' which will replace everything in said wrapper. Note. as of Drupal 10.3.0, 'replace' is now 'replaceWith'. See [this change record](https://www.drupal.org/node/3450770)
+5.	The 'method' => 'replace' which will replace everything in said wrapper. Note, as of Drupal 10.3.0, 'replace' is now 'replaceWith'. See [this change record](https://www.drupal.org/node/3450770)
 
-Then it defines the `$form['iwant_container']` and the `$form['iwant_container']['iwant']` element in readiness for the AJAX magic. Lastly it defines the submit `go` button.
+Then it defines the `$form['iwant_container']` and the `$form['iwant_container']['iwant']` element in readiness for the AJAX magic. Lastly, it defines the submit `go` button.
 
 ```php
 public function buildForm(array $form, FormStateInterface $form_state) {
@@ -1170,7 +1170,7 @@ Then in the callback for the ajax `iam element`. It returns whatever needs to be
       'method' => 'replace', // as of 10.3.0, this is now 'replaceWith'
 ```
 
-Then, add the ajax callback.
+Then, add the AJAX callback.
 
 ```php
 /**
@@ -1194,7 +1194,7 @@ public function submitForm(array &$form, FormStateInterface $form_state) {
 }
 ```
 
-This version handles external URL's
+This version handles external URLs
 
 ```php
 public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -1213,7 +1213,7 @@ public function submitForm(array &$form, FormStateInterface $form_state) {
 }
 ```
 
-When this runs, it has the I am drop down showing '-select-' and the I want dropdown is empty. The I want dropdown is unresponsive. Hmm.
+When this runs, it has the "I am" dropdown showing '-select-' and the I want dropdown is empty. The I want dropdown is unresponsive. Hmm.
 
 When I debug, as soon as I change the I am value, `buildForm()` runs, then `submitSelectIam()`, then `buildForm()` again and then `ajaxReplaceIwantForm()`. On subsequent runs, it skips the first `buildForm()` and runs through the sequence of
 
@@ -1221,7 +1221,7 @@ When I debug, as soon as I change the I am value, `buildForm()` runs, then `subm
 2.	buildForm()
 3.	ajaxReplaceIwantForm()
 
-In `submitSelectIam()` this code `$form_state->set('node', $node);` stores the node into the form state for later use. You can `->set()` anything into a form for use later. This means that the buildForm can pull it back out to figure out the value for the I want field, like this (in `buildForm()`). Note. You can do this in a submit callback but not a callback defined as `'#ajax'`. For some reason, they are ignored if you do that type.
+In `submitSelectIam()` this code `$form_state->set('node', $node);` stores the node into the form state for later use. You can `->set()` anything into a form for use later. This means that the buildForm can pull it back out to figure out the value for the I want field, like this (in `buildForm()`). Note, you can do this in a submit callback but not a callback defined as `'#ajax'`. For some reason, they are ignored if you do that type.
 
 ```php
 // Updates iwant values according to iam.
@@ -1230,7 +1230,7 @@ if ($node = $form_state->get('node')) {
 }
 ```
 
-This is the magic bullet as it limits the `$iwant[]` output to only 1 value and also provides the value needed by the submit (go) button so it knows where to send the output. Unfortunately this just sets the `$iwant[]` array to the only one possible `iwant` value. That is not as useful as one would want.
+This is the magic bullet as it limits the `$iwant[]` output to only 1 value and also provides the value needed by the submit (go) button so it knows where to send the output. Unfortunately, this just sets the `$iwant[]` array to the only one possible `iwant` value. That is not as useful as one would want.
 
 ### I Am I Want revisited
 
@@ -1335,7 +1335,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
 }
 ```
 
-Notice that we are checking the `$iwantarray` variable which is set in the `submitSelectIam()` as shown below. I pull the value from the iam select dropdown, look up all the possible values for iwant and populate them in an indexed array. It isndexed by nid which is important later.
+Notice that we are checking the `$iwantarray` variable which is set in the `submitSelectIam()` as shown below. I pull the value from the iam select dropdown, look up all the possible values for iwant and populate them in an indexed array. It indexed by nid which is important later.
 
 ```php
 /**
@@ -1471,7 +1471,7 @@ after buildform has run and filled in the `$form['iwant_container']`
 Magic!
 
 `ajaxUpdateActionsForm()` cleverly enables the Go button when there is a
-node stored in the form, otherwise it is disabled (from buildForm()). It
+node stored in the form, otherwise, it is disabled (from buildForm()). It
 actually just replaces the whole element with an enabled version:
 
 ```php
@@ -1482,7 +1482,7 @@ public function ajaxUpdateActionsForm($form, FormStateInterface $form_state) {
   return $form['actions'];
 }
 ```
-This only runs if there is a node, otherwise the Go button is enabled. It seems a little counterintuitive to leave it enabled and only disable if there isn't a node but it would probably work fine the other way around
+This only runs if there is a node, otherwise, the Go button is enabled. It seems a little counterintuitive to leave it enabled and only disable if there isn't a node, but it would probably work fine the other way around
 
 ```php
 if (!$form_state->get('node')) {
@@ -1490,13 +1490,11 @@ if (!$form_state->get('node')) {
 }
 ```
 
-Phew! The explanation is much longer than the actual code.  Hopefully it is helpful in explaining the intricasies of AJAX Drupal magic.
+Phew! The explanation is much longer than the actual code.  Hopefully, it is helpful in explaining the intricacies of AJAX Drupal magic.
 
 #### Custom responses
 
-Here rather than just returning the part of the form we want to update,
-we can add a response followed by some JavaScript that should do
-something. While it seems this should work, sadly it doesn't unless I wrap the function in `(function($){})(jQuery);`. More below.
+Here, rather than just returning the part of the form we want to update, we can add a response followed by some JavaScript that should do something. While it seems this should work, sadly, it doesn't unless I wrap the function in `(function($){})(jQuery);`. More below.
 
 ```php
 use Drupal\Core\Ajax\AjaxResponse;
@@ -1581,7 +1579,7 @@ Should be  wrapped in `(function($){}`
 ### How do you find all the possible AJAX commands to use with addCommand()?
 
 Just look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a class that implements a command.
-These are all the Commands you want to use with `addCommand()` for AJAX response e.g. `RedirectCommand` or `OpenModalDialogCommand`. Also check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
+These are all the Commands you want to use with `addCommand()` for AJAX response e.g. `RedirectCommand` or `OpenModalDialogCommand`. Also, check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
 
 
 ### Another AJAX Submit example
@@ -1632,7 +1630,7 @@ public function buildForm(array $form, FormStateInterface $form_state) {
 
 Leave the `validateForm()` and `submitForm()` functions empty.
 
-Here is the ajax callback. Note the function has to be static to avoid the possible error: 
+Here is the AJAX callback. Note that the function has to be static to avoid the possible error:
 
 ```
 TypeError: Argument 1 passed to Drupal\Core\Routing\RequestContext::fromRequest() must be an instance of Symfony\Component\HttpFoundation\Request, null given 
@@ -1696,7 +1694,7 @@ The `$config` object has `get()`, `set()` and `save()` methods to access config 
 
 Create a `module.settings.yml` file in config/install directory for config objects that the module needs.
 
-Also create a `module.schema.yml` file in config/schema for schema info i.e.  definitions and mappings for config objects
+Also, create a `module.schema.yml` file in config/schema for schema info i.e.  definitions and mappings for config objects
 
 Implement the following methods: `buildForm()`, `getEditableConfigNames()`, `getFormId()`, `submitForm()`, `validateForm()`.  `validateForm()` is optional.
 
@@ -1798,9 +1796,9 @@ And reference their value like this.
 
 If you define the form with fields like `$form['header']['blah'] = ...` then you can retrieve those with `$form_state->getValue('header','blah');`
 
-or 
+or
 
-if you define a checkbox like this: 
+if you define a checkbox like this:
 ```php
   $form['actions']['delete_extras'] = [
   '#type' => 'checkbox',
@@ -1855,7 +1853,7 @@ public function getFormId() {
 
 #### buildForm()
 
-Create the render array representing the form elements. Here I am using a fieldset to group fields. Also the `'#default_value'` provides a default value that users can edit.
+Create the render array representing the form elements. Here I am using a fieldset to group fields. Also, the `'#default_value'` provides a default value that users can edit.
 
 ```php
 $form['instructions'] = [
@@ -1893,7 +1891,7 @@ $form['submit'] = [
 ];
 ```
 
-Don't **EVER EVER** forget to return the \$form render array you just created  otherwise you get an empty form.  Not that it ever ever happened to me ;-))
+Don't **EVER EVER** forget to return the \$form render array you just created, otherwise you get an empty form.  Not that it ever ever happened to me ;-))
 
 ```php
 return $form;

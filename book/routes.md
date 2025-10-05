@@ -112,13 +112,13 @@ general.json_example1:
         type: 'integer'
 ```
 
-You can cause Drupal to return JSON data.  
+You can cause Drupal to return JSON data.
 
 ```php
   /**
    * Example of a simple controller method that returns a JSON response.
    *
-   * Note. You must enable the RESTful Web Services module to run this.
+   * Note, you must enable the RESTful Web Services module to run this.
    *
    * @param int $nid
    *  The node ID.
@@ -173,7 +173,7 @@ options:
 
 Drush has the ability to generate code to start you off.  Use `drush generate module` and or `drush generate controller` to get a nice starting point for you to write your own controllers.
 
-For more, on generating controllers see <https://www.drush.org/latest/generators/controller/>
+For more on generating controllers, see <https://www.drush.org/latest/generators/controller/>
 
 
 This is what it looks like to generate a controller:
@@ -343,9 +343,9 @@ options:
 
 ## Generate a controller with ChatGPT
 
-At the time of this writing, [OpenAI](https://openai.com/) has a research release of its ChatGPT available.  You could always ask it to generate a controller for you as I did.  I was amazed by the result. I asked it to:
+At the time of this writing, [OpenAI](https://openai.com/) has a research release of its ChatGPT available.  You could always ask it to generate a controller for you, as I did.  I was amazed by the result. I asked it to:
 
-`Generate a Drupal 10 controller which displays a table of temperatures from 0 to 100 degrees in both celsius and fahrenheit
+`Generate a Drupal 10 controller which displays a table of temperatures from 0 to 100 degrees in both Celsius and Fahrenheit
 `
 
 To which it replied:
@@ -430,7 +430,7 @@ This would define a route at the path /temperature-table that displays the table
 
 ### Route
 
-A route connects a URL path to a controller. In `hello_world.routing.yml` ( e.g. in `modules/custom/hello_world/hello_world.routing.yml`) The path `/hello` maps to the controller `HelloWorldController` and the member function: `helloWorld()`. When a user visits `/hello`, Drupal checks to see that the user has `access content` permission and the `\Drupal\hello_world\Controller\HelloWorldController::helloWorld` function is executed.
+A route connects a URL path to a controller. In `hello_world.routing.yml` (e.g., in `modules/custom/hello_world/hello_world.routing.yml`) the path `/hello` maps to the controller `HelloWorldController` and the member function: `helloWorld()`. When a user visits `/hello`, Drupal checks to see that the user has `access content` permission and the `\Drupal\hello_world\Controller\HelloWorldController::helloWorld` function is executed.
 
 ```yaml
 hello_world.hello:
@@ -489,7 +489,7 @@ return [
 ```
 ### Responses
 
-HTTP is all about `requests` and `responses`. Drupal represents the `responses` it sends as `Response objects`. Drupal’s responses are [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response). 
+HTTP is all about `requests` and `responses`. Drupal represents the `responses` it sends as `Response objects`. Drupal’s responses are [Symfony Response objects](https://symfony.com/doc/current/components/http_foundation.html#response).
 
 Symfony's Response objects are fully supported, but are insufficient to fully support the rich Drupal ecosystem: we need more structured metadata than the very simple Symfony Response objects can provide.
 
@@ -505,7 +505,7 @@ Drupal’s additional response classes include some specialized Response subclas
 1. `CacheableJsonResponse` - A `JsonResponse` that contains and can expose cacheability metadata. This is simply `class CacheableJsonResponse extends JsonResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [JsonResponse](https://symfony.com/doc/current/components/http_foundation.html#creating-a-json-response).
 1. `CacheableRedirectResponse` - A `RedirectResponse` that contains and can expose cacheability metadata. This is simply `class CacheableRedirectResponse extends RedirectResponse implements CacheableResponseInterface {}` — i.e. it extends Symfony's [RedirectResponse](https://symfony.com/doc/current/controller.html#redirecting).
 1. `LocalRedirectResponse` - A redirect response which cannot redirect to an external URL. (Extends `CacheableRedirectResponse`.)
-1. `TrustedRedirectResponse` - A redirect response which should only redirect to a trusted (potentially external) URL. (Also extends `CacheableRedirectResponse`.)
+1. `TrustedRedirectResponse` - A redirect response which should only redirect to a trusted (potentially external) URL. (Also, extends `CacheableRedirectResponse`.)
 
 
 See [Responses overview on drupal.org - updated May 2020](https://www.drupal.org/docs/drupal-apis/responses/responses-overview)
@@ -561,7 +561,7 @@ In the file page_example.routing.yml (e.g. `web/modules/contrib/examples/page_ex
 # If the user accesses https://example.com/?q=examples/page-example/simple,
 # or https://example.com/examples/page-example/simple,
 # the routing system will look for a route with that path. 
-# In this case it will find a match, and execute the _controller callback. 
+# In this case, it will find a match and execute the _controller callback. 
 # Access to this path requires "access simple page" permission.
 page_example_simple:
   path: 'examples/page-example/simple'
@@ -614,9 +614,9 @@ The controller looks like this:
    * @endlink for details.
    *
    * @param string $first
-   *   A string to use, should be a number.
+   *   A string to use should be a number.
    * @param string $second
-   *   Another string to use, should be a number.
+   *   Another string to use should be a number.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
    *   If the parameters are invalid.
@@ -661,7 +661,7 @@ rsvp.form:
 
 ### Admin form (or settings form)
 
-From `web/modules/custom/rsvp/rsvp.routing.yml` this route loads the admin or settings form `RSVPConfigurationForm`.
+From `web/modules/custom/rsvp/rsvp.routing.yml`, this route loads the admin or settings form `RSVPConfigurationForm`.
 
 ```yml
 rsvp.admin_settings:
@@ -678,7 +678,7 @@ rsvp.admin_settings:
 
 ### Routing permissions
 
-Permissions for routes are specified in the `.routing.yml` file. under `requirements` e.g. 
+Permissions for routes are specified in the `.routing.yml` file. under `requirements` e.g.
 ```yml
 rsvp.admin_settings:
   path: '/admin/config/content/rsvp'
@@ -691,9 +691,9 @@ rsvp.admin_settings:
     _admin_route: TRUE
 ```
 
-Note. the case of the `_permission` is critical so be sure to use the same case as defined in the `.permissions.yml` file.
+Note, the case of the `_permission` is critical, so be sure to use the same case as defined in the `.permissions.yml` file.
 
-To skip permissions (e.g. during development), set `_access` to TRUE like this:
+To skip permissions (e.g., during development), set `_access` to TRUE like this:
 
 ```yml
 requirements:

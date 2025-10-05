@@ -38,8 +38,8 @@ There are several ways to find events to subscribe to:
 
 - You can also see a listing at the bottom of the [Events core.api.php page on Drupal.org](https://api.drupal.org/api/drupal/core%21core.api.php/group/events/)
 
-- You can also use the [webprofiler module](https://www.drupal.org/project/webprofiler) to view events and the event subscribers. Enable it and check the checkbox in it's settings for events. When you view a page, you’ll see the toolbar at the bottom of the page.  Click any link and it will give you useful stats. Select `events` on the left. and you will see a long list of events and the event subscribers that are called.  e.g. in the first line below, the dispatched event is “kernel.request” which is listened to by 
-Drupal/Core/Routing/RoutePreloader.php::onRequest 
+- You can also use the [webprofiler module](https://www.drupal.org/project/webprofiler) to view events and the event subscribers. Enable it and check the checkbox in it's settings for events. When you view a page, you’ll see the toolbar at the bottom of the page.  Click any link and it will give you useful stats. Select `events` on the left. and you will see a long list of events and the event subscribers that are called.  e.g. in the first line below, the dispatched event is “kernel.request” which is listened to by
+  Drupal/Core/Routing/RoutePreloader.php::onRequest
 
 ![Web Profiler Events listing](/images/events-listing.png)
 
@@ -81,7 +81,7 @@ services:
       - { name: event_subscriber }
 ```
 
-And finally in `web/modules/custom/mymodule/src/EventSubscriber/RouteFinishedSubscriber.php`
+And finally, in `web/modules/custom/mymodule/src/EventSubscriber/RouteFinishedSubscriber.php`
 
 ```php
 <?php declare(strict_types = 1);
@@ -156,7 +156,7 @@ For example:
 ['eventName' => [['methodName1', $priority], ['methodName2']]]
 ```
 
-The code must not depend on runtime state as it will only be called at compile time. All logic depending on runtime state must be put into the individual methods handling the events. 
+The code must not depend on runtime state as it will only be called at compile time. All logic depending on runtime state must be put into the individual methods handling the events.
 Returns: `array<string, string|array{0: string, 1: int}|list<array{0: string, 1?: int}>`
 
 
@@ -187,12 +187,12 @@ final class IncidentEvents {
 }
 ```
 
- In the example above, we define an event called `NEW_REPORT`. We then subscribe to this event in the `getSubscribedEvents` method of the `EventsExampleSubscriber` class.
+In the example above, we define an event called `NEW_REPORT`. We then subscribe to this event in the `getSubscribedEvents` method of the `EventsExampleSubscriber` class.
 
 There is another example in the [Examples module's events_example](https://git.drupalcode.org/project/examples/-/blob/4.0.x/modules/events_example/src/Event/IncidentEvents.php?ref_type=heads) module.
 
 
-Then to handle the additional contextual data that you want to provide to the event subscribers when dispatching an event, create a new class that extends `\Symfony\Component\EventDispatcher\Event` `mymodule/src/Event/IncidentReportEvent.php`.
+Then, to handle the additional contextual data that you want to provide to the event subscribers when dispatching an event, create a new class that extends `\Symfony\Component\EventDispatcher\Event` `mymodule/src/Event/IncidentReportEvent.php`.
 
 ```php
 <?php
@@ -303,7 +303,7 @@ class SomeClass {
 You need an Event Subscriber class which is the class that responds to the custom event (i.e. the class that does the magic when the event fires). You also need a `mymodule.services.yml` which tells Drupal about the Event Subscriber class.
 
 The EventSubscriber class e.g. `mymodule/src/EventSubscriber/EventsExampleSubscriber.php` looks something like this:
-  
+
 ```php
 <?php
 namespace Drupal\mymodule\EventSubscriber;

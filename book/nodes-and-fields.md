@@ -19,16 +19,16 @@ $body = $node->body->processed;
 ```
 
 ## Retrieve a numeric field value
-When you load a numberic field, Drupal returns a number i.e. 0 even if that field was never initialized with a value.  
+When you load a numeric field, Drupal returns a number i.e., 0, even if that field was never initialized with a value.
 
 ```php
 $accepted_votes = $feedback_error_node->get('field_accepted_votes')->value;
 // Returns 0 if no value was entered into the field.
 ```
 
-## Retrieve a text field value of comma separated values into an array
+## Retrieve a text field value of comma-separated values into an array
 
-If you have a text field with comma separated values such as `apple`, `pear`, `banana`, you can retrieve them into an array directly like this:
+If you have a text field with comma-separated values such as `apple`, `pear`, `banana`, you can retrieve them into an array directly like this:
 
 ```php
  $values_array  = explode(',', $node->field_position_keywords->value);
@@ -43,7 +43,7 @@ student|Student/Teacher
 teacher|Teacher Only
 ```
 
-When you retrieve the field value you get the key (or machine name), not the human readable value.  So if the field value is `student` then the following code will return `student`.
+When you retrieve the field value, you get the key (or machine name), not the human-readable value.  So if the field value is `student` then the following code will return `student`.
 
 ```php
 $audience = $node->get('field_tks_audience')->value;
@@ -53,7 +53,7 @@ $audience = $citation_node->field_tks_audience->value;
 $audience = $node->get('field_tks_audience')->getString();
 ```
 
-If you want the human readable value, you can use the combination of `getFieldDefinition()->getSetting('allowed_values') which returns an array of possible results indexed by the key:
+If you want the human-readable value, you can use the combination of `getFieldDefinition()->getSetting('allowed_values') which returns an array of possible results indexed by the key:
 
 ```php
 $audience_key = $citation_node->field_tks_audience->value;
@@ -65,7 +65,7 @@ $audience_human_readble_string = $audience_values[$audience_key];
 ![audience values](/images/audience_values.png)
 
 ::: tip Note
-You can produce safe HTML using the `FieldFilteredMarkup` class.  This may be a good way to display user entered HTML without risking XSS attacks.  Be aware that this class is marked as @internal because it should only be used by the Field module and field-related plugins. Of course this is not necessary for a list field, but it is useful for text fields.
+You can produce safe HTML using the `FieldFilteredMarkup` class.  This may be a good way to display user-entered HTML without risking XSS attacks.  Be aware that this class is marked as @internal because it should only be used by the Field module and field-related plugins. Of course, this is not necessary for a list field, but it is useful for text fields.
 
 ```php
 // This filters the string using a very restrictive tag list when it is created.
@@ -83,7 +83,7 @@ $node->save();
 
 ## Get current page title
 
-Use this in a controller, to return the current page title.
+Use this in a controller to return the current page title.
 
 ```php
 $request = \Drupal::request();
@@ -91,7 +91,7 @@ if ($route = $request->attributes->get(\Symfony\Cmf\Component\Routing\RouteObjec
   $title = \Drupal::service('title_resolver')->getTitle($request, $route);}
 ```
 
-## Test if variable is a node 
+## Test if variable is a node
 
 ```php
 // Is this variable a node?
@@ -136,7 +136,7 @@ function mymodule_preprocess_page(&$vars) {
   }
 ```
 
-And from <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id> when you are using or creating a custom block then you have to follow this code to get current node id. Not sure if it is correct
+And from <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id> when you are using or creating a custom block, then you have to follow this code to get the current node id. Not sure if it is correct
 
 ```php
 use Drupal\Core\Cache\Cache;
@@ -205,7 +205,7 @@ if ($node instanceof \Drupal\node\NodeInterface) {
 }
 ```
 
-## Load the current node and get it's node id (nid), field, type 
+## Load the current node and get its node id (nid), field, type
 
 To grab some information from the currently displayed node, use the
 `\Drupal object::routeMatch()`.
@@ -227,7 +227,7 @@ if ($node instanceof \Drupal\node\NodeInterface) {
     }
 ```
 
-Note you can also `$node->get('field_facebook')->getValue()` which returns an array of values. This is a good way to retrieve unlimited value fields i.e. fields that have more than 1 value.
+Note, you can also `$node->get('field_facebook')->getValue()` which returns an array of values. This is a good way to retrieve unlimited value fields i.e. fields that have more than 1 value.
 
 ## Load a node by nid and get its title, type and a field
 
@@ -248,7 +248,7 @@ $headline = $node->getTitle();
 // What type of node is that?
 $type = $node->getType();
 
-// Get the url field.
+// Get the URL field.
 $url = $node->get('field_url')->value;
 ```
 
@@ -282,10 +282,10 @@ foreach ($topics as $topic) {
 }
 ```
 
-## Load the current node and get the nid, field, type 
+## Load the current node and get the nid, field, type
 
 ```php
-// For content type unit grab their facebook/instagram etc.
+// For content type unit grab their facebook/instagram, etc.
 $node = \Drupal::routeMatch()->getParameter('node');
 if ($node instanceof \Drupal\node\NodeInterface) {
   // You can get nid and anything else you need from the node object.
@@ -301,7 +301,7 @@ if ($node instanceof \Drupal\node\NodeInterface) {
     }
 ```
 
-Note you can also 
+Note, you can also
 
 ```php
 $node->get('field_facebook')->getValue();
@@ -315,7 +315,7 @@ Which returns an array of values.
 $my_node->getOwnerId();
 ```
 
-You can call `$node->uid` but that returns an `EntityReferenceFieldItemList` with all sorts of juicy information. The user id is in there but more challenging to extract.
+You can call `$node->uid` but that returns an `EntityReferenceFieldItemList` with all sorts of juicy information. The user id is in there, but it's more challenging to extract.
 
 
 ## Test if a field is empty
@@ -359,7 +359,7 @@ if (!isset($node->get('field_my_entity_ref_field')->target_id)) {
 To avoid the warning message `Attempt to read property "target_id" on null` you can use the following:
 
 ```php
-// If there is a value at the specified index, then return the target_id, otherwise return 0.
+// If there is a value at the specified index, then return the target_id, otherwise, return 0.
 $team_nid = 0;
 if (isset($program_node->get('field_srp_team_ref')[$vote_number]->target_id)) {
   $team_nid = $program_node->get('field_srp_team_ref')[$vote_number]->target_id;
@@ -369,7 +369,7 @@ if (isset($program_node->get('field_srp_team_ref')[$vote_number]->target_id)) {
 And more concisely:
 
 ```php
-// If there is a value at the specified index, then return the target_id, otherwise return 0.
+// If there is a value at the specified index, then return the target_id, otherwise, return 0.
 $vote_number = 3;
 // These are zero-based.
 $team_nid = $program_node->get('field_srp_team_ref')[$vote_number]->target_id ?? 0;
@@ -394,9 +394,9 @@ $node->get('field_cn_start_end_dates')->end_value
 
 ## Retrieve a multivalue field
 
-Multivalue fields can be loaded with `get('fieldname')`  or using a magic field getter like `$node->field_my_field`. Adding `->getValue()` to the end of either of these calls returns a simple array. 
+Multivalue fields can be loaded with `get('fieldname')`  or using a magic field getter like `$node->field_my_field`. Adding `->getValue()` to the end of either of these calls returns a simple array.
 
-For example, a multivalue text field, this will return an array of values like this:
+For example, a multivalue text field will return an array of values like this:
 
 ```php
 $data = $node->get('field_condiment')->getValue();
@@ -406,7 +406,7 @@ $data[1]['value'] = 'mayo'
 $data[2]['value'] = 'reference'
 ```
 
-However a multivalue entity reference field (including taxonomy) will return values with the `target_id` array key. e.g. 
+However, a multivalue entity reference field (including taxonomy) will return values with the `target_id` array key. e.g.
 
 ```php
 $data = $node->get('field_event_ref')->getValue();
@@ -451,7 +451,7 @@ $result = $node->field_condiment[$vote_number]?->value;
 
 ### Read a specific instance
 
-You can directly reference an item by specifying an array offset. The index key (0 or 1 below) can also be referred to as the delta. 
+You can directly reference an item by specifying an array offset. The index key (0 or 1 below) can also be referred to as the delta.
 
 ```php
 $status = $node->get('field_voting_status')[0]->value;
@@ -459,9 +459,9 @@ $status = $node->get('field_voting_status')[1]->value;
 
 ```
 
-Note. If the value for delta 1 is empty, Drupal will throw a warning message `*Warning*: Attempt to read property "value" on null in ...`
+Note, if the value for delta 1 is empty, Drupal will throw a warning message `*Warning*: Attempt to read property "value" on null in ...`
 
-So rather than reading the `[1]->value` directly,  you should check if there is a value using `isset()` and then, you can read the `->value`.  Note. When you do the isset() test, you don't add the `->value` at the end e.g.
+So rather than reading the `[1]->value` directly,  you should check if there is a value using `isset()` and then you can read the `->value`. Note, when you do the isset() test, you don't add the `->value` at the end e.g.
 
 ```php
 if(!is_null($node->get('field_voting_status')[$vote_number])) {
@@ -529,9 +529,9 @@ function getMultivalueReferenceData(FieldItemListInterface $ref_field, string $p
 
 ## Update a multivalue field
 
-This can be a little tricky especially if you want to preserve the existing values in the field.
+This can be a little tricky, especially if you want to preserve the existing values in the field.
 
-Here I used the `getValue()` to load all the values. This returns an array of values like:
+Here, I used the `getValue()` to load all the values. This returns an array of values like:
 
 ```php
 $data = $node->get('field_event_ref')->getValue();
@@ -542,7 +542,7 @@ $result1 = $data[1]['value'];
 
 So to update one of them, I want to do something like this:  `$data[1]['value']='flour';`.
 
-e.g.  I load up the current values, fill in the 6th `[5]`item and save them.  This preserves the existing values in positions `[0]`through `[4]`.
+e.g.  I load up the current values, fill in the 6th `[5]` item, and save them.  This preserves the existing values in positions `[0]` through `[4]`.
 
 ```php
 $values = $node->get('field_voting_status')->getValue();
@@ -553,7 +553,7 @@ $node->save();
 
 ### Function to read and write multivalue fields
 
-Here is a function which reads and writes multivalue fields safely. You pass it the `$node->field_name`, the index (vote_number) etc. and then it builds and returns an array formatted for updating the field data. It can also update the array if you pass in a value.
+Here is a function which reads and writes multivalue fields safely. You pass it the `$node->field_name`, the index (vote_number), etc., and then it builds and returns an array formatted for updating the field data. It can also update the array if you pass in a value.
 
 It could probably be genericized further.
 
@@ -612,13 +612,13 @@ $node->save();
 
 When you really care which delta/index/offset, you can specify that offset. It's a bit confusing how exactly it works. For text or numeric fields, it works like you'd expect. You can just specify the offset. For entity reference fields, you have to do some fiddling. Don't use `$node->set()` as this overwrites everything in the field, rather use the magic field setter variable and specify the offset.
 
-Here `$vote_number` represents the index so if `$vote_number` = 0, this write the first item in the multivalue field.  If `$vote_number` = 1, then write the second item, and so on.
+Here, `$vote_number` represents the index, so if `$vote_number` = 0, this writes the first item in the multivalue field.  If `$vote_number` = 1, then write the second item, and so on.
 
 ```php
 $citation_node->field_srp_voting_status[$vote_number] = 'incomplete';
 ```
 
-Be cautions, you might think this would work but it *doesn\'t*
+Be cautious, you might think this would work, but it *doesn\'t*
 ```php
 $program_node->set('field_srp_team_ref', [$vote_number => 1234]);
 ```
@@ -666,7 +666,7 @@ Here is a generic function that knows how to write values in a "sane" way.
 
 ```php
   /**
-   * Smart multi value field setter.
+   * Smart multivalue field setter.
    *
    * Example calls:
    *
@@ -767,7 +767,7 @@ self::smartMultiValueFieldSetter($node, 'field_condiment', 'ketchup', 1, 'dummy'
 $node->save();
 ```
 
-Here is a complete function from the controller `GeneralController.php`.  There are a wide variety of calls to `smartMultiValueFieldSetter()` showing it's use with multivalue text and entity-reference fields (including a taxonomy field):
+Here is a complete function from the controller `GeneralController.php`.  There are a wide variety of calls to `smartMultiValueFieldSetter()` showing its use with multivalue text and entity-reference fields (including a taxonomy field):
 
 ```php
   public function multiTest() {
@@ -909,8 +909,8 @@ To check if a field exists in a node.
 $entity->hasField('abc');
 ```
 
-e.g. Here we load a field `field_library_media` from a node, grab it's
-target id (which we happen to know is a media entity.). We load the
+e.g. Here we load a field `field_library_media` from a node, grab its
+target id (which we happen to know is a media entity). We load the
 media entity and check if there is a field called field_media_document.
 This rather convoluted example is used to get the file size of the file
 in the media field.
@@ -951,12 +951,12 @@ if ($node) {
   $fid = $media->getSource()->getSourceFieldValue($media);
   $file = File::load($fid);
   if ($file) {
-    $uri = $file->getFileUri();//uri e.g. public://2020-12/atom.jpg
+    $uri = $file->getFileUri();//URI e.g. public://2020-12/atom.jpg
             
     $media_url = file_create_url($uri); //Full URL of uploaded image. 
     //E.g. https://dir.ddev.site/sites/default/files/2020-12/atom.jpg
   }
-  \Drupal::messenger()->addMessage("field_banner image url is $media_url");
+  \Drupal::messenger()->addMessage("field_banner image URL is $media_url");
   $variables['program_area_banner_image_url'] = $media_url;
 }
 ```
@@ -968,7 +968,7 @@ $file = File::load($fid);
 if ($file) {
   $uri = $file->getFileUri(); //returns drupal filename e.g. public://2020-12/atom.jpg
 
-  $file_url = file_create_url($uri); //returns absolute file url e.g. https://...file.jpg
+  $file_url = file_create_url($uri); //returns absolute file URL e.g. https://...file.jpg
 
 //also
   $absolute_file_url = $file->createFileUrl(FALSE); //returns absolute file path (url)
@@ -978,7 +978,7 @@ if ($file) {
 
 ## Retrieve info about a file field
 
-Here we have a file field called `field_materials_file` that we loaded from a paragraph. Looking in `core/modules/file/src/Entity/File.php` we can see a series of useful functions like `getFileName()`, `getFileUri()`,`getSize()`, `getCreatedTime()`. To use these, we have to append `->entity` after the field as shown below
+Here we have a file field called `field_materials_file` that we loaded from a paragraph. Looking in `core/modules/file/src/Entity/File.php` we can see a series of useful functions like `getFileName()`, `getFileUri()`,`getSize()`, `getCreatedTime()`. To use these, we have to append `->entity` after the field, as shown below
 
 ```php
 $file = $para->field_materials_file;
@@ -990,7 +990,7 @@ Since `File` is an entity, we can also look in `EntityBase.php` to find more use
 
 ## Retrieve values from a link field
 
-Here we have a link field: field_link which we load and get a valid uri
+Here we have a link field: field_link which we load and get a valid URI
 from it using:
 
 ```php
@@ -1020,7 +1020,7 @@ if ($sf_contract) {
 ```
 
 Leaving off the -`>first()` (like this) returns a `Drupal\Core\Field\FieldItemList` which is a list of fields so you then
-would have to pull out the first field and extract the uri out of that.
+would have to pull out the first field and extract the URI out of that.
 
 ```php
 $vendor_url = $sf_contract->field_vendor_url;
@@ -1032,8 +1032,8 @@ $vendor_url = $sf_contract->field_vendor_url;
 $entity->hasField('abc');
 ```
 
-e.g. Here we load a field `field_library_media` from a node, grab it's
-target id (which we happen to know is a media entity.). We load the
+e.g. Here we load a field `field_library_media` from a node, grab its
+target id (which we happen to know is a media entity). We load the
 media entity and check if there is a field called field_media_document.
 This rather convoluted example is used to get the file size of the file
 in the media field.
@@ -1116,8 +1116,8 @@ use \Drupal\file\Entity\File;
   $node->save();
 ```
 
-To populate the fields of an entity you can either use the
-`$entity->set($key, $value)` method on the entity object or pass a `key=>value` array to the entity constructor. 
+To populate the fields of an entity, you can either use the
+`$entity->set($key, $value)` method on the entity object or pass a `key=>value` array to the entity constructor.
 As such:
 
 ```php
@@ -1221,7 +1221,7 @@ $entity->field_name_multi = [1, 2, 3]
 $entity->field_name_multi = [$another_entity1, $another_entity2, $another_entity3]
 ```
 
-Also if you just want to update a specific one, specify the delta like
+Also, if you just want to update a specific one, specify the delta like
 this
 
 ```php
@@ -1245,7 +1245,7 @@ $node->set('field_subtitle', NULL);
 
 ## Set a formatted text/body field
 
-To write to long text field, be sure to specify the text format.
+To write to a long text field, be sure to specify the text format.
 
 ```php
 $text = 'this is some text to go in the body field';
@@ -1259,7 +1259,7 @@ $node->set('body', [
   'format' => 'links_bullets_headings_and_images',
 ]);
 ```
-Alternatively. 
+Alternatively.
 
 ```php
 $text = 'this is some text to go in the body field';
@@ -1291,7 +1291,7 @@ $ref_nid = $node->field_sf_contract_ref->target_id;
 
 ### Load a multivalue reference field.
 
-Here node 35 has a `field_event` (multivalue entity reference field) with several values.  This code shows how to retrieve the first one, get it's nid and it's title:
+Here, node 35 has a `field_event` (multivalue entity reference field) with several values.  This code shows how to retrieve the first one, get it's nid and its title:
 
 ```php
 $node = Node::load(35);
@@ -1360,10 +1360,10 @@ if ($node) {
 ### External links
 
 You can get the URL (for external links) and then just the text part.
-Note this doesn't work for internal links. Note also this slightly
+Note this doesn't work for internal links. Note also that this slightly
 convoluted example has a reference field field_sf_contract_ref which has
 a link to another entity and the `field_vendor_url->first()->getUrl()`
-is the important part. Also note, this is a single-value field (not a
+is the important part. Also, note, this is a single-value field (not a
 multivalue field -- so the `first()` call is a little disturbing)
 
 ```php
@@ -1386,7 +1386,7 @@ if (!$citation_link->isEmpty()) {
 
 ### Internal links
 
-For internal links, use `getUrl()`for the URL and `->title` for the title.
+For internal links, use `getUrl()` for the URL and `->title` for the title.
 
 ```php
 $instructions_node = Node::load($order_type_instructions_nid);
@@ -1414,7 +1414,7 @@ $node = Node::load(1234)
 $url_object = $node->toUrl();
 ```
 
-This now can be converted to a string
+This can now be converted to a string
 
 ```php
 $href = $url_object->toString();
@@ -1434,7 +1434,7 @@ $current_path = \Drupal::service('path.current')->getPath();
 
 ## How to set a URL Alias
 
-Since Drupal 9, url aliases are entities so:
+Since Drupal 9, url aliases are entities, so:
 
 From: /Users/selwyn/Sites/dir/web/modules/custom/dir/dir.module
 
@@ -1453,10 +1453,10 @@ $path_alias->save();
 
 ## Get a node's menu item and more
 
-Here we get the current route's menu item using it's nid, reset the link
-off the array and we can extract the URL and other exciting things.
-Mostly you want to check its children, parents etc. Here we grab it's
-URL..
+Here we get the current route's menu item using its nid, reset the link
+off the array, and we can extract the URL and other exciting things.
+Mostly, you want to check its children, parents, etc. Here we grab its
+URL.
 
 ```php
 /** @var \Drupal\Core\Menu\MenuLinkManagerInterface $menu_link_manager */
@@ -1471,7 +1471,7 @@ $y = $link->getTitle(); // get the title of the menu item.
 $menu_name = $link->getMenuName(); // get the menu name e.g. "main"
 ```
 
-## Find a node using it's uuid
+## Find a node using its uuid
 
 ```php
 /**
@@ -1503,7 +1503,7 @@ public function getExistingUpdateNode(string $uuid) {
 
 If alias-path does not exist, it will return the same argumented string.
 
-The first example will work for the node, second for the taxonomy and third for the users. For Drupal 8.8.0 and later use **path_alias.manager**
+The first example will work for the node, the second for the taxonomy, and the third for the users. For Drupal 8.8.0 and later, use **path_alias.manager**
 
 ```php
 //Node
@@ -1560,7 +1560,7 @@ protected function loadFirstOpinion($term_id) {
 ## How to uncache a particular page or node
 
 This will cause Drupal to rebuild the page internally, but won't stop
-browsers or CDN's from caching.
+browsers or CDNs from caching.
 
 ```php
 \Drupal::service('page_cache_kill_switch')->trigger();
@@ -1568,7 +1568,7 @@ browsers or CDN's from caching.
 
 You can use this statement in node_preprocess, controller, etc.
 
-You will need a custom module to implement setting max-age to 0 like
+You will need a custom module to implement setting max-age to 0, like
 this. In a `.module` file:
 
 ```php
@@ -1583,11 +1583,11 @@ function drt_node_view_alter(array &$build, EntityInterface $entity, EntityViewD
   }
 ```
 
-Note. The above custom module is called drt. You would use your own module name instead of drt when naming the function.
+Note, the above custom module is called drt. You would use your own module name instead of drt when naming the function.
 
 ## Get boolean Field
 
-Boolean fields show up as 0 or 1 so a simple test using if `$val` will
+Boolean fields show up as 0 or 1, so a simple test using if `$val` will
 return true for yes/on and false for no/off.
 
 ```php
@@ -1601,9 +1601,9 @@ if ($val) {
 
 Date fields in Drupal are stored in UTC date strings. When you load
 them, you have some options. Probably grabbing the field-\>date is the
-best so you can use all the goodness of the DrupalDateTime class. If you
-need to do calculations involving unix timestamps, then -\>getTimestamp
-is useful although DrupalDateTime can do all kinds of calculations too.
+best, so you can use all the goodness of the DrupalDateTime class. If you
+need to do calculations involving Unix timestamps, then -\>getTimestamp
+is useful, although DrupalDateTime can do all kinds of calculations too.
 
 ```php
 $end_date = $contract_node->field_contract_end_date->value;
@@ -1613,7 +1613,7 @@ $formatted_date = $end_date->format('m/d/y');
 
 field_contract_end_date ->value; //returns whatever the string is e.g. 2024-08-31
 field_contract_end_date->date->getTimestamp(); // returns unix timestamp e.g. 1725105600
-field_contract_end_date->date; // returns a DrupalDateTime object with all it's goodness
+field_contract_end_date->date; // returns a DrupalDateTime object with all its goodness
 
 $formatted_date = $end_date->format('m/d/y'); //Format the date nicely for output
 ```
@@ -1621,12 +1621,11 @@ $formatted_date = $end_date->format('m/d/y'); //Format the date nicely for outpu
 From
 <https://drupal.stackexchange.com/questions/252333/how-to-get-formatted-date-string-from-a-datetimeitem-object>
 
-A date field has two properties, 
+A date field has two properties:
 
--   value to store the date in UTC and 
+-   value to store the date in UTC and
 
--   date, a computed field returning a DrupalDateTime object, on which
-    you can use the methods getTimestamp() or format():
+-   date, a computed field returning a DrupalDateTime object, on which you can use the methods getTimestamp() or format():
 
 ```php
 // get unix timestamp
@@ -1664,21 +1663,21 @@ e.g. to create a `DrupalDateTime`
 $format = 'Y-m-d H:i';
 $start_date = DrupalDateTime::createFromFormat($format, “2019-01-01 00:00");
 ```
-In the database the created and changed fields use a unix timestamp. e.g
+In the database, the created and changed fields use a uUnix timestamp. e.g
 look in node_field_revision
 
-This is an int 11 field in the db with a value like 1525302749 (Note.
-Negative values are dates before 1970 or epoch which require some
+This is an int 11 field in the db with a value like 1525302749 (Note,
+negative values are dates before 1970 or epoch which require some
 slightly special magic)
 
-If you add a Date field to a content type, it's data looks like
+If you add a Date field to a content type, its data looks like
 2019-05-15T21:32:00 (varchar 20)
 
 See the next item below for how to query the created and changed fields
 and also the fun you have to go through to query date fields.
 
 When writing Drupal dates to the database, you need to go thru some
-machinations. Here are some details explain the timezone.
+machinations. Here are some details to explain the timezone.
 
 ```php
 $date_string = "2020-08-24T15:28:04+00:00";
@@ -1723,7 +1722,7 @@ From
 
 The solution is to create a variable in the template_preprocess_node.
 Append 'UTC' to the datetime string and make a timestamp so you get the
-UTC time (which matches what is in the Drupal DB.). Grab the user's
+UTC time (which matches what is in the Drupal DB). Grab the user's
 timezone for conversion purposes. Use the Drupal date.formatter service
 to format a timestamp (using the timezone) and you are good to go.
 
@@ -1765,7 +1764,7 @@ and then in the template, use
 ```
 
 Interestingly, if you use the [smart_date module](https://www.drupal.org/project/smart_date), you might use this version.
-Notice that dates are already stored as timestamps so you don't have to
+Notice that dates are already stored as timestamps, so you don't have to
 first convert them.
 
 ```php
@@ -1839,7 +1838,7 @@ print $date->format('m/d/Y g:i a');
 // The above prints current time for given Timezone
 // prints : 07/16/2019 10:59 am
 
-// Another variations of the above except it takes specific date and UTC zone
+// Another variation of the above except it takes specific date and UTC zone
 $date = new DrupalDateTime('2019-07-31 11:30:00', 'UTC');
 $date->setTimezone(new \DateTimeZone('America/Chicago'));
 print $date->format('m/d/Y g:i a');
@@ -1911,7 +1910,7 @@ $source_node = $node_storage->load($nid);
 
 $expiration_date = $source_node->field_expiration_date->value;
 
-// Use expiration date to un-publish expired resellers to hide them.
+// Use an expiration date to unpublish expired resellers to hide them.
 $status = 1;
 if ($expiration_date) {
   $expirationDate = DrupalDateTime::createFromFormat('Y-m-d', $expiration_date);
@@ -1967,7 +1966,7 @@ $newstring = $given->format("Y-m-d\Th:i:s");
 
 Here I query the database for a node and return a string version of the
 date. It probably makes more sense to return the date and do the
-formatting at the theme level. Note. This will handle epoch dates before
+formatting at the theme level. Note, this will handle epoch dates before
 1970.
 
 ```php
@@ -2000,7 +1999,7 @@ use Drupal\Core\Datetime\DrupalDateTime;
 
 Both created and changed are stored as Unix epoch timestamps the
 node_field_data table. Here I query the database for a node and return a
-string version of the date. Note. This will handle epoch dates before
+string version of the date. Note, this will handle epoch dates before
 1970.
 
 ```php
@@ -2056,7 +2055,7 @@ function ogg_mods_cn_form_validate($form, FormStateInterface $form_state) {
 ## Smart date (smart_date) load and format
 
 Load the smart date field and use the drupal date formatting service.
-Smart date fields are always stored as unix timestamp values e.g.
+Smart date fields are always stored as Unix timestamp values e.g.
 `1608566400` which need conversion for human consumption.
 
 ```php
@@ -2120,7 +2119,7 @@ $rrule_index = $when->rrule_index;
 When you want to fiddle with a node as it is being saved, use
 `hook_node_presave()`
 
-Note there is some good date arithmetic here
+Note, there is some good date arithmetic here
 
 ```php
 /**
@@ -2175,7 +2174,7 @@ function ogg_mods_node_presave(NodeInterface $node) {
 If someone tries to view a node of content type `search_home` (entity of
 bundle `search_home`) caching is disabled and Drupal and the browser
 will always re-render the page. This is necessary for a page that is
-retrieving data from a third party source and you almost always expect
+retrieving data from a third-party source, and you almost always expect
 it to be different. It wouldn't work for a search page to show results
 from a previous search.
 
@@ -2201,10 +2200,10 @@ function dir_node_view_alter(array &$build, EntityInterface $entity, EntityViewD
 
 In the API docs (
 <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_view_alter/9.2.x>
-) They have an example where they check the view mode and dynamically
+). They have an example where they check the view mode and dynamically
 add a field to the node. There is also a post_render callback function
 added to do some more magic. To implement, you'd have to replace
-ENTITY_TYPE with your entity type such as node. See below:
+ENTITY_TYPE with your entity type, such as node. See below:
 
 ```php
 function hook_ENTITY_TYPE_view_alter(array &$build, Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
@@ -2271,7 +2270,7 @@ use \Drupal\file\Entity\File;
 
 ### What can I do with a call to first() on an entity reference field?
 
-After loading a node, I want to see the value in an entity reference field. I can call `referencedEntities` to pull out it's values and loop thru them -- I get Nodes in that instance.
+After loading a node, I want to see the value in an entity reference field. I can call `referencedEntities` to pull out its values and loop thru them -- I get Nodes in that instance.
 
 ```php
 $refs = $node_to_update->get('field_sf_account_ref')->referencedEntities();

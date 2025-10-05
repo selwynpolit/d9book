@@ -25,23 +25,23 @@ $timestamp = $event_node->field_date->date->getTimestamp();
 $date_formatted = $event_node->field_date->date->format('Y-m-d H:i:s');
 ```
 
-Using `$node->field_mydatefield->date` is ideal as it returns a `DrupalDateTime` class which gives you all sorts of goodness including date math capabilities and formatting. 
+Using `$node->field_mydatefield->date` is ideal as it returns a `DrupalDateTime` class which gives you all sorts of goodness, including date math capabilities and formatting.
 
-If you need to do calculations involving Unix timestamps, then using `$node->field_mydatefield->getTimestamp()` is useful although `DrupalDateTime` is probably better. More about DrupalDateTime at <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x>. Also at <https://drupal.stackexchange.com/questions/252333/how-to-get-formatted-date-string-from-a-datetimeitem-object>
+If you need to do calculations involving Unix timestamps, then using `$node->field_mydatefield->getTimestamp()` is useful, although `DrupalDateTime` is probably better. More about DrupalDateTime at <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Datetime%21DrupalDateTime.php/class/DrupalDateTime/9.4.x>. Also at <https://drupal.stackexchange.com/questions/252333/how-to-get-formatted-date-string-from-a-datetimeitem-object>
 
 See [Nodes and Fields chapter Date fields section](/nodes-and-fields#date-fields) for more on date fields
 
 
 ## Retrieve a date field
 
-You can retrieve date fields a few different ways. They are stored as varchar 20 UTC date strings e.g. `2022-06-30T12:00:00`
+You can retrieve date fields in a few different ways. They are stored as varchar 20 UTC date strings e.g. `2022-06-30T12:00:00`
 
 ```php
 // For a date only field, this returns a string like: 2024-08-31.
 // For a date field with time, this returns: 2021-12-28T16:00:00.
 $end_date = $contract_node->field_contract_date->value;
 
-// Returns unix timestamp e.g. 1725105600
+// Returns Unix timestamp e.g. 1725105600
 $end_date = $contract_node->field_contract_date->date->getTimestamp();
 
 // Returns a DrupalDateTime object with all its goodness which you can format.
@@ -53,7 +53,7 @@ $end_date = $contract_node->field_contract_date->date->getTimestamp();
 
 ## Retrieve date range field
 
-To retrieve a date range field from a node, use `value` and `end_value` for the stand and end dates:
+To retrieve a date range field from a node, use `value` and `end_value` for the start and end dates:
 
 ```php
 // Magic getters.
@@ -69,7 +69,7 @@ $start = $event_node->get('field_event_date_range')->getValue()[0]['value'];
 $end = $event_node->get('field_event_date_range')->getValue()[0]['end_value'];
 ```
 
-## Formatting date range fields 
+## Formatting date range fields
 
 Here are two different examples for formatting date fields:
 
@@ -84,7 +84,7 @@ Use this link at php.net for date format strings <https://www.php.net/manual/en/
 
 ## Formatting a date string with an embedded timezone
 
-Here a date string with an embedded timezone is used to create a `DrupalDateTime` object which is then converted to be stored into a node.
+Here, a date string with an embedded timezone is used to create a `DrupalDateTime` object, which is then converted to be stored into a node.
 
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -97,16 +97,16 @@ $node->set('field_date', $newstring);
 
 ## Formatting a date range for display
 
-This code shows how to load a date range field from a node. It will ordinarily display like `3/30/2019 - 3/31/2023` however we want it to display like `Mar 30-31, 2023`. 
+This code shows how to load a date range field from a node. It will ordinarily display like `3/30/2019 - 3/31/2023` however, we want it to display like `Mar 30-31, 2023`.
 
-First we retrieve the starting and ending value like this:
+First, we retrieve the starting and ending value like this:
 
 ```php
 $from = $node->get('field_date')->getValue()[0]['value'];
 $to = $node->get('field_date')->getValue()[0]['end_value'];
 ```
 
-Here is the entire function as implemented as a `hook_preprocess_node` function  in a `.theme` file. We are creating a `scrunch_date` variable to be rendered via a Twig template as shown below:
+Here is the entire function as implemented as a `hook_preprocess_node` function in a `.theme` file. We are creating a `scrunch_date` variable to be rendered via a Twig template as shown below:
 
 
 ```php
@@ -146,7 +146,7 @@ function vst_preprocess_node(&$variables) {
 }
 ```
 
-Now in the twig node template we can output the `scrunch_date` we created.
+Now, in the twig node template, we can output the `scrunch_date` we created.
 
 From `/web/themes/verygood/templates/node/node--seminar--teaser.html.twig`.
 
@@ -219,7 +219,7 @@ Nice article on writing date fields programmatically with more info on UTC timez
 
 ## Create a DrupalDateTime object and display as a year only
 
-This code creates a `Drupal\Core\Datetime\DrupalDateTime` object and returns the year in a render array with some markup. `DrupalDateTimes` are derived from `DateTimePlus` which is a wrapper for PHP `DateTime` class.
+This code creates a `Drupal\Core\Datetime\DrupalDateTime` object and returns the year in a render array with some markup. `DrupalDateTimes` are derived from `DateTimePlus`, which is a wrapper for PHP `DateTime` class.
 
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -282,7 +282,7 @@ $node->save();
 
 ## Date arithmetic example 2
 
-Here is an example from a module showing a `hook_entity_type_presave()` where some data is changed as the node is being saved. The date arithmetic is pretty simple but the rest of the code is kinda messy.
+Here is an example from a module showing a `hook_entity_type_presave()` where some data is changed as the node is being saved. The date arithmetic is pretty simple, but the rest of the code is kinda messy.
 
 This is the date arithmetic part:
 
@@ -345,7 +345,7 @@ function ogg_mods_node_presave(NodeInterface $node) {
 
 ## Comparing DrupalDateTime values
 
-The `DrupalDateTime` class extends the `DateTimePlus` class which is a wrapper for PHP `DateTime` class. That functionality allows you to do comparisons. It is probably better manners to use `DrupalDateTime` instead of `DateTime` but here is some `DateTime` code showing how to compare `DateTimes`.
+The `DrupalDateTime` class extends the `DateTimePlus` class, which is a wrapper for PHP `DateTime` class. That functionality allows you to do comparisons. It is probably better manners to use `DrupalDateTime` instead of `DateTime` but here is some `DateTime` code showing how to compare `DateTimes`.
 
 ```php
 date_default_timezone_set('Europe/London');
@@ -398,7 +398,7 @@ This code is used to check if the value in the field `field_expiration_date` has
 $source_node = $node_storage->load($nid);
 $expiration_date = $source_node->field_expiration_date->value;
 
-// Use expiration date to un-publish expired reseller nodes to hide them.
+// Use expiration date to unpublish expired reseller nodes to hide them.
 $status = 1;
 if ($expiration_date) {
   $expirationDate = DrupalDateTime::createFromFormat('Y-m-d', $expiration_date);
@@ -411,13 +411,13 @@ if ($expiration_date) {
 }
 ```
 
-It might be interesting to factor in the timezone as date fields are stored in UTC. See https://en.wikipedia.org/wiki/Coordinated_Universal_Time
+It might be interesting to factor in the timezone, as date fields are stored in UTC. See https://en.wikipedia.org/wiki/Coordinated_Universal_Time
 
 ## Node creation and changed dates
 
-Here is a function which does an `entityQuery` for a node and returns a formatted string version of the creation date. Both `created` and `changed` are stored as Unix epoch timestamps in the `node_field_data` table (int 11). 
+Here is a function which does an `entityQuery` for a node and returns a formatted string version of the creation date. Both `created` and `changed` are stored as Unix epoch timestamps in the `node_field_data` table (int 11).
 
-Note. This will handle epoch dates before 1970. You can also use `$node->get('changed')` to retrieve the changed date.
+Note, this will handle epoch dates before 1970. You can also use `$node->get('changed')` to retrieve the changed date.
 
 ```php
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -519,7 +519,7 @@ Read more in the article:  Date (range) fields and Entity Query from February 20
 
 and
 
-this Stack exchange question at <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
+this Stack Exchange question at <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
 
 
 
@@ -669,28 +669,28 @@ More in the article:  Date (range) fields and Entity Query from February 2018  a
 
 and
 
-this Stack exchange question at <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
+this Stack Exchange question at <https://drupal.stackexchange.com/questions/198324/how-to-do-a-date-range-entityquery-with-a-date-only-field-in-drupal-8>
 
 
 
 
 ## Smart Date
 
-This module provides the date field that fills in all the gaps in functionality that Drupal core dates lack. Maybe someday it will make it into Drupal core. 
+This module provides the date field that fills in all the gaps in functionality that Drupal core dates lack. Maybe someday it will make it into Drupal core.
 
-This module attempts to provide a more user-friendly date field, by upgrading the functionality of core in several ways:
+This module attempts to provide a more user-friendly date field by upgrading the functionality of core in several ways:
 
 Easy Admin UI: Includes the concept of duration, so that a field can have a configurable default duration (e.g. 1 hour) and the end time will be auto-populated based on the start. The overall goal is to provide a smart interface for time range/event data entry, more inline with calendar applications which editors will be familiar with.
 
-All Day Events Most calendar applications provide a one-click option to make a an event, appointment, or other time-related content span a full day. This module brings that same capability to Drupal.
+All Day Events Most calendar applications provide a one-click option to make an event, appointment, or other time-related content span a full day. This module brings that same capability to Drupal.
 
 Zero Duration Events Show only a single time for events that don't need a duration.
 
-Formatting: More sophisticated output formatting, for example to show the times as a range but with a single output of the date. In the settings a site builder can control how date the ranges will be output, at a very granular level.
+Formatting: More sophisticated output formatting, for example, to show the times as a range but with a single output of the date. In the settings, a site builder can control how date the ranges will be output, at a very granular level.
 
 Performance: Dates are stored as timestamps to improve performance, especially when filtering or sorting. Concerns with the performance of core's date range have been documented in [#3048072: Date Range field creates very slow queries in Views](https://www.drupal.org/project/drupal/issues/3048072).
 
-Overall, the approach in this module is to leverage core's existing Datetime functionality, using the timestamp storage capability also in core, with some custom Javascript to add intelligence to the admin interface, and a suite of options to ensure dates can be formatted to suit any site's needs.
+Overall, the approach in this module is to leverage core's existing Datetime functionality, using the timestamp storage capability also in core, with some custom JavaScript to add intelligence to the admin interface, and a suite of options to ensure dates can be formatted to suit any site's needs.
 
 Display configuration is managed through translatable Smart Date Formats, so your detailed display setup is easily portable between fields, views, and so on. (From <https://www.drupal.org/project/smart_date>)
 
@@ -698,7 +698,7 @@ Display configuration is managed through translatable Smart Date Formats, so you
 
 ### Smart date: Load and format
 
-Load the smart date field and use the Drupal date formatting service (`date.formatter`). Smart date fields are always stored as unix timestamp values e.g. `1608566400` which need conversion for human consumption.
+Load the smart date field and use the Drupal date formatting service (`date.formatter`). Smart date fields are always stored as Unix timestamp values e.g. `1608566400` which need conversion for human consumption.
 
 ```php
 $start = $node->field_when->value;
@@ -762,7 +762,7 @@ $rrule_index = $when->rrule_index;
 
 ### Date field storage
 
-Note. The node `created` and `changed` fields (int 11) use a Unix epoch timestamp stored in the `node_field_data` table. These have values like `1525302749`. Drupal date fields (with times) are stored as UTC strings in varchar 20 fields which look like   `2019-05-15T21:32:00`.
+Note, the node `created` and `changed` fields (int 11) use a Unix epoch timestamp stored in the `node_field_data` table. These have values like `1525302749`. Drupal date fields (with times) are stored as UTC strings in varchar 20 fields which look like   `2019-05-15T21:32:00`.
 
 
 ### DrupalDateTime API reference
@@ -825,7 +825,7 @@ Coordinated Universal Time or UTC is the primary time standard by which the worl
 
 ### Unix epoch timestamps
 
-From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time as a running total of seconds. This count starts at the Unix Epoch on January 1st, 1970 at UTC. Therefore, the unix time stamp is merely the number of seconds between a particular date and the Unix Epoch. It should also be pointed out (thanks to the comments from visitors to this site) that this point in time technically does not change no matter where you are located on the globe. This is very useful to computer systems for tracking and sorting dated information in dynamic and distributed applications both online and client side.
+From https://www.unixtimestamp.com/ - The Unix time stamp is a way to track time as a running total of seconds. This count starts at the Unix Epoch on January 1st, 1970 at UTC. Therefore, the Unix time stamp is merely the number of seconds between a particular date and the Unix Epoch. It should also be pointed out (thanks to the comments from visitors to this site) that this point in time technically does not change no matter where you are located on the globe. This is very useful to computer systems for tracking and sorting dated information in dynamic and distributed applications, both online and client-side.
 
 ### Links
 
@@ -835,7 +835,7 @@ From https://www.unixtimestamp.com/ - The unix time stamp is a way to track time
 
 * Coordinated Universal Time or UTC Wikipedia article  <https://en.wikipedia.org/wiki/Coordinated_Universal_Time>
 
-* Goran Nikolovski's article: Set date programatically from January 2019 
+* Goran Nikolovski's article: Set date programmatically from January 2019
   <https://gorannikolovski.com/blog/set-date-field-programmatically#:~:text=Get%20the%20date%20field%20programmatically,)%3B%20%2F%2F%20For%20datetime%20fields>
 
 * Patrick's article:  Date (range) fields and Entity Query from February 2018  <https://blog.werk21.de/en/2018/02/05/date-range-fields-and-entity-query-update>

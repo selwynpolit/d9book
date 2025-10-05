@@ -7,7 +7,7 @@ title: Blocks
 
 ## Overview
 
-Drupal Blocks are useful `building blocks` for putting useful info in various places on your site. They can be controlled in many different ways including limited to a specific page, only displayed for users with a specific role or they can even show different data depending on the user e.g. a list of upcoming events that you have RSVP'd to. 
+Drupal Blocks are useful `building blocks` for putting useful info in various places on your site. They can be controlled in many different ways, including being limited to a specific page, only displayed for users with a specific role or they can even show different data depending on the user e.g. a list of upcoming events that you have RSVP'd to.
 
 Technically, they are `plugins`. See [Plugin API Overview on Drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview) for more.
 
@@ -17,7 +17,7 @@ Blocks are content entities, but the *placement* of blocks are configuration ent
 
 ## Create a block with Drush generate
 
-Use Drush's code generation ability to quickly generate the code you need to create your own custom block. First generate a module with `drush generate module` if you don't have one. Here we generate a block for use in the `crap` module:
+Use Drush's code generation ability to quickly generate the code you need to create your own custom block. First, generate a module with `drush generate module` if you don't have one. Here we generate a block for use in the `crap` module:
 
 ```sh
 drush generate plugin:block
@@ -128,7 +128,7 @@ In the class are the `getFormId()`, `getEditableConfigName()`, `buildForm()` and
 
 ### The routing.yml file
 
-Then in `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` we specify the route where we invoke the form.
+Then, in `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` we specify the route where we invoke the form.
 
 Besides the `quick_pivot.info.yml` (module info) file, that should be all you need to make the config for the block.
 
@@ -166,7 +166,7 @@ public static function create(ContainerInterface $container, array $configuratio
 }
 ```
 
-Here is the constructor: 
+Here is the constructor:
 
 ```php
 public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, FormBuilderInterface $form_builder) {
@@ -489,7 +489,7 @@ class QuickPivotSubscribeBlock extends BlockBase implements ContainerFactoryPlug
 }
 ```
 
-And here is the routing file:  `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml` 
+And here is the routing file:  `docroot/modules/custom/quick_pivot/quick_pivot.routing.yml`
 
 ```yaml
 quick_pivot.config:
@@ -501,7 +501,7 @@ quick_pivot.config:
     _permission: 'administer site configuration'
 ```
 
-And for the icing, We also specify a menu item so users can access the configuration form via the menu system at `docroot/modules/custom/quick_pivot/quick_pivot.links.menu.yml`.
+And for the icing, we also specify a menu item so users can access the configuration form via the menu system at `docroot/modules/custom/quick_pivot/quick_pivot.links.menu.yml`.
 
 ```yaml
 quick_pivot.config:
@@ -514,7 +514,7 @@ quick_pivot.config:
 
 ## Modify a block with hook_block_view_alter or hook_block_build_alter
 
-Some drupal hooks only run inside a contributed modules and some only inside a theme and some both.
+Some Drupal hooks only run inside a contributed module, some only inside a theme, and some both.
 
 ```php
 function themename_preprocess_block(&$variables) {
@@ -532,7 +532,7 @@ There is a comment that may be worth exploring at https://api.drupal.org/api/dru
 
 To alter the block content you must add a `#pre_render` in the `hook_block_view_alter` hook.
 
-In <https://drupal.stackexchange.com/a/215948> there is an example which fills in the `$build['#pre_render'][]` array with a string. 
+In <https://drupal.stackexchange.com/a/215948> there is an example which fills in the `$build['#pre_render'][]` array with a string.
 
 In an example on that stackexchange site, this function is provided:
 
@@ -608,7 +608,7 @@ public function getCacheMaxAge() {
 
 ## Add a configuration form to your block
 
-Making a block configurable means it has a form where you can specify its settings, e.g., the configuration form for the menu block module allows you to specify menu levels. 
+Making a block configurable means it has a form where you can specify its settings, e.g., the configuration form for the menu block module allows you to specify menu levels.
 
 To make your block configurable, override 3 methods from BlockBase.
 
@@ -828,7 +828,7 @@ function hook_block_access(\Drupal\block\Entity\Block $block, $operation, \Drupa
 
 ### Blocks shouldn't talk to the router, NodeRouteContext and friends should
 
-While it is possible for blocks to talk to the router, you can't always count that they will be on a meaningful route i.e. are they being displayed on a node?  So we should use context definition in the block annotation like this:
+While it is possible for blocks to talk to the router, you can't always count on them being on a meaningful route i.e. are they being displayed on a node?  So we should use context definition in the block annotation like this:
 
 ```php
 /**
@@ -1039,11 +1039,11 @@ The block module provides the following hooks:
 More at [block api documentation on Drupal.org](https://api.drupal.org/api/drupal/core%21modules%21block%21block.api.php/10)
 
 ## Annotations vs PHP Attributes
-As of version 8.1, PHP has native support for attributes that are compatible with Drupal’s `plugin` system. Consequently, Drupal will transition from the use of annotations to PHP attributes, to supply metadata and configuration for plugins. Drupal currently supports both annotations and attributes.
+As of version 8.1, PHP has native support for attributes that are compatible with Drupal’s `plugin` system. Consequently, Drupal will transition from the use of annotations to PHP attributes to supply metadata and configuration for plugins. Drupal currently supports both annotations and attributes.
 
 The ability to use attributes for plugins was first introduced in Drupal 10.2.0 so any code using attributes will have to be in a Drupal 10.2 or later project.
 
-Read more at the [PHP Attributes for Drupal Plugins at Drupalize.me - Feb 2024 ](https://drupalize.me/blog/php-attributes-drupal-plugins)  Also see the [Attributes overview on php.net](https://www.php.net/manual/en/language.attributes.overview.php).
+Read more at the [PHP Attributes for Drupal Plugins at Drupalize.me - Feb 2024 ](https://drupalize.me/blog/php-attributes-drupal-plugins)  Also, see the [Attributes overview on php.net](https://www.php.net/manual/en/language.attributes.overview.php).
 
 
 Here is a simple block plugin which uses annotations:
@@ -1123,7 +1123,7 @@ final class TestBlock3Block extends BlockBase {
 You must have: `use Drupal\Core\StringTranslation\TranslatableMarkup;` and use that instead of `@Translation` in the attribute.
 :::
 
-You can see an example of this in the [Drupal core system branding block](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Block/SystemBrandingBlock.php?ref_type=heads) plugin at `core/modules/system/src/Plugin/Block/SystemBrandingBlock.php`.  
+You can see an example of this in the [Drupal core system branding block](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Block/SystemBrandingBlock.php?ref_type=heads) plugin at `core/modules/system/src/Plugin/Block/SystemBrandingBlock.php`.
 
 ```php
 /**
@@ -1138,7 +1138,7 @@ class SystemBrandingBlock extends BlockBase implements ContainerFactoryPluginInt
 ...
 ```
 
-Also in [Drupal core system breadcrumb block](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Block/SystemBreadcrumbBlock.php?ref_type=heads) plugin at `core/modules/system/src/Plugin/Block/SystemBreadcrumbBlock.php`:
+Also, in [Drupal core system breadcrumb block](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Block/SystemBreadcrumbBlock.php?ref_type=heads) plugin at `core/modules/system/src/Plugin/Block/SystemBreadcrumbBlock.php`:
 
 ```php
 /**
@@ -1160,7 +1160,7 @@ Check out the other Blocks in that same directory for more examples.
 
 ### Plugins and blocks
 
-Blocks are [plugins](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview), which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory. 
+Blocks are [plugins](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview), which are reusable pieces of code following design patterns. Plugins are also used to define views arguments, field formatters, field widgets, etc. The source files for blocks are found in each module's `/src/Plugin` directory.
 
 ![Location of block source files](/images/image-block-location.png)
 
@@ -1281,7 +1281,7 @@ Or like this:
  */
 ```
 
-In most cases you will implement `ContainerFactoryPluginInterface`.
+In most cases, you will implement `ContainerFactoryPluginInterface`.
 Plugins require this for dependency injection. So don't forget:
 
 ```php

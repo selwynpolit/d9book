@@ -10,13 +10,13 @@ title: Debugging
 Using a combination of PhpStorm, DDEV and Xdebug makes debugging a pleasure. PhpStorm is not essential. Xdebug works fine with other IDE\'s also. In my experience, many Drupal developers have not experienced using a true debugger, but once they do, they wonder how they ever delivered any code without it.
 
 ## Enable error reporting
-If you experience a WSOD (White Screen Of Death), enabling verbose error messages in your `sites\default\settings.local.php` can often give you some useful clue:
+If you experience a WSOD (White Screen Of Death), enabling verbose error messages in your `sites\default\settings.local.php` can often give you some useful clues:
 
 ```php
 $config['system.logging']['error_level'] = 'verbose';
 ```
 For more, check out [this question on Stack Exchange](https://drupal.stackexchange.com/questions/127182/how-do-i-enable-developer-debug-mode#:~:text=%24config%5B'system.,can%20always%20comment%20them%20out).
-Also error reporting levels are defined in [bootstrap.inc](https://github.com/drupal/drupal/blob/10.3.x/core/includes/bootstrap.inc) as follows:
+Also, error reporting levels are defined in [bootstrap.inc](https://github.com/drupal/drupal/blob/10.3.x/core/includes/bootstrap.inc) as follows:
 
 ```php
 /**
@@ -42,7 +42,7 @@ const ERROR_REPORTING_DISPLAY_VERBOSE = 'verbose';
 
 ## Disable caching and enable TWIG debugging
 
-Generally I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
+Generally, I enable twig debugging and disable caching while developing a site.  This means I don't have to do a `drush cr` each time I make a change to a template file.
 
 ::: tip Note
 The new way to enable Twig debugging is via the user interface. In the menus select `Configuration`, `Development`, `Development Settings` (or navigate to `/admin/config/development/settings`) and check the `Twig development mode` box, then check the boxes for  `Twig debug mode` and `disable Twig cache`.  You can also check the `Do not cache markup` at this time.
@@ -111,7 +111,7 @@ parameters:
     #
     # Not recommended in production environments
     # @default null
-    #    auto_reload: null
+    # auto_reload: null
     auto_reload: true
     # Twig cache:
     #
@@ -157,7 +157,7 @@ ddev xdebug on
 
 ddev xdebug off
 ```
-Note. Enabling Xdebug will slow down your app because xdebug has a
+Note, enabling Xdebug will slow down your app because xdebug has a
 significant performance impact so be sure to disable it when you are
 finished debugging.
 
@@ -181,7 +181,7 @@ xdebug.client_port=9000
 
 ## Drupal code debugging
 
-Phpstorm and DDEV make this process as painless as possible. Once you enable Xdebug in DDEV, simply click the \"start listening for PHP Debug Connections\" button. 
+PhpStorm and DDEV make this process as painless as possible. Once you enable Xdebug in DDEV, simply click the \"start listening for PHP Debug Connections\" button.
 
 To start debugging, open the index.php file and set a breakpoint by clicking on a line number.
 
@@ -191,11 +191,11 @@ Select a breakpoint:
 
 ![Set a breakpoint in PhpStorm](/images/breakpoint.png)
 
-Next refresh the Drupal home page in a browser
+Next, refresh the Drupal home page in a browser
 
-You should immediately see a dialog pop up in PhpStorm asking you to to configure your local path. Be sure to click the `site/web/index php` and click `Accept`:
+You should immediately see a dialog pop up in PhpStorm asking you to configure your local path. Be sure to click the `site/web/index php` and click `Accept`:
 
-Note. If you select one of the other lines you will see a different php file pop up and you won\'t be debugging Drupal, but probably some Symfony file.
+Note, If you select one of the other lines you will see a different php file pop up and you won\'t be debugging Drupal, but probably some Symfony file.
 
 ![PhpStorm incoming connection dialog](/images/incoming_connection.png)
 
@@ -204,7 +204,7 @@ If you accidentally selected the wrong local path, in PhpStorm, go to Settings, 
 ![Breakpoint reached in debugging in PhpStorm](/images/breakpoint_reached.png)
 
 Once you accept the local path, you should see a highlighted line
-indicating the current line. The debug window will appear below showing the call stack
+indicating the current line. The debug window will appear below, showing the call stack
 
 ![PhpStorm debug call stack](/images/debug_call_stack.png)
 
@@ -221,7 +221,7 @@ $ ddev ssh
 
 $ vendor/bin/drush status
 ```
-To setup command line debugging, follow the steps above to setup for [Drupal Code debugging](#drupal-code-debugging) to confirm that you have debugging working. Then look in PhpStorm's: settings, PHP, Servers, and select the server you set up from the previous steps. Specify the top level path as shown below. Usually it will be `/var/www/html`
+To set up command line debugging, follow the steps above to set up for [Drupal Code debugging](#drupal-code-debugging) to confirm that you have debugging working. Then look in PhpStorm's: settings, PHP, Servers, and select the server you set up from the previous steps. Specify the top-level path as shown below. Usually, it will be `/var/www/html`
 
 ![PhpStorm debug servers options](/images/php_debug_servers.png)
 
@@ -229,7 +229,7 @@ Next open vendor/drush/drush/src/Drush.php and specify a breakpoint like this:
 
 ![Set a breakpoint in PhpStorm in the drush source code](/images/drush_breakpoint.png)
 
-Now in the terminal ssh into the DDEV container and execute drush:
+Now, in the terminal SSH into the DDEV container and execute drush:
 
 ```bash
 $ ddev ssh
@@ -284,17 +284,17 @@ xdebug.profiler_output_name=trace.%c%p%r%u.out
 
 - Make an HTTP request to the DDEV project and the profile will be located in `.ddev/xdebug` directory.
 
-- Analyze it with any call graph viewer, for example kcachegrind.
+- Analyze it with any call graph viewer, for example, kcachegrind.
 
 - When you’re done, execute `ddev xdebug off` to avoid generating unneeded profile files.
 
-You can load the files ending in .out in a utility like qcachegrind.  This is installed with: `brew install qcachegrind`
+You can load the files ending in .out in a utility like QCacheGrind.  This is installed with: `brew install qcachegrind`
 
 ## Troubleshooting Xdebug with DDEV
 
 ### Could not connect to debugging client
 
-When debugging command line e.g. drush commands etc. if you see:
+When debugging command line e.g. drush commands etc., if you see:
 
 ```bash
 $ vendor/bin/drush status
@@ -328,11 +328,11 @@ If you see a message like
 ```bash
 "PHP message: Xdebug: [Step Debug] Could not connect to debugging client. Tried: host.docker.internal:9000 (through xdebug.client_host/xdebug client_port)" 
 ```
-then php/xdebug (inside the container) is not able to make a connection to port 9000. 
+then php/xdebug (inside the container) is not able to make a connection to port 9000.
 
 This means you have not clicked the "Start listening for PHP Debug Connections" button in PhpStorm.  Just click it and try again.
 
-Note. Port 9003 is more current.
+Note, port 9003 is more current.
 
 #### Telnet
 
@@ -341,7 +341,7 @@ With PhpStorm NOT listening for a PHP Debug connection, try to telnet to see wha
 ```bash
 $ telnet d9book2.ddev.site 9003
 ```
-You should get connection refused. If you get a connection (see below) something is listening on port 9003 and you should either disable it or use a different port. Note. You must set that in both PhpStorm as well as DDEV.
+You should get connection refused. If you get a connection (see below) something is listening on port 9003 and you should either disable it or use a different port. Note, you must set that in both PhpStorm as well as DDEV.
 
 This shows a connection succeeding. You can try it with PhpStorm listening for a debug connection:
 
@@ -356,16 +356,16 @@ Escape character is \'\^\]\'.
 ```
 Use Control [\] to exit and then type quit to return to exit telnet.
 
-On a mac, use `sudo lsof -i :9003 -sTCP:LISTEN` to find out what is listening on that port and stop it, or change the xdebug port and configure both DDEV and PhpStorm to use the new one . 
+On a Mac, use `sudo lsof -i :9003 -sTCP:LISTEN` to find out what is listening on that port and stop it, or change the xdebug port and configure both DDEV and PhpStorm to use the new one.
 
 More about changing ports at <https://ddev.readthedocs.io/en/stable/users/debugging-profiling/step-debugging/#using-xdebug-on-a-port-other-than-the-default-9003>
 
-Note. In the past, php-fpm was likely to be one of the apps using port 9000.
+Note, in the past, php-fpm was likely to be one of the apps using port 9000.
 
 
 #### Is Xdebug enabled?
 
-• To check to make sure that Xdebug is enabled, you can use `php -i | grep xdebug` inside the container. You can also use other techniques to view the output of phpinfo(), including Drupal\'s `admin/reports/status/php`. Below you can see the expected output when Xdebug is enabled assuming you have Xdebug v3.2.0 or later.
+• To check to make sure that Xdebug is enabled, you can use `php -i | grep xdebug` inside the container. You can also use other techniques to view the output of phpinfo(), including Drupal\'s `admin/reports/status/php`. Below you can see the expected output when Xdebug is enabled, assuming you have Xdebug v3.2.0 or later.
 
 
 ```
@@ -380,7 +380,7 @@ See <https://ddev.readthedocs.io/en/stable/users/step-debugging>
 
 To check if something is listening on port 9003, it's best to use `lsof` as it will actually list the name of the process listening.
 
-i.e. Here we see phpstorm listening:
+i.e. Here we see PhpStorm listening:
 ```
 lsof -i TCP:9003
 COMMAND    PID   USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
@@ -388,7 +388,7 @@ phpstorm 78897 selwyn  209u  IPv4 0x4d118c80f54422d7      0t0  TCP *:9003 (LISTE
 
 ```
 
-You can also use `nc`  and `netstat` but they is not quite as informative:
+You can also use `nc`  and `netstat`, but they are not quite as informative:
 
 ```bash
 $ nc -z localhost 9003
@@ -496,7 +496,7 @@ function custom_kint_preprocess_page(&$variables) {
 
 From [Migrate Devel contrib module](https://www.drupal.org/project/migrate_devel), in `docroot/modules/contrib/migrate_devel/src/EventSubscriber/MigrationEventSubscriber.php`
 
-This is used in migrate to dump the source and destination values.
+This is used in migration to dump the source and destination values.
 
 ```php
 // We use kint directly here since we want to support variable naming.
@@ -514,7 +514,7 @@ Add this to settings.local.php
 // Change kint maxLevels setting:
 include_once(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php');
 if(class_exists('Kint')){
-  // Set the maxlevels to prevent out-of-memory. Currently there doesn't seem to be a cleaner way to set this:
+  // Set the maxlevels to prevent out-of-memory. Currently, there doesn't seem to be a cleaner way to set this:
   Kint::$maxLevels = 4;
 }
 ```

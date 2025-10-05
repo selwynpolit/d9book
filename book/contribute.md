@@ -6,7 +6,7 @@ title: Contribute to this book
 
 This book is a quick reference for developers creating Drupal sites. Please remember that when you contribute, your audience is Drupal developers who are trying to find a quick answer to their questions. Try to make your contribution as succinct and clear as possible. I also prefer that the examples you use have code that actually works rather than pseudo code wherever possible.
 
-Github has a very convenient set of tools which allow you to easily make changes via the web interface. You can also use the web interface to create a pull request. The easiest way to suggest changes is to use the "Edit this page on GitHub" link at the bottom of each page. This will take you to the source file for the page you are on. You can then click the pencil icon to edit the file.
+GitHub has a very convenient set of tools which allow you to easily make changes via the web interface. You can also use the web interface to create a pull request. The easiest way to suggest changes is to use the "Edit this page on GitHub" link at the bottom of each page. This will take you to the source file for the page you are on. You can then click the pencil icon to edit the file.
 
 ![Edit this page on GitHub](/images/edit-this-page.png)
 

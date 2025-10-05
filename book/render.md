@@ -32,7 +32,7 @@ This is mostly from
 
 ## Overview of the Theme system and Render API.
 
-The main purpose of Drupal\'s Theme system is to give themes complete control over the appearance of the site, which includes the markup returned from HTTP requests and the CSS files used to style that markup. In order to ensure that a theme can completely customize the markup, module developers should avoid directly writing HTML markup for pages, blocks, and other user-visible output in their modules, and instead return structured \"render arrays\". Doing this also increases usability, by ensuring that the markup used for similar functionality on different areas of the site is the same, which gives users fewer user interface patterns to learn.
+The main purpose of Drupal\'s Theme system is to give themes complete control over the appearance of the site, which includes the markup returned from HTTP requests and the CSS files used to style that markup. In order to ensure that a theme can completely customize the markup, module developers should avoid directly writing HTML markup for pages, blocks, and other user-visible output in their modules, and instead return structured \"render arrays\". Doing this also increases usability by ensuring that the markup used for similar functionality on different areas of the site is the same, which gives users fewer user interface patterns to learn.
 
 From the Render API overview at
 <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/theme_render/10.0.x>
@@ -41,7 +41,7 @@ From the Render API overview at
 
 You can specify caching information when creating render arrays. Cache keys, cache contexts, cache tags and cache max-age can all be defined.
 
-The Drupal rendering process has the ability to cache rendered output at any level in a render array hierarchy. This allows expensive calculations to be done infrequently, and speeds up page loading. See the [Cache API
+The Drupal rendering process has the ability to cache rendered output at any level in a render array hierarchy. This allows expensive calculations to be done infrequently and speeds up page loading. See the [Cache API
 topic](https://api.drupal.org/api/drupal/core%21core.api.php/group/cache/10.0.x) for general information about the cache system.
 
 In order to make caching possible, the following information needs to be present:
@@ -55,10 +55,10 @@ In order to make caching possible, the following information needs to be present
     render array does not vary by any context.
 
 -   **Cache tags**: Tags for data that rendering depends on, such as for
-    individual nodes or user accounts, so that when these change the cache can be automatically invalidated. If the data consists of entities, you can use [\\Drupal\\Core\\Entity\\EntityInterface::getCacheTags](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21CacheableDependencyInterface.php/function/CacheableDependencyInterface%3A%3AgetCacheTags/10.0.x)()
+    individual nodes or user accounts, so that when these change, the cache can be automatically invalidated. If the data consists of entities, you can use [\\Drupal\\Core\\Entity\\EntityInterface::getCacheTags](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21CacheableDependencyInterface.php/function/CacheableDependencyInterface%3A%3AgetCacheTags/10.0.x)()
     to generate appropriate tags; configuration objects have a similar method.
 
--   **Cache max-age**: The maximum duration for which a render array maybe cached. Defaults to [\\Drupal\\Core\\Cache\\Cache::PERMANENT](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21Cache.php/constant/Cache%3A%3APERMANENT/10.0.x) (permanently cacheable).
+-   **Cache max-age**: The maximum duration for which a render array may be cached. Defaults to [\\Drupal\\Core\\Cache\\Cache::PERMANENT](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21Cache.php/constant/Cache%3A%3APERMANENT/10.0.x) (permanently cacheable).
 
 Cache information is provided in the #cache property in a render array. In this property, always supply the cache contexts, tags, and max-age if a render array varies by context, depends on some modifiable data, or depends on information that\'s only valid for a limited time, respectively. Cache keys should only be set on the portions of a render array that should be cached. Contexts are automatically replaced with the value for the current request (e.g. the current language) and combined with the keys to form a cache ID. The cache contexts, tags, and max-age will be propagated up the render array hierarchy to determine cacheability for containing render array sections.
 
@@ -217,7 +217,7 @@ When you use the form `:variable`, for URLs the `:variable` placeholder is escap
 ```php
 $render_array = [
   '#type' => 'markup',
-  '#markup' => $this->t('You are viewing @title.  Unfortunately there is no image defined for delta: @delta.', [
+  '#markup' => $this->t('You are viewing @title.  Unfortunately, there is no image defined for delta: @delta.', [
     '@title' => $node->getTitle(),
     '@delta' => $delta)],
   ];
@@ -247,7 +247,7 @@ And from the [Render API Overview on Drupal.org](https://api.drupal.org/api/drup
 **Placeholders in render arrays**
 
 Render arrays have a placeholder mechanism, which can be used to add data into the render array late in the rendering process. This works in a similar manner to the [core FormattableMarkup::placeholderFormat() function](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Render%21FormattableMarkup.php/function/FormattableMarkup%3A%3AplaceholderFormat/10.0.x)(),
-with the text that ends up in the `#markup` property of the element at the end of the rendering process getting substitutions from placeholders that are stored in the \'placeholders\' element of the #attached property.
+with the text that ends up in the `#markup` property of the element at the end of the rendering process, getting substitutions from placeholders that are stored in the \'placeholders\' element of the #attached property.
 
 For example, after the rest of the rendering process was done, if your render array contained:
 
@@ -320,9 +320,9 @@ public function displayProductImage(NodeInterface $node, $delta) {
 ```
 
 
-## Several Url's. 
+## Several Urls.
 
-This queries for some nodes, generate a list of url's and returns them as a render array. The \'#list_type\' =\> \'ol\' (or ordered list)
+These queries for some nodes, generate a list of url's and returns them as a render array. The \'#list_type\' =\> \'ol\' (or ordered list)
 
 ```php
 use Drupal\Core\Url;
@@ -413,7 +413,7 @@ $form['noaccount'] = [
   '#url' => Url::fromRoute('<front>'),
 ];
 ```
-Other possible urls:
+Other possible URLs:
 
 ```php
 '#url' => Url::fromUri('internal:/dashboard'),
@@ -450,7 +450,7 @@ $back_home_link = [
 
 $variables['back_home_link'] = $back_home_link
 ```
-and in the template you would expect to see something like:
+and in the template, you would expect to see something like:
 
 ```twig
 {{ content.back_home_link }}
@@ -459,7 +459,7 @@ and in the template you would expect to see something like:
 
 ## A link with parameters and a template file
 
-This path takes a 4 parameters. Here is its path as defined in the `routing.yml` file:
+This path takes 4 parameters. Here is its path as defined in the `routing.yml` file:
 
 ```yaml
 team_abc.correctional_voting:
@@ -479,9 +479,9 @@ team_abc.correctional_voting:
         type: entity:node
     no_cache: 'TRUE'
 ```
-Note the options in the `routing.yml` file which automatically convert the node ids to actual entities (Drupal loads the nodes internally) and passes those to the controller.
+Note that the options in the `routing.yml` file which automatically convert the node ids to actual entities (Drupal loads the nodes internally) and pass those to the controller.
 
-Then in the controller, we build a URL, specifying the parameters:
+Then, in the controller, we build a URL, specifying the parameters:
 
 ```php
 $url = Url::fromRoute('team_abc.correctional_voting', [
@@ -533,7 +533,7 @@ public function buildDetails(array $content, array $breadcrumbs, array $manageme
 ```
 
 
-Then in team-abc--correctional-voting.html.twig the `next` links are rendered -- see <code v-pre>{{ next_link }}</code>
+Then, in team-abc--correctional-voting.html.twig the `next` links are rendered -- see <code v-pre>{{ next_link }}</code>
 
 ```twig
 <div class="cell small-12 medium-6">
@@ -562,7 +562,7 @@ $build['message'] = [
 
 ## Simple unordered list
 
-This is a simple unordered list. The `#list_type` is `ul` for unordered list. The `#items` is an array of items. The `#title` is the title of the list. The `#attributes` causes the list to have the class `mylist`.
+This is a simple unordered list. The `#list_type` is `ul` for an unordered list. The `#items` is an array of items. The `#title` is the title of the list. The `#attributes` causes the list to have the class `mylist`.
 
 ```php
 $content = [
@@ -578,7 +578,7 @@ More at <https://drupal.stackexchange.com/questions/214928/create-unordered-list
 
 
 Here is a complete function as used in a controller. This function returns an unordered list of recipe nodes. The list is sorted by the date created and the title of the node is displayed along with the node id. The list has the class `recipe-list`:
-  
+
 ```php
 public function test1(): array {
   $node_storage = $this->entityTypeManager->getStorage('node');
@@ -657,7 +657,7 @@ Here is `web/core/themes/olivero/templates/dataset/item-list.html.twig` which is
 
 ## Unordered list of links for a menu
 
-Here a list of links is created in a controller:
+Here is a list of links created in a controller:
 
 ```php
 $content['tabs'] = [
@@ -1005,7 +1005,7 @@ function postal_theme_preprocess_menu(&$vars, $hook) {
 ```
 
 ## Disable an element
-In this example the `accept` button is disabled when `$my_current_vote` is `accepted`.
+In this example, the `accept` button is disabled when `$my_current_vote` is `accepted`.
 
 ```php
   $form['accept'] = [

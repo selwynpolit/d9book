@@ -10,7 +10,7 @@ permalink: /paragraphs
 ## Introduction
 
 Paragraphs are those special things that allow you to blend fields together e.g. count and unit of measure so you can store values
-like 5 kilograms or 7 years etc. Often they are used like nodes where you define the fields and fill them with data that get displayed on the screen for things like carousels or events.
+like 5 kilograms or 7 years, etc. Often, they are used like nodes where you define the fields and fill them with data that gets displayed on the screen for things like carousels or events.
 
 ## Load a node and find the terms referenced in a paragraph in a term reference field
 
@@ -174,7 +174,7 @@ Because paragraphs and nodes are both entities, the pattern is the same. You loa
 
 From `/Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme`
 
-These are a little different from regular fields. Generally you want to get their `target_id` which will tell you the `pid` or paragraph id. Here are two different ways to load a `video_collection_node` and go to retrieve a field `field_related_lessons` which holds paragraphs of type `related_lessons`:
+These are a little different from regular fields. Generally, you want to get their `target_id` which will tell you the `pid` or paragraph id. Here are two different ways to load a `video_collection_node` and go to retrieve a field `field_related_lessons` which holds paragraphs of type `related_lessons`:
 
 ```php
 $video_collection_node = Node::load($video_collection_nid);
@@ -209,13 +209,13 @@ $lessons = $video_collection_node->get('field_related_lessons')->value;
 ```
 
 :::tip Note
-Note. `getValue()` here will get you the nid buried in a result array of arrays like `result[0]['target_revision_id']` - quicker to just grab `->target_revision_id`
+Note, `getValue()` here will get you the nid buried in a result array of arrays like `result[0]['target_revision_id']` - quicker to just grab `->target_revision_id`
 :::
 
 ## Load a node and grab a paragraph field to find the nid in an entity reference field
 
 From
-`/Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme` - Continuing from above, I load a node, grab it's field `field_related_lessons` which holds paragraphs of type `related_lessons` and grab it's field `field_lesson.` That field has a target_id which is the nid for the entity reference field. Phew!:
+`/Users/selwyn/Sites/inside-mathematics/themes/custom/danaprime/danaprime.theme` - Continuing from above, I load a node, grab its field `field_related_lessons` which holds paragraphs of type `related_lessons` and grab its field `field_lesson.` That field has a target_id which is the nid for the entity reference field. Phew!:
 
 ```php
 //Grab the related lessons from the collection.
@@ -253,7 +253,7 @@ function abc_preprocess_node(&$variables) {
   $bundle = $node->bundle();
   $view_mode = $variables['view_mode'];
 
-  // Check the there is a field_content field.
+  // Check that there is a field_content field.
   if (isset($variables['content']['field_content'])) {
     $content_tabs = [];
     // Loop through each instance of the field_content field.
@@ -262,7 +262,7 @@ function abc_preprocess_node(&$variables) {
       // Grab each paragraph.
       $entity = $variables['content']['field_content'][$idx]['#paragraph'];
 
-      // Get the paragraph's human readable type (not machine name).
+      // Get the paragraph's human-readable type (not machine name).
       $bundle_label = \Drupal::entityTypeManager()
         ->getStorage($entity->getEntityType()->getBundleEntityType())
         ->load($entity->bundle())
@@ -288,10 +288,10 @@ function abc_preprocess_node(&$variables) {
 
 ## Add validation for paragraph fields
 
-Here we want to perform validation when a node is added or edited so we use `hook_form_alter` to add a validation function to the form. In this case, we are adding a validation function to a node form with the id `node_staff_profile_form` and `node_staff_profile_edit_form`. We add a class to the form so we can target it with CSS and then add a validation function `_ccr_admin_enhancements_area_of_expertise_validate` to the form.
+Here, we want to perform validation when a node is added or edited so we use `hook_form_alter` to add a validation function to the form. In this case, we are adding a validation function to a node form with the id `node_staff_profile_form` and `node_staff_profile_edit_form`. We add a class to the form so we can target it with CSS and then add a validation function `_ccr_admin_enhancements_area_of_expertise_validate` to the form.
 
 ::: tip Note
-The validate function fires at various times including when a paragraph is added, removed or closed. We check for these conditions and then perform our validations.
+The validate function fires at various times, including when a paragraph is added, removed or closed. We check for these conditions and then perform our validations.
 :::
 
 
@@ -333,7 +333,7 @@ function _abc_admin_enhancements_area_of_expertise_validate(&$form, FormStateInt
     $is_other_staff = !empty($profile_type) && $profile_type == 2575;
 
     $button = $form_state->getTriggeringElement();
-    // Check what paragraph button was pressed: add, remove or closed.
+    // Check what paragraph button was pressed: add, remove or close.
     if (!empty($button)) {
       if ( isset($button['#paragraphs_mode']) && $button['#paragraphs_mode'] === 'remove') {
         // We don't need to validate on paragraph removal.
@@ -352,7 +352,7 @@ function _abc_admin_enhancements_area_of_expertise_validate(&$form, FormStateInt
     // Loop through each area of expertise paragraph.
     foreach ($values as $i => $value) {
       
-      // Disease focus is required for first area of expertise for certain profiles.
+      // Disease focus is required for the first area of expertise for certain profiles.
       if ($first) {
         if (empty($disease_focus) && $is_other_staff && in_array($ccr_primary_title, $special_primary_titles)) {
           $form_state->setErrorByName('field_areas_of_expertise][' . $i . '][subform][field_disease_focus', 'Area of Expertise: Disease Focus is required for this profile type.');

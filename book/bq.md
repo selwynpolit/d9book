@@ -9,7 +9,7 @@ title: Batch and Queue
 
 ### Overview
 
-The [Batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10) provides very useful functionality that lets you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node id's (often using `array_chunk()`)to be processed and use the [batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10) to process those arrays (chunks) of ids.  You can also provide code that will let it figure out how much work to do and stop itself.
+The [Batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10) provides very useful functionality that lets you do work by breaking it into pieces to avoid PHP timeouts, etc. Usually, you'll do this by creating a group of node IDs (often using `array_chunk()`)to be processed and use the [batch API](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10) to process those arrays (chunks) of IDs.  You can also provide code that will let it figure out how much work to do and stop itself.
 
 In addition, you create a function to handle things once all the chunks are complete. You can also give the Batch API a bunch of work to do and have it figure out for itself when it is finished.
 
@@ -236,13 +236,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 ### Batch API in controllers
 
-The Batch API is often used in connection with forms. If you\'re using a page callback, you will need to set up all the items, submit them to the batch API, and then call `batch_process()` with a url as the argument.
+The Batch API is often used in connection with forms. If you\'re using a page callback, you will need to set up all the items, submit them to the batch API, and then call `batch_process()` with a URL as the argument.
 
 ```php
 return batch_process('node/1');
 ```
 
-After the batch is complete, Drupal will redirect you to that url. E.g. `/node/1`
+After the batch is complete, Drupal will redirect you to that URL. E.g. `/node/1`
 
 ::: tip More link
 [Drupal API \| Batch operations](https://api.drupal.org/api/drupal/core%21includes%21form.inc/group/batch/10.0.x)
@@ -518,7 +518,7 @@ You can't use `$this->my_function` even if they are in the same class. Grab the 
 namespace Drupal\dirt_salesforce\Controller;
 ```
 
-You can however refer to the functions with `self::` e.g.
+You can, however, refer to the functions with `self::` e.g.
 
 ```php
 $node_to_update_dirt_contact_nid = self::getFirstRef($node_to_update, 'field_sf_dirt_contact_ref');
@@ -554,7 +554,7 @@ In this file <https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/inclu
 ```
 
 ::: tip Note
-To execute the batch, the example shows a call to  `batch_process('node/1')`.  This could be any valid url alias e.g., `/admin/content`.
+To execute the batch, the example shows a call to  `batch_process('node/1')`.  This could be any valid URL alias e.g., `/admin/content`.
 :::
 
 So here are the arguments for my_function_1:
@@ -613,7 +613,7 @@ $messenger->addMessage(t('Processed @count nodes, skipped @skipped, updated @upd
 ]));
 ```
 
-Which produce the following output:
+Which produces the following output:
 
 ```
 Processed 50 nodes, skipped 45, updated 5 in 3 sec.
@@ -637,7 +637,7 @@ $context['message'] = t('Processing total @count nodes',
 );
 ```
 
-Also you could show something about which batch number is running.
+Also, you could show something about which batch number is running.
 
 ```php
 $operation_details = 'Yoyoma';
@@ -650,7 +650,7 @@ $context['message'] = t('Running Batch "@id" @details',
 You do have to provide your own info for the variables.
 
 ### Stopping a batch dynamically
-You can also stop the batch engine by setting `$context['finished']` to `TRUE`. In cases where you can't easily figure out how many records need to beprocessed, you could use code like this.
+You can also stop the batch engine by setting `$context['finished']` to `TRUE`. In cases where you can't easily figure out how many records need to be processed, you could use code like this.
 
 ```php
 // Inform the batch engine that we are not finished,
@@ -671,7 +671,7 @@ It includes:
 * Batch builder to create batch array definitions
 * Drush generate commands to quickly whip-up new operations and finished operations
 
-Check out the [README.md file](https://git.drupalcode.org/project/batch/-/blob/2.0.x/README.md) for more information. 
+Check out the [README.md file](https://git.drupalcode.org/project/batch/-/blob/2.0.x/README.md) for more information.
 
 Code to use this module looks like this:
 
@@ -809,7 +809,7 @@ From [Alan Saunders article, December 2021](https://www.alansaunders.co.uk/blog/
 
 A queue is simply a list of stuff that gets worked through one by one. An analogy could be a conveyor belt on a till in a supermarket, the cashier works through each item on the belt to scan them.
 
-Queues are handy in Drupal for chunking up large operations, like sending emails to many people. By using a queue, you are trying to avoid overloading the servers resources which could cause the site to go offline until the resources on the server are free'd up.
+Queues are handy in Drupal for chunking up large operations, like sending emails to many people. By using a queue, you are trying to avoid overloading the server's resources, which could cause the site to go offline until the resources on the server are freed up.
 
 From [How to implement the queue worker API in Drupal 8 by Sarthak TTN, Feb 2017](https://www.tothenew.com/blog/how-to-implement-queue-workerapi-in-drupal-8):
 

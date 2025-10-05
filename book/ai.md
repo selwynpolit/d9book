@@ -8,7 +8,7 @@ title: Artificial Intelligence
 
 ## Overview
 
-This chapter is a little different from most of the others in the book.  It is more about my exploration of the current state of AI for Drupal.  Hopefully it will grow as I (and others) use AI in Drupal more.
+This chapter is a little different from most of the others in the book.  It is more about my exploration of the current state of AI for Drupal. Hopefully, it will grow as I (and others) use AI in Drupal more.
 
 
 
@@ -19,7 +19,7 @@ You can confirm that this is working by navigating to [the OpenAI playground](ht
 
 ## AI Providers
 
-There are a range of (ever changing) AI providers available which can be used to provide AI services to your Drupal site.  These include: OpenAI, Anthropic, Groq, OpenAI, Ollama, Huggingface, Imstudio, Mistral, Auphonic, AWS Bedrock, Deepgram, DeepL Translate, ElevenLabs, Fireworks AI, [Google Gemini](https://ai.google.dev/) and [amazee.ai](https://amazee.ai/).
+There is a range of (ever-changing) AI providers available which can be used to provide AI services to your Drupal site.  These include: OpenAI, Anthropic, Groq, OpenAI, Ollama, Huggingface, Imstudio, Mistral, Auphonic, AWS Bedrock, Deepgram, DeepL Translate, ElevenLabs, Fireworks AI, [Google Gemini](https://ai.google.dev/) and [amazee.ai](https://amazee.ai/).
 
 ### amazee.ai
 
@@ -31,13 +31,13 @@ Setting up amazee.ai is straightforward, requiring only a valid email. There is 
 
 ### AI module
 
-The [AI](https://www.drupal.org/project/ai) module - [documentation here](https://project.pages.drupalcode.org/ai/) is the main player in this space. This module has so many interesting submodules which add all kinds of features.  Think of it as a swiss army knife for AI in Drupal.  This module is very much still in development so expect to use the `1.0.x-dev` version
+The [AI](https://www.drupal.org/project/ai) module - [documentation here](https://project.pages.drupalcode.org/ai/) is the main player in this space. This module has so many interesting submodules which add all kinds of features. Think of it as a Swiss Army knife for AI in Drupal.  This module is very much still in development, so expect to use the `1.0.x-dev` version
 
-**AI Providers**: Anthropic, Groq, OpenAI, Ollama, Huggingface, Imstudio and Mistral incuded in the module.  You can also add Auphonic, AWS Bedrock, Deepgram, DeepL Translate, ElevenLabs, Fireworks AI and Google Gemini from their respective modules.
+**AI Providers**: Anthropic, Groq, OpenAI, Ollama, Huggingface, Imstudio and Mistral included in the module.  You can also add Auphonic, AWS Bedrock, Deepgram, DeepL Translate, ElevenLabs, Fireworks AI and Google Gemini from their respective modules.
 
 **AI Explorer**:- This is an area in the admin where you can explore text generation capability and ask it (prompt) whatever you like. An ideal place to test your prompts.
 
-**AI Search (Experimental)**:- Search through your content intelligently where the search understands the meaning of your terms with Semantic Search or ask a LLM Chatbot to explore your content, find it or answer questions about it. By integrating embeddings and vector databases into Search API we can reduce hallucinations in your LLMs or provide it access to more of your own data in what is known as “Retrieval Augmented Generation or RAG”. Currently support Milvus and Zilliz And Pinecone.
+**AI Search (Experimental)**:- Search through your content intelligently where the search understands the meaning of your terms with Semantic Search or ask a LLM Chatbot to explore your content, find it or answer questions about it. By integrating embeddings and vector databases into Search API we can reduce hallucinations in your LLMs or provide it access to more of your own data in what is known as “Retrieval Augmented Generation or RAG”. Currently support Milvus, Zilliz, and Pinecone.
 
 **Milvus VBD Provider(Experimental)**:- This module provides a [vector database](#vector-database) provider for the AI module. It uses the Milvus database to store and search vectors.  The instructions for installing Milvus are [here](https://project.pages.drupalcode.org/ai/modules/vdb_providers/vdb_provider_milvus/).
 
@@ -49,18 +49,18 @@ The way to get to try out most of these features is to use the AI API Explorers 
 ### Vertex AI Search
 The [Vertex AI Search](https://www.drupal.org/project/vertex_ai_search) module provides search capabilities using the [Vertex AI Search](https://cloud.google.com/generative-ai-app-builder/docs/enterprise-search-introduction)
 
-This module uses a google back-end for indexing and allowing searching of your content using AI. This is a paid service, with [pricing information here](https://cloud.google.com/vertex-ai/pricing).  This offers some pretty impressive features, including the ability to search for images based on their content. Try [this query](https://www.mercari.com/search/?keyword=t%20shirts%20with%20dancing%20people) on the Mercari site to see this in action.
+This module uses a Google back-end for indexing and allowing searching of your content using AI. This is a paid service, with [pricing information here](https://cloud.google.com/vertex-ai/pricing).  This offers some pretty impressive features, including the ability to search for images based on their content. Try [this query](https://www.mercari.com/search/?keyword=t%20shirts%20with%20dancing%20people) on the Mercari site to see this in action.
 
 
 ## Local LLM engine
-The [Ollama locally run LLM for mac/win/linux/docker](https://github.com/ollama/ollama) is available in a Github repo to install and run locally.  This is a great way to test your prompts without incurring costs.  The [Ollama](https://www.drupal.org/project/ollama) module is also available to use this locally in Drupal.
+The [Ollama locally run LLM for mac/win/linux/docker](https://github.com/ollama/ollama) is available in a GitHub repo to install and run locally.  This is a great way to test your prompts without incurring costs.  The [Ollama](https://www.drupal.org/project/ollama) module is also available to use locally in Drupal.
 
 
 ## AI Content Generators
-I had great hopes for prompting the AI to create 50 blog posts for me but sadly that isn't the state of the content creation modules as of 11-7-2024.
+I had great hopes for prompting the AI to create 50 blog posts for me, but sadly, that isn't the state of the content creation modules as of 11-7-2024.
 
 ### AI Content Creator
-This [AI Content Creator module](https://www.drupal.org/project/ai_content_creator) unfortunately requires a legacy OpenAI key and sadly has hard coded an old model.  When I change the code to use a more modern model, it does work.  Also, it uses OpenAI only so none of the other providers are available. Also it essentially provides the same functionality as the normal ChatGPT web interface, so it isn't as useful as I had hoped.  It does serve as a usefule example of how to interface with OpenAI from Drupal.
+This [AI Content Creator module](https://www.drupal.org/project/ai_content_creator), unfortunately, requires a legacy OpenAI key and sadly has hard-coded an old model.  When I change the code to use a more modern model, it does work. Also, it uses OpenAI only so none of the other providers are available. Also, it essentially provides the same functionality as the normal ChatGPT web interface, so it isn't as useful as I had hoped. It does serve as a useful example of how to interface with OpenAI from Drupal.
 
 These are the code changes I had to make to get it working.  I commented out the old stuff and put in the new below. From `web/modules/contrib/ai_content_creator/ai_content_creator.module`:
 
@@ -102,14 +102,14 @@ function ai_content_creator_generate_content_callback(array $form, FormStateInte
 
 
 ### Content AI
-The [Content AI module](https://www.drupal.org/project/contentai) is also tied to OpenAI.  Unfortunately this module\'s instructions are so confusing that I decided to rather explore the [ai module](https://www.drupal.org/project/ai) and see if the Experimental AI Automators submodule can do what I want to generate sensible looking content.
+The [Content AI module](https://www.drupal.org/project/contentai) is also tied to OpenAI. Unfortunately, this module\'s instructions are so confusing that I decided to rather explore the [ai module](https://www.drupal.org/project/ai) and see if the Experimental AI Automators submodule can do what I want to generate sensible-looking content.
 
 
 
 
 ## Implementing RAG
 
-For more info on RAG, see the definition of the [RAG term](#rag) below. 
+For more info on RAG, see the definition of the [RAG term](#rag) below.
 
 ::: tip Note
 These instructions apply to using the [Milvus VDB Provider](https://milvus.io/) which is also referred to as the `Milvus/Zilliz VDB Provider` in the `extend` listing in Drupal. You can apply most of these instructions to using a local setup of the [Pinecone](https://www.pinecone.io/) provider as well. Watch [Scott Euser\'s video presentation](https://youtu.be/WZEh4JOGhhM?si=89Kb1sPi88YKPsCr&t=4001) for more details.
@@ -118,12 +118,12 @@ These instructions apply to using the [Milvus VDB Provider](https://milvus.io/) 
 
 Following the instructions from the AI module [docs](https://project.pages.drupalcode.org/ai/modules/vdb_providers/vdb_provider_milvus/)
 
-Copy the `ddev-example.docker-compose.milvus.yaml` to your `.ddev` folder with: 
+Copy the `ddev-example.docker-compose.milvus.yaml` to your `.ddev` folder with:
 ```bash
 cp web/modules/contrib/ai/vdb_providers/vdb_provider_milvus/docs/docker-compose-examples/ddev-example.docker-compose.milvus.yaml .ddev/docker-compose.milvus.yaml
 ```
 
-After copying the docker-compose file to the `.ddev` folder and restarting ddev, you can see the Milvus UI at `https://ddev103.ddev.site:8521`.  Note. My site is called `ddev103` so you will need to change this to your site name.
+After copying the docker-compose file to the `.ddev` folder and restarting ddev, you can see the Milvus UI at `https://ddev103.ddev.site:8521`.  Note, my site is called `ddev103` so you will need to change this to your site name.
 
 
 ![Milvus VDB Provider](/images/milvus8521-home.png)
@@ -184,7 +184,7 @@ contextual content maximum percentage: 30%
 
 
 #### Add search index
-Following a similar practice for normal setup of an index for the search API, Add an index at `https://ddev103.ddev.site/admin/config/search/search-api/add-index`. I called mine `content` and specified all content types. Watch out on that screen for the confusing content type selection options. Also be sure to set the cron batch size to 5.  It defaults to 50 which is too high for Milvus.  It take a long time to index content.
+Following a similar practice for normal setup of an index for the search API, add an index at `https://ddev103.ddev.site/admin/config/search/search-api/add-index`. I called mine `content` and specified all content types. Watch out on that screen for the confusing content type selection options. Also, be sure to set the cron batch size to 5.  It defaults to 50 which is too high for Milvus. It takes a long time to index content.
 
 The options look like:
 
@@ -213,15 +213,15 @@ User roles: anonymous user
 view mode for Content >> Article: Search index
 View mode for Content >> Basic page: Search index
 ```
-This will vary for your content types.  The `search index` view mode is already setup by the Search API module so it is a good choice.  The remainder of the fields won't have any settings to change.
+This will vary for your content types.  The `search index` view mode is already set up by the Search API module so it is a good choice.  The remainder of the fields won't have any settings to change.
 
-Back on the: Manage fields for search index Content page, you will need to configure the `Vector Database indexing options`.  This is really important.
+Back on the Manage fields for search index Content page, you will need to configure the `Vector Database indexing options`.  This is really important.
 
-In the General section, add the Rendered HTML output field  as `fulltext` type, with a boost of 1.00 and specify the indexing option as `Main content`.
+In the General section, add the Rendered HTML output field as `fulltext` type, with a boost of 1.00 and specify the indexing option as `Main content`.
 
 In the `Content` section, set the Authored on and Published fields as `filterable attributes`. This is similar to allowing faceted search.  For the Content type and Title fields, specify them as contextual content so that the AI can understand the context of the content.
 
-See the screen shot below for what it should look like:
+See the screenshot below for what it should look like:
 
 ![Manage fields for search index Content](/images/milvus-search-index.png)
 
@@ -229,7 +229,7 @@ It would be useful to also add an abstract or summary to the indexed field and s
 
 ### Check your work
 
-You need to make sure the content will be submitted to the VDB correctly.  To test this, you can use the `Preview content to be vectorized` section at `https://ddev103.ddev.site/admin/config/search/search-api/index/content/fields`.  
+You need to make sure the content will be submitted to the VDB correctly.  To test this, you can use the `Preview content to be vectorized` section at `https://ddev103.ddev.site/admin/config/search/search-api/index/content/fields`.
 
 ![Preview content](/images/preview-content1.png)
 
@@ -242,7 +242,7 @@ And here is the ![second chunk](/images/vdb-chunk2.png)
 
 At `https://ddev103.ddev.site/admin/config/search/search-api/index/content`, use the u/i to index the content.  You will need to have some content to index.  I used ChatGPT to generate some articles so I had 8 nodes to index. Afterwards, the index status should show 100% and in my case `8/8 indexed`.
 
-In the browser, navigate to [https://ddev103.ddev.site:8521/](https://ddev103.ddev.site:8521) as before, click on the `db1` database. You should see a list of collections.  Check the `Approx Count` column to see if your content has been indexed.  It needs to be greater than zero:  
+In the browser, navigate to [https://ddev103.ddev.site:8521/](https://ddev103.ddev.site:8521) as before, click on the `db1` database. You should see a list of collections.  Check the `Approx Count` column to see if your content has been indexed.  It needs to be greater than zero:
 
 ![Milvus VDB Provider](/images/milvus-collections.png)
 
@@ -353,29 +353,29 @@ Here is the `queryAlter()` method in the `web/modules/contrib/ai/modules/ai_sear
 
 
 
-There is also code which uses the **now deprecated** `hook_search_api_solr_query_alter()` to alter the query in `web/modules/contrib/ai/modules/ai_search/ai_search.module` and `web/modules/contrib/ai/modules/ai_search/src/Plugin/search_api/processor/DatabaseBoostByAiSearch.php`. Sadly this means it won't work for Drupal 10. I suspect it will be removed.  It needs to be converted to use the event subscriber as described in [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent). It is interesting and perhaps useful to look at.
+There is also code which uses the **now deprecated** `hook_search_api_solr_query_alter()` to alter the query in `web/modules/contrib/ai/modules/ai_search/ai_search.module` and `web/modules/contrib/ai/modules/ai_search/src/Plugin/search_api/processor/DatabaseBoostByAiSearch.php`. Sadly, this means it won't work for Drupal 10. I suspect it will be removed.  It needs to be converted to use the event subscriber as described in [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent). It is interesting and perhaps useful to look at.
 
 The `preprocessSearchQuery` method in the `DatabaseBoostByAiSearch` class is responsible for modifying the search query to include AI-boosted results. It first checks if there are search terms in the query. If search terms exist, it retrieves AI search results using these terms. If AI results are found, it adds specific tags to the query, including `database_boost_by_ai_search` and `ai_search_ids` with the **IDs of the AI-boosted** entities. This tagging is used later to alter the database query to **prioritize these AI-boosted results**.
 
 
 ### Searching
 
-To actually do the searching, you have to use the AI Vector DB Explorer.  I found this at `https://ddev103.ddev.site/admin/config/ai/explorers/vector-db-search`. 
+To actually do the searching, you have to use the AI Vector DB Explorer.  I found this at `https://ddev103.ddev.site/admin/config/ai/explorers/vector-db-search`.
 
 
-I tested by providing the prompt: `are there any green bean related products referenced in the posts? and it responded with some results that showed recipes that included `green bean` in the title.  The same search where I used the french word for green beans: `are there any haricot verts related products referenced in the posts?` gave me results with green beans in the title and recipes. The AI doesn't seem to care what language, it apparently has indexed the `idea` of green beans and can find it regardless of the language.  This is pretty impressive.  I even tried it using `are there judías verdes referenced in the posts?` which is the spanish version and it worked great!
+I tested by providing the prompt: `are there any green bean-related products referenced in the posts? and it responded with some results that showed recipes that included `green bean` in the title.  The same search where I used the French word for green beans: `are there any haricot verts related products referenced in the posts?` gave me results with green beans in the title and recipes. The AI doesn't seem to care what language, it apparently has indexed the `idea` of green beans and can find it regardless of the language.  This is pretty impressive.  I even tried it using `are there judías verdes referenced in the posts?` which is the Spanish version and it worked great!
 
 
 
 ![Searching for green beans](/images/haricot-verts.png)
 
 
-A simple site search at https://ddev103.ddev.site/search/node?keys=haricot%20verts for the french term `haricot verts` returned no results.  This is a good example of how the AI search is superior to the normal search.  AI search is able to understand the context of the content and provide relevant results whereas the normal search is just looking for the exact term in the content.
+A simple site search at https://ddev103.ddev.site/search/node?keys=haricot%20verts for the French term `haricot verts` returned no results.  This is a good example of how the AI search is superior to the normal search.  AI search is able to understand the context of the content and provide relevant results, whereas the normal search is just looking for the exact term in the content.
 
 ![Normal search for green beans](/images/haricot-verts2.png)
 
 
-In some of my earlier, exploration, when I put in a prompt, I got an error that `Method embeddings does not exist on provider groq`. I think the problem was that I had configured the `groq` provider to handle the embeddings which it doesn't do.  When I later changed it to use the `OpenAI` provider it worked fine.
+In some of my earlier exploration, when I put in a prompt, I got an error that `Method embeddings does not exist on provider groq`. I think the problem was that I had configured the `groq` provider to handle the embeddings which it doesn't do.  When I later changed it to use the `OpenAI` provider, it worked fine.
 
 
 
@@ -384,7 +384,7 @@ In some of my earlier, exploration, when I put in a prompt, I got an error that 
 
 ## API keys
 
-Each service requires an API key.  The OpenAI key is a little more challenging than most as they have legacy keys which are used by some modules e.g. [AI Content Generator](https://www.drupal.org/project/ai_content_creator) and then 
+Each service requires an API key.  The OpenAI key is a little more challenging than most as they have legacy keys which are used by some modules, e.g., [AI Content Generator](https://www.drupal.org/project/ai_content_creator).
 
 ### OpenAI
 
@@ -392,14 +392,14 @@ Start at the [Usage page](https://platform.openai.com/usage) and select API keys
 
 
 ## Terms
-### RAG 
+### RAG
 RAG stands for Retrieval-Augmented Generation, which is an AI framework that combines the capabilities of generative large language models (LLMs) with traditional information retrieval systems.
 
 From [this nvidia blog post from Nov 2023](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/): Retrieval-augmented generation (RAG) is a technique for enhancing the accuracy and reliability of generative AI models with facts fetched from external sources.
 
 In other words, it fills a gap in how LLMs work. Under the hood, LLMs are neural networks, typically measured by how many parameters they contain. An LLM’s parameters essentially represent the general patterns of how humans use words to form sentences.
 
-I did some testing by asking questions of my site such as: `Is there anything about floating around in the ocean on fiberglass boards?` and it showed me articles about surfing.  I could also reference words in other languages which the AI could easily translate and find the relevant content.
+I did some testing by asking questions of my site, such as: `Is there anything about floating around in the ocean on fiberglass boards?` and it showed me articles about surfing.  I could also reference words in other languages which the AI could easily translate and find the relevant content.
 
 
 ### Vector Database
@@ -413,7 +413,7 @@ Examples of vector database products. Some can be hosted locally or are offered 
 - [Zilliz](https://zilliz.com/)
 - [ChromaDB](https://github.com/chroma-core/chroma)
 - [Pinecone](https://www.pinecone.io/)
- 
+
 
 
 
@@ -426,9 +426,9 @@ Examples of vector database products. Some can be hosted locally or are offered 
 - check out this [Apply RAG, OpenAI integrations and interpolation - Frederik Wouters video](https://drupal.tv/external-video/2024-06-25/apply-rag-openai-integrations-and-interpolation-frederik-wouters) - Audio is very bad..
 
 
- ## Resources
- - [Drupal Slack #ai channel](https://www.drupal.org/community/contributor-guide/reference-information/talk/tools/slack)
- - [Drupal AI Online Meetup #2](https://www.drupal.org/project/ai/issues/3478581). This contains the link to the youtube presentation by Scott Euser (Soapbox).
- - [How to Set Up the OpenAI Module in Drupal 10 - Jan 2025](https://www.lnwebworks.com/insight/open-ai-module)
+## Resources
+- [Drupal Slack #ai channel](https://www.drupal.org/community/contributor-guide/reference-information/talk/tools/slack)
+- [Drupal AI Online Meetup #2](https://www.drupal.org/project/ai/issues/3478581). This contains the link to the YouTube presentation by Scott Euser (Soapbox).
+- [How to Set Up the OpenAI Module in Drupal 10 - Jan 2025](https://www.lnwebworks.com/insight/open-ai-module)
 
 

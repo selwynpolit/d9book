@@ -7,9 +7,9 @@ title: Drush
 
 ## Overview
 
-Drush is the command line shell and Unix scripting interface for Drupal. Drush core ships with lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
+Drush is the command-line shell and Unix scripting interface for Drupal. Drush core ships with lots of [useful commands](https://www.drush.org/latest/commands/all/) and [generators](https://www.drush.org/latest/generators/all/).
 
-Drush can run `update.php`, cron, executes SQL queries, run content migrations, and more.
+Drush can run `update.php`, cron, execute SQL queries, run content migrations, and more.
 
 Drush can be extended by [3rd party commandfiles](https://www.drupal.org/project/project_module?f%5B0%5D=&f%5B1%5D=&f%5B2%5D=&f%5B3%5D=&f%5B4%5D=sm_field_project_type%3Afull&f%5B5%5D=&f%5B6%5D=&text=drush&solrsort=score+desc&op=Search).
 
@@ -35,7 +35,7 @@ $ drush generate drush:command-file
 ```
 Or `drush gen dcf`
 
-This is what the most recent version of drush generates.  In this case I did ask it to inject the `entity_type.manager` service. The file is `web/modules/custom/drush_play2/src/Drush/Commands/DrushPlay2Commands.php`:
+This is what the most recent version of drush generates. In this case, I did ask it to inject the `entity_type.manager` service. The file is `web/modules/custom/drush_play2/src/Drush/Commands/DrushPlay2Commands.php`:
 
 ```php
 <?php
@@ -154,7 +154,7 @@ And just for fun, how about a command that lists the usages of a paragraph in ot
 ```
 
 
-The ouput looks something like this:
+The output looks something like this:
 ```
 $ ddev drush lpu button
 -
@@ -413,7 +413,7 @@ class SearchApiCommands extends DrushCommands {
   }
 ```
 
-Here is an example command (`search_api:enable`) from Search_API. This is an excerpt from `web/modules/contrib/search_api/src/Commands/SearchApiCommands.php`. Looking at the annotation you can see all the details of the command as well as the aliases. This annotation provides the ability to issue the command `drush search_api:enable`. The aliases allow you to use `drush sapi-en` or `drush search-api-enable` as well. Note. You can always add aliases etc. like `drush @apc.dev sapi-en`.
+Here is an example command (`search_api:enable`) from Search_API. This is an excerpt from `web/modules/contrib/search_api/src/Commands/SearchApiCommands.php`. Looking at the annotation, you can see all the details of the command as well as the aliases. This annotation provides the ability to issue the command `drush search_api:enable`. The aliases allow you to use `drush sapi-en` or `drush search-api-enable` as well. Note, you can always add aliases etc. like `drush @apc.dev sapi-en`.
 
 ```php
 /**
@@ -514,7 +514,7 @@ For another example, check out [Custom Drush commands with Drush Generate by Mar
 You can specify the commands with a member function and all its parameters like this:
 
 
-Here we have a command 
+Here we have a command
 ```php
 public function commandWarmVotingCache($scope = 'current', $program_nid = 0, $options = ['option-name' => 'default']): int {
 ```
@@ -556,9 +556,9 @@ You can use the Drupal logger to output data to the terminal.  If you specify `-
 ## Drush Scripts
 
 These are PHP Scripts that run after a full Drupal bootstrap. From <https://www.drush.org/latest/commands/php_script/#options> : A useful
-alternative to eval command when your php is lengthy or you can\'t be bothered to figure out bash quoting. If you plan to share a script with others, consider making a full Drush command instead, since that\'s more self-documenting. Drush provides command line options to the script via a variable called `$extra`.
+alternative to eval command when your php is lengthy or you can\'t be bothered to figure out bash quoting. If you plan to share a script with others, consider making a full Drush command instead, since that\'s more self-documenting. Drush provides command-line options to the script via a variable called `$extra`.
 
-You can execute these scripts with `drush scr script` (where script is the filename of the script to execute.). If you put the script in the
+You can execute these scripts with `drush scr script` (where script is the filename of the script to execute). If you put the script in the
 `docroot` (or `web`) directory, you don\'t need to specify a path.
 
 **TL;DR**
@@ -630,7 +630,7 @@ Array
 
 ### Arguments example2
 
-Here is `opinion_renamer.php` script that expects a parameter and dies if it doesn't find it. Also if the second parameter is R, it reports that it is reverting titles.
+Here is `opinion_renamer.php` script that expects a parameter and dies if it doesn't find it. Also, if the second parameter is R, it reports that it is reverting titles.
 
 ```php
 <?php
@@ -889,9 +889,9 @@ abc_employee:
 
 ### Generate code
 
-Drush can scaffold (write your beginning code) modules, controllers, blocks, and much more (maybe not quite as well as ChatGPT 😉), which will save you tons of time. Use commands like `drush generate module`, `drush generate controller` or `drush generate plugin:block` to get a nice starting point for you to write your own controllers. 
+Drush can scaffold (write your beginning code) modules, controllers, blocks, and much more (maybe not quite as well as ChatGPT 😉), which will save you tons of time. Use commands like `drush generate module`, `drush generate controller` or `drush generate plugin:block` to get a nice starting point for you to write your own controllers.
 
-Check out 
+Check out
 - [Drush Generators](https://www.drush.org/12.x/generators/all/)
 - [Generating controllers](https://www.drush.org/latest/generators/controller/)
 - [Generating block plugins](https://www.drush.org/12.x/generators/plugin_block/)
@@ -1091,9 +1091,9 @@ password_reset_timeout: 86400
 password_strength: true
 ```
 
-More on [reading Drupal configuration with Drush](config#read-config-values-with-drush) 
+More on [reading Drupal configuration with Drush](config#read-config-values-with-drush)
 
-And yes, you can use config:set (or cset) to change configuration. For more see <https://www.drush.org/latest/commands/config_get/>
+And yes, you can use config:set (or cset) to change configuration. For more, see <https://www.drush.org/latest/commands/config_get/>
 
 
 
@@ -1133,7 +1133,7 @@ $ drush @wolfman.local uli --no-browser
 $ drush uli --no-browser
 http://default/user/reset/1/1673815967/cLRjg5XAOlDzr5UrkirPg-kmX8KWGSwILUeyteZbsUU/login
 ```
-Note. The URL above isn't a usable URL but you can just paste everything starting at /user onto the end of the real URL in your browser e.g. 
+Note, the URL above isn't a usable URL but you can just paste everything starting at /user onto the end of the real URL in your browser e.g.
 https://d9book2/ddev.site/ user/reset/1/1673815967/cLRjg5XAOlDzr5UrkirPg-kmX8KWGSwILUeyteZbsUU/login
 
 ```
@@ -1302,7 +1302,7 @@ Asking drush to give you a render array for the node $x is a good way to see wha
 
 Read more at
 -  [Drush.org php:cli](https://www.drush.org/latest/commands/php_cli/)
--  [ChatGPT Experiments: "Act as Drush, shall we play a game?" - Blog post about getting ChatGpt to pretend it was drush by Joe Schindlar of Drupalize.me Mar 2024](https://drupalize.me/blog/chatgpt-experiments-act-drush-shall-we-play-game)
+-  [ChatGPT Experiments: "Act as Drush, shall we play a game?" - Blog post about getting ChatGPT to pretend it was drush by Joe Schindlar of Drupalize.me Mar 2024](https://drupalize.me/blog/chatgpt-experiments-act-drush-shall-we-play-game)
 
 
 ## Global Drush - run drush on host
@@ -1310,7 +1310,7 @@ Read more at
 I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded by [Oh-my-Zsh](https://ohmyz.sh/).  Drush runs slightly slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within `/vendor/bin`) and call it. **Always** install drush in each project using composer.
 
 ::: warning
-You should be aware that you might get unpredictable results if you use differing versions of PHP on your local vs in the DDEV containers.  E.g. if your local mac has PHP 7 and your DDEV is using PHP 8.1, you are likely to have unpredictable results when you issue some drush commands.  Generally speaking I haven't seen things be too wacky, but you should be aware of this.
+You should be aware that you might get unpredictable results if you use differing versions of PHP on your local vs in the DDEV containers.  E.g. if your local Mac has PHP 7 and your DDEV is using PHP 8.1, you are likely to have unpredictable results when you issue some drush commands.  Generally speaking I haven't seen things be too wacky, but you should be aware of this.
 :::
 
 Use Composer to install drush. Don't use homebrew.
@@ -1330,7 +1330,7 @@ Test any of these path changes by running `source ~/.zshrc` to reload the enviro
 
 By setting up drush globally, you can navigate into a Drupal directory e.g. (`~/Sites/apc`) and issue drush commands like `drush cr` or `drush cst`.
 
-Install drushonhost addon: 
+Install drushonhost addon:
 
 ```sh
 ddev get rfay/ddev-drushonhost
@@ -1338,7 +1338,7 @@ ddev get rfay/ddev-drushonhost
 
 See [ddev-drushonhost repo](https://github.com/rfay/ddev-drushonhost) for documentation
 
-You will need: 
+You will need:
 `export IS_DDEV_PROJECT=true`
 
 OR
@@ -1357,14 +1357,14 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
 }
 ```
 
- Then add this to your `settings.local.php`:
+Then add this to your `settings.local.php`:
 `putenv("IS_DDEV_PROJECT=true");`
 
 Discussion: <https://github.com/ddev/ddev/pull/5328>
 
 Restart the project with `ddev restart`.
 
-Et voila!  You can now issue command such as `drush cr` as if you had first `drush ssh'ed` into the container.  
+Et voila!  You can now issue command such as `drush cr` as if you had first `drush ssh'ed` into the container.
 
 
 **Troubleshooting**
@@ -1396,7 +1396,7 @@ drush rsync <source> <dest> (To rsync files to/from sites.  More on that below)
 ```
 
 These commands will only work on your computer if you have drush installed globally with all its requirements met. As usual, DDEV has a
-nice workaround. To use drush aliases with DDEV, you will need to setup your ssh keys to run in the containers (ddev auth ssh) and then you can issue drush alias commands from within the containers. For example:
+nice workaround. To use drush aliases with DDEV, you will need to set up your ssh keys to run in the containers (ddev auth ssh) and then you can issue drush alias commands from within the containers. For example:
 
 
 ```
@@ -1425,7 +1425,7 @@ Etc.
 
 ### Example Drush alias file
 
-Here is an example drush alias (`abc.site.yml`) where `abc.dev` refers to a site at the fictitious IP address of 123.45.67.123 and the `abc.devsp` refers to a site at 100.1.2.3. The first assumes there is an ssh key setup on the host whereas the second would expect a password to be entered each time a drush command is issued.
+Here is an example drush alias (`abc.site.yml`) where `abc.dev` refers to a site at the fictitious IP address of 123.45.67.123 and the `abc.devsp` refers to a site at 100.1.2.3. The first assumes there is an ssh key set up on the host, whereas the second would expect a password to be entered each time a drush command is issued.
 
 ```yaml
 dev:
@@ -1453,15 +1453,15 @@ devsp:
 
 ### Example Acquia Drush alias files
 
-Usually you will need to make your own drush alias files. Here is an example alias file from Acquia. If this file is named `/drush/sites/abc.site.yml` you will be able to issue drush commands like `drush @abc.dev status` or `drush @abc.prod sql-dump >dbprod.sql` from within the directory for your abc site. The command `drush @abc.dev status` will return the status for the dev site. The command `drush @abc.prod
+Usually, you will need to make your own drush alias files. Here is an example alias file from Acquia. If this file is named `/drush/sites/abc.site.yml` you will be able to issue drush commands like `drush @abc.dev status` or `drush @abc.prod sql-dump >dbprod.sql` from within the directory for your abc site. The command `drush @abc.dev status` will return the status for the dev site. The command `drush @abc.prod
 sql-dump >dbprod.sql` will download the entire production from the production server database into a local file called `dbprod.sql`. For DDEV
 use, you should gzip the file and then you can easily import it into your local DDEV database with a command like `ddev import-db
 --src=dbprod.sql.gz`.
 
-Note. The section in the file below with ssh and tty in it is to resolve a problem (from <https://github.com/drush-ops/drush/issues/4004> ) with the sql-dump drush command. Check the afforementioned Github.com issue link for side-effects.
+Note, the section in the file below with ssh and tty in it is to resolve a problem (from <https://github.com/drush-ops/drush/issues/4004> ) with the sql-dump drush command. Check the aforementioned GitHub.com issue link for side effects.
 
 Also, a little unusual is the `prod.livdev` section below. This facilitates using Acquia\'s live dev environment feature but is not
-necessary for hosting environments other than Acquia. 
+necessary for hosting environments other than Acquia.
 
 For more on using Drush aliases with Acquia see <https://docs.acquia.com/cloud-platform/manage/ssh/drush/aliases/>
 
@@ -1517,7 +1517,7 @@ prod:
 
 ### Example Drush alias file from Drush project
 
-You can view this on github at <https://github.com/drush-ops/drush/blob/master/examples/example.site.yml>
+You can view this on GitHub at <https://github.com/drush-ops/drush/blob/master/examples/example.site.yml>
 
 ```yaml
 #
@@ -1912,7 +1912,7 @@ Here are some old Drupal 7 Drush scripts in case they are of any interest
 $uid = 1;
 $result = db_query('SELECT n.nid, n.title, n.created
 FROM {node} n WHERE n.uid = :uid', array(':uid' => $uid));
-// Result is returned as a iterable object that returns a stdClass object on each iteration
+// Result is returned as an iterable object that returns a stdClass object on each iteration
 foreach ($result as $record) {
   // Perform operations on $record->title, etc. here.
   // in this example the available data would be mapped to object properties:
@@ -1926,7 +1926,7 @@ foreach ($result as $record) {
 $admin_uid = 1;
 $form_state = array('uid' => $admin_uid);
 user_login_submit(array(), $form_state);
-// Now the logged in user global $user object become available.
+// Now the logged-in user's global $user object becomes available.
 global $user;
 print_r($user);
 ```
@@ -1938,7 +1938,7 @@ drush_print();
 drush_print("The arguments to this command were:");
 //
 // If called with --everything, use drush_get_arguments
-// to print the commandline arguments.  Note that this
+// to print the command-line arguments.  Note that this
 // call will include 'php-script' (the drush command)
 // and the path to this script.
 //

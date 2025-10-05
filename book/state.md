@@ -7,16 +7,16 @@ title: State
 
 ## Overview
 
-The State API, TempStore API, and UserData are all storage mechanisms in Drupal. There is some overlap in their capabilities however they can be used for different purposes. Here is a brief explanation of each:
+The State API, TempStore API, and UserData are all storage mechanisms in Drupal. There is some overlap in their capabilities, however, they can be used for different purposes. Here is a brief explanation of each:
 
 **State API:** This provides a global way to store key-value pairs of data that need to persist between page loads or can be shared across different parts of the website. It is an implementation of the key-value store service in Drupal core. The State AI is used to persist data such as cron key, last cron run, system last check for updates, installation time and whether the system is in maintenance mode. It is like configuration data except it can\'t be exported (and imported) and stored in source code, thereby making it a little more secure. Typically, configuration settings are exportable values used in modules, features, or installation profiles e.g. front page path.
 
 
 **UserData:** This allows you to store user-specific data (in key-value pairs) in a similar manner as the State API. Because the data is specific to each user, it is useful for custom user preferences or other user-specific information.
 
-**TempStore:** This is also an implementation of the key-value store service in Drupal core. It is however, an auto expiring version. It was developed to track the changes made in the Views U/I and Layout builder.
+**TempStore:** This is also an implementation of the key-value store service in Drupal core. It is, however, an auto-expiring version. It was developed to track the changes made in the Views U/I and Layout builder.
 
-It provides a way to store user-specific data (also key-value pairs) that may be needed for a short period of time but does not need to be permanently stored. For example, it can be used to store data that is being edited in a form, allowing users to continue working on the form even if they navigate away from the page before saving the changes. It is also ideal for storing data such as the contents of a shopping cart.  I've used tempstore to quickly access a list of nodes that need to be voted on by each voter.  This means they don't need to run a complex set of queries more than once.
+It provides a way to store user-specific data (also key-value pairs) that may be needed for a short period of time but does not need to be permanently stored. For example, it can be used to store data that is being edited in a form, allowing users to continue working on the form even if they navigate away from the page before saving the changes. It is also ideal for storing data such as the contents of a shopping cart.  I've used TempStore to quickly access a list of nodes that need to be voted on by each voter.  This means they don't need to run a complex set of queries more than once.
 
 ::: tip Note
 Similarly to TempStore, you can also use the Drupal cache system to load complicated data really quickly.  I use this for storing arrays of nodes and data for a complicated voting application to improve scalability and performance.  I hope to write a bit more about this in the future.
@@ -28,7 +28,7 @@ The State API allows you to store small pieces of information specific to a site
 
 State API data is stored permanently in the `key_value` table. Functions to access this are: `set()`, `get()`,  `delete()` as well as `setMultiple()` and `getMultiple()`. The convention for the key name is to use periods(. or full-stops) to separate words. E.g. `my.state.data` or `emergency.header.message`. Underscores are also used e.g. `system.cron_key` or `system.cron_last`.
 
-State settings are values which should usually not be exported to code, and only make sense in the context of one site. For example, cron key is a state setting whereas the front page path is a \"config\" variable.
+State settings are values which should usually not be exported to code and only make sense in the context of one site. For example, cron key is a state setting, whereas the front page path is a \"config\" variable.
 
 To set a state value:
 
@@ -53,7 +53,7 @@ Writing state data looks like this:
 \Drupal::state()->set('selwyn.important.string', 'abc');
 \Drupal::state()->set('selwyn.more.important.string', 'def');
 ```
-In the screenshot below, you can see where this is stored in the `key_value` table. Notice that the collection column is set to \"state\" indicating these are State API values.
+In the screenshot below, you can see where this is stored in the `key_value` table. Notice that the collection column is set to \"state\", indicating these are State API values.
 
 ![State API data in its table](/images/state_data1.png)
 
@@ -184,9 +184,9 @@ Here is the data stored in the `users_data` table. Notice that there is also som
 
 ## TempStore
 
-TempStore is used to keep temporary data across multiple requests. The data is intended to be non-cache data (i.e. not easily be rebuilt) and is stored in the `key_value_expire` table.
+TempStore is used to keep temporary data across multiple requests. The data is intended to be non-cache data (i.e., not easily rebuilt) and is stored in the `key_value_expire` table.
 
-TempStore has two flavors, private and shared. The difference between them is that the private TempStore entries are connected to a specific user (via their user id) whereas shared TempStore entries can be shared between multiple users. Shared TempStore could for example be used to trigger a locking mechanism.
+TempStore has two flavors, private and shared. The difference between them is that the private TempStore entries are connected to a specific user (via their user id) whereas shared TempStore entries can be shared between multiple users. Shared TempStore could, for example, be used to trigger a locking mechanism.
 
 ### PrivateTempStore
 
@@ -238,7 +238,7 @@ Drupal automatically inserts the user id (e.g. 1:) into the front of the name fi
 
 ![Private tempstore in the database](/images/private_tempstore1.png)
 
-In the next example we\'re storing an array with the key
+In the next example, we\'re storing an array with the key
 \"selwyn.important.array\". The array is automatically serialized into the value field. Incidentally, you don\'t have to specify the type of content (i.e. array) as I have. Instead of using selwyn.important.array, you could use selwyn.important.banana or selwyn.important.kiwi (depending on your fruit preference).
 
 ```php
@@ -269,7 +269,7 @@ This is a screenshot of the value for the array field above. Notice the id = 123
 
 ![Serialized array in database](/images/serialized_array.png)
 
-Also see this article showing how to save values from a form and then later retrieve and process them in a controller. Saving temporarily values of a form with Private Tempstore in Drupal 8 by Karim Boudjema Mar 2019 <http://karimboudjema.com/en/drupal/20190315/saving-temporary-values-form-private-tempstore-drupal-8>
+Also, see this article showing how to save values from a form and then later retrieve and process them in a controller. Saving temporarily values of a form with Private Tempstore in Drupal 8 by Karim Boudjema Mar 2019 <http://karimboudjema.com/en/drupal/20190315/saving-temporary-values-form-private-tempstore-drupal-8>
 
 
 ### SharedTempStore
@@ -332,13 +332,13 @@ And here is the data in the database:
 
 ![Shared tempstore in the database](/images/shared_tempstore1.png)
 
-And you can see the data owner in the screen shot below:
+And you can see the data owner in the screenshot below:
 
 ![Shared tempstore data in the database](/images/shared_tempstore2.png)
 
 #### Injecting tempstore.shared
 
-If you want to inject the service rather than use it statically, you have to inject `tempstore.shared`. e.g. In the `module.services.yml` file below, we inject 3 services, including the `tempstore.shared`.  Note that this is actually the `SharedTempStoreFactory` (and not the `SharedTempStore` class itself).  Remember to derive the "collection" as shown in the php snippet below:
+If you want to inject the service rather than use it statically, you have to inject `tempstore.shared`. e.g. In the `module.services.yml` file below, we inject 3 services, including the `tempstore.shared`.  Note that this is actually the `SharedTempStoreFactory` (and not the `SharedTempStore` class itself).  Remember to derive the "collection" as shown in the PHP snippet below:
 
 ```yml
 services:
@@ -355,7 +355,7 @@ services:
     $this->entityTypeManager = $entityTypeManager;
     $this->account = $account;
     // Derive the collection.
-    // Note. this will write into the key_value_expire table collection column: tempstore.shared.tea_teks_srp.   */
+    // Note, this will write into the key_value_expire table collection column: tempstore.shared.tea_teks_srp.   */
     $this->tempStore = $sharedTempStoreFactory->get('tea_teks_srp');
   }
 

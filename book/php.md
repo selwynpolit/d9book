@@ -7,7 +7,7 @@ title: PHP tips
 
 
 ## Foreach with ampersand (\&)
-When iterating through an array of items, changes you make to the `as` value are not reflected in the original array.  e.g. if you iterate through your array as in `foreach ($cars as $car)` any changes to `$car` will not be reflected in `$cars`.
+When iterating through an array of items, changes you make to the `as` value are not reflected in the original array.  e.g., if you iterate through your array as in `foreach ($cars as $car)` any changes to `$car` will not be reflected in `$cars`.
 
 The following code shows the problem if you don\'t use the ampersand(\&).
 
@@ -100,7 +100,7 @@ This way, any changes made to `$correlation` inside the loop will be reflected i
 
 ## Deep merge arrays with numeric keys
 
-While searching for a way to merge two arrays with numeric keys, I found this [information on PHP.net](https://www.php.net/manual/en/function.array-merge-recursive.php).  Unfortunately `array_merge_recursive()` does not work with numeric keys.  The following code (from 12 years ago) is a solution to the problem.  I did use ChatGPT to modernize the code for PHP 8.
+While searching for a way to merge two arrays with numeric keys, I found this [information on PHP.net](https://www.php.net/manual/en/function.array-merge-recursive.php).  Unfortunately, `array_merge_recursive()` does not work with numeric keys.  The following code (from 12 years ago) is a solution to the problem.  I did use ChatGPT to modernize the code for PHP 8.
 
 
 ```php
@@ -172,7 +172,7 @@ More at [php.net](https://www.php.net/manual/en/control-structures.match.php).
 
 ## Field mapping
 
-Here is the most convoluted way (Don\'t ask.) I could figure out to insert some additional instructions on a form upload field in a media entity. It showed some interesting ways to get deep into the render array. This line: `$field_reference = &$form;` establishes a starting point for navigating the form's structure. By using a reference (`&`), any changes made to `$field_reference` will directly affect the `$form` array, ensuring that the alterations are applied to the actual form being processed.
+Here is the most convoluted way (Don\'t ask.) I could figure out how to insert some additional instructions on a form upload field in a media entity. It showed some interesting ways to get deep into the render array. This line: `$field_reference = &$form;` establishes a starting point for navigating the form's structure. By using a reference (`&`), any changes made to `$field_reference` will directly affect the `$form` array, ensuring that the alterations are applied to the actual form being processed.
 
 The loop below navigates through the form array to the specific field that needs modification. It does so by updating $field_reference at each step to point deeper into the form structure, following the path defined in the mapping. This dynamic navigation allows the code to reach any field within the form, regardless of its depth or location.
 
@@ -226,13 +226,13 @@ For those of you following along at home, you may realize that this could easily
 
 ## The difference between require and include
 
-The difference between include and require is subtle. 
+The difference between include and require is subtle.
 
-Require, as the function name suggests *requires* that the included file exist to continue the script. So, if require fails, the script stops. 
+Require, as the function name suggests *requires* that the included file exist to continue the script. So, if require fails, the script stops.
 
 Using include *will allow* the script to continue. Most of the time, using require makes more sense because it's likely that the file we want to include includes some important information that is required for your application to run properly.
 
-e.g. 
+e.g.
 ```php
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php';
@@ -248,7 +248,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
 
 ## nullsafe operator
 
-The nullsafe operator `?->` is a new feature in PHP 8 that allows you to safely access properties and methods of an object without having to check if the object is null. This means you only need 1 null check as the operator will return null if any of the calls in the chain return null.
+The nullsafe operator `?->` is a new feature in PHP 8 that allows you to safely access properties and methods of an object without having to check if the object is null. This means you only need 1 null check, as the operator will return null if any of the calls in the chain return null.
 
 ```php
  $job = $this->apiHandler?->getJobs()?->getJobById($job_id);
@@ -304,7 +304,7 @@ Return early pattern
 I am a fan of the [return early pattern](https://medium.com/swlh/return-early-pattern-3d18a41bba8).  Return early is the way of writing functions or methods so that the expected positive result is returned at the end of the function and the rest of the code terminates early by returning or throwing an exception if there are any errors.  I've also seen this called the "happy path" pattern.
 
 
-Doesn't this code make you feel good?  It is from the medium article linked above.  
+Doesn't this code make you feel good?  It is from the medium article linked above.
 
 ```php
 public String returnStuff(SomeObject argument1, SomeObject argument2){

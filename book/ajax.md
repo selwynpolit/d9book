@@ -69,7 +69,7 @@ final class AjaxLinkBlockBlock extends BlockBase {
 
 }
 ```
-Then in a controller at `web/modules/custom/block_play/src/Controller/BlockPlayController.php` add the following:
+Then, in a controller at `web/modules/custom/block_play/src/Controller/BlockPlayController.php` add the following:
 
 ```php
 <?php
@@ -149,13 +149,13 @@ To see this work, place the block on a page, view the page, and click the link. 
 
 ## Table with a pager using AJAX
 
-To display a table with a pager that updates via AJAX requires some fidding. The code is in a module called `ajax_pager_table`. The idea is that when the user clicks a pager link, the table is updated with the new page of data and the pager updates correctly. To make this a little more interesting, the table is displayed via a block. Also this is not a form which makes this a little more interesting.
+To display a table with a pager that updates via AJAX requires some fiddling. The code is in a module called `ajax_pager_table`. The idea is that when the user clicks a pager link, the table is updated with the new page of data and the pager updates correctly. To make this a little more interesting, the table is displayed via a block. Also, this is not a form which makes this a little more interesting.
 
 For reference, check out the [class Pager in the Drupal API](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21Element%21Pager.php/class/Pager/10)
 
 ### The block
-Starting with the block, in the `web/modules/custom/ajax_pager_table/src/Plugin/Block/AjaxPagerTableBlock.php``` file the following code is added:
-  
+Starting with the block, in the `web/modules/custom/ajax_pager_table/src/Plugin/Block/AjaxPagerTableBlock.php` file the following code is added:
+
 ```php
 <?php
 namespace Drupal\ajax_pager_table\Plugin\Block;
@@ -371,7 +371,7 @@ function ajax_pager_table_preprocess_pager(&$variables): void {
 }
 ```
 
-This actually causes the links in the pager to no longer point to `?page=2` for example, but rather will point to `https://ddev102.ddev.site/refresh-selwyn-wrapper?_wrapper_format=drupal_ajax&page=2`. 
+This actually causes the links in the pager to no longer point to `?page=2` for example, but rather will point to `https://ddev102.ddev.site/refresh-selwyn-wrapper?_wrapper_format=drupal_ajax&page=2`.
 
 ### The controller with the AJAX callback
 
@@ -491,14 +491,14 @@ ajax_pager.refresh_table:
 
 ## Finding the AJAX commands to use with addCommand()
 
-Look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a class that implements a command e.g. `AddCssCommand`, `RedirectCommand` or `OpenModalDialogCommand`. Also check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
+Look in `docroot/core/lib/Drupal/Core/Ajax` for a list of files. Each file is a class that implements a command e.g. `AddCssCommand`, `RedirectCommand` or `OpenModalDialogCommand`. Also, check out the [Core AJAX Callback Commands on drupal.org - updated May 2024](https://www.drupal.org/docs/develop/drupal-apis/ajax-api/core-ajax-callback-commands)
 
 
 ## Copy to Clipboard from an AJAX modal dialog
 
-In the [AI Content Creator module](https://www.drupal.org/project/ai_content_creator) there is a feature that allows the user to copy the generated content to the clipboard. Unfortunately you have to tweak this module slightly to make it actually work but the code is useful.  My `tweaks` to make the module work are in the code below if you want to make it work.
+In the [AI Content Creator module](https://www.drupal.org/project/ai_content_creator), there is a feature that allows the user to copy the generated content to the clipboard. Unfortunately, you have to tweak this module slightly to make it actually work, but the code is useful.  My `tweaks` to make the module work are in the code below if you want to make it work.
 
-The module alters the node add/edit form using a `hook_form_alter()` which adds some elements to the form as well as attached the `clipboard.js` library:
+The module alters the node add/edit form using a `hook_form_alter()` which adds some elements to the form as well as attaches the `clipboard.js` library:
 
 ```php
 /**
@@ -552,7 +552,7 @@ function ai_content_creator_form_alter(&$form, FormStateInterface $form_state, $
 ```
 
 
-The `ai_content_creator.libraries.yml` file specifies the `clipboard.js` from cloudflare:
+The `ai_content_creator.libraries.yml` file specifies the `clipboard.js` from Cloudflare:
 
 ```yaml
 clipboardjs:
@@ -660,10 +660,10 @@ The [full source for the module is available here](https://git.drupalcode.org/pr
 
 ## The Basics of the AJAX framework
 
-If you prefer watching a video presentation on this, check out Michael Miles [Drupal 8 Day: Demystifying AJAX Callback Commands in Drupal 8](https://www.youtube.com/watch?v=6YhJq01jlpY). This session outlines and explains Drupal 8 AJAX callback commands and how to use them. AJAX callback commands are the sets of PHP and JavaScript functions that control all AJAX functionality on a Drupal site.  The slides are available [on slideshare](https://www.slideshare.net/slideshow/drupal8day-demystifying-drupal-8-ajax-callback-commands/69024610) His [Ajax Dblog project can be viewed here ](https://www.drupal.org/project/ajax_dblog)
+If you prefer watching a video presentation on this, check out Michael Miles [Drupal 8 Day: Demystifying AJAX Callback Commands in Drupal 8](https://www.youtube.com/watch?v=6YhJq01jlpY). This session outlines and explains Drupal 8 AJAX callback commands and how to use them. AJAX callback commands are the sets of PHP and JavaScript functions that control all AJAX functionality on a Drupal site.  The slides are available [on slideshare](https://www.slideshare.net/slideshow/drupal8day-demystifying-drupal-8-ajax-callback-commands/69024610). His [Ajax Dblog project can be viewed here ](https://www.drupal.org/project/ajax_dblog)
 
 ### Callback Commands
-Callback commands have two parts, a JavaScript function and a PHP class. The JavaScript function is called when the AJAX request is successful. The PHP class is used to define the JavaScript function to call.  Core, contrib and custom modules can define their own callback commands. See views, ctools etc. for examples.
+Callback commands have two parts: a JavaScript function and a PHP class. The JavaScript function is called when the AJAX request is successful. The PHP class is used to define the JavaScript function to call.  Core, contrib and custom modules can define their own callback commands. See views, ctools, etc. for examples.
 
 Drupal core provides a number of callback commands (\~40) which are basically wrappers to jQuery functions. e.g. `insert`, `remove`, `slideDown`. See [jQuery API docs for a complete list of jQuery functions](https://api.jquery.com/).
 
@@ -671,11 +671,11 @@ Drupal core provides a number of callback commands (\~40) which are basically wr
 The AJAX framework provides a global JS object with functions attached. These functions are the JavaScript part of the callback commands. The Global JS object is `Drupal.AjaxCommands.prototype` and is defined in `misc/ajax.js`. All callback commands are attached to this object
 
 Every function that is a callback accepts 3 args:
-- ajax: information about the ajax request - the element that triggered it, the endpoint that is being requested, the element that is marked to be altered etc.
-- Response: Contains all the data that has been sent back by the server to this function - i.e. data to be placed on the page e.g. html markup, elements to select or to trigger, any other data that the JS function is expected to be acted on
-- status: The status code of the request - hopefully a 200, but could be a 500/504 etc.
+- ajax: information about the ajax request - the element that triggered it, the endpoint that is being requested, the element that is marked to be altered, etc.
+- response: contains all the data that has been sent back by the server to this function - i.e. data to be placed on the page e.g. HTML markup, elements to select or to trigger, any other data that the JS function is expected to be acted on.
+- status: the status code of the request - hopefully a 200, but could be a 500/504, etc.
 
-These can be any JavaScript that you want and is location in the `js` directory of a module.
+This can be any JavaScript that you want and is located in the `js` directory of a module.
 ```JS
 (function ($, window, Drupal, drupalSettings) {
   'use strict';
@@ -703,7 +703,7 @@ namespace Drupal\MyModule\Ajax;
 
 use Drupal\Core\Ajax\CommandInterface;
 
-// Ajax command called as a Javascript method in the form MyCommand().
+// Ajax command called as a JavaScript method in the form MyCommand().
 class MyCommand implements CommandInterface {
 
   // Implements Drupal\Core\Ajax\CommandInterface::render().
@@ -770,31 +770,31 @@ class RemoveCommand implements CommandInterface {
 }
 ```
 
-Here is the JS function that is called is in `web/core/misc/ajax.js`. Notice that it uses data from the `response` to target elements on the page and remove them. Also it removes any behaviors that are attached to the elements that are about to be removed.:
+Here is the JS function that is called is in `web/core/misc/ajax.js`. Notice that it uses data from the `response` to target elements on the page and remove them. Also, it removes any behaviors that are attached to the elements that are about to be removed:
 
 ```javascript
-    /**
-     * Command to remove a chunk from the page.
-     *
-     * @param {Drupal.Ajax} [ajax]
-     *   {@link Drupal.Ajax} object created by {@link Drupal.ajax}.
-     * @param {object} response
-     *   The response from the Ajax request.
-     * @param {string} response.selector
-     *   A jQuery selector string.
-     * @param {object} [response.settings]
-     *   An optional array of settings that will be used.
-     * @param {number} [status]
-     *   The XMLHttpRequest status.
-     */
-    remove(ajax, response, status) {
-      const settings = response.settings || ajax.settings || drupalSettings;
-      $(response.selector)
-        .each(function () {
-          Drupal.detachBehaviors(this, settings);
-        })
-        .remove();
-    },
+/**
+ * Command to remove a chunk from the page.
+ *
+ * @param {Drupal.Ajax} [ajax]
+ *   {@link Drupal.Ajax} object created by {@link Drupal.ajax}.
+ * @param {object} response
+ *   The response from the Ajax request.
+ * @param {string} response.selector
+ *   A jQuery selector string.
+ * @param {object} [response.settings]
+ *   An optional array of settings that will be used.
+ * @param {number} [status]
+ *   The XMLHttpRequest status.
+ */
+remove(ajax, response, status) {
+  const settings = response.settings || ajax.settings || drupalSettings;
+  $(response.selector)
+    .each(function () {
+      Drupal.detachBehaviors(this, settings);
+    })
+    .remove();
+},
 ```
 
 

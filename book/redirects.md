@@ -5,9 +5,9 @@ title: Redirects
 # Redirects
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=redirects.md)
 
-## Redirect to an internal url
+## Redirect to an internal URL
 
-In a controller when we return a RedirectResponse instead of a render
+In a controller, when we return a RedirectResponse instead of a render
 array, Symfony redirects to the URL specified in the RedirectResponse.
 
 For example:
@@ -30,7 +30,7 @@ In a form, you can redirect to a route by its name:
 $form_state->setRedirect('entity.bike_part.canonical', ['bike_part' => $entity->id()]);
 ```
 
-Note. You can also redirect to a specific id (anchor) on the page by
+Note, you can also redirect to a specific id (anchor) on the page by
 adding the fragment parameter
 
 ```php
@@ -52,8 +52,8 @@ $form_state->setRedirectUrl($url);
 From
 <https://drupal.stackexchange.com/questions/136641/how-do-i-redirect-to-an-external-url>
 
-Redirect to a third party website with Redirect permanent status. The
-URL must have absolute path like <http://www.google.com>
+Redirect to a third-party website with Redirect permanent status. The
+URL must have an absolute path like <http://www.google.com>
 
 ```php
 return new RedirectResponse('https://google.com');
@@ -78,7 +78,7 @@ exit(0);
 You can specify the route using the route name from your
 module.routing.yml file.
 
-Note. You can also redirect to a specific id (anchor) on the page by
+Note, you can also redirect to a specific id (anchor) on the page by
 adding the fragment parameter
 
 ```php
@@ -90,7 +90,7 @@ $form_state->setRedirect('tra_teks_admin.timeline_detail',
 
 ## Redirect to a complex route
 
-Here the route requires four arguments so they all need to be passed in.
+Here, the route requires four arguments, so they all need to be passed in.
 
 ```php
 $form_state->setRedirectUrl(Url::fromRoute('tra_teks_srp.confidential_voting', [
@@ -220,7 +220,7 @@ More at <https://drupal.stackexchange.com/questions/163626/how-to-perform-a-redi
 
 ## Redirect dynamically to wherever you came from
 
-In this case, in a form, we grab the referrer url in the buildForm method using the following code:
+In this case, in a form, we grab the referrer URL in the buildForm method using the following code:
 
 ```php
 public function buildForm(array $form, FormStateInterface $form_state, int $program_nid = 0, int $feedback_error_nid = 0, int $citation_nid = 0){
@@ -240,7 +240,7 @@ public function buildForm(array $form, FormStateInterface $form_state, int $prog
 }
 
 ```
-Then in the submitForm() method, once we've completed the work we needed to do, we can redirect back to where we came from using the code below.  We can optionally add a fragment which refers to an ID on the page.
+Then, in the submitForm() method, once we've completed the work we needed to do, we can redirect back to where we came from using the code below.  We can optionally add a fragment which refers to an ID on the page.
 
 ```php
     $referrer_alias = $form_state->get('referrer_alias');

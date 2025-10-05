@@ -45,32 +45,32 @@ In a Drupal context, there are 4 types of tests. From
 <https://www.drupal.org/docs/automated-testing/types-of-tests> :
 
 - `Unit`: PHPUnit-based tests with minimal dependencies. Base class:
-    `Drupal\Tests\UnitTestCase` class. They must be clean plain PHP.
+  `Drupal\Tests\UnitTestCase` class. They must be clean plain PHP.
 
 - `Kernel`: PHPUnit-based tests with a bootstrapped kernel, and a
-    minimal number of extensions enabled. Base class:
-    `Drupal\KernelTests\KernelTestBase` class. More at
-    <https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/kerneltestbase>
+  minimal number of extensions enabled. Base class:
+  `Drupal\KernelTests\KernelTestBase` class. More at
+  <https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/kerneltestbase>
 
 - `Functional`: PHPUnit-based tests with a full booted Drupal instance.
-    Base class: `Drupal\Tests\BrowserTestBase`.
+  Base class: `Drupal\Tests\BrowserTestBase`.
 
 - `FunctionalJavascript`: PHPUnit-based tests that use Webdriver to
-    perform tests of Javascript and Ajax functionality in the browser.
-    Base class: `Drupal\FunctionalJavascriptTests\WebDriverTestBase`.
+  perform tests of JavaScript and Ajax functionality in the browser.
+  Base class: `Drupal\FunctionalJavascriptTests\WebDriverTestBase`.
 
 In addition, the Drupal project has some tests for JavaScript, written in JavaScript, that use the [Nightwatch framework](https://www.drupal.org/docs/testing/javascript-testing-using-nightwatch).
 
 **Drupal Test Traits** (DTT) adds 2 more types of tests:
 
--  `ExistingSite` which use the Drupal API and existing site. Base class: `weitzman\DrupalTestTraits\ExistingSiteBase`
+-  `ExistingSite` which uses the Drupal API and existing site. Base class: `weitzman\DrupalTestTraits\ExistingSiteBase`
 
--  `ExistingSiteJavascript` for testing Javacript or AJAX using Selenium and Chromedriver. Base class: `weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase`.
+-  `ExistingSiteJavascript` for testing JavaScript or AJAX using Selenium and Chromedriver. Base class: `weitzman\DrupalTestTraits\ExistingSiteSelenium2DriverTestBase`.
 
 There are many examples of tests in core and contributed modules. e.g. in `docroot/modules/contrib/admin_toolbar/tests/src/Functional/` there are 3 functional tests: `AdminToolbarAdminMenuTest.php`,
 `AdminToolbarAlterTest.php` and `AdminToolbarToolsSortTest.php`.
 
-Every time a PHPUnit test is run, a fresh Drupal database and files are created. This guarantees that any existing data won\'t taint your test\'s outcomes. DTT bypasses this process and uses the existing site although it can clean up anything that is created in the test.
+Every time a PHPUnit test is run, a fresh Drupal database and files are created. This guarantees that any existing data won\'t taint your test\'s outcomes. DTT bypasses this process and uses the existing site, although it can clean up anything that is created in the test.
 
 ## Location of PHPUnit Tests
 
@@ -96,17 +96,17 @@ Below you will see a bunch of directories (probably one for each run of the test
 
 ![Test output location](/images/test-output.png)
 
-If you don't need to view the reports from your tests, you can safely delete these directories as well as the html files shown below.
+If you don't need to view the reports from your tests, you can safely delete these directories as well as the HTML files shown below.
 
-At the same level is a browser_output directory which has some html files which reference the directories above:
+At the same level is a browser_output directory which has some HTML files which reference the directories above:
 
 ![Browser Ouput1](/images/browser-output1.png)
 
-While tests are running, I noticed that files appear in the `/simpletest/browser_output` folder at the topmost level of the project. They go away when the tests complete..
+While tests are running, I noticed that files appear in the `/simpletest/browser_output` folder at the topmost level of the project. They go away when the tests are complete.
 
 ![Browser Output2](/images/browser-output2.png)
 
-## Setup PHPUnit tests 
+## Setup PHPUnit tests
 
 Using Drupal version 9.4.5 let's get PHPunit tests running inside the ddev containers (instead of on the host machine).
 
@@ -139,7 +139,7 @@ Change the `SIMPLETEST_BASE_URL`, `SIMPLETEST_DB` AND `BROWSERTEST_OUTPUT_DIRECT
 
 Refer to [Matt Glaman's blog post](https://mglaman.dev/blog/running-drupals-phpunit-test-suites-ddev) for more info on using `ddev describe` to get suitable values for those variables.
 
-From `web/core/tests/README.md`: 
+From `web/core/tests/README.md`:
 
 Copy the `core/phpunit.xml.dist` file to `phpunit.xml`, and place it somewhere convenient (inside the core directory may not be the best spot, since that directory may be managed by Composer or Git). You can use the `-c` option on the command line to tell PHPUnit where this file is (use the full path).
 
@@ -198,7 +198,7 @@ http://localhost/sites/simpletest/browser_output/Drupal_Tests_action_Functional_
 In the output: \....S.., periods mean success, S means skipped, I means incomplete, E means error.
 :::
 
-You can choose to skip(S) or ignore incomplete (I) tests during development.  This is done to speed up test runs or if you are mid-development and want to only run specific tests.  Also these can be conditional such as when you only want a certain test to run if a condition is met e.g. a driver is present.
+You can choose to skip(S) or ignore incomplete (I) tests during development.  This is done to speed up test runs or if you are mid-development and want to only run specific tests.  Also, these can be conditional such as when you only want a certain test to run if a condition is met e.g. a driver is present.
 
 You can use `markTestIncomplete(string $message)` or `markTestSkipped( string $message)` to cause certain tests not to run.  The `$message` will be displayed when the test is skipped.
 
@@ -238,7 +238,7 @@ $ vendor/bin/phpunit -c web/core web/core/modules/action
 
 You can use drush to generate a module e.g. `drush gen module`. (Just
 follow the prompts). Once you have a module, use `drush gen test:unit` for
-your module. Note. You need a minumum of drush version 11 for this.
+your module. Note, you need a minimum of drush version 11 for this.
 
 Here is a generated file at `modules/custom/tea_teks_voting/tests/src/Unit/ExampleTest.php` with the following contents. It does not contain a real test; just a shell of a test which can run.
 
@@ -301,7 +301,7 @@ Time: 00:00.058, Memory: 4.00 MB
 OK (1 test, 1 assertion)
 ```
 
-Note. It does expect the file `web/core/phpunit.xml` to exist and be
+Note, it does expect the file `web/core/phpunit.xml` to exist and be
 configured correctly. See setup above for details.
 
 ## My first (functional) PHPUnit test
@@ -363,9 +363,9 @@ Time: 00:00.055, Memory: 4.00 MB
 OK (1 test, 1 assertion)
 ```
 
-Note. The OK means it worked.
+Note, the OK means it worked.
 
-Check out [How to write your first functional test in Drupal 10 - May 2025](https://eduardotelaya.com/blog/technology/2025-05-26-how-to-write-your-first-functional-test-in-drupal-10/) for another example of writing a functional test in Drupal 10. 
+Check out [How to write your first functional test in Drupal 10 - May 2025](https://eduardotelaya.com/blog/technology/2025-05-26-how-to-write-your-first-functional-test-in-drupal-10/) for another example of writing a functional test in Drupal 10.
 
 
 
@@ -392,16 +392,16 @@ Further interesting reading:
 
 ## Install/setup Drupal Test Traits
 
-TLDR; You will need Drupal test traits installed with composer, `drupal/core-dev`, a `/phpunit.xml` file, and a `/scripts/bootstrap-fast.php`. Add `weitzman/logintrait` with composer for adding users and logging in to your site. Finally for AJAX testing add a `docker-compose.testing.yaml` and using composer add `behat/mink-selenium2-driver`.
+TLDR; You will need Drupal test traits installed with composer, `drupal/core-dev`, a `/phpunit.xml` file, and a `/scripts/bootstrap-fast.php`. Add `weitzman/logintrait` with composer for adding users and logging in to your site. Finally, for AJAX testing, add a `docker-compose.testing.yaml` and using composer add `behat/mink-selenium2-driver`.
 
 The details are as follows:
 
-- Install DTT. At the time of this writing the 1.6 version was out but there is a 2.x dev branch. Moshe recommends using that so use the following command to install it: 
+- Install DTT. At the time of this writing the 1.6 version was out but there is a 2.x dev branch. Moshe recommends using that so use the following command to install it:
 ```sh
 composer require --dev weitzman/drupal-test-traits:^2
 ```
 
-- Install the dev requirements: 
+- Install the dev requirements:
 ```sh
 composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
@@ -529,7 +529,7 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 
 ### docker-compose.testing.yaml
 
-Here is the docker-compose.testing.yaml from [Michael Strelan on drupal.org](https://www.drupal.org/u/mstrelan). Once you add this and restart DDEV, you will be able to do AJAX and Javascript testing of DTT tests. Note this is a "just works" situation as Michael puts it. Note that if you have this file in place, you don't need to provide all the `env` values in the `phpunit.xml` above.
+Here is the docker-compose.testing.yaml from [Michael Strelan on drupal.org](https://www.drupal.org/u/mstrelan). Once you add this and restart DDEV, you will be able to do AJAX and JavaScript testing of DTT tests. Note, this is a "just works" situation, as Michael puts it. Note that if you have this file in place, you don't need to provide all the `env` values in the `phpunit.xml` above.
 
 ```yaml
 version: '3.6'
@@ -626,7 +626,7 @@ PHPUnit 9.5.23 #StandWithUkraine
 Time: 00:01.338, Memory: 16.00 MB
  OK (2 tests, 2 assertions)
 ```
-Along with a boatload of deprecation notices. (Note. we can hide these with `<env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>` in the `<php>` section of the `phpunit.xml` file): 
+Along with a boatload of deprecation notices. (Note, we can hide these with `<env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>` in the `<php>` section of the `phpunit.xml` file):
 
 ```
 Remaining direct deprecation notices (3)
@@ -649,7 +649,7 @@ Traversable, or the #\[\ReturnTypeWillChange\] attribute should be used to tempo
 
 ## Running DTT tests
 
-To run all the tests in the `modules/custom/tea_teks_requirements` 
+To run all the tests in the `modules/custom/tea_teks_requirements`
 directory, use the following:
 
 ```
@@ -666,7 +666,7 @@ Time: 00:07.798, Memory: 20.00 MB
 OK (1 test, 7 assertions)
 ```
 
-Along with a boatload of deprecation notices. (Note. we can hide these with `<env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>` in the `<php>` section of the `phpunit.xml` file)
+Along with a boatload of deprecation notices. (Note, we can hide these with `<env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>` in the `<php>` section of the `phpunit.xml` file)
 
 ```
 Remaining direct deprecation notices (3)
@@ -729,7 +729,7 @@ Or more simply:
 vendor/bin/phpunit  docroot/modules/custom/tea_teks/modules/tea_teks_voting/Tests/src/ExistingSite/RequirementsCreationTest.php
 ```
 
-Also note you can specify the `phpunit.xml` file with -c parameter.
+Also, note you can specify the `phpunit.xml` file with -c parameter.
 
 ```
 ./vendor/bin/phpunit -c ./phpunit.xml  ./docroot/modules/custom/tea_teks/modules/tea_teks_voting/Tests/src/ExistingSite/RequirementsCreationTest.php
@@ -743,7 +743,7 @@ You can use the same commands that you run in the DDEV containers if you have ph
 vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/TeamTest.php
 ```
 
-Note. You can specify the location of `bootstrap-fast.php` in your `/phpunit.xml`. This file is found at `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`. Here a copy of `bootstrap-fast.php` is in the `/scripts` directory:
+Note, you can specify the location of `bootstrap-fast.php` in your `/phpunit.xml`. This file is found at `vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php`. Here, a copy of `bootstrap-fast.php` is in the `/scripts` directory:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -808,7 +808,7 @@ Here is an example where the location of the bootstrap file is specified with `-
 
 ## Run a specific test in a file
 
-You can run a test that is called `testVoter1Vote` in the `VotingPageTest.php` file with the following command. Note. If you have another test that starts with `testVoter1Vote` e.g. `testVoter1VoteBlah`, that test will be run also.
+You can run a test that is called `testVoter1Vote` in the `VotingPageTest.php` file with the following command. Note, if you have another test that starts with `testVoter1Vote` e.g. `testVoter1VoteBlah`, that test will also be run.
 
 ```
 vendor/bin/phpunit --filter testVoter1Vote docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/VotingPageTest.php
@@ -844,7 +844,7 @@ To add the `printerclass` to the `phpunit`.html see the `printerClass` line belo
   <php>
 ```
 
-Putting this in the `<php>` section of the file causes all html requests to be output to `/sites/simpletest/browser_output`. I tried specifying a different directory, but it had no effect. Use this with caution (or only for debugging if you don\'t want to fill up hard drives.)
+Putting this in the `<php>` section of the file causes all HTML requests to be output to `/sites/simpletest/browser_output`. I tried specifying a different directory, but it had no effect. Use this with caution (or only for debugging if you don\'t want to fill up hard drives.)
 
  ```xml
  <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/> 
@@ -859,7 +859,7 @@ Here is the entire `<php>` section:
   <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://chromedriver:9515"]'/>
   <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
   <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /tmp
-       Specify a temporary directory for storing debug images and html documents.
+       Specify a temporary directory for storing debug images and HTML documents.
        These artifacts get copied to /sites/simpletest/browser_output by BrowserTestBase. -->
   <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
   <!-- To disable deprecation testing completely uncomment the next line. -->
@@ -879,7 +879,7 @@ Here is the entire `<php>` section:
 From <https://git.drupalcode.org/project/dtt/#debugging-tests>:
 
 
-To write the current HTML of the page to a file, use `$this->capturePageContent()`. If using `HtmlOutputPrinter` this will be saved to the `browser_output` directory. Alternatively you can specify `DTT_HTML_OUTPUT_DIRECTORY=/path/to/output_directory` which is required when using a different printer, such as Teamcity, which is enforced by PHPStorm.
+To write the current HTML of the page to a file, use `$this->capturePageContent()`. If using `HtmlOutputPrinter` this will be saved to the `browser_output` directory. Alternatively, you can specify `DTT_HTML_OUTPUT_DIRECTORY=/path/to/output_directory` which is required when using a different printer, such as Teamcity, which is enforced by PHPStorm.
 ```
 
 ### Example of capturing a page
@@ -912,7 +912,7 @@ Here is the whole `<php>` section:
   <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://chromedriver:9515"]'/>
   <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
   <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /tmp
-       Specify a temporary directory for storing debug images and html documents.
+       Specify a temporary directory for storing debug images and HTML documents.
        These artifacts get copied to /sites/simpletest/browser_output by BrowserTestBase. -->
   <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
   <!-- To disable deprecation testing completely uncomment the next line. -->
@@ -967,7 +967,7 @@ do {
   $this->captureScreenshot();
 ```
 
-The output appears as png files like:
+The output appears as PNG files, like:
 
 ![Output files](/images/output-files.png)
 
@@ -988,7 +988,7 @@ That whole \<php\> section looks like:
   <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://chromedriver:9515"]'/>
   <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
   <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /tmp
-       Specify a temporary directory for storing debug images and html documents.
+       Specify a temporary directory for storing debug images and HTML documents.
        These artifacts get copied to /sites/simpletest/browser_output by BrowserTestBase. -->
   <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
   <!-- To disable deprecation testing completely uncomment the next line. -->
@@ -1007,13 +1007,13 @@ That whole \<php\> section looks like:
 
 ### Test locations
 
-Tests that require no Ajax or Javascript are put in the `ExistingSite` directory. These will run quite quickly especially if you run them on the host (instead of in the DDEV/Docker containers). These tests are derived from `ExistingSiteBase`.
+Tests that require no Ajax or JavaScript are put in the `ExistingSite` directory. These will run quite quickly, especially if you run them on the host (instead of in the DDEV/Docker containers). These tests are derived from `ExistingSiteBase`.
 
-Putting tests in the `ExistingSiteJavascript` directory (and deriving them from `ExistingSiteSelenium2DriverTestBase`) will cause the test to be run against the `Chromedriver` which can handle Javascript and Ajax.
+Putting tests in the `ExistingSiteJavascript` directory (and deriving them from `ExistingSiteSelenium2DriverTestBase`) will cause the test to be run against the `Chromedriver` which can handle JavaScript and Ajax.
 
 ### Generate DTT tests with drush
 
-Use the latest drush (11 at this time) to generate both types of tests using: 
+Use the latest drush (11 at this time) to generate both types of tests using:
 
 ```
 $ drush generate test:existing
@@ -1086,7 +1086,7 @@ class ExampleTest extends ExistingSiteBase {
     $this->drupalGet($node->toUrl());
     $this->assertSession()->statusCodeEquals(200);
 
-    // We can login and browse admin pages.
+    // We can log in and browse admin pages.
     $this->drupalLogin($author);
     $this->drupalGet($node->toUrl('edit-form'));
   }
@@ -1095,8 +1095,8 @@ class ExampleTest extends ExistingSiteBase {
 
 #### VotingPageTest
 
-This test runs code in a project and at various times asserts that
-various things are true or equal to expected values. It also does some setup including logging in as a voter. More about that below.
+This test runs code in a project and, at various times, asserts that
+various things are true or equal to expected values. It also does some setup, including logging in as a voter. More about that below.
 
 ```php
 class VotingPageTest extends ExistingSiteBase {
@@ -1169,14 +1169,14 @@ protected function setupTestProgram1ForVotingRound0() {
     $this->loginAdminUser();
     $page_source = $this->drupalGet(Url::fromRoute('tea_teks_publisher.change_input_collection_status', ['node' => 852071,]));
 
-    // To check if the form displayed correctly you can look for something in the $page_source and check the return code.
+    // To check if the form displayed correctly, you can look for something in the $page_source and check the return code.
     $this->assertSession()->statusCodeEquals(200);
     
     $this->submitForm([
       'program_status' => 'ready_for_release',
     ], 'Change Status');
 
-    // Confirm that the voting requirements were written to a correlation.
+    // Confirm that the voting requirements were written to correlation.
     $correlation_node = Node::load(852081);
     $voting_requirements_json = $correlation_node->get('field_voting_requirements_json')->value;
     self::assertNotNull($voting_requirements_json);
@@ -1205,7 +1205,7 @@ protected function setupVoter1() {
 }
 ```
 
-and 
+and
 
 ```php
 protected function loginVoter1() {
@@ -1300,7 +1300,7 @@ class ExampleSelenium2DriverTest extends ExistingSiteSelenium2DriverTestBase
     $this->assertNotNull($result);
     // Click the autocomplete option
     $result->click();
-    // Verify that correct the input is selected.
+    // Verify that the correct input is selected.
     $this->assertStringContainsString('Term 1', $tags->getValue());
     $submit_button = $page->findButton('Save');
     $submit_button->press();
@@ -1325,7 +1325,7 @@ Install via Composer with:
 composer require weitzman/logintrait
 ```
 
-#### Create a new user and login as that user:
+#### Create a new user and log in as that user:
 
 From
 <https://gitlab.com/weitzman/logintrait/-/blob/master/src/ExampleLoginTest.php>
@@ -1361,7 +1361,7 @@ class ExampleLoginTest extends ExistingSiteBase {
 
 #### Create an admin user
 
-This will create a user named Fred Bloggs who is in a new randomly named
+This will create a user named Fred Bloggs who is in a new, randomly named
 group. The user and the group will be deleted when the test run
 finishes.
 
@@ -1428,7 +1428,7 @@ $this->assertSession()->statusCodeEquals(200);
 $this->submitForm(['destructive' => 1], 'Verify Vote Counts');
 ```
 
-In the above example the code in render array for the form that builds the destructive checkbox and the submit button looks like this:
+In the above example, the code in render array for the form that builds the destructive checkbox and the submit button looks like this:
 ```php
 $form['sanity_fieldset']['destructive'] = [
   '#type' => 'checkbox',
@@ -1457,7 +1457,7 @@ $this->submitForm([
 ], 'Change Status');
 ```
 
-Note. When you define a form in Drupal, it permits you to use a
+Note, when you define a form in Drupal, it permits you to use a
 different variable name in the routing file versus the parameter in the buildForm() function. E.g. Here the parameter is called "program":
 
 ```yaml
@@ -1514,7 +1514,7 @@ So if you try in the test to execute this form and pass it a parameter called `p
 > id\|name\|label\|value \"TESTING ONLY: Reset Program Votes/Data\" not
 > found.
 
-Note. This code will do the same thing if you put it in the `ExistingSite` or the `ExistingSiteJavascript` directory however, putting it in the `ExistingSiteJavascript` directory (and deriving the test from `ExistingSiteSelenium2DriverTestBase`) will cause the test to be run against the `Chromedriver` which can handle Javascript and Ajax.
+Note, this code will do the same thing if you put it in the `ExistingSite` or the `ExistingSiteJavascript` directory, however, putting it in the `ExistingSiteJavascript` directory (and deriving the test from `ExistingSiteSelenium2DriverTestBase`) will cause the test to be run against the `Chromedriver` which can handle JavaScript and Ajax.
 
 ## Data Provider
 
@@ -1581,7 +1581,7 @@ Explore this
 
 ### Checking page return code
 
-This only works for non-Selenium/Chromedriver type test:
+This only works for non-Selenium/Chromedriver type tests:
 
 ```php
 $session = $this->getSession();
@@ -1598,7 +1598,7 @@ $this->assertSession()->statusCodeEquals(200);
 
 ### Grab the text from the page
 
-You can do some interesting things when running Selenium type tests. Here we can grab the text and search in it for a particular string.
+You can do some interesting things when running Selenium-type tests. Here we can grab the text and search in it for a particular string.
 
 This will get you the text that is visible on the page. It is
 unformatted and is one long string.
@@ -1701,7 +1701,7 @@ composer require weitzman/drupal-test-traits --dev
 composer require drupal/core-dev --dev --update-with-all-dependencies
 ```
 
-Setup `phpunit.xml` in the root of the project (not `docroot` or `web`). There will usually be a `phpunit.xml.dist` file there. Use that file and add your tweaks to it using
+Set up `phpunit.xml` in the root of the project (not `docroot` or `web`). There will usually be a `phpunit.xml.dist` file there. Use that file and add your tweaks to it using
 <https://gitlab.com/weitzman/drupal-test-traits/-/blob/master/docs/phpunit.xml> as the basis.
 
 ### Create phpunit.xml file
@@ -1822,7 +1822,7 @@ if (class_exists('Drupal\TestTools\PhpUnitCompatibility\PhpUnit8\ClassWriter')) 
 
 ### Update the .gitignore file
 
-To stop result cache getting checked into the repo, add the
+To stop the result cache from being checked into the repo, add the
 `.phpunit.result.cache` to the `.gitignore file`.
 
 You could also change this file location by editing phpunit.xml:
@@ -1834,7 +1834,7 @@ You could also change this file location by editing phpunit.xml:
 >
 ```
 
-Or completely disable it by: 
+Or completely disable it by:
 
 ```xml
 <phpunit 
@@ -1904,14 +1904,14 @@ This is indicating the first test by: "1)". If this were the second test in the 
 
 ### Tests run on host suddenly start failing login
 
-Sometimes when trying to get tests running on the host (not in ddev), you may find that tests stubbornly fail when trying to login as a Drupal user. You will see an error that looks like this:
+Sometimes, when trying to get tests running on the host (not in ddev), you may find that tests stubbornly fail when trying to log in as a Drupal user. You will see an error that looks like this:
 
 ```
 1) Drupal\Tests\tea_teks_voting\ExistingSite\StandardCreateTest1::testCreateStandard
 User <em class="placeholder">testadmin</em> successfully logged in.
 Failed asserting that false is true.
 ```
-In this case, my test was trying to login as a user called testadmin with code like this:
+In this case, my test was trying to log in as a user called testadmin with code like this:
 
 ```php
   private function loginAdminUser() {
@@ -1927,7 +1927,7 @@ The call to `$this->drupalLogin($user);` fails without explanation.  If tests ha
 
 In my setup the `phpunit.xml` file which I have in the root of my project (i.e. ~/Sites/tea/phpunit.xml)
 
-Note specifically the line below which specifies the DTT_BASE_URL.  Since this file was setup for the  `~/Sites/tea`` directory previously, the value was \"http://tea.ddev.site\".  So the corrected value should be:
+Note specifically the line below which specifies the DTT_BASE_URL.  Since this file was set up for the  `~/Sites/tea`` directory previously, the value was \"http://tea.ddev.site\".  So the corrected value should be:
 
 
 ```xml
@@ -1942,7 +1942,7 @@ OR
 
 
 
-Here is the first 30 lines of that file for context.
+Here are the first 30 lines of that file for context.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2039,7 +2039,7 @@ this may indicate some outdated code in your codebase.
 
 The fix in this case was a composer update.
 
-Also, If you use another test as a starting point (ie. Copy the file) and forget to change the class name, that would cause a similar error:
+Also, if you use another test as a starting point (ie. Copy the file) and forget to change the class name, that would cause a similar error:
 
 ```
 $ vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/PersonaTest.php
@@ -2070,14 +2070,14 @@ class TeamTest extends ExistingSiteBase {
 
 ### PHP Fatal error: Trait \"Symfony\\Bridge\\PhpUnit\\Legacy\\PolyfillAssertTrait\" not found
 
-This means you forgot to install the dev requirements with : `composer require drupal/core-dev --dev --update-with-all-dependencies`
+This means you forgot to install the dev requirements with: `composer require drupal/core-dev --dev --update-with-all-dependencies`
 
-E.g. If you try running a test like: 
+E.g. If you try running a test like:
 
 ```sh
 ./vendor/bin/phpunit --bootstrap=./vendor/weitzman/drupal-test-traits/src/bootstrap-fast.php ./docroot/modules/custom/tea_teks/modules/tea_teks_requirements/tests/src/ExistingSite/RequirementsCreationTest.php
 ```
-and see errors like: 
+and see errors like:
 
 ```
 PHP Fatal error: Trait
@@ -2126,7 +2126,7 @@ class TeamTest extends ExistingSiteBase {
 }
 ```
 
-Here is the output. Note. I removed the deprecated messages for clarity. First the command to run the test:
+Here is the output. Note, I removed the deprecated messages for clarity. First, the command to run the test:
 
 ```
 vendor/bin/phpunit docroot/modules/custom/tea_teks/modules/tea_teks_voting/tests/src/ExistingSite/TeamTest.php
@@ -2184,7 +2184,7 @@ and the output:
 
 ## Using Xdebug and PHPStorm to debug DTT scripts
 
-It is easiest to make sure you have PHPStorm Xdebug working first, then make sure the path mappings are correct. Note. This process is almost identical to debugging drush commands.
+It is easiest to make sure you have PHPStorm Xdebug working first, then make sure the path mappings are correct. Note, this process is almost identical to debugging drush commands.
 
 ![Path mappings](/images/path-mappings.png)
 
@@ -2193,7 +2193,7 @@ ddev exec enable_xdebug
 ddev ssh
 ```
 
-Note. Servername has to match the servername in your phpstorm setup on a per project -- see screenshot below.
+Note, servername has to match the servername in your PhpStorm setup on a per project -- see screenshot below.
 
 :::tip
 Sometimes this step doesn't seem to be required. Not sure why. Try skipping it.
@@ -2217,15 +2217,15 @@ vendor/bin/phpunit
 docroot/modules/custom/tea_teks/modules/tea_teks_requirements/Tests/src/ExistingSite/RequirementsCreationTest.php
 ```
 
-When Phpstorm pops up, specify that the vendor directory is at
+When PhpStorm pops up, specify that the vendor directory is at
 `/var/www/html/vendor` - note you only have to do that once and then PHPStorm will remember it.
 
 ## Setup Nightwatch.js in DDev
-In order to run Nightwatch, you need to have a few dependencies available: Node.js, Chrome (and Chromedriver), and Yarn. 
+In order to run Nightwatch, you need to have a few dependencies available: Node.js, Chrome (and Chromedriver), and Yarn.
 
 The web container for DDev comes with Node.js and Yarn preinstalled & you can use the Chromedriver Docker image provided by DrupalCi. When you enable testing support, DDev will generate the `.ddev/docker-compose.testing.yaml` file defines a Chromedriver service.
 
-Inside `.ddev/docker-compose.testing.yaml`, make sure enviroment variables are configured properly, for example: (Recommended)
+Inside `.ddev/docker-compose.testing.yaml`, make sure environment variables are configured properly, for example: (Recommended)
 ```
 # Nightwatch
 DRUPAL_TEST_BASE_URL: http://${DDEV_HOSTNAME}
@@ -2238,7 +2238,7 @@ DRUPAL_NIGHTWATCH_OUTPUT: reports/nightwatch
 DRUPAL_NIGHTWATCH_IGNORE_DIRECTORIES: node_modules,vendor,.*,sites/*/files,sites/*/private,sites/simpletest
 ```
 
-Alternatively, you can configure the enviroment vaiables in the `.env` file.
+Alternatively, you can configure the environment variables in the `.env` file.
 ```
 cd web/core
 cp .env.example .env
@@ -2246,7 +2246,7 @@ cp .env.example .env
 
 If needed, you can run `ddev describe` to find the connection info about your DDEV project for **DRUPAL_TEST_BASE_URL** & **DRUPAL_TEST_DB_URL**.
 
-Also if you haven't already, be sure to install the Node.js dependencies for Drupal core.
+Also, if you haven't already, be sure to install the Node.js dependencies for Drupal core.
 ```
 ddev ssh
 cd web/core
@@ -2285,7 +2285,7 @@ yarn test:nightwatch --tag core
 
 - [Randy Fay lays out some details about running Selenium/Behat inside DDEV containers - August 2020](https://stackoverflow.com/questions/51527663/running-selenium-tests-using-behat-drupal-extension-inside-ddev-containers)
 
-- [Running and debugging PHPUnit tests in PHPStorm with DDev and xdebug by Michael Strelan of Australia which includes 15 minute video showing all this Aug 2021.](https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug) You can also checkout the [ddev-phpunit-demo](https://github.com/mstrelan/ddev-phpunit-demo) repo if you want to try it out yourself with DDev and PHPUnit pre-configured. 
+- [Running and debugging PHPUnit tests in PHPStorm with DDev and xdebug by Michael Strelan of Australia which includes 15 minute video showing all this Aug 2021.](https://www.previousnext.com.au/blog/running-and-debugging-phpunit-tests-phpstorm-ddev-and-xdebug) You can also checkout the [ddev-phpunit-demo](https://github.com/mstrelan/ddev-phpunit-demo) repo if you want to try it out yourself with DDev and PHPUnit pre-configured.
 
 - Matt Glaman's Guide to Test-Driven Development with DDEV and Drupal by Heather McNamee 1-30-2019. She runs through the series of 2018 articles that Matt published
 

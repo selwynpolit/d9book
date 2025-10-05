@@ -212,7 +212,7 @@ features:
 
   - icon: 🚦
     title: Routes and Controllers
-    details: Navigating around Drupal 
+    details: Navigating around Drupal
     link: /routes
 
   - icon: 🔐
