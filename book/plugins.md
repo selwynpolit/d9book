@@ -8,7 +8,7 @@ title: Plugins
 
 ## Custom field type
 
-A custom field type is a new type of field that can be added to an entity. For example, a field that stores both first and last name or a license plate field with both a state and a number.  
+A custom field type is a new type of field that can be added to an entity. For example, a field that stores both first and last name or a license plate field with both a state and a number.
 
 
 ### Source code examples you can peruse
@@ -24,7 +24,7 @@ Please consider supporting these authors by purchasing their excellent books.  L
 - [From the book: Drupal 10 Module Development - license plate example](https://github.com/PacktPublishing/Drupal-10-Module-Development-Fourth-Edition/tree/main/chapter09/license_plate)
 
 
-Custom field types e.g. `~/Sites/ddev102/web/modules/custom/test/src/Plugin/Field/FieldType/Realname.php` require both a widget (for entering data into the custom field) and a formatter plugin for displaying the data in your custom field. If your custom field type requires configuration by the site builder, you will also need to a schema yml file e.g. `~/Sites/field_example/config/schema/field_example.schema.yml` to tell Drupal how to store that configuration.
+Custom field types e.g. `~/Sites/ddev102/web/modules/custom/test/src/Plugin/Field/FieldType/Realname.php` require both a widget (for entering data into the custom field) and a formatter plugin for displaying the data in your custom field. If your custom field type requires configuration by the site builder, you will also need to provide a schema yml file e.g. `~/Sites/field_example/config/schema/field_example.schema.yml` to tell Drupal how to store that configuration.
 
 :::tip Note.
 For information on [configuration schema/metadata on drupal.org](https://www.drupal.org/node/1905070)
@@ -39,7 +39,7 @@ There can be multiple field widgets and formatters for a field type. Check out a
 
 ### Scaffolding code with Drush
 
-Use `drush generate plugin:field_type` to generate a new field type plugin in the `test` module like this:
+Use `drush generate plugin:field_type` to generate a new field type plugin in the `test` module, like this:
 
 ```bash
 drush generate plugin:field:type
@@ -89,7 +89,7 @@ In the `~/Sites/ddev102/web/modules/custom/test/src/Plugin/Field/FieldType/Realn
  * )
  */
 ```
-or another example from the [examples module](https://www.drupal.org/project/examples): 
+or another example from the [examples module](https://www.drupal.org/project/examples):
 
 ```php
 /**
@@ -108,11 +108,11 @@ or another example from the [examples module](https://www.drupal.org/project/exa
 
 ### Base class and Required methods
 
-The class should extend `FieldItemBase` (which implements the `FieldItemInterface` interface.). 
+The class should extend `FieldItemBase` (which implements the `FieldItemInterface` interface).
 
 The class should implement the following methods:
 - `schema()` - Defines the database API schema so Drupal knows how to store the field type in the database. You can define indexes here as well.
-  
+
 - `propertyDefinitions()` - Returns the data definition of the field type. This method should return an array of properties that the field type has. Each property should be an instance of `DataDefinition`. The key of the array should be the name of the property and the value should be the `DataDefinition` object.
 
 - `mainPropertyName()` - Returns the name of the main property of the field type. So if your field type has a property called `value`, this method should return `value`. If there are multiple properties, you can return the name of the first property.
@@ -268,17 +268,17 @@ class RgbItem extends FieldItemBase {
 
 ### Custom field type or custom entity?
 
-So which should you use? A custom field type or a custom entity?  If you were considering storing recipes where each ingredient has a name, quantity, and unit (of measurement i.e. ounce, cup, pinch etc.), you could use a custom field type to store the ingredient data. 
+So which should you use? A custom field type or a custom entity?  If you were considering storing recipes where each ingredient has a name, quantity, and unit (of measurement i.e., ounce, cup, pinch, etc.), you could use a custom field type to store the ingredient data.
 
 If the ingredient data is always going to be a simple part of a recipe and won't be used outside that context, a custom field might be simpler and more efficient.
 
 A custom entity type (or maybe even a node) makes sense if you want to reference the ingredients from multiple places, have a lot of associated data or behaviors.
 
-Still another approach is to use the [paragraphs module](https://www.drupal.org/project/paragraphs) to store the ingredient data.  This is a good choice if you want to store the ingredient data in a structured way, but don't need to reference the ingredient data from multiple places.  Finally you could also use the [field group module](https://www.drupal.org/project/field_group) to group the fields together.
+Still another approach is to use the [paragraphs module](https://www.drupal.org/project/paragraphs) to store the ingredient data.  This is a good choice if you want to store the ingredient data in a structured way, but don't need to reference the ingredient data from multiple places.  Finally, you could also use the [field group module](https://www.drupal.org/project/field_group) to group the fields together.
 
 
 
- 
+
 ### Custom field widget
 The widget is the form element that is used to edit the field. The widget is responsible for converting the field value to a form element and back again. The widget is defined in a plugin class that extends `WidgetBase` and is annotated with `@FieldWidget`.
 
@@ -365,7 +365,7 @@ final class RealnameWidget extends WidgetBase {
 #### Complete example
 Check out a complete field widget plugin at [Drupal 10 development cookbook repo](https://github.com/PacktPublishing/Drupal-10-Development-Cookbook/blob/main/chp08/recipe3/mymodule/src/Plugin/Field/FieldWidget/RealNameDefaultWidget.php)
 
-Note the widget in that example has one small problem.  After you enter the first and last name and save the node, when you go to edit, it doesn't load it back up.  In the `formElement()` method in `RealnameWidget.php`, the default value is set to `''` which means instead of loading the data from the custom field, it will always show blank.
+Note that the widget in that example has one small problem.  After you enter the first and last name and save the node, when you go to edit, it doesn't load it back up.  In the `formElement()` method in `RealnameWidget.php`, the default value is set to `''` which means instead of loading the data from the custom field, it will always show blank.
 
 Here is a fixed version of that function:
 
@@ -395,7 +395,7 @@ Here is a fixed version of that function:
 
 
 ### Custom Field Formatter
-Field formatters are used to display your custom fields in display modes or in views. 
+Field formatters are used to display your custom fields in display modes or in views.
 
 
 #### Scaffolding code with Drush
@@ -433,12 +433,12 @@ drush generate plugin:field:formatter
 
 ## Field Formatter example
 
-Field formatters are used to display your custom fields in display modes or in views. 
+Field formatters are used to display your custom fields in display modes or in views.
 
 This example is a custom formatter that takes a value from a field (in
-this case a uuid) and builds a url which essentially retrieves an image
-(via an API call.) It looks for some config info (in the node display
-mode for the node, or in the views setup for the usage in a view.).
+this case a uuid) and builds a URL which essentially retrieves an image
+(via an API call). It looks for some config info (in the node display
+mode for the node, or in the views setup for the usage in a view).
 
 For the node called `infofeed`, the config data is stored in an entity
 called `core.entity_view_display.node.infofeed.default`
@@ -447,10 +447,10 @@ For the view called `infofeeds`, the config data is stored in a config
 entity called `views.view.infofeeds`.
 
 (You can find them by browsing thru the `config` table and looking for
-your info in the data field i.e. in Sequel Ace, look for data like
+your info in the data field, i.e., in Sequel Ace, look for data like
 `%image_width%` )
 
-Often the custom field formatter will require some configuration, so this means we will need a `module/config/schema/module.schema.yml` file
+Often, the custom field formatter will require some configuration, so this means we will need a `module/config/schema/module.schema.yml` file
 
 So at
 `~/Sites/ncs/docroot/modules/custom/ncs_infoconnect/config/schema/ncs_infoconnect.schema.yml`
@@ -474,7 +474,7 @@ field.formatter.settings.ncs_thumbnail:
       type: integer
 ```
 
-I create the `fieldformatter` as a fairly unexciting plugin at
+I created the `fieldformatter` as a fairly unexciting plugin at
 `~/Sites/ncs/docroot/modules/custom/ncs_infoconnect/src/Plugin/Field/FieldFormatter/NcsThumbnailFormatter.php`
 
 The annotation shows what will be seen in Drupal when configuring the
@@ -541,7 +541,7 @@ I override the `settingsSummary()` which is mostly informative, and `viewElement
   }
 ```
 
-:::tip Note. 
+:::tip Note.
 Retrieving the config settings for a particular situation happens with a call to `getSetting()` as in:
 
 ```php
@@ -550,20 +550,20 @@ $height = $this->getSetting('image_height');
 ```
 :::
 
-To use this we need to edit the display for the `infofeed` content type, make sure we have the `image_uuid` field displayed (i.e. not disabled) for Format, select NCS Thumbnail, click the gear to the right to specify the thumbnail size and save. Displaying nodes will then include the thumbnails.
+To use this, we need to edit the display for the `infofeed` content type, make sure we have the `image_uuid` field displayed (i.e., not disabled) for Format, select NCS Thumbnail, click the gear to the right to specify the thumbnail size and save. Displaying nodes will then include the thumbnails.
 
 You can do the same with a view: Add the field, specify the formatter (and dimensions) and the thumbnail will appear.
 
 
 ## Custom Plugin types
 
-You should define new plugin types if you need multiple configurable features and you expect others to provide new functionality without changing your module. 
+You should define new plugin types if you need multiple configurable features and you expect others to provide new functionality without changing your module.
 
-You will also need to create a plugin manager which is the centralized controlling class that defines how the plugins of each type will be discovered and instantiated. This class is called directly in any module wishing to invoke your new plugin type. 
+You will also need to create a plugin manager which is the centralized controlling class that defines how the plugins of each type will be discovered and instantiated. This class is called directly in any module wishing to invoke your new plugin type.
 
 In other words, when you create a new plugin manager, you also create a new plugin type.
 
-The Base Class is the class that all plugins of a particular type extend. Usually `PluginBase` or a subclass of `PluginBase`.
+The Base Class is the class that all plugins of a particular type extend. Usually, `PluginBase` or a subclass of `PluginBase`.
 The Plugin Manager is responsible for discovering, instantiating, and managing plugins of a particular type.
 The Services Definition identifies the plugin id (name) and the class for the plugin manager service.
 
@@ -614,7 +614,7 @@ The various parts of a plugin type are:
 - a base class (so others can extend it) e.g. `web/modules/contrib/examples/modules/plugin_type_example/src/SandwichBase.php`
 
 
-For another example, check out 
+For another example, check out
 
 
 
@@ -720,19 +720,19 @@ I'm curious to see if it works.
 
 ## Figuring out the annotation for a plugin
 
-Annotations are documented in Drupal by providing an empty class in the `Drupal\{module}\Annotation` namespace which implements `\Drupal\Component\Annotation\AnnotationInterface`, and adding a `@docblock` that contains the `@Annotation` annotation. 
+Annotations are documented in Drupal by providing an empty class in the `Drupal\{module}\Annotation` namespace which implements `\Drupal\Component\Annotation\AnnotationInterface`, and adding a `@docblock` that contains the `@Annotation` annotation.
 
 To find the annotation for a plugin, simply use <kbd>command</kbd> + <kbd>shift</kbd> + <kbd>O</kbd> in PhpStorm to open a file (make sure `files` is selected) and then type `FieldFormatter` or whatever the plugin type is. That is the letter \"O\" btw, not the number zero. Select the file that is in the `Annotation` namespace. i.e. in a directory like `web/core/lib/Drupal/Core/Field/Annotation/...`.
 
 ![search for annotation](/images/find-annotation.png)
 
-you can search for the class name in the module's codebase. e.g. in `Usage in comments` in PhpStorm, I found `web/core/lib/Drupal/Core/Field/Annotation/FieldFormatter.php`. That class name also corresponds to the annotation itself. In the case of `@FieldFormatter`, search for `FieldFormatter in the \Annotation namespace. 
+you can search for the class name in the module's codebase. e.g. in `Usage in comments` in PhpStorm, I found `web/core/lib/Drupal/Core/Field/Annotation/FieldFormatter.php`. That class name also corresponds to the annotation itself. In the case of `@FieldFormatter`, search for `FieldFormatter in the \Annotation namespace.
 
 
-From there you'll find the following documentation that lets you know the field_types keys in the annotation is an array of field types. And field types are the ids of the @FieldType plugins.
+From there you'll find the following documentation that lets you know the field_types keys in the annotation are an array of field types. And field types are the ids of the @FieldType plugins.
 
-Here is that file: 
-  
+Here is that file:
+
 ```php
   <?php
 
@@ -802,10 +802,10 @@ class FieldFormatter extends Plugin {
   /**
    * An integer to determine the weight of this formatter.
    *
-   * Weight is relative to other formatter in the Field UI when selecting a
+   * Weight is relative to other formatters in the Field UI when selecting a
    * formatter for a given field instance.
    *
-   * This property is optional and it does not need to be declared.
+   * This property is optional and does not need to be declared.
    *
    * @var int
    */
@@ -828,7 +828,7 @@ So the annotation for a block plugin might look something like this:
  */
 ```
 
-Each of the fields e.g. `id`, `admin_label`, and `category` are defined in the annotation class. The `@Block` annotation is defined in `web/core/lib/Drupal/Core/Block/Annotation/Block.php` which is shown below.  Notice how each public variable in the annotation class corresponds to a key in the annotation.
+Each of the fields, e.g., `id`, `admin_label`, and `category` are defined in the annotation class. The `@Block` annotation is defined in `web/core/lib/Drupal/Core/Block/Annotation/Block.php` which is shown below.  Notice how each public variable in the annotation class corresponds to a key in the annotation.
 
 ```php
 <?php
@@ -913,9 +913,9 @@ Each of the following can be used to generate a plugin of the specified type. e.
 
 From [Plugin API Overview on drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-api-overview)
 
-Plugin Derivatives allow a single plugin to act in place of many. This is useful for situations where user entered data might have an impact on available plugins. 
+Plugin Derivatives allow a single plugin to act in place of many. This is useful for situations where user-entered data might have an impact on available plugins.
 
-For example, if menus are placed on screen using a plugin, then when the site administrator creates a new menu, that menu must be available for placement without needing a new plugin to do so. 
+For example, if menus are placed on screen using a plugin, then when the site administrator creates a new menu, that menu must be available for placement without needing a new plugin to do so.
 
 Plugin Derivatives also support the user interface by allowing it to display multiple plugins in place of one, allowing for help text specific to the use case to be rendered and utilized. The primary purpose of plugin derivatives is to provide partially configured plugins as \"first class\" plugins that are indistinguishable in the UI from other plugins, thus reducing the burden on administrators using these plugins.
 
@@ -924,20 +924,20 @@ The menu system uses derivatives to provide a new block for each menu for Drupal
 From [Tutorial on Using Drupal 8 Plugin derivatives effectively:](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
 
 > Q. What are Drupal Plugin Derivatives and why are they important?
-> A. Drupal Plugin Derivatives are a powerful feature that allow developers to dynamically generate multiple instances of a single plugin. 
-> 
-> This is particularly useful when you have a large number of similar tasks to perform, but each task requires slightly different configuration. By using plugin derivatives, you can create a single base plugin and then generate as many variations of that plugin as you need, each with its own unique configuration. This can greatly simplify your code and make your Drupal site more efficient and easier to manage.
+> A. Drupal Plugin Derivatives are a powerful feature that allows developers to dynamically generate multiple instances of a single plugin.
+>
+> This is particularly useful when you have a large number of similar tasks to perform, but each task requires a slightly different configuration. By using plugin derivatives, you can create a single base plugin and then generate as many variations of that plugin as you need, each with its own unique configuration. This can greatly simplify your code and make your Drupal site more efficient and easier to manage.
 
 
-For example, if you had a website for an outdoor camping store and you wanted a block with an image and short description appearing in a sidebar for each of the different content types such as `Cooking Gear`, `Packs`, `Sleeping bags` etc. you could use a derivative plugin.  Instead of defining a block for each content type, you could define a derivative plugin which would create a block for each content type automatically.  Then when you look in the blocks layout at `/admin/structure/block` you would see a block for each content type.  Each block could be placed independently in a region or with Layout Builder.
+For example, if you had a website for an outdoor camping store and you wanted a block with an image and short description appearing in a sidebar for each of the different content types, such as `Cooking Gear`, `Packs`, `Sleeping bags` etc. you could use a derivative plugin.  Instead of defining a block for each content type, you could define a derivative plugin which would create a block for each content type automatically.  Then, when you look in the blocks layout at `/admin/structure/block` you would see a block for each content type.  Each block could be placed independently in a region or with Layout Builder.
 
-In the image below, you can several derivative blocks including: `Derivative example Block for Product Type: Cooking Gear` and `Derivative example Block for Product Type: Camping Gear`. 
+In the image below, you can see several derivative blocks, including: `Derivative example Block for Product Type: Cooking Gear` and `Derivative example Block for Product Type: Camping Gear`.
 ![Derivative block layout](/images/derivative-block-layout.png)
 
 
-The derivative class extends `Drupal\Component\Plugin\Derivative\DeriverBase` and implements the `getDerivativeDefinitions()` method.  This method returns an array of derivative definitions.  
+The derivative class extends `Drupal\Component\Plugin\Derivative\DeriverBase` and implements the `getDerivativeDefinitions()` method.  This method returns an array of derivative definitions.
 
-Here is an example of a derivative class that creates a block for each of a set of products in `web/modules/custom/derivative_examples/src/Plugin/Derivative/DerivativeExamplesBlockDerivative.php`: 
+Here is an example of a derivative class that creates a block for each of a set of products in `web/modules/custom/derivative_examples/src/Plugin/Derivative/DerivativeExamplesBlockDerivative.php`:
 
 ```php
 <?php
@@ -1020,21 +1020,21 @@ final class DerivativeExamplesBlock extends BlockBase {
 ```
 
 
-Plugin derivatives are the way a plugin of a certain type can be represented in the system as *multiple instances* of itself. In other words, a plugin can reference a deriver class which is responsible for providing a list of plugin definitions that are based on the initial plugin (start from the same base definition) but have **slightly different configuration or definition data**. 
+Plugin derivatives are the way a plugin of a certain type can be represented in the system as *multiple instances* of itself. In other words, a plugin can reference a deriver class which is responsible for providing a list of plugin definitions that are based on the initial plugin (start from the same base definition) but have **slightly different configuration or definition data**.
 
 Drupal's `SystemMenuBlock` is a great example. It’s a single plugin which has as many derivatives as there are menus on the site. See the Drupal core source code for [SystemMenuBlock.php block](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Block/SystemMenuBlock.php) and the [SystemMenuBlock derivative](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/system/src/Plugin/Derivative/SystemMenuBlock.php)
 
 
 
-To go a bit deeper, when a list of all the plugins of a certain type is requested, the plugin manager uses its discovery mechanism to load all the plugins of this type. If that mechanism is decorated with the `DerivativeDiscoveryDecorator`, the manager will be able to also retrieve derivatives. In order to do this, the derivative discovery looks for a deriver class on each plugin and, if it finds one, asks it for this list.
+To go a bit deeper, when a list of all the plugins of a certain type is requested, the plugin manager uses its discovery mechanism to load all the plugins of this type. If that mechanism is decorated with the `DerivativeDiscoveryDecorator`, the manager will also be able to retrieve derivatives. In order to do this, the derivative discovery looks for a deriver class on each plugin and, if it finds one, asks it for this list.
 >
 >Plugin type managers that extend the `DefaultPluginManager` base class should normally have the derivative discovery mechanism decorating the default discovery (annotations). This is the most common pattern in the Drupal core plugin system: annotated discovery wrapped by derivatives.
 
-from - [Tutorial on Using Drupal 8 Plygin derivatives effectively](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
+from - [Tutorial on Using Drupal 8 Plugin derivatives effectively](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
 
 ### Example of a derivative
 
-Browse the [code example provided by bhanu951](https://github.com/selwynpolit/d9book/tree/main/web/modules/custom/derivative_examples) for more including block, menu and route subscriber derivatives.
+Browse the [code example provided by bhanu951](https://github.com/selwynpolit/d9book/tree/main/web/modules/custom/derivative_examples) for more, including block, menu, and route subscriber derivatives.
 
 The menu derivatives in the example appear on the site as shown in the image below:
 ![Menu derivatives](/images/menu-derivatives.png)
@@ -1095,7 +1095,7 @@ namespace Drupal\derivative_examples\Plugin\Menu;
 use Drupal\Core\Menu\MenuLinkDefault;
 
 /**
- * Represents a menu link for a Product Types.
+ * Represents a menu link for Product Types.
  */
 class ProductTypeMenuLinks extends MenuLinkDefault {
 
@@ -1107,7 +1107,7 @@ There is also an example route subscriber. This allows you to navigate to `https
 
 ![tents controller](/images/tents-controller.png)
 
-First there is an `EventSubscriber` class which builds all the dynamic routes at  `web/modules/custom/derivative_examples/src/EventSubscriber/DerivativeExamplesRouteSubscriber.php`:
+First, there is an `EventSubscriber` class which builds all the dynamic routes at  `web/modules/custom/derivative_examples/src/EventSubscriber/DerivativeExamplesRouteSubscriber.php`:
 ```php
 <?php
 
@@ -1208,7 +1208,7 @@ final class DerivativeExamplesController extends ControllerBase {
 
 }
 ```
-And finally here is the router file at `web/modules/custom/derivative_examples/derivative_examples.routing.yml`. The route `derivative_examples.dynamic_routes` is the relevant one for this example:
+And finally, here is the router file at `web/modules/custom/derivative_examples/derivative_examples.routing.yml`. The route `derivative_examples.dynamic_routes` is the relevant one for this example:
 
 ```yml
 derivative_examples.base:
@@ -1249,7 +1249,7 @@ function mymodule_hook_block_info() {
 
 
 ### Derivative references
-- [Tutorial on Using Drupal 8 Plygin derivatives effectively](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
+- [Tutorial on Using Drupal 8 Plugin derivatives effectively](https://www.sitepoint.com/tutorial-on-using-drupal-8-plugin-derivatives-effectively/)
 - [Plugin Derivatives on drupal.org updated Mar 2021](https://www.drupal.org/docs/drupal-apis/plugin-api/plugin-derivatives)
 - [Plugin Derivatives for Drupal 8, 9, and 10 from Drupalize.me](https://drupalize.me/tutorial/plugin-derivatives)
 - [Dynamic menu links in Drupal 8 with plugin derivatives by Daniel Sipos - Jun 2017](https://www.webomelette.com/dynamic-menu-links-drupal-8-plugin-derivatives)
@@ -1260,7 +1260,7 @@ function mymodule_hook_block_info() {
 
 ## The Basics
 
-Plugins are small swappable pieces of functionality. Plugins of the same plugin type, perform similar functionality.
+Plugins are small swappable pieces of functionality. Plugins of the same plugin type perform similar functionality.
 
 Drupal contains many plugins of different types. For example, Field widget or Field Formatter are both plugin types.
 

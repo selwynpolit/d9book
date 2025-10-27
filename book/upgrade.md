@@ -30,7 +30,7 @@ $ composer update drupal/core -W
 
 ::: tip
 If you have problems with upgrading to the latest Drupal core, check out [troubleshooting in the composer chapter](composer#troubleshooting).
-Also lots of useful info at [Updating Drupal core via Composer on drupal.org](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
+Also, lots of useful info at [Updating Drupal core via Composer on drupal.org](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
 :::
 
 
@@ -51,8 +51,8 @@ Much of this is from [Drupalize.me - updated Oct 2023](https://drupalize.me/tuto
 
 ### Contrib Modules
 - Update all your contributed modules and themes to Drupal 10 compatible versions while you're still on Drupal 9.
-- Finally use composer to make sure you have the latest of everything with `ddev composer update -W`
-- If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12.
+- Finally, use composer to make sure you have the latest of everything with `ddev composer update -W`
+- If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`. If you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12.
 
 
 
@@ -62,17 +62,17 @@ Much of this is from [Drupalize.me - updated Oct 2023](https://drupalize.me/tuto
   - Make sure you are at the required version of Drupal 9. i.e. 9.4.x
   - Follow the recommendations to remove projects in the `remove` section
   - Be sure to uninstall Drupal 9 core modules like: Color, RDF, and themes like: Bartik, Seven and Stable.
-  - If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`.  if you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12. (sorry to repeat but it will bit you!)
+  - If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`. If you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12. (sorry to repeat but it will bite you!)
   - Update code in modules under the `scan` section
   - Install updated versions of the modules in the `Collaborate with maintainers` section
-  - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail. 
+  - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail.
 
 ::: tip Note
-Using the `--no-update` flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
+Using the `--no-update` flag updates the `composer.json` entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in `composer.json` manually.
 :::
 
 
-Uninstall the modules listed in the `Drupal core and hosting environment section` via the Drupal user interface 
+Uninstall the modules listed in the `Drupal core and hosting environment section` via the Drupal user interface
 ![Drupal core and hosting environment section](/images/upgrade_status_drupal_core_and_hosting.png)
 
 If you don't remove them, you will see something like this when you try to run `drush updb`:
@@ -86,7 +86,7 @@ $ drush updb
  * RDF [4]
 
 These modules are installed on your site but are no longer provided by Core.
-For more information read the documentation on deprecated modules. [5]
+For more information, read the documentation on deprecated modules. [5]
 
 [1] https://www.drupal.org/project/ckeditor
 [2] https://www.drupal.org/project/color
@@ -122,7 +122,7 @@ In the compatible section, you may notice that some items show `unchecked` in th
 
 
 
-As you finish each section you can confirm that everything is complete by clicking the `Check available updates` on the upgrade status module.  If you get WSOD, you may have to run `ddev drush updb` periodically and clear caches with `ddev drush cr`
+As you finish each section, you can confirm that everything is complete by clicking the `Check available updates` on the upgrade status module.  If you get WSOD, you may have to run `ddev drush updb` periodically and clear caches with `ddev drush cr`
 
 ![Recheck available updates](/images/upgrade_status_recheck.png)
 
@@ -132,25 +132,25 @@ As you finish each section you can confirm that everything is complete by clicki
 
 ### Update core
 
-  - Update drupal/core-dev
-If you have the drupal/core-dev dependencies in your composer.json, update those with:
+- Update drupal/core-dev
+  If you have the drupal/core-dev dependencies in your `composer.json`, update those with:
 ```
 composer require drupal/core-dev:^10.0 --dev --no-update --update-with-dependencies
 ```
-  - Update drupal/core-* projects: i.e. the drupal/core-recommended, drupal/core-composer-scaffold, and drupal/core-project-message projects
+- Update drupal/core-* projects: i.e. the drupal/core-recommended, drupal/core-composer-scaffold, and drupal/core-project-message projects
 
 ```
 composer require drupal/core-recommended:^10.0 drupal/core-composer-scaffold:^10.0 drupal/core-project-message:^10.0 --no-update --update-with-all-dependencies
 ```
 
-  - Then tell Composer to try and resolve and download all the new code:
+- Then tell Composer to try and resolve and download all the new code:
 
 ```
 composer update -W
 ```
-If composer fails to install, confirm that you removed drush previously.  Otherwise follow standard procedures for troubleshooting Composer problems.
+If composer fails to install, confirm that you removed drush previously. Otherwise, follow standard procedures for troubleshooting Composer problems.
 
-If all goes smoothly, you can now reinstall drush with `composer require drush/drush`.  
+If all goes smoothly, you can now reinstall drush with `composer require drush/drush`.
 
 ### Finish up
 - clear caches and run database updates
@@ -488,7 +488,7 @@ Create the patch
 git diff >file_entity_disable_file_menu_tab.patch
 ```
 
-Add the patch to the patches section of composer.json. Notice below the line starting with \"drupal/file_entity\" is the local file patch:
+Add the patch to the patches section of `composer.json`. Notice below the line starting with \"drupal/file_entity\" is the local file patch:
 
 ```json
 "patches": {
@@ -510,7 +510,7 @@ Add the patch to the patches section of composer.json. Notice below the line sta
 
 Revert the file in git and then try to apply the patch.
 
-Here is the patch command way to un-apply or revert a patch (-R means
+Here is the patch command way to unapply or revert a patch (-R means
 revert)
 
 ```
@@ -524,9 +524,9 @@ patch -p1 < ./patches/fix_scary_module.patch
 
 ## Patch modules using patches on Drupal.org
 
-Patches can be applied by referencing them in the composer.json file, in the following format. [cweagans/composer-patches](https://github.com/cweagans/composer-patches) can then be used to apply the patches on any subsequent website builds.
+Patches can be applied by referencing them in the `composer.json` file, in the following format. [cweagans/composer-patches](https://github.com/cweagans/composer-patches) can then be used to apply the patches on any subsequent website builds.
 
-In order to install and manage patches using composer we need to require the "composer-patches" module: 
+In order to install and manage patches using composer we need to require the "composer-patches" module:
 
 ```
 composer require cweagans/composer-patches
@@ -574,10 +574,10 @@ also [Managing patches with Composer](https://acquia.my.site.com/s/article/36004
 
 
 
-### Step by step 
+### Step by step
 
 1. Find the issue and patch in the issue queue on Drupal.org
-2. Use the title and ID of the issue to be able to locate this post in the future. E.g. [Using an issue for the Gin admin theme](https://www.drupal.org/project/gin/issues/3188521) "Improve content form detection - 3188521" 
+2. Use the title and ID of the issue to be able to locate this post in the future. E.g. [Using an issue for the Gin admin theme](https://www.drupal.org/project/gin/issues/3188521) "Improve content form detection - 3188521"
 3. Scroll down the issue to find the specific patch you want to apply e.g. for comment #8 grab the file link for `3188521-8.patch`.  It is [https://www.drupal.org/files/issues/2021-05-19/3188521-8.patch](https://www.drupal.org/files/issues/2021-05-19/3188521-8.patch)
 4. Add the module name, description and URL for the patch into the extra patches section of json:
 
@@ -597,13 +597,13 @@ also [Managing patches with Composer](https://acquia.my.site.com/s/article/36004
 5. use `composer update --lock` to apply the patch and watch the output.
 
 
-If the patch was not applied or throws an error which is quite common (because they are no longer compatible), try using `-vvv` (verbose mode) flag with composer to see the reason: 
+If the patch was not applied or throws an error which is quite common (because they are no longer compatible), try using `-vvv` (verbose mode) flag with composer to see the reason:
 
 ```
 composer update -vvv
 ```
 
-## Patches from a Gitlab merge request
+## Patches from a GitLab merge request
 
 Using the URL of the merge request, add .patch at the end of the URL and that will be the path to the latest patch.
 
@@ -645,7 +645,7 @@ To separate patches into a different file other than composer json add
 
 If composer install fails, try `composer -vvv` for verbose output
 
-If the issue is that it can't find the file for example if it displays the following:
+If the issue is that it can't find the file, for example, if it displays the following:
 
 ```sh
   - Applying patches for drupal/addtocalendar
@@ -670,25 +670,25 @@ More at <https://github.com/cweagans/composer-patches/issues/146>
 
 
 ## Solving problems with drush updb
-When `drush updb` reports missing modules and errors like those shown below.  Try `drush cr` and repeat first. 
+When `drush updb` reports missing modules and errors like those shown below.  Try `drush cr` and repeat first.
 
 ```sh
  [error]   (Currently using Missing or invalid modules The following modules are marked as installed in the core.extension configuration, but they are missing:
  * tracer
  * webprofiler
 
-Review the  suggestions for resolving this incompatibility [1] to repair your installation, and then re-run update.php.
+Review the suggestions for resolving this incompatibility [1] to repair your installation, and then re-run update.php.
 
 [1] https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates
 
 ```
 
-The quickest solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
+The quickest solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.
 
 ::: tip Note
 Run `drush cr` first to try to get things sane.
 This opens the config in vim so you can use `/tracer` to search for tracer, `dd` to delete a line, `:wq` to save
-Also if this fails, just try it again.  Sometimes, it fails with a message like:
+Also, if this fails, just try it again.  Sometimes, it fails with a message like:
 ```
   The command "${VISUAL-${EDITOR-vi}} /tmp/drush_tmp_1711122194_65fda712e42d6/core.extension.yml" failed.
   Exit Code: 1(General error)
@@ -709,9 +709,9 @@ Also if this fails, just try it again.  Sometimes, it fails with a message like:
 
 ## Stop files being overwritten during composer operations
 
-Depending on your composer.json, files like development.services.yml may be overwritten from during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
+Depending on your `composer.json`, files like `development.services.yml` may be overwritten during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command, you can specify them in the "extra" section of your project's `composer.json`. See the docs on Excluding scaffold files.
 
-The following snippet prevents the development.services.yml from being regularly overwritten:
+The following snippet prevents the `development.services.yml` from being regularly overwritten:
 ```
 "drupal-scaffold": {
     "locations": {
@@ -784,7 +784,7 @@ Notice the `require` key and the `config` key below
         },
 ```
 
-Specify which Drupal module that composer should be lenient with: 
+Specify which Drupal module that composer should be lenient with:
 
 ```
 composer config --merge --json extra.drupal-lenient.allowed-list '["drupal/node_access_rebuild_progressive"]'
@@ -797,7 +797,7 @@ And `composer.json` gets this added:
         }
 ```
 
-If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use: 
+If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use:
 
 ```
 composer require cweagans/composer-patches
@@ -836,7 +836,7 @@ index 45f7c8a41..d2fc50637 100644
 
 ```
 
-In composer.json add your patch as shown below.
+In `composer.json` add your patch as shown below.
 
 ```json
     "extra": {
@@ -936,14 +936,14 @@ to 1.2.999, but not 1.3.0.
 specify a version range with operators, a specific stability level
 (e.g., -stable or -dev ), or even specify wildcards with \*.
 
-Version range: By using comparison operators you can specify ranges of
+Version range: By using comparison operators, you can specify ranges of
 valid versions. Valid operators are \>, \>=, \<, \<=, !=.
 
-You can define multiple ranges. Ranges separated by a space ( ) or comma
+You can define multiple ranges. Ranges separated by a space ( ) or a comma
 (,) will be treated as a logical AND. A double pipe (\|\|) will be
 treated as a logical OR. AND has higher precedence than OR.
 
-Note: Be careful when using unbounded ranges as you might end up
+Note: Be careful when using unbounded ranges, as you might end up
 unexpectedly installing versions that break backwards compatibility.
 Consider using the caret operator instead for safety.
 
@@ -961,7 +961,7 @@ More at [getcomposer.org](https://getcomposer.org/doc/articles/versions.md)
 
 ## Allowing multiple versions
 
-You can use double pipe (`||`) to specify multiple version. 
+You can use double pipe (`||`) to specify multiple versions.
 
 For the [CSV serialization](https://www.drupal.org/project/csv_serialization) module the author recommends using the following to install the module:
 ```

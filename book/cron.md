@@ -77,9 +77,9 @@ So, in essence, if the cron is set to run every hour but the next visitor only c
 
 ## The cron command
 
-To get Drupal to take care of its maintenance you should have the server execute Drupal’s cron periodically. This is done by logging in to the server directly and settings the crontab file.
+To get Drupal to take care of its maintenance you should have the server execute Drupal’s cron periodically. This is done by logging in to the server directly and setting the crontab file.
 
-**Crontab** (CRON TABle) - is a text file that contains the schedule of cron entries to be run at specified times This file can be created and edited either through the command line interface.
+**Crontab** (CRON TABle) - is a text file that contains the schedule of cron entries to be run at specified times. This file can be created and edited either through the command line interface.
 
 In the following example, the crontab command shown below will activate the cron tasks automatically on the hour:
 
@@ -133,7 +133,7 @@ Use [crontab guru](//crontab.guru) - it's a quick and easy editor for cron sched
 
 ## Disable Drupal cron
 
-For performance reasons, or if you want to ensure that cron can only ever run from an external trigger (not from Drupal), it may be desirable to disable Drupal's automated cron system, in one of three ways:
+For performance reasons, or if you want to ensure that cron can only ever run from an external trigger (not from Drupal), it may be desirable to disable Drupal's automated cron system in one of three ways:
 
 1. The preferred way to disable Drupal's core `automated cron` module is by unchecking it at `/admin/modules`.
 
@@ -225,7 +225,7 @@ $cron_last = $this->state->get('system.cron_last')
 
 ### How to stop Cron from continuously executing things?
 
-To stop cron from endlessly executing pending cron tasks truncate the queue table e.g. if you have queued up work such as in the salesforce module.
+To stop cron from endlessly executing pending cron tasks truncate the queue table e.g. if you have queued up work such as in the Salesforce module.
 
 ### Resolving the ip and name for cron
 

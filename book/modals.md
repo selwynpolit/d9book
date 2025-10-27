@@ -16,7 +16,7 @@ markup.
 ## Dialog title
 
 You define the title for the dialog by specifying it in the
-\*.routing.yml file. In the file below the title is in the \_title key:
+\*.routing.yml file. In the file below, the title is in the \_title key:
 
 ```yaml
 taa.srp_delete_citation:
@@ -58,7 +58,7 @@ Notice the data-dialog- options. 'off_canvas' is the magic sauce. Also
 note that the parameters that are passed to the form are 'node' and
 'return_type' which are specified in the route below also.
 
-Note the class 'button' will make this link show up as a button. If you
+Note that the class 'button' will make this link show up as a button. If you
 remove it, this will instead just be a link.
 
 You could easily make this a modal dialog by specifying:
@@ -80,7 +80,7 @@ Here is the routing file at
 web/modules/custom/modal_examples/modal_examples.routing.yml.
 
 The first route (modal_examples.example1) displays the links. The second
-route (modal_examples.modal1) allows the modal be displayed on a page on
+route (modal_examples.modal1) allows the modal to be displayed on a page on
 its own. This route also has parameters which can be useful when you
 want to display some relevant variable information in the dialog.
 
@@ -122,7 +122,7 @@ modal_examples.modal2:
 
 In
 web/modules/custom/modal_examples/src/Controller/ModalExamplesController.php
-are the functions for both the page (which displays the link) and first
+are the functions for both the page (which displays the link) and the first
 modal.
 
 Add the parameters to the end of the `Url::fromRoute()` call to pass them to the modal. You will probably do this a lot.
@@ -370,10 +370,10 @@ This example displays a form with a button. When a user presses the
 button, a dialog containing another form appears.
 
 This code is a little convoluted as the link you click to open the modal
-form calls a controller function, 
-`ModalExamplesController2::openModalForm()`, which loads the form and opens it with an ajax command, `OpenModalDialogCommand`. You can directly point a link to a form route (as you can find in other examples below.)
+form calls a controller function,
+`ModalExamplesController2::openModalForm()`, which loads the form and opens it with an AJAX command, `OpenModalDialogCommand`. You can directly point a link to a form route (as you can find in other examples below.)
 
-Also notice that controller uses dependency injection to load the form
+Also, notice that controller uses dependency injection to load the form
 builder (which *is* the recommended way to do things.).
 
 In web/modules/custom/modal_examples/modal_examples.routing.yml we first
@@ -405,7 +405,7 @@ modal_examples.modal_form:
 When we navigate to `/modal-example/form`, we see the following form. If
 we click the button labelled, \"Click to see the Modal Form\", a modal dialog will appear with a form in it.
 
- Here is the initial form:
+Here is the initial form:
 
 ![Initial form](/images/initial-form.png)
 
@@ -413,10 +413,10 @@ And here is the modal popped up over it:
 
 ![Modal over initial form](/images/modal-over-initial-form.png)
 
-Here is the code for the first form in 
+Here is the code for the first form in
 `web/modules/custom/modal_examples/src/Form/ExampleForm.php`. Notice the
 link at `$form['actions']['open_modal']` which is used to invoke
-the modal form. Note. It is essential that you specify the use-ajax class for
+the modal form. Note, it is essential that you specify the use-ajax class for
 this link.
 
 ```php
@@ -717,8 +717,8 @@ class ExampleModalForm extends FormBase {
 ```
 ## Slide-in dialog/Off-canvas dialog
 
-Slide in dialogs are modals that appear to slide-in from the right side
-or top of the screen. Like any modal dialogs they can contain forms
+Slide-in dialogs are modals that appear to slide in from the right side
+or top of the screen. Like any modal dialogs, they can contain forms
 
 ## Slide-in Dialog Example
 
@@ -996,7 +996,7 @@ Here is our custom form sliding in:
 
 ![Third slide-in modal](/images/third-modal.png)
 
-And finally the login form sliding in:
+And finally, the login form sliding in:
 
 ![Fourth slide-in modal](/images/fourth-modal.png)
 
@@ -1085,7 +1085,7 @@ jQuery UI. This is from an article at <http://befused.com/drupal/modal>
 
 This capability puts some awesome power in the hands of site builders.
 
-In a custom block with full HTML enabled use the following HTML.
+In a custom block with full HTML enabled, use the following HTML.
 
 ```html
 <p><a class="use-ajax" data-dialog-type="modal" href="/search/node">Search</a></p>

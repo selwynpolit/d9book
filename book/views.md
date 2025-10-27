@@ -25,7 +25,7 @@ function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_
 
 ## Change contextual filters value
 
-Assuming the URL `https://ddev102.ddev.site/blurbs/green` where green is the value you are passing to the contextual filter, you could change it to rather use `red` with the following code:
+Assuming the URL `https://ddev102.ddev.site/blurbs/green` where green is the value you are passing to the contextual filter, you could change it to use `red` with the following code:
 
 ```php
 /**
@@ -78,7 +78,7 @@ function views_play_views_pre_view(\Drupal\views\ViewExecutable $view, $display_
       $display->setOption('filters', $filters);  }
 }
 ```
-Views cleverly names the array according to whether the field is a reference field or some other value field by using names like `field_section_target_id` and `field_traffic_light_value` respectively.
+Views cleverly names the array according to whether the field is a reference field or some other value field by using names like `field_section_target_id` and `field_traffic_light_value`, respectively.
 
 
 ## Add a filter
@@ -167,7 +167,7 @@ function dirt_preprocess_views_view(array &$variables) {
 ```
 
 ### Example 3
-This version looks up the venue reference field and replace the node ID with the venue reference field\'s title.
+This version looks up the venue reference field and replaces the node ID with the venue reference field\'s title.
 
 ```php
 function dirt_preprocess_views_view(array &$variables) {
@@ -537,10 +537,10 @@ function my_module_preprocess_views_view_field(array &$variables) {
 This is such a neat trick to show one field *if it exists* otherwise show another field:
 
 1. Add a field for `field1` and exclude it from display.
-1. Add a field for `field2` and exclude it from display. 
-1. Add a third field for `field2` again
-1. In the rewrite results put the token for `field2`.  Eg. `[colorbox]`
-1. In the `No results behavior`, put the token for `field1` e.g. `[field1]`.
+2. Add a field for `field2` and exclude it from display.
+3. Add a third field for `field2` again
+4. In the rewrite results, put the token for `field2`.  Eg. `[colorbox]`
+5. In the `No results behavior`, put the token for `field1` e.g. `[field1]`.
 
 This is the equivalent of an `if then else` statement in views.
 
@@ -548,7 +548,7 @@ This is the equivalent of an `if then else` statement in views.
 
 ## Views Query options
 
-When views give you unexpected results that seem permissions related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  Sometimes it is useful to **disable SQL rewriting** as this bypasses security and returns the same data that you get as when you are logged in as user 1.
+When views give you unexpected results that seem permissions-related, you can check the query options.  This is a screenshot of the query options for a view.  You can see the query options by clicking on the `Advanced` link in the view and then in the `other` section, click on `Query settings`.  Sometimes it is useful to **disable SQL rewriting** as this bypasses security and returns the same data that you get as when you are logged in as user 1.
 
 ![Views query options](/images/views-query-options.png)
 
@@ -557,19 +557,19 @@ The dialog will display this WARNING: Disabling SQL rewriting means that node ac
 :::
 
 ## Jump Menu
-Using the [Views Jump Menu module](https://www.drupal.org/project/views_jump_menu) you can easily create a node driven no-code drop-down select box.  The instructions are a bit confusing.
+Using the [Views Jump Menu module](https://www.drupal.org/project/views_jump_menu) you can easily create a node-driven no-code drop-down select box.  The instructions are a bit confusing.
 
-After installing (`composer require 'drupal/views_jump_menu:^1.0@RC'`) and enabling the module, create a content type (e.g. `jump_items`) with a plain text field for a url.  Don't use a link field.  Create some `jump_items` nodes. e.g. 
+After installing (`composer require 'drupal/views_jump_menu:^1.0@RC'`) and enabling the module, create a content type (e.g. `jump_items`) with a plain text field for a URL.  Don't use a link field.  Create some `jump_items` nodes. e.g.
 1. Apple https://www.apple.com
 2. Microsoft https://www.microsoft.com
 3. Google https://www.google.com
 4. Node 10 /node/10
 
 ::: tip Note
-You can use external or internal URL's as in the example above where we used a relative url `/node/10`
+You can use external or internal URLs as in the example above, where we used a relative URL `/node/10`
 :::
 
-Create a view `jump1`. Add a block with a format of `Jump Menu`.  
+Create a view `jump1`. Add a block with a format of `Jump Menu`.
 
 ![block format selection](/images/jump-menu1.png)
 
@@ -580,10 +580,10 @@ For the block format jump menu settings:
 ![jump menu settings](/images/jump-menu4.png)
 
 
-specify the label field and url field.  Use the `title` and `link2` fields respectively.
+specify the label field and URL field.  Use the `title` and `link2` fields respectively.
 ![jump menu settings](/images/jump-menu2.png)
 
-Now set the block to display where you want it and voila!  The drop-down select field will appear in it's block and you can select it and it will immediately load the associated page.
+Now set the block to display where you want it and voila!  The drop-down select field will appear in its block, and you can select it, and it will immediately load the associated page.
 
 ![jump menu open](/images/jump-menu6.png)
 
@@ -592,7 +592,7 @@ Now set the block to display where you want it and voila!  The drop-down select 
 
 This core functionality allows a view to have an exposed filter that searches multiple fields for a given search term. It essentially allows you to combine multiple exposed search filters into a single search box.
 
-To set it up include all the fields that you want to search in the Fields section, marking them with Exclude from display as necessary. Then, add and expose a `Combine fields` filter to the view, and configure it to use all the fields you want searchable in the Choose fields to combine for filtering section of the filter's configuration
+To set it up, include all the fields that you want to search in the Fields section, marking them with Exclude from display as necessary. Then, add and expose a `Combine fields` filter to the view, and configure it to use all the fields you want searchable in the Choose fields to combine for filtering section of the filter's configuration
 
 Thanks to [Mike Anello's blog post outlining this useful feature.](https://www.drupaleasy.com/quicktips/reintroducing-drupal-cores-views-combine-fields-filter)
 
@@ -616,7 +616,7 @@ function MY_MODULE_views_post_execute(ViewExecutable $view) {
 
 From Goran Nikolovski blog post [How to see your Drupal Views query - Mar 2024](https://gorannikolovski.com/snippet/how-to-see-your-drupal-views-query)
 
-Alternatively, you could add this code to your theme's `THEME.theme` file.  This will output the query to the screen.  
+Alternatively, you could add this code to your theme's `THEME.theme` file.  This will output the query to the screen.
 
 ```php
 function THEME_views_pre_execute(\Drupal\views\ViewExecutable $view) {
@@ -626,7 +626,7 @@ function THEME_views_pre_execute(\Drupal\views\ViewExecutable $view) {
 }
 ```
 
-## Set the title for a view programatically
+## Set the title for a view programmatically
 
 Here is some code that gets the views arguments and sets the title based on the argument.  This is from a custom module.  The view is called `loaders` and the display is `loaders_list_block`.  The title is set to the state abbreviation.  If the argument is the same as the exception value, the title is not set.
 
@@ -686,11 +686,11 @@ Using the [Views exclude previous module](https://www.drupal.org/project/views_e
 
 ## Display a list of content that has values in paragraph titles
 
-In this case I have content types that have paragraphs that are put into a `field_content` field. (Sorry, I know that is a confusing name for a field).  The paragraphs have a `field_title` field.  I want to display a list of content that has paragraphs with titles that contain 'Resources', 'Tools' or 'Software' in `field_title`.
+In this case, I have content types that have paragraphs that are put into a `field_content` field. (Sorry, I know that is a confusing name for a field).  The paragraphs have a `field_title` field.  I want to display a list of content that has paragraphs with titles that contain 'Resources', 'Tools' or 'Software' in `field_title`.
 
-First I have to establish a relationship between the field `field_content` in the node and the paragraphs it references. When I click `add relationships` each field that allows paragraphs is listed e.g. `Paragraph referenced from field_xxxx`.  I choose the `Paragraph referenced from field_content`.
+First, I have to establish a relationship between the field `field_content` in the node and the paragraphs it references. When I click `add relationships` each field that allows paragraphs is listed e.g. `Paragraph referenced from field_xxxx`.  I chose the `Paragraph referenced from field_content`.
 
-I can filter by paragraph types by adding a paragraph type filter.  This is listed as `Paragraph type`.  In the screen shotbelow I chose some types. I can specify the relationship to use as `field_content: Paragraph` (if there is only 1, this is the default).  This shows up in the view as `(field_content: Paragraph) Paragraph type (in Lab Cus...)`.
+I can filter by paragraph types by adding a paragraph type filter.  This is listed as `Paragraph type`.  In the screenshot below, I chose some types. I can specify the relationship to use as `field_content: Paragraph` (if there is only 1, this is the default).  This shows up in the view as `(field_content: Paragraph) Paragraph type (in Lab Cus...)`.
 
 For filtering the `field_content`, I add those filters and specify `contains Resources`, `contains tools` and `contains software` and specify the relationship as `(field_content: Paragraph)`. This shows up as `(field_content: Paragraph) Title Override (contains Resources)`.
 
@@ -707,7 +707,7 @@ See the image below for what the view looks like:
 ## Reference
 
 ### Views API
-Look in `core/modules/views/views.api.php` for all the hooks available for views along with examples of their usage. The file is also available online at [Drupal API Reference: views.api.php](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/views/views.api.php?ref_type=heads)
+Look in `core/modules/views/views.api.php` for all the hooks available for views, along with examples of their usage. The file is also available online at [Drupal API Reference: views.api.php](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/modules/views/views.api.php?ref_type=heads)
 
 ### hook_views_pre_view()
 In [Drupal API Reference: hooks_views_pre_view](https://api.drupal.org/api/drupal/core%21modules%21views%21views.api.php/function/hook_views_pre_view/10) you can make significant changes to a view before it appears on a page. These include:
@@ -719,7 +719,7 @@ To make the changes appear on the page, you will notify the `$view` object or th
 :::
 
 
-For example to add an argument (contextual filter value) use this code in a `.module` file:
+For example, to add an argument (contextual filter value) use this code in a `.module` file:
 
 ```php
 function hook_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
@@ -760,7 +760,7 @@ You can modify the filters array and set that back into the view for processing 
 
 ## Attached views
 
-If you need to make changes to attached views, this is the technique you can use to retrieve them.  This code is from a `.module` file.  It retrieves the attached views, and returns the matching one if it is found.
+If you need to make changes to the attached views, this is the technique you can use to retrieve them.  This code is from a `.module` file.  It retrieves the attached views and returns the matching one if it is found.
 
 ```php
 function _get_attachments(ViewExecutable $view, string $attachment_id): null|array){

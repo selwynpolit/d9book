@@ -7,7 +7,7 @@ title: Migrate
 
 ## Import content from another Migration into Paragraphs
 
-This migration Process snippet example demonstrates how to populate the fields of a Drupal Paragraph. Whereas standard fields can be simply mapped 1:1, and its value attribute (`value`) is implied (derived), a Paragraph requires _both_ a `target_id` and `target_revision_id`. Annotations included inline to demonstrate what is going on within.
+This migration Process snippet example demonstrates how to populate the fields of a Drupal Paragraph. Whereas standard fields can be simply mapped 1:1, and their value attribute (`value`) is implied (derived), a Paragraph requires _both_ a `target_id` and `target_revision_id`. Annotations are included inline to demonstrate what is going on within.
 
 ```yaml
   # Field name is `field_paragraph_authors`, specific property `target_id`:
@@ -15,7 +15,7 @@ This migration Process snippet example demonstrates how to populate the fields o
   - plugin: migration_lookup
     # Dependent Migration called `migration_paragraph_linked_author`
     migration: migration_paragraph_linked_author
-    # Don't create stub content if the row currently being processes does not map to an item in the earlier-run Migration
+    # Don't create stub content if the row currently being processed does not map to an item in the earlier-run Migration
     no_stub: true
     # How to map this Migration with the earlier-run Migration
     source: sku

@@ -63,7 +63,7 @@ function pdq_academy_core_update_8002() {
 
 ## Add menu items with hook_update
 
-Menus are config entities while menu items are content entities. Here, a hook_update creates some menu items and adds them to an existing menu.
+Menus are config entities, while menu items are content entities. Here, a hook_update creates some menu items and adds them to an existing menu.
 
 ```php
 function pdq_archive_core_update_8001() {
@@ -123,7 +123,7 @@ use:
 $parent_id = $menu_link->getPluginId();
 ```
 
-and 
+and
 
 ```php
 $menu_link->set('parent', $parent_id);
@@ -135,7 +135,7 @@ Here, we need to display a sidebar if the current node is both a page and a chil
 
 This example was implemented in a .theme file.
 
-When hook_preprocess_node is called for my content type, and we are viewing a full node, we grab the nid and call the \_check_ancestry_for_unit(), which looks up the menu chain for a menu item that points to a node of type "unit". If there is one, we display the sidebar, i.e., we set the \$variables ['show_sidebar_menu'\] to TRUE.
+When hook_preprocess_node is called for my content type, and we are viewing a full node, we grab the `nid` and call the \_check_ancestry_for_unit(), which looks up the menu chain for a menu item that points to a node of type "unit". If there is one, we display the sidebar, i.e., we set the \$variables ['show_sidebar_menu'\] to TRUE.
 
 ```php
 function txg_preprocess_node(&$variables) {
@@ -396,7 +396,7 @@ generateSubMenuTree($menu_tree2, $sub_nav);
 
 ## Create custom Twig extension for rendering a menu
 
-Note. The module [twig_tweak module](https://www.drupal.org/project/twig_tweak) can do all this with one line of code:
+Note, the module [twig_tweak module](https://www.drupal.org/project/twig_tweak) can do all this with one line of code:
 
 ```twig
 {{ drupal_menu('main', 2, 3, TRUE) }}
@@ -421,7 +421,7 @@ class RenderMenuExtension extends \Twig_Extension {
   }
 
   /**
-   * Provides function to programmatically rendering a menu
+   * Provides function to programmatically render a menu
    *
    * @param String $menu_name
    *   The machine configuration id of the menu to render
@@ -521,7 +521,7 @@ Extracting out the active trail gives this useful information:
 
 ## Get a node's menu item and more
 
-Here we get the current route's menu item using its nid then pull the link from the array using reset, and we can extract the URL as well as other exciting things. Mostly we want to check its children, parents etc. In the code below, we grab its URL as well as its parent and its title.
+Here we get the current route's menu item using its `nid` then pull the link from the array using reset, and we can extract the URL as well as other exciting things. Mostly, we want to check its children, parents etc. In the code below, we grab its URL as well as its parent and its title.
 
 ```php
 /** @var \Drupal\Core\Menu\MenuLinkManagerInterface $menu_link_manager */
@@ -562,7 +562,7 @@ To create menu links programmatically, see
 To edit menu links programmatically, see
 <https://drupal.stackexchange.com/questions/235516/how-do-i-programmatically-update-or-delete-menu-items>
 
-First you will have to load the entity. Either way works:
+First, you will have to load the entity. Either way works:
 
 ```php
 $menu_link = MenuLinkContent::load($menu_link_id);
@@ -586,7 +586,7 @@ the `delete()` method.
 
 ## Resources
 
--   To create menu links programmatically see
+-   To create menu links programmatically, see
     <https://drupal.stackexchange.com/questions/197073/how-do-i-create-menu-links-programmatically/197076#197076>
 
 -   To edit menu links programmatically, see

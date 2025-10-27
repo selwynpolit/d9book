@@ -31,7 +31,7 @@ $str =  __FUNCTION__." in ".__FILE__." at ".__LINE__;
 The parameter "test" used above is typically the module name. It is
 stored in the "type" field.
 
-You can call difference methods such as `info`, `warning` etc. which
+You can call different methods such as `info`, `warning`, etc., which
 populate the `severity` field with an integer indicating the severity of
 the issue.
 
@@ -55,7 +55,7 @@ The methods are defined in Drupal\\Core\\Logger\\RfcLoggerTrait:
 
 More at <https://www.drupal.org/docs/8/api/logging-api/overview>
 
-## Log an email notification was sent to the the email address for the site.
+## Log an email notification was sent to the email address for the site.
 
 ```php
 $email_config = \Drupal::config('system.site');
@@ -92,7 +92,7 @@ services:
 ```
 
 
-In the WebsphereAddress.php file specify use statements:
+In the WebsphereAddress.php file, specify use statements:
 
 ```php
 use Drupal\Core\Logger\LoggerChannelFactory;
@@ -144,7 +144,7 @@ sweet [Drupal 8 course](https://symfonycasts.com/screencast/drupal8-under-the-ho
 In your `dino_roar.services.yml` file, add the listener and specify the
 arguments of `['@logger.factory']`
 
-Note. You can find the factory info with Drupal console:
+Note, you can find the factory info with Drupal console:
 
 ```
 $ drupal debug:container | grep log
@@ -276,7 +276,7 @@ Don't forget
 use Drupal\Core\Messenger\MessengerInterface;
 ```
 
-Note. `addMessage()` adds `class="messages messages--status"` to the div surrounding your message while addError adds `class="messages messages--status"` . Use these classes to format the message appropriately.
+Note, `addMessage()` adds `class="messages messages--status"` to the div surrounding your message while addError adds `class="messages messages--status"` . Use these classes to format the message appropriately.
 
 When you need to display a message in a form, use the `$this->messenger()` that is provided by the Drupal\\Core\\Messenger\\MessengerTrait;
 
@@ -290,7 +290,7 @@ e.g.
 \Drupal::messenger()->addMessage('Program pending, please assign team and initialize. ', MessengerInterface::TYPE_WARNING);
 ```
 
-## Display a message with a link in the notification area 
+## Display a message with a link in the notification area
 
 This example builds a link to a node using the node title and displays it in the message area. The link will open in a new tab.
 
@@ -311,7 +311,7 @@ $message_render_array = [
 \Drupal::messenger()->addMessage($message_render_array);
 ```
 
-This more complex example builds a `$helpdesk_url`, calls the `sendMail()` function and then depending on the return value `$results` it displays a message or error with a built in link in the notification area:
+This more complex example builds a `$helpdesk_url`, calls the `sendMail()` function and then depending on the return value `$results` it displays a message or error with a built-in link in the notification area:
 
 
 ```php
@@ -346,7 +346,7 @@ This more complex example builds a `$helpdesk_url`, calls the `sendMail()` funct
 
 ## Display a link in the message area
 
-This will display a message which is a link to the url for the target node in the message area. The link will open in a new tab.
+This will display a message which is a link to the URL for the target node in the message area. The link will open in a new tab.
 
 ```php
       $title = $node->getTitle();
@@ -366,7 +366,7 @@ This will display a message which is a link to the url for the target node in th
 
 ## Display a message to an anonymous user after redirect
 
-From a slack discussion in the Drupal `#Support` Slack channel, here is an example of how to display a message to an anonymous user after a redirect. Be aware that this may work for the first user (without the `\Drupal::service('session')->save()` call, but may fail on subsequent attempts.  The `session` service is used to store the messages in the session.
+From a Slack discussion in the Drupal `#Support` Slack channel, here is an example of how to display a message to an anonymous user after a redirect. Be aware that this may work for the first user (without the `\Drupal::service('session')->save()` call, but may fail on subsequent attempts.  The `session` service is used to store the messages in the session.
 
 ```php
     // Set a message to inform the user
@@ -387,7 +387,7 @@ From a slack discussion in the Drupal `#Support` Slack channel, here is an examp
 
 ## Display a variable while debugging
 
-You can use var_dump and print_r but sometimes it is difficult to see where they display.
+You can use var_dump and print_r, but sometimes it is difficult to see where they display.
 
 ```php
 $is_front = \Drupal::service('path.matcher')->isFrontPage();

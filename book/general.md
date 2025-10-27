@@ -8,7 +8,7 @@ title: General
 
 ## Get the current user
 
-Note this will not get the user entity, but rather a user proxy with basic info but no fields or entity-specific data.
+Note, this will not get the user entity, but rather a user proxy with basic info but no fields or entity-specific data.
 
 ```php
 $user = \Drupal::currentUser();
@@ -25,7 +25,7 @@ use \Drupal\user\Entity\User;
 $user = User::load(\Drupal::currentUser()->id());
 ```
 
-## Get the logged in user name and email
+## Get the logged-in user name and email
 
 ```php
 $username = \Drupal::currentUser()->getAccountName();
@@ -59,7 +59,7 @@ $email = $user->get('mail')->value;
 
 ## Get the current Path
 
-`\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
+`\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists, otherwise it will return the current request URI.
 
 ```php
 $current_path  = \Drupal::service('path.current')->getPath();
@@ -106,7 +106,7 @@ $is_maint_mode = \Drupal::state()->get('system.maintenance_mode');
 $request = \Drupal::request();
 ```
 
-## Retrieve query, get or post parameters 
+## Retrieve query, get or post parameters
 
 For `get` variables use:
 ```php
@@ -161,7 +161,7 @@ Parameters:
 - absolute true will return absolute path.
 - absolute false will return relative path.
 
-Returns the node alias. Note. If a nice url is not set using pathauto, you get `/node/1234`
+Returns the node alias. Note, if a nice URL is not set using pathauto, you get `/node/1234`
 
 ```php
 use Drupal\Core\Url;
@@ -207,7 +207,7 @@ $url = Url::fromRoute('entity.taxonomy_term.canonical', ['taxonomy_term' => 1234
 
 ## Get current Path
 
-For node pages this will return `node/{node id}`, for taxonomy `taxonomy/term/{term id}`, for user `user/{user id}` if exists otherwise it will return the current request URI.
+For node pages, this will return `node/{node id}`, for taxonomy `taxonomy/term/{term id}`, for user `user/{user id}` if exists, otherwise it will return the current request URI.
 
 ```php
 $currentPath  = \Drupal::service('path.current')->getPath();
@@ -336,7 +336,7 @@ $title = \Drupal::service('title_resolver')->getTitle($request, $route);}
 
 ## Get the current user
 
-Note this will not get the user entity, but rather a user proxy with basic info but no fields or entity-specific data.
+Note, this will not get the user entity, but rather a user proxy with basic info but no fields or entity-specific data.
 
 ```php
 $user = \Drupal::currentUser();
@@ -357,7 +357,7 @@ $user = User::load(\Drupal::currentUser()->id());
 
 ## Check if you are on the Front page
 
-This will return true for the front page otherwise false.
+This will return true for the front page, otherwise false.
 
 ```php
 $is_front = \Drupal::service('path.matcher')->isFrontPage();
@@ -367,7 +367,7 @@ $is_front = \Drupal::service('path.matcher')->isFrontPage();
 
 ## Retrieve URL argument parameters
 
-You can extract the url arguments with
+You can extract the URL arguments with
 
 ```php
 $current_path = \Drupal::service('path.current')->getPath();
@@ -422,7 +422,7 @@ Of course, you can also get the language statically by using:
 Global $language = Drupal::languageManager()->getLanguage(Language:TYPE_INTERFACE)
 ```
 
-This is part of the packt publishing Mastering Drupal 8 module development video series: https://www.packtpub.com/product/mastering-drupal-8-development-video/9781787124493
+This is part of the Packt Publishing Mastering Drupal 8 module development video series: https://www.packtpub.com/product/mastering-drupal-8-development-video/9781787124493
 
 > [!NOTE]
 > To test this in `modules/custom/pseudo_client/get/`
@@ -505,7 +505,7 @@ this:
 </div>
 ```
 
-Note. You can always just add a variable like
+Note, you can always just add a variable like
 
 ```php
 $variables['abc'] = 'hello';
@@ -531,14 +531,14 @@ You can easily grab the node from the \$variables with:
 $node = $variables['node'];
 ```
 
-Then to access a field in the node, you can just specify them by:
+Then, to access a field in the node, you can just specify it by:
 
 ```php
 $node->field_ref_aof
 $node->field_ref_topic
 ```
 
-Here we grab a bunch of variables, cycles through them (for multi-value fields, which most of them are and build an array that can be easily rendered by twig:
+Here we grab a bunch of variables, cycle through them (for multi-value fields, which most of them are and build an array that can be easily rendered by twig:
 
 From: themes/custom/txg/txg.theme
 
@@ -692,7 +692,7 @@ In the twig template for that paragraph, you can use the value `paragraph.index`
 
 ## Add meta tags using template_preprocess_html
 
-Also covered at
+Also, covered at
 <https://drupal.stackexchange.com/questions/217880/how-do-i-add-a-meta-tag-in-inside-the-head-tag>
 
 If you need to make changes to the `<head>` element, the `hook_preprocess_html` is the place to do it in the `.theme` file. Here we check to see that the content type is contract and then we create a fake array of meta tags and jam them into the `$variables['page']['#attached']['html_head']` element. They are then rendered on the page.
@@ -827,7 +827,7 @@ For this project, I had to figure out a way to make media entities that really w
 
 I started by looking at <https://www.drupal.org/sandbox/nickhope/3001154> which was based on <https://www.drupal.org/project/media_entity_flickr>.
 
-I tweaked the nickhope module (media_entity_remote_file) so it worked but it had some trouble with image styles and thumbnails
+I tweaked the NickHope module (media_entity_remote_file) so it worked but it had some trouble with image styles and thumbnails
 
 A good solution (thanks to Hugo) is:
 
@@ -876,7 +876,7 @@ After
 PLACE THIS BLOCK directly after the "RewriteEngine on" line in your `docroot/.htaccess` or `web/.htaccess` file.
 
 
-Sometimes, robot webcrawlers (like Bing, Huwaei Cloud, Yandex, Semrush, etc.) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
+Sometimes, robot webcrawlers (like Bing, Huawei Cloud, Yandex, Semrush, etc.) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
 
 Therefore, we suggest blocking or re-routing this traffic to reduce resource consumption at the Acquia platform, avoid overages to your Acquia entitlements (for Acquia Search, Views & Visits, etc.), and to generally help your site perform better.
 
@@ -936,7 +936,7 @@ See this in action in the [examples module](https://www.drupal.org/project/examp
 Thanks to Mike Anello of [DrupalEasy for this useful solution.](https://www.drupaleasy.com/blogs/ultimike/2023/02/method-utilizing-multiple-authors-single-drupal-node)
 
 **TL;DR**
-Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods. Mike prefers using a a reference field for this purpose. He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named `multiauthor` that implements a single Drupal hook:
+Using the [Access by Reference module](https://www.drupal.org/project/access_by_ref) allows you to specify additional authors via several methods. Mike prefers using a reference field for this purpose. He also wanted the "Additional authors" field to be listed in the "Authoring information" accordion of the standard Drupal node add/edit form. He created a very small custom Drupal module named `multiauthor` that implements a single Drupal hook:
 
 ```php
 /**
@@ -1029,7 +1029,7 @@ public static function getSelectOptions(string $entity_type, string $bundle, str
 }
 ```
 
-Then in our form we pass those parameters to get the `$audience_select_options`:
+Then, in our form, we pass those parameters to get the `$audience_select_options`:
 
 ```php
 $audience_select_options = RetrievePublisherData::getSelectOptions('node', 'teks_pub_citation', 'field_tks_audience');
@@ -1048,9 +1048,9 @@ $form['audience'] = [
 ];
 ```
 
-## Get the human readable value from a list field
+## Get the human-readable value from a list field
 
-When you need to get the human readable value from a `list (text)` field you can use this code:
+When you need to get the human-readable value from a `list (text)` field you can use this code:
 
 call this function to build the select options that are defined in a `list (text)` field. You just pass the entity type e.g. `node`, the bundle or content type e.g. `article`, and the `machine name` of the field. You get back a nice array for use in the select list.
 
@@ -1151,7 +1151,7 @@ function tea_teks_update_8001() {
 }
 ```
 
-Alternatively, adding the missing modules with `composer install`, enabling them and deploying everything to production. Then disabling them properly, deploying that to production, then removing the modules with `composer remove` and deploying may also work. Of course, this method is a lot more work.
+Alternatively, adding the missing modules with `composer install`, enabling them and deploying everything to production. Then, disabling them properly, deploying that to production, then removing the modules with `composer remove` and deploying may also work. Of course, this method is a lot more work.
 
 ## Enable verbose display of warning and error messages
 
@@ -1163,11 +1163,11 @@ In `settings.php`, `settings.local.php` or `settings.ddev.php` make sure there i
 $config['system.logging']['error_level'] = 'verbose';
 ```
 
-Also see [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
+Also, see [Enable verbose error logging for better backtracing and debugging - April 2023](https://www.drupal.org/docs/develop/development-tools/enable-verbose-error-logging-for-better-backtracing-and-debugging)
 
 ## Reinstall modules
 
-During module development or upgrades, it can be really useful to quickly uninstall and reinstall modules. Luckily the [devel module](https://www.drupal.org/project/devel) provides an easy way. Either navigate to `/devel/reinstall` or use the Druplicon menu option and select `development` and then click on `reinstall modules` You will need the [admin toolbar module](https://www.drupal.org/project/admin_toolbar) with it's `admin toolbar extra tools` submodule enabled.
+During module development or upgrades, it can be really useful to quickly uninstall and reinstall modules. Luckily, the [devel module](https://www.drupal.org/project/devel) provides an easy way. Either navigate to `/devel/reinstall` or use the Druplicon menu option and select `development` and then click on `reinstall modules` You will need the [admin toolbar module](https://www.drupal.org/project/admin_toolbar) with its `admin toolbar extra tools` submodule enabled.
 
 ![Menu option to reinstall modules](/images/reinstall_modules.png)
 
@@ -1175,14 +1175,14 @@ During module development or upgrades, it can be really useful to quickly uninst
 
 ## Uninstall modules
 
-Sometimes during development, things go goofy and you need to uninstall a module.  Hopefully you can use the Drupal user interface (Extend, uninstall modules) or `drush pmu MODULENAME`.  If these fail, try:
+Sometimes during development, things go goofy and you need to uninstall a module. Hopefully, you can use the Drupal user interface (Extend, uninstall modules) or `drush pmu MODULENAME`.  If these fail, try:
 
 ```sh
 drush eval "\$module_data = \Drupal::config('core.extension')->get('module'); unset(\$module_data['MODULENAME']); \Drupal::configFactory()->getEditable('core.extension')->set('module', \$module_data)->save();"
 
 drush php-eval "\Drupal::keyValue('system.schema')->delete('MODULENAME');"
 ```
-If you have still an error you should clear the cache or rebuild the router:
+If you still have an error, you should clear the cache or rebuild the router:
 
 ```sh
 drush cr
@@ -1196,7 +1196,7 @@ More [at this page on drupal.org](https://www.drupal.org/forum/support/post-inst
 
 ## View a node in JSON format
 
-With the JSON:API and Serialization core modules enabled, simply navigate to any node and add `?_format=api_json` to the end of the URL. E.g. `https://d9book2.ddev.site/node/25?_format=api_json` 
+With the JSON:API and Serialization core modules enabled, simply navigate to any node and add `?_format=api_json` to the end of the URL. E.g. `https://d9book2.ddev.site/node/25?_format=api_json`
 
 ## Display a file instead of the node
 
@@ -1204,7 +1204,7 @@ In this case, the node has a file field `field_doc_file` and we want to display 
 
 
 Here is the route event subscriber in `docroot/modules/custom/abc_document/abc_document.services.yml`:
-  
+
 ```yaml
 services:
   abc_document.route_subscriber:
@@ -1347,15 +1347,15 @@ class NodeViewController extends NodeViewControllerBase {
 
 The Drupal bootstrap process is a series of steps that Drupal goes through on every page request to initialize the necessary resources and environment. You should have this article ready for your next interview.
 
-Here are the steps:  
+Here are the steps:
 
-1. **Loading the autoloader:** The first step in the bootstrap process is to load the Composer-generated `autoloader`. This allows Drupal to use any classes defined in the codebase without explicitly requiring the files they're defined in.  
+1. **Loading the autoloader:** The first step in the bootstrap process is to load the Composer-generated `autoloader`. This allows Drupal to use any classes defined in the codebase without explicitly requiring the files they're defined in.
 1. **Reading settings:** Drupal reads the `settings.php` file which has configuration settings for the site, such as database connection information and various other settings.
 1. **Initializing the service container:** Drupal initializes the [service container](services#service-container) which is responsible for managing Drupal services. The service definitions are stored in various `.services.yml` files throughout the codebase. Drupal's service container is built on top of the Symfony service container. Documentation on the structure of this file, special characters, optional dependencies, etc. can all be found in the [Symfony service container documentation](https://symfony.com/doc/6.3/service_container.html).
-1. **Handling the request:** Drupal creates a [Request object](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Arequest/8.4.x) from the global PHP variables and passes it to the `HttpKernel` to handle. The `HttpKernel` is responsible for handling the request and returning a `Response`.  
-1. **Routing:** The `HttpKernel` uses the [Router service](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/lib/Drupal/Core/Routing/RouteProvider.php?ref_type=heads) to match the request to a [route](routes#route). A route is a path that is defined for Drupal to return some sort of content on. The route defines a [controller](routes#controller) that should be used to generate the content for the page.  
-1. **Controller execution:** A method in the controller is then executed. This method generates the content for the page. It can return a [render array](render#overview) (which Drupal will turn into HTML), a [Response object](https://www.drupal.org/docs/drupal-apis/responses/responses-overview), or some other type of content that Drupal knows how to handle.  
-1. **Rendering:** If the controller returns a render array, Drupal will (via an `EventSubscriber` run it through the theme layer which renders it into HTML. This involves calling various hooks and alter functions to allow modules to modify the content.  
+1. **Handling the request:** Drupal creates a [Request object](https://api.drupal.org/api/drupal/core%21lib%21Drupal.php/function/Drupal%3A%3Arequest/8.4.x) from the global PHP variables and passes it to the `HttpKernel` to handle. The `HttpKernel` is responsible for handling the request and returning a `Response`.
+1. **Routing:** The `HttpKernel` uses the [Router service](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/lib/Drupal/Core/Routing/RouteProvider.php?ref_type=heads) to match the request to a [route](routes#route). A route is a path that is defined for Drupal to return some sort of content on. The route defines a [controller](routes#controller) that should be used to generate the content for the page.
+1. **Controller execution:** A method in the controller is then executed. This method generates the content for the page. It can return a [render array](render#overview) (which Drupal will turn into HTML), a [Response object](https://www.drupal.org/docs/drupal-apis/responses/responses-overview), or some other type of content that Drupal knows how to handle.
+1. **Rendering:** If the controller returns a render array, Drupal will (via an `EventSubscriber` run it through the theme layer which renders it into HTML. This involves calling various hooks and alter functions to allow modules to modify the content.
 1. **Returning the response:** Finally, the `HttpKernel` returns a [Response object](https://www.drupal.org/docs/drupal-apis/responses/responses-overview), which is then sent to the client.
 
 ## Using hook_help
@@ -1565,7 +1565,7 @@ leaflet-popup:
       css/leaflet-popup.css: {}
 ```
 
-and the css file at `web/modules/custom/leafmap/css/leaflet-popup.css`:
+and the CSS file at `web/modules/custom/leafmap/css/leaflet-popup.css`:
 
 ```css
 .leaflet-popup-content {
@@ -1662,9 +1662,9 @@ final class MenuTableBuilder implements MenuTableBuilderInterface {
 ```
 
 
-## Overriding admin menu listing 
+## Overriding admin menu listing
 
-In this instance, the requirement was to change the menu listing to only show menus that the user has access to. This is done by overriding the `MenuListBuilder` class. First you have to change the handler class in a `hook_entity_type_alter()` in `abc_workbench.module`:
+In this instance, the requirement was to change the menu listing to only show menus that the user has access to. This is done by overriding the `MenuListBuilder` class. First, you have to change the handler class in a `hook_entity_type_alter()` in `abc_workbench.module`:
 
 ```php
 /**
@@ -1720,7 +1720,7 @@ Here is the `getEntityIds()` function:
   }
 ```
 
-Also for clarity, here is the `checkSections()` function that is called in the `getEntityIds()` function:
+Also, for clarity, here is the `checkSections()` function that is called in the `getEntityIds()` function:
 
 ```php
 /**
@@ -1793,7 +1793,7 @@ $mgpu2 = round(memory_get_peak_usage(TRUE) / 1024 / 1024, 2) . ' MB';
 \Drupal::logger('tea_teks_srp')->info('Memory usage: ' . $mgu1 . ' ' . $mgu2 . ' Peak: ' . $mgpu1 . ' ' . $mgpu2);
 ```
 
-It may be worth looking at the `getOptimalMemoryLimit()` and `setMemoryLimit()` functions in the [xmlsitemap](https://www.drupal.org/project/xmlsitemap) module.  
+It may be worth looking at the `getOptimalMemoryLimit()` and `setMemoryLimit()` functions in the [xmlsitemap](https://www.drupal.org/project/xmlsitemap) module.
 
 ```php
   public function getOptimalMemoryLimit() {
@@ -1833,7 +1833,7 @@ The [full source code for the module is here](https://git.drupalcode.org/project
 
 
 
-Down the rabbit hole: 
+Down the rabbit hole:
 - [Changing PHP memory limits - May 2022](https://www.drupal.org/docs/7/managing-site-performance-and-scalability/changing-php-memory-limits)
 - [memory_get_usage()](https://www.php.net/manual/en/function.memory-get-usage.php)
 - [memory_get_peak_usage()](https://www.php.net/manual/en/function.memory-get-peak-usage.php)
@@ -1848,7 +1848,7 @@ Down the rabbit hole:
 
 ### Setup
 
-[Config Split](https://www.drupal.org/project/config_split) allows you to manage different configurations for different environments. 
+[Config Split](https://www.drupal.org/project/config_split) allows you to manage different configurations for different environments.
 
 To set it up correctly:
 
@@ -1867,9 +1867,9 @@ Similarly, use the following directories for the other `splits`:
 * `dev`: `../config/dev`
 * `stage`:  `../config/stage`
 * `prod`:  `../config/prod`
- 
 
-When you [specify the active split](#specify-the-active-split-in-settingsphp) in your `settings.php`, you can export the configuration for that split with `ddev drush cex -y`. There is no need to use the `ddev drush config-split: export local` command any more.  The `ddev drush cex ` command handles it all correctly.
+
+When you [specify the active split](#specify-the-active-split-in-settingsphp) in your `settings.php`, you can export the configuration for that split with `ddev drush cex -y`. There is no need to use the `ddev drush config-split: export local` command anymore.  The `ddev drush cex ` command handles it all correctly.
 
 
 ::: tip Note
@@ -1882,14 +1882,14 @@ Using the [chosen](https://www.drupal.org/project/chosen) module on your site wi
 In your `sites/default/settings.php` (or `sites/default/settings.local.php`) file, specify the active split with:
 
 ```php
-// Note. local is active
+// Note, local is active
 $config['config_split.config_split.local']['status'] = TRUE;
 $config['config_split.config_split.dev']['status'] = FALSE;
 $config['config_split.config_split.stage']['status'] = FALSE;
 $config['config_split.config_split.prod']['status'] = FALSE;
 ```
 
-Note. you can also use the UI if you prefer, but this way is much better.
+Note, you can also use the UI if you prefer, but this way is much better.
 
 
 ### Steps required for each environment.
@@ -1901,7 +1901,7 @@ Note. you can also use the UI if you prefer, but this way is much better.
 * Test and commit your changes.
 * Repeat for each environment.
 
-Note. This gets more challenging when you don\'t have things like the prod solr server available on your local environment. 
+Note, this gets more challenging when you don\'t have things like the prod Solr server available on your local environment.
 
 
 
@@ -1913,11 +1913,11 @@ To enable a module on a specific environment e.g. [cron fail alert](https://www.
 * Clear cache with `ddev drush cr`
 * Import config with `ddev drush cim` so you are using the `prod` split configuration.
 * Enable the module in the Drupal UI and configure it as needed.
-* In the config split settings for `prod`, under **Complete Split**: 
+* In the config split settings for `prod`, under **Complete Split**:
   * check the `cron fail alert` module
   * Optionally check the `cron_fail_alert.settings` configuration item
 * Save the config split settings.
-* In the Drupal UI, looking at the config syncronization, you should changes in the `prod` split,, `core.extension` and `cron_fail_alert.settings`. 
+* In the Drupal UI, looking at the config synchronization, you should make changes in the `prod` split, `core.extension` and `cron_fail_alert.settings`.
 
 * Runn `ddev drush cst` to see the same changes.
 
@@ -1936,7 +1936,7 @@ message: 'The scheduled cron has not been running as expected for the last @minu
 ```
 
 
-Also the `config_split.config_split.prod.yml` file will list `cron_fail_alert` under the `module` key:
+Also, the `config_split.config_split.prod.yml` file will list `cron_fail_alert` under the `module` key:
 
 ```yml
 uuid: 127bf9a4-4f6f-4c37-8eda-9d28474cb2b7
@@ -1960,7 +1960,7 @@ complete_list:
 partial_list: {  }
 ```
 
-Note. this file also shows environment indicator and dblog settings, which are also enabled in the `prod` environment.
+Note, this file also shows environment indicator and dblog settings, which are also enabled in the `prod` environment.
 
 A `git status` should show you that the `config/prod/cron_fail_alert.settings.yml` has been created. Notice this file is in the `config/prod` directory. This means that when you deploy to `prod` (and `drush cim`), the `cron_fail_alert` module will be enabled and the configuration you specified for it will be correctly loaded.
 
@@ -2005,9 +2005,9 @@ removing:
 
 
 ### Multiple splits
-In some circumstances, it can be useful to have additional splits for specific purposes.  For example, if your project is hosted on acquia, you might have an `acquia` split in addition to `local`, `dev`, `test` and `prod`. The reason to have an `acquia` split is that you might have specific configuration for the Acquia environment that is common to all Acquia environments (i.e. dev/test/prod). E.g. the search api settings could all be the same for any acquia environment but you wouldn't have them on the local environment.  This means you set them up once for the `acquia` environment rather than once for each of `dev`, `test` and `prod`. In that instance, the config for the `acquia` would have the search api settings in `config/acquia` directory. See the screenshots below for an example of this:
+In some circumstances, it can be useful to have additional splits for specific purposes.  For example, if your project is hosted on Acquia, you might have an `acquia` split in addition to `local`, `dev`, `test` and `prod`. The reason to have an `acquia` split is that you might have a specific configuration for the Acquia environment that is common to all Acquia environments (i.e. dev/test/prod). E.g. the search api settings could all be the same for any Acquia environment, but you wouldn't have them on the local environment.  This means you set them up once for the `acquia` environment rather than once for each of `dev`, `test` and `prod`. In that instance, the config for the `acquia` would have the search api settings in `config/acquia` directory. See the screenshots below for an example of this:
 
-Here are the items that I have split off for the `acquia` split. First the complete split items:
+Here are the items that I have split off for the `acquia` split. First, the complete split items:
 ![Config Split](/images/config-split-acquia1.png)
 
 Then the partial split items:
@@ -2030,11 +2030,11 @@ There is a drush command to install the chosen library: `drush chosenplugin` whi
 
 ## Modify SOLR Search behavior
 
-The now deprecated way of doing this was to use the `hook_search_api_solr_query_alter()` hook in a custom module.  From [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on Drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent) this process needs to be replaced with an event subscriber.  
+The now deprecated way of doing this was to use the `hook_search_api_solr_query_alter()` hook in a custom module.  From [How to replace the deprecated hook hook_search_api_solr_query_alter with PreQueryEvent on Drupal.org - updated Apr 2024](https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/how-to-replace-the-deprecated-hook-hook_search_api_solr_query_alter-with-prequeryevent) this process needs to be replaced with an event subscriber.
 
-You can see an [example of this](https://git.drupalcode.org/project/acquia_search/-/blob/3.1.x/src/EventSubscriber/PreQuery/EdisMax.php?ref_type=heads) in the [Acquia Search module](https://www.drupal.org/project/acquia_search) also. 
+You can see an [example of this](https://git.drupalcode.org/project/acquia_search/-/blob/3.1.x/src/EventSubscriber/PreQuery/EdisMax.php?ref_type=heads) in the [Acquia Search module](https://www.drupal.org/project/acquia_search) also.
 
-Here is the old way: In this example, this code will alter the functionality of the search when used with the `site_search` and`related_position_listings` views.  It boosts the search results based on the `field_boosted_created_date` field and the `field_position_campus` field.  It also filters the search results based on the `field_position_title_select` field and the `field_other_position_title` field.  It is an interesting example of some of the tweaking that can be done to improve search results for your use case.  For example, if you want the search results to show staff first, or show the most recent news items first, or show the most relevant job listings first, you can use this hook to adjust the search results accordingly.
+Here is the old way: In this example, this code will alter the functionality of the search when used with the `site_search` and `related_position_listings` views.  It boosts the search results based on the `field_boosted_created_date` field and the `field_position_campus` field.  It also filters the search results based on the `field_position_title_select` field and the `field_other_position_title` field.  It is an interesting example of some of the tweaking that can be done to improve search results for your use case.  For example, if you want the search results to show staff first, or show the most recent news items first, or show the most relevant job listings first, you can use this hook to adjust the search results accordingly.
 
 ```php
 /**
@@ -2179,7 +2179,7 @@ use Drupal\search_api_solr\Event\SearchApiSolrEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Alter the solr query results.
+ * Alter the Solr query results.
  */
 final class SolrQueryAlterEventSubscriber implements EventSubscriberInterface {
 
@@ -2330,7 +2330,7 @@ This function customizes the Solr documents by adding a boosted created date fie
 
 The purpose of adding a boosted created date field is to enhance the relevance of search results by giving higher importance to the creation date of certain content types. In this case, the field_boosted_created_date is added to Solr documents to ensure that documents of the content type news_universal_news_item have their creation date indexed. This allows the search system to prioritize or boost these documents based on their creation date, potentially improving the search ranking for more recent or relevant news items. For other content types, this field is set to NULL, indicating that they do not receive the same boost based on their creation date.
 
-Note. this function doesn't actually do any boosting.  That is handled elsewhere in the code.  This function just adds the field to the Solr documents.
+Note, this function doesn't actually do any boosting.  That is handled elsewhere in the code.  This function just adds the field to the Solr documents.
 
 ```php
 /**
@@ -2376,7 +2376,7 @@ function abc_search_search_api_solr_documents_alter(array &$documents, \Drupal\s
 
 ## Custom edit permissions per user
 
-Here is a quick little module I cobbled together to allow an admin to tag a node with a term, the user would have the same term.  This allows the user to edit that node even if they don't have permissions to do so via normal Drupal channels.  
+Here is a quick little module I cobbled together to allow an admin to tag a node with a term, the user would have the same term.  This allows the user to edit that node even if they don't have permissions to do so via normal Drupal channels.
 
 This requires a few things:
 1. A vocabulary called `wecc_edit_access`
@@ -2458,7 +2458,7 @@ function wecc_node_access_form_alter(&$form,FormStateInterface $form_state, $for
 }
 ```
 
-Finally the `web/modules/custom/wecc_node_access/wecc_node_access.info.yml` file:
+Finally, the `web/modules/custom/wecc_node_access/wecc_node_access.info.yml` file:
 
 ```yaml
 name: 'WECC Node Access'
@@ -2561,7 +2561,7 @@ function abc_search_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
 
 ## Cookie lifespan
 
-Sometimes security wants you to reduce the lifespan of cookies and therefor session.  Drupal has a default of 2,000,000 seconds (23 days) which means you will stay logged in for as long as 23 days. This can be a problem especially on a shared computer. This can be tweaked to set it to 8 hours by adding  `sites/default/services.yml` with the following content:
+Sometimes, security wants you to reduce the lifespan of cookies and, therefore, session.  Drupal has a default of 2,000,000 seconds (23 days) which means you will stay logged in for as long as 23 days. This can be a problem, especially on a shared computer. This can be tweaked to set it to 8 hours by adding  `sites/default/services.yml` with the following content:
 
 ```yaml
 parameters:
@@ -2598,7 +2598,7 @@ More at:
 
 ## Custom module to search all pages for a string
 
-This controller will search all pages by rendering them and report back if the string is found.  This is useful if you need to find a string in a page that is not easily found in the database.  This is a simple example of how to do this.  
+This controller will search all pages by rendering them and report back if the string is found.  This is useful if you need to find a string in a page that is not easily found in the database.  This is a simple example of how to do this.
 
 Here is the `page_search_utility.info.yml` file:
 
@@ -2720,11 +2720,11 @@ Found links to "abc.example.com" in node 8
 Finished
 ```
 
-There is also a [Find Text Module](https://www.drupal.org/project/find_text) that can be used to search for text in the site. 
+There is also a [Find Text Module](https://www.drupal.org/project/find_text) that can be used to search for text in the site.
 
 ## Get the display name for a custom entity bundle
 
-If you have created custom entities with bundles e.g. custom entities of type `hardware` with bundles: `nut`, `bolt`, `screw`, etc. and you want to get the display name for the bundle, you can use the following code. Note the display name is customizable through the Drupal User Interface so users can customize it to make it more human readable. 
+If you have created custom entities with bundles e.g. custom entities of type `hardware` with bundles: `nut`, `bolt`, `screw`, etc. and you want to get the display name for the bundle, you can use the following code. Note that the display name is customizable through the Drupal User Interface so users can customize it to make it more human-readable.
 
 ```php
 $entity_id = 123;
@@ -2889,7 +2889,7 @@ Here is the twig template (`node--toolkit-item--card.html.twig`) that uses the v
 
 
 ## File and directory permissions
-Taken from a Jenkins deployment job that restores file and directory permissions for a Drupal site. 
+Taken from a Jenkins deployment job that restores file and directory permissions for a Drupal site.
 
 ```sh
 logdate
@@ -2899,7 +2899,7 @@ sudo find ${WEBROOT}/web -type d -exec chmod 755 {} +
 sudo find ${WEBROOT}/web -type f -exec chmod 644 {} +
 ```
 
-Use `find` to recursively set permissions for all directories and files within the path stored in `${WEBROOT}/web`. 
+Use `find` to recursively set permissions for all directories and files within the path stored in `${WEBROOT}/web`.
 
 The first `sudo find` command searches for all directories (-type d) and applies `chmod 755`, which sets read, write, and execute permissions for the owner, and read and execute permissions for group and others. This ensures that directories are accessible and can be traversed by users who need to access the web content.
 
@@ -2977,7 +2977,7 @@ The [lsync](https://github.com/lsyncd/lsyncd) daemon is a tool that can be used 
 
 If you give lsync too large of a directory, it may fail. You can solve this by breaking up the tasks into smaller chunks.  Do this by creating separate `sync` sections. Lsync knows how to automatically execute each `sync` section without any additional configuration. 
 
-I was working on a project that was failing to sync the entire `/web/server1/html` directory due to vast number of files and folders. The solution was to break it up into multiple `sync` sections, each handling a smaller chunk of the directory. In the example config file below, the `/web/server1/html` directory is broken up into multiple `sync` sections, each handling a different subdirectory. 
+I was working on a project that was failing to sync the entire `/web/server1/html` directory due to the vast number of files and folders. The solution was to break it up into multiple `sync` sections, each handling a smaller chunk of the directory. In the example config file below, the `/web/server1/html` directory is broken up into multiple `sync` sections, each handling a different subdirectory.
 
 :::tip Note
 You have to restart the lsync daemon after making changes to the configuration file.  You can do this with `sudo systemctl restart lsyncd` or `sudo service lsyncd restart`.  You can also check the status of the daemon with `sudo systemctl status lsyncd` or `sudo service lsyncd status`. Check the logs in `/var/log/lsyncd/lsyncd.log` to see if there are any errors or issues with the synchronization.
@@ -3107,7 +3107,7 @@ Here is an example of the command that would be run by the lsync daemon.  This i
 /usr/bin/rsync --delete --ignore-errors -sEolvutpg -r /web/server1/html/config/ 123.123.123.123:/web/server2.com/html/config
 ```
 
-If you have 30GB of files in `sites/default/files`, you could logically break these into 3 tasks each one which could handle 10GB of data. 
+If you have 30GB of files in `sites/default/files`, you could logically break these into 3 tasks, each of which could handle 10GB of data.
 ```
 /sites/default/files 30GB
 /sites/default/files/2022 10GB
@@ -3117,9 +3117,9 @@ If you have 30GB of files in `sites/default/files`, you could logically break th
 you might create one `sync` section for the `sites/default/files` which represents 10 GB (excluding the `sites/default/files/2022` and `sites/default/files/2023`  directories) and then create another section for the `sites/default/files/2022` which represents another 10 GB and a third section for `sites/default/files/2023` which represents another 10 GB.
 
 
-To ensure all required files are synced, identify a top level directory such as `sites/default/files` and then exclude subdirectories (such as `sites/default/files/2022` and `sites/default/files/2023`) to logically give the synch process only as much work as it can handle. 
+To ensure all required files are synced, identify a top-level directory such as `sites/default/files` and then exclude subdirectories (such as `sites/default/files/2022` and `sites/default/files/2023`) to logically give the sync process only as much work as it can handle.
 
-You can use useful linux utilities like `du` to identify the size of directories.  For example, to get the size of the `sites/default/files` directory, you could run:
+You can use useful Linux utilities like `du` to identify the size of directories.  For example, to get the size of the `sites/default/files` directory, you could run:
 
 ```sh
  du -h --max-depth=1 /web/server1/html
@@ -3149,11 +3149,11 @@ If you want to get really crazy, you can write scripts in the [Lua programming l
 
 ### Bash script to check for lsyncd errors
 
-This is a bash script that can be used to check for errors in the lsyncd log file.  It will check the log file for any errors and report them.  It will also check the number of lines in the log file and if it exceeds 21 lines, it will report that as an error. This is not a robust solution and is very specific to my implementation. You may need to modify it to suit your needs. 
+This is a bash script that can be used to check for errors in the lsyncd log file.  It will check the log file for any errors and report them.  It will also check the number of lines in the log file and if it exceeds 21 lines, it will report that as an error. This is not a robust solution and is very specific to my implementation. You may need to modify it to suit your needs.
 
-Use the command: `rsync --delete --ignore-errors -sEolvutpgnc -r $EXCLUDES "${SRC}/" "${DEST}/" > /tmp/rsync_output.log 2>&1` to run the rsync command and redirect the output to a log file. Note. Replace the src and dest with real values (no double quotes or dollar signs needed) This will create a log file in `/tmp/rsync_output.log` that contains the output of the rsync command. If a filename is listed in the file, that means rsync has found a difference between the source and destination directories. No output means the directories are in sync.
+Use the command: `rsync --delete --ignore-errors -sEolvutpgnc -r $EXCLUDES "${SRC}/" "${DEST}/" > /tmp/rsync_output.log 2>&1` to run the rsync command and redirect the output to a log file. Note, replace the src and dest with real values (no double quotes or dollar signs needed). This will create a log file in `/tmp/rsync_output.log` that contains the output of the rsync command. If a filename is listed in the file, that means rsync has found a difference between the source and destination directories. No output means the directories are in sync.
 
- Run wc to count the lines of the file with `wc -l < /tmp/rsync_output.log`.  You may need to add a file to the source directory and rerun to see the output.  Then you can update the script to check for the number of lines for your setup.
+Run wc to count the lines of the file with `wc -l < /tmp/rsync_output.log`.  You may need to add a file to the source directory and rerun to see the output.  Then you can update the script to check for the number of lines for your setup.
 
 ```bash
 #!/bin/bash

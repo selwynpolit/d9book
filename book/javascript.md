@@ -1,13 +1,13 @@
 ---
-title: Javascript
+title: JavaScript
 ---
 
-# Using Javascript in Drupal
+# Using JavaScript in Drupal
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=javascript.md)
 
 ## Closures
 
-Since Drupal's implementation of jQuery uses [jQuery.noConflict()](https://api.jquery.com/jquery.noconflict/), it is considered good practice to wrap your custom Drupal javascript inside of a closure like this:
+Since Drupal's implementation of jQuery uses [jQuery.noConflict()](https://api.jquery.com/jquery.noconflict/), it is considered good practice to wrap your custom Drupal JavaScript inside of a closure like this:
 
 ```js
 (function ($, Drupal) {
@@ -32,7 +32,7 @@ E.g.:
 
 ## Add some global JS to the theme
 
-In `booktheme.info.yml` you need to specify the key to your theme library.  Specifically the `booktheme/global` library.  This refers to a key `global` in the booktheme.libraries.yml file.  Here is the `booktheme.info.yml` file:
+In `booktheme.info.yml` you need to specify the key to your theme library.  Specifically, the `booktheme/global` library.  This refers to a key `global` in the booktheme.libraries.yml file.  Here is the `booktheme.info.yml` file:
 
 ```yaml
 name: Book Theme
@@ -57,7 +57,7 @@ regions:
   footer: 'Footer'
 ```
 
-Then in the `booktheme.libraries.yml` file you need a key `global` and under that, refer to the file: `booktheme.js` in the `js` folder of the theme.  Here is the `booktheme.libraries.yml` file:
+Then, in the `booktheme.libraries.yml` file you need a key `global` and under that, refer to the file: `booktheme.js` in the `js` folder of the theme.  Here is the `booktheme.libraries.yml` file:
 
 ```yaml
 # Main theme library.
@@ -86,7 +86,7 @@ global:
       css/theme/print.css: { media: print }
 ```
 
-Then in the `booktheme.js` file you can add your javascript.  Here is the `booktheme.js` file:
+Then in the `booktheme.js` file you can add your JavaScript.  Here is the `booktheme.js` file:
 
 ```js
 /**
@@ -113,7 +113,7 @@ Then in the `booktheme.js` file you can add your javascript.  Here is the `bookt
 
 ```
 
-You can add any key to your main libraries.yml file and then add it to the theme.info.yml file.  The name is up to you.  Notice here how I added a key `global-stuff` to the `selwyn.libraries.yml` file below. I also added a dependency to jQuery as jQuery is no longer loaded automatically on every page in Drupal:
+You can add any key to your main libraries.yml file and then add it to the theme.info.yml file.  The name is up to you.  Notice here how I added a key `global-stuff` to the `selwyn.libraries.yml` file below. I also added a dependency on jQuery as jQuery is no longer loaded automatically on every page in Drupal:
 
 ```yaml
 global-stuff:
@@ -176,7 +176,7 @@ generator: 'starterkit_theme:10.1.5'
 
 ```
 
-## Add JS to a module 
+## Add JS to a module
 
 In your module folder, add your js file.  e.g. here in `web/modules/general/js/jsplay.js`:
 
@@ -212,7 +212,7 @@ jsplay:
     - core/jquery
 ```
 
-Then to get the js to load on any page content, add this to your module file:
+Then, to get the js to load on any page content, add this to your module file:
 
 ```php
 /**
@@ -297,7 +297,7 @@ or using native js `forEach`:
 ## Set all cards to the same height
 The code in file `drupal/web/sites/abc/themes/custom/uswds_base_abc/js/paragraphHeightNormalization.js` will normalize the height of all paragraphs within a specific container, ensuring they all have the same height based on the tallest card. This is useful when users can put different content into each paragraph and you want them to be consistent.
 
-The `.field--name-field-clp2-requirements` class targets the block field that holds the paragraphs. 
+The `.field--name-field-clp2-requirements` class targets the block field that holds the paragraphs.
 
 The `.paragraph--type--requirements-container` class targets each individual paragraph within that container.
 
@@ -417,7 +417,7 @@ Using `Drupal.behaviors`:
 
 ## Asset library overview
 
-These are collections of `css` and j`s files
+These are collections of `css` and `js` files
 
 Namespaced: theme_name/library_name
 
@@ -429,7 +429,7 @@ There are 3 ways to use asset libraries:
 
 Here is an example of an asset library in use:
 
-In `burger.info.yml` for the theme: 
+In `burger.info.yml` for the theme:
 
 ```yml
 name: "Hamburger Theme"
@@ -473,7 +473,7 @@ function mytheme_preprocess_node(&$variables) {
 ```
 
 ## Attaching a library to specific pages
-To attach a library to specific pages, you can use the `hook_preprocess_page()` function in your theme or module. This allows you to conditionally load libraries based on the current path.  Here we add the toolkit library to the `/resources/toolkit` and `/resources/cor-toolkit` paths.
+To attach a library to specific pages, you can use the `hook_preprocess_page()` function in your theme or module. This allows you to conditionally load libraries based on the current path.  Here, we add the toolkit library to the `/resources/toolkit` and `/resources/cor-toolkit` paths.
 
 ```php
   // Get the current path
@@ -486,7 +486,7 @@ To attach a library to specific pages, you can use the `hook_preprocess_page()` 
 
 
 
-## Add Javascript to a project using asset libraries
+## Add JavaScript to a project using asset libraries
 
 In this project at `web/themes/custom/txglobal/txglobal.libraries.yml` we are trying to load some js in the file `js/globe.js` only on specific pages.  The asset library is defined below (see map:) and in the template file, we specify which assets to include.  That causes `globe.js` to be loaded when that template is used.
 
@@ -585,7 +585,7 @@ In the `node--map.html.twig` file at `web/themes/custom/txglobal/templates/conte
 The following configuration files ship with Drupal and can be used from there: `.eslintrc.json` and `
 .eslintignore`.
 
-In a Drupal folder these configuration files will be automatically detected and used by ESLint when it is invoked from within the code base.
+In a Drupal folder, these configuration files will be automatically detected and used by ESLint when it is invoked from within the code base.
 
 **Installation**
 
@@ -606,4 +606,3 @@ npx eslint themes/custom/
 - [Adding assets (CSS, JS) to a Drupal theme via *.libraries.yml on drupal.org updated Apr 2024](https://www.drupal.org/docs/develop/theming-drupal/adding-assets-css-js-to-a-drupal-theme-via-librariesyml)
 - [Cache busting javascript using VERSION value in libraries.yml - June 2022](https://chromatichq.com/insights/drupal-libraries-version/)
 - [Javascript coding standards on drupal.org updated May 2024](https://www.drupal.org/node/172169)
-- 

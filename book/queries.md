@@ -11,7 +11,7 @@ For most work, I use entityQueries. There are a few circumstances where I've nee
 
 ### Find matching nodes entityQuery
 
-In this `entityQuery` example we search for nodes of content type (or bundle) `ws_product` and match `field_product_sku` with the `$sku` variable.
+In this `entityQuery` example, we search for nodes of content type (or bundle) `ws_product` and match `field_product_sku` with the `$sku` variable.
 
 use Drupal\node\Entity\Node;
 
@@ -35,7 +35,7 @@ function getProductId($sku) {
 
 ### Find matching nodes entityQuery
 
-In this `entityQuery` we search for published nodes of type `contract` with `field_contract_status` having the value `"Active"`. This puts the resulting nids and node titles in a render array for display.
+In this `entityQuery`, we search for published nodes of type `contract` with `field_contract_status` having the value `"Active"`. This puts the resulting nids and node titles in a render array for display.
 
 This is a simple query which outputs a bunch of nids and titles
 
@@ -213,7 +213,7 @@ for ($i=0;$i<=$nid_count;$i+=100) {
 
 ### Query the creation date (among other things) using entityQuery
 
-Note. The created (and changed) field uses a unix timestamp. This is an `int` 11 field in the db with a value like `1525302749` If you add a Drupal `datefield`, its data looks like `2019-05-15T21:32:00` (varchar 20)
+Note, the created (and changed) field uses a Unix timestamp. This is an `int` 11 field in the db with a value like `1525302749`. If you add a Drupal `datefield`, its data looks like `2019-05-15T21:32:00` (varchar 20)
 
 If you want to query a date field in a content type, you will have to fiddle around with the setTimezone stuff that is commented out below. The date field referenced below (`field_date`) is a standard Drupal date field.
 
@@ -277,7 +277,7 @@ If you want to query a date field in a content type, you will have to fiddle aro
 
 
 
-### Menu query to update menu items programatically
+### Menu query to update menu items programmatically
 
 To update several items in a menu, you could use `hook_update`.
 
@@ -308,7 +308,7 @@ function park_academy_update_8002() {
 
 ### Query multi-value fields
 
-When querying multivalue fields, you can specify the `%delta` to identify the position (or delta) for the value you are looking for.  In the example below, we specify `field_srp_voting_status.%delta` as 1 to  indicate the second position (It is zero based).  We use `field_srp_voting_status.%delta.value` for the actual value we are looking for (either `accepted`, `rejected` or `incomplete`):
+When querying multivalue fields, you can specify the `%delta` to identify the position (or delta) for the value you are looking for.  In the example below, we specify `field_srp_voting_status.%delta` as 1 to indicate the second position (it is zero-based).  We use `field_srp_voting_status.%delta.value` for the actual value we are looking for (either `accepted`, `rejected` or `incomplete`):
 
 ```php
     // Find correlation nodes with accepted, rejected or incomplete in the 
@@ -370,7 +370,7 @@ protected function loadErrorFeedbackVotingRecordNode(int $user_id, int $error_fe
 }
 ```
 
-This syntax lets you look at any entity that is referenced in an entity reference field and search for a field value in that entity. E.g. you can look in field_first_name for the the value `Fred`:
+This syntax lets you look at any entity that is referenced in an entity reference field and search for a field value in that entity. E.g., you can look in field_first_name for the value `Fred`:
 
 ```php
 ->condition('field_tts_pub_expectation.entity.field_first_name', 'Fred', '=')
@@ -409,7 +409,7 @@ This will find nodes with 2 or 8 in the taxonomy entity reference field:
 
 For an exact match to an array, use `andConditionGroup`
 
-Use two separate `andConditionGroup()`. 
+Use two separate `andConditionGroup()`.
 This will find nodes with a tid match of both 2 and 8:
 
 ```php
@@ -486,9 +486,9 @@ $voting_record_nids = array_values($voting_record_nids);
 Here is an example of a `submitForm` function which deletes the node then queries for nodes that are either:
 1. Of type `srp_voting_records` with matching `$ef_node_id`
 2. Of type `srp_publisher_response` with matching `$ef_node_id`
-Then it deletes those nodes it found.
+   Then it deletes those nodes it found.
 
-Note. the `ef` in `$ef_node_id` stands for error/feedback if that makes the code any clearer.
+Note, the `ef` in `$ef_node_id` stands for error/feedback if that makes the code any clearer.
 
 ```php
   public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -536,7 +536,7 @@ Note. the `ef` in `$ef_node_id` stands for error/feedback if that makes the code
 from - [API documentation for QueryInterface::condition](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21Query%21QueryInterface.php/function/QueryInterface%3A%3Acondition/8.6.x)
 
 
-**Language specific query**
+**Language-specific query**
 
 This example shows searching for entities with both the Turkish \'merhaba\' (notice \'tr\' as the last parameter) and the Polish \'siema\' (notice \'pl\' as the last parameter) within a \'greetings\' text field:
 
@@ -548,7 +548,7 @@ $entity_ids = \Drupal::entityQuery($entity_type)
   ->execute();
 ```
 
-**Parameters** 
+**Parameters**
 
 Notice that the first parameter can be a `string` or a `ConditionInterface`:
 
@@ -572,7 +572,7 @@ This will require condition to be satisfied on a specific delta of the field. Th
 ```php
   ->condition('tags.%delta', 5)
 ```  
-will find only entities which have at least six tags. Finally, the condition on the delta itself accompanied with a condition on the value will require the value to appear in the specific delta range. For example,
+will find only entities which have at least six tags. Finally, the condition on the delta itself, accompanied by a condition on the value, will require the value to appear in the specific delta range. For example,
 
 ```php
   ->condition('tags.%delta', 0, '>'))
@@ -590,7 +590,7 @@ will only find the "news" tag if it is not the first value. It should be noted t
 `'BETWEEN', 'NOT BETWEEN'`: These operators expect `$value` to be an array of two literals of the same type as the column.
 If NULL, defaults to the `'='` operator.
 
-`string|null $langcode`: (optional) The language code allows filtering results by specific language. If two or more conditions omit the langcode within one condition group then they are presumed to apply to the same translation. If within one condition group one condition has a langcode and another does not they are not presumed to apply to the same translation. If omitted (`NULL`), any translation satisfies the condition.
+`string|null $langcode`: (optional) The language code allows filtering results by specific language. If two or more conditions omit the langcode within one condition group, then they are presumed to apply to the same translation. If within one condition group one condition has a langcode and another does not, they are not presumed to apply to the same translation. If omitted (`NULL`), any translation satisfies the condition.
 
 
 
@@ -701,7 +701,7 @@ This code looks up related paragraphs of type `accordio_video_section`, grabs th
     ];
 
 
-    // Now go find all the video's in this video_collection.
+    // Now go find all the videos in this video_collection.
     $videos = [];
     $storage = $this->entityTypeManager->getStorage('paragraph');
     // Grab all the accordions and extract out the videos.
@@ -721,10 +721,10 @@ This code looks up related paragraphs of type `accordio_video_section`, grabs th
 
 ## Static and Dynamic Queries
 
-Sometimes you will use static or dynamic queries rather than entityQueries. These use actual `SQL` versus the `entityQuery` approach where you build the various parts of the query using PHP methods. I have seen a situation where a static query would work where an entityQuery would not. 
+Sometimes you will use static or dynamic queries rather than entityQueries. These use actual `SQL` versus the `entityQuery` approach, where you build the various parts of the query using PHP methods. I have seen a situation where a static query would work, where an entityQuery would not.
 
 ::: tip Note
-Dynamic queries let the Drupal database driver generate the `SQL` string and therefore has more flexibility in the resulting `SQL` string. Static queries are just a `SQL` string which have no flexibility in making small adjustments for a specific database back-end. This means may not work for other databases. The core supported databases are MySQL, PostgreSQL and SQLite. Dynamic queries should work for more/all databases. Dynamic queries are however a little bit slower than static queries.
+Dynamic queries let the Drupal database driver generate the `SQL` string and therefore have more flexibility in the resulting `SQL` string. Static queries are just a `SQL` string which have no flexibility in making small adjustments for a specific database back-end. This may not work for other databases. The core supported databases are MySQL, PostgreSQL and SQLite. Dynamic queries should work for more/all databases. Dynamic queries are, however, a little bit slower than static queries.
 :::
 
 An example static query is:
@@ -751,7 +751,7 @@ $result = $database
 The equivalent dynamic query is:
 
 ```php
-// Create an Select object and directly add extra details
+// Create a Select object and directly add extra details
 // like a condition, fields and a range.
 $query = $database->select('users_field_data', 'u')
   ->condition('u.uid', 0, '<>')
@@ -761,7 +761,7 @@ $query = $database->select('users_field_data', 'u')
 
 
 
-For more info check out
+For more info, check out
 - [Static Queries on drupal.org - updated April 2023](https://www.drupal.org/docs/drupal-apis/database-api/static-queries)
 - [Dynamic Queries on drupal.org](https://www.drupal.org/docs/8/api/database-api/dynamic-queries)
 
@@ -960,9 +960,9 @@ $query = $connection->insert('mytable', $options);
 
 That creates an `insert` query object that will insert one or more records to the `mytable` table. Note that braces are not required around the table name as the query builder will handle that automatically.
 
-The insert query object uses a fluent API. That is, all methods (except `execute()`) return the query object itself allowing method calls to be chained. 
+The insert query object uses a fluent API. That is, all methods (except `execute()`) return the query object itself, allowing method calls to be chained.
 
-The insert query object supports a number of different usage patterns to support different needs. In general, the workflow consists of specifying the fields that the query will insert into, specifying the values the query will insert for those fields, and executing the query. 
+The insert query object supports a number of different usage patterns to support different needs. In general, the workflow consists of specifying the fields that the query will insert into, specifying the values the query will insert for those fields, and executing the query.
 
 Here is an example in the compact form with chained together commands:
 
@@ -1003,23 +1003,23 @@ $result = $query->execute();
 What are the differences between `insert()` and `query()`\?
 
 - `insert()` has each column specified as a separate entry in the fields
-    array and the code can clean each column value. `query()` has an `SQL`
-    string with no way of checking individual columns.
+  array and the code can clean each column value. `query()` has an `SQL`
+  string with no way of checking individual columns.
 
 - If you use `query()` with placeholders, the code can check the column
-    values but placeholders are just an option, there is no way to
-    ensure your `SQL` does not contain values not passed through
-    placeholders.
+  values but placeholders are just an option, there is no way to
+  ensure your `SQL` does not contain values not passed through
+  placeholders.
 
 - `insert()` passes the request through a set of hooks to let other
-    modules check and modify your requests. This is the right way to
-    work with other modules.
+  modules check and modify your requests. This is the right way to
+  work with other modules.
 
 - `query()` is slightly faster because it does not pass the request
-    through the hooks. You might save processing time but your code will not let other modules help your code.
+  through the hooks. You might save processing time but your code will not let other modules help your code.
 
 - `insert()` is more likely to work with other databases and future
-    versions of Drupal.
+  versions of Drupal.
 :::
 
 #### SQL Insert Query Example
@@ -1040,7 +1040,7 @@ public function insert() {
       'amount' => 1,
     ])
     ->execute();
-  // Note. there is an auto-increment field so insert() returns  the value
+  // Note, there is an auto-increment field so insert() returns  the value
   // for the new row in $result.
   $str = "Single insert returned auto-increment value of $result";
 
@@ -1101,7 +1101,7 @@ public function deleteQuery2() {
 ```
 
 ::: tip Note
-This will return the number of rows affected by the SQL delete query although this `RETURN_AFFECTED` functionality will be deprecated in Drupal version 11. [See rowCount for Drupal 9](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x) and [Drupal 10 source code](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/lib/Drupal/Core/Database/Connection.php#L802).
+This will return the number of rows affected by the SQL delete query, although this `RETURN_AFFECTED` functionality will be deprecated in Drupal version 11. [See rowCount for Drupal 9](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Statement.php/function/Statement%3A%3ArowCount/9.3.x) and [Drupal 10 source code](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/lib/Drupal/Core/Database/Connection.php#L802).
 
 ```php
   // Depending on the type of query we may need to return a different value.
@@ -1154,7 +1154,7 @@ function txg_preprocess_paragraph__simple_card(&$variables) {
 
 ## Useful queries and snippets
 
-Here are some useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin etc.) or use directly in MySQL using the command line `ddev drush sqlc`:
+Here are some useful little queries that you can paste into your SQL tools (e.g. SequelAce, SequelPro, PhpMyAdmin, etc.) or use directly in MySQL using the command line `ddev drush sqlc`:
 
 ```sh
 ddev drush sqlc
@@ -1170,7 +1170,7 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 MySQL [db]> SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2) as SIZE_MB FROM information_schema.TABLES WHERE table_schema = DATABASE() ORDER BY SIZE_MB DESC LIMIT 10;
 ```
 
-### List of top 10 biggest tables 
+### List of top 10 biggest tables
 
 ```sql
 SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2)
@@ -1464,7 +1464,7 @@ Use proper argument substitution. The database layer works on top of PHP PDO, an
 \Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = :name', [':name' => $_GET['user']]);
 ```
 
-For a variable number of argument, use an array of arguments or use the select() method.  See examples of each below:
+For a variable number of arguments, use an array of arguments or use the select() method.  See examples of each below:
 
 ```php
 $users = ['joe', 'poe', $_GET['user']];
@@ -1496,7 +1496,7 @@ db_select('table', 't')
 ```
 Instead, set a list of allowed operators and only allow users to use those.
 
-`db_query`, `db_select`, and `db_like` were deprecated and removed from Drupal 9 - instead you should use a database connection object and call the query, select, and [escapeLike](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Connection.php/function/Connection%3A%3AescapeLike/9) methods on it (the parameters are the same).
+`db_query`, `db_select`, and `db_like` were deprecated and removed from Drupal 9 - instead, you should use a database connection object and call the query, select, and [escapeLike](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Connection.php/function/Connection%3A%3AescapeLike/9) methods on it (the parameters are the same).
 
 
 
@@ -1610,7 +1610,7 @@ function nocs_connect_schema() {
 
 ## Accessing a custom table
 
-From the [XMLSitemap module](https://www.drupal.org/project/xmlsitemap) 
+From the [XMLSitemap module](https://www.drupal.org/project/xmlsitemap)
 
 This example from `web/modules/contrib/xmlsitemap/src/XmlSitemapLinkStorage.php` accesses the `xmlsitemap` table and runs a quick query to see if the status or access fields are being changed. If they are, it sets a flag to regenerate the sitemap. The `addExpression('1')` method is used to simplify the query, and the `range(0, 1)` method is used to limit the query to the first row.  This code could definitely have been written more clearly but it does show how to run a query on a table.
 
@@ -1698,7 +1698,7 @@ Click the teensy little View link on the right side of the evaluate dialog for t
 
 ![Debugging queries](/images/debug-query2.png)
 
-I was able to tell what the sort criteria was:
+I was able to tell what the sort criteria were:
 
 ![Debugging queries](/images/debug-query3.png)
 
@@ -1722,7 +1722,7 @@ log-queries-not-using-indexes
 
 ## Enable logs at runtime
 
-To enable logs at runtime, login to mysql client (`mysql -u root -p`) and give:
+To enable logs at runtime, login to MySQL client (`mysql -u root -p`) and give:
 
 ```sql
 SET GLOBAL general_log = 'ON';
@@ -1763,7 +1763,7 @@ ERROR 1273 (HY000) at line 25: Unknown collation: 'utf8mb4_0900_ai_ci'
 ERROR: 1
 Failed to import database db for dir: exit status 1
 ```
-From [https://github.com/ddev/ddev/issues/1902](https://github.com/ddev/ddev/issues/1902): 
+From [https://github.com/ddev/ddev/issues/1902](https://github.com/ddev/ddev/issues/1902):
 
 More at [Accent insensitivity and case insensitivity, two excellent things to have in collation](https://www.monolune.com/what-is-the-utf8mb4_0900_ai_ci-collation/)
 
@@ -1774,15 +1774,15 @@ sed -i '' 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_ci/g' 2019-10-26-prod.sql
 this may also work
 
 Here is an oldish message from Randy Fay:
-I hope it's clear to everybody that in current versions of ddev, the fix is to use the mysql database instead of mariadb. Use the mysql_version that matches your production server.
+I hope it's clear to everybody that in current versions of ddev, the fix is to use the MySQL database instead of mariadb. Use the mysql_version that matches your production server.
 
-There's no need for a workaround in ddev. Please use the mysql version that matches your server.
+There's no need for a workaround in ddev. Please use the MySQL version that matches your server.
  1. ddev stop --remove-data
  2. Edit your .ddev/config.yaml to remove any mariadb_version. Add mysql_version: 5.7 or mysql_version: 8.0 or whatever matches your server version.
  3. ddev start
  4. ddev import-db --src=/path/to/your/sqldump.sql.gz
 
-Again... if your server is using mysql 8, please just change your ddev project to use mysql 8.
+Again... if your server is using MySQL 8, please just change your ddev project to use MySQL 8.
  
 ```sh
 ddev config --mariadb-version="" --mysql-version=8.0

@@ -10,22 +10,22 @@ title: Links
 
 ## The Drupal Core Url Class
 
-The `Drupal\Core\Url` class is often used to create URL's. Two important methods are:
+The `Drupal\Core\Url` class is often used to create URLs. Two important methods are:
 
 `Url::fromRoute()` which takes a route name and parameters and
 
 `Url::fromUri()` which takes an internal or external URL
 
-You can also set attributes for the url using:
+You can also set attributes for the URL using:
 
 ```php
 $helpdesk_url->setOptions(['attributes' => ['target' => '_blank']]);
 ```
 See how these are used in some of the examples below.
 
-## Create an internal url
+## Create an internal URL
 
-First a simple URL:
+First, a simple URL:
 
 ```php
 use Drupal\Core\Url
@@ -57,7 +57,7 @@ Then something more complicated like this URL to `/reports/search?user=admin`
   $url = Url::fromUri('internal:/reports/search', $option);
 ```
 
-## Create an external url
+## Create an external URL
 
 ```php
 use Drupal\Core\Url
@@ -74,7 +74,7 @@ $url->setOptions(['attributes' => ['target' => '_blank']]);
 Closely related and often used in conjunction with the Drupal Core `Url` class is the `Drupal\Core\Link` class.  These can be used in render arrays. Note that you specify attributes like `target = "_blank"` in the Url (using `setOptions`), rather than the link.  It doesn't seem like you can specify attributes in the link.
 
 
-You can generate links several different ways.
+You can generate links in several different ways.
 
 ### Create a link to a node
 
@@ -149,7 +149,7 @@ $build['read_more'] = $link->toRenderable();
 ```
 
 ### Create a link to a route
-  
+
 ```php
 use Drupal\Core\Url;
 use Drupal\Core\Link;
@@ -161,9 +161,9 @@ $link = \Drupal::service('link_generator')->generate('My link', $url);
 $link = Link::fromTextAndUrl('My link', $url);
 ```
 
-Links can generate a render array  of `#type => 'link'`using `toRenderable()`.
+Links can generate a render array of `#type => 'link'`using `toRenderable()`.
 
-Using the Link object, we can gerneate a link:
+Using the Link object, we can generate a link:
 
 
 ```php
@@ -192,7 +192,7 @@ $build['read_more'] = $link->toRenderable();
 
 ### Add a query string to a link
 
-To add a query string to your link, you also need to this to the URL, not the link.
+To add a query string to your link, you also need to do this to the URL, not the link.
 
 [From Stack Exchange](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link):
 
@@ -217,7 +217,7 @@ $build['read_more'] = $link->toRenderable();
 
 To set the link to open in a new window with target = _blank:
 
-Note. see Url::setOptions as well.
+Note, see Url::setOptions as well.
 
 ```php
 $options = [
@@ -232,7 +232,7 @@ $form['entity']['edit_link'] = $link->toRenderable();
 
 
 
-### Create a link to a path with parameters 
+### Create a link to a path with parameters
 
 To create a link to a path like `/reports/search?user=admin` use this code.
 
@@ -248,7 +248,7 @@ $renderable_array = $link->toRenderable();
 return $renderable_array;
 ```
 
-### Another way to create a link to a node: 
+### Another way to create a link to a node:
 
 ```php
 $nid = $item->id();
@@ -289,7 +289,7 @@ if (!$citation_node->field_link->uri) {
 
 ### Retrieve a link field from a node or a paragraph
 
-The link field `field_link` is extracted from the node and a valid uri is extracted from that field.
+The link field `field_link` is extracted from the node and a valid URI is extracted from that field.
 
 ```php
 $correction_node = Node::load($nid);
@@ -306,7 +306,7 @@ $link = $para->field_link;
 $link_uri = $para->field_link->uri;
 ```
 
-Or a more convoluted example that extracts the url string for display
+Or a more convoluted example that extracts the URL string for display
 from a link field.
 
 ```php
@@ -331,7 +331,7 @@ returns a `Drupal\Core\Field\FieldItemList` which is a list of fields so you the
 
 ### Extract an external URL from a link field
 
-You can get the URL (for external links) and then just the text part. Note this doesn't work for internal links. 
+You can get the URL (for external links) and then just the text part. Note, this doesn't work for internal links.
 
 ```php
 $citation_link = $citation->get('field_link');
@@ -340,7 +340,7 @@ if (!$citation_link->isEmpty()) {
 }
 ```
 
-This slightly convoluted example has a reference field `field_sf_contract_ref` which has a link to another entity which has a field `field_vendor_url`. The call : `field_vendor_url->first()->getUrl()` does the work to retrieve the URL. Also, this is a single-value field (not a multivalue field) -- so the `first()` call may be a little confusing. Once we have the Url object, we can extract the URI with `getUri()` or `toString()`:
+This slightly convoluted example has a reference field `field_sf_contract_ref` which has a link to another entity which has a field `field_vendor_url`. The call: `field_vendor_url->first()->getUrl()` does the work to retrieve the URL. Also, this is a single-value field (not a multivalue field) -- so the `first()` call may be a little confusing. Once we have the URL object, we can extract the URI with `getUri()` or `toString()`:
 
 ```php
 $vendor_url = $node->field_sf_contract_ref->entity->field_vendor_url->first()->getUrl();
@@ -355,7 +355,7 @@ if ($vendor_url) {
 
 ### Extract an internal URL from a link field
 
-For internal links, use `getUrl()`for the URL and `->title` for the title. Here we extract the URL and the title from a `field_link` field.
+For internal links, use `getUrl()` for the URL and `->title` for the title. Here we extract the URL and the title from a `field_link` field.
 
 ```php
 $instructions_node = Node::load($order_type_instructions_nid);
@@ -422,19 +422,19 @@ $user_path_with_uid = \Drupal::service('path_alias.manager')->getPathByAlias('/s
 
 ## Get the URL alias for a node
 
-If no alias is set, this will return `"/node/32"`. Note. If there are multiple aliases, you will get the most recently created one.
+If no alias is set, this will return `"/node/32"`. Note, if there are multiple aliases, you will get the most recently created one.
 
 ```php
 $node_path = '/node/32';
 $node32_alias = \Drupal::service('path_alias.manager')->getAliasByPath($node_path);
 ```
 
-Use this code if you need the absolute URL . If `node/32` has a URL alias set to \"/test-node\" it returns \"https://d9book2.ddev.site/test-node\" . If you specify `absolute => FALSE`, it returns \"/test-node\" .
+Use this code if you need the absolute URL. If `node/32` has a URL alias set to \"/test-node\" it returns \"https://d9book2.ddev.site/test-node\" . If you specify `absolute => FALSE`, it returns \"/test-node\".
 
 ```php
 use Drupal\Core\Url;
 
-// Note. If a pathauto url alias is not set, it returns '/node/32'
+// Note, if a pathauto url alias is not set, it returns '/node/32'
 $nid = 32;
 $options = ['absolute' => TRUE]; 
 $url = Url::fromRoute('entity.node.canonical', ['node' => $nid], $options);
@@ -479,7 +479,7 @@ More on [Stack Exchange](https://drupal.stackexchange.com/questions/317693/how-c
 
 ## Get the current Path
 
-`\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\" For taxonomy \"taxonomy/term/5\", for user \"user/2\" if it exists otherwise it will return the current request URI.
+`\Drupal::service('path.current')->getPath()` returns the current relative path. For node pages, the return value will be in the form \"/node/32\", for taxonomy -- \"taxonomy/term/5\", for user -- \"user/2\" if it exists, otherwise it will return the current request URI.
 
 ```php
 $current_path  = \Drupal::service('path.current')->getPath();
@@ -531,7 +531,7 @@ function mymodule_preprocess_page(&$vars) {
   }
 ```
 
-And from <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id> when you are using or creating a custom block then you have to follow this code to get current node id. Not sure if it is correct
+And from <https://drupal.stackexchange.com/questions/145823/how-do-i-get-the-current-node-id> when you are using or creating a custom block, then you have to follow this code to get current node id. Not sure if it is correct
 
 ```php
 use Drupal\Core\Cache\Cache;
@@ -587,7 +587,7 @@ $image_path = \Drupal::service('file_system')->realpath();
 
 ## Retrieve URL argument parameters
 
-You can extract the url arguments with
+You can extract the URL arguments with
 
 ```php
 $current_path = \Drupal::service('path.current')->getPath();
@@ -658,7 +658,7 @@ $day = [
 
 ## Modify URL Aliases programmatically with hook_pathauto_alias_alter
 
-The [pathauto](https://www.drupal.org/project/pathauto) contrib module includes a nice hook that you can use to modify url aliases on the fly.
+The [pathauto](https://www.drupal.org/project/pathauto) contrib module includes a nice hook that you can use to modify URL aliases on the fly.
 
 You just do your necessary checks (the current entity is stored in `\context['data']`) and change the alias that is passed. Pathauto does the rest.
 
@@ -668,7 +668,7 @@ As implemented in a module file.
 /**
  * Implements hook_pathauto_alias_alter().
  *
- * Note. This function is a stopgap measure to handle pathauto
+ * Note, this function is a stopgap measure to handle pathauto
  * token failing to return the parent menu item alias.
  * Using the pattern:
  * [node:menu-link:parent:url:path]/[node:title]
@@ -723,7 +723,7 @@ function dirt_pathauto_alias_alter(&$alias, array &$context) {
 }
 ```
 
-Also see [an example on makedrupaleasy.com from Dec 2017](https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field)
+Also, see [an example on makedrupaleasy.com from Dec 2017](https://makedrupaleasy.com/articles/drupal-version-7-9-how-update-alias-programmatically-using-value-field)
 
 ## Drupal l() is deprecated
 
@@ -745,5 +745,5 @@ print render($project_link);
 ## Reference links
 
 - [#! code: Drupal 9: Programmatically Creating And Using URLs And Links, March 2022](https://www.hashbangcode.com/article/drupal-9-programmatically-creating-and-using-urls-and-links)
-- [Creating Links in Code for Drupal 8 by David Valdez and Benjamin Melançon - Apr 2017](https://agaric.coop/blog/creating-links-code-drupal-8) 
+- [Creating Links in Code for Drupal 8 by David Valdez and Benjamin Melançon - Apr 2017](https://agaric.coop/blog/creating-links-code-drupal-8)
 - [How do I create a link from Stack Exchange - Jan 2017](https://drupal.stackexchange.com/questions/144992/how-do-i-create-a-link)

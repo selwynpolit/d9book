@@ -15,7 +15,7 @@ While Drupal supports custom entities, I haven\'t found a need for them in my pr
 
 ## Config entity types
 
-They store configuration information e.g: views, imagestyles, roles, NodeType (which define node bundles).
+They store configuration information e.g: views, imagestyles, roles, NodeType (which defines node bundles).
 
 -   They are not revisionable
 -   They don't have fields/are not fieldable.
@@ -167,7 +167,7 @@ if ($entity->getEntityTypeId() == $needed_type) {
 
 ## Create a file entity
 
-Note. Drupal is ok with files existing (for example  in sites/default/files)  without file entities but it probably makes more sense to have file entities connected with those files. When you create file entities, Drupal tracks the files in the tables: file_managed and file_usage. . You can also create media entities where bundle='file'.
+Note, Drupal is ok with files existing (for example, in sites/default/files)  without file entities but it probably makes more sense to have file entities connected with those files. When you create file entities, Drupal tracks the files in the tables: file_managed and file_usage. You can also create media entities where bundle='file'.
 
 Once the file already exists, I write the file entity. I do need a mime type
 
@@ -204,7 +204,7 @@ return $fid;
 
 ## Entity Validation
 
-This looks quite interesting although I haven't had an opportunity to try it yet.
+This looks quite interesting, although I haven't had an opportunity to try it yet.
 
 From [Entity Validation API overview](https://www.drupal.org/node/2015613)
 
@@ -229,11 +229,11 @@ function mymodule_entity_bundle_field_info_alter(&$fields, \Drupal\Core\Entity\E
 }
 ```
 
-Custom validation constraints can also be defined.  These links may be useful: 
+Custom validation constraints can also be defined.  These links may be useful:
 * [ForumLeafConstraint](https://api.drupal.org/api/drupal/core%21modules%21forum%21src%21Plugin%21Validation%21Constraint%21ForumLeafConstraint.php/class/ForumLeafConstraint/8)
 * [ForumLeafConstraintValidator](https://api.drupal.org/api/drupal/core%21modules%21forum%21src%21Plugin%21Validation%21Constraint%21ForumLeafConstraintValidator.php/class/ForumLeafConstraintValidator/8)
 
-Also from https://drupalize.me/tutorial/entity-validation-api?p=2792 (you need a paid membership to read the whole tutorial):
+Also, from https://drupalize.me/tutorial/entity-validation-api?p=2792 (you need a paid membership to read the whole tutorial):
 Drupal includes the [Symfony Validator
 component](https://symfony.com/doc/2.8/components/validator.html), and
 provides an Entity Validation API to assist in validating the values of fields in an entity. By using the Entity Validation API you can ensure that your validation logic is applied to Entity CRUD operations regardless of how they are triggered. Whether editing an Entity via a Form API form, or creating a new Entity via the REST API, the same validation code will be used.

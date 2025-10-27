@@ -9,7 +9,7 @@ title: Getting off the Island
 
 To communicate with external websites or web services we can make web requests via the [Drupal::httpClient](https://api.drupal.org/Drupal::httpClient) class. This is a wrapper for the [Guzzle HTTP Client](https://github.com/guzzle/guzzle).
 
-From <https://www.php-fig.org/psr/psr-7/>: `HTTP` messages are the foundation of web development. Web browsers and `HTTP` clients such as `cURL` create `HTTP` request messages that are sent to a web server, which provides an `HTTP` response message. Server-side code receives an `HTTP` request message, and returns an `HTTP` response message.
+From <https://www.php-fig.org/psr/psr-7/>: `HTTP` messages are the foundation of web development. Web browsers and `HTTP` clients such as `cURL` create `HTTP` request messages that are sent to a web server, which provides an `HTTP` response message. Server-side code receives an `HTTP` request message and returns an `HTTP` response message.
 
 `HTTP` messages are typically abstracted from the end-user consumer, but as developers, we typically need to know how they are structured and how to access or manipulate them in order to perform our tasks, whether that might be making a request to an `HTTP API`, or handling an incoming request.
 
@@ -91,7 +91,7 @@ $response = $client->put('http://httpbin.org/put');
 
 ## HTTP basic authentication
 
-This shows a failed attempt to authenticate with Github\'s API with exception handling. It will log the error to Drupal\'s watchdog and display it on screen:
+This shows a failed attempt to authenticate with GitHub\'s API with exception handling. It will log the error to Drupal\'s watchdog and display it on screen:
 
 ```php
 public function example2() {
@@ -174,7 +174,7 @@ public function example2() {
 
 You can get a full list of Exception types simply by listing the contents of the directory: `\<drupal_root\>/vendor/guzzlehttp/guzzle/src/Exception`. Utilizing this list allows you to provide different behavior based on exception type.
 
-At the time of writing, the contents of that directory is:
+At the time of writing, the contents of that directory are:
 
 - BadResponseException.php
 - ClientException.php - use this to handle a 4xx error
@@ -211,7 +211,7 @@ HTTP response status codes indicate whether a specific [HTTP](https://developer
 
 ## Reading from an API
 
-In this example, a class was created which extends `SqlBase` ( docroot/core/modules/migrate/src/Plugin/migrate/source/SqlBase php). The code below is from the `prepareRow()` function which retrieves a row of data from the data source. In this case, rather than a SQL database, it is retrieved from an API. It uses basic http authentication during the GET call and if there are any errors, it updates a status elsewhere with a call to `setUpdateStatus()`. The following code is not included below, but it may be interesting to know what it does. If the `GET` succeeds, the data is parsed out and put into variables to be returned to the called.  This acts just like `prepareRow()` does when retrieving a row from a `SQL` source. Taxonomy terms are looked up and added if they don\'t already exist (so taxonomy term id\'s can be returned) and the status is updated showing this row was successfully retrieved.
+In this example, a class was created which extends `SqlBase` ( docroot/core/modules/migrate/src/Plugin/migrate/source/SqlBase php). The code below is from the `prepareRow()` function which retrieves a row of data from the data source. In this case, rather than a SQL database, it is retrieved from an API. It uses basic HTTP authentication during the GET call and if there are any errors, it updates a status elsewhere with a call to `setUpdateStatus()`. The following code is not included below, but it may be interesting to know what it does. If the `GET` succeeds, the data is parsed out and put into variables to be returned to the caller.  This acts just like `prepareRow()` does when retrieving a row from a `SQL` source. Taxonomy terms are looked up and added if they don\'t already exist (so taxonomy term id\'s can be returned) and the status is updated, showing this row was successfully retrieved.
 
 ```php
 $nard_auth_settings = Settings::get('nard_api_auth', []);
@@ -269,10 +269,10 @@ Curl Request using Drupal httpClient
 
 From the now defunct link: <http://btobac.com/blog/how-do-curl-request-using-drupal-httpclient-drupal-8>
 
-Here the author has an example of a function which takes a few
+Here, the author has an example of a function which takes a few
 parameters and can execute a `POST`, `PUT` or `GET`. There is no security code which you almost always need, but there is exception handling and error logging to Drupal watchdog.
 
-Drupal HTTP client for curl HTTP request like `POST`, `PUT`, `GET` Method even for `DELETE`, you can add one type in the below switch case in the class method
+Drupal HTTP client for curl HTTP request like `POST`, `PUT`, `GET` Method even for `DELETE`, you can add one type in the switch case below in the class method
 
 ```php
 
@@ -462,7 +462,7 @@ if(!preg_match('/200/', $header_items[0])){
 }
 ```
 
-Also there were other examples on that page that are probably worth looking at.
+Also, there were other examples on that page that are probably worth looking at.
 
 Someone responded with this shorter paste in November 2020 at
 <http://paste.debian.net/1170460/> with the following comment: this code is not downloading a file with PHP, it is PROXYING a file with PHP, and it\'s not doing a good job either, being way slower and more memory-hungry than required, this script would do it much faster, benchmark it
@@ -499,4 +499,3 @@ curl_close($ch);
 - [Inject a Service in Drupal 8 code snippet from J M Olivas showing how to use dependency injection with Guzzle](https://gist.github.com/jmolivas/ca258d7f2742d9e1aae4)
 - [PSR-7: HTTP message interfaces describes common interfaces for representing HTTP messages and URI\'s](https://www.php-fig.org/psr/psr-7/)
 - [HTTP Client Manager](https://www.drupal.org/project/http_client_manager) provides a Guzzle based plugin which allows you to manage HTTP clients using Guzzle Service Descriptions via YAML, JSON or PHP files.
-- 

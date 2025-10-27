@@ -6,7 +6,7 @@ title: Development
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=development.md)
 
 ## Overview
-This section of the book is about your local development environment and the tools that I find most efficient and effective. 
+This section of the book is about your local development environment and the tools that I find most efficient and effective.
 
 
 ## Local Drupal site setup
@@ -25,9 +25,9 @@ ddev composer create drupal/recommended-project:^10
 # ddev config --update
 ddev composer require drush/drush
 ddev drush site:install --account-name=admin --account-pass=admin -y
-# Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
+# Display a one-time link (CTRL/CMD + Click) from the command below to log in and edit your admin account details.
 ddev drush uli
-## Or this will open a browser and you can login with username: `admin` and password: `admin`
+## Or this will open a browser and you can log in with username: `admin` and password: `admin`
 ddev launch
 # Or automatically log in with
 ddev launch $(ddev drush uli)
@@ -36,7 +36,7 @@ ddev launch $(ddev drush uli)
 See [DDEV docs](https://ddev.readthedocs.io/en/stable/users/quickstart/#drupal-drupal-10)
 
 #### Drupal 11
-  
+
 ```sh
 mkdir my-drupal-site && cd my-drupal-site
 ddev config --project-type=drupal11 --php-version=8.3 --docroot=web
@@ -44,9 +44,9 @@ ddev start
 ddev composer create drupal/recommended-project:^11
 ddev composer require drush/drush
 ddev drush site:install --account-name=admin --account-pass=admin -y
-# Display a one-time link (CTRL/CMD + Click) from the command below to login and edit your admin account details.
+# Display a one-time link (CTRL/CMD + Click) from the command below to log in and edit your admin account details.
 ddev drush uli
-## Or this will open a browser and you can login with username: `admin` and password: `admin`
+## Or this will open a browser and you can log in with username: `admin` and password: `admin`
 ddev launch
 # Or automatically log in with
 ddev launch $(ddev drush uli)
@@ -150,7 +150,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
 
 ### Set up settings.local.php
 
-Copy the `sites/example.settings.local.php` to `sites/default/settings.local.php` with 
+Copy the `sites/example.settings.local.php` to `sites/default/settings.local.php` with
 
 ```sh
 cp web/sites/example.settings.local.php web/sites/default/settings.local.php
@@ -164,7 +164,7 @@ putenv("IS_DDEV_PROJECT=true");
 
 After a `ddev drush cr` and perhaps a `ddev restart` you should be able to run drush on the host. e.g. `ddev drush cst`.
 
-If you see an error like: `PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 8.1.28. in /Users/selwyn/Sites/ddev104/vendor/composer/platform_check.php on line 24` this means your project might be using PHP 8.3 while you have PHP 8.1 installed on your mac globally. You can downgrade the PHP version in the project `config.yaml` or update your host (macOS) PHP version with `brew install php@8.3` and then `brew link --force --overwrite php@8.3` to make it the default PHP version. You can check the version with `php -v`.
+If you see an error like: `PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 8.1.28. in /Users/selwyn/Sites/ddev104/vendor/composer/platform_check.php on line 24`, this means your project might be using PHP 8.3 while you have PHP 8.1 installed on your Mac globally. You can downgrade the PHP version in the project `config.yaml` or update your host (macOS) PHP version with `brew install php@8.3` and then `brew link --force --overwrite php@8.3` to make it the default PHP version. You can check the version with `php -v`.
 
 
 ### Set config sync directory
@@ -238,7 +238,7 @@ Add a README.md in the root of your project with a description of your project.
 
 
 
-Create your repo on Github (or Gitlab) and add your site to git with:
+Create your repo on GitHub (or GitLab) and add your site to git with:
 ```sh
 git init
 git add .
@@ -252,8 +252,8 @@ git push -u origin main
 Rock n Roll!!!
 
 ## Drupal Starter Project
-I have created the [drupalstarter project on github](https://github.com/selwynpolit/drupalstarter) which already has completed these steps, so you can clone that and start from there.
-  
+I have created the [drupalstarter project on github](https://github.com/selwynpolit/drupalstarter) which has already completed these steps, so you can clone that and start from there.
+
 ```sh
 git clone git@github.com:selwynpolit/drupalstarter.git my-drupal-site
 cd my-drupal-site
@@ -268,9 +268,9 @@ ddev cim -y
 
 ## Checking Your Permissions
 
-During the wizard installation, or when your welcome page first loads, you might see a warning about the permissions settings on your `/sites/web/default` directory and one file inside that directory: `settings.php`.
+During the wizard installation, or when your welcome page first loads, you might see a warning about the permissions settings on your `/sites/web/default` directory and one file inside that directory: `settings.php`.
 
-After the installation script runs, [Drupal will try to set the web/sites/default directory permissions to read and execute for all groups](https://www.drupal.org/docs/7/install/step-3-create-settingsphp-and-the-files-directory): this is a 555 permissions setting. It will also attempt to set permissions for default/settings.php to read-only, or 444. If you encounter this warning, run these two chmod commands from your project's root directory. Failure to do so poses a security risk:
+After the installation script runs, [Drupal will try to set the web/sites/default directory permissions to read and execute for all groups](https://www.drupal.org/docs/7/install/step-3-create-settingsphp-and-the-files-directory): this is a 555 permissions setting. It will also attempt to set permissions for default/settings.php to read-only, or 444. If you encounter this warning, run these two chmod commands from your project's root directory. Failure to do so poses a security risk:
 
 ```
 chmod 555 web/sites/default
@@ -280,7 +280,7 @@ chmod 555 web/sites/default
 chmod 444 web/sites/default/settings.php
 ```
 
-To verify that you have the correct permissions, run this `ls` command with the a, l, h, and d switches and check that your permissions match the following output:
+To verify that you have the correct permissions, run this `ls` command with the a, l, h, and d switches and check that your permissions match the following output:
 
 ```
 $ ls -alhd web/sites/default web/sites/default/settings.php
@@ -291,11 +291,11 @@ dr-xr-xr-x 8 sammy staff 256 Jul 21 12:56 web/sites/default
 
 You are now ready to develop a Drupal website on your local machine.
 
-## Converting existing site (non-composer based) to use composer
+## Converting existing site (non-composer-based) to use composer
 
-here are some resources if you find yourself in this unfortunate situation:
+Here are some resources if you find yourself in this unfortunate situation:
 Taking an existing Drupal application that is not managed with Composer and beginning to manage it with Composer can be a little tricky. Check out this tutorial on how to [use Composer with Your Drupal Project from Drupalize.me - Updated August 2023](https://drupalize.me/tutorial/use-composer-your-drupal-project?p=3233).
-Also this [Composerize Drupal github repo - June 2022](https://github.com/grasmash/composerize-drupal) may be useful.
+Also, this [Composerize Drupal github repo - June 2022](https://github.com/grasmash/composerize-drupal) may be useful.
 
 
 
@@ -307,28 +307,28 @@ For local Docker container development on any platform, there is no better tool 
 
 From the docs:
 
--   Lots of built-in help: ddev help and ddev help \<command\>. You\'ll find examples and explanations.
+-   Lots of built-in help: ddev help and ddev help \<command\>. You\'ll find examples and explanations.
 
 -   [DDEV Documentation](https://ddev.readthedocs.io/en/stable/users/faq/)
 
--   [DDEV Stack Overflow](https://stackoverflow.com/questions/tagged/ddev) for support and frequently asked questions. We respond quite quickly here and the results provide quite a library of user-curated solutions.
+-   [DDEV Stack Overflow](https://stackoverflow.com/questions/tagged/ddev) for support and frequently asked questions. We respond quite quickly here and the results provide quite a library of user-curated solutions.
 
--   [DDEV issue queue](https://github.com/ddev/ddev/issues) for bugs and feature requests
+-   [DDEV issue queue](https://github.com/ddev/ddev/issues) for bugs and feature requests
 
--   Interactive community support on [Discord](https://discord.com/invite/5wjP76mBJD) for everybody, plus sub-channels for CMS-specific questions and answers.
+-   Interactive community support on [Discord](https://discord.com/invite/5wjP76mBJD) for everybody, plus sub-channels for CMS-specific questions and answers.
 
--   [awesome-ddev](https://github.com/ddev/awesome-ddev) repo has loads of external resources, blog posts, recipes, screencasts, and the like. Your contributions are welcome.
+-   [awesome-ddev](https://github.com/ddev/awesome-ddev) repo has loads of external resources, blog posts, recipes, screencasts, and the like. Your contributions are welcome.
 
 ### Local config -  your .ddev/config.local.yaml
 
 From https://ddev.readthedocs.io/en/stable/users/extend/config_yaml
 
--  You can override the config.yaml with extra files named `config.*.yaml\`. For example, use `.ddev/config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default `config.yaml`.
+-  You can override the config.yaml with extra files named `config.*.yaml\`. For example, use `.ddev/config.local.yaml` for configuration that is specific to one environment, and that is not intended to be checked into the team's default `config.yaml`.
 
 
 
 - Additionally, you could add a `.ddev/config.local.yml` or `.ddev/config.selwyn.yaml` for your own values.
-  - Here you can specify the project name so you can have a unique name for each instance of the project. The checked in version of the config.yml could be set to name: `agov` and then each version (e.g. `agov1`, `agov2`, `agov3`) could be set in the `config.selwyn.yaml` file. 
+  - Here you can specify the project name so you can have a unique name for each instance of the project. The checked-in version of the config.yml could be set to name: `agov` and then each version (e.g. `agov1`, `agov2`, `agov3`) could be set in the `config.selwyn.yaml` file.
   - I like to set the timezone and the router port in case some of my coworkers use different values:
 
 ```yaml
@@ -338,9 +338,9 @@ router_https_port: "443"
 timezone: America/Chicago
 ```
 
-- Use ddev start (or ddev restart) after making changes to get the changes to take effect.
+- Use ddev start (or ddev restart) after making changes to get the changes to take effect.
 
-- In the endless quest for speed in local development, DDEV uses Mutagen on MAC OS. Apparently the WSL2 setup on Windows 10/11 is the fastest performer for DDEV at the time of this writing.
+- In the endless quest for speed in local development, DDEV uses Mutagen on Mac OS. Apparently, the WSL2 setup on Windows 10/11 is the fastest performer for DDEV at the time of this writing.
 
 
 ### Fish shell in DDEV containers
@@ -371,7 +371,7 @@ fi
 fish
 ```
 
-Now ddev ssh will load fish automagically
+Now, ddev ssh will load fish automagically
 
 ```
 ddev ssh
@@ -391,7 +391,7 @@ spolit@tea-web:/var/www/html$ cat ~/.profile
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
 
-# the default umask is set in /etc/profile; for setting the umask
+# The default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
@@ -419,27 +419,27 @@ You can also create a global .profile file to run in all containers at ~/.ddev/h
 
 ### setup aliases in ddev
 
-I love short linux aliases like `ll` (or just `l`) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add aliases using this technique
+I love short Linux aliases like `ll` (or just `l`) for listing files. If you spend time poking around the file system in your containers this makes life so much better. A cool new feature since Ddev v15.1 lets you add aliases using this technique
 
 Use ddev ssh to "ssh" into the container and then type ll to list the files in a directory.
 
-Either copy `.ddev/homeadditions/bash_aliases.example` to `.ddev/homeadditions/.bash_aliases` and add them there! Don\'t forget the leading period in the filename. 
+Either copy `.ddev/homeadditions/bash_aliases.example` to `.ddev/homeadditions/.bash_aliases` and add them there! Don\'t forget the leading period in the filename.
 
 OR
 
-Create a file `.ddev/homeadditions/.bash_aliases` with these contents: note. those are the letter `L` lower case (as in lima).
+Create a file `.ddev/homeadditions/.bash_aliases` with these contents: note, those are the letter `L` lower case (as in lima).
 
 ```
 alias ll="ls -lhAp"
 alias l="ls -lhAp"
 ```
 
-Note. Be sure to restart the container with `ddev restart` to see the changes. Don\'t use `.homeadditions` - use the `homeadditions` with no period (or full stop) in front.
+Note, be sure to restart the container with `ddev restart` to see the changes. Don\'t use `.homeadditions` - use the `homeadditions` with no period (or full stop) in front.
 
 
 ### Post start or post import hooks
 
-You can run a script after the container starts or after the database is imported. This is useful for doing some last minute setup or creating required directories etc. For example, you can run a script to enable modules, set up configuration, or run drush commands.
+You can run a script after the container starts or after the database is imported. This is useful for doing some last-minute setup or creating required directories etc. For example, you can run a script to enable modules, set up configuration, or run drush commands.
 
 Here are some examples that you can add to your `.ddev/config.yaml` file:
 
@@ -454,7 +454,7 @@ hooks:
 ```
 
 or
-  
+
 ```yaml
 # Create local private files dir.
 hooks:
@@ -465,7 +465,7 @@ hooks:
 
 ### Upgrading DDEV
 
-After you install a new version of ddev, run `ddev stop` and then `ddev config` to reconfigure things for your project. Just press enter for all the questions. It keeps things rolling smoothly. Run `ddev start` to start it all back up again. 
+After you install a new version of ddev, run `ddev stop` and then `ddev config` to reconfigure things for your project. Just press enter for all the questions. It keeps things rolling smoothly. Run `ddev start` to start it all back up again.
 ```sh
 brew upgrade ddev
 ```
@@ -501,8 +501,8 @@ ddev add-on get ddev/ddev-solr
 ddev restart
 ```
 
-If you don't see the latest version of solr (currently ver 9.6.1), you could add a `.ddev/docker-compose.solr_extra.yml` to override the image. This step was not necessary for my setup but it may be useful for customization: 
-  
+If you don't see the latest version of Solr (currently ver 9.6.1), you could add a `.ddev/docker-compose.solr_extra.yml` to override the image. This step was not necessary for my setup but it may be useful for customization:
+
 ```yaml
 services: 
   solr:
@@ -521,13 +521,13 @@ The admin UI is protected by basic authentication. The preconfigured admin accou
 To access the Solr container from DDEV's web container (i.e. from within Drupal), use `http://solr:8983`.
 
 ::: tip Note
-Don't use `localhost` for the name of the solr server in your search api configuration. Use `solr` instead.  Also there is no need to create a core or collection. The search api can do that for you by just clicking a button called `+upload configset` which appears after you define a solr server.
+Don't use `localhost` for the name of the Solr server in your search api configuration. Use `solr` instead.  Also, there is no need to create a core or collection. The search api can do that for you by just clicking a button called `+upload configset` which appears after you define a solr server.
 :::
 
 
 More at the [ddev-solr repo](https://github.com/ddev/ddev-solr)
 
-To use the solr data for searching your Drupal site, use the [Search API solr module](https://www.drupal.org/project/search_api_solr) and  the [Search API module](https://www.drupal.org/project/search_api).  Detailed setup instructions below at [Local Solr setup with Search API](#local-solr-setup-with-search-api-solr)
+To use the Solr data for searching your Drupal site, use the [Search API solr module](https://www.drupal.org/project/search_api_solr) and  the [Search API module](https://www.drupal.org/project/search_api).  Detailed setup instructions below at [Local Solr setup with Search API](#local-solr-setup-with-search-api-solr)
 
 
 DDEV provides some command line tools to help you manage your Solr instance. You can see the available commands by running `ddev solr`:
@@ -538,7 +538,7 @@ Usage: solr COMMAND OPTIONS
        where COMMAND is one of: start, stop, restart, status, healthcheck, create, create_core, create_collection, delete, version, zk, auth, assert, config, export, api, package, post, postlogs
 ```
 
-Solr uses a program called `zookeeper` to manage some of the configuration of the solr server. This is abbreviated as `zk` in the commands.
+Solr uses a program called `zookeeper` to manage some of the configuration of the Solr server. This is abbreviated as `zk` in the commands.
 
 
 
@@ -549,20 +549,20 @@ This is a magical match made in heaven. To enable or disable Xdebug use
 
 `$ ddev xdebug on`
 
-and 
+and
 
 `$ ddev xdebug off`
 
-Note. This will slow everything down because xdebug has a significant performance impact so be sure to disable it when you are finished with your debugging session.
+Note, this will slow everything down because xdebug has a significant performance impact so be sure to disable it when you are finished with your debugging session.
 
-In phpstorm, you can uncheck the following settings:
+In PhpStorm, you can uncheck the following settings:
 
 - force break at first line when no path mapping is specified
 - force break at first line when a script is outside the project
 
 For phpstorm, if you start listening for a debug connection, it should automatically try to create a debug server config for you. If it doesn't manually create one using the following values:
 
-e.g 
+e.g
 - name: tea.ddev.site
 - host tea.ddev.site
 - port: 80
@@ -579,7 +579,7 @@ For Lando, check out: [How to configure xdebug with Lando & VS code for Drupal D
 
 ### Command line or drush debugging
 
-For command line or drush debugging (xdebug, phpstorm)
+For command line or drush debugging (Xdebug, PhpStorm)
 
 ```
 ddev ssh
@@ -591,7 +591,7 @@ confirm debug is turned on
 php -i | grep debug
 ```
 
-You should see: 
+You should see:
 
 ```
 xdebug support => enabled
@@ -615,7 +615,7 @@ Note that with Drush 13+ you must set `DRUSH_ALLOW_XDEBUG=1` or run `drush --xde
 
 If you do local development, you can use syntax like `ddev drush cst` to execute `drush` commands in the container. This is slower than running on your native system because they are executed in the container but I prefer using `drush` directly on the host computer as I get to the benefits of [Oh My Zsh](https://ohmyz.sh/).
 
-To do this install PHP as well [drush globally](setup_mac#global-drush). Then following the steps to [install drushonhost](drush#global-drush-run-drush-on-host). Once these are working, you can `cd` into the project directory and issue commands like `drush cr`,  `drush cst` or `drush cim -y` etc. It is *so* very quick and smooth.  (Note. this is the case with MacOS and Linux and I suspect it should work fine on WSL2 on Windows.)
+To do this, install PHP as well [drush globally](setup_mac#global-drush). Then, follow the steps to [install drushonhost](drush#global-drush-run-drush-on-host). Once these are working, you can `cd` into the project directory and issue commands like `drush cr`,  `drush cst` or `drush cim -y` etc. It is *so* very quick and smooth. (Note, this is the case with MacOS and Linux and I suspect it should work fine on WSL2 on Windows.)
 
 
 
@@ -632,7 +632,7 @@ ddev import-db --src=dbprod.sql.gz
 This works with any site where you've set up your [drush aliases](https://www.drush.org/latest/site-aliases/) including Acquia.
 
 ::: tip Note
-If you see the following error: `mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces` 
+If you see the following error: `mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces`
 you can rather use:
 
 `drush @abc.prod sql-dump --extra-dump=--no-tablespaces > dbprod.sql`
@@ -670,7 +670,7 @@ show variables like 'max_allowed_packet';
 
 
 I was trying to dump a database and saw the following:
-  
+
 ```sh
 ddev drush sql-dump >dbdump1.sql
 > mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
@@ -694,7 +694,7 @@ Randy Fay recorded a video on how to set up DDEV on Windows in July 2025 which y
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1dr_4gPtFlQ?si=EusxXVQSNtz_gziH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 
-### Cleanup some disk space 
+### Cleanup some disk space
 
 Free up disk space used by previous docker image versions. This does no harm.
 
@@ -742,7 +742,7 @@ or for selenium, use:
 `ddev ssh -s selenium`
 
 
-### How to add java to the DDEV container
+### How to add Java to the DDEV container
 
 If you find yourself needing Java in the container, you can add it to your `.ddev/config.local.yaml` file like this:
 
@@ -751,7 +751,7 @@ webimage_extra_packages: [ default-jre ]
 ```
 then restart DDEV with `ddev restart`.
 
-Note. you can specify a specific version of Java like `openjdk-11-jre-headless` (Java 11) or `openjdk-17-jre-headless` (Java 17).
+Note, you can specify a specific version of Java like `openjdk-11-jre-headless` (Java 11) or `openjdk-17-jre-headless` (Java 17).
 
 
 
@@ -763,7 +763,7 @@ I'm not a huge fan of multisite for many reasons but if you need to set it up, h
 - Share the same database and use prefixes for the tables.
 - Probably a zillion other ways to do it including using a different database server for each site.
 
-Also [Why Pantheon thinks multisite is a bad idea - June 2017](https://pantheon.io/blog/drupal-multisite-much-ado-about-drupal-multisite#snowflake-sites)
+Also, [Why Pantheon thinks multisite is a bad idea - June 2017](https://pantheon.io/blog/drupal-multisite-much-ado-about-drupal-multisite#snowflake-sites)
 
 Thanks to Aastha Shrivastava for her article [Setting up drupal9 multi-site with DDEV](https://dev.to/shriaas2898/setting-up-drupal9-multi-site-with-ddev-2f22) as well as Russell Jones's [Youtube video: Easy Drupal 10 Multi-Site Setup with DDEV | Get Started in Minutes!](https://www.youtube.com/watch?v=MvXJJllmW8I) for their excellent work informing this section.
 
@@ -813,7 +813,7 @@ web_environment: []
 corepack_enable: false
 ```
 
-3. Create the `dmultisite1`, `dmultisite2` and `dmultisite3` directories in the `web/sites` directory. 
+3. Create the `dmultisite1`, `dmultisite2` and `dmultisite3` directories in the `web/sites` directory.
 
 Kinda like this: ![Create the subsite directories](/images/dmulti1.png)
 
@@ -825,9 +825,9 @@ $sites['dmultisite2.ddev.site'] = 'dmultisite2';
 $sites['dmultisite3.ddev.site'] = 'dmultisite3';
 ```
 
-5. In order to let Drupal know about the subsites and the separate databases we will need a `settings.php` file as well as a `settings.ddev.php` in each of the subsite directories.  Copy the `sites/default/settings.php` and `sites/default/settings.ddev.php` files into each of the subsite directories
+5. In order to let Drupal know about the subsites and the separate databases, we will need a `settings.php` file as well as a `settings.ddev.php` in each of the subsite directories.  Copy the `sites/default/settings.php` and `sites/default/settings.ddev.php` files into each of the subsite directories
 
-DDEV will have already setup the `web/sites/settings.php` file correctly for you.  Confirm that it looks like this at the bottom of the file:
+DDEV will have already set up the `web/sites/settings.php` file correctly for you.  Confirm that it looks like this at the bottom of the file:
 ```php
 // Automatically generated include for settings managed by ddev.
 if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev.php')) {
@@ -872,10 +872,10 @@ $databases['default']['default']['driver'] = $driver;
 ```
 This will cause Drupal to use the correct database for each subsite.
 
-Note. change the database name, username and password for each subsite in the `settings.ddev.php` file. 
+Note, change the database name, username and password for each subsite in the `settings.ddev.php` file.
 
 
-7. Restart ddev with `ddev restart` and use `ddev status` to see the new URLs.  
+7. Restart ddev with `ddev restart` and use `ddev status` to see the new URLs.
 
 Here is the output from ddev status:
 
@@ -927,33 +927,33 @@ ddev add-on get ddev/ddev-phpmyadmin
 ddev restart
 ```
 
-8. Now for the databases.  DDEV automatically created the main site database. In PHPMyadmin, add 3 users called `site1`, `site2` and `site3` each with a user and password of `site1`, `site2` and `site3` respectively and also create a database for each user.
+8. Now for the databases.  DDEV automatically created the main site database. In PHPMyAdmin, add 3 users called `site1`, `site2` and `site3` each with a user and password of `site1`, `site2` and `site3` respectively and also create a database for each user.
 
 ![Create the subsite databases](/images/dmulti4.png)
 
 
-9. You should now be able to navigate to each subsite e.g.  `http://dmultisite1.ddev.site` and follow the prompts to install Drupal. 
+9. You should now be able to navigate to each subsite e.g.  `http://dmultisite1.ddev.site` and follow the prompts to install Drupal.
 
 
 10. You can use `ddev drush -l dmultisite1 uli` to get a login url for each subsite. Notice that the URLs will not be correct for the subsites. Check out [Drush aliases for multisite](#drush-aliases-for-multisite) below to see how to fix this.
 
 
 :::: tip Note
-You can use `ddev drush -l dmultisite1 status` to see the status of the subsite. 
+You can use `ddev drush -l dmultisite1 status` to see the status of the subsite.
 ::::
 
 
 #### Backup and restore the database for a subsite
 
 To export a database, use `ddev export-db` with the `-d` option to specify the database to export from (default \"db\")
-e.g. 
+e.g.
 
 ```sh
 ddev export-db -d site1 -f dbsite1.sql.gz
 ```
 This will create a file called `dbsite1.sql.gz` in the current directory.
 
-To restore (import) a database for a subsite, use `ddev import-db -d site1 --file=dbdump1.sql.gz` 
+To restore (import) a database for a subsite, use `ddev import-db -d site1 --file=dbdump1.sql.gz`
 
 
 
@@ -1028,7 +1028,7 @@ ddev restart
 
 
 
-4. Create the `subsite1`, `subsite2` and `subsite3` directories in the `web/sites` directory. 
+4. Create the `subsite1`, `subsite2` and `subsite3` directories in the `web/sites` directory.
 
 ![Create the subsite directories](/images/dmulti1.png)
 
@@ -1083,7 +1083,7 @@ ddev status
 
 
 
-5. In order to let Drupal know about the prefixes we will need a `settings.php` file in each of the subsite directories.  Copy the `sites/default/settings.php` into each of the subsite directories. Then add this towards the bottom of the file:
+5. In order to let Drupal know about the prefixes, we will need a `settings.php` file in each of the subsite directories.  Copy the `sites/default/settings.php` into each of the subsite directories. Then add this towards the bottom of the file:
 
 
 ```php
@@ -1108,12 +1108,12 @@ $databases['default']['default']['host'] = $host;
 $databases['default']['default']['port'] = $port;
 $databases['default']['default']['driver'] = $driver;
 ```
-The prefix will be added to the table names in the database by the `settings.ddev.php` in each subsite\'s directory.  For example, if you have a table called `node` in the main site, it will be called `subsite1_node` in the subsite. Note. If you leave off the trailing underscore, it will be called `subsite1node` which is not as clear.
+The prefix will be added to the table names in the database by the `settings.ddev.php` in each subsite\'s directory.  For example, if you have a table called `node` in the main site, it will be called `subsite1_node` in the subsite. Note, if you leave off the trailing underscore, it will be called `subsite1node` which is not as clear.
 
-If you run any of the subsites by navigating to `http://subsite1.ddev.site` or `http://subsite2.ddev.site` etc. Follow the prompts to install Drupal. 
+If you run any of the subsites by navigating to `http://subsite1.ddev.site` or `http://subsite2.ddev.site` etc. Follow the prompts to install Drupal.
 ![Install Drupal](/images/dmulti2.png)
 
-Optionally you could potentially use the `ddev drush site:install` command to install the subsite. Unfortunately it prompts to drop all tables in the database which will remove all the tables for the other subsites regardless of prefix or not. Rather use the web interface to install the site.
+Optionally, you could potentially use the `ddev drush site:install` command to install the subsite. Unfortunately, it prompts to drop all tables in the database which will remove all the tables for the other subsites, regardless of prefix or not. Rather, use the web interface to install the site.
 
 ```sh
 ddev drush site:install --db-url=mysql://db:db@db:3306/db --account-name=admin --account-pass=admin --site-name="Subsite 3" --db-prefix=subsite3_ --sites-subdir=subsite3 --site-mail=subsite3@example.com```
@@ -1162,7 +1162,7 @@ Be sure to use the `-l` option to specify the subsite you want to run the comman
 ddev drush -l subsite1 cr
 ```
 
-Also if you need the correct url to be output by drush use the `--uri` option to specify the correct URL. For example:
+Also, if you need the correct URL to be output by drush use the `--uri` option to specify the correct URL. For example:
 
 ```sh
 ddev drush --uri=https://subsite1.ddev.site uli
@@ -1171,7 +1171,7 @@ https://subsite1.ddev.site/user/reset/1/174615/imZKgw0PxVDsPJJWihBUjlOyx-2NkV7Lw
 
 ### Drush aliases for multisite
 
-You can set up a drush alias for the subsites where you specify each uri in  `~/Sites/d10m/drush/sites/self.site.yml` For example:
+You can set up a drush alias for the subsites where you specify each URI in  `~/Sites/d10m/drush/sites/self.site.yml` For example:
 
 
 ```yaml
@@ -1187,7 +1187,7 @@ subsite3:
 ```
 
 
-Then, specify the drush alias when running any drush commands such as `uli`:
+Then, specify the drush alias when running any drush commands, such as `uli`:
 
 ```sh
 ddev drush @self.subsite1 uli
@@ -1200,25 +1200,25 @@ ddev drush @self.subsite2 en admin_toolbar -y
 ```
 
 
-Note. The drush directory is at the same level as the `web` or `docroot` directory.  Also if you call the file `selwyn.site.yml`, you can use `ddev drush @selwyn.subsite1 uli` etc. See [Drush aliases](drush.md#drush-aliases) for more info.
+Note, the drush directory is at the same level as the `web` or `docroot` directory. Also, if you call the file `selwyn.site.yml`, you can use `ddev drush @selwyn.subsite1 uli` etc. See [Drush aliases](drush.md#drush-aliases) for more info.
 
 
 ### Problems with multisite
 
-I've seen some problems with `drush uli` command. 
+I've seen some problems with `drush uli` command.
 
 ```sh
 ddev drush uli
 https://d10m.ddev.site/user/reset/1/1746197983/FzB_nebAqHFZmdsBJXpjYC_wjx7RAgjL352qZyaz81M/login
 ```
-This will give you a one time login link for the main site.  To get a one time login link for the subsite, use:
+This will give you a one-time login link for the main site. To get a one-time login link for the subsite, use:
 
 ```sh
 ddev drush -l subsite1 uli
 http://subsite1/user/reset/1/1746197975/XGX2vNVlVwQ6fIAzE9HATNniNMOLbz8dN63UAUtb_cw/login
 ```
 
-Notice that the url for this command is wrong. It should be `https://subsite1.ddev.site/user/reset/1/1746197975/XGX2vNVlVwQ6fIAzE9HATNniNMOLbz8dN63UAUtb_cw/login` but it is not.  This is a bug in drush.  
+Notice that the URL for this command is wrong. It should be `https://subsite1.ddev.site/user/reset/1/1746197975/XGX2vNVlVwQ6fIAzE9HATNniNMOLbz8dN63UAUtb_cw/login` but it is not.  This is a bug in drush.
 
 You can work around this by using the `--uri` option to specify the correct URL. For example:
 
@@ -1227,7 +1227,7 @@ ddev drush --uri=https://subsite1.ddev.site uli
 https://subsite1.ddev.site/user/reset/1/1746198785/imZKgctexfaXuUw0PxVDsPJJWihBUjlOyx-2NkV7Lwc/login
 ```
 
-Additionally, you can set up a drush alias for the subsites where you specify each uri in  `drush/sites/self.site.yml` (at the same level as the .ddev directory. e.g. at `~/Sites/d10m/drush/sites/self.site.yml`) For example:
+Additionally, you can set up a drush alias for the subsites where you specify each URI in  `drush/sites/self.site.yml` (at the same level as the .ddev directory. e.g. at `~/Sites/d10m/drush/sites/self.site.yml`) For example:
 
 
 ```yaml
@@ -1256,7 +1256,7 @@ ddev drush @self.subsite2 uli
 https://subsite2.ddev.site/user/reset/1/1746199233/TNYXEGePpgXweOukz_yg-4fRWj6x3DYohOQ-QQwvXYg/login
 ```
 
-Note. this drush directory is at the same level as the `web` or `docroot` directory.
+Note, this drush directory is at the same level as the `web` or `docroot` directory.
 
 
 If DDEV reports problems in the site listing such as this:
@@ -1295,7 +1295,7 @@ upload_dirs:
 
 ## DDEV Troubleshooting
 
-Be sure to check the support channels for DDEV especially the [DDEV Discord](https://discord.com/invite/5wjP76mBJD) for help.
+Be sure to check the support channels for DDEV, especially the [DDEV Discord](https://discord.com/invite/5wjP76mBJD) for help.
 If you want to post about a problem, the folks there will usually want to see the output of `ddev debug test` ( e.g. on the host: /var/folders/4m/sp0m3vwj71g9n0nlv83mzbnr0000gp/T/ddev-debug-test.txt) and `ddev describe` commands so have those ready. I recommend you reach out to the DDEV community for help with any issues you may have. You will be pleasantly surprised at how helpful they can be.
 
 ### Why is DDEV doing strange things?
@@ -1351,7 +1351,7 @@ docker system prune --volumes
 
 ### DDEV won't start
 
-ddev pull or ddev start failed with error something like:
+ddev pull or ddev start failed with an error, something like:
 
 ```
 Pull failed: db container failed: log=, err=health check timed out: labels map[com.ddev.site-name:inside-mathematics com.docker.compose.service:db] timed out without becoming healthy, status=
@@ -1381,7 +1381,7 @@ To fix, `ddev delete --omit-snapshot -y`, then `ddev start`.
 
 ### DDEV list shows running (problems)
 
-Notice how `ddev list` shows the status of the project as `running (problems)` This is an issue with Mutagen.  
+Notice how `ddev list` shows the status of the project as `running (problems)`. This is an issue with Mutagen.
 
 ```
 ddev list -A
@@ -1397,7 +1397,7 @@ ddev list -A
 ```
 
 ::: tip Note
-Be sure to check the support channels for DDEV especially the [DDEV Discord](https://discord.com/invite/5wjP76mBJD) for help.
+Be sure to check the support channels for DDEV, especially the [DDEV Discord](https://discord.com/invite/5wjP76mBJD) for help.
 If you want to post about a problem, the folks there will usually want to see the output of `ddev debug test` ( e.g. on the host: /var/folders/4m/sp0m3vwj71g9n0nlv83mzbnr0000gp/T/ddev-debug-test.txt) and `ddev describe` commands so have those ready.
 :::
 
@@ -1504,10 +1504,10 @@ This showed:
 ```
 Mutagen has been reset. You may now `ddev start` with or without Mutagen enabled.
 ```
-This cleared up the problem but it is not a long term solution.  
+This cleared up the problem, but it is not a long-term solution.
 
 
-The solution (thanks to Randy Fay) was to add the following to my `.ddev/config.local.yaml` 
+The solution (thanks to Randy Fay) was to add the following to my `.ddev/config.local.yaml`
 
 ```yaml
 upload_dirs:
@@ -1516,7 +1516,7 @@ upload_dirs:
   - ../regulation
 ```
 
-This tells DDEV to ignore the `regulation` directory and not try to sync it with Mutagen. 
+This tells DDEV to ignore the `regulation` directory and not try to sync it with Mutagen.
 
 For more info, see [DDEV documentation on upload_dirs](https://ddev.readthedocs.io/en/stable/users/configuration/config/#upload_dirs).
 
@@ -1530,7 +1530,7 @@ From Randy Fay:
 >But on macOS and Windows, bind-mounts are terribly slow for many contexts. So mutagen instead copies all the data and keeps it up-to-date.
 
 
-And thanks to Deepseek: 
+And thanks to Deepseek:
 
 
 >This is about how DDEV (a tool for local web development) handles file directories where your website stores user-uploaded files (like images, documents, etc.).
@@ -1574,11 +1574,11 @@ And thanks to Deepseek:
 
 ## Local Solr setup with Search API Solr
 
-If you haven't already added solr to your project, follow these [steps to get solr installed in your ddev project](#solr-and-ddev) first. 
+If you haven't already added Solr to your project, follow these [steps to get solr installed in your ddev project](#solr) first.
 
 Solr Cloud is the \"modern\" (and simplest) way to run Solr.  There are other ways, but this is the setup we'll cover here.
 
-Starting from Search API Solr module version 4.2.1 you don't need to deal with collections or configsets manually anymore. You can enable the `search_api_solr_admin` submodule which is part of the [Search API Solr module](https://www.drupal.org/project/search_api_solr). Now you create or update your \"collections\" at any time by clicking the "Upload Configset" button on the Search API server details page (see installation steps below). 
+Starting from Search API Solr module version 4.2.1 you don't need to deal with collections or configsets manually anymore. You can enable the `search_api_solr_admin` submodule which is part of the [Search API Solr module](https://www.drupal.org/project/search_api_solr). Now you create or update your \"collections\" at any time by clicking the "Upload Configset" button on the Search API server details page (see installation steps below).
 
 It is also possible to use drush to do this:
 
@@ -1599,7 +1599,7 @@ Specify `Solr Cloud with Basic Auth` so you can use the `solr` user and password
 ![Add server2](/images/solr-server2.png)
 
 
-Specify the Solr node name: `solr`. Be sure to not use `localhost` as the server name. You will need to also specify a `Default Solr collection`.  I used `selwyn` as the collection name.
+Specify the Solr node name: `solr`. Be sure not to use `localhost` as the server name. You will also need to specify a `Default Solr collection`.  I used `selwyn` as the collection name.
 
 ![Add server3](/images/solr-server3.png)
 
@@ -1644,7 +1644,7 @@ elevate.xml                      schema.xml                       solrconfig.xml
 Restarting ddev with `ddev restart` will make the new schema available to the solr server.
 
 
-It seems like if you use a different directory name to copy the unzipped `config.zip` file i.e. use `fred` instead of `selwyn` DDEV will create a collection called `fred`. In the solr, ui, you should be able to see the collection name in the left-hand column.
+It seems like if you use a different directory name to copy the unzipped `config.zip` file i.e. use `fred` instead of `selwyn` DDEV will create a collection called `fred`. In the Solr, ui, you should be able to see the collection name in the left-hand column.
 
 ![Solr collections](/images/solr-collection-selwyn.png)
 
@@ -1657,15 +1657,15 @@ More at [Search API Solr module README](https://git.drupalcode.org/project/searc
 
 ### Delete the Solr collection
 
-You can delete the collection at any time using the `Delete collection` button in the Solr u.i. This will remove the collection from the solr server. You can easily put it back by using the `+Upload Configset` button on the server page as outlined above.  At this time (Nov 2024) the delete collection from the (Search API) view server page doesn't work.
+You can delete the collection at any time using the `Delete collection` button in the Solr u.i. This will remove the collection from the Solr server. You can easily put it back by using the `+Upload Configset` button on the server page as outlined above.  At this time (Nov 2024) the delete collection from the (Search API) view server page doesn't work.
 
 ![Solr delete collection](/images/solr-collection-delete.png)
 
 
 ### Query the Solr server
-You can query the Solr server directly the Solr u.i.  This will show you the raw data in the solr server.
+You can query the Solr server directly the Solr u.i.  This will show you the raw data in the Solr server.
 
-Select the `collections, then the `selwyn` collection in the left column. Using all defaults, click the `Execute Query` button and you'll see a list of JSON documents. 
+Select the `collections, then the `selwyn` collection in the left column. Using all defaults, click the `Execute Query` button and you'll see a list of JSON documents.
 
 ![Solr query](/images/solr-query.png)
 
@@ -1717,7 +1717,7 @@ This covers:
 
 Debugging drush commands at <https://www.jetbrains.com/help/phpstorm/drupal-support.html#debugging-drush-commands>
 
-PHPStorm has a series of instructions for [configuring PHPStorm with Xdebug](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#configure-xdebug-wsl) but unfortunately, nothing specifically on using it with DDEV. Fortunately it doesn't require any special setup for it to work.
+PHPStorm has a series of instructions for [configuring PHPStorm with Xdebug](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#configure-xdebug-wsl), but unfortunately, nothing specifically on using it with DDEV. Fortunately, it doesn't require any special setup for it to work.
 
 Some settings I use
 
@@ -1727,13 +1727,13 @@ And for this project
 
 ![PhpStorm settings](/images/image2-phpstorm.png)
 
-If phpstorm doesn't stop when you set a breakpoint on some code, try deleting the server from the config debug, php, servers.
+If PhpStorm doesn't stop when you set a breakpoint on some code, try deleting the server from the config debug, php, servers.
 
 Make sure PHPStorm is listening by clicking the listen button
 
 ![PhpStorm settings](/images/image3-phpstorm.png)
 
-When you try again it will be recreated but you will probably need to specify the path (from the image above).
+When you try again, it will be recreated, but you will probably need to specify the path (from the image above).
 
 For Lando, check out: [How to configure xdebug with Lando & VS code for Drupal Development - Apr 2023](https://thehigglers.com/blogs/how-to-configure-xdebug-with-lando-for-drupal-development/) also [Lando + PHPStorm + Xdebug in the Lando docs - Updated Nov 2023](https://docs.lando.dev/guides/lando-phpstorm.html)
 
@@ -1741,7 +1741,7 @@ For Lando, check out: [How to configure xdebug with Lando & VS code for Drupal D
 
 #### add a breakpoint in code
 
-You can click on the line number or add the following in code: 
+You can click on the line number or add the following in code:
 
 ```php
 xdebug_break()
@@ -1752,11 +1752,11 @@ xdebug_break()
 
 ### Collecting PhpStorm debugging logs
 
--   In the Settings/Preferences dialog (⌘ ,) , go to PHP.
+-   In the Settings/Preferences dialog (⌘ ,) , go to PHP.
 
--   From the PHP executable list, choose the relevant PHP interpreter and click  next to it. In the CLI Interpreters dialog that opens, click the Open in Editor link next to the Configuration file: \<path to php.ini\> file. Close all the dialogs and switch to the tab where the php.ini file is opened.
+-   From the PHP executable list, choose the relevant PHP interpreter and click next to it. In the CLI Interpreters dialog that opens, click the Open in Editor link next to the Configuration file: \<path to php.ini\> file. Close all the dialogs and switch to the tab where the php.ini file is opened.
 
--   In the php.ini, enable Xdebug logging by adding the following line:
+-   In the php.ini, enable Xdebug logging by adding the following line:
 
 -   For Xdebug 3xdebug.log=\"path_to_log/xdebug.log\"The log file contains the raw communication between PhpStorm and Xdebug as well as any warnings or errors:
 
@@ -1766,12 +1766,12 @@ xdebug_break()
 
 ### Xdebug in twig
 When you need to see the values of variables in your twig templates, simply enable Xdebug and add the following line to your twig template:
-  
+
   ```twig
   {{ devel_breakpoint() }}
   ```
 
-This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template. 
+This will cause xdebug to stop in `docroot/modules/contrib/devel/src/Twig/Extension/Debug.php` at the `breakpoint()` function.  You can then easily look in the `$context` variable which holds everything that is available in the twig template.
 
 PHPStorm has the ability to step through twig templates just like PHP code. (I haven't tried this yet.) See this [Jetbrains blog post on Twig debug support](https://www.jetbrains.com/help/phpstorm/twig.html#debugging-twig-templates) for details. There is also a [Twig Xdebug contrib module](https://www.drupal.org/project/twig_xdebug).
 
@@ -1781,7 +1781,7 @@ PHPStorm has the ability to step through twig templates just like PHP code. (I h
 
 ### Code Sniffing with phpcs
 
-You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards). 
+You can set up PhpStorm to automatically look at your code and warn you of lines that do not meet [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).
 
 Best practice is to install the Drupal dev tools (with `composer require --dev drupal/core-dev`) which include the [coder module](https://www.drupal.org/project/coder). See [How to implement Drupal Coding standards at drupalize.me](https://drupalize.me/tutorial/how-implement-drupal-code-standards) for details on how to install and configure it.
 
@@ -1792,12 +1792,12 @@ Use the following settings:
 - Configuration: System PHP
 - Check files with extensions: php, js, css, inc, module
 - Check the Installed standards path option and set that to the path to the coder module in your project. e.g. `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer`. You may have to do this twice.
-- Coding standard: Drupal. Note this may not be an option at this time so follow the next steps below and come back to this.
+- Coding standard: Drupal. Note, this may not be an option at this time so follow the next steps below and come back to this.
 
 ![PHPStorm codesniffer settings](/images/phpstorm-phpcs1.png)
 
 
-Click the the `...` button on this page.  This will display the PHP_CodeSniffer dialog. Set the PHP_CodeSniffer path to :`/Users/spolit/Sites/tea/vendor/bin/phpcs` if you have the `core-dev` tools installed in your project. At this time you can also set the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf` if you want to use the code beautifier and fixer.
+Click the `...` button on this page.  This will display the PHP_CodeSniffer dialog. Set the PHP_CodeSniffer path to :`/Users/spolit/Sites/tea/vendor/bin/phpcs` if you have the `core-dev` tools installed in your project. At this time you can also set the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf` if you want to use the code beautifier and fixer.
 
 ::: tip Note
 Replace `/Users/spolit/Sites/tea` with the path to your project.
@@ -1809,9 +1809,9 @@ Use  `/Users/spolit/.composer/vendor/bin/phpcs` and `/Users/spolit/.composer/ven
 
 Next, you will need to click Apply and then OK.  You can now run the code sniffer by right-clicking on a file or directory and selecting `Run Inspection by PHP_CodeSniffer` from the context menu.
 
-If you are still not presented with the option to Select the Drupal coding standard, click apply and OK and then go back into the settings, PHP, Quality Tools, PHP_CodeSniffer and you should see the option to select the Drupal coding standard. (PHPStorm will kindly notify you that the list of coding standards has been updated.)
+If you are still not presented with the option to select the Drupal coding standard, click Apply and OK and then go back into the settings, PHP, Quality Tools, PHP_CodeSniffer and you should see the option to select the Drupal coding standard. (PHPStorm will kindly notify you that the list of coding standards has been updated.)
 
-To test if it is working, edit a line of code and add a trailing space. That line of code should immediately get highlighted. Hovering over the line of code will show you "PHPCS: Whitespace found at end of line." If instead you see a dialog box that says "phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist then go back to the settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path.  Luckily this still allows the Coding standard: Drupal to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
+To test if it is working, edit a line of code and add a trailing space. That line of code should immediately get highlighted. Hovering over the line of code will show you "PHPCS: Whitespace found at end of line." If instead you see a dialog box that says "phpcs: ERROR: Referenced sniff "SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" does not exist then go back to the settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path. Luckily, this still allows the Coding standard: Drupal to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
 
 
 More at
@@ -1828,14 +1828,14 @@ Run "phpcs --help" for usage information
 ```
 ![Error messages in PHPStorm](/images/PHPStorm_codesniffer_errors.png)
 
-The solution is to open Settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path.  Luckily this still allows the Coding standard: `Drupal` to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
+The solution is to open Settings, PHP, Quality Tools, PHP_CodeSniffer and uncheck the installed standards path. Luckily, this still allows the Coding standard: `Drupal` to be selected. Now you should be able to edit a line, wait a moment and PHPStorm will highlight the line and you can see what Codesniffer is unhappy about.
 
 See [this issue on drupal.org](https://www.drupal.org/project/coder/issues/3262291#comment-15212485)
 
 
 ### Lando Xdebug
 
-In .lando.yml add xdebug: true: 
+In .lando.yml add xdebug: true:
 
 ```yaml
 services:
@@ -1843,19 +1843,19 @@ services:
    xdebug: true
 ```
 
-Run `lando rebuild` to restart the services with xdebug enabled. Please note. `lando restart` will not enable debug
+Run `lando rebuild` to restart the services with xdebug enabled. Please note, `lando restart` will not enable debug
 
 Enable debugging in PHPStorm by clicking the telephone icon to select `Start Listening for PHP Debug Connections`.
 
 Open the index.php file and add a breakpoint by clicking on the line number.
 
-Refresh the page with your site and you should see the PHPStorm open up the debug panel. Confusingly, it will focus on the `Console` tab.  
+Refresh the page with your site and you should see the PHPStorm open up the debug panel. Confusingly, it will focus on the `Console` tab.
 
 Click on the `Debugger` tab where you will see the error message:
- Can\'t find a source position. Server with the name \'appserver\' doesn\'t exist. 
+Can\'t find a source position. Server with the name \'appserver\' doesn\'t exist.
 
 You will see:
- 
+
 ![Debugger tab](/images/configure-servers.png)
 
 
@@ -1865,7 +1865,7 @@ Click the link to `Configure servers`.
 
 Add a server with the following settings:
 - Name: `appserver` (can be anything)
-- Host: `abc.lndo.site` (this has to be the actual url to the site without https://)
+- Host: `abc.lndo.site` (this has to be the actual URL to the site without https://)
 - Port: `80`
 - Debugger: `Xdebug`
 - Check the box for `Use path mappings`
@@ -1874,7 +1874,7 @@ Add a server with the following settings:
 
 ![PHPStorm xdebug settings](/images/phpstorm-lando-xdebug1.png)
 
-As soon as you apply and click ok, the index.php file should appear with a blue line highlighting the breakpoint.  
+As soon as you apply and click ok, the index.php file should appear with a blue line highlighting the breakpoint.
 
 ![PHPStorm xdebug displaying break](/images/debugger-stopped.png)
 
@@ -1964,21 +1964,21 @@ For more info:
 
 ## VS Code and Drupal
 
-Some folks like to use [Microsoft's Visual Studio Code (VS Code)](https://code.visualstudio.com/) as a free alternative to PHPStorm. 
+Some folks like to use [Microsoft's Visual Studio Code (VS Code)](https://code.visualstudio.com/) as a free alternative to PHPStorm.
 
 It has a number of plugins that can make it a powerful tool for Drupal development. Here are some of the plugins that you might find useful:
 
-- [PHP Intelephense](https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client) - a high performance PHP language server packed full of features.
+- [PHP Intelephense](https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client) - a high-performance PHP language server packed full of features.
 - [PHP Debug](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug) - a VS Code extension to enable debugging of PHP scripts.
 - [PHP CS Fixer](https://marketplace.visualstudio.com/items?itemName=junstyle.php-cs-fixer) - a PHP coding standards fixer for Visual Studio Code.
-- [PHP DocBlocker](https://marketplace.visualstudio.com/items?itemName=neilbrayfield.php-docblocker) - a simple, dependency free PHP specific DocBlocking package.
+- [PHP DocBlocker](https://marketplace.visualstudio.com/items?itemName=neilbrayfield.php-docblocker) - a simple, dependency-free-PHP-specific DocBlocking package.
 
 Check out some details of using VS Code with Drupal in the [Drupal.org documentation - updated Feb 2025](https://www.drupal.org/docs/develop/development-tools/editors-and-ides/configuring-visual-studio-code).
 
 
-Mike Anello of [Drupaleasy](https://www.drupaleasy.com/) has a Youtube video from Midcamp explaining how to set up [VS Code for Drupal Development - March 2024](https://youtu.be/p-nz369Savs?si=-7cc5IW96LlEw5e9). The session description is:
+Mike Anello of [Drupaleasy](https://www.drupaleasy.com/) has a YouTube video from Midcamp explaining how to set up [VS Code for Drupal Development - March 2024](https://youtu.be/p-nz369Savs?si=-7cc5IW96LlEw5e9). The session description is:
 
->Attendees of this session will leave with the knowledge necessary to configure their copy of Visual Studio Code as will be demonstrated in the session. 
+>Attendees of this session will leave with the knowledge necessary to configure their copy of Visual Studio Code as will be demonstrated in the session.
 >
 >Learning objectives
 >
@@ -1991,9 +1991,9 @@ Mike Anello of [Drupaleasy](https://www.drupaleasy.com/) has a Youtube video fro
 
 ## Troubleshooting Xdebug with DDEV
 
-- Use curl or a browser to create a web request. For example, curl https://d9.ddev.site
-- If the IDE doesn\'t respond, take a look at ddev logs (`ddev logs`). If you see a message like \"\"PHP message: Xdebug: \[Step Debug\] Could not connect to debugging client. Tried: host.docker.internal:9000 (through xdebug.client_host/xdebug.client_port)\" then php/xdebug (inside the container) is not able to make a connection to port 9000.
-- In PhpStorm, disable the \"listen for connections\" button so it won't listen. Or just exit PhpStorm. 
+- Use curl or a browser to create a web request. For example, curl https://d9.ddev.site
+- If the IDE doesn\'t respond, take a look at ddev logs (`ddev logs`). If you see a message like \"\"PHP message: Xdebug: \[Step Debug\] Could not connect to debugging client. Tried: host.docker.internal:9000 (through xdebug.client_host/xdebug.client_port)\" then php/xdebug (inside the container) is not able to make a connection to port 9000.
+- In PhpStorm, disable the \"listen for connections\" button so it won't listen. Or just exit PhpStorm.
 - `ddev ssh` into the web container. Can you run telnet host.docker.internal 9000 and have it connect? If not, follow the instructions above about disabling firewall and adding an exception for port 9000.
 - In PhpStorm, disable the “listen for connections” button so it won’t listen. Or exit PhpStorm. With another IDE like VS Code, stop the debugger from listening.
 - `ddev ssh` into the web container. Can you run `telnet host.docker.internal 9000` and have it connect? If so, you have something else running on port 9000. On the host, use `sudo lsof -i :9000 -sTCP:LISTEN` to find out what’s there and stop it. Don’t continue debugging until your telnet command does not connect. (On Windows WSL2 you may have to look for listeners both inside WSL2 and on the Windows side.)
@@ -2009,7 +2009,7 @@ For more, [check out Troubleshooting Xdebug on DDEV docs](https://ddev.readthedo
 
 ## What is listening on port 9000?
 
-To check if something is listening on port 9000 (the default port for xdebug) it's best to use `lsof` although there are a few other options:
+To check if something is listening on port 9000 (the default port for xdebug) it's best to use `lsof`, although there are a few other options:
 
 ```sh
 lsof -i TCP:9000
@@ -2047,7 +2047,7 @@ Here is the output from `netstat -an | grep 9000` indicating something is listen
 tcp46      0      0  *.9000                 *.*                    LISTEN
 ```
 
-And from the `nc -z localhost 9000` command showing something is listening on port 9000: 
+And from the `nc -z localhost 9000` command showing something is listening on port 9000:
 ```sh
 Connection to localhost port 9000 [tcp/cslistener] succeeded!
 ```
@@ -2084,7 +2084,7 @@ enabled.
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
 
-By default development.services.yml contains the settings to disable Drupal caching:
+By default, development.services.yml contains the settings to disable Drupal caching:
 
 ```yaml
 services:
@@ -2092,7 +2092,7 @@ services:
     class: Drupal\Core\Cache\NullBackendFactory
 ```
 ::: tip
- Do not create development.services.yml, it exists under /sites
+Do not create development.services.yml, it exists under /sites
 :::
 
 4\. In `settings.local.php` change the following to be TRUE if you want to
@@ -2141,11 +2141,11 @@ The new way to enable Twig debugging is via the user interface. In the menus sel
 
 :::
 
-7\. Rebuild the Drupal cache (`ddev drush cr`) otherwise your website will encounter an unexpected error on page reload.
+7\. Rebuild the Drupal cache (`ddev drush cr`) otherwise, your website will encounter an unexpected error on page reload.
 
 Refer to this article: [Disable Drupal (>=8.0) caching during development on drupal.org - updated May 2023](https://www.drupal.org/node/2598914)
 
-Also read [https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp](https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp)
+Also, read [https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp](https://www.drupaleasy.com/blogs/ultimike/2024/02/why-you-should-care-about-using-settingslocalphp)
 
 
 ## Development.services.yml
@@ -2196,7 +2196,7 @@ parameters:
     #
     # Not recommended in production environments
     # @default null
-    #    auto_reload: null
+    # auto_reload: null
     auto_reload: true
     # Twig cache:
     #
@@ -2270,7 +2270,7 @@ Here is a [detailed tutorial on how to print variables using Devel and Kint in D
 
 ### Setup
 
-We need both the the [Devel](https://www.drupal.org/project/devel) and the [Devel Kint Extras](https://www.drupal.org/project/devel_kint_extras) modules.  Devel Kint Extras ships with the `kint-php` library which will be automatically installed if you install Devel Kint Extras using Composer:
+We need both the [Devel](https://www.drupal.org/project/devel) and the [Devel Kint Extras](https://www.drupal.org/project/devel_kint_extras) modules. Devel Kint Extras ships with the `kint-php` library which will be automatically installed if you install Devel Kint Extras using Composer:
 
 ```sh
 $ composer require drupal/devel drupal/devel_kint_extras
@@ -2282,7 +2282,7 @@ Enable both with the following Drush command:
 $ drush en devel_kint_extras -y
 ```
 
-Finally, enable Kint Extended as the Variables Dumper. To do this go to `admin/config/development/devel` and select `Kint Extender` and Save the configuration.
+Finally, enable Kint Extended as the Variables Dumper. To do this, go to `admin/config/development/devel` and select `Kint Extender` and Save the configuration.
 
 ::: tip Note
 These plugins can cause out-of-memory errors. So, to make sure you don't run into these when using this module, make sure to add the following snippet to your `settings.local.php`:
@@ -2322,7 +2322,7 @@ function custom_kint_preprocess_page(&$variables) {
 
 From [Migrate Devel contrib module](https://www.drupal.org/project/migrate_devel), in `/docroot/modules/contrib/migrate_devel/src/EventSubscriber/MigrationEventSubscriber.php`.
 
-This is used in migrate to dump the source and destination values.
+This is used in migration to dump the source and destination values.
 
 ```php
 // We use kint directly here since we want to support variable naming.
@@ -2351,7 +2351,7 @@ If you need to find a deprecated function, you can search for it (in the `keywor
  // Procedural code - for OO code, inject the TermStorage object.
   $tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid, $parent, $max_depth, $load_entities);
 ```
-It also suggests: 
+It also suggests:
 > TermStorageInterface::loadTree() now returns an array of all term objects in the tree. Each term object is extended to have "depth" and "parents" attributes in addition to its normal ones (aka the original return of taxonomy_get_tree()).
 
 More [on stackexchange](https://drupal.stackexchange.com/questions/144147/get-taxonomy-terms)
@@ -2359,14 +2359,14 @@ More [on stackexchange](https://drupal.stackexchange.com/questions/144147/get-ta
 
 ## Missing module
 
-If you see a PHP warning such as `The following module is missing from the file system...` (or similar) on your site, Here are some ways to remove it:
+If you see a PHP warning such as `The following module is missing from the file system...` (or similar) on your site, here are some ways to remove it:
 
-A quick solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.  
+A quick solution is to run `drush cedit core.extension` - you can then delete the line containing the unwanted module.
 
 ::: tip Note
 Run `drush cr` first to try to get things sane.
 This opens the config in vim so you can use `/tracer` to search for tracer, `dd` to delete a line, `:wq` to save
-Also if this fails, just try it again.  Sometimes, it fails with a message like:
+Also, if this fails, just try it again.  Sometimes, it fails with a message like:
 ```
   The command "${VISUAL-${EDITOR-vi}} /tmp/drush_tmp_1711122194_65fda712e42d6/core.extension.yml" failed.
   Exit Code: 1(General error)
@@ -2379,7 +2379,7 @@ Also if this fails, just try it again.  Sometimes, it fails with a message like:
 ```
 :::
 
-Also check out [Manually removing a missing module](https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates#s-manually-removing-a-missing-module)
+Also, check out [Manually removing a missing module](https://www.drupal.org/docs/updating-drupal/troubleshooting-database-updates#s-manually-removing-a-missing-module)
 
 
 If this doesn't work for you, try the following query:
@@ -2387,7 +2387,7 @@ If this doesn't work for you, try the following query:
 ```
 $ drush sql-query "DELETE FROM key_value WHERE name='module_name';"
 ```
-More at [How to fix "The following module is missing from the file system..." warning messages on Drupal.org](https://www.drupal.org/node/2487215) 
+More at [How to fix "The following module is missing from the file system..." warning messages on Drupal.org](https://www.drupal.org/node/2487215)
 
 
 
@@ -2405,7 +2405,7 @@ Sometimes, when drush cr throws errors like that try `drush sqlc` and then `trun
 
 ## Generating Test Content with Devel Generate
 
-When building a Drupal website, it is useful to populate the site with enough content to check the overall displays when using layouts, views and design. It becomes important to test the website out with dummy content before adding live content. Instead of manually typing or importing data, the [Devel module](https://www.drupal.org/project/devel) allows you to create dummy content automatically.  
+When building a Drupal website, it is useful to populate the site with enough content to check the overall display when using layouts, views and design. It becomes important to test the website out with dummy content before adding live content. Instead of manually typing or importing data, the [Devel module](https://www.drupal.org/project/devel) allows you to create dummy content automatically.
 
 More at:
 - [Working with the devel module in Drupal 9 to generate dummy content by Karishma Amin - August 2023](https://www.specbee.com/blogs/devel-module-in-drupal-9-to-generate-dummy-content)
@@ -2415,7 +2415,7 @@ More at:
 
 ## Enable verbose display of warning and error messages
 
-In `settings.local.php` (or`settings.php` or `settings.ddev.php`) set the following config:
+In `settings.local.php` (or `settings.php` or `settings.ddev.php`) set the following config:
 
 ```php
 // Enable verbose logging for errors.
@@ -2423,7 +2423,7 @@ In `settings.local.php` (or`settings.php` or `settings.ddev.php`) set the follow
 $config['system.logging']['error_level'] = 'verbose';
 ```
 
-The options are: 
+The options are:
 
 - `hide`: No errors or warnings
 - `some`: Errors and warnings
@@ -2438,10 +2438,10 @@ See [Enable verbose error logging for better backtracing and debugging - Updated
 
 ## Testing a local API from Drupal and DDEV
 
-When you to have Drupal communicate with an external API, you might want to to test the API locally. To do this you can use curl or a browser to make calls to your endpoint e.g. `http://localhost:3000/api/v1/crms/external/protocol/find/all`.
+When you to have Drupal communicate with an external API, you might want to to test the API locally. To do this, you can use curl or a browser to make calls to your endpoint e.g. `http://localhost:3000/api/v1/crms/external/protocol/find/all`.
 
 Using a tool such as [Mocktoon](https://mockoon.com) you can set up a local endpoint which Drupal can communicate with.  Mockoon is a free and open-source desktop application allowing to quickly mock servers and APIs. Testing against the local API with curl looks like:
-  
+
   ```sh
   curl -w "\nHTTP Status: %{http_code}\n" http://localhost:3000/api/v1/crms/external/protocol/find/all
 
@@ -2467,25 +2467,25 @@ HTTP Status: 413
 You can also put the URL in a browser to see the output.
 ![Chrome browser showing JSON output](/images/localhost-chrome.png)
 
- When you try to do this from Drupal, if you specify `localhost:3000` Drupal will fail to connect.  You might see errors like:
-  
+When you try to do this from Drupal, if you specify `localhost:3000` Drupal will fail to connect.  You might see errors like:
+
 ```
 cURL error 7: Failed to connect to localhost port 3000 after 1 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://localhost:3000/api/v1/crms/external/protocol/find/all
 ```   
 
-The solution is to rather specify the url using `host.docker.internal` e.g. `http://host.docker.internal:3000/api/v1/crms/external/protocol/find/all`.
+The solution is to rather specify the URL using `host.docker.internal` e.g. `http://host.docker.internal:3000/api/v1/crms/external/protocol/find/all`.
 
 
 
 ## Enable CORS for testing
 
-In some instances, you will need to enable CORS (Cross-Origin Resource Sharing) for various reasons including allowing your site to perform cross-domain ajax request in web applications. 
+In some instances, you will need to enable CORS (Cross-Origin Resource Sharing) for various reasons including allowing your site to perform cross-domain ajax request in web applications.
 
 ::: tip Note
 Remember that enabling wide-open CORS (allowing * for headers, methods, and origins) is generally insecure for production. You should restrict it to development environments, where security concerns are lower, and make sure that your CORS policy is locked down appropriately for production to prevent unauthorized or malicious access.
 :::
 
-This is a two step process involving a browser extension and a tweak to the `sites/default/development.services.yml` file. 
+This is a two-step process involving a browser extension and a tweak to the `sites/default/development.services.yml` file.
 
 1. Install a browser extension which allows you to make requests to the site from a different origin. There are many Chrome browser extensions that offer this.  Tru [Allow CORS: Access-Control-Allow-Origin](https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en&pli=1). I like this version because it is easily configured, has a video tutorial, and has a testing page that lets you confirm that CORS is enabled. Once installed, you can click on the icon and enable CORS.
 
@@ -2529,35 +2529,35 @@ From [PSR-4 namespaces and autoloading in Drupal 8 on drupal.org - updated Dec 2
 Example vegetable.module directory structure:
 
 * modules/vegetable/
-    * css/
-    * js/
+  * css/
+  * js/
+  * src/
+    * Controller/
+      * VegetableController.php → class Drupal\vegetable\Controller\VegetableController
+  * Form/
+    * VegetableForm.php → class Drupal\vegetable\Form\VegetableForm
+  * Plugin/
+  * Block/
+    * VegetableBlock.php → class Drupal\vegetable\Plugin\Block\VegetableBlock
+  * Entity/
+    * Tomato.php → class Drupal\vegetable\Entity\Tomato
+    * Cucumber.php → class Drupal\vegetable\Entity\Cucumber
+  * Tests/
+    * TomatoTest.php → class Drupal\vegetable\Tests\TomatoTest
+    * CucumberTest.php → class Drupal\vegetable\Tests\CucumberTest
+    * VegetableManagerTest.php → class Drupal\vegetable\Tests\VegetableManagerTest
+  * fixtures/
+    * weather-data.json
+  * templates/
+  * tests/
     * src/
-        * Controller/
-            * VegetableController.php → class Drupal\vegetable\Controller\VegetableController
-    * Form/
-        * VegetableForm.php → class Drupal\vegetable\Form\VegetableForm
-    * Plugin/
-    * Block/
-        * VegetableBlock.php → class Drupal\vegetable\Plugin\Block\VegetableBlock
-    * Entity/
-        * Tomato.php → class Drupal\vegetable\Entity\Tomato
-        * Cucumber.php → class Drupal\vegetable\Entity\Cucumber
-    * Tests/
-        * TomatoTest.php → class Drupal\vegetable\Tests\TomatoTest
-        * CucumberTest.php → class Drupal\vegetable\Tests\CucumberTest
-        * VegetableManagerTest.php → class Drupal\vegetable\Tests\VegetableManagerTest
-    * fixtures/
-        * weather-data.json
-    * templates/
-    * tests/
-        * src/
-            * Functional/
-            * Kernel/
-            * Unit/
-                * TomatoTest.php → class Drupal\Tests\vegetable\Unit\TomatoTest
-            * Traits/
-                * VegetableTestTrait.php → trait Drupal\Tests\vegetable\Traits\VetegableTestTrait
-    * vegetable.info.yml
+      * Functional/
+      * Kernel/
+      * Unit/
+        * TomatoTest.php → class Drupal\Tests\vegetable\Unit\TomatoTest
+      * Traits/
+        * VegetableTestTrait.php → trait Drupal\Tests\vegetable\Traits\VetegableTestTrait
+  * vegetable.info.yml
 * vegetable.routing.yml
 * vegetable.module
 
@@ -2598,8 +2598,8 @@ localstack:
 
 ```
 
-To use the above localstack service specify the ports and endpoints you wish to use locally. The examples below are the defaults (no changes needed). 
-I would change the s3 bucket name, everything else can be defaults. 
+To use the above localstack service specify the ports and endpoints you wish to use locally. The examples below are the defaults (no changes needed).
+I would change the s3 bucket name, everything else can be defaults.
 
 ```
 # Localstack

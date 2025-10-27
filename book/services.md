@@ -7,7 +7,7 @@ title: Services
 
 ## Overview
 
-Services provide a \"decoupled\" way to access classes and members. Services are pluggable and replaceable by registering them with a [service container](#service-container) which makes them well suited to test with PHPUnit tests.
+Services provide a \"decoupled\" way to access classes and members. Services are pluggable and replaceable by registering them with a [service container](#service-container) which makes them well-suited to test with PHPUnit tests.
 
 Services can be accessed using two possible methods: [static](#static-method-to-use-a-service) and [injected (using dependency injection)](#dependency-injection).
 
@@ -197,14 +197,14 @@ class DiExamplesController extends ControllerBase {
 
 ## Finding services
 
-Here are suggested steps to find a service.  In order to find the details of a commonly used service, e.g. the `entityTypeManager` which is used for `entityQueries`, you can start by looking at [Services and Dependency Injection in the Drupal API](https://api.drupal.org/api/drupal/services) and search for `entity_type` in the \"Name contains\" field. This will display several services including `entity_type.manager`
+Here are suggested steps to find a service.  In order to find the details of a commonly used service, e.g., the `entityTypeManager` which is used for `entityQueries`, you can start by looking at [Services and Dependency Injection in the Drupal API](https://api.drupal.org/api/drupal/services) and search for `entity_type` in the \"Name contains\" field. This will display several services, including `entity_type.manager`
 
 ![Finding Services on Drupal API](/images/find-services.png)
 
 
-This tells you to that the service is in file: `core.services.yml` and that it is implemented in the `Drupal\Core\Entity\EntityTypeManager` class.
+This tells you that the service is in file: `core.services.yml` and that it is implemented in the `Drupal\Core\Entity\EntityTypeManager` class.
 
-So in Drupal core\'s `core.services.yml` file, search for `entity_type.manager` you will find several instances, but you specifically want the definition of the service. It looks like this:
+So, in Drupal core\'s `core.services.yml` file, search for `entity_type.manager` you will find several instances, but you specifically want the definition of the service. It looks like this:
 
 ```yaml
 entity_type.manager:
@@ -246,8 +246,8 @@ $nids = $query->execute();
 :::
 
 
-To use this service using dependency injection you will need to inject `entity_type.manager` e.g. This code injects the `pathValidator`, `pathCurrent` and `entityTypeManager` services:
-  
+To use this service using dependency injection, you will need to inject `entity_type.manager` e.g. This code injects the `pathValidator`, `pathCurrent` and `entityTypeManager` services:
+
 ```php
 <?php
 
@@ -374,7 +374,7 @@ class TableContentService {
   ) {}
 ```
 
-Note. There is no need to define the services in a `create()` function.
+Note, there is no need to define the services in a `create()` function.
 
 
 
@@ -423,7 +423,7 @@ You can also pass strings in the form `'blah'` surrounded by single quotes.
 
 ### Passing the config factory to our service
 
-As shown above, arguments use the `arguments` key, which can have an array of services, each preceeded by an `@` symbol. Other values which are not services can also be passed. In the `module.services.yml` file below, we pass the `config.factory` service. You can find it in the `core.services.yml` file where you can see it maps to the `Drupal\Core\Config\ConfigFactory` class.
+As shown above, arguments use the `arguments` key, which can have an array of services, each preceded by an `@` symbol. Other values which are not services can also be passed. In the `module.services.yml` file below, we pass the `config.factory` service. You can find it in the `core.services.yml` file where you can see it maps to the `Drupal\Core\Config\ConfigFactory` class.
 
 It looks like this in the `core.services.yml`:
 
@@ -447,7 +447,7 @@ services:
 
 ### Example custom service: Taxonomy Tree
 
-Here is an example where Daniel Sipos creates a custom service to build a taxonomy tree. You can [read his entire article - May 2017](https://www.webomelette.com/loading-taxonomy-terms-tree-drupal-8) . The [repo is on github](https://github.com/upchuk/taxonomy_tree). His code is
+Here is an example where Daniel Sipos creates a custom service to build a taxonomy tree. You can [read his entire article - May 2017](https://www.webomelette.com/loading-taxonomy-terms-tree-drupal-8). The [repo is on github](https://github.com/upchuk/taxonomy_tree). His code is
 reproduced below:
 
 Here is the `taxonomy_tree.services.yml` file:
@@ -539,14 +539,14 @@ class TaxonomyTermTree {
 
 ## Using your own custom service in a controller
 
-This is identical to using a Drupal built in service. These are the steps:
+This is identical to using a Drupal built-in service. These are the steps:
 
-In your controller, make sure your controller extends 
+In your controller, make sure your controller extends
 ```php
 ControllerBase.` `class MessageController extends ControllerBase {
 ````
 
-Add protected variable in your class to hold your service. e.g.
+Add a protected variable in your class to hold your service. e.g.
 ```php
 protected $cmAPIClient;
 ```
@@ -560,7 +560,7 @@ public static function create(ContainerInterface $container) {
 }
 ```
 
-Add a constructor which stores a link to each service, so you can call functions in those services. e.g. 
+Add a constructor which stores a link to each service, so you can call functions in those services. e.g.
 ```php
   public function __construct(CmAPIClient $cmAPIClient) {
   $this->cmAPIClient = $cmAPIClient;
@@ -656,7 +656,7 @@ Drush provides a great starting point by generating some useful code that you ca
 
 `drush generate service:custom`. Generates a custom Drupal service
 
-**Also there are these gems:**
+**Also, there are these gems:**
 
 - `drush generate service:logger`. Generates a logger service
 - `drush generate service:breadcrumb-builder`. Generates a breadcrumb builder service
@@ -680,7 +680,7 @@ For more, check out [generating custom services on the drush documentation page]
 - `messenger` for displaying messages
 - `current_route_match` for getting the current route
 - `request_stack` for getting the current request e.g. `$this->currentRequest = $requestStack->getCurrentRequest();`
-- `logger.factory` for logging errors to the watchdog log. 
+- `logger.factory` for logging errors to the watchdog log.
 
 ## Services you may use
 - `cache.default` for caching
@@ -697,7 +697,7 @@ For more, check out [generating custom services on the drush documentation page]
 
 ### Overview
 
-Services provide a \"decoupled\" way to access classes and members. Services are pluggable and replaceable by registering them with a service container which makes them well suited to test with PHPUnit tests.
+Services provide a \"decoupled\" way to access classes and members. Services are pluggable and replaceable by registering them with a service container which makes them well-suited to test with PHPUnit tests.
 
 Services can be accessed using two ways: static and injected (using dependency injection).
 
@@ -828,10 +828,10 @@ $this->currentRouteMatch->getRouteName()
 ```
 
 
-Dig deeper in `core.services.yml` file for many more services.
+Dig deeper into `core.services.yml` file for many more services.
 
 Check out two examples of controllers using dependency injection:
-- [Controller example using current_user service](#controller-example-using-di-with-the-current_user-service) 
+- [Controller example using current_user service](#controller-example-using-di-with-the-current_user-service)
 - [controller example using 3 services](#controller-example-using-di-with-3-services)
 
 More at [Services and dependency injection in Drupal on drupal.org - updated Feb 2024](https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8).
@@ -842,14 +842,14 @@ More at [Services and dependency injection in Drupal on drupal.org - updated Feb
 
 Most of these examples show Drupal configuration.
 
-In this example we use the `config.factory` service (via the `::configFactory()` shortcut) to change the system email plugin to use our mail plugin:
+In this example, we use the `config.factory` service (via the `::configFactory()` shortcut) to change the system email plugin to use our mail plugin:
 
 ```php
 /*
  *  \Drupal::configFactory() retrieves the configuration factory.
  *
  * This is mostly used to change the override settings on the configuration
- * factory. For example, changing the language, or turning all overrides on
+ * factory. For example, changing the language or turning all overrides on
  * or off.
  */
 
@@ -927,7 +927,7 @@ class ApiTestController extends ControllerBase {
  */
 protected $cmAPIClient;
 ```
-3\. You need a `create()` function. This will get passed the `$container` so it can call it's `get()` member function to instantiate the service you need. This function then calls the constructor and passes it\'s parameters to it.
+3\. You need a `create()` function. This will get passed the `$container` so it can call its `get()` member function to instantiate the service you need. This function then calls the constructor and passes its parameters to it.
 
 ```php
 public static function create(ContainerInterface $container) {
@@ -972,7 +972,7 @@ public function __construct(AccountProxyInterface $account, CurrentPathStack $pa
 ```php
 $result = $this->cmAPIClient->catchAll('POST', $body);
 ```
-Rejoice! Note. No need to make any routing changes. Drupal handles all the parameters with the instructions provided. etc.
+Rejoice! Note: no need to make any routing changes. Drupal handles all the parameters with the instructions provided. etc.
 
 Check out [Using the current_user service in a controller](#using-the-current_user-service-in-a-controller) for a complete example of a controller using dependency injection.
 
@@ -984,7 +984,7 @@ Read more about:
 
 ### Using Dependency Injection in Blocks
 
-Using dependency injection is the preferred way to use services as this allows for easier testing. Using dependency injection requires that you create a `constructor` and a `create` function in your class.The `create` function gets the service container as a parameter and chooses the services it needs. The `create` function calls the `constructor`, passes the services as arguments, and stores them as properties.
+Using dependency injection is the preferred way to use services, as this allows for easier testing. Using dependency injection requires that you create a `constructor` and a `create` function in your class. The `create` function gets the service container as a parameter and chooses the services it needs. The `create` function calls the `constructor`, passes the services as arguments, and stores them as properties.
 
 The process for a block (or any plugin) is a little different from a controller:
 

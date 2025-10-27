@@ -56,7 +56,7 @@ if (empty($terms)) {
   ];
   return $ra;
 }
-// pop off the first one and grab it's term_id
+// pop off the first one and grab its term_id
 $term = reset($terms);
 $term_id = $term->get('tid')->value;
 ```
@@ -278,7 +278,7 @@ Alternatively, you can also load the terms using `loadByProperties()`. This crea
     ];
 ```
 
-## Create taxonomy term programatically
+## Create taxonomy term programmatically
 
 Vid is the vocabulary id machine name e.g. event_category or type
 

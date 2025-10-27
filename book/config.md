@@ -26,7 +26,7 @@ Details about using [Config Split](https://www.drupal.org/project/config_split) 
 
 ## Read config values in code
 
-This example shows how to load a rest endpoint from config. This is very similar to Drupal 7 `variable_get()`.
+This example shows how to load a REST endpoint from config. This is very similar to Drupal 7 `variable_get()`.
 
 Use the Configuration API main entry point `\Drupal::config()` to load the config item and then use `get()` to retrieve the value you want. Config can have multiple values in a single yml file.
 
@@ -154,7 +154,7 @@ if ($auto_refresh_enable) {
 
 ## Add config to an existing module
 
-Usually you create a yml file in the module's `/config/install` directory. See [more about config directories below](#config-directories-install-optional-schema).
+Usually, you create a yml file in the module's `/config/install` directory. See [more about config directories below](#config-directories-install-optional-schema).
 
 The config file should start with the module name then a period and the thing you want to store the config about. So `modulename.something.yml` e.g.`dir_salesforce.cron.yml` for cron information, `dir.funnelback.yml` for funnelback information or `tea_teks_spr.testing.yml` for testing information.
 
@@ -177,10 +177,10 @@ url: 'https://pbx.pizza.com/'
 langcode: 'en'
 ```
 
-To deploy your config, you can: 
+To deploy your config, you can:
 1. Copy it to the `config/sync` directory
 2. Paste the contents into the config Drupal u/i or
-3. Import it into the db with drush. 
+3. Import it into the db with drush.
 
 The drush way is the easiest in my opinion.
 
@@ -196,7 +196,7 @@ $pbx_path = $pbx_path_config->get('url');
 $pbx_achievements_url = $pbx_path . "achievements?regid=".$reg_id;
 ```
 
-Once you grab the url, you can use it later in your code.
+Once you grab the URL, you can use it later in your code.
 
 :::tip Note
 You can add config into any of the 3 directories: `config/install`, `config/optional` or `config/schema`. Config that is added to the `config/install` directory has a special superpower: If config in that directory fails to import into Drupal, the module **is NOT installed**.
@@ -208,12 +208,12 @@ You can add config into any of the 3 directories: `config/install`, `config/opti
 You can add config to any of the 3 directories for a custom module: `config/install`, `config/optional` or `config/schema`
 These can contain configs, like a view or any other config.
 
-- `schema`: This folder is used for schema related config. This is most often used to tell Drupal how custom configurations and configuration entities will be saved.
+- `schema`: This folder is used for schema-related config. This is most often used to tell Drupal how custom configurations and configuration entities will be saved.
 - `install`: All configurations will be installed. If any configuration fails, **the module won't be installed**.
 - `optional`: All configurations will be installed if possible. If a configuration has missing dependencies, it won't be installed but the module **will** be installed.
 
 
-See also 
+See also
 - [Include default configuration in your Drupal 8 module - Updated Jan 2024](https://www.drupal.org/docs/develop/creating-modules/include-default-configuration-in-your-drupal-module)
 - [What is the difference between the config and settings directories at Stack Exchange](https://drupal.stackexchange.com/questions/197897/what-is-the-difference-between-the-config-and-the-settings-directories#197903)
 
@@ -233,12 +233,12 @@ During module development, you might find you want to add some configuration. Th
 drush @dev2 config-import --source=modules/migrate/test1/config/install/ --partial -y
 ```
 
-Note. the @dev2 is a site alias. See [Drush alias docs for more info](https://www.drush.org/latest/site-aliases/). These are sooo useful.
+Note: the @dev2 is a site alias. See [Drush alias docs for more info](https://www.drush.org/latest/site-aliases/). These are sooo useful.
 
 
 ## Add config for another module to your custom module
 
-You can add config for another module to your custom module. This is useful if you want to add some config to a module that you don't want to modify directly. For example, to add a contact form called \"Contact Us\" to the contact module, you can add the following yml file. In the module `config_play`  
+You can add config for another module to your custom module. This is useful if you want to add some config to a module that you don't want to modify directly. For example, to add a contact form called \"Contact Us\" to the contact module, you can add the following yml file. In the module `config_play`
 
 ```php 
 
@@ -290,7 +290,7 @@ The function name must start with the module name and end with `_post_update` fo
 
 ## Config Read Only
 
-Many sites can benefit from the use of the [Config Read Only module.](https://www.drupal.org/project/config_readonly) This module allows you to set some config items to be read only. This is useful for things like the site name, email address, etc. which should not be changed by the user.  It is also useful for things like the site uuid which should not be changed on a production site.
+Many sites can benefit from the use of the [Config Read Only module.](https://www.drupal.org/project/config_readonly) This module allows you to set some config items to be read only. This is useful for things like the site name, email address, etc. which should not be changed by the user.  It is also useful for things like the site UUID which should not be changed on a production site.
 
 To set a site in read-only mode, add the following to your `settings.php` or `settings.local.php` file:
 
@@ -317,7 +317,7 @@ $settings['config_readonly_whitelist_patterns'] = [
 ```
 Once you clear caches and have configured the whitelist, you will no longer see the message and you can change the config items you specified above.
 
-To lock production and not other environments, your code in settings.php might be a conditional on an environment variable like (for [Acquia](https://www.acquia.com) hosted sites):
+To lock production and not other environments, your code in settings.php might be conditional on an environment variable like (for [Acquia](https://www.acquia.com) hosted sites):
 
 ```php
 if (isset($_ENV['AH_SITE_ENVIRONMENT']) && $_ENV['AH_SITE_ENVIRONMENT'] === 'prod') {
@@ -326,7 +326,7 @@ if (isset($_ENV['AH_SITE_ENVIRONMENT']) && $_ENV['AH_SITE_ENVIRONMENT'] === 'pro
 
 The following approaches are somewhat discouraged since they may allow anyone with Drush or shell access to bypass or disable the protection and change configuration in production.
 
-To allow all changes via the command line and enable readonly mode for the UI only:
+To allow all changes via the command line and enable read-only mode for the UI only:
 
 ```php
 if (PHP_SAPI !== 'cli') {
@@ -414,10 +414,10 @@ Don't forget there is a [module called config pages](https://www.drupal.org/proj
 
 This can be useful for local development environment (where you might put these changes into `settings.local.php`) or in `settings.php` where dev, test and prod servers need configuration to be slightly different.
 
-Drupal allows global `$config` overrides (similar to drupal 7). The configuration system integrates these override values via the `Drupal\Core\Config\ConfigFactory::get()` implementation. When you retrieve a value from configuration, the global `$config` variable gets a chance to change the returned value:
+Drupal allows global `$config` overrides (similar to Drupal 7). The configuration system integrates these override values via the `Drupal\Core\Config\ConfigFactory::get()` implementation. When you retrieve a value from configuration, the global `$config` variable gets a chance to change the returned value:
 
 ```php
-// Get system site maintenance message text. This value may be overriden by
+// Get system site maintenance message text. This value may be overridden by
 // default from global $config (as well as translations).
 $message = \Drupal::config('system.maintenance')->get('message');
 ```
@@ -455,7 +455,7 @@ e.g. `drush cget system.maintenance.message --include-overridden` or `drush cget
 :::
 
 
-If you have a configuration change, for example, you have enabled google tag manager. When you export the config `drush cex -y` and `git diff` to see what changed in config, you'll see (in the last 2 lines) that status is changed from true to false.
+If you have a configuration change, for example, you have enabled Google Tag Manager. When you export the config `drush cex -y` and `git diff` to see what changed in config, you'll see (in the last 2 lines) that status is changed from true to false.
 
 ```diff
 $ git diff
@@ -550,7 +550,7 @@ $ drush cget shield.settings credentials
     pass: blahblah
 ```
 
-Now to get down to the user name and password. And we are adding period back in. Huh?
+Now to get down to the username and password. And we are adding period back in. Huh?
 
 ```sh
 $ drush cget shield.settings credentials.shield
@@ -671,7 +671,7 @@ Drush will provide you with all the tools you need to fiddle with config from th
 ### Viewing config
 
 ::: tip Note
-If you override config values in your settings.php, when you view them with drush cget, drush will **ignore values** overidden in settings.php. This can be confusing. More below.
+If you override config values in your settings.php, when you view them with drush cget, drush will **ignore values** overridden in settings.php. This can be confusing. More below.
 :::
 
 
@@ -690,7 +690,7 @@ $ drush config:get system.site page.front
 
 ### Viewing overridden config values
 
-When you view the value in config, drush `confusingly` will **ignore values** overidden in settings.php.
+When you view the value in config, drush `confusingly` will **ignore values** overridden in settings.php.
 
 ```sh
 drush cget narcs_infoconnect.imagepath basepath
@@ -702,7 +702,7 @@ This displays the basepath that is in the Drupal database. If you override the b
 drush cget narcs_infoconnect.imagepath basepath --include-overridden
 ```
 
-Also drush can execute php for a little more fun approach:
+Also, drush can execute php for a little more fun approach:
 
 ```sh
 drush ev "var_dump(\Drupal::configFactory()->getEditable('system.site')->get('name'))"
@@ -742,7 +742,7 @@ cdel is short for config:delete.
   ...
 ```
 
-`Only in DB` means the config has not yet been exported. Best practice is to check the config info git for loading onto the production site. Usually you would use `drush cex` at this point to export the config and add it to git.
+`Only in DB` means the config has not yet been exported. Best practice is to check the config info git for loading onto the production site. Usually, you would use `drush cex` at this point to export the config and add it to git.
 
 After exporting drush will report that everything has been exported and that there are no differences between the database and the sync folder.
 
@@ -771,7 +771,7 @@ $ drush cex -y
 
 If you change the site name (for example) by mistake and want to restore it , you can re-import the values from the last export.
 
-First check what changed with `drush cst` then use `drush cim -y` to restore the config to it's previous glory. `cim` is short for `config:import`.
+First check what changed with `drush cst` then use `drush cim -y` to restore the config to its previous glory. `cim` is short for `config:import`.
 
 Drupal cleverly notices which config items have changed and loads only those changes into the database.
 
@@ -825,7 +825,7 @@ The Drupal Site `UUID` is stored as the configuration item `system.site:uuid`
 You can set it with drush or in `settings.php` using `$config` overrides.
 
 Override Site `UUID` using `settings.php`
- 
+
 To override the site's `UUID`, you can put the following snippet into your `settings.php` file:
 
 ```php
@@ -853,13 +853,13 @@ Read more at [Drupal Site UUID on Drupal.org - Updated Sep 2023](https://www.dru
 
 ## Block config
 
-Blocks are content entities, but the *placement* of blocks are configuration entities. If you create a content block and place it in a region, when you export config, the location config i.e.  `block.block.[block_name].yml` is put into the `config sync` directory. The block content itself is stored in the database.  So when you go to import the config, your block(s) don't show up and the block placement config doesn't have it's content. The solution is to remove the block placement config on your local before exporting, then after importing on the remote, re-create the block content and placement. 
+Blocks are content entities, but the *placement* of blocks are configuration entities. If you create a content block and place it in a region, when you export config, the location config i.e.  `block.block.[block_name].yml` is put into the `config sync` directory. The block content itself is stored in the database.  So when you go to import the config, your block(s) don't show up and the block placement config doesn't have its content. The solution is to remove the block placement config on your local before exporting, then after importing on the remote, re-create the block content and placement.
 
-Fortunately, there is a module called [Structure Sync](https://www.drupal.org/project/structure_sync) which is really nice! 
+Fortunately, there is a module called [Structure Sync](https://www.drupal.org/project/structure_sync) which is really nice!
 
-Structure sync provides Drush commands and admin interface screens for adding content as configuration. This includes menu items, custom blocks and taxonomy terms. 
+Structure sync provides Drush commands and admin interface screens for adding content as configuration. This includes menu items, custom blocks and taxonomy terms.
 
-Note. this is a two step process. When you \"export\" blocks in the Drupal UI (or using the drush command), it creates a config item which you then must export with `drush cex -y` and add to your repo (just like any other config). This creates a `config/default/structure_sync.data.yml` file which can then be imported into another site with `drush cim`.
+Note: this is a two-step process. When you \"export\" blocks in the Drupal UI (or using the drush command), it creates a config item which you then must export with `drush cex -y` and add to your repo (just like any other config). This creates a `config/default/structure_sync.data.yml` file which can then be imported into another site with `drush cim`.
 
 
 
@@ -901,7 +901,7 @@ All environments mirror each other precisely in terms of configuration. A bug fo
 ### When Configuration Management Fails
 
 **Split-Brain Scenarios:**
-The most problematic issue occurs when configuration exists in both the database and code but differs between them. Drupal uses the version in the database and ignores the one in config leading to unexpected behavior, crashes and deployment failures.
+The most problematic issue occurs when a configuration exists in both the database and code but differs between them. Drupal uses the version in the database and ignores the one in config leading to unexpected behavior, crashes and deployment failures.
 
 **Deployment Failures:**
 Configuration imports can fail during deployment if there are dependency conflicts, missing modules, or configuration schema mismatches. This can leave sites in broken states or prevent new features from activating.

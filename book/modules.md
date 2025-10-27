@@ -10,7 +10,7 @@ title: Modules
 With over 50,000 modules, Drupal has the ability to do almost anything. This also means it can be a little tough to find what you need. Here is a list of modules that are important, useful and interesting. Search for [modules on drupal.org.](https://www.drupal.org/project/project_module)
 
 ::: tip
-If you want to check the usage for a module that isn't as popular as, for example, [token](https://www.drupal.org/project/token) which clearly displays `636,845 sites report using this module` Check the url [https://www.drupal.org/project/usage/token](https://www.drupal.org/project/usage/token) Just replace `token` with the machine name for that module.
+If you want to check the usage for a module that isn't as popular as, for example, [token](https://www.drupal.org/project/token) which clearly displays `636,845 sites report using this module`, check the URL [https://www.drupal.org/project/usage/token](https://www.drupal.org/project/usage/token) and just replace `token` with the machine name for that module.
 :::
 
 ## Accessibility
@@ -19,7 +19,7 @@ If you want to check the usage for a module that isn't as popular as, for exampl
 
 #### Quick Web Accessibility Implementation with Drupal All In One Accessibility module!
 
-The All In One Accessibility widget is developed to improve accessibility and usability of your website. It uses the accessibility interface which handles UI and design related adjustments.
+The All In One Accessibility widget is developed to improve accessibility and usability of your website. It uses the accessibility interface which handles UI and design-related adjustments.
 
 Enable a wide array of people with disabilities to use your Drupal website effectively with the All In One Accessibility widget. It will integrate basic accessibility features according to the **ADA, WCAG 2.1 & 2.2, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act (EA), Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, France RGAA, Brazilian Inclusion Law (LBI 13.146/2015), Spain UNE 139803:2012, JIS X 8341 (Japan), Italian Stanca Act and Switzerland DDA Standards**. These standards ensure that the site is accessible to people with hearing or vision impairments, cognitive impairments, and perception problems.
 
@@ -49,10 +49,10 @@ Simple OAuth is an implementation of the OAuth 2.0 Authorization Framework RFC a
 [https://www.drupal.org/project/simple_oauth](https://www.drupal.org/project/simple_oauth)
 
 
-## AI (Artifical Intelligence)
+## AI (Artificial Intelligence)
 
 ### OpenAI / ChatGPT / AI Search Integration
-The OpenAI module aims to provide a suite of modules and an API foundation for OpenAI integration in Drupal for generating text content, images, content analysis and more. OpenAI is the company behind artificial generational intelligence products that powers applications like ChatGPT, GPT-3, GitHub CoPilot, and more. Our goal is to find ways of augmenting and adding assistive AI tech leveraging OpenAI API services in Drupal, transforming the way you manage your content and maintenance tasks.
+The OpenAI module aims to provide a suite of modules and an API foundation for OpenAI integration in Drupal for generating text content, images, content analysis and more. OpenAI is the company behind artificial generational intelligence products that power applications like ChatGPT, GPT-3, GitHub CoPilot, and more. Our goal is to find ways of augmenting and adding assistive AI tech leveraging OpenAI API services in Drupal, transforming the way you manage your content and maintenance tasks.
 
 [https://www.drupal.org/project/openai](https://www.drupal.org/project/openai)
 
@@ -90,18 +90,18 @@ Breadcrumbs: `Home >> Gallery >> Videos >> Cute Kittens`
 This module allows you to use the menu the current page belongs to for the breadcrumb, generating breadcrumbs from the titles of parent menus.
 
 - Select and re-order the menus on which you want the menu-based breadcrumbs
-- Append the page title to the breadcrumb (either as a clickable url or not)
+- Append the page title to the breadcrumb (either as a clickable URL or not)
 - Hide the breadcrumb if it only contains the link to the front page
 - Generate the breadcrumb from the URL structure if content does not belong to a menu
 - If the "Taxonomy Attachment" option is selected for a menu, and if the current page belongs to a taxonomy that is on that menu, it will inherit the taxonomy page's menu breadcrumbs (e.g., for blog entries that aren't on any menu).
-- Other breadcrumb builders (e.g., the path & title-based Drupal 8 default breadcrumb builder) will be used if there is no applicable menu based breadcrumb.
+- Other breadcrumb builders (e.g., the path & title-based Drupal 8 default breadcrumb builder) will be used if there is no applicable menu-based breadcrumb.
 
 [https://www.drupal.org/project/menu_breadcrumb](https://www.drupal.org/project/menu_breadcrumb)
 
 ## Cache Control/Performance
 
 ### Acquia Purge
-The acquia_purge module invalidates cached content on Acquia Cloud and allows you to set Drupal's time to live (TTL) to a high value like a year. This makes your site more resilient, the stack do less work and improves the performance of your site dramatically!
+The acquia_purge module invalidates cached content on Acquia Cloud and allows you to set Drupal's time to live (TTL) to a high value, like a year. This makes your site more resilient, the stack does less work and improves the performance of your site dramatically!
 
 [https://www.drupal.org/project/acquia_purge](https://www.drupal.org/project/acquia_purge)
 
@@ -116,7 +116,7 @@ This module has no configuration settings of its own, just enable it and it will
 
 ### Warmer
 
-Provides all the necessary infrastructure to orchestrate your cache warming processes. You can warm the cache of your critical entities (and more!) right after you deploy to production. Additionally cron will keep them warm for you.
+Provides all the necessary infrastructure to orchestrate your cache warming processes. You can warm the cache of your critical entities (and more!) right after you deploy to production. Additionally, cron will keep them warm for you.
 All these operations are executed asynchronously to avoid impacting the users.
 includes CDN warmer
 
@@ -128,9 +128,9 @@ includes CDN warmer
 
 Add to Calendar Module makes use of [Add to Calendar.com's](https://addtocalendar.com/) service which provides free buttons for event pages on websites and in emails. The button supports all modern browsers and platforms. It provides enough configurations for a really flexible experience.
 
-The module extends Datetime and Datetime Range field formatters to append the "Add to Calendar" button next to the date field. If the date field is multivalued than it is configurable to show the button beside a particular date field or for all.
+The module extends Datetime and Datetime Range field formatters to append the "Add to Calendar" button next to the date field. If the date field is multivalued, then it is configurable to show the button beside a particular date field or for all.
 
-It also provides a new `addtocalendar` field type which can be used to add \"Add to Calendar\" button, Also it provides the option for the end user to decide if they want to enable "Add to Calendar" button or not. This new field can then be easily used in views to show \"Add to Calendar\" button with custom listings.
+It also provides a new `addtocalendar` field type which can be used to add \"Add to Calendar\" button. Also, it provides the option for the end user to decide if they want to enable "Add to Calendar" button or not. This new field can then be easily used in views to show \"Add to Calendar\" button with custom listings.
 
 When the button is clicked on, the event is exported to the corresponding website with proper information in the next tab where user can add the event to their calendar.
 
@@ -149,9 +149,9 @@ This module lets you put Single Directory Components in the page using blocks. T
 ## Configuration
 
 ### Config Ignore
-This module is a tool to let you keep the configuration you want, in place. This can be useful when you have a configuration that is different between environments, such as development and production. This module allows you to ignore specific configuration files, so they are not overridden when importing or exporting configuration.
+This module is a tool to let you keep the configuration you want in place. This can be useful when you have a configuration that is different between environments, such as development and production. This module allows you to ignore specific configuration files, so they are not overridden when importing or exporting configuration.
 
-You can set them up using the settings.php file e.g. to ignore the google analytics settings:
+You can set them up using the settings.php file e.g. to ignore the Google Analytics settings:
 
 ```php
 $config['config_ignore.settings']['ignored_config_entities'][] = 'google_analytics.settings';
@@ -162,7 +162,7 @@ $config['config_ignore.settings']['ignored_config_entities'][] = 'google_analyti
 
 
 ### Config split
-Config Split allows you to split your configuration into separate directories and enables you to have different configuration between different environments. This is useful when you have configuration that is different between environments, such as development and production.
+Config Split allows you to split your configuration into separate directories and enables you to have different configurations for different environments. This is useful when you have a configuration that is different between environments, such as development and production.
 
 [https://www.drupal.org/project/config_split](https://www.drupal.org/project/config_split)
 
@@ -184,20 +184,20 @@ The main use case is: You update a module, and it has either changed default con
 ## Content Entry/Editing
 
 ### Automatic Entity Label
-"Automatic Entity Label" is a small and efficient module that allows hiding of entity label fields. To prevent empty labels it can be configured to generate the label automatically by a given pattern.
+"Automatic Entity Label" is a small and efficient module that allows hiding of entity label fields. To prevent empty labels, it can be configured to generate the label automatically by a given pattern.
 
-This can be used on any entity type, including e.g. for node titles, comment subjects, taxonomy term names and profile2 labels.
+This can be used on any entity type, including e.g., for node titles, comment subjects, taxonomy term names and profile2 labels.
 
-Patterns for automatic labels can be constructed with tokens. Drupal core provides a basic set of tokens. For a token selection widget install the [token module.](https://www.drupal.org/project/token_php) Some entity types (e.g. profile2) provide tokens via the `entity_token` module (part of entity).
+Patterns for automatic labels can be constructed with tokens. Drupal core provides a basic set of tokens. For a token selection widget, install the [token module.](https://www.drupal.org/project/token_php) Some entity types (e.g. profile2) provide tokens via the `entity_token` module (part of entity).
 
 Advanced users can use PHP code for automatically generating labels. This requires the [token module.](https://www.drupal.org/project/token_php)
 
 [https://www.drupal.org/project/auto_entitylabel](https://www.drupal.org/project/auto_entitylabel)
 
 ### Conditional Fields
-Define dependencies between fields based on their states and values. It provides a user interface to the States API, plus the ability to modify fields appearance and behavior based on various conditions when viewing content.
+Define dependencies between fields based on their states and values. It provides a user interface to the States API, plus the ability to modify fields' appearance and behavior based on various conditions when viewing content.
 
-- It allows you to manage sets of dependencies between fields. When a field is “dependent”, it will only be available for editing and displayed if the state of the “dependee” field matches the right condition.  
+- It allows you to manage sets of dependencies between fields. When a field is “dependent”, it will only be available for editing and displayed if the state of the “dependee” field matches the right condition.
 - When editing a node (or any other entity type that supports fields, like users and categories), the dependent fields are dynamically modified with the States API.
 - A simple use case would be defining a custom “Article teaser" field that is shown only if a "Has teaser" checkbox is checked, but much more complex options are available.
 
@@ -208,30 +208,30 @@ Provides an autocomplete widget for text fields that suggests all existing (prev
 [https://www.drupal.org/project/existing_values_autocomplete_widget](https://www.drupal.org/project/existing_values_autocomplete_widget)
 
 ### Anti-Duplicates
-The Anti-Duplicates module helps you avoid duplicate content on your website by displaying possible \"duplicates\" for the content you are posting, based on the keyword on the title of that content. It provides AJAX support so it notifies you as you type in the title.
+The Anti-Duplicates module helps you avoid duplicate content on your website by displaying possible \"duplicates\" for the content you are posting, based on the keyword in the title of that content. It provides AJAX support, so it notifies you as you type in the title.
 [https://www.drupal.org/project/anti_duplicates](https://www.drupal.org/project/anti_duplicates)
 
 
 ### Unique Field
-The Unique Field module performs extra validation when a node is created or updated by a user to require that a node's title, author, language, and fields are unique within a given context. Drupal allows you to create  multiple nodes with the same title or the same value in any combination of fields. For example, if you have a content type with a date field and there should only be one node per date, you could use this module to prevent a node from being saved with a date already used in another node.  Note. the user interface is a litte confusing on this one - look on the content type edit page for the tab: \"Unique Field Restrictions\" tab. Here you can specify the fields that need to be unique, as well as the scope and then whether you want a combination of the values from the fields to be unique or just the individual fields.
+The Unique Field module performs extra validation when a node is created or updated by a user to require that a node's title, author, language, and fields are unique within a given context. Drupal allows you to create multiple nodes with the same title or the same value in any combination of fields. For example, if you have a content type with a date field and there should only be one node per date, you could use this module to prevent a node from being saved with a date already used in another node. Note, the user interface is a little confusing on this one - look on the content type edit page for the tab: \"Unique Field Restrictions\" tab. Here you can specify the fields that need to be unique, as well as the scope and then whether you want a combination of the values from the fields to be unique or just the individual fields.
 [https://www.drupal.org/project/unique_field](https://www.drupal.org/project/unique_field)
 
 
 ### Inline Entity Form
-Provides a widget for inline management (creation, modification, removal) of referenced entities.The primary use case is the parent -> children one (product display -> products, order -> line items, etc.), where the child entities are never managed outside the parent form. Existing entities can also be referenced.  This module has it's origins in the [Drupal Commerce module.](https://www.drupal.org/project/commerce).
+Provides a widget for inline management (creation, modification, removal) of referenced entities. The primary use case is the parent -> children one (product display -> products, order -> line items, etc.), where the child entities are never managed outside the parent form. Existing entities can also be referenced.  This module has its origins in the [Drupal Commerce module.](https://www.drupal.org/project/commerce).
 
 
 ### Link Field Autocomplete Filter
-Currently the autocomplete in the Link Field widget always shows content suggestions from all content (node) types. This module adds a Link Field configuration for filtering the suggested content types in the autocomplete field.
+Currently, the autocomplete in the Link Field widget always shows content suggestions from all content (node) types. This module adds a Link Field configuration for filtering the suggested content types in the autocomplete field.
 
 [https://www.drupal.org/project/link_field_autocomplete_filter](https://www.drupal.org/project/link_field_autocomplete_filter)
 
 
 ### Find Text
 
-Find Text is an editor/administrator tool to directly search all text fields on a site for a given string or regexp pattern. This allows for direct, and directed, database searches for text content without the need to use more advanced tools or requiring direct access to the database.
+Find Text is an editor/administrator tool to directly search all text fields on a site for a given string or regexp pattern. This allows for direct and directed database searches for text content without the need to use more advanced tools or requiring direct access to the database.
 
-For instance, if a product name is going to be updated, Find Text can be used to find all instances of this name within text fields, including node body fields, text fields within paragraphs or blocks, or text values within custom fields. Similarly, instances of a specific HTML class, relative or absolute link, drupal entity, etc., can be searched for directly prior to any rendering or other processing occurs on the frontend.
+For instance, if a product name is going to be updated, Find Text can be used to find all instances of this name within text fields, including node body fields, text fields within paragraphs or blocks, or text values within custom fields. Similarly, instances of a specific HTML class, relative or absolute link, drupal entity, etc., can be searched for directly prior to any rendering or other processing occurring on the frontend.
 
 The results table of the search includes the entities on which the text appears (e.g. node or menu), the specific field or fields in which the text is used, and the full content which contains the searched text. The matching text will be highlighted within the full text.
 
@@ -245,7 +245,7 @@ It can search for strings with wildcard characters as well as do Regexp searches
 
 The Node Revision Delete module lets you track and prune old revisions of content types.
 
-You can configure how many revisions you want to keep per content type and configure how long revision should be kept. When saving the configuration you can optionally start a batch job to queue all content to delete revisions that are allowed to be deleted. Includes drush command(s).
+You can configure how many revisions you want to keep per content type and configure how long revision should be kept. When saving the configuration, you can optionally start a batch job to queue all content to delete revisions that are allowed to be deleted. Includes drush command(s).
 
 [https://www.drupal.org/project/node_revision_delete](https://www.drupal.org/project/node_revision_delete)
 
@@ -261,7 +261,7 @@ The Allow Only One module was created to prevent duplicate content save, based o
 
 This module provides a table for content administrators to quickly review all content of a specific content entity type (e.g. node, taxonomy term, etc) and bundle (content type, vocabulary, etc).
 
-Each configured field will be shown in a column, and the data for that field shown for each row. Additionally, operations links (edit, delete, etc) will be added based on the permissions for the current user.
+Each configured field will be shown in a column, and the data for that field will be shown for each row. Additionally, operations links (edit, delete, etc) will be added based on the permissions for the current user.
 
 The idea is to emulate the grid view provided in popular database administration tools, as a quick way to review available data.
 
@@ -269,7 +269,7 @@ The idea is to emulate the grid view provided in popular database administration
 
 ### Dynamic Entity Reference
 
-Dynamic Entity Reference provides a field type/widget/formatter combination for Drupal 8 that allows an entity-reference field to reference more than one entity type. This allows you to create a single field to hold references to `users` and `nodes`, Or `taxonomy terms` and `nodes`, or all three.
+Dynamic Entity Reference provides a field type/widget/formatter combination for Drupal 8 that allows an entity-reference field to reference more than one entity type. This allows you to create a single field to hold references to `users` and `nodes`, or `taxonomy terms` and `nodes`, or all three.
 
 [https://www.drupal.org/project/dynamic_entity_reference]](https://www.drupal.org/project/dynamic_entity_reference)
 
@@ -277,7 +277,7 @@ Dynamic Entity Reference provides a field type/widget/formatter combination for 
 ### Entity Clone
 
 Allows you to clone nodes
-This module add a new entity operation which allows to clone many of the entities (config & content) provided by the Drupal core. The old Node clone module doesn’t exist for D8/9/10, rather use entity clone.  
+This module adds a new entity operation which allows cloning many of the entities (config & content) provided by the Drupal core. The old Node clone module doesn’t exist for D8/9/10, rather use entity clone.
 
 [https://www.drupal.org/project/entity_clone](https://www.drupal.org/project/entity_clone)
 
@@ -289,16 +289,16 @@ Entity Bulk Clone provides the clone features for nodes using views bulk operati
 [https://www.drupal.org/project/entity_bulk_clone](https://www.drupal.org/project/entity_bulk_clone)
 
 ### Entity Reference Revisions
-Adds an Entity Reference field type with revision support, allowing specific entity revisions to be references. This is useful for modules like Paragraphs and Inline Entity Form.
+Adds an Entity Reference field type with revision support, allowing specific entity revisions to be referenced. This is useful for modules like Paragraphs and Inline Entity Form.
 
-A common use case is where an entity is actually part of a parent entity (with an embedded entity form). When the parent entity is updated, the referenced entity is also updated, thus the previous revision of the parent entity should still be pointing to the previous version of the entity to fully support revision diff and rollback.
+A common use case is where an entity is actually part of a parent entity (with an embedded entity form). When the parent entity is updated, the referenced entity is also updated, thus, the previous revision of the parent entity should still be pointing to the previous version of the entity to fully support revision diff and rollback.
 
 [https://www.drupal.org/project/entity_reference_revisions](https://www.drupal.org/project/entity_reference_revisions)
 
 
 
 ### File Download (includes download counter)
-Provides a formatter to use that allows users to download file and image entities directly.  Also includes a separate module to count downloads and display results in a View. Modelled off the statistics module which counts content views, this counts downloads using the File Download formatter.
+Provides a formatter to use that allows users to download file and image entities directly.  Also, includes a separate module to count downloads and display results in a View. Modelled off the statistics module which counts content views, this counts downloads using the File Download formatter.
 
 [https://www.drupal.org/project/file_download](https://www.drupal.org/project/file_download)
 
@@ -323,7 +323,7 @@ Feeds is the module for importing or aggregating data into nodes, users, taxonom
 
 - [Docs for creating/using feed](https://www.drupal.org/docs/8/modules/feeds/creating-and-editing-import-feeds)
 - [Import your content with Feeds with Drupal by Omar Lopesino - December 2018]
-[https://www.drupal.org/project/feeds](https://www.drupal.org/project/feeds)
+  [https://www.drupal.org/project/feeds](https://www.drupal.org/project/feeds)
 
 ### Feeds Tamper
 Feeds Tamper provides a small plugin architecture for Feeds to modify data before it gets saved. Several plugins are available by default and are described in the examples section below. Additional plugins can be added in separate modules or through the issue queue.
@@ -332,9 +332,9 @@ Examples:
 - Replace every instance of 'dog' with 'cat'.
 - Filter items based on keywords or vocabularies.
 - Make every letter uppercase, lowercase, or capitalize every first letter.
-- Break a comma separated list of words into Taxonomy terms or a multivalued text field.
+- Break a comma-separated list of words into Taxonomy terms or a multivalued text field.
 - Combine separate 'firstname' and 'lastname' fields into one 'name' field.
-- Convert urls from relative to absolute.
+- Convert URLs from relative to absolute.
 - Incredibly simple plugin architecture allowing you to do almost anything to Feeds' data. This comes with simple configuration and exportability(i.e. Features.)
 
 [https://www.drupal.org/project/feeds_tamper](https://www.drupal.org/project/feeds_tamper)
@@ -343,7 +343,7 @@ Examples:
 ## Data Integrity
 ### Audit Files
 
-Audit files is designed to perform audits of your upload directory and the corresponding database records. It will cross check that all files in the database have a corresponding physical file, or that all files in the upload directory have a corresponding entry in the database.
+Audit files are designed to perform audits of your upload directory and the corresponding database records. It will cross-check that all files in the database have a corresponding physical file, or that all files in the upload directory have a corresponding entry in the database.
 
 This module can be helpful in identifying orphan files that have not been deleted when their corresponding node was removed. The reports allow you to permanently remove files or database entries that represent orphans.
 
@@ -357,10 +357,10 @@ This module can be helpful in identifying orphan files that have not been delete
 
 Provides a more user-friendly date field, by upgrading the functionality of core with:
 
-- **Easy Admin UI:** Includes the concept of duration, so that a field can have a configurable default duration (e.g. 1 hour) and the end time will be auto-populated based on the start. The overall goal is to provide a smart interface for time range/event data entry, more inline with calendar applications which editors will be familiar with.
-- **All Day Events:** Most calendar applications provide a one-click option to make a an event, appointment, or other time-related content span a full day. This module brings that same capability to Drupal.
+- **Easy Admin UI:** Includes the concept of duration, so that a field can have a configurable default duration (e.g. 1 hour) and the end time will be autopopulated based on the start. The overall goal is to provide a smart interface for time range/event data entry, more inline with calendar applications which editors will be familiar with.
+- **All Day Events:** Most calendar applications provide a one-click option to make an event, appointment, or other time-related content span a full day. This module brings that same capability to Drupal.
 - **Zero Duration Events:** Show only a single time for events that don't need a duration.
-- **Formatting:** More sophisticated output formatting, for example to show the times as a range but with a single output of the date. In the settings a site builder can control how date the ranges will be output, at a very granular level.
+- **Formatting:** More sophisticated output formatting, for example, to show the times as a range but with a single output of the date. In the settings, a site builder can control how the date ranges will be output, at a very granular level.
 - **Performance:** Dates are stored as timestamps to improve performance, especially when filtering or sorting. Concerns with the performance of core's date range have been documented in #3048072: Date Range field creates very slow queries in Views.
 
 The approach in this module is to leverage core's existing `Datetime` functionality, using the timestamp storage capability also in core, with some custom Javascript to add intelligence to the admin interface, and a suite of options to ensure dates can be formatted to suit any site's needs.
@@ -377,7 +377,7 @@ The approach in this module is to leverage core's existing `Datetime` functional
 ## Development
 
 ### Environment Indicator
-This module will help you know what server environment (production, dev, local, etc) you are working in by adding a configurable color bar to each one of your environments. The Environment Indicator adds a coloured bar on the site informing you which environment you're currently in (Development, Staging, Production, etc.). This is incredibly useful if you have multiple environments for each of your sites, and like me, are prone to forgetting which version of the site you are currently looking at.
+This module will help you know what server environment (production, dev, local, etc) you are working in by adding a configurable color bar to each one of your environments. The Environment Indicator adds a coloured bar on the site informing you which environment you're currently in (Development, Staging, Production, etc.). This is incredibly useful if you have multiple environments for each of your sites, and, like me, are prone to forgetting which version of the site you are currently looking at.
 
 [https://www.drupal.org/project/environment_indicator](https://www.drupal.org/project/environment_indicator)
 
@@ -419,9 +419,9 @@ Webprofiler provides detailed insights into various aspects of a Drupal request,
 
 ### SMTP Authentication Support
 
-This module allows Drupal to bypass the PHP mail() function and send email directly to an SMTP server. The module supports SMTP authentication and can even connect to servers using SSL if supported by PHPMailer. It sends mail via the SMTP protocol using the PHPMailer library. While it can be a standalone module for the Drupal mailsystem, you can also use the mailsystem module to manage multiple mailer modules including SMTP.
+This module allows Drupal to bypass the PHP mail() function and send email directly to an SMTP server. The module supports SMTP authentication and can even connect to servers using SSL if supported by PHPMailer. It sends mail via the SMTP protocol using the PHPMailer library. While it can be a standalone module for the Drupal mailsystem, you can also use the mailsystem module to manage multiple mailer modules, including SMTP.
 
-What does SMTP NOT do? This module does not support (and will not support) sending mail via other protocols or APIs other than SMTP.  For Example: While services like sendgrid do support SMTP, you may get a better experience using the [Sendgrid Integration Module](https://www.drupal.org/project/sendgrid_integration)
+What does SMTP NOT do? This module does not support (and will not support) sending mail via other protocols or APIs other than SMTP. For example, while services like SendGrid do support SMTP, you may get a better experience using the [Sendgrid Integration Module](https://www.drupal.org/project/sendgrid_integration)
 
 ### Reroute Email
 
@@ -441,11 +441,11 @@ Lightweight by design, but fieldable just like content types. This module is sim
 
 ## Essential Utility Modules for Every Site
 
-Well maybe not every site, but certainly for most sites, your life and your content editor's lives will go better with these modules.
+Well, maybe not every site, but certainly for most sites, your life and your content editor's lives will go better with these modules.
 
 ### Admin Toolbar
-The Admin Toolbar module intends to improve the default Toolbar (the administration menu at the top of your site) to transform it into a drop-down menu, providing a fast access to all administration pages.
-The module works on the top of the default toolbar core module and is therefore a light module and keeps all the toolbar functionalities (shortcut / media responsive).
+The Admin Toolbar module intends to improve the default Toolbar (the administration menu at the top of your site) to transform it into a drop-down menu, providing fast access to all administration pages.
+The module works on top of the default toolbar core module and is therefore a light module and keeps all the toolbar functionalities (shortcut / media responsive).
 [https://www.drupal.org/project/admin_toolbar](https://www.drupal.org/project/admin_toolbar)
 
 ### Cron Fail Alert
@@ -458,7 +458,7 @@ This module sends an email notification to site administrators when the Drupal c
 
 ### Module filter
 
-The modules list page can become quite big when dealing with a fairly large site or even just a dev site meant for testing new and various modules being considered. What this module aims to accomplish is the ability to quickly find the module you are looking for without having to rely on the browsers search feature which more times than not shows you the module name in the 'Required by' or 'Depends on' sections of the various modules or even some other location on the page like a menu item.
+The modules list page can become quite big when dealing with a fairly large site or even just a dev site meant for testing new and various modules being considered. What this module aims to accomplish is the ability to quickly find the module you are looking for without having to rely on the browser's search feature which more times than not shows you the module name in the 'Required by' or 'Depends on' sections of the various modules or even some other location on the page like a menu item.
 
 [https://www.drupal.org/project/module_filter](https://www.drupal.org/project/module_filter)
 
@@ -508,9 +508,9 @@ This lets you add a view (and a view's display) to a content type so it gets ren
 
 ### File Field Paths
 
-The File Field Paths module extends the default functionality of Drupal's core File module, Image module and many other File upload modules, by adding the ability to use entity based tokens in destination paths and file names.
+The File Field Paths module extends the default functionality of Drupal's core File module, Image module and many other File upload modules, by adding the ability to use entity-based tokens in destination paths and file names.
 
-In simple terms, File (Field) Paths allows you to automatically sort and rename your uploaded files using token based replacement patterns to maintain a nice clean filesystem.
+In simple terms, File (Field) Paths allows you to automatically sort and rename your uploaded files using token-based replacement patterns to maintain a nice, clean filesystem.
 
 [https://www.drupal.org/project/filefield_paths](https://www.drupal.org/project/filefield_paths)
 
@@ -539,7 +539,7 @@ Focal Point allows you to specify the portion of an image that is most important
 [https://www.drupal.org/project/focal_point](https://www.drupal.org/project/focal_point)
 
 ### Image URL Formatter
-This module add a url formatter for image field which allows you to output the image url directly.
+This module adds a URL formatter for image field which allows you to output the image URL directly.
 
 It offers 3 options that are not in views:
 - Support Image styles
@@ -556,15 +556,13 @@ This module allows for direct viewing of a file with the URL alias. Instead of v
 [https://www.drupal.org/project/media_alias_display](https://www.drupal.org/project/media_alias_display)
 
 ### Svg Image
-This module changes default image field widget and formatter to allow use SVG image with the standard Image field.
+This module changes default image field widget and formatter to allow using SVG image with the standard Image field.
 
-Using SVG Image module
-you will not have to use another field type
-to load SVG image. Load SVG files into the Image field, it is not needed to create file field or special "SVG" type field.
+Using the SVG Image module, you will not have to use another field type to load SVG image. Load SVG files into the Image field, it is not needed to create file field or special "SVG" type field.
 
 Additional features (beyond the main functionality):
 
-- Ability to select width and height of the image in formatter settings
+- Ability to select the width and height of the image in the formatter settings
 - Ability to render svg image as `<img>` or `<svg>` tags.
 - Responsive image support. Please activate svg_image_responsive submodule to get such functionality
 
@@ -579,9 +577,9 @@ This module creates a new duration field, that can be added to any entity. A dur
 
 ### Entity Queue
 
-The follow-on module from the original [Nodeque](https://www.drupal.org/project/nodequeue) by [Earl Miles/merlinofchaos](https://www.drupal.org/u/merlinofchaos) which allows users to collect nodes in an arbitrarily ordered list. The order in the list can be used for a any purpose, such as: A user’s favorite music albums, a block listing teasers for the five top news stories on a site or a group of favorites from which one is randomly displayed. 
+The follow-on module from the original [Nodeque](https://www.drupal.org/project/nodequeue) by [Earl Miles/merlinofchaos](https://www.drupal.org/u/merlinofchaos) which allows users to collect nodes in an arbitrarily ordered list. The order in the list can be used for any purpose, such as: A user’s favorite music albums, a block listing teasers for the five top news stories on a site or a group of favorites from which one is randomly displayed.
 
-The Entityqueue module allows users to create queues of any entity type. Each queue is implemented as an Entity Reference field, that can hold a single entity type. For instance, you can create a queue of: Nodes, Users, Taxonomy Terms, etc. Entityqueue provides Views integration, by adding an Entityqueue relationship to your view, and adding a sort for Entityqueue position.
+The Entityqueue module allows users to create queues of any entity type. Each queue is implemented as an Entity Reference field, that can hold a single entity type. For instance, you can create a queue of: Nodes, Users, Taxonomy Terms, etc. Entityqueue provides Views integration by adding an Entityqueue relationship to your view, and adding a sort for Entityqueue position.
 
 [https://www.drupal.org/project/entityqueue](https://www.drupal.org/project/entityqueue)
 
@@ -592,7 +590,7 @@ Smart Trim implements a new field formatter for textfields (text, text_long, and
 
 
 ### Ultimate Cron
-Ultimate Cron is a flexible and extensive cron management system that allows you to create and manage system cron jobs through a web interface. It allows you to create cron jobs that run at specific times, or at regular intervals. It also allows you to create cron jobs that run only once, or that run indefinitely. You can also create cron jobs that run only when certain conditions are met, such as when a certain number of nodes have been created, or when a certain amount of time has passed since the last cron job was run.
+Ultimate Cron is a flexible and extensive cron management system that allows you to create and manage system cron jobs through a web interface. It allows you to create cron jobs that run at specific times or at regular intervals. It also allows you to create cron jobs that run only once or that run indefinitely. You can also create cron jobs that run only when certain conditions are met, such as when a certain number of nodes have been created, or when a certain amount of time has passed since the last cron job was run.
 [https://www.drupal.org/project/ultimate_cron](https://www.drupal.org/project/ultimate_cron)
 
 
@@ -604,13 +602,13 @@ Ultimate Cron is a flexible and extensive cron management system that allows you
 ### Paragraphs
 Paragraphs allows grouping together fields to make a cohesive unit of content.
 
-Instead of putting all their content in one WYSIWYG body field including images and videos, end-users can now choose on-the-fly between pre-defined Paragraph Types independent from one another. Paragraph Types can be anything you want from a simple text block or image to a complex and configurable slideshow.
+Instead of putting all their content in one WYSIWYG body field, including images and videos, end-users can now choose on-the-fly between pre-defined Paragraph Types independent from one another. Paragraph Types can be anything you want from a simple text block or image to a complex and configurable slideshow.
 
 [https://www.drupal.org/project/paragraphs](https://www.drupal.org/project/paragraphs)
 
 ### Paragraphs Edit
 
-This module adds contextual links to paragraphs to edit, delete and clone paragaphs.
+This module adds contextual links to paragraphs to edit, delete, and clone paragraphs.
 
 [https://www.drupal.org/project/paragraphs_edit](https://www.drupal.org/project/paragraphs_edit)
 
@@ -618,13 +616,13 @@ This module adds contextual links to paragraphs to edit, delete and clone paraga
 
 The Paragraphs Report module will parse nodes of certain content types that you check on the settings page, and make a catalog of what paragraphs are used on which pages.
 
-The use case for this report is when you want to know which pages a specific paragraph type is used.
+The use case for this report is when you want to know which pages a specific paragraph type is used on.
 
 [https://www.drupal.org/project/paragraphs_report](https://www.drupal.org/project/paragraphs_report)
 
 ### Paragraphs Sets
 
-Paragraphs Sets allows to create different sets of paragraphs.
+Paragraphs Sets allows you to create different sets of paragraphs.
 
 These sets can be automatically added to a new entity or selected while creating/editing the entity.
 
@@ -635,15 +633,15 @@ This allows editors to add content way faster because they do not need to add al
 
 ### Paragraph View Modes
 
-Did you ever run into an issue of creating new paragraph type with the same fields only because it looks a bit different?
-This tiny module is meant to easily reuse the same paragraph types with different view mode (display mode). With this module, you can choose which view modes should be available during editing of the content by using the widget settings for a particular type of paragraph. You can also dynamically choose in which display mode you want to render this specific paragraph when adding the content.
+Did you ever run into an issue of creating a new paragraph type with the same fields, only because it looks a bit different?
+This tiny module is meant to easily reuse the same paragraph types with different view modes (display modes). With this module, you can choose which view modes should be available during editing of the content by using the widget settings for a particular type of paragraph. You can also dynamically choose in which display mode you want to render this specific paragraph when adding the content.
 
 [https://www.drupal.org/project/paragraph_view_mode](https://www.drupal.org/project/paragraph_view_mode)
 
 
 ### Layout Paragraphs
 
-Layout Paragraphs provides an intuitive drag-and-drop experience for building flexible layouts with paragraphs. The module was designed from the ground up with paragraphs in mind, and works seamlessly with existing paragraph reference fields.
+Layout Paragraphs provides an intuitive drag-and-drop experience for building flexible layouts with paragraphs. The module was designed from the ground up with paragraphs in mind, and it works seamlessly with existing paragraph reference fields.
 
 **Key Features**
 - Intuitive drag-and-drop interface.
@@ -656,38 +654,38 @@ Layout Paragraphs provides an intuitive drag-and-drop experience for building fl
 [How to restrict access to content by role in Drupal 8 - Aug 2018](https://www.optasy.com/blog/how-do-you-restrict-access-content-drupal-8-6-modules-will-do-job-you)
 
 ### Node View Permissions
-Node view permissions module enables permissions \"View own content\" and \"View any content\" for each content type on permissions page as it was on Drupal 6. It's as simple as that.  It's implemented in a non-conflict way, so you can use it with any other permissions related module.
+Node view permissions module enables permissions \"View own content\" and \"View any content\" for each content type on permissions page as it was on Drupal 6. It's as simple as that.  It's implemented in a non-conflict way, so you can use it with any other permissions-related module.
 
 [https://www.drupal.org/project/node_view_permissions](https://www.drupal.org/project/node_view_permissions)
 
 ### Permissions by Term
 
-Per default, Drupal allows you only to restrict access to Drupal nodes by coupling node content types to user roles. This module extends Drupal functionality for restricting view access to single nodes via taxonomy terms. If you have installed the `Permissions by Entity` submodule, any other content entity type, such as media entities, can be controlled in access restriction, too.
+By default, Drupal allows you only to restrict access to Drupal nodes by coupling node content types to user roles. This module extends Drupal functionality for restricting view access to single nodes via taxonomy terms. If you have installed the `Permissions by Entity` submodule, any other content entity type, such as media entities, can be controlled in access restrictions, too.
 
-Please notice, that edit access is provided by hiding nodes from editors on the content admin views. There are no explicit create, edit or delete permissions provided.
+Please notice that edit access is provided by hiding nodes from editors on the content admin views. There are no explicit create, edit, or delete permissions provided.
 
 Taxonomy term permissions can be coupled to specific user accounts and/or user roles. Taxonomy terms are part of the Drupal core functionality. Since Permissions by Term is using Node Access Records, every other core system will be restricted:
 
 - search results
- - Works well with Search API modules search result lists, since PbT version 8.x-2.0
- - Drupal core search
+- Works well with Search API modules search result lists, since PbT version 8.x-2.0
+- Drupal core search
 - menu items
 - views list items
 - content from all content entity types (nodes, media)
 
 [https://www.drupal.org/project/permissions_by_term](https://www.drupal.org/project/permissions_by_term)
 
-## Problem solving 
+## Problem solving
 
 ### Easy Install
-A module built to resolve and avoid the error: \"Unable to install already exists active configuration\" when reinstalling/uninstalling Drupal modules. It works even if the module's configs are not in `.yml` files or in their config folder. It has an option to purge configuration object for  uninstalled modules and helps to remove configuration objects while uninstalling a module without requiring the use of Drush or Devel.
+A module built to resolve and avoid the error: \"Unable to install already exists active configuration\" when reinstalling/uninstalling Drupal modules. It works even if the module's configs are not in `.yml` files or in their config folder. It has an option to purge configuration object for uninstalled modules and helps to remove configuration objects while uninstalling a module without requiring the use of Drush or Devel.
 
 [https://www.drupal.org/project/easy_install](https://www.drupal.org/project/easy_install)
 
 
 ### Module Missing message Fixer
 
-Displays a list of missing modules and lets you fix the entries. Also deletes leftover config from missing modules. Make sure you run drush cex or export the config from the UI after using this. It is also Drush 9 compatible.
+Displays a list of missing modules and lets you fix the entries. Also, deletes leftover config from missing modules. Make sure you run drush cex or export the config from the UI after using this. It is also Drush 9 compatible.
 
 
 [Module Missing message Fixer](https://www.drupal.org/project/module_missing_message_fixer)
@@ -706,7 +704,7 @@ This module provides a user interface to make it easier to configure the core RE
 ## Security/Spam Protection
 
 ### Antibot
-Antibot is an extremely lightweight module designed to eliminate robotic form submissions on your website in an innovative-fashion. The module works completely behind the scenes and doesn't require any interaction from the end-users (no annoying CAPTCHAs!). The only requirement to the end user is that they must have JavaScript enabled. If they do not, the protected forms will be hidden and a message will appear, telling the user that the form requires JavaScript be enabled in order to use it.
+Antibot is an extremely lightweight module designed to eliminate robotic form submissions on your website in an innovative fashion. The module works completely behind the scenes and doesn't require any interaction from the end-users (no annoying CAPTCHAs!). The only requirement for the end user is that they must have JavaScript enabled. If they do not, the protected forms will be hidden and a message will appear, telling the user that the form requires JavaScript to be enabled in order to use it.
 
 [https://www.drupal.org/project/antibot](https://www.drupal.org/project/antibot)
 
@@ -724,26 +722,26 @@ The "Automatic IP Ban" module enhances Drupal's site security by providing admin
 [https://www.drupal.org/project/autoban](https://www.drupal.org/project/autoban)
 
 ### Drupal Perimeter Defence
-Basic perimeter defence for a Drupal site. This module bans the IPs who send suspicious requests to the site. Use this if you get a lot of requests to 'wp-admin' or to .aspx urls on a Linux server, or other similar requests. The URL patterns that result in a ban can be configured in the admin settings. The module is optimized for performance and designed to be activated when a Drupal site is targeted by hackers or bots.  There is a companion module [auto_unban](https://www.drupal.org/project/auto_unban) which augments core's ban module to automatic unban IP's after a period of time. This is best used with automatic ban modules such as perimeter.
+Basic perimeter defence for a Drupal site. This module bans the IPs who send suspicious requests to the site. Use this if you get a lot of requests to 'wp-admin' or to .aspx URLs on a Linux server, or other similar requests. The URL patterns that result in a ban can be configured in the admin settings. The module is optimized for performance and designed to be activated when a Drupal site is targeted by hackers or bots.  There is a companion module [auto_unban](https://www.drupal.org/project/auto_unban) which augments core's ban module to automatically unban IPs after a period of time. This is best used with automatic ban modules such as perimeter.
 
 [https://www.drupal.org/project/perimeter](https://www.drupal.org/project/perimeter)
 
 
 ### Flood control
 
-Flood Control provides an interface for hidden flood control variables (e.g. login attempt limiters) and makes it possible for site administrators to remove IP addresses and user ID's from the flood table.
+Flood Control provides an interface for hidden flood control variables (e.g. login attempt limiters) and makes it possible for site administrators to remove IP addresses and user IDs from the flood table.
 
 [https://www.drupal.org/project/flood_control](https://www.drupal.org/project/flood_control)
 
 ### Honeypot
-Honeypot uses both the honeypot and timestamp methods of deterring spam bots from completing forms on your site. These methods are effective against many spam bots, and are not as intrusive as CAPTCHAs or other methods which punish the user. The module currently supports enabling for all forms on the site, or particular forms like user registration or password reset forms, webforms, contact forms, node forms, and comment forms.
+Honeypot uses both the honeypot and timestamp methods of deterring spam bots from completing forms on your site. These methods are effective against many spambots and are not as intrusive as CAPTCHAs or other methods which punish the user. The module currently supports being enabled for all forms on the site, or particular forms like user registration or password reset forms, webforms, contact forms, node forms, and comment forms.
 
 [https://www.drupal.org/project/honeypot](https://www.drupal.org/project/honeypot)
 
 ### Key
 Key provides the ability to improve Drupal security by managing sensitive keys (such as API and encryption keys). It gives site administrators the ability to define how and where keys are stored, which allows the option of a high level of security and allows sites to meet regulatory or compliance requirements.
 
-Examples of the types of keys that could be managed with Key are: 
+Examples of the types of keys that could be managed with Key are:
 - An API key for connecting to an external service, such as PayPal, MailChimp, Authorize.net, UPS
 - an SMTP mail server
 - Amazon Web Services
@@ -764,7 +762,7 @@ SecKit provides Drupal with various security-hardening options. This lets you mi
 
 ### Security Review
 
-The Security Review module helps safeguard your Drupal site by checking for common vulnerabilities. It ensures file system permissions prevent arbitrary code execution, verifies text formats to block dangerous tags, and detects PHP or JavaScript in content. It also assesses error reporting settings to prevent information leaks, enforces secure private file handling, and restricts uploads to safe file extensions. Additionally, it monitors database errors for potential SQL injection attempts and tracks failed logins that may indicate brute-force attacks.  
+The Security Review module helps safeguard your Drupal site by checking for common vulnerabilities. It ensures file system permissions prevent arbitrary code execution, verifies text formats to block dangerous tags, and detects PHP or JavaScript in content. It also assesses error reporting settings to prevent information leaks, enforces secure private file handling, and restricts uploads to safe file extensions. Additionally, it monitors database errors for potential SQL injection attempts and tracks failed logins that may indicate brute-force attacks.
 
 Other critical checks include reviewing administrator permissions to prevent misconfigurations, ensuring usernames are not used as passwords, and verifying that passwords are not included in user emails. The module also checks for PHP execution risks, confirms that the base URL or trusted host settings are properly configured to prevent phishing, and ensures Views access is controlled to avoid unintended data exposure. While the module does not automatically apply fixes, it provides a checklist and resources to help you manually secure your site. Some results may require further investigation based on your site’s specific setup.
 
@@ -800,22 +798,22 @@ This module provides configurable blocks of menu links with additional features 
 This module allows you to use the menu the current page belongs to for the breadcrumb, generating breadcrumbs from the titles of parent menus.
 
 - Select and re-order the menus on which you want the menu-based breadcrumbs
-- Append the page title to the breadcrumb (either as a clickable url or not)
+- Append the page title to the breadcrumb (either as a clickable URL or not)
 - Hide the breadcrumb if it only contains the link to the front page
 - Generate the breadcrumb from the URL structure if content does not belong to a menu
 - If the "Taxonomy Attachment" option is selected for a menu, and if the current page belongs to a taxonomy that is on that menu, it will inherit the taxonomy page's menu breadcrumbs (e.g., for blog entries that aren't on any menu).
-- Other breadcrumb builders (e.g., the path & title-based Drupal 8 default breadcrumb builder) will be used if there is no applicable menu based breadcrumb.
+- Other breadcrumb builders (e.g., the path & title-based Drupal 8 default breadcrumb builder) will be used if there is no applicable menu-based breadcrumb.
 
 [https://www.drupal.org/project/menu_breadcrumb](https://www.drupal.org/project/menu_breadcrumb)
 
 ### Menu Trail By Path
-Menu Trail By Path sets the active-trail on menu items according to the current url. For example if you are at `yoursite.com/blog/category1/article1` menu, items with these paths will get the `active-trail` class on them and expand accordingly:
+Menu Trail By Path sets the active-trail on menu items according to the current URL. For example, if you are at `yoursite.com/blog/category1/article1` menu, items with these paths will get the `active-trail` class on them and expand accordingly:
 
 - blog
 - blog/category1
 - blog/category1/article1
 
-This is particularly useful if you want a lot of nodes to appear as children of certain nodes, taxonomy, term, views, referenced nodes etc. but do not want to add them all to the menu. e.g. hundreds of blog articles.
+This is particularly useful if you want a lot of nodes to appear as children of certain nodes, taxonomy, term, views, referenced nodes etc., but do not want to add them all to the menu. e.g. hundreds of blog articles.
 
 Menu Trail By Path is best used in conjunction with Pathauto.
 
@@ -824,7 +822,7 @@ This module is similar to Menutrails (D6) and Menu Position (D7), except no conf
 ## Social media
 
 ### AddToAny Share Buttons
-Share buttons for Drupal including AddToAny's universal sharing button, Facebook, Twitter, Pinterest, WhatsApp, Reddit, SMS, email and many more.
+Share buttons for Drupal, including AddToAny's universal sharing button, Facebook, Twitter, Pinterest, WhatsApp, Reddit, SMS, email and many more.
 
 Vector share buttons use AddToAny SVG sharing icons. AddToAny vector icons load efficiently, are mathematically precise, scalable to any size, and stunning on High-PPI screens such as Retina and Retina HD displays.
 
@@ -833,7 +831,7 @@ Vector share buttons use AddToAny SVG sharing icons. AddToAny vector icons load 
 ### Social media share
 The social media share module allows the user to share the current page to different social media platforms. It is rendered as a block, you can place it anywhere on your site. It also provides social media field type so that you can add it as a field in entity and take all benefits from field API.
 
-It can share any page of the site whether it is a node, term, panels, view pages so on.
+It can share any page of the site whether it is a node, term, panels, view pages, and so on.
 
 Currently, the module provides many services by default:
 - Facebook share
@@ -842,16 +840,16 @@ Currently, the module provides many services by default:
 - Twitter
 - Pinterest
 - Email (Client email service(:mailto) , Forward email as model dialogue, forward email as a separate page)
-- Whatsapp ( Optional, needs to be enabled in the configuration )
+- WhatsApp ( Optional, needs to be enabled in the configuration )
 
-You have full flexibility to add more services, modify the elements before render, change orders or so on. 
+You have full flexibility to add more services, modify the elements before rendering, change orders, or so on.
 
 [https://www.drupal.org/project/social_media](https://www.drupal.org/project/social_media)
 
 ## Site Stability
 
 ### Memory limit policy
-Memory limit policy allows you to override the default php memory_limit based on various constraints. e.g. you can set a different memory limit for all users depending on their roles. You can also set a different memory limit for different paths, HTTP methods, query parameters and routes.
+Memory limit policy allows you to override the default PHP memory_limit based on various constraints. e.g. you can set a different memory limit for all users depending on their roles. You can also set a different memory limit for different paths, HTTP methods, query parameters and routes.
 
 [https://www.drupal.org/project/memory_limit_policy](https://www.drupal.org/project/memory_limit_policy)
 
@@ -859,7 +857,7 @@ Memory limit policy allows you to override the default php memory_limit based on
 ### Node Access Rebuild Progressive
 This module provides an alternative means of rebuilding the Content Access table.
 
-It solves the problem of the default core behaviour, which delete all entries first in the `content_access` table and then rebuild the grants for all nodes.  This means the whole site is basically unusable during the whole operation. For sites with a large number of nodes and/or lots of complex hook_node_grants implementations, it can be very lenghty and results in a lot of downtime. Although this means someone could potentially still access some content they should no longer have the rights to until the new rules are in place, it does mean that the site can continue to operate normally while the access rebuild takes place in the background. It works by processing nodes in chunks, from highest `node.nid` to lowest, until all nodes have been recomputed
+It solves the problem of the default core behaviour, which delete all entries first in the `content_access` table and then rebuild the grants for all nodes.  This means the whole site is basically unusable during the whole operation. For sites with a large number of nodes and/or lots of complex hook_node_grants implementations, it can be very lenghty and results in a lot of downtime. Although this means someone could potentially still access some content they should no longer have the rights to until the new rules are in place, it does mean that the site can continue to operate normally while the access rebuild takes place in the background. It works by processing nodes in chunks, from the highest `node.nid` to the lowest, until all nodes have been recomputed
 
 [https://www.drupal.org/project/node_access_rebuild_progressive](https://www.drupal.org/project/node_access_rebuild_progressive)
 
@@ -869,7 +867,7 @@ It solves the problem of the default core behaviour, which delete all entries fi
 
 The Event Platform is actually a set of modules, each of which provides functionality designed to satisfy the needs of anyone creating a site for a Drupal Camp or similar event.
 
-Event Platform Sessions creates a robust system for user-suggested sessions, including an approval workflow, and the ability to automatically notify a user when their suggestion is accepted or rejected. Accepted sessions are displayed in a list, and there's also the ability to associate sessions with rooms, tracks, time slots, and more.
+Event Platform Sessions creates a robust system for user-suggested sessions, including an approval workflow and the ability to automatically notify a user when their suggestion is accepted or rejected. Accepted sessions are displayed in a list, and there's also the ability to associate sessions with rooms, tracks, time slots, and more.
 
 [https://www.drupal.org/project/event_platform](https://www.drupal.org/project/event_platform)
 
@@ -899,19 +897,19 @@ Twig Tweak is a small module which provides a Twig extension with some useful fu
 ## User Interface
 
 ### select2
-Integrates Drupal autocomplete and select fields with the [Select2 jQuery library.](https://select2.org/) Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results. The look and feel of Select2 is inspired by the excellent [Chosen library.](https://harvesthq.github.io/chosen/)
+Integrates Drupal autocomplete and select fields with the [Select2 jQuery library.](https://select2.org/) Select2 is a jQuery-based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results. The look and feel of Select2 is inspired by the excellent [Chosen library.](https://harvesthq.github.io/chosen/)
 This includes views support and provides a render element (for usage in forms), and two field widgets. One for simple select fields and another for entity reference fields.
 
 The render element supports several select2 features:
 - Single and multiple selection
 - Internationalization
-- Integrates nicely with the seven theme
-When the field widget is used in the entity reference context this module provides more features:
-- Autocomplete: The select options will not be rendered in the page and instead fetched by API during typing.
+- Integrates nicely with the Seven theme
+  When the field widget is used in the entity reference context this module provides more features:
+- Autocomplete: The select options will not be rendered on the page and instead will be fetched by API during typing.
 - Autocreate: Like core's entity reference field this widget can create new entities on the fly.
-[https://www.drupal.org/project/select2](https://www.drupal.org/project/select2)
+  [https://www.drupal.org/project/select2](https://www.drupal.org/project/select2)
 
-Other JS select modules and libraries include: 
+Other JS select modules and libraries include:
 - [Selectize](https://selectize.github.io/selectize.js) with its Drupal module: [https://www.drupal.org/project/selectize](https://www.drupal.org/project/selectize)
 - [Chosen](https://harvesthq.github.io/chosen/) with its Drupal module: [https://www.drupal.org/project/chosen](https://www.drupal.org/project/chosen)
 
@@ -928,7 +926,7 @@ Tagify module integrates Drupal autocomplete and Tagify component which provides
 
 ### ECA: Event - Condition - Action
 
-ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The core module is a processor that validates and executes event-condition-action plugins. Integrated with graphical user interfaces like BPMN.iO, Camunda or other possible future modellers, ECA is a robust system for building conditionally triggered action sets.
+ECA is a powerful, versatile, and user-friendly rules engine for Drupal 9+. The core module is a processor that validates and executes event-condition-action plugins. Integrated with graphical user interfaces like BPMN.iO, Camunda, or other possible future modellers, ECA is a robust system for building conditionally triggered action sets.
 
 [https://www.drupal.org/project/eca](https://www.drupal.org/project/eca)
 

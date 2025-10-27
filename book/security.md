@@ -7,16 +7,16 @@ title: Security
 
 ## Overview
 
-Drupal is a highly secure platform mostly due to the tireless efforts of the [security team](https://www.drupal.org/drupal-security-team).  
+Drupal is a highly secure platform, mostly due to the tireless efforts of the [security team](https://www.drupal.org/drupal-security-team).
 
 
-## Sanitizing output to avoid Cross Site Scripting (XSS) attacks
+## Sanitizing output to avoid Cross-Site Scripting (XSS) attacks
 
-The Twig theme engine now auto escapes everything by default. That means, every string printed from a Twig template (e.g. anything between <code v-pre>{{ }}</code>) gets automatically sanitized if no filters are used.
+The Twig theme engine now auto-escapes everything by default. That means, every string printed from a Twig template (e.g. anything between <code v-pre>{{ }}</code>) gets automatically sanitized if no filters are used.
 
 [See Filters - Modifying Variables In Twig Templates](https://www.drupal.org/node/2357633) for the Twig filters available in Drupal. Notably, watch out for the "raw" filter, which does not escape output. Only use this when you are certain the data is trusted.
 
-When rendering attributes in Twig, make sure that you wrap them with double or single quotes. For example this is safe: 
+When rendering attributes in Twig, make sure that you wrap them with double or single quotes. For example, this is safe:
 ```twig
 class="{{ class }}"
 ```
@@ -25,7 +25,7 @@ This is not safe.
 class={{ class }}
 ```
 
-In order to take advantage of Twig’s automatic escaping (and avoid safe markup being escaped) ideally all HTML should be outputted from Twig templates.
+In order to take advantage of Twig’s automatic escaping (and avoid safe markup being escaped), ideally, all HTML should be output from Twig templates.
 
 ## .htaccess magic
 
@@ -44,7 +44,7 @@ RewriteCond %{HTTP_REFERER} domain-two\.com RewriteRule .* - [F]
 ```
 
 ### Blocking core Drupal pages
-Files such as CHANGELOG.txt can be used to quickly identify security vulnerabilities in your Drupal installation to a malicious script or user. While there are a number of ways to identify the version of Drupal that you are running, one quick addition to your .htaccess file can make it slightly le obvious.
+Files such as CHANGELOG.txt can be used to quickly identify security vulnerabilities in your Drupal installation to a malicious script or user. While there are a number of ways to identify the version of Drupal that you are running, one quick addition to your .htaccess file can make it slightly less obvious.
 
 ```
 # Various alias rules 
@@ -87,7 +87,7 @@ RewriteRule ^.*$ - [F,L]
 ```
 
 ### Blocking HTTP commands
-You may not want to allow certain types of commands to be proceed by your site.
+You may not want to allow certain types of commands to be processed by your site.
 
 This blocks any HTTP request that is not a GET or a POST request.
 
@@ -121,7 +121,7 @@ Important
 
 Properly escape characters inside your regex (regular expressions) to avoid website errors.
 
-`HTTP_USER_AGENT` can use regex as an argument. As seen in the example above, many User Agents will require regex due to the complexity of their name. Rather than creating the rule manually, websites such as [https://www.regex-escape.com/regex-escaping-online.php](https://www.regex-escape.com/regex-escaping-online.php) can help construct a properly-escaped regex quickly.
+`HTTP_USER_AGENT` can use regex as an argument. As seen in the example above, many User Agents will require regex due to the complexity of their names. Rather than creating the rule manually, websites such as [https://www.regex-escape.com/regex-escaping-online.php](https://www.regex-escape.com/regex-escaping-online.php) can help construct a properly-escaped regex quickly.
 
 **How to test that the block is working**
 
@@ -150,7 +150,7 @@ RewriteRule ^(.*)$ - [F,L]
 
 ### Blocking hotlinks
 
-The last thing most website owners want is other websites stealing their content, or worse - hotlinking to their images and stealing their bandwidth. Here s a simple bit of code that prevents it-modify domain.com to your domain name:
+The last thing most website owners want is other websites stealing their content, or worse - hotlinking to their images and stealing their bandwidth. Here is a simple bit of code that prevents it-modify domain.com to your domain name:
 
 ```
 RewriteCond %{HTTP_REFERER} !^$
@@ -182,7 +182,7 @@ This query strips the variables (anything after a question mark in your URL).
 
 [Read more on Acquia.com](https://acquia.my.site.com/s/article/360013350193-Analyzing-Your-Traffic)
 
-## General overview of harding your Drupal site
+## General overview of hardening your Drupal site
 
 From [Acquia.com](https://acquia.my.site.com/s/article/360041130414-Harden-Drupal-sites-against-security-threats)
 
@@ -191,11 +191,11 @@ From [Acquia.com](https://acquia.my.site.com/s/article/360041130414-Harden-Drupa
 - Download a copy of recent database backups, and keep updated copies offsite
 - If possible, also take backups of the file system
 
-**Ensure Drupal Core and Installed Modules are up to date** 
-Drupal Core updates often contain security patches. Outdated, unmaintained modules often contain known security vulnerabilities. 
+**Ensure Drupal Core and Installed Modules are up to date**
+Drupal Core updates often contain security patches. Outdated, unmaintained modules often contain known security vulnerabilities.
 - Look for projects and modules covered by the Drupal Security Advisories
 - Remove obsolete and unused modules
-- Check for available updates under the Drupal admin console, or by using drush or composer. 
+- Check for available updates under the Drupal admin console, or by using drush or composer.
 
 **Perform a user audit**
 - Ensure permissions are restricted and implemented correctly
@@ -207,7 +207,7 @@ If a breach has occurred or internal threat, an attacker or internal threat may 
 
 **Password Checks**
 
-Bad passwords are the most common cause of site compromise. 
+Bad passwords are the most common cause of site compromise.
 
 - Ensure strong password requirements are enforced. A community contributed module that offers this functionality is Password Policy.
 - Perform a check for bad passwords. A community contributed module that offers this functionality is [Drop the Ripper](https://www.drupal.org/project/drop_the_ripper)
@@ -215,12 +215,12 @@ Bad passwords are the most common cause of site compromise.
 **2-Factor Authentication**
 
 - Enforce 2-factor authentication (especially for admin and/or privileged accounts) to mitigate the threat of compromised passwords.
-- 
+-
 **Review Site Functionality**
 
 - Check that file uploads are restricted to intended file extension type (e.g. Do not allow .html uploads for an image)
 - Ensure any sensitive data files are uploaded to secure directories only
-(e.g. Do not place personal data ( PII ) such as CVs or job applications in public 'files' directories)
+  (e.g. Do not place personal data ( PII ) such as CVs or job applications in public 'files' directories)
 - Review controls on web forms
 
 Attackers will often target forms that generate outbound emails ( e.g. "refer a friend" or "contact-us" )
@@ -230,7 +230,7 @@ Ensure CAPTCHA controls are used to prevent abuse
 
 **Web Application Firewall ( WAF )**
 
-If a WAF is not already in place, Acquia strongly recommend implementing one.
+If a WAF is not already in place, Acquia strongly recommends implementing one.
 
 [Acquia Cloud Edge Protect](https://docs.acquia.com/guide/edge/) is Acquia's WAF offering.
 
@@ -269,13 +269,13 @@ When specific resource types (entity types + bundles) don't need to be exposed, 
 
 4. Read-only mode
 
-If for your particular needs you only need to be able to read data, you can choose to enable `JSON:API`'s read-only mode at `/admin/config/services/jsonapi`. This mitigates risks from hypothetical, as-yet-unknown bugs in preexisting validation constraints and write logic. Because most modern decoupled Drupal setups only need to be able to read data, the update and delete operations are disabled by default. 
+If, for your particular needs, you only need to be able to read data, you can choose to enable `JSON:API`'s read-only mode at `/admin/config/services/jsonapi`. This mitigates risks from hypothetical, as-yet-unknown bugs in preexisting validation constraints and write logic. Because most modern decoupled Drupal setups only need to be able to read data, the update and delete operations are disabled by default.
 
 5. Security through obscurity: secret base path
 
-The base path for `JSON:API` is `/jsonapi` by default. This can be changed to something like `/hidden/b69dhj027ooae/jsonapi`, which is one way to reduce the effectiveness of automated attacks. 
+The base path for `JSON:API` is `/jsonapi` by default. This can be changed to something like `/hidden/b69dhj027ooae/jsonapi`, which is one way to reduce the effectiveness of automated attacks.
 
-To do this you can use the [JSON:API Extras contrib module](https://www.drupal.org/project/jsonapi_extras) or 
+To do this, you can use the [JSON:API Extras contrib module](https://www.drupal.org/project/jsonapi_extras) or
 
 Create `sites/example.com/services.yml` if it doesn't exist already and add this:
 
@@ -418,7 +418,7 @@ $sanitized_text = \Drupal\Component\Utility\Html::getId($text);
 Remember to always sanitize user input before outputting it to prevent Cross-Site Scripting (XSS) attacks.
 
 ## Html::escape
-If you have html like this: 
+If you have HTML like this:
 `<script>alert(2)</script>` which will be output as a mess with these sorts of characters: `&amp;, &lt;` etc. use Html::escape to avoid this.
 
 ```php
@@ -475,7 +475,7 @@ Use proper argument substitution. The database layer works on top of PHP PDO, an
 \Database::getConnection()->query('SELECT foo FROM {table} t WHERE t.name = :name', [':name' => $_GET['user']]);
 ```
 
-For a variable number of argument, use an array of arguments or use the select() method.  See examples of each below:
+For a variable number of arguments, use an array of arguments or use the select() method.  See examples of each below:
 
 ```php
 $users = ['joe', 'poe', $_GET['user']];
@@ -507,7 +507,7 @@ db_select('table', 't')
 ```
 Instead, set a list of allowed operators and only allow users to use those.
 
-`db_query`, `db_select`, and `db_like` were deprecated and removed from Drupal 9 - instead you should use a database connection object and call the query, select, and [escapeLike](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Connection.php/function/Connection%3A%3AescapeLike/9) methods on it (the parameters are the same).
+`db_query`, `db_select`, and `db_like` were deprecated and removed from Drupal 9 - instead, you should use a database connection object and call the query, select, and [escapeLike](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Database%21Connection.php/function/Connection%3A%3AescapeLike/9) methods on it (the parameters are the same).
 
 
 ## CSRF access checking
@@ -537,18 +537,18 @@ $url = Url::fromRoute(
 [See API reference: CsrfTokenGenerator::get](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Access%21CsrfTokenGenerator.php/function/CsrfTokenGenerator%3A%3Aget/9.0.x)
 
 
-To validate token manually (e.g. without adding `_csrf_token: 'TRUE'` to your `mymodule.routing.yml` file) at the route destination you can use the token and value used for generating it. 
+To validate token manually (e.g., without adding `_csrf_token: 'TRUE'` to your `mymodule.routing.yml` file) at the route destination, you can use the token and value used for generating it.
 
 ```php
 // Validate $token from GET parameter.
 \Drupal::getContainer()->get('csrf_token')->validate($token, "node/{$entity->id()}/report");
 ```
 
-Note. regarding anonymous users. Currently the `_csrf_token` check fails for users without an active session, which includes most anonymous users. See: [#2730351: CSRF check always fails for users without a session](https://www.drupal.org/project/drupal/issues/2730351)
+Note, regarding anonymous users. Currently, the `_csrf_token` check fails for users without an active session, which includes most anonymous users. See: [#2730351: CSRF check always fails for users without a session](https://www.drupal.org/project/drupal/issues/2730351)
 
 
 ## Anti-Spam
-The combination of the modules: [Antibot](https://www.drupal.org/project/antibot) and [Honeypot](https://www.drupal.org/project/honeypot)  make a good combination for combating site spam especially when handling anonymous facing forms or webforms.  More [at this DrupalEasy post from July 2023 ](https://www.drupaleasy.com/quicktips/honeypot-and-antibot-contrib-modules-make-great-anti-spam-team-drupal-sites)
+The combination of the modules: [Antibot](https://www.drupal.org/project/antibot) and [Honeypot](https://www.drupal.org/project/honeypot) makes a good combination for combating site spam, especially when handling anonymous-facing forms or webforms.  More [at this DrupalEasy post from July 2023 ](https://www.drupaleasy.com/quicktips/honeypot-and-antibot-contrib-modules-make-great-anti-spam-team-drupal-sites)
 
 Here is an example of a call to [Honeypot](https://www.drupal.org/project/honeypot) to protect a form:
 

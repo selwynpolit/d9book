@@ -9,7 +9,7 @@ title: Hooks
 
 Drupal hooks allow modules to alter and extend the behavior of Drupal core, or another module. They provide a way that code components in Drupal can communicate with one another. Using hooks, a module developer can change how core, or other modules work without changing the existing code. As a Drupal developer, understanding how to implement and invoke hooks is essential. (More at <https://drupalize.me/tutorial/what-are-hooks?p=2766>)
 
-According to ChapGPT: Hooks are a key aspect of Drupal\'s module system, and allow developers to interact with the core functionality of Drupal 9 or Drupal 10. They can be used to alter or extend the behavior of Drupal\'s core features, such as adding custom validation to a form,changing the way content is displayed, or adding new actions to the administrative interface. Hooks provide a powerful and flexible way to customize Drupal to meet the needs of a specific project or site, without having to modify the core code. They are essential for developers who want to build custom modules or themes, and are a fundamental part of the Drupal development process.
+According to ChapGPT: Hooks are a key aspect of Drupal\'s module system, and allow developers to interact with the core functionality of Drupal 9 or Drupal 10. They can be used to alter or extend the behavior of Drupal\'s core features, such as adding custom validation to a form, changing the way content is displayed, or adding new actions to the administrative interface. Hooks provide a powerful and flexible way to customize Drupal to meet the needs of a specific project or site, without having to modify the core code. They are essential for developers who want to build custom modules or themes, and are a fundamental part of the Drupal development process.
 
 ## Find hooks that are available in modules
 
@@ -18,9 +18,9 @@ Available hooks are listed in each module in their `module.api.php` file e.g. `d
 
 
 
-## Modify the login form with hook_form_FORM_ID_alter()   
+## Modify the login form with hook_form_FORM_ID_alter()
 
-Here is code from `hook_examples.module` that modifies the user login form by adding a button. It passes the username and password that were entered to a mythical third party login endpoint.
+Here is code from `hook_examples.module` that modifies the user login form by adding a button. It passes the username and password that were entered to a mythical third-party login endpoint.
 
 ```php
 /**
@@ -54,7 +54,7 @@ In the above code, the `hook_examples_form_user_login_form_alter()` function imp
 `FORM_ID` is the ID of the form being altered, in this case `user_login_form`. The function modifies the login form by adding a
 custom submit button, with a submit handler function of `hook_examples_user_login_form_submit()`.
 
-When the button is clicked, the `hook_examples_user_login_form_submit()` function gets the username and password from the form state , builds the URL for the third-party login page, including the username and password as query parameters. Finally, the user is redirected to this URL using the `$form_state->setRedirect()` method.
+When the button is clicked, the `hook_examples_user_login_form_submit()` function gets the username and password from the form state, builds the URL for the third-party login page, including the username and password as query parameters. Finally, the user is redirected to this URL using the `$form_state->setRedirect()` method.
 
 ## Modify the node edit form with hook_form_alter()
 
@@ -280,7 +280,7 @@ Several functions are called before the template file is invoked to modify the v
 - `THEME_preprocess_HOOK(&$variables)`: Allows the theme to set necessary variables specific to the particular theme hook.
 
 ### Hook_preprocess
-`hook_preprocess_HOOK` is a generic term or pattern that includes all the specific preprocessing hooks like `hook_preprocess_block`, `hook_preprocess_page`, `hook_preprocess_node`, etc. Generally these will be in your `.theme` file. These functions are used to modify the variables that are passed to the template files for rendering.
+`hook_preprocess_HOOK` is a generic term or pattern that includes all the specific preprocessing hooks like `hook_preprocess_block`, `hook_preprocess_page`, `hook_preprocess_node`, etc. Generally, these will be in your `.theme` file. These functions are used to modify the variables that are passed to the template files for rendering.
 
 - `hook_preprocess_html()` the html template
 - `hook_preprocess_page()` the page template
@@ -294,7 +294,7 @@ See [this huge list of 272 instances of hook_preprocess_hook used in Drupal 10 c
 
 ### hook_preprocess_node example 1
 
-To add a custom variable (`custom_variable`) to be displayed in your template, add a function in your `.theme` file like the one listed below. 
+To add a custom variable (`custom_variable`) to be displayed in your template, add a function in your `.theme` file like the one listed below.
 
 ```php
 function mytheme_preprocess_node(&$variables) {
@@ -308,7 +308,7 @@ function mytheme_preprocess_node(&$variables) {
 
 In your node\'s Twig template <code v-pre>{{ custom_variable }}</code> will display the new variable.  This example also adds a `#suffix` to the `field_image` which renders that string after the `field_image` is rendered. Fields such as `field_image` will be automatically rendered by the node template unless you've modified the template.
 
-Usually the `$variables['content'] ` contains the render array for all the fields in the node. In the Twig template this appears as <code v-pre>{{ content }}</code>. 
+Usually, the `$variables['content'] ` contains the render array for all the fields in the node. In the Twig template, this appears as <code v-pre>{{ content }}</code>.
 
 
 Here is a node template from the Olivero theme: `web/core/themes/olivero/templates/content/node.html.twig`:
@@ -414,7 +414,7 @@ function verygood_preprocess_node(&$variables) {
 //  kint($variables);
 }
 ```
-Now in the twig template we can output the `scrunch_date` we created in the template file: 
+Now, in the twig template, we can output the `scrunch_date` we created in the template file:
 `web/themes/mytheme/templates/node/node--seminar--teaser.html.twig`
 
 
@@ -435,12 +435,12 @@ Now in the twig template we can output the `scrunch_date` we created in the temp
 
 ## Another example of hook_preprocess_node
 
-Check out [this example of using hook_preprocess_node to do some wrangling of the node variables before they are passed to the node template.](general.md#figure-out-a-file-extension-and-display-an-icon) 
+Check out [this example of using hook_preprocess_node to do some wrangling of the node variables before they are passed to the node template.](general.md#figure-out-a-file-extension-and-display-an-icon)
 
 
 ### Add a fontawesome icon to a heading in a view block
 
-In `docroot/themes/custom/wecc_theme/wcc_theme.theme` 
+In `docroot/themes/custom/wecc_theme/wcc_theme.theme`
 
 This code uses `hook__preprocess_block()` to add an icon to the block title for certain blocks. It uses FontAwesome icons (`bullhorn` and `calendar-days`) and adds them to the label of each block.
 
@@ -498,7 +498,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function MY_MODULE_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // Your code here the two following lines just an examples.
+  // Your code here. The two following lines are just examples.
   // Hide some fields.
   $form['field_SOME_FIELD_NAME']['#access'] = FALSE;
   // Attach some library ....
@@ -536,7 +536,7 @@ class NodeArticleEditFormHandler {
    *    String representing the id of the form.
    */
   public function alterForm(array &$form, FormStateInterface $form_state, $form_id) {
-    // Your code here the two following lines just an examples.
+    // Your code here. The two following lines are just examples.
     // Hide some fields.
     $form['field_SOME_FIELD_NAME']['#access'] = FALSE;
     // Attach some library ....
@@ -546,8 +546,8 @@ class NodeArticleEditFormHandler {
 }
 ```
 
-In case you need other services you can inject your dependencies by make your class  [implements ContainerInjectionInterface](https://api.drupal.org/api/drupal/core!lib!Drupal!Core!DependencyInjection!ContainerInjectionInterface.php/interface/ContainerInjectionInterface/8.2.x) here is an example with `current user` service injection:
- 
+In case you need other services you can inject your dependencies by making your class  [implements ContainerInjectionInterface](https://api.drupal.org/api/drupal/core!lib!Drupal!Core!DependencyInjection!ContainerInjectionInterface.php/interface/ContainerInjectionInterface/8.2.x) here is an example with `current user` service injection:
+
 
 ```php
 <?php
@@ -606,7 +606,7 @@ class NodeArticleEditFormHandler implements ContainerInjectionInterface {
   public function alterForm(array &$form, FormStateInterface $form_state, $form_id) {
     // Example to get current user.
     $currentUser = $this->currentUser;
-    // Your code here the two following lines just an examples.
+    // Your code here. The two following lines are just examples.
     // Hide some fields.
     $form['field_SOME_FIELD_NAME']['#access'] = FALSE;
     // Attach some library ....
@@ -617,7 +617,7 @@ class NodeArticleEditFormHandler implements ContainerInjectionInterface {
 ```
 
 And after that change your hook into:
- 
+
 
 ```php
 use Drupal\MY_MODULE\NodeArticleEditFormHandler;
@@ -633,7 +633,7 @@ function MY_MODULE_form_node_article_edit_form_alter(&$form, FormStateInterface 
 ```
 
 We are done!
-Now your `.module` file is more clean, readable and maintainable with less code. You can do that with every hook for instance **EntityHandler** like:
+Now your `.module` file is cleaner, readable and maintainable with less code. You can do that with every hook, for instance, **EntityHandler** like:
 
 ```php
 use Drupal\MY_MODULE\EntityHandler;
@@ -654,7 +654,7 @@ And so on!  You can [see another example in Drupal core from the content moderat
 
 ## Entity hooks
 
-Here is an excerpt from the Drupal API at 
+Here is an excerpt from the Drupal API at
 <https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_crud/10>:
 
 ### Create operations
@@ -710,7 +710,7 @@ Since `load()` calls `loadMultiple()`, these are really the same operation. Here
 -   [hook_entity_load](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_load/10)()
 -   [hook_ENTITY_TYPE_load](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_load/10)()
 
-When an entity is loaded, normally the default entity revision is loaded. It is also possible to load a different revision, for entities that support revisions, with this code:
+When an entity is loaded, normally, the default entity revision is loaded. It is also possible to load a different revision, for entities that support revisions, with this code:
 
 
 
@@ -737,7 +737,7 @@ $is_default = $entity->isDefaultTranslation();
 ```
 
 
-The \"latest translation-affected revision\" is the most recently created one that affects the specified translation. For example, when a new revision introducing some changes to an English translation is saved, that becomes the new \"latest revision\". However, if an existing Italian translation was not affected by those changes, then the \"latest translation-affected revision\" for Italian remains what it was. 
+The \"latest translation-affected revision\" is the most recently created one that affects the specified translation. For example, when a new revision introducing some changes to an English translation is saved, that becomes the new \"latest revision\". However, if an existing Italian translation was not affected by those changes, then the \"latest translation-affected revision\" for Italian remains what it was.
 
 To load the Italian translation at its latest translation-affected revision:
 
@@ -775,7 +775,7 @@ To update an existing entity, you will need to load it, change properties, and t
 
 
 - [hook_ENTITY_TYPE_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_ENTITY_TYPE_insert/10)()
-    (new) or hook_ENTITY_TYPE_update() (update)
+  (new) or hook_ENTITY_TYPE_update() (update)
 
 - [hook_entity_insert](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_insert/10)() (new) or hook_entity_update() (update)
 
@@ -814,7 +814,7 @@ Some specific entity types invoke hooks during `preSave()` or `postSave()` opera
 
 - Comment: `hook_comment_publish()` and `hook_comment_unpublish()` as appropriate.
 
-Note that all translations available for the entity are stored during a save operation. When saving a new revision, a copy of every translation is stored, regardless of it being affected by the revision.
+Note that all translations available for the entity are stored during a save operation. When saving a new revision, a copy of every translation is stored, regardless of whether it is being affected by the revision.
 
 
 ### Editing operations
@@ -845,7 +845,7 @@ During the delete operation, the following hooks and other events happen:
 
 - [hook_entity_predelete](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/function/hook_entity_predelete/10)()
 
-- Entity and field information is removed from storage.
+- Entity and field information are removed from storage.
 
 - `postDelete()` is called on the entity class.
 

@@ -19,7 +19,7 @@ entity.file.collection:
 
 For my patch, I wanted to remove this section of the `file_entity.links.task.yml` file.
 
-First I get the repo/git version of the module:
+First, I get the repo/git version of the module:
 
 ```sh
 $ composer update drupal/file_entity --prefer-source
@@ -106,7 +106,7 @@ For more, see [Making a patch](https://www.drupal.org/node/707484).
 Patches can be applied by referencing them in the `composer.json` file, in the following format. Use the [cweagans composer-patches project from github](https://github.com/cweagans/composer-patches) to apply patches on any subsequent website builds.
 
 ::: tip Note
-In order to install and manage patches using composer we need to require the "composer-patches" module: 
+In order to install and manage patches using composer we need to require the "composer-patches" module:
 
 ```
 composer require cweagans/composer-patches
@@ -152,10 +152,10 @@ Some developers like adding the actual link to the issue in the description like
 See [Drupal 9 and Composer Patches](https://vazcell.com/blog/how-apply-patch-drupal-9-composer)
 also [Managing patches with Composer](https://acquia.my.site.com/s/article/360048081193-Managing-patches-with-Composer)
 
-### Step by step 
+### Step by step
 
 1. Find the issue and patch in the issue queue on Drupal.org
-2. Use the title and ID of the issue to be able to locate this post in the future. E.g. [Using an issue for the Gin admin theme](https://www.drupal.org/project/gin/issues/3188521) "Improve content form detection - 3188521" 
+2. Use the title and ID of the issue to be able to locate this post in the future. E.g. [Using an issue for the Gin admin theme](https://www.drupal.org/project/gin/issues/3188521) "Improve content form detection - 3188521"
 3. Scroll down the issue to find the specific patch you want to apply e.g. for comment #8 grab the file link for `3188521-8.patch`.  It is [https://www.drupal.org/files/issues/2021-05-19/3188521-8.patch](https://www.drupal.org/files/issues/2021-05-19/3188521-8.patch)
 4. Add the module name, description and URL for the patch into the extra patches section of json:
 
@@ -174,25 +174,25 @@ also [Managing patches with Composer](https://acquia.my.site.com/s/article/36004
 ```
 5. use `composer update --lock` to apply the patch and watch the output.
 
-If the patch was not applied or throws an error which is quite common (because they are no longer compatible), try using `-vvv` (verbose mode) flag with composer to see the reason: 
+If the patch was not applied or throws an error which is quite common (because they are no longer compatible), try using `-vvv` (verbose mode) flag with composer to see the reason:
 
 ```
 composer update -vvv
 ```
 
 ::: tip Note
-If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use: 
+If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use:
 
 ```
 composer require cweagans/composer-patches
 ```
 :::
 
-## Patches from a Gitlab merge request
+## Patches from a GitLab merge request
 
-Be aware that this technique can be a source of security problems so use  it at your peril!
+Be aware that this technique can be a source of security problems, so use it at your peril!
 
-For local quick testing, you can use a patch from a merge request on Gitlab like the following:
+For local quick testing, you can use a patch from a merge request on GitLab like the following:
 
 ```json
     "extra": {
@@ -203,7 +203,7 @@ For local quick testing, you can use a patch from a merge request on Gitlab like
         },
 ```
 
-Make sure you have installed the `cweagans/composer-patches` package first otherwise 
+Make sure you have installed the `cweagans/composer-patches` package first otherwise
 
 A safer approach is to download a `merge request patch`, and after reviewing carefully, apply it locally after making sure you have installed the `cweagans/composer-patches` package.  In your `composer.json`, you can reference the local file with something like: `patches/core-1234567-33.patch` (and following the steps [above](#creating-a-local-patch-to-a-contrib-module)).
 
@@ -213,7 +213,7 @@ Specify the URL of the merge request by adding `.patch` at the end of the MR URL
 
 The patch is at [https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch](https://git.drupalcode.org/project/alt_stream_wrappers/-/merge_requests/2.patch)
 
-Note. The patch files for MR\'s look a little different from most patch files you've seen. In the example below, you may notice that there is a header with the commit message and author details before the patch itself actually begins. This is normal and the patch should still apply correctly.:
+Note, the patch files for MR\'s look a little different from most patch files you've seen. In the example below, you may notice that there is a header with the commit message and author details before the patch itself actually begins. This is normal and the patch should still apply correctly.:
 
 ```diff
 From a4edb6adc09abb1ca52e92d80111173bfa206132 Mon Sep 17 00:00:00 2001
@@ -237,8 +237,8 @@ index 0000000..a4f7c84
 
 
 ::: danger
-You should **not apply patches directly from Gitlab merge requests** on production sites for several reasons. 
-1. When the new drupal.org is released, issues will be moved to gitlab. These file urls will stop working at some point, and if they do your project won't build. Be future proof, use local patches.
+You should **not apply patches directly from GitLab merge requests** on production sites for several reasons.
+1. When the new drupal.org is released, issues will be moved to GitLab. These file urls will stop working at some point, and if they do your project won't build. Be future-proof, use local patches.
 2. New patches may be added to the merge request, and you won't know about them. They could be flawed or malicious which could break your site.
 3. Your composer install (or deployment) now depends on drupal.org. If you are building your site and drupal.org has a temporary outage, your deployment will fail.
 4. You are at the mercy of the patch author. They could change the patch at any time, and you won't know about it. This could introduce bad code and break your site.
@@ -275,7 +275,7 @@ To separate patches into a different file other than composer json add `"patches
 ```
 
 ::: tip Note
-If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use: 
+If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use:
 
 ```
 composer require cweagans/composer-patches
@@ -288,7 +288,7 @@ composer require cweagans/composer-patches
 
 If composer install fails, try `composer -vvv` for verbose output
 
-If the issue is that it can't find the file for example if it displays the following:
+If the issue is that it can't find the file, for example, if it displays the following:
 
 ```sh
   - Applying patches for drupal/addtocalendar
@@ -313,7 +313,7 @@ More at <https://github.com/cweagans/composer-patches/issues/146>
 
 ## Stop files being overwritten during composer operations
 
-Depending on your composer.json, files like development.services.yml may be overwritten from during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
+Depending on your composer.json, files like development.services.yml may be overwritten during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
 
 The following snippet prevents the development.services.yml from being regularly overwritten:
 ```json
@@ -520,7 +520,7 @@ Install the lenient endpoint:
 
 `composer config repositories.lenient composer https://packages.drupal.org/lenient `
 
-Your `composer.json` file will get this. notice the `lenient` key below:
+Your `composer.json` file will get this. Notice the `lenient` key below:
 
 ```json
     "repositories": {
@@ -535,7 +535,7 @@ Your `composer.json` file will get this. notice the `lenient` key below:
     },
 ```
 
-Specify which Drupal module that composer should be lenient with: 
+Specify which Drupal module that composer should be lenient with:
 
 `composer config --merge --json extra.drupal-lenient.allowed-list '["drupal/node_access_rebuild_progressive"]'`
 
@@ -547,7 +547,7 @@ And `composer.json` gets this added:
     }
 ```
 
-If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use: 
+If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use:
 
 ```
 composer require cweagans/composer-patches
@@ -585,7 +585,7 @@ index 45f7c8a41..d2fc50637 100644
 
 ```
 
-In composer.json add your patch as in below.  It is on [drupal.org](https://www.drupal.org/project/node_access_rebuild_progressive/issues/3288770#comment-15227586).
+In composer.json add your patch as below.  It is on [drupal.org](https://www.drupal.org/project/node_access_rebuild_progressive/issues/3288770#comment-15227586).
 
 ```json
     "extra": {
@@ -684,7 +684,7 @@ Notice the `require` key and the `config` key below
     },
 ```
 
-Specify which Drupal module that composer should be lenient with: 
+Specify which Drupal module that composer should be lenient with:
 
 ```
 composer config --merge --json extra.drupal-lenient.allowed-list '["drupal/node_access_rebuild_progressive"]'
@@ -697,7 +697,7 @@ And `composer.json` gets this added:
         }
 ```
 
-If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use: 
+If you haven't already installed the [cweagans composer patches plugin](https://github.com/cweagans/composer-patches) use:
 
 ```
 composer require cweagans/composer-patches
@@ -841,7 +841,7 @@ Examples:
 
 ## Allowing multiple versions
 
-You can use double pipe (`||`) to specify multiple version. 
+You can use double pipe (`||`) to specify multiple versions.
 
 For the [CSV serialization](https://www.drupal.org/project/csv_serialization) module the author recommends using the following to install the module:
 ```
@@ -1004,7 +1004,7 @@ Here is a real example from a Drupal project where `desandro/masonry` and `desan
 
 ## Composer bump
 
-Composer 2.4 adds a new command called bump, that updates the requirements listed in the `composer.json` file with the currently installed version numbers. When the version numbers are bumped in the `composer.json` file, it effectively prevents Composer from installing a lower version of the required packages.  This can be useful when you have multiple people on a team who are updating composer and have to deal with version conflicts of the composer.lock file. See [php.watch article](https://php.watch/articles/composer-bump): 
+Composer 2.4 adds a new command called bump, that updates the requirements listed in the `composer.json` file with the currently installed version numbers. When the version numbers are bumped in the `composer.json` file, it effectively prevents Composer from installing a lower version of the required packages.  This can be useful when you have multiple people on a team who are updating composer and have to deal with version conflicts of the composer.lock file. See [php.watch article](https://php.watch/articles/composer-bump):
 
 To use the bump command with ddev, just run:
 
@@ -1015,9 +1015,9 @@ ddev composer bump
 
 ## Using the require-dev section in composer.json
 
-You will often need to install certain modules for a development environment but not install them on the production, staging or dev environments. Examples of these modules are: `devel`, `webprofiler`, `kint`, `devel_php`, `devel_generate`, `devel_reinstall`, `devel_entity_updates`, `devel_debug_log`, `devel_query_log` etc. 
+You will often need to install certain modules for a development environment but not install them on the production, staging or dev environments. Examples of these modules are: `devel`, `webprofiler`, `kint`, `devel_php`, `devel_generate`, `devel_reinstall`, `devel_entity_updates`, `devel_debug_log`, `devel_query_log` etc.
 
-This is done by adding these modules to the `require-dev` section.  Simply use the `--dev` composer flag when requiring the module.  
+This is done by adding these modules to the `require-dev` section.  Simply use the `--dev` composer flag when requiring the module.
 
 For example, to add the devel module to your project:
 
@@ -1047,7 +1047,7 @@ composer install --no-dev
 ```
 
 ::: tip Note
-The Composer `--dev` flag is deprecated, meaning it will eventually be removed and has no effect in Composer 3. Instead of using `--dev`, you should now use the require-dev section in your composer.json file or use the `--no-dev` flag for production deployments. 
+The Composer `--dev` flag is deprecated, meaning it will eventually be removed and has no effect in Composer 3. Instead of using `--dev`, you should now use the require-dev section in your composer.json file or use the `--no-dev` flag for production deployments.
 :::
 
 
@@ -1369,7 +1369,7 @@ Then I reinstalled the correct version of drush with `composer require drush/dru
 
 ### Composer won\'t install a module
 
-In this case I am trying to install the `csv_serialization` module.  I get the following error:
+In this case, I am trying to install the `csv_serialization` module.  I get the following error:
 
 ```sh
 composer require 'drupal/csv_serialization:^4.0'
@@ -1398,7 +1398,7 @@ drupal/views_data_export   1.3.0      requires drupal/csv_serialization (~1.4 ||
 Not finding what you were looking for? Try calling `composer update "drupal/csv_serialization:^4.0" --dry-run` to get another view on the problem.
 ```
 
-So it looks like the `drupal/recommended-project` requires `drupal/csv_serialization ^3.0` which should not be a problem. Also `drupal/views_data_export` requires `~1.4 || ~2.0 || ~3`.  
+So it looks like the `drupal/recommended-project` requires `drupal/csv_serialization ^3.0` which should not be a problem. Also, `drupal/views_data_export` requires `~1.4 || ~2.0 || ~3`.
 
 I can try the `--dry-run` option to see what happens:
 
@@ -1461,7 +1461,7 @@ Run "composer audit" for a full list of advisories.
 
 
 ### Composer won\'t update a module
-In this instance I want to update a Drupal 10 site with the [metatag](https://www.drupal.org/project/metatag) module. This site has the `"drupal/metatag": "^1.26",` version and there is a `2.02` version available I try to update the module with:
+In this instance, I want to update a Drupal 10 site with the [metatag](https://www.drupal.org/project/metatag) module. This site has the `"drupal/metatag": "^1.26",` version and there is a `2.02` version available I try to update the module with:
 
 ```sh
 ddev composer update drupal/metatag
@@ -1484,7 +1484,7 @@ Not finding what you were looking for? Try calling `composer require "drupal/met
 Composer [prohibits drupal/metatag 2.0] failed, composer command failed: exit status 1. stderr=
 ```
 
-Note. the `udda/udda_rd` represents the entire project and so it i listed as requiring `drupal\metatag`.
+Note, the `udda/udda_rd` represents the entire project and so it i listed as requiring `drupal\metatag`.
 
 
 
@@ -1510,7 +1510,7 @@ drupal/metatag 2.0.2 Manage meta tags for all entities.
 Not finding what you were looking for? Try calling `composer require "drupal/metatag:2.0.2" --dry-run` to get another view on the problem.
 ```
 and the same for `schema_metatag`.
-  
+
 ```sh
 ddev composer prohibits drupal/schema_metatag 3.0.3 -t
 drupal/schema_metatag 3.0.3 Metatag implementation of Schema.org structured data (JSON-LD)
@@ -1520,7 +1520,7 @@ Not finding what you were looking for? Try calling `composer require "drupal/sch
 
 
 To update both at the same time use the following:
-  
+
 ```sh
   ddev composer require drupal/schema_metatag:^3.0 drupal/metatag:^2.0
 ./composer.json has been updated
