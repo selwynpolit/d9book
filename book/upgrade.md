@@ -62,13 +62,13 @@ Much of this is from [Drupalize.me - updated Oct 2023](https://drupalize.me/tuto
   - Make sure you are at the required version of Drupal 9. i.e. 9.4.x
   - Follow the recommendations to remove projects in the `remove` section
   - Be sure to uninstall Drupal 9 core modules like: Color, RDF, and themes like: Bartik, Seven and Stable.
-  - If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`. If you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12. (sorry to repeat but it will bit you!)
+  - If Drush version 10.x is installed, use composer to remove it with `composer remove drush/drush`. If you don't, composer will be unable to upgrade your site as Drupal 10 requires Drush version 12. (sorry to repeat but it will bite you!)
   - Update code in modules under the `scan` section
   - Install updated versions of the modules in the `Collaborate with maintainers` section
   - Uninstall and remove the Upgrade Status module before upgrading or else upgrading to D10 will fail.
 
 ::: tip Note
-Using the `--no-update` flag updates the composer.json entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in composer.json manually.
+Using the `--no-update` flag updates the `composer.json` entries, without attempting to resolve and download any files. This allows us to batch updates to projects and avoid a "chicken-or-egg first"-type of issues with shared dependencies. Alternatively, you can edit the version constraints in `composer.json` manually.
 :::
 
 
@@ -133,7 +133,7 @@ As you finish each section, you can confirm that everything is complete by click
 ### Update core
 
 - Update drupal/core-dev
-  If you have the drupal/core-dev dependencies in your composer.json, update those with:
+  If you have the drupal/core-dev dependencies in your `composer.json`, update those with:
 ```
 composer require drupal/core-dev:^10.0 --dev --no-update --update-with-dependencies
 ```
@@ -488,7 +488,7 @@ Create the patch
 git diff >file_entity_disable_file_menu_tab.patch
 ```
 
-Add the patch to the patches section of composer.json. Notice below the line starting with \"drupal/file_entity\" is the local file patch:
+Add the patch to the patches section of `composer.json`. Notice below the line starting with \"drupal/file_entity\" is the local file patch:
 
 ```json
 "patches": {
@@ -524,7 +524,7 @@ patch -p1 < ./patches/fix_scary_module.patch
 
 ## Patch modules using patches on Drupal.org
 
-Patches can be applied by referencing them in the composer.json file, in the following format. [cweagans/composer-patches](https://github.com/cweagans/composer-patches) can then be used to apply the patches on any subsequent website builds.
+Patches can be applied by referencing them in the `composer.json` file, in the following format. [cweagans/composer-patches](https://github.com/cweagans/composer-patches) can then be used to apply the patches on any subsequent website builds.
 
 In order to install and manage patches using composer we need to require the "composer-patches" module:
 
@@ -709,9 +709,9 @@ Also, if this fails, just try it again.  Sometimes, it fails with a message like
 
 ## Stop files being overwritten during composer operations
 
-Depending on your composer.json, files like development.services.yml may be overwritten during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command, you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
+Depending on your `composer.json`, files like `development.services.yml` may be overwritten during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command, you can specify them in the "extra" section of your project's `composer.json`. See the docs on Excluding scaffold files.
 
-The following snippet prevents the development.services.yml from being regularly overwritten:
+The following snippet prevents the `development.services.yml` from being regularly overwritten:
 ```
 "drupal-scaffold": {
     "locations": {
@@ -836,7 +836,7 @@ index 45f7c8a41..d2fc50637 100644
 
 ```
 
-In composer.json add your patch as shown below.
+In `composer.json` add your patch as shown below.
 
 ```json
     "extra": {

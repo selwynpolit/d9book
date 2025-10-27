@@ -694,7 +694,7 @@ I can filter by paragraph types by adding a paragraph type filter.  This is list
 
 For filtering the `field_content`, I add those filters and specify `contains Resources`, `contains tools` and `contains software` and specify the relationship as `(field_content: Paragraph)`. This shows up as `(field_content: Paragraph) Title Override (contains Resources)`.
 
-I also used the `add/or rearrange` filter criteria to break the filters into groups and specify some conditions.
+I also used the `add/or rearrange` filter criteria to break the filters into groups and specify some or conditions.
 
 ![Views Rearrange filter criteria](/images/views-filter-criteria.png)
 

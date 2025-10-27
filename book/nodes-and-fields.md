@@ -990,7 +990,7 @@ Since `File` is an entity, we can also look in `EntityBase.php` to find more use
 
 ## Retrieve values from a link field
 
-Here we have a link field: field_link which we load and get a valid URI
+Here we have a link field: `field_link` which we load and get a valid URI
 from it using:
 
 ```php
@@ -1663,7 +1663,7 @@ e.g. to create a `DrupalDateTime`
 $format = 'Y-m-d H:i';
 $start_date = DrupalDateTime::createFromFormat($format, “2019-01-01 00:00");
 ```
-In the database, the created and changed fields use a uUnix timestamp. e.g
+In the database, the created and changed fields use a Unix timestamp. e.g
 look in node_field_revision
 
 This is an int 11 field in the db with a value like 1525302749 (Note,

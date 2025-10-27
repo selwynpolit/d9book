@@ -863,7 +863,7 @@ PhpStorm can automatically look at your code and warn you of lines that do not m
 Use the following settings:
 
 - Configuration: `System PHP`
-- Check files with extensions: `php, js, css, inc, module`
+- Check files with extensions: `php,js,css,inc,module`
 - Check Show warning as: `Warning`
 - Check Show sniff name
 
@@ -872,14 +872,14 @@ Use the following settings:
   - Check `Installed standards path` and set the path to `/Users/spolit/Sites/tea/vendor/drupal/coder/coder_sniffer`. Replace this with the path to your project. Later, you will need to uncheck the checkbox.. Really!
   - Be sure to set the Coding standard to `Drupal`. If this option isn't shown, follow the steps below, click ok and then open the settings dialog again. Hopefully, it will show up then.
   - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
-    If you installed the coder module in your project: Under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf`.
+    If you installed the coder module in your project: Under the `...` button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/Sites/tea/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/Sites/tea/vendor/bin/phpcbf`.
     ![](/images/PHPStorm_PHP_Codesniffer_settings.png)
 
 - **If you have phpcs installed globally** (with `composer global require drupal/coder`):
   - Check `Installed standards path` and set it to `/Users/spolit/.composer/vendor/drupal/coder/coder_sniffer` (Replace this with the path to your global composer directory).
   - Be sure to set the Coding standard to `Drupal`. If this option isn't shown, follow the steps below, click ok and then open the settings dialog again. Hopefully, it will show up then.
   - After checking `installed standards path` and providing the path above, it seems you must uncheck `installed standards path` for this to keep working. I know, weird, right?
-  - If you have installed phpcs and coder globally, under the ... button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/.composer/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/.composer/vendor/bin/phpcbf`.
+  - If you have installed phpcs and coder globally, under the `...` button (on the right side of the screen next to `Show ignored files`), set the PHP_CodeSniffer path to: `/Users/spolit/.composer/vendor/bin/phpcs` and the Path to phpcbf to `/Users/spolit/.composer/vendor/bin/phpcbf`.
 
 ![](/images/PHPStorm_PHP_Codesniffer_settings.png)
 

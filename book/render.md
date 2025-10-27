@@ -533,7 +533,7 @@ public function buildDetails(array $content, array $breadcrumbs, array $manageme
 ```
 
 
-Then, in team-abc--correctional-voting.html.twig the `next` links are rendered -- see <code v-pre>{{ next_link }}</code>
+Then, in `team-abc--correctional-voting.html.twig` the `next` links are rendered -- see <code v-pre>{{ next_link }}</code>
 
 ```twig
 <div class="cell small-12 medium-6">

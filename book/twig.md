@@ -1488,7 +1488,7 @@ Or
 {{ drupal_view('resellers_for_this_vendor', 'embed_1', node.field_vendor_id.value ) }}
 ```
 
-Note, if you ever see a 502 bad gateway error when embedding a drupal_view, delete the display and create a new one and it may just work fine.
+Note, if you ever see a 502 bad gateway error when embedding a `drupal_view`, delete the display and create a new one and it may just work fine.
 
 ### Count how many rows returned from a view
 
