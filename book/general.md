@@ -3224,6 +3224,143 @@ done
 exit 0
 ```
 
+## Broken Links
+
+There is an interesting side effect of running wget in spider mode to crawl a website.  It will report back any broken links it finds.
+
+```sh
+wget -e robots=off -r -nd --delete-after -l100 --spider https://austinprogressivecalendar.com./
+```
+
+
+```
+Found 28 broken links.
+
+https://www.austinprogressivecalendar.com/sites/default/files/styles/huge/public/inserted-images/content_landod8_2019-02-0
+8_13-23-14.png?itok=h9R-_TbV
+https://www.austinprogressivecalendar.com/sites/default/files/styles/huge/public/inserted-images/800px-organic_mixed_beans
+_shoots.jpg?itok=8Q1YBYMD
+https://www.austinprogressivecalendar.com/sites/default/files/styles/medium/public/inserted-images/sprouting_mung_beans_in
+_a_jar.jpg?itok=lEU7GrCU
+https://www.austinprogressivecalendar.com/taxonomy/term/href
+https://www.austinprogressivecalendar.com/sites/default/files/styles/huge/public/inserted-images/landod8_siteslandod8_-_.i
+ndex_.php_landod8_2019-02-08_13-46-19.png?itok=p1pejLxz
+https://www.austinprogressivecalendar.com/sites/default/files/styles/medium/public/inserted-images/avgpic1.png?itok=u7PEc3
+R9
+https://www.austinprogressivecalendar.com/sites/default/files/imce_images/small_event_-_d7.austexcs.com_1294758758267.png
+https://www.austinprogressivecalendar.com/sites/default/files/styles/large/public/inserted-images/win8.jpg
+https://www.austinprogressivecalendar.com/href
+https://www.austinprogressivecalendar.com/sites/default/files/styles/medium/public/inserted-images/content_landod8_2019-02-08_13-23-14.png?itok=yyuKDoPc
+https://www.austinprogressivecalendar.com/index.php/href
+...
+```
+
+
+Unfortunately this does not give you the URL of the page that contains the broken link.  You would have to manually search the site to find the broken link and fix it. I was able to output the log to a file with the `-o` option and then add a little bash script (thanks AI)  that could find the broken links and the pages that contain them.
+
+
+
+```sh
+wget -e robots=off -r -nd --delete-after -l100 --spider -o wget.log https://austinprogressivecalendar.com./
+```
+
+The options used are:
+- `-e robots=off`: Ignore robots.txt file
+- `-r`: Recursive download
+- `-nd`: No directories (save all files to current directory)
+- `--delete-after`: Delete files after downloading (we only want to check links)
+- `-l100`: Set the maximum recursion depth to 100
+- `--spider`: Spider mode (check links only, do not download files)
+- `-o wget.log`: Output log file
+- `https://austinprogressivecalendar.com./`: The URL to crawl
+
+
+
+
+::: tip Note
+if you have basic HTTP authentication in place, you can add the options `--user=USERNAME` and `--ask-password` to the wget command to authenticate. For example:
+```sh
+wget --user=fredbloggs --ask-password -e robots=off -r -nd --delete-after -l100 --spider -o wget.log https://wzyzsite.prod.acquia-sites.com/
+```
+This will prompt you for the password when you run the command.
+:::
+
+
+Here is `find-broken-links.sh` that processes the wget log file to find broken links and the pages that contain them.
+
+```bash
+#!/bin/bash
+# Usage: ./find-broken-links.sh `wget.log`
+
+LOGFILE="$1"
+if [ -z "$LOGFILE" ]; then
+  echo "Usage: $0 logfile"
+  exit 1
+fi
+
+awk '
+# timestamp lines like --YYYY-MM-DD...
+/^--[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/ {
+  urlstart = index($0, "https://")
+  if (urlstart == 0) urlstart = index($0, "http://")
+  if (urlstart > 0) {
+    last = substr($0, urlstart)
+    sp = index(last, " ")
+    if (sp > 0) last = substr(last, 1, sp-1)
+    gsub(/[[:punct:]]+$/, "", last)   # strip trailing punctuation
+  }
+  next
+}
+
+# When wget reports the remote file exists and could contain links,
+# that last URL is the source page (contains outgoing links).
+/Remote file exists and could contain links/ {
+  if (last != "") source = last
+  next
+}
+
+# 404 lines — report the broken URL (last) and the source page
+/404 Not Found/ {
+  broken = last
+  # If the 404 line itself contains a URL, prefer that
+  urlstart = index($0, "https://")
+  if (urlstart == 0) urlstart = index($0, "http://")
+  if (urlstart > 0) {
+    broken = substr($0, urlstart)
+    sp = index(broken, " ")
+    if (sp > 0) broken = substr(broken, 1, sp-1)
+    gsub(/[[:punct:]]+$/, "", broken)
+  }
+  print "Source: " (source != "" ? source : "(unknown)")
+  print "Broken: " (broken != "" ? broken : "(no URL found)")
+  print ""
+  next
+}
+' "$LOGFILE"
+```
+
+
+And here is some sample output from the above bash script where 3 images are missing:
+
+```
+./find-broken-links.sh wget.log
+
+Source: https://www.austinprogressivecalendar.com/node/92
+Broken: https://www.austinprogressivecalendar.com/sites/default/files/styles/huge/public/inserted-images/content_landod8_2019-02-08_13-23-14.png?itok=h9R-_TbV
+
+Source: https://www.austinprogressivecalendar.com/node/92
+Broken: https://www.austinprogressivecalendar.com/sites/default/files/styles/medium/public/inserted-images/content_landod8_2019-02-08_13-23-14.png?itok=yyuKDoPc
+
+Source: https://www.austinprogressivecalendar.com/node/92
+Broken: https://www.austinprogressivecalendar.com/sites/default/files/styles/huge/public/inserted-images/incoming_connection_from_xdebug_2019-02-08_13-44-31.png?itok=1YPHA40R
+```
+
+
+
+
+
+In addition, you can use the [Link Checker](https://www.drupal.org/project/linkchecker) module to find (and continuously monitor) for broken links on your Drupal site.  Once installed and enabled, you can run the link checker from the admin interface. It does require quite a bit of configuration to get it working properly.
+
 
 
 ## Resources

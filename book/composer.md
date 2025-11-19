@@ -424,6 +424,8 @@ Here are the contents of the `scaffold/htaccess_prepend.txt` file.  Note that th
 
 ## Updating Drupal Core
 
+Here are instructions to update Drupal core using composer.
+
 if there is `drupal/core-recommended` in your `composer.json` use:
 
 ```sh
@@ -463,7 +465,7 @@ Problem 1
 ```
 :::
 
-More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3) and [Updating Drupal core via composer updated Dec 2023. ](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
+More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3) and [Updating Drupal core via composer updated July 2025. ](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
 
 
 ## How to identify dependencies
