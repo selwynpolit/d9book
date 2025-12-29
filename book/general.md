@@ -871,14 +871,30 @@ After
 
 ## Block excessive crawling of Drupal Views or search results with .htaccess
 
-[From Block excessive crawling of Drupal Views or search results on Acquia.com - Jan 2024](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
+From [Block excessive crawling of Drupal Views or search results on Acquia.com - April 2024](https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results)
 
 PLACE THIS BLOCK directly after the "RewriteEngine on" line in your `docroot/.htaccess` or `web/.htaccess` file.
+
+```
+# Do not index nor follow links that have a query string
+# (e.g. /search?page=123  or /search?size=small&color=red)
+User-agent: *
+Disallow: /*?
+
+# If your views or search pages use a module to convert facets/filters
+# to clean URLs (e.g. /search/page/123  or /search/size/small)
+# you can try disallowing the search page's URL
+User-agent: *
+Disallow: /search*
+```
 
 
 Sometimes, robot webcrawlers (like Bing, Huawei Cloud, Yandex, Semrush, etc.) can attempt to crawl a Drupal View's search results pages, and could also be following links to each of the view's filtering options. This places extra load on your site. Additionally, the crawling (even if done by legitimate search engines) may not be increasing your site's visibility to users of search engines.
 
-Therefore, we suggest blocking or re-routing this traffic to reduce resource consumption at the Acquia platform, avoid overages to your Acquia entitlements (for Acquia Search, Views & Visits, etc.), and to generally help your site perform better.
+Therefore, we suggest blocking or re-routing this traffic to reduce resource consumption (for Search, Views & Visits, etc.), and to generally help your site perform better.
+
+
+Alternatively, you can make these changes to your `docroot/robots.txt`  or `web/robots.txt` file:
 
 ```
 # EXAMPLE ROBOT BLOCKING CODE for Search pages or views.
@@ -903,19 +919,7 @@ RewriteCond %{HTTP_USER_AGENT} "11A465|AddThis.com|AdsBot-Google|Ahrefs|alexa si
 RewriteRule ^.* - [F,L]
 ```
 
-Alternatively, you can make these changes to your `docroot/robots.txt`  or `web/robots.txt` file:
-```
-# Do not index nor follow links that have a query string
-# (e.g. /search?page=123  or /search?size=small&color=red)
-User-agent: *
-Disallow: /*?
 
-# If your views or search pages use a module to convert facets/filters 
-# to clean URLs (e.g. /search/page/123  or /search/size/small)
-# you can try disallowing the search page's URL
-User-agent: *
-Disallow: /search*
-```
 
 
 ## Using the file_system service to count files
@@ -1541,7 +1545,7 @@ class LeafMapBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     // Create a map with the features.
     $map = leaflet_map_get_info('OSM Mapnik');
-    
+
     // Add Clustering by enabling the Leaflet Markercluster module.
     $map['settings']['leaflet_markercluster']['control'] = TRUE;
 
@@ -2039,7 +2043,7 @@ Here is the old way: In this example, this code will alter the functionality of 
 ```php
 /**
  * Implements hook_search_api_solr_query_alter().
- * 
+ *
  * @param \Solarium\Core\Query\QueryInterface $solarium_query
  * @param \Drupal\search_api\Query\QueryInterface $query
  * @throws \Drupal\search_api\SearchApiException
@@ -2973,9 +2977,9 @@ index bc205f7e9..6b7d3a093 100755
 
 ## Sync files between servers with lsync daemon
 
-The [lsync](https://github.com/lsyncd/lsyncd) daemon is a tool that can be used to synchronize files between two or more servers. It is similar to `rsync`, but it runs as a daemon and can be configured to automatically synchronize files at regular intervals. This can be useful for keeping files in sync between a primary and secondary server, such as in a load-balanced environment. 
+The [lsync](https://github.com/lsyncd/lsyncd) daemon is a tool that can be used to synchronize files between two or more servers. It is similar to `rsync`, but it runs as a daemon and can be configured to automatically synchronize files at regular intervals. This can be useful for keeping files in sync between a primary and secondary server, such as in a load-balanced environment.
 
-If you give lsync too large of a directory, it may fail. You can solve this by breaking up the tasks into smaller chunks.  Do this by creating separate `sync` sections. Lsync knows how to automatically execute each `sync` section without any additional configuration. 
+If you give lsync too large of a directory, it may fail. You can solve this by breaking up the tasks into smaller chunks.  Do this by creating separate `sync` sections. Lsync knows how to automatically execute each `sync` section without any additional configuration.
 
 I was working on a project that was failing to sync the entire `/web/server1/html` directory due to the vast number of files and folders. The solution was to break it up into multiple `sync` sections, each handling a smaller chunk of the directory. In the example config file below, the `/web/server1/html` directory is broken up into multiple `sync` sections, each handling a different subdirectory.
 
@@ -3028,7 +3032,7 @@ sync {
   host = "123.123.123.123",
   targetdir = "/web/server2/html/patches/",
   delay = 5,
- 
+
   rsync = {
     update=true,
     perms=true,
@@ -3046,7 +3050,7 @@ sync {
   host = "123.123.123.123",
   targetdir = "/web/server2/html/vendor/",
   delay = 5,
- 
+
   rsync = {
     update=true,
     perms=true,
@@ -3070,7 +3074,7 @@ sync {
     '/web/server2/html/web/sites/faq/files/*'
   },
   delay = 5,
- 
+
   rsync = {
     update=true,
     perms=true,
@@ -3089,7 +3093,7 @@ sync {
   host = "123.123.123.123",
   targetdir = "/web/server2/html/web/sites/default/files/",
   delay = 5,
- 
+
   rsync = {
     update=true,
     perms=true,
