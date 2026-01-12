@@ -5,6 +5,17 @@ title: Composer
 # Composer, Updates and Patches
 ![views](https://api.visitor.plantree.me/visitor-badge/pv?label=views&color=informational&namespace=d9book&key=composer.md)
 
+## Check which Drupal modules are outdated
+
+To see if there are any Drupal modules that may need to be updated, use the following command:
+
+```sh
+ ddev composer outdated 'drupal/*'
+```
+
+Also `ddev composer show -l` will show all packages and their versions, along with the latest version available.
+
+
 ## Creating a local patch to a contrib module
 
 In this case, I had the file_entity module installed and wanted to hide the `files` tab. That (menu) tab is provided by a task in `web/modules/contrib/file_entity/file_entity.links.task.yml`
@@ -46,7 +57,7 @@ index 3ea93fc..039f7f9 100644
 @@ -15,12 +15,6 @@ entity.file.edit_form:
    base_route: entity.file.canonical
    weight: 0
- 
+
 -entity.file.collection:
 -  route_name: entity.file.collection
 -  base_route: system.admin_content
@@ -568,7 +579,7 @@ index 1a0e13eec..f322ff847 100644
  type: module
 -core_version_requirement: ^8 || ^9
 +core_version_requirement: ^9.4 || ^10
- 
+
  # Information added by Drupal.org packaging script on 2020-06-23
  version: '2.0.0'
 diff --git docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module
@@ -718,7 +729,7 @@ index 1a0e13eec..f322ff847 100644
  type: module
 -core_version_requirement: ^8 || ^9
 +core_version_requirement: ^9.4 || ^10
- 
+
  # Information added by Drupal.org packaging script on 2020-06-23
  version: '2.0.0'
 diff --git docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module docroot/modules/contrib/node_access_rebuild_progressive/node_access_rebuild_progressive.module
@@ -1037,7 +1048,7 @@ ddev composer require drupal/core-dev --dev
 To install all the modules (e.g. on your local environment) including those in the `require-dev` section:
 
 ```sh
-composer install 
+composer install
 Or the deprecated:
 composer install --dev
 ```
