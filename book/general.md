@@ -3260,7 +3260,7 @@ https://www.austinprogressivecalendar.com/index.php/href
 ```
 
 
-Unfortunately this does not give you the URL of the page that contains the broken link.  You would have to manually search the site to find the broken link and fix it. I was able to output the log to a file with the `-o` option and then add a little bash script (thanks AI)  that could find the broken links and the pages that contain them.
+Unfortunately this does not give you the URL of the page that contains the broken link.  You would have to manually search the site to find the broken link and fix it. I was able to output the log to a file with the `-o` option and then add a little bash script (thanks AI) that could find the broken links and the pages that contain them.
 
 
 
@@ -3364,6 +3364,85 @@ Broken: https://www.austinprogressivecalendar.com/sites/default/files/styles/hug
 
 
 In addition, you can use the [Link Checker](https://www.drupal.org/project/linkchecker) module to find (and continuously monitor) for broken links on your Drupal site.  Once installed and enabled, you can run the link checker from the admin interface. It does require quite a bit of configuration to get it working properly.
+
+
+## How much space is being used by the files directory?
+
+You can use the `du` command to find out how much space is being used by the `files` directory in Drupal.  The `-s` option provides a summary of the total size, the `-h` option makes the output human-readable, and the `--max-depth=1` option limits the output to just the top-level directories within `files`.
+
+```sh
+du -sh /var/www/html/docroot/sites/default/files/
+```
+Which might output something like:
+
+```
+6.8G	/var/www/html/docroot/sites/default/files/
+```
+
+Alternatively, if you want to see the size of each subdirectory within the `files` directory, you can use something like this:
+```sh
+du -h --max-depth=1 /path/to/drupal/sites/default/files
+```
+
+```sh
+du -h --max-depth=1 /var/www/html/docroot/sites/default/files/
+264K	/var/www/html/docroot/sites/default/files/dxpr_theme
+14M	/var/www/html/docroot/sites/default/files/2023-04
+3.7M	/var/www/html/docroot/sites/default/files/php
+23M	/var/www/html/docroot/sites/default/files/cohesion
+5.9M	/var/www/html/docroot/sites/default/files/config_dc6ba263b705940f2704111fcbc10188eba35b05
+1012K	/var/www/html/docroot/sites/default/files/ad-blocks-2024-06
+2.1M	/var/www/html/docroot/sites/default/files/ad-blocks-2025-05
+1.2M	/var/www/html/docroot/sites/default/files/slider-image-2023-04
+516K	/var/www/html/docroot/sites/default/files/ad-blocks-2023-07
+164K	/var/www/html/docroot/sites/default/files/2024-03
+668K	/var/www/html/docroot/sites/default/files/ad-blocks-2025-10
+74M	/var/www/html/docroot/sites/default/files/styles
+276K	/var/www/html/docroot/sites/default/files/ad-blocks-2024-11
+204K	/var/www/html/docroot/sites/default/files/dxpr_theme_STARTERKIT
+684K	/var/www/html/docroot/sites/default/files/element-preview-images
+6.5G	/var/www/html/docroot/sites/default/files/documents
+60K	/var/www/html/docroot/sites/default/files/translations
+48K	/var/www/html/docroot/sites/default/files/paragraphs_type_icon
+5.4M	/var/www/html/docroot/sites/default/files/inline-images
+188K	/var/www/html/docroot/sites/default/files/ad-block-image-2023-04
+284K	/var/www/html/docroot/sites/default/files/ad-blocks-2024-08
+720K	/var/www/html/docroot/sites/default/files/ad-blocks-2025-07
+20K	/var/www/html/docroot/sites/default/files/default_images
+16K	/var/www/html/docroot/sites/default/files/config_io3Qgs5MEBCzUyv7dVBTVlfHQrGIOgd8_eOoK1RTTtKj3klT8w9GuUdUTn44kjRv-9i5njsrYw
+1.5M	/var/www/html/docroot/sites/default/files/slider-image-2023-06
+4.0K	/var/www/html/docroot/sites/default/files/2024-10
+1.3M	/var/www/html/docroot/sites/default/files/ad-blocks-2025-12
+2.8M	/var/www/html/docroot/sites/default/files/ad-blocks-2024-04
+108M	/var/www/html/docroot/sites/default/files/images
+7.7M	/var/www/html/docroot/sites/default/files/config_6d64f3d43412d4f3576014c677756d6974b7fe61
+4.0K	/var/www/html/docroot/sites/default/files/library-definitions
+552K	/var/www/html/docroot/sites/default/files/2024-09
+36K	/var/www/html/docroot/sites/default/files/media-icons
+2.1M	/var/www/html/docroot/sites/default/files/ad-blocks-2024-07
+352K	/var/www/html/docroot/sites/default/files/ad-blocks-2025-06
+1.1M	/var/www/html/docroot/sites/default/files/css
+9.2M	/var/www/html/docroot/sites/default/files/2024-04
+540K	/var/www/html/docroot/sites/default/files/ad-blocks-2025-02
+160K	/var/www/html/docroot/sites/default/files/ad-blocks-2023-04
+276K	/var/www/html/docroot/sites/default/files/ad-blocks-2024-12
+2.3M	/var/www/html/docroot/sites/default/files/js
+792K	/var/www/html/docroot/sites/default/files/ad-blocks-2024-10
+12K	/var/www/html/docroot/sites/default/files/config_fYQtGPnbsA0RWMBMs0gwVorEkfCZdnv40GFcfwtv6dfDGLnBoF5lBkHnxVIfqBvSJmQc8VtESDR
+4.3M	/var/www/html/docroot/sites/default/files/ad-blocks-2024-09
+1008K	/var/www/html/docroot/sites/default/files/ad-blocks-2025-08
+32M	/var/www/html/docroot/sites/default/files/private
+4.1M	/var/www/html/docroot/sites/default/files/slider-image-2023-07
+188K	/var/www/html/docroot/sites/default/files/2023-03
+4.0K	/var/www/html/docroot/sites/default/files/2025-01
+4.0K	/var/www/html/docroot/sites/default/files/2025-10
+524K	/var/www/html/docroot/sites/default/files/ad-blocks-2023-06
+16K	/var/www/html/docroot/sites/default/files/2024-02
+1.3M	/var/www/html/docroot/sites/default/files/meeting-docs
+124K	/var/www/html/docroot/sites/default/files/color
+200K	/var/www/html/docroot/sites/default/files/pictures
+6.8G	/var/www/html/docroot/sites/default/files/
+```
 
 
 
