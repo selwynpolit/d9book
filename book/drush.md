@@ -18,6 +18,65 @@ Drush is extensible with the ability to create drush commands and drush scripts.
 More [at drush.org](https://www.drush.org/latest/)
 
 
+## Generate custom modules
+
+Drush can generate a custom module for you. Use:
+
+```bash
+$ drush generate module
+```
+Here is a session showing the generation of a module named remote_search_pages:
+
+```bash
+$ drush generate module
+
+ Welcome to module generator!
+––––––––––––––––––––––––––––––
+
+ Module name:
+ ➤ Remote Search Pages
+
+ Module machine name [remote_search_pages]:
+ ➤
+
+ Module description:
+ ➤ Page content retrieved from remote sites for searching
+
+ Package [Custom]:
+ ➤
+
+ Dependencies (comma separated):
+ ➤
+
+ Would you like to create module file? [No]:
+ ➤ y
+
+ Would you like to create install file? [No]:
+ ➤
+
+ Would you like to create README.md file? [No]:
+ ➤ y
+
+ The following directories and files have been created or updated:
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+ • /var/www/html/docroot/modules/custom/remote_search_pages/README.md
+ • /var/www/html/docroot/modules/custom/remote_search_pages/remote_search_pages.info.yml
+ • /var/www/html/docroot/modules/custom/remote_search_pages/remote_search_pages.module
+
+```
+
+
+## Generate a controller for your module
+
+Drush can generate a controller for your module. Use:
+
+```bash
+$ drush generate controller
+```
+
+
+
+
 ## Custom Drush commands
 
 These are new commands that you can add to your modules to allow drush to do useful things. Modules sometimes include drush commands e.g. [search api](https://www.drupal.org/project/search_api).
@@ -1321,8 +1380,8 @@ composer global require drush/drush ^8
 Then add Drush to your system path by placing the following in your ~/.zshrc (or if using bash: `~/.bash_profile`):
 
 ```
- export PATH="$HOME/.composer/vendor/bin:$PATH" 
-``` 
+ export PATH="$HOME/.composer/vendor/bin:$PATH"
+```
 
 ::: tip Note
 Test any of these path changes by running `source ~/.zshrc` to reload the environment variables.  You can also open a new iterm window if you prefer.
