@@ -83,3 +83,7 @@ Thanks to these rock stars for their contribution to the project. Please add you
 [Geert Selderslaghs](https://github.com/gselderslaghs) - hooks.
 
 [Serhii Checheniev](https://github.com/serhii-checheniev) - Fixed up many many typos, spelling and grammatical errors.
+
+[t-franz](https://github.com/t-franz) - Heading fix, code cleanup.
+
+[Ricky](https://github.com/rbertram90) - Custom entities.
