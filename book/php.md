@@ -299,7 +299,7 @@ if (preg_match($end_pattern, $entity->bundle())) {
 ```
 
 
-Return early pattern
+## Return early pattern
 
 I am a fan of the [return early pattern](https://medium.com/swlh/return-early-pattern-3d18a41bba8).  Return early is the way of writing functions or methods so that the expected positive result is returned at the end of the function and the rest of the code terminates early by returning or throwing an exception if there are any errors.  I've also seen this called the "happy path" pattern.
 
