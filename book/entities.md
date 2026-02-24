@@ -9,9 +9,8 @@ title: Entities
 
 In Drupal, **entities** are the fundamental data structures used to represent content and complex configuration. They provide both a flexible system for handling different types of content e.g. _nodes_, _users_, _taxonomy terms_, and _files_, as well as different types of configuration e.g. _views_, _image styles_ and _user roles_.
 
-::: info 
-See [Introduction to Entity API in Drupal](https://www.drupal.org/docs/drupal-apis/entity-api/introduction-to-entity-api-in-drupal-8)
-in the Drupal.org documentation that has an entire section dedicated to the Entity API.
+::: info
+See [Introduction to Entity API in Drupal - Updated March 2024](https://www.drupal.org/docs/drupal-apis/entity-api/introduction-to-entity-api-in-drupal-8) in the Drupal.org documentation that has an entire section dedicated to the Entity API.
 :::
 
 
