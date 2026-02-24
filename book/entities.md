@@ -7,11 +7,30 @@ title: Entities
 
 ## Overview
 
-The Entity API is used for manipulating entities (CRUD: create, read, update, delete). Entity validation has its own API (which could validate an Entity saved via REST, rather than a form, for example).
+In Drupal, **entities** are the fundamental data structures used to represent content and complex configuration. They provide both a flexible system for handling different types of content e.g. _nodes_, _users_, _taxonomy terms_, and _files_, as well as different types of configuration e.g. _views_, _image styles_ and _user roles_.
 
-Entities come in two flavors: Content and Config(uration). The data storage mechanism moved from being field-centric in Drupal 7 to entity-centric in Drupal 8, 9 and 10. This implies that all fields attached to an entity share the same storage backend, making querying a lot easier. Entity types are registered with Drupal as plugins.
+::: info 
+See [Introduction to Entity API in Drupal](https://www.drupal.org/docs/drupal-apis/entity-api/introduction-to-entity-api-in-drupal-8)
+in the Drupal.org documentation that has an entire section dedicated to the Entity API.
+:::
 
-While Drupal supports custom entities, I haven\'t found a need for them in my projects. In most of my experience, just using real nodes (sometimes unpublished) has sufficed admirably.
+
+## Content entity types
+
+Content entities are the storage mechanism for data in a Drupal site that can be managed by editors via the admin interface. Content entities are composed of **fields** each which store a specific type of data such as text, dates, or references to other entities.
+
+The two types of fields on content entities are:
+*   **Base fields**: Defined programmatically in the entity class, data is stored in a single table per entity type and they exist for all bundles (e.g., `title`, `created`).
+*   **Configurable fields**: Created via the admin interface or config. They are attached to specific bundles, but can be re-used across multiple bundles, and data is stored in their own database table.
+
+::: info
+Read more about fields from [Defining and using Content Entity Field definitions on Drupal.org](https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions)
+:::
+
+### Bundles
+
+Content entity bundles are variants of an entity type that allow for different field configurations. For example, the `Node` entity type in Drupal core comes with the bundles _Article_ and _Page_. Bundles are not exposed on all content entity types (e.g., `User`).
+
 
 ## Config entity types
 
@@ -21,12 +40,21 @@ They store configuration information e.g: views, imagestyles, roles, NodeType (w
 -   They don't have fields/are not fieldable.
 -   They don't support entity translation interface(TranslatableInterface), but can still be translated using config's translation API.
 
-## Content entity types
 
-e.g. comment, user, taxonomy term, node and now media (bundles for media are file, image, audio, video, remote video etc.)
+## Creating custom entity types
 
-more at
-<https://www.drupal.org/docs/drupal-apis/entity-api/introduction-to-entity-api-in-drupal-8>
+Defining your own content entity types is often needed when content you want to model within Drupal doesn't fit with an out of the box entity.
+
+Defining a custom content entity type from scratch is a long winded and error prone task, thus it is far easier to start by using a tool such as [Drush](/drush) to kick off your new entity type.
+
+To generate a content entity the following command can be used:
+
+`drush generate entity:content`
+
+This will prompt you with several questions so the entity type can be tailored to your requirements. Similarly for config entities:
+
+`drush generate entity:config`
+
 
 ## Query an entity by title and type
 
@@ -46,16 +74,17 @@ if ($count_nodes == 0) {
 
 ## Create an entity
 
-To create a new entity object, use `the entity_create`. **NOTE** that this only creates an entity object and does not persist it. Use `->save()` to persist it.
+To create a new entity instance, you can use the _Entity Type Manager_ (`entity_type.manager`) service. **NOTE** that this only creates an entity object and does not persist it. Use `->save()` to persist it.
 
 ```php
-$node = entity_create('node', array(
+$node = \Drupal::entityTypeManager()->getStorage('node')->create([
   'title' => 'New Article',
   'body' => 'Article body',
   'type' => 'article',
 ));
 ```
-If you know what the entity class name (bundle type) is, you can use it directly.
+
+Alternatively, use the static `create` method on the entity class directly.
 
 ```php
 $node = Node::create(array(
@@ -127,7 +156,7 @@ use Drupal\Core\Entity\EntityInterface;
 
 function hook_entity_presave(EntityInterface $entity) {
   // getEntityTypeId() returns 'node'.
-  // $entity->bundle() returns 'article'. 
+  // $entity->bundle() returns 'article'.
   if($entity->getEntityTypeId() == 'node' && $entity->bundle() == 'article') {
     // Do your stuff here
   }
