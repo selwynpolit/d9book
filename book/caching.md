@@ -201,7 +201,7 @@ To display a list of cached node teasers (even for anonymous users) that is alwa
 ```php
 $build = [
   '#type' => 'markup',
-  '#markup' => $sMarkup,        
+  '#markup' => $sMarkup,
   '#cache' => [
     'keys' => ['home-all','home'],
     'tags'=> ['node_list'], // invalidate cache when any nodes are added/changed etc.
@@ -232,7 +232,7 @@ You can cause the cache to be invalidated when content of `book` or `magazine` i
 ```php
 $build = [
   '#type' => 'markup',
-  '#markup' => $sMarkup,        
+  '#markup' => $sMarkup,
   '#cache' => [
     'keys' => ['home-all','home'],
     'tags'=> ['node_list:book','node_list:magazine'], // invalidate cache when any nodes are added/changed etc.
@@ -393,7 +393,7 @@ public function getCacheTags() {
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     // Add the cache tag if a node is specified in the url.
     return Cache::mergeTags(parent::getCacheTags(), ['node:' . $node->id()]);
-  } 
+  }
   else {
     //Return default tags instead.
     return parent::getCacheTags();
@@ -431,7 +431,7 @@ public function getCacheContexts() {
 
     // Add the system.site configuration as a cacheable dependency.
     $response->addCacheableDependency($config);
-    
+
     // Set the Cache-Control header to make the response publicly cacheable for 3607 seconds.
     // And add the 'url.query_args' cache context so Drupal will cache.
     $response->addCacheableDependency(CacheableMetadata::createFromRenderArray([
@@ -926,7 +926,7 @@ You will need to let Drupal know about an additional `services.yml` file called:
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 ```
 
-To disable caches and JS/CSS preprocessing in `settings.local.php`: 
+To disable caches and JS/CSS preprocessing in `settings.local.php`:
 
 ```php
 $config['system.performance']['css']['preprocess'] = FALSE;
@@ -999,7 +999,7 @@ parameters:
     cache: false
 ```
 
-::: tip Note 
+::: tip Note
 If the `parameters` block is already present in `sites/development.services.yml`, append the `twig.config` block to it.
 :::
 
@@ -1109,7 +1109,7 @@ services:
    factory: memcache.lock.factory:get
 ```
 
-If you enable the `memcache_admin` module and you can see statistics at reports, memcache statistics or `/admin/reports/memcache`. 
+If you enable the `memcache_admin` module and you can see statistics at reports, memcache statistics or `/admin/reports/memcache`.
 
 
 ### Talk directly to Memcache
@@ -1385,8 +1385,8 @@ Fabian Franz in [his article](https://drupalsun.com/fabianx/2015/12/01/day-1-twe
  $settings['cache']['bins']['discovery'] = 'cache.backend.apcu';
  ```
 
-::: warning
-Proceed with caution with the above as it seems that APCu may only be suitable for single-server setups. TODO: I couldn't find any references to using APCu with multi-server setups, so I'm not sure if that is a safe configuration. 
+::: tip warning
+Proceed with caution with the above as it seems that APCu may only be suitable for single-server setups. TODO: I couldn't find any references to using APCu with multi-server setups, so I'm not sure if that is a safe configuration.
 :::
 
 **Pantheon and Redis or APCu**
@@ -1432,12 +1432,12 @@ The bins set to use `cache.backend.chainedfast` will use `APCu` as the front cac
 
 **For site administrators of single-server sites that don't need Drush or other CLI access**
 
-::: warning
-This references single-server sites not needing Drush.  TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration. 
+::: tip warning
+This references single-server sites not needing Drush.  TODO: I couldn't find any references to using APCu with multi-server setups so I'm not sure if that is a safe configuration.
 :::
 
 Pantheon docs ask in their FAQ: Can APCu be used as a cache backend on Pantheon?
-Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. See [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's: 
+Yes, APCu can be used as a cache backend or a "key-value store"; however, this is not recommended. APCu lacks the ability to span multiple application containers. Instead, Pantheon provides a Redis-based Object Cache as a caching backend for Drupal and WordPress, which has coherence across multiple application containers. See [Pantheon docs](https://docs.pantheon.io/apcu) FAQ's:
 
 You can optimize further by using APCu exclusively for certain bins, like so:
 
@@ -1447,7 +1447,7 @@ $settings['cache']['bins']['config'] = 'cache.backend.apcu';
 $settings['cache']['bins']['discovery'] = 'cache.backend.apcu';
 ```
 
-**For site administrators wanting a different front cache than APCu** 
+**For site administrators wanting a different front cache than APCu**
 
 You can copy the `cache.backend.chainedfast` service definition from `core.services.yml` to `sites/default/services.yml` and add arguments to it. For example:
 
@@ -1527,9 +1527,9 @@ ultimate_cron_logger
 
 ## class ChainedFastBackend
 
-Drupal has a [ChainedFastBackend](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/10) as the default cache backend, which allows for storing data directly on the web server while ensuring it is correctly synchronized across multiple servers. APCu is the user cache portion of APC (Advanced PHP Cache), which has served us well till PHP 5.5 got its own Zend Opcache. You can think of it as a key-value store that is stored in memory and the basic operations are `apc_store($key, $data)`, `apc_fetch($keys)` and `apc_delete($keys)`. 
+Drupal has a [ChainedFastBackend](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Cache%21ChainedFastBackend.php/class/ChainedFastBackend/10) as the default cache backend, which allows for storing data directly on the web server while ensuring it is correctly synchronized across multiple servers. APCu is the user cache portion of APC (Advanced PHP Cache), which has served us well till PHP 5.5 got its own Zend Opcache. You can think of it as a key-value store that is stored in memory and the basic operations are `apc_store($key, $data)`, `apc_fetch($keys)` and `apc_delete($keys)`.
 
-ChainedFastBackend defines a backend with a fast and consistent backend chain.
+`ChainedFastBackend` defines a backend with a fast and consistent backend chain.
 
 In order to mitigate a network round-trip for each cache get operation, this cache allows a fast backend to be put in front of a slow(er) backend. Typically, the fast backend will be something like `APCu`, and be bound to a single web node, and will not require a network round-trip to fetch a cache item. The fast backend will also typically be inconsistent (will only see changes from one web node). The slower backend will be something like MySQL, Memcached or Redis, and will be used by all web nodes, thus making it consistent, but also requiring a network round-trip for each cache get.
 
@@ -1549,7 +1549,7 @@ Note that this is designed specifically for combining a fast, inconsistent cache
 APCu is not the same as apc!
 :::
 
-APCu support is built into Drupal Core. More at this [change record from Sep 2014](https://www.drupal.org/node/2327507): 
+APCu support is built into Drupal Core. More at this [change record from Sep 2014](https://www.drupal.org/node/2327507):
 
 In order to improve cache performance, Drupal 8 now has:
 
@@ -1752,6 +1752,33 @@ Look in `settings.php` for the following to specify the deployment identifier:
 
 Check out Matt Glaman's video [What is the deployment identifier in Drupal? - June 2021](https://mglaman.dev/blog/what-deployment-identifier-drupal) for more details.
 
+## Cloudflare and cache purging
+
+Cloudflare CDN can cache your site's content, reducing the load on your origin server and improving performance for anonymous users.
+
+You can tell if Cloudflare is caching your Drupal site by checking the response headers. Look for the headers: `CF-Cache-Status`, `Cf-Ray` and `Server:`. The `Server` header should indicate `cloudflare`.  You might see nginx if you are not using Cloudflare.
+
+See the image below when looking at the response headers:
+
+![Cloudflare response headers](/images/cloudflare1.png)
+
+
+To manage cache purging with Cloudflare, you will need the [purge](https://www.drupal.org/project/purge) module, as well as the [Cloudflare](https://www.drupal.org/project/cloudflare) module. The purge module provides a framework for cache invalidation, while the Cloudflare module integrates with Cloudflare's API to purge cached content.
+
+
+After installing purge and Cloudflare modules, configure the Cloudflare module with your token or API key and email address at `admin/config/services/cloudflare`. Then at `/admin/config/development/performance/purge`, using the `add purger` button, add the Cloudflare purger to your purge configuration.
+
+Here is a screenshot of the purge configuration page. It appears as a tab on the (config, development) performance page:
+
+![Purge configuration page](/images/cloudflare2.png)
+
+There are some helpful suggestions on the right side of the page including how to populate the Traffic registry. This is done by spidering your site so that the purge module knows which URLs or paths to purge when content is updated.
+
+`You need to spider your site to be able to queue URLs or paths, for example run: 'wget -r -nd --delete-after -l100 --spider http://site/'.`
+
+
+This may not be required if you are using cache tags for invalidation instead of URLs or paths. Note. all Cloudflare plans support cache tag invalidation *including* the free plan. Avoid the URL/path based invalidation if possible as it seems to cause a huge load on the site and generates tons of URL\'s to invalidate.
+
 
 
 
@@ -1907,7 +1934,7 @@ Here is an example of what they look like:
     class: Drupal\Core\Cache\Context\PathCacheContext
     arguments: ['@request_stack']
     tags:
-      - { name: cache.context } 
+      - { name: cache.context }
 ```
 
 and **Complex based on request:**
@@ -1922,7 +1949,7 @@ and **Complex based on request:**
     class: Drupal\Core\Cache\Context\RouteNameCacheContext
     arguments: ['@current_route_match']
     tags:
-      - { name: cache.context }      
+      - { name: cache.context }
 ```
 and **Complex based on `request` plus extra logic**
 
