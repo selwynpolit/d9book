@@ -42,7 +42,7 @@ They store configuration information e.g: views, imagestyles, roles, NodeType (w
 
 ## Creating custom entity types
 
-Defining your own content entity types is often needed when content you want to model within Drupal doesn't fit with an out of the box entity.
+Defining your own content entity types can be useful when content you want to model within Drupal doesn't fit with an out of the box entity. One good use case is storing quiz/test results for a user; it gives a lot of control over how the data is stored and presented without polluting an existing core content entity. Other examples in contributed modules include: [Product](https://git.drupalcode.org/project/commerce/-/blob/3.x/modules/product/src/Entity/Product.php) in [Drupal Commerce](https://www.drupal.org/project/commerce), and [Redirect entity](https://git.drupalcode.org/project/redirect/-/blob/8.x-1.x/src/Entity/Redirect.php) in [Redirect](https://www.drupal.org/project/redirect).
 
 Defining a custom content entity type from scratch is a long winded and error prone task, thus it is far easier to start by using a tool such as [Drush](/drush) to kick off your new entity type.
 
