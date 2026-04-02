@@ -3445,6 +3445,67 @@ du -h --max-depth=1 /var/www/html/docroot/sites/default/files/
 ```
 
 
+## Key module
+
+The [key module](https://www.drupal.org/project/key) provides a way to manage and use API keys in Drupal. It allows you to create and manage API keys for different services and applications allowing you to keep them out of your repo.
+
+Key improves Drupal security by managing sensitive keys (such as API and encryption keys). You can define how and where keys are stored either config, file, state or environment variables. You can use the stream wrapper `private://` to store the file in the Drupal private file directory or just specify a full path on the server.
+
+When configuring searchstax as a search provider, you can use the key module to store the endpoint and update_token. This can be stored as a `json` file e.g.
+
+In your private files directory on your local ddev site: `sites/default/files/private/keys/searchstax_keys.json`
+
+```json
+{"update_endpoint":"https://searchcloud-4-us-west-2.searchstax.com/123456/sitearch-78910/update","update_token":"xxxxxxeaexxxxxxxxd737xxxxxx68efc0xxxxx9xxb"}
+```
+
+In the key module, you specify:
+* key name (e.g. SearchStax connector credentials for migrated server)
+* key type: Authentication
+* Key provider: File
+* File location: `private://keys/searchstax_keys.json`
+
+To test if this is working, you can use drush to get the key value (after you have cleared the cache to ensure the key is loaded into the system):
+
+```sh
+ddev drush cr
+ddev drush php-eval "echo \Drupal::service('key.repository')->getKey('searchstax_connector_migrated_searchstax_server')->getKeyValue();"
+```
+If this returns your json file contents, then you have successfully configured the key module to read from a file.
+
+```json
+{"update_endpoint":"https://searchcloud-4-us-west-2.searchstax.com/123456/sitearch-78910/update","update_token":"xxxxxxeaexxxxxxxxd737xxxxxx68efc0xxxxx9xxb"}
+```
+
+:::tip Note
+The Solr to SearchStax migration module (which is included with the [SearchStax module](https://www.drupal.org/project/searchstax) from Acquia) has built in support for the key module.  Unfortunately it will create keys that are stored in config rather than files. You need to copy the value from that key and store it in your file and update the file location to point to your json file.  The value is already in json form as shown above so you can just copy and paste it into your file.
+:::
+
+### Troubleshooting
+To confirm that the file is legible use the following to list the file contents.  If you get an error, then the file is not readable or the path is incorrect.:
+
+```sh
+ddev exec cat /var/www/html/docroot/sites/default/files/private/keys/searchstax_server.json
+{"update_endpoint":"https://searchcloud-4-us-west-2.searchstax.com/123456/sitearch-78910/update","update_token":"xxxxxxeaexxxxxxxxd737xxxxxx68efc0xxxxx9xxb"}
+```
+
+
+
+Use drush to get the key value to confirm that you are specifying the actual location you put the file in.
+
+```sh
+ddev drush config:get key.key.searchstax_connector_migrated_searchstax_server key_provider_settings
+'key.key.searchstax_connector_migrated_searchstax_server:key_provider_settings':
+  file_location: 'private://keys/searchstax_server.json'
+  strip_line_breaks: false
+```
+If this returns the json value, this is wrong. You need to modify the key to use a file and specify the file location.
+
+
+Look in `/admin/config/media/file-system` to see the private file system path.  This is where you need to put your json file.  If you have a different location for your private files, then you need to update the file location in the key configuration to point to the correct location.
+
+
+
 
 ## Resources
 
