@@ -3521,7 +3521,17 @@ $searchstax_server_json_location = '/mnt/gfs/weccwebsite' . '.' . $env . '/nobac
 $config['key.key.searchstax_connector_migrated_searchstax_server']['key_provider_settings']['file_location'] = $searchstax_server_json_location;
 ```
 
-To test the override, use drush:
+To test the override, use drush to see the file location (getKeyProvider()->getConfiguration()):
+```sh
+$ drush php-eval "print_r(\Drupal::service('key.repository')->getKey('searchstax_connector_migrated_searchstax_server')->getKeyProvider()->getConfiguration());"
+Array
+(
+    [file_location] => /mnt/gfs/weccwebsite.dev/nobackup/searchstax_server.json
+    [strip_line_breaks] =>
+)
+```
+
+and the values (getKeyValues()):
 
 ```sh
 $ drush php-eval "print_r(\Drupal::service('key.repository')->getKey('searchstax_connector_migrated_searchstax_server')->getKeyValues());"
@@ -3530,6 +3540,8 @@ Array
     [0] => {"update_endpoint":"https://searchcloud-2-us-west-2.searchstax.com/12345/westernelectricitycoordi-6789/update","update_token":"xxxxxxeaexxxxxxxxd737xxxxxx68efc0xxxxx9xxb"}
 )
 ```
+
+
 
 This will return the value from config storage and ignore any runtime overrides i.e. What the value is before the override is applied.:
 
