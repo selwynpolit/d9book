@@ -3504,6 +3504,43 @@ If this returns the json value, this is wrong. You need to modify the key to use
 
 Look in `/admin/config/media/file-system` to see the private file system path.  This is where you need to put your json file.  If you have a different location for your private files, then you need to update the file location in the key configuration to point to the correct location.
 
+### Overriding the value
+
+In some instances, you will want to override the value of the key for a specific environment.  When using Acquia hosting, the private file system will get overwritten when you copy the files from the prod environment to the dev environment.  This means your `/env/searchstax_server.json` file will get replaced. This is dangerous as the value from prod will be accidentally used and you may corrupt the production searchstax index.
+
+In this case, you can use the `settings.php` (or `settings.acquia.php`) file to override the value of the key for the dev environment.  You can do this by adding the following code to your `settings.php` file:
+
+```php
+// Which environment are we on? Default to 'local' if not set.
+$env = $_ENV['AH_SITE_ENVIRONMENT'] ?? 'local';
+/*
+ * Overwrite key value with environment specific path
+ * like /mnt/gfs/weccwebsite.dev/nobackup.
+ */
+$searchstax_server_json_location = '/mnt/gfs/weccwebsite' . '.' . $env . '/nobackup/searchstax_server.json';
+$config['key.key.searchstax_connector_migrated_searchstax_server']['key_provider_settings']['file_location'] = $searchstax_server_json_location;
+```
+
+To test the override, use drush:
+
+```sh
+$ drush php-eval "print_r(\Drupal::service('key.repository')->getKey('searchstax_connector_migrated_searchstax_server')->getKeyValues());"
+Array
+(
+    [0] => {"update_endpoint":"https://searchcloud-2-us-west-2.searchstax.com/12345/westernelectricitycoordi-6789/update","update_token":"xxxxxxeaexxxxxxxxd737xxxxxx68efc0xxxxx9xxb"}
+)
+```
+
+This will return the value from config storage and ignore any runtime overrides i.e. What the value is before the override is applied.:
+
+```sh
+$ drush config:get key.key.searchstax_connector_migrated_searchstax_server key_provider_settings
+'key.key.searchstax_connector_migrated_searchstax_server:key_provider_settings':
+  file_location: 'private://keys/searchstax_server.json'
+  strip_line_breaks: false
+```
+
+
 
 
 
