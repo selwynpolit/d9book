@@ -13,9 +13,12 @@ For most work, I use entityQueries. There are a few circumstances where I've nee
 
 In this `entityQuery` example, we search for nodes of content type (or bundle) `ws_product` and match `field_product_sku` with the `$sku` variable.
 
-use Drupal\node\Entity\Node;
+
 
 ```php
+
+use Drupal\node\Entity\Node;
+
 function getProductId($sku) {
   $productId = false;
   $query = \Drupal::entityQuery('node')
@@ -311,7 +314,7 @@ function park_academy_update_8002() {
 When querying multivalue fields, you can specify the `%delta` to identify the position (or delta) for the value you are looking for.  In the example below, we specify `field_srp_voting_status.%delta` as 1 to indicate the second position (it is zero-based).  We use `field_srp_voting_status.%delta.value` for the actual value we are looking for (either `accepted`, `rejected` or `incomplete`):
 
 ```php
-    // Find correlation nodes with accepted, rejected or incomplete in the 
+    // Find correlation nodes with accepted, rejected or incomplete in the
     // $field_voting_status in position 1.
     $vote_number = 1;
     $query = \Drupal::entityQuery('node')
@@ -436,8 +439,8 @@ For a dynamic array, put this in a foreach loop:
 ```php
     // An array to match. someFunc is your custom code that returns an array
     $dynamic_array = someFunc();
-    
-    // Start the query.  
+
+    // Start the query.
     $custom_query = $this->entityTypeManager->getStorage('node')
       ->getQuery();
 
@@ -566,18 +569,18 @@ Notice that the first parameter can be a `string` or a `ConditionInterface`:
 
 ```php
 ->condition('tags.5.value', 'news')
-```  
+```
 This will require condition to be satisfied on a specific delta of the field. The condition above will require the 6th value of the field to match the provided value. Further, it's possible to create a condition on the delta itself by using '%delta'. For example,
 
 ```php
   ->condition('tags.%delta', 5)
-```  
+```
 will find only entities which have at least six tags. Finally, the condition on the delta itself, accompanied by a condition on the value, will require the value to appear in the specific delta range. For example,
 
 ```php
   ->condition('tags.%delta', 0, '>'))
   ->condition('tags.%delta.value', 'news'))
-```  
+```
 
 will only find the "news" tag if it is not the first value. It should be noted that conditions on specific deltas and delta ranges are only supported when querying content entities.
 
@@ -740,10 +743,10 @@ Dynamic queries refer to queries that are built dynamically by Drupal rather tha
 For this static query:
 ```php
 $result = $database
-  ->query("SELECT uid, name, status, created, access 
-          FROM {users_field_data} u 
-          WHERE uid <> 0 
-          LIMIT 50 
+  ->query("SELECT uid, name, status, created, access
+          FROM {users_field_data} u
+          WHERE uid <> 0
+          LIMIT 50
           OFFSET 0"
           );
 ```
@@ -774,7 +777,7 @@ There are two ways to get a connection object:
 /** @var \Drupal\Core\Database\Connection $connection */
 $connection = Database::getConnection();
 
-//OR 
+//OR
 
 /** @var \Drupal\Core\Database\Connection $connection */
 $connection = \Drupal::service('database');
@@ -992,7 +995,7 @@ $values = [
 ];
 $query = $connection->insert('mytable')
   ->fields(['title', 'uid', 'created']);
-foreach ($values as $record) {  
+foreach ($values as $record) {
   $query->values($record);
 }
 $result = $query->execute();
@@ -1174,10 +1177,10 @@ MySQL [db]> SELECT table_name, round(((data_length + index_length) / 1024 / 1024
 
 ```sql
 SELECT table_name, round(((data_length + index_length) / 1024 / 1024), 2)
- as SIZE_MB 
- FROM information_schema.TABLES 
- WHERE table_schema = DATABASE() 
- ORDER BY SIZE_MB 
+ as SIZE_MB
+ FROM information_schema.TABLES
+ WHERE table_schema = DATABASE()
+ ORDER BY SIZE_MB
  DESC LIMIT 10;
 ```
 This outputs something like this:
@@ -1406,18 +1409,18 @@ MariaDB [db]> show full processlist;
 ```sql
 CLEAR ALL TABLES in A DB
 ---------------------------------------
-SET FOREIGN_KEY_CHECKS = 0; 
+SET FOREIGN_KEY_CHECKS = 0;
 SET @tables = NULL;
 SET SESSION group_concat_max_len = 1000000;
 SELECT GROUP_CONCAT(table_schema, '.', table_name) INTO @tables
-  FROM information_schema.tables 
+  FROM information_schema.tables
   WHERE table_schema = 'wfm'; -- specify DB name here.
 
 SET @tables = CONCAT('DROP TABLE IF EXISTS ', @tables);
 PREPARE stmt FROM @tables;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
-SET FOREIGN_KEY_CHECKS = 1; 
+SET FOREIGN_KEY_CHECKS = 1;
 
 show tables;
 ```
