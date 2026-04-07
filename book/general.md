@@ -3477,6 +3477,13 @@ If this returns your json file contents, then you have successfully configured t
 {"update_endpoint":"https://searchcloud-4-us-west-2.searchstax.com/123456/sitearch-78910/update","update_token":"xxxxxxeaexxxxxxxxd737xxxxxx68efc0xxxxx9xxb"}
 ```
 
+You can also use the dedicated drush command to get the key value:
+
+```sh
+drush key-value-get searchstax_connector_migrated_searchstax_server
+```
+
+
 :::tip Note
 The Solr to SearchStax migration module (which is included with the [SearchStax module](https://www.drupal.org/project/searchstax) from Acquia) has built in support for the key module.  Unfortunately it will create keys that are stored in config rather than files. You need to copy the value from that key and store it in your file and update the file location to point to your json file.  The value is already in json form as shown above so you can just copy and paste it into your file.
 :::
