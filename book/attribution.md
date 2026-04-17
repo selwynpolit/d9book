@@ -87,3 +87,5 @@ Thanks to these rock stars for their contribution to the project. Please add you
 [t-franz](https://github.com/t-franz) - Heading fix, code cleanup.
 
 [Ricky](https://github.com/rbertram90) - Custom entities.
+
+[Derek Vawdrey](https://github.com/derekvawdrey) - Help with editing.
