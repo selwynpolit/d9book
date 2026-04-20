@@ -16,6 +16,7 @@ title: Learning
 ## Books
 There are many books about Drupal that are worth reading.
 - [Daniel Sipos's Drupal 10 Module Development: Develop and deliver engaging and intuitive enterprise-level apps, 4th Edition published April 2023](https://amzn.to/4iS7UIx)
+- [Understanding Drupal: A Complete Guide to Caching Layers by Matt Glaman published in Mar 2026](https://leanpub.com/understanding-drupal-complete-guide-caching-layers)
 - [Adam Bergstein's Drupal 10 Masterclass: Build responsive Drupal applications to deliver custom and extensible digital experiences to users published Jan 2024](https://amzn.to/4gBwLyz)
 - [Matt Glaman and Kevin Quillen's Drupal 10 Development Cookbook. Published in Feb 2023](https://amzn.to/3PkNYR6)
 - [Luca Lussos's Modernizing Drupal 10 Theme Development: Build fast, responsive Drupal websites with custom theme design to deliver a rich user experience published August 2023](https://amzn.to/3ZRxepi). For an interview with the author about this book [check out this episode of Talking Drupal ](https://www.talkingdrupal.com/425)
