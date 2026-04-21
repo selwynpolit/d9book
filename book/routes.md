@@ -169,6 +169,89 @@ options:
   no_cache: TRUE
 ```
 
+## Using PHP attributes to define routes (D11.4+)
+
+Starting in Drupal 11.4.0, you can now define routes with PHP attributes. The [issue](https://www.drupal.org/project/drupal/issues/3311365) goes into more detail.
+
+Also see the [Symfony docs on Creating Routes as Attributes](https://symfony.com/doc/current/routing.html#creating-routes-as-attributes) for more information. This keeps your routing information close to the code that implements it.
+
+Before in Drupal core `core/modules/system/src/Controller/Http4xxController.php`:
+```php
+  /**
+   * The default 401 content.
+   *
+   * @return array
+   *   A render array containing the message to display for 401 pages.
+   */
+  public function on401() {
+    return [
+      '#markup' => $this->t('Log in to access this page.'),
+    ];
+  }
+  ```
+
+And in `core/modules/system/system.routing.yml`:
+
+```yaml
+system.401:
+  path: '/system/401'
+  defaults:
+    _controller: '\Drupal\system\Controller\Http4xxController:on401'
+    _title: 'Unauthorized'
+  requirements:
+    _access: 'TRUE'
+```
+
+
+
+After
+```php
+  /**
+   * The default 401 content.
+   *
+   * @return array
+   *   A render array containing the message to display for 401 pages.
+   */
+  #[Route(
+    path: '/system/401',
+    name: 'system.401',
+    requirements: ['_access' => 'TRUE'],
+    defaults: ['_title' => 'Unauthorized']
+  )]
+  public function on401() {
+    return [
+      '#markup' => $this->t('Log in to access this page.'),
+    ];
+  }
+```
+
+
+
+
+
+This is a symfony example:
+```php
+// src/Controller/BlogController.php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+class BlogController extends AbstractController
+{
+    #[Route('/blog', name: 'blog_list')]
+    public function list(): Response
+    {
+        // ...
+    }
+}
+```
+
+
+
+
+
 ## Generate route and controller with drush generate
 
 Drush has the ability to generate code to start you off.  Use `drush generate module` and or `drush generate controller` to get a nice starting point for you to write your own controllers.
@@ -560,8 +643,8 @@ In the file page_example.routing.yml (e.g. `web/modules/contrib/examples/page_ex
 ```yml
 # If the user accesses https://example.com/?q=examples/page-example/simple,
 # or https://example.com/examples/page-example/simple,
-# the routing system will look for a route with that path. 
-# In this case, it will find a match and execute the _controller callback. 
+# the routing system will look for a route with that path.
+# In this case, it will find a match and execute the _controller callback.
 # Access to this path requires "access simple page" permission.
 page_example_simple:
   path: 'examples/page-example/simple'
@@ -712,7 +795,7 @@ manage tkks process:
 vote on own srp item:
   title: 'Vote on Own TKKS Item'
   description: 'Vote on Own TKKS Item'
-  restrict access: TRUE  
+  restrict access: TRUE
 ```
 
 You can specify these permissions in your `.routing.yml` file or check for these permissions in your controller as you would any other with something like:
