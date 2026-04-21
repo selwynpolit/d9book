@@ -1497,7 +1497,12 @@ Not finding what you were looking for? Try calling `composer require "drupal/met
 Composer [prohibits drupal/metatag 2.0] failed, composer command failed: exit status 1. stderr=
 ```
 
-Note, the `udda/udda_rd` represents the entire project and so it i listed as requiring `drupal\metatag`.
+Be aware that the `udda/udda_rd` represents the entire project and so it is listed as requiring `drupal\metatag`.
+
+
+::: tip Note
+The `composer prohibits` is the same as `composer why-not` command.
+:::
 
 
 
@@ -1648,6 +1653,26 @@ Found 3 security vulnerability advisories affecting 3 packages.
 Run "composer audit" for a full list of advisories.
 ```
 
+
+Another quick example to figure out why `devel` won't update from version `5.4.0` to version `5.5.0`:
+
+```sh
+composer prohibits drupal/devel 5.5.0
+drupal/devel 5.5.0 conflicts drush/drush (<13.7.0)
+Not finding what you were looking for? Try calling `composer require --dev "drupal/devel:5.5.0" --dry-run` to get another view on the problem.
+```
+
+Check the version of drush:
+
+```sh
+composer show drush/drush | grep versions
+versions : * 12.5.3
+```
+
+```sh
+ddev drush --version
+Drush Commandline Tool 12.5.3.0
+```
 
 
 
