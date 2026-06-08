@@ -243,6 +243,24 @@ and here are a few more.
 * `MailFormatHelper::htmlToTextClean()` - Replaces non-quotation markers from a piece of indentation with spaces.
 * `MailFormatHelper::htmlToTextPad()` - Pads the last line with the given character.
 
+
+## Send quick test email with drush
+
+You can use drush to quickly test sending an email.  Here is an example of how to do this.
+
+```bash
+ddev drush eval "
+\$params = ['subject' => 'Test email', 'body' => 'Test body', 'context' => []];
+\Drupal::service('plugin.manager.mail')->mail('system', 'mail_test', 'test@example.com', 'en', \$params);
+"
+```
+
+:::tip Note
+If you run DDEV's [mailpit](/development#email-capture-and-review) first using `ddev mailpit` you will see the email that you just sent out.
+:::
+
+
+
 ## Troubleshooting
 
 ### Mail sends but no subject or body

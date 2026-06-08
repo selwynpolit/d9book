@@ -171,7 +171,7 @@ If you see an error like: `PHP Fatal error:  Composer detected issues in your pl
 Make the config sync dir off the root of the project (i.e. at the same level as the `web` directory:
 ```sh
 mkdir -p config/sync
-``` 
+```
 
 And add it to your `sites/default/settings.php`. Here is the section in that file:
 
@@ -478,7 +478,7 @@ This clever tool allows you to share your local site with others.  You can use i
 
 ### Email Capture and Review
 
-Mailpit is a mail catcher which is configured to capture and display emails sent in the development environment.
+[Mailpit](https://mailpit.axllent.org/) is a mail catcher which is configured to capture and display emails sent in the development environment.
 
 After your project is started, access the Mailpit web interface at `http://mysite.ddev.site:8026` or use `ddev mailpit` to launch Mailpit.
 
@@ -504,7 +504,7 @@ ddev restart
 If you don't see the latest version of Solr (currently ver 9.6.1), you could add a `.ddev/docker-compose.solr_extra.yml` to override the image. This step was not necessary for my setup but it may be useful for customization:
 
 ```yaml
-services: 
+services:
   solr:
     image: solr:9
 ```
@@ -1361,15 +1361,15 @@ Or like this:
 
 ```
 $ ddev start
-Starting inside-mathematics... 
-Pushing mkcert rootca certs to ddev-global-cache 
-Pushed mkcert rootca certs to ddev-global-cache 
+Starting inside-mathematics...
+Pushing mkcert rootca certs to ddev-global-cache
+Pushed mkcert rootca certs to ddev-global-cache
 Creating ddev-inside-mathematics-db ... done
 Creating ddev-inside-mathematics-dba ... done
 Creating ddev-inside-mathematics-web ... done
- 
+
 Creating ddev-router ... done
- 
+
 Failed to start inside-mathematics: db container failed: log=, err=health check timed out: labels map[com.ddev.site-name:inside-mathematics com.docker.compose.service:db] timed out without becoming healthy, status=
 ```
 
@@ -1676,7 +1676,7 @@ Select the `collections, then the `selwyn` collection in the left column. Using 
 At `/admin/config/search/search-api` click on the "Add index" button.
 
 
-Specify `Content` as the data source and the Bundles (content types) that you want indexed.  
+Specify `Content` as the data source and the Bundles (content types) that you want indexed.
 Specify the languages.
 For the server, specify the server you created above. In our example, it is `ddev`.
 
@@ -2307,7 +2307,7 @@ if (class_exists('Kint')) {
 ### Add kint to a custom module
 
 ```php
-function custom_kint_preprocess_page(&$variables) { 
+function custom_kint_preprocess_page(&$variables) {
   kint($variables['page']);
  }
 ```
@@ -2397,7 +2397,7 @@ More at [How to fix "The following module is missing from the file system..." wa
 ## You have requested a non-existent service
 
 ```
-Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException: You have requested a non-existent service "lingotek.content_translation". in /var/www/vendor/symfony/dependency-injection/ContainerBuilder.php on line 1063 #0 
+Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException: You have requested a non-existent service "lingotek.content_translation". in /var/www/vendor/symfony/dependency-injection/ContainerBuilder.php on line 1063 #0
 ```
 
 Sometimes, when drush cr throws errors like that try `drush sqlc` and then `truncate cache_bootstrap` and `truncate cache_discovery`.
@@ -2471,7 +2471,7 @@ When you try to do this from Drupal, if you specify `localhost:3000` Drupal will
 
 ```
 cURL error 7: Failed to connect to localhost port 3000 after 1 ms: Couldn't connect to server (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://localhost:3000/api/v1/crms/external/protocol/find/all
-```   
+```
 
 The solution is to rather specify the URL using `host.docker.internal` e.g. `http://host.docker.internal:3000/api/v1/crms/external/protocol/find/all`.
 
@@ -2499,7 +2499,7 @@ parameters:
     debug: true
     auto_reload: true
     cache: false
-  ## Enable CORS for testing  
+  ## Enable CORS for testing
   cors.config:
     enabled: false
     # Specify allowed headers, like 'x-allowed-header'.
