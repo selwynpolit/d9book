@@ -1364,6 +1364,52 @@ Read more at
 -  [ChatGPT Experiments: "Act as Drush, shall we play a game?" - Blog post about getting ChatGPT to pretend it was drush by Joe Schindlar of Drupalize.me Mar 2024](https://drupalize.me/blog/chatgpt-experiments-act-drush-shall-we-play-game)
 
 
+
+## Check if a field has data before removing it
+
+Before uninstalling a module or removing a field, you can use drush to query if the field actually has any data.
+
+
+To search for fields like `field_name` or `field_email_address` in a node you can use:
+
+This result shows 2 instances of the field in use.
+```bash
+ddev drush sqlq "SELECT COUNT(*) FROM node__field_name WHERE deleted = 0;"
+2
+```
+
+This result shows 0 instances of the field in use.
+```bash
+ddev drush sqlq "SELECT COUNT(*) FROM node__field_email_address WHERE deleted = 0;"
+0
+```
+
+If a field is shared across multiple content types, you can check its usage per content type by grouping on the `bundle` column.  Results appear after the query next to each content type:
+
+```bash
+ddev drush sqlq "SELECT bundle, COUNT(*) FROM node__field_name WHERE deleted = 0 GROUP BY bundle;"
+test	2
+event 0
+```
+
+The body field follows a similar pattern although it is stored in a table called `node__body` just like any other node field:
+
+```bash
+ddev drush sqlq "SELECT bundle, COUNT(*) FROM node__body WHERE deleted = 0 GROUP BY bundle;"
+```
+
+For other types of entities, field data is stored in tables following the pattern `{entity_type}__{field_name}`. So for a field called `field_document_type` on the `user` entity:
+
+```bash
+ddev drush sqlq "SELECT COUNT(*) FROM user__field_document_type WHERE deleted = 0;"
+```
+
+Note. A result of `0` means the field has never been populated and removal is safe. The `deleted = 0` clause excludes soft-deleted rows that Drupal has flagged for purge but not yet removed from the table.
+
+
+
+
+
 ## Global Drush - run drush on host
 
 I find that installing drush version 8 globally is most convenient for my Drupal development as I frequently run drush commands in the terminal and really like the command completion afforded by [Oh-my-Zsh](https://ohmyz.sh/).  Drush runs slightly slower than the equivalent `ddev drush` commands when installed this way. The host drush version doesn't matter very much since it is only used to find the proper drush version (most likely within `/vendor/bin`) and call it. **Always** install drush in each project using composer.
