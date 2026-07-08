@@ -1964,29 +1964,38 @@ Copy 1 file to the dir test server:
 drush rsync dbprod.sql.gz @dir.testsp:/var/www/dir.tater.com/web/
 ```
 
-You can also use `:%files` as a source or dest:
-
-```bash
-drush rsync @fightclub.prod:/var/www/html/fightclub.prod/docroot/sites/default/files/ ~/Sites/fightclub/docroot/sites/default/files/
-
-drush rsync @dak.prodsp:%files /Users/selwyn/Sites/dakbackup/web/sites/default/files/
-
-drush rsync @dak.prodsp:/var/www/dak.tater.com/web/ /Users/selwyn/Sites/dakbackup/web/
-```
-
 Copy 1 file from local to @dak.dev:
 ```bash
 drush rsync dbprod-good.sql.gz @dak.dev:/home/1234567.cloudwaysapps.com/hzzzz/public_html/drush-backups/
 ```
 
-To copy files from `sites/default/files` (or wherever your default files location is) and copy only new or updated files, use the following.  Note. You will need a recent version of rsync to see the progress bar.
 
-Grab sites/default/files and store them in a local dir called `./crap` with:
+You can specify a directory in detail as below or use `:%files` as a source or dest:
+
+Copy the `sites/default/files` directory from the remote site to the local site's `sites/default/files` directory:
+```bash
+drush rsync @fightclub.prod:/var/www/html/fightclub.prod/docroot/sites/default/files/ ~/Sites/fightclub/docroot/sites/default/files/
+```
+
+Copy all files from the remote site's `sites/default/files` directory to the local site's `sites/default/files` directory:
+```bash
+drush rsync @dak.prodsp:%files /Users/selwyn/Sites/dakbackup/web/sites/default/files/
+```
+
+Copy the entire web directory from the remote site to the local site's web directory:
+```bash
+drush rsync @dak.prodsp:/var/www/dak.tater.com/web/ /Users/selwyn/Sites/dakbackup/web/
+```
+
+Copy all files from `sites/default/files` (or wherever your default files location is) and copy only new or updated files, use the following.  Show progress so you can tell if the process hangs. Note. You will need a recent version of rsync to see the progress bar.
+
+
+Copy all files from the remote site's `sites/default/files` directory to the local directory `./crap`:
 ```bash
 drush rsync @wecc.dev:%files ./crap -- --info=progress2 --update
 ```
-Grab private files with:
 
+Copy all files from the remote site's private files directory to the local directory `./crap-private`:
 ```bash
 drush rsync @wecc.dev:%private ./crap-private -- --info=progress2 --update
 ```
