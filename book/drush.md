@@ -1964,9 +1964,9 @@ Copy 1 file to the dir test server:
 drush rsync dbprod.sql.gz @dir.testsp:/var/www/dir.tater.com/web/
 ```
 
-You can also use `:%files` as a source or dest. Examples below:
+You can also use `:%files` as a source or dest:
 
-```
+```bash
 drush rsync @fightclub.prod:/var/www/html/fightclub.prod/docroot/sites/default/files/ ~/Sites/fightclub/docroot/sites/default/files/
 
 drush rsync @dak.prodsp:%files /Users/selwyn/Sites/dakbackup/web/sites/default/files/
@@ -1975,9 +1975,11 @@ drush rsync @dak.prodsp:/var/www/dak.tater.com/web/ /Users/selwyn/Sites/dakbacku
 ```
 
 Copy 1 file from local to @dak.dev:
+```bash
 drush rsync dbprod-good.sql.gz @dak.dev:/home/1234567.cloudwaysapps.com/hzzzz/public_html/drush-backups/
+```
 
-To copy files from sites/default/files (or wherever your default files location is) and copy only new or updated files, use the following.  Note. You will need a recent version of rsync to see the progress bar.
+To copy files from `sites/default/files` (or wherever your default files location is) and copy only new or updated files, use the following.  Note. You will need a recent version of rsync to see the progress bar.
 
 Grab sites/default/files and store them in a local dir called `./crap` with:
 ```bash
@@ -1992,7 +1994,7 @@ drush rsync @wecc.dev:%private ./crap-private -- --info=progress2 --update
 
 The progress looks like this.  Note. it asks the generic "copy new and override existing files" question before continuing even though this version will only copy new or updated files.
 ```bash
-drush rsync @wecc.dev:%private ./crap-private -- --info=progress2 --update
+$ drush rsync @wecc.dev:%private ./crap-private -- --info=progress2 --update
 
  ┌ Copy new and override existing files at ./crap-private. The source is weccwebsite.dev@weccwebsitedev.ssh.prod.acquia-sites.com:/mnt/files/weccwe… ┐
  │ Yes                                                                                                                                               │
