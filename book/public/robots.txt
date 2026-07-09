@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /*?utm_*
 Sitemap: https://www.drupalatyourfingertips.com/sitemap.xml
