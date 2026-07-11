@@ -470,6 +470,14 @@ After you install a new version of ddev, run `ddev stop` and then `ddev config` 
 brew upgrade ddev
 ```
 
+::: tip Note
+If you see `Error: Refusing to load formula ddev/ddev/ddev from untrusted tap ddev/ddev.`, you can fix it by running:
+
+```sh
+brew install ddev/ddev/ddev
+```
+:::
+
 
 ### Ngrok Site sharing
 
