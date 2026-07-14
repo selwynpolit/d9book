@@ -3,17 +3,21 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       actions-dependencies:
         patterns:
           - '*'
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       pnpm-dependencies:
         patterns:
           - '*'
+    cooldown:
+      default-days: 7
