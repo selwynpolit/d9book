@@ -1,4 +1,4 @@
-name: 🚀 CD
+name: '🚀 CD'
 
 on:
   push:
@@ -11,11 +11,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  pages: write
-  contents: write
-  id-token: write
+permissions: {}
 
 concurrency:
   group: pages
@@ -23,73 +19,81 @@ concurrency:
 
 jobs:
   cleanup:
-    name: 🧹 Clean up GitHub repo
+    name: '🧹 Clean up GitHub repo'
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      deployments: write
+      actions: write
 
     steps:
-      - name: 🗑 Delete deployment
-        uses: strumwolf/delete-deployment-environment@v3
+      - name: '🗑 Delete deployment'
+        uses: strumwolf/delete-deployment-environment@035f6d27c8b8951729f4d71b2d3d6a7975139476 # v4.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           environment: github-pages
           onlyRemoveDeployments: true
 
-      - name: 🗑 Delete workflow runs
-        uses: Mattraks/delete-workflow-runs@v2
+      - name: '🗑 Delete workflow runs'
+        uses: Mattraks/delete-workflow-runs@b3018382ca039b53d238908238bd35d1fb14f8ee # v2.1.0
         with:
           retain_days: 7
           keep_minimum_runs: 0
 
   build:
-    name: 🏗️ Build
+    name: '🏗️ Build'
     needs: cleanup
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
-      - name: 🛎️ Checkout
-        uses: actions/checkout@v4
+      - name: '🛎️ Checkout'
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
-      - name: 🟧 Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: '🟧 Setup pnpm'
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
 
-      - name: ❇️ Setup Node.js
-        uses: actions/setup-node@v4
+      - name: '❇️ Setup Node.js'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         timeout-minutes: 5
         with:
           cache: pnpm
-          node-version: 22.x
+          node-version: 26.x
 
-      - name: 📦 Install dependencies
+      - name: '📦 Install dependencies'
         env:
           PNPM_FLAGS: --frozen-lockfile --color=always
         run: pnpm i ${{ env.PNPM_FLAGS }}
 
-      - name: ⚡️ Build site with VitePress
+      - name: '⚡️ Build site with VitePress'
         run: pnpm book:build
         env:
           VITE_GTAG: ${{ vars.VITE_GTAG }}
 
-      - name: 📤 Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: '📤 Upload artifact'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: ./dist
           name: dist
 
   deploy:
-    name: 🌐 Deploy
+    name: '🌐 Deploy'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
 
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: 🚀 Deploy to GitHub Pages
+      - name: '🚀 Deploy to GitHub Pages'
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
         with:
           artifact_name: dist
