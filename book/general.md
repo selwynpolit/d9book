@@ -3560,8 +3560,41 @@ $ drush config:get key.key.searchstax_connector_migrated_searchstax_server key_p
 ```
 
 
+## Hide the revision log message field during content creation
 
+If revisions are on for a content type, the revision log message field will be displayed on the content creation form.  This can be especially confusing for anonymous users who don't know Drupal. You can hide this field by using the `hook_form_alter()` function in a custom module.
 
+```php
+function mymodule_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Hide the revision log message field.
+  if (isset($form['revision_log'])) {
+    $form['revision_log']['#access'] = FALSE;
+  }
+}
+```
+
+Here the revision log message field is hidden for anonymous users for the `calendar_event` content type.  Also the submit handler is overridden to redirect the user to a confirmation page after submission.
+
+```php
+function apc_calendar_form_node_calendar_event_form_alter(array &$form, FormStateInterface $form_state): void {
+  $account = \Drupal::currentUser();
+
+  // The confirmation redirect is anonymous-only — authenticated submitters can
+  // view their own unpublished node, so core's default behaviour is correct
+  // for them.
+  if ($account->isAnonymous()) {
+    // Append after ::save so this redirect wins over the one NodeForm sets.
+    $form['actions']['submit']['#submit'][] = 'apc_calendar_event_submit_confirmation';
+
+    // Hide the revision controls.
+    foreach (['revision', 'revision_log', 'revision_information'] as $element) {
+      if (isset($form[$element])) {
+        $form[$element]['#access'] = FALSE;
+      }
+    }
+  }
+
+```
 
 ## Resources
 
