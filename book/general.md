@@ -3596,6 +3596,30 @@ function apc_calendar_form_node_calendar_event_form_alter(array &$form, FormStat
 
 ```
 
+
+## Hide summary field on content creation form
+
+``php
+/**
+ * Implements hook_form_FORM_ID_alter() for node_calendar_event_form.
+ */
+function apc_calendar_form_node_calendar_event_form_alter(array &$form, FormStateInterface $form_state): void {
+  $account = \Drupal::currentUser();
+  if ($account->isAnonymous()) {
+
+    // Hide the body summary. The "Edit summary" toggle and its textarea are a
+    // teaser-preview authoring affordance that means nothing to a visitor
+    // filling out a public submission form. #access rather than turning off
+    // display_summary in the field config, which would remove it for admins
+    // too.
+    if (isset($form['body']['widget'][0]['summary'])) {
+      $form['body']['widget'][0]['summary']['#access'] = FALSE;
+    }
+  }
+}
+```
+
+
 ## Resources
 
 - [Drupal SEO — a comprehensive Drupal self-help guide to optimise your website for search engine visibility and rankings by Suchi Garg - Sep 2023](https://salsa.digital/insights/drupal-seo-comprehensive-drupal-self-help-guide-optimise-your-website-search-engine)
