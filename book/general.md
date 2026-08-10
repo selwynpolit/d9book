@@ -3562,7 +3562,7 @@ $ drush config:get key.key.searchstax_connector_migrated_searchstax_server key_p
 
 ## Hide the revision log message field during content creation
 
-If revisions are on for a content type, the revision log message field will be displayed on the content creation form.  This can be especially confusing for anonymous users who don't know Drupal. You can hide this field by using the `hook_form_alter()` function in a custom module.
+If revisions are on for a content type, the revision log message field will be displayed on the content creation form.  This can be especially confusing for anonymous users who don't know Drupal. You can hide this field by using the `hook_form_alter()` function in a  `.module` file.
 
 ```php
 function mymodule_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
@@ -3598,6 +3598,8 @@ function apc_calendar_form_node_calendar_event_form_alter(array &$form, FormStat
 
 
 ## Hide summary field on content creation form
+That pesky summary field may not be useful for some users. Here we remove it for anonymous in a `.module` file.
+
 
 ``php
 /**
