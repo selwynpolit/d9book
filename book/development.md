@@ -481,7 +481,53 @@ brew install ddev/ddev/ddev
 
 ### Ngrok Site sharing
 
-This clever tool allows you to share your local site with others.  You can use it to show off your work or get help from a colleague. Check out [sharing your DDEV-Local site via a public URL using `ddev share` and ngrok by Mike Anello updated Mar 2020](https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok)
+This clever tool allows you to share your local site with others.  You can use it to show off your work or get help from a colleague.
+
+Quick instructions:
+
+1. Install
+```sh
+brew install ngrok
+```
+
+2. Sign up (free) — https://dashboard.ngrok.com/signup
+
+3. Copy your authtoken — https://dashboard.ngrok.com/get-started/your-authtoken
+
+4. Store it (writes ~/Library/Application Support/ngrok/ngrok.yml) - replace <YOUR_TOKEN> with your actual token.
+```sh
+ngrok config add-authtoken <YOUR_TOKEN>
+```
+
+5. Verify
+```sh
+ngrok config check
+```
+
+6. Add the following to your `.ddev/config.local.yaml` file. Note. replace the `--url` value with your own ngrok url on the Setup & Installation tab - under the heading \"Get a public URL for your local site\".
+
+```yaml
+# ngrok
+share_provider_args: --url=issue-implicit-yogurt.ngrok-free.dev
+```
+
+7. Get a one-time login link for your site. Use your own ngrok url from above:
+```sh
+ddev drush uli --uri=https://issue-implicit-yogurt.ngrok-free.dev
+https://issue-implicit-yogurt.ngrok-free.dev/user/reset/1/1786734512/jXyHcidglKw1pKKpgYTqHQcmpWhJl-fmcC-iZz1puqU/login
+```
+
+8. Fire up ngrok with:
+```sh
+ddev share
+```
+9. Command click on the link you got from the drush uli command above in step 7.
+
+10. Use Ctrl+C to stop sharing when you are done.
+
+
+
+More at  [sharing your DDEV-Local site via a public URL using `ddev share` and ngrok by Mike Anello updated Mar 2020](https://www.drupaleasy.com/blogs/ultimike/2019/06/sharing-your-ddev-local-site-public-url-using-ddev-share-and-ngrok)
 
 
 ### Email Capture and Review
