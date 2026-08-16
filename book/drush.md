@@ -1990,7 +1990,7 @@ drush rsync @dak.prodsp:/var/www/dak.tater.com/web/ /Users/selwyn/Sites/dakbacku
 Copy all files from `sites/default/files` (or wherever your default files location is) and copy only new or updated files, use the following.  Show progress so you can tell if the process hangs. Note. You will need a recent version of rsync to see the progress bar.
 
 
-Copy all files from the remote site's `sites/default/files` directory to the local directory `./crap`:
+Copy all files from the remote site's `sites/default/files` directory to the local directory `./crap` and show progress:
 ```bash
 drush rsync @wecc.dev:%files ./crap -- --info=progress2 --update
 ```
@@ -2013,6 +2013,41 @@ $ drush rsync @wecc.dev:%private ./crap-private -- --info=progress2 --update
 >  Session: 379399f7-0655-439b-9576-ac1b5449e999
   1,412,940,712  10%    5.92MB/s    0:34:22  xfr#86, ir-chk=1872/2043)
 ```
+
+To sync files from prod to local and show progress:
+```sh
+ddev drush rsync @wecc.prod:%files @self:%files -- --info=progress2 --no-inc-recursive --human-readable
+```
+
+Sync files from prod to local - resume if interrupted and show a nice summary of the transfer after:
+```sh
+ddev drush rsync @wecc.prod:%files @self:%files -- --info=progress2 --no-inc-recursive --human-readable --partial --progress --stats
+
+> You are now connected to Acquia Cloud
+>  Session: 9d416095-814e-47db-ab47-7994def2ef31
+receiving file list ...
+10066 files to consider
+              0   0%    0.00kB/s    0:00:00 (xfr#0, to-chk=0/10066)
+
+Number of files: 10,066 (reg: 8,394, dir: 1,672)
+Number of created files: 0
+Number of deleted files: 0
+Number of regular files transferred: 0
+Total file size: 5.24G bytes
+Total transferred file size: 0 bytes
+Literal data: 0 bytes
+Matched data: 0 bytes
+File list size: 469.07K
+File list generation time: 10.453 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 20
+Total bytes received: 469.08K
+
+sent 20 bytes  received 469.08K bytes  37.53K bytes/sec
+total size is 5.24G  speedup is 11,174.11
+
+```
+
 
 
 ## Drush SQL-sync

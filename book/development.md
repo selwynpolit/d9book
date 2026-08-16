@@ -483,7 +483,7 @@ brew install ddev/ddev/ddev
 
 This clever tool allows you to share your local site with others.  You can use it to show off your work or get help from a colleague.
 
-Quick instructions:
+Instructions:
 
 1. Install
 ```sh
