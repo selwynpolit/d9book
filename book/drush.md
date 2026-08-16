@@ -2020,31 +2020,55 @@ ddev drush rsync @wecc.prod:%files @self:%files -- --info=progress2 --no-inc-rec
 ```
 
 Sync files from prod to local - resume if interrupted and show a nice summary of the transfer after:
+Note. be careful with `--progress` as it will show you a per-file progress.
 ```sh
 ddev drush rsync @wecc.prod:%files @self:%files -- --info=progress2 --no-inc-recursive --human-readable --partial --progress --stats
 
 > You are now connected to Acquia Cloud
->  Session: 9d416095-814e-47db-ab47-7994def2ef31
+>  Session: 2814ac45-eb09-522d-b8e7-81227ec438e2
 receiving file list ...
 10066 files to consider
-              0   0%    0.00kB/s    0:00:00 (xfr#0, to-chk=0/10066)
+2024-02/
+2024-02/FullWidth_10.jpg
+         11.64K   0%   11.10MB/s    0:00:00 (xfr#1, to-chk=10053/10066)
+2024-03/
+2024-03/FullSize_06.jpg
+         60.65K   0%   28.92MB/s    0:00:00 (xfr#2, to-chk=10051/10066)
+2024-03/FullSize_30.jpg
+        100.56K   0%    1.65MB/s    0:00:00 (xfr#3, to-chk=10050/10066)
+2024-03/FullSize_38.jpg
+        121.49K   0%    1.93MB/s    0:00:00 (xfr#4, to-chk=10049/10066)
+2024-03/FullSize_WREGIS.jpg
+        168.57K   0%    2.64MB/s    0:00:00 (xfr#5, to-chk=10048/10066)
+2024-04/
+2024-04/300 x 300 Year 20 Studies Load,Resources, and Transmission Trends.gif
+          1.51M   0%    4.05MB/s    0:00:00 (xfr#6, to-chk=10046/10066)
+2024-04/SOTI (GIF).gif
+          9.79M   0%    5.98MB/s    0:00:01 (xfr#7, to-chk=10045/10066)
+2024-09/
+2024-09/About Committees_.png
+         10.35M   0%    6.07MB/s    0:00:01 (xfr#8, to-chk=10043/10066)
+2024-10/
+2025-01/
+2025-10/
+         10.35M   0%    5.72MB/s    0:00:01 (xfr#8, to-chk=0/10066)
 
 Number of files: 10,066 (reg: 8,394, dir: 1,672)
-Number of created files: 0
+Number of created files: 15 (reg: 8, dir: 7)
 Number of deleted files: 0
-Number of regular files transferred: 0
+Number of regular files transferred: 8
 Total file size: 5.24G bytes
-Total transferred file size: 0 bytes
-Literal data: 0 bytes
+Total transferred file size: 10.35M bytes
+Literal data: 10.35M bytes
 Matched data: 0 bytes
 File list size: 469.07K
-File list generation time: 10.453 seconds
+File list generation time: 8.464 seconds
 File list transfer time: 0.000 seconds
-Total bytes sent: 20
-Total bytes received: 469.08K
+Total bytes sent: 197
+Total bytes received: 10.82M
 
-sent 20 bytes  received 469.08K bytes  37.53K bytes/sec
-total size is 5.24G  speedup is 11,174.11
+sent 197 bytes  received 10.82M bytes  865.79K bytes/sec
+total size is 5.24G  speedup is 484.35
 
 ```
 
