@@ -2073,7 +2073,6 @@ total size is 5.24G  speedup is 484.35
 ```
 
 
-
 ## Drush SQL-sync
 
 To sync databases use: `drush sql-sync <source> <destination>`
@@ -2098,6 +2097,18 @@ $ drush sqlq "select nid, vid, type from node where type = 'vote'"
 $ drush sqlq "select count(*) as redirects"
 1
 ```
+
+## Load a backup database with drush sqlc
+
+drush sql:cli or drush sqlc will open a mysql command line interface to the database.  You can then issue SQL commands directly. e.g. to load a backup of a database.  In the case below the database was created with `drush sql-dump >dbdev.sql`.
+
+```sh
+drush sqlc
+source ~/www/apcdev/dbdev.sql
+```
+
+Alternatively, you can use `drush sql-cli < dbdev.sql` to load a database backup.
+
 
 
 
