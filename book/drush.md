@@ -2098,16 +2098,45 @@ $ drush sqlq "select count(*) as redirects"
 1
 ```
 
-## Load a backup database with drush sqlc
+## Backup/Restore Drupal database
 
-drush sql:cli or drush sqlc will open a mysql command line interface to the database.  You can then issue SQL commands directly. e.g. to load a backup of a database.  In the case below the database was created with `drush sql-dump >dbdev.sql`.
+
+Within the Drupal directory, you can use `drush sql-dump >dbdump.sql` to dump the database to a local file called `dbdump.sql`.  Optionally Gzip it with `gzip dbdump.sql` to save space.
+
+Use drush aliases like this: `drush @abc.prod sql-dump > dbprod.sql` or `drush @apc.dev sql-dump > dbdev.sql` to dump the database from a remote site to a local file.
+
+Dump and gzip using `--gzip` option e.g. `drush @abc.prod sql-dump --gzip > dbprod.sql.gz`.
+
+Load that database into your local DDEV environment with `ddev import-db --file=dbprod.sql.gz`.
+
+Alternatively, you can use `drush sql-cli < dbdev.sql` to load a database backup.
+
+`drush sql:cli` or `drush sqlc` will open a mysql command line interface to the database.  You can then issue SQL commands directly. e.g. to load a backup of a database.  You generally have to specify the full path to the file you want to load.
 
 ```sh
 drush sqlc
 source ~/www/apcdev/dbdev.sql
+quit
+```
+You will see a lot of output as the database is loaded:
+```
+...
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 256 rows affected (0.015 sec)
+Records: 256  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
+...
 ```
 
-Alternatively, you can use `drush sql-cli < dbdev.sql` to load a database backup.
+
+
 
 
 
