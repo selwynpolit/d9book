@@ -3621,6 +3621,37 @@ function apc_calendar_form_node_calendar_event_form_alter(array &$form, FormStat
 }
 ```
 
+## Display Private Path
+
+To display the private path, you can use the following drush command:
+
+```sh
+drush php:eval "
+print 'Settings file_private_path: ' . (\Drupal\Core\Site\Settings::get('file_private_path') ?: '(not set)') . PHP_EOL;
+print 'Realpath of private:// : ' . \Drupal::service('file_system')->realpath('private://') . PHP_EOL;
+"
+```
+
+Local ddev site output:
+```sh
+$ ddev drush php:eval "
+print 'Settings file_private_path: ' . (\Drupal\Core\Site\Settings::get('file_private_path') ?: '(not set)') . PHP_EOL;
+print 'Realpath of private:// : ' . \Drupal::service('file_system')->realpath('private://') . PHP_EOL;
+"
+Settings file_private_path: sites/default/files/private
+Realpath of private:// : /var/www/html/docroot/sites/default/files/private
+```
+
+Output on Acquia:
+```sh
+$ drush php:eval "
+print 'Settings file_private_path: ' . (\Drupal\Core\Site\Settings::get('file_private_path') ?: '(not set)') . PHP_EOL;
+print 'Realpath of private:// : ' . \Drupal::service('file_system')->realpath('private://') . PHP_EOL;
+"
+Settings file_private_path: /mnt/files/abcwebsite.prod/sites/default/files-private
+Realpath of private:// : /mnt/data/0000001-00002-4f15-94e4-75b125190be5-shared/private-files
+```
+
 
 ## Resources
 
