@@ -3621,9 +3621,22 @@ function apc_calendar_form_node_calendar_event_form_alter(array &$form, FormStat
 }
 ```
 
-## Display Private Path
+## Private Path
 
-To display the private path, you can use the following drush command:
+Drupal manages access to files stored in the private path by using the `file_private_path` setting in `settings.php`.
+
+::: tip Note
+When you hover over a link to file in the private path, you will see a URL like this:
+```
+https://www.example.com/system/files/filename.pdf
+or
+https://www.wecc.org/system/files/documents/charter/2024/smart-document-123.doc
+```
+Notice the `system/files` part of the URL.  This is how Drupal knows to serve the file from the private path rather than the public path.
+:::
+
+
+Sometimes it is a little cryptic to find the private path, so you can use the following drush command:
 
 ```sh
 drush php:eval "
