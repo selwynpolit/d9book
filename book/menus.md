@@ -536,9 +536,11 @@ $y = $link->getTitle(); // get the title of the menu item.
 $menu_name = $link->getMenuName(); // get the menu name e.g. "main"
 ```
 
+
+
 ## Create menu items in your custom module
 
-When creating a menu for your module, you need a YAML file like this from dev1 pageexample. The names (e.g. pageexample.description and pageexample.simple) are arbitrary, the title is the menu text, and the route_name comes from the routing yml file (`web/modules/custom/pageexample/pageexample.routing.yml`). The parent value is interesting.
+When creating a menu for your module, you need a YAML file like this from dev1 pageexample. The names (e.g. `pageexample.description` and `pageexample.simple`) are arbitrary, the `title` is the menu text (that is displayed to the user), and the route_name comes from the routing yml file (`web/modules/custom/pageexample/pageexample.routing.yml`). The parent value is interesting because it determines where in the menu hierarchy your link will appear.
 
 ```yaml
 pageexample_description:
@@ -551,10 +553,52 @@ pageexample.simple:
   parent: system.admin_reports
 ```
 
-The parent values are defined in other \*.links.menu.yml files and
-especially the Structure link, which is defined in the core System
-module in system.links.menu.yml. Here we are adding a link to appear
-under the Reports menu of Drupal.
+:::tip Note
+Menu link plugins (declared in a `*.links.menu.yml` file) are discovered by Drupal's plugin system, not stored as config or content. They're read fresh from code on every cache rebuild. A `drush cr` is enough to pick up a new or changed entry. No need for a `drush cim`.
+Also `menu_link_content` entities (i.e. menu links you'd create by hand in Structure → Menus) are content and stored in the DB directly.
+:::
+
+
+The parent values are defined in other `*.links.menu.yml` files and especially the Structure link, which is defined in the core System module in system.links.menu.yml. Here we are adding a link to appear under the Reports menu of Drupal.
+
+Here is another example of links from a `apc_calendar.links.menu.yml` file:
+
+```yaml
+apc_calendar.footer.calendar:
+  title: 'Calendar'
+  description: 'Browse upcoming progressive events'
+  menu_name: footer
+  url: 'internal:/calendar'
+  weight: 0
+
+apc_calendar.footer.add_event:
+  title: 'Add your event'
+  description: 'Submit an event to the calendar'
+  menu_name: footer
+  url: 'internal:/node/add/calendar_event'
+  weight: 1
+
+apc_calendar.footer.submit_photo:
+  title: 'Submit a photo or sign'
+  description: 'Upload a community photo or protest sign'
+  menu_name: footer
+  url: 'internal:/node/add/community_photo'
+  weight: 2
+
+apc_calendar.footer.blog:
+  title: 'Blog'
+  description: 'Notes on Drupal and the site'
+  menu_name: footer
+  url: 'internal:/blog'
+  weight: 3
+
+apc_calendar.footer.home:
+  title: 'Home'
+  menu_name: footer
+  url: 'internal:/'
+  weight: 4
+```
+
 
 To create menu links programmatically, see
 <https://drupal.stackexchange.com/questions/197073/how-do-i-create-menu-links-programmatically/197076#197076>
@@ -581,8 +625,7 @@ Next you can update value using set() method or through the magic method
 $menu_link->expanded = TRUE;
 ```
 
-To save, simply call the `save()` method. To delete, call
-the `delete()` method.
+To save, simply call the `save()` method. To delete, call the `delete()` method.
 
 ## Resources
 
