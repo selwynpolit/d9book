@@ -303,6 +303,57 @@ function apc_calendar_form_node_community_photo_edit_form_alter(array &$form, Fo
 }
 ```
 
+## Delete attached media on a node when the node is deleted
+In this instance, the node of type `community_photo` has a media entity attached via the `field_photo_image` field. When the node is deleted, we want to also delete the attached media entity and its file, ensuring that no orphaned media or files remain.
+Drupal never does this by default since in general the referenced entity could be shared
+ elsewhere, but in this instance, we know there is only 1 media entity attached via the `field_photo_image` field.  If we don't do this, deleting the node orphans the media and its file.
+
+
+
+```php
+/**
+ * Implements hook_ENTITY_TYPE_delete() for node entities.
+ */
+function apc_calendar_node_delete(NodeInterface $node): void {
+  if ($node->bundle() !== 'community_photo') {
+    return;
+  }
+  if (!$node->hasField('field_photo_image') || $node->get('field_photo_image')->isEmpty()) {
+    return;
+  }
+
+  $media = $node->get('field_photo_image')->entity;
+  if (!$media) {
+    return;
+  }
+
+  // Is some OTHER node still pointing at this same media entity?
+  $other_usage = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'community_photo')
+    ->condition('field_photo_image', $media->id())
+    ->condition('nid', $node->id(), '<>')
+    ->range(0, 1)
+    ->execute();
+  if ($other_usage) {
+    return;
+  }
+
+  // Capture the file entity before the media entity is deleted --
+  // deleting the media entity decrements the file's usage count.
+  $file = $media->hasField('field_media_image') ? $media->get('field_media_image')->entity : NULL;
+  $media->delete();
+
+  // If the list isn't empty now, some other media entity has its own separate usage row for
+  // this same file (e.g. two Image media entities that both ended up
+  // pointing at the same underlying file), and it isn't this hook's file to
+  // delete.
+  if ($file && empty(\Drupal::service('file.usage')->listUsage($file))) {
+    $file->delete();
+  }
+}
+```
+
 
 ## Resources
 
