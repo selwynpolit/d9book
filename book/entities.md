@@ -267,6 +267,43 @@ component](https://symfony.com/doc/2.8/components/validator.html), and
 provides an Entity Validation API to assist in validating the values of fields in an entity. By using the Entity Validation API you can ensure that your validation logic is applied to Entity CRUD operations regardless of how they are triggered. Whether editing an Entity via a Form API form, or creating a new Entity via the REST API, the same validation code will be used.
 
 
+## Link to a media entity
+
+This code gives you a link on a node edit form (for `community_photo_edit` content type) which allows you to directly edit the referenced media entity (e.g., crop the image, add alt text, set the focal point).  Normally you would have to go search in the media library to find the media entity.
+
+```php
+/**
+ * Implements hook_form_FORM_ID_alter() for node_community_photo_edit_form.
+ *
+ * @see _apc_calendar_community_photo_form_alter()
+ */
+function apc_calendar_form_node_community_photo_edit_form_alter(array &$form, FormStateInterface $form_state): void {
+
+  // Link straight to the referenced media item's own edit form (crop, alt
+  // text, focal point) -- editing a community_photo node otherwise gives no
+  // way to fix those without leaving the form and hunting for the media
+  // item in the library. Only shown when a photo is already selected and the
+  // current user can actually edit it.
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $form_state->getFormObject()->getEntity();
+  if ($node->hasField('field_photo_image') && !$node->get('field_photo_image')->isEmpty()) {
+    $media = $node->get('field_photo_image')->entity;
+    if ($media !== NULL && $media->access('update') && isset($form['field_photo_image'])) {
+      $form['field_photo_image']['edit_media_link'] = [
+        '#type' => 'link',
+        '#title' => t('Edit this photo (crop, alt text, focal point)'),
+        '#url' => $media->toUrl('edit-form', [
+          'query' => ['destination' => Url::fromRoute('<current>')->toString()],
+        ]),
+        '#weight' => 100,
+        '#attributes' => ['class' => ['button', 'button--small', 'apc-edit-media-link']],
+      ];
+    }
+  }
+}
+```
+
+
 ## Resources
 
 - [Entity API on Drupal.org updated Jan 2021](https://www.drupal.org/docs/drupal-apis/entity-api)
