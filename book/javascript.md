@@ -275,11 +275,11 @@ function general_preprocess_page(&$variables) {
 or using native js `forEach`:
 
 ```js
-(function (Drupal, $) {
+(function (Drupal) {
   Drupal.behaviors.logitworks = {
     attach: function (context, settings) {
 
-      const noah_elements = document.querySelectorAll('#noah');
+      const noah_elements = document.querySelectorAll('.noah');
       noah_elements.forEach(element => {
         // Do something with each element
         element.append('test');
@@ -291,7 +291,7 @@ or using native js `forEach`:
       });
     }
   };
-}) (Drupal, jQuery);
+}) (Drupal);
 ```
 
 ## Set all cards to the same height
