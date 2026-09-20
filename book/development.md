@@ -1623,7 +1623,52 @@ And thanks to Deepseek:
 >Useful if your project has multiple upload locations (e.g., default + custom folders).
 
 
+### DDEV running with problems and git worktrees
 
+Sometimes you may find your AI tool will setup worktrees for different branches or features. A worktree allows you to have multiple working directories for the same Git repository, each checked out to a different branch. This can be useful for testing changes without affecting your main development environment.  After the worktree is deleted, sometimes the associated files and directories in the container may not get deleted and mutagen will get upset.  This can lead to:
+
+```sh
+ddev list -A
+┌────────┬─────────┬───────────────┬─────────────────────────┬──────────┐
+│ NAME   │ STATUS  │ LOCATION      │ URL                     │ TYPE     │
+├────────┼─────────┼───────────────┼─────────────────────────┼──────────┤
+│ apc3   │ running │ ~/Sites/apc3  │ https://apc3.ddev.site  │ drupal11 │
+│        │ (proble │               │                         │          │
+│        │ ms)     │               │                         │          │
+├────────┼─────────┼───────────────┼─────────────────────────┼──────────┤
+│ apcd9  │ running │ ~/Sites/apcd9 │ https://apcd9.ddev.site │ drupal11 │
+│        │ (ok)    │               │                         │          │
+├────────┼─────────┼───────────────┼─────────────────────────┼──────────┤
+│ Router │ OK      │ ~/.ddev       │ http://127.0.0.1:10999  │          │
+└────────┴─────────┴───────────────┴─────────────────────────┴──────────┘
+```
+
+See how the status shows problems.
+
+Checking mutagen status:
+
+```sh
+$ ddev mutagen status -l
+
+Conflicts:
+	(alpha) .d10-worktree (Directory -> <non-existent>)
+	(beta)  .d10-worktree/web/modules/contrib/upgrade_status/tests/modules/upgrade_status_test_12_compatible/.DS_Store (<non-existent> ->
+```
+
+If there is no sign of the .d10-worktree on your host computer, you can safely remove the .d10-worktree directory in the container with:
+
+```sh
+ddev ssh
+rm -rf .d10-worktree
+```
+
+or `ddev exec "rm -rf /var/www/html/.d10-worktree"`
+
+
+From Claude:
+What went wrong: that worktree was removed from your actual project folder (~/Sites/apc3) at some point — it's not there now, and git worktree list only shows the main one. But DDEV's mutagen sync (which keeps a live copy of your project inside the ddev-apc3-web container) never got told to delete its copy. I confirmed it's still sitting in the container, full-size, dated Sep 17. Mutagen won't silently delete a whole directory tree on one side when the other side has extra content it doesn't recognize (a stray .DS_Store in this case) — that's the "conflict" it's reporting. This has nothing to do with upload_dirs; that setting is for file-upload directories like sites/default/files, unrelated here.
+
+The fix is just deleting that stale copy from inside the container (your real files on disk are untouched either way)
 
 
 ## Local Solr setup with Search API Solr
