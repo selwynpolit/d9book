@@ -433,7 +433,7 @@ Here are the contents of the `scaffold/htaccess_prepend.txt` file.  Note that th
 
 
 
-## Updating Drupal Core
+## Updating Drupal 10 Core
 
 Here are instructions to update Drupal core using composer.
 
@@ -477,6 +477,42 @@ Problem 1
 :::
 
 More at [https://www.drupal.org/project/drupal/releases/10.2.3](https://www.drupal.org/project/drupal/releases/10.2.3) and [Updating Drupal core via composer updated July 2025. ](https://www.drupal.org/docs/updating-drupal/updating-drupal-core-via-composer)
+
+## Updating Drupal 11 core
+
+I hit some interesting challenges doing this.
+
+On Austin Progressive Calendar, I was able to use this approach to successfully update to Drupal 11.
+
+```sh
+ddev composer remove drupal/core-dev
+ddev composer require 'drupal/core-recommended:^11.4' 'drupal/core-composer-scaffold:^11.4' 'drupal/core-project-message:^11.4' --update-with-all-dependencies
+```
+
+
+On another project, I encountered some dependency conflicts that required a different approach.  This project had additional contributed modules which seemed to upset things slightly. These included: color, gin, gin_toolbar, and gin_lb. Notice that I had to use the `--no-update` flag initially to avoid immediate conflicts.
+
+
+```sh
+ddev composer require \
+  "drupal/core-recommended:^11.4" \
+  "drupal/core-composer-scaffold:^11.4" \
+  "drupal/color:^2.0@alpha" \
+  "drupal/gin:^5.0" \
+  "drupal/gin_toolbar:^3.0" \
+  "drupal/gin_lb:^3.0@beta" \
+  --no-update
+
+ddev composer require --dev "drupal/core-dev:^11.4" --no-update
+
+ddev composer update -W
+```
+
+Claude suggested:
+**Why composer require -W keeps failing**
+
+Composer require always runs as a scoped/partial update — Composer only lets the named packages and their direct dependents move, and treats every other locked package as fixed. When you require just the core/gin packages, Composer's solver has to reconcile that scope restriction with dev dependencies (like symfony/console, still on ^10.3's constraints via the not-yet-bumped drupal/core-dev) and produces the misleading "conflicts with another require" message instead of naming the real cause. A full, unscoped composer update doesn't have that restriction and resolves cleanly.
+
 
 
 ## How to identify dependencies
