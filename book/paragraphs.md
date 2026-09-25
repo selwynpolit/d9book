@@ -221,7 +221,6 @@ From
 //Grab the related lessons from the collection.
 $video_collection_node = Node::load($video_collection_nid);
 $lessons = $video_collection_node->field_related_lessons;
-$storage = \Drupal::entityTypeManager()->getStorage('paragraph');
 foreach ($lessons as $lesson) {
   //Load each paragraph and get the nids from them.
   $paragraph = $lesson->entity;
