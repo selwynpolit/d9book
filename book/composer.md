@@ -544,6 +544,83 @@ drupal/tamper 1.0.0-alpha4 Generic plugin to modify data.
 See [more about composer why/depends](https://getcomposer.org/doc/03-cli.md#depends-why)
 See [also this explanation of why-not](https://getcomposer.org/doc/03-cli.md#prohibits-why-not)
 
+## To check why an update won't install
+
+Use the `composer prohibits` or `composer why-not` commands to see why a package cannot be installed or updated. It shows which other packages are preventing the installation or update.
+
+On this site I have drupal/search_api_solr version 4.3.10 installed.  I want to upgrade to version 4.4.0.  Trying `ddev composer update drupal/search_api_solr:^4.4.0 -W` fails.
+
+So I run the following command to see why the update is blocked:
+```sh
+ddev composer prohibits drupal/search_api_solr ^4.4.0
+```
+
+Note. there is a space between the package name and the version constraint.  In other composer commands we use a colon, like `composer require "drupal/search_api_solr:4.4.0"`.
+
+The output looks something like this:
+
+```sh
+drupal/search_api_solr 4.4.0       requires         solarium/solarium (^7.0.0)
+wecc/wecc-website      dev-develop does not require solarium/solarium (but 6.4.2 is installed)
+...
+```
+This means that the update to drupal/search_api_solr version 4.4.0 is blocked because it requires solarium/solarium version ^7.0.0, but the currently installed version is 6.4.2, which is required by another package.
+
+Sometimes you can get a little more info with `-t` (show blockers as a tree) and `-r` (show recursive dependencies):
+
+```sh
+ddev composer prohibits drupal/search_api_solr ^4.4.0 -t -r
+drupal/search_api_solr 4.3.10 Offers an implementation of the Search API that uses an Apache Solr server for indexing content.
+├──drupal/search_api_solr 4.4.0 (requires solarium/solarium ^7.0.0) (circular dependency aborted here)
+└──wecc/wecc-website dev-develop (does not require solarium/solarium but 6.4.2 is installed) (circular dependency aborted here)
+...
+```
+
+To figure out why Solarium might be a problem, run:
+
+```sh
+ddev composer why solarium/solarium
+```
+
+It lists every installed package that depends on, or conflicts with, that library. It printed:
+
+drupal/search_api_solr 4.3.10 requires  solarium/solarium (^6.3.7)
+drupal/searchstax      1.13.0 conflicts solarium/solarium (>=7.0.0)
+
+This means search_api_solr version 4.3.10 requires Solarium version ^6.3.7, but Searchstax is incompatible with Solarium version 7.
+
+If you only want to try the upgrade and see the conflict without actually installing the package:
+
+```sh
+ddev composer require drupal/search_api_solr:^4.4.0 -W --dry-run
+```
+
+You know this doesn't work by the output:
+
+```sh
+./composer.json has been updated
+Running composer update drupal/search_api_solr --with-all-dependencies
+Loading composer repositories with package information
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires drupal/search_api_solr ^4.4.0 -> satisfiable by drupal/search_api_solr[4.4.0, 4.4.x-dev, 4.x-dev (alias of dev-4.x)].
+    - drupal/searchstax is locked to version 1.13.0 and an update of this package was not requested.
+    - drupal/search_api_solr[dev-4.x, 4.4.0, ..., 4.x-dev] require solarium/solarium ^7.0.0 -> satisfiable by solarium/solarium[7.0.0-alpha.1, 7.0.0-alpha.2, 7.0.0].
+    - drupal/searchstax 1.13.0 conflicts with solarium/solarium 7.0.0.
+    - drupal/searchstax 1.13.0 conflicts with solarium/solarium 7.0.0-alpha.1.
+    - drupal/search_api_solr 4.x-dev is an alias of drupal/search_api_solr dev-4.x and thus requires it to be installed too.
+
+Installation failed, reverting ./composer.json and ./composer.lock to their original content.
+Composer [require drupal/search_api_solr:^4.4.0 -W --dry-run] failed, composer command failed: exit status 2. stderr=
+```
+
+**Final resolution**: Stick with drupal/search_api_solr version 4.3.10 for now.
+Good news: from https://www.drupal.org/project/search_api_solr/releases/4.4.0 the release notes say: Release 4.4.0 is identical to 4.3.13. But 4.4.x drops support for Drupal 10 and Drupal < 11.3.
+
+
+
 ## Test composer (dry run)
 
 If you want to run through an installation without actually installing a package, you can use --dry-run. This will simulate the installation and show you what would happen.
