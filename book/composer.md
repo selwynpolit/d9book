@@ -322,6 +322,12 @@ Then composer install will apply the patch correctly
 
 More at <https://github.com/cweagans/composer-patches/issues/146>
 
+
+## Patches-repatch
+This is used to reapply patches. All patched dependencies are deleted and re-installed, which causes patches to be re-applied to those dependencies. This command should be used when changing the list of patches in your project.
+
+
+
 ## Stop files being overwritten during composer operations
 
 Depending on your composer.json, files like development.services.yml may be overwritten during scaffolding. To prevent certain scaffold files from being overwritten every time you run a Composer command you can specify them in the "extra" section of your project's composer.json. See the docs on Excluding scaffold files.
