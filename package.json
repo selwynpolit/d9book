@@ -15,7 +15,7 @@
     "prettier": "^3.9.9",
     "sass": "^1.105.1",
     "viewerjs": "^1.15.0",
-    "vitepress": "2.0.0-alpha.18",
+    "vitepress": "2.0.0-alpha.20",
     "vitepress-plugin-back-to-top": "^1.0.1",
     "vitepress-plugin-comment-with-giscus": "^1.1.15",
     "vitepress-plugin-google-analytics": "^1.0.2",
